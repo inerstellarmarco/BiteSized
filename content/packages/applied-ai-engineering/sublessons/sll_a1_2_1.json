@@ -1,0 +1,140 @@
+{
+  "id": "sll_a1_2_1",
+  "title": "Classes & Objects",
+  "bites": [
+    {
+      "id": "bit_a1_classes",
+      "title": "Classes, objects, and methods",
+      "body": "A class is a blueprint. An object is one built thing, also called an instance. A method is a function that belongs to the object, and its first parameter is usually self, the instance itself. __init__ runs when the object is created and is where you store starting data on self. Read self.something as \"this object's something.\"",
+      "sourceNote": "Python tutorial, classes · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_classes_1",
+          "type": "multiple_choice",
+          "prompt": "You have a class named Learner. What is one Learner(...) call creating?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A second class"
+            },
+            {
+              "id": "b",
+              "text": "An instance of Learner"
+            },
+            {
+              "id": "c",
+              "text": "A module"
+            },
+            {
+              "id": "d",
+              "text": "A package"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Calling the class builds an instance. The class is the blueprint; the instance is the object.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_classes_2",
+          "type": "multiple_choice",
+          "prompt": "In a method, what does self usually refer to?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The whole program"
+            },
+            {
+              "id": "b",
+              "text": "The instance the method was called on"
+            },
+            {
+              "id": "c",
+              "text": "The class name as text"
+            },
+            {
+              "id": "d",
+              "text": "The return value of __init__"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "self is the object before the dot in learner.rename(). __init__ uses it to store that object's starting data.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_models",
+      "title": "Data models",
+      "body": "A dataclass is a class meant to hold data. You declare the fields, and Python writes the boring __init__ for you. Pydantic is a library with a similar idea, plus checks: if a field should be a number and you pass text, it tells you. That is useful for settings and for data from an API. A dataclass does not, by itself, validate types at runtime.",
+      "sourceNote": "Python dataclasses docs and Pydantic models overview · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_models_1",
+          "type": "multiple_choice",
+          "prompt": "What does a dataclass mainly save you from writing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The HTTP server"
+            },
+            {
+              "id": "b",
+              "text": "A repetitive __init__ for the fields"
+            },
+            {
+              "id": "c",
+              "text": "The tests"
+            },
+            {
+              "id": "d",
+              "text": "The virtual environment"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A dataclass generates __init__ and a few helpers from the fields you list.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_models_2",
+          "type": "multiple_choice",
+          "prompt": "Why do people reach for Pydantic on API data?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It replaces Python lists"
+            },
+            {
+              "id": "b",
+              "text": "It checks that incoming data matches the shape you declared"
+            },
+            {
+              "id": "c",
+              "text": "It makes code run without a network"
+            },
+            {
+              "id": "d",
+              "text": "It is part of the Python standard library"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Pydantic validates and parses data into a model. It is a third-party library, not a built-in.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

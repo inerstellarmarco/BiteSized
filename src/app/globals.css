@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #f3ecdf;
+  --foreground: #221c16;
+  --card: #fffaf3;
+  --card-foreground: #221c16;
+  --primary: #b8431f;
+  --primary-foreground: #fff7f2;
+  --secondary: #efe4d2;
+  --secondary-foreground: #221c16;
+  --muted: #efe4d2;
+  --muted-foreground: #6d6256;
+  --accent: #efe4d2;
+  --accent-foreground: #221c16;
+  --border: #e4d5bf;
+  --input: #e4d5bf;
+  --ring: #b8431f;
+  --destructive: #9f1239;
+  --destructive-foreground: #fff1f2;
+  --success: #1f6b45;
+  --radius: 0.85rem;
+}
+
+.dark {
+  --background: #12110f;
+  --foreground: #f4eadc;
+  --card: #1c1916;
+  --card-foreground: #f4eadc;
+  --primary: #ef8d62;
+  --primary-foreground: #2a120b;
+  --secondary: #2a2520;
+  --secondary-foreground: #f4eadc;
+  --muted: #2a2520;
+  --muted-foreground: #cbbba6;
+  --accent: #2a2520;
+  --accent-foreground: #f4eadc;
+  --border: #3a322b;
+  --input: #3a322b;
+  --ring: #ef8d62;
+  --destructive: #fb7185;
+  --destructive-foreground: #2a0a12;
+  --success: #7dcea0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --font-sans: var(--font-source), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --radius-lg: var(--radius);
+}
+
+html {
+  font-size: 18px;
+}
+
+html[data-font="sm"] {
+  font-size: 16px;
+}
+
+html[data-font="lg"] {
+  font-size: 20px;
+}
+
+body {
+  min-height: 100%;
+  background:
+    radial-gradient(900px 420px at 0% -10%, color-mix(in srgb, var(--primary) 16%, transparent), transparent 55%),
+    var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+summary {
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+.diagram-frame svg {
+  max-width: 100%;
+  height: auto;
+}
+
+@keyframes card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.card-rise {
+  animation: card-rise 220ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .card-rise {
+    animation: none;
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "id": "sll_a1_1_3",
+  "title": "Functions",
+  "bites": [
+    {
+      "id": "bit_a1_scope",
+      "title": "Inputs, outputs, and scope",
+      "body": "A function takes inputs (parameters), does one job, and can return an output. A name created inside the function stays there unless you return it or it was already outside. If there is no return, the function gives back None. Callers that forget to use the return value are a frequent bug in AI-written code. Read the def line and the return before the middle.",
+      "sourceNote": "Python tutorial, defining functions · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_scope_1",
+          "type": "multiple_choice",
+          "prompt": "A function creates a variable and does not return it. What can the caller see?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The variable, automatically"
+            },
+            {
+              "id": "b",
+              "text": "None, unless something else is returned"
+            },
+            {
+              "id": "c",
+              "text": "The whole function source"
+            },
+            {
+              "id": "d",
+              "text": "Every local name as a list"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Local names stay inside the function. With no return, the result of the call is None.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_scope_2",
+          "type": "multiple_choice",
+          "prompt": "What is the usual way for a function to hand a result back?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Print it and hope"
+            },
+            {
+              "id": "b",
+              "text": "Use return"
+            },
+            {
+              "id": "c",
+              "text": "Write it into a tuple named output"
+            },
+            {
+              "id": "d",
+              "text": "Indent the caller"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "return sends a value to the caller. print only displays text; it does not hand the value back.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_single",
+      "title": "Reusable, single-purpose functions",
+      "body": "A good function does one job, and its name says what that job is. total_of(numbers) is easier to trust than process(data). Small functions are easier to test and easier to ask an AI to change without breaking the rest. If a generated function loads a file, calls the network, and formats a report, split the idea in your head even before you split the code.",
+      "sourceNote": "Common Python style, single responsibility · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_single_1",
+          "type": "multiple_choice",
+          "prompt": "Which function name best matches a single job?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "do_stuff"
+            },
+            {
+              "id": "b",
+              "text": "handle"
+            },
+            {
+              "id": "c",
+              "text": "average_of"
+            },
+            {
+              "id": "d",
+              "text": "run"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "average_of says the one job. The others could hide almost anything.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_single_2",
+          "type": "multiple_choice",
+          "prompt": "Why prefer a small, single-purpose function when an assistant writes code?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Short functions are always faster"
+            },
+            {
+              "id": "b",
+              "text": "You can test and change one job without rereading everything"
+            },
+            {
+              "id": "c",
+              "text": "Python only allows ten lines"
+            },
+            {
+              "id": "d",
+              "text": "It avoids the need to return anything"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A narrow function is easier to check, name, and rewrite. Speed is a separate question.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

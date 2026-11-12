@@ -1,0 +1,140 @@
+{
+  "id": "sll_a1_3_1",
+  "title": "Async Concepts",
+  "bites": [
+    {
+      "id": "bit_a1_sync",
+      "title": "Synchronous vs asynchronous code",
+      "body": "Synchronous code waits. The next line runs only when this one has finished. Asynchronous code can start a wait, such as a network call, and do other waiting work until the result is ready. async def defines a coroutine. await pauses that coroutine until the awaited job finishes. Async does not make a heavy calculation faster. It helps when the program is waiting.",
+      "sourceNote": "Python asyncio docs, coroutines · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_sync_1",
+          "type": "multiple_choice",
+          "prompt": "What is async especially useful for?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Waiting on slow I/O, like network calls"
+            },
+            {
+              "id": "b",
+              "text": "Making every loop faster"
+            },
+            {
+              "id": "c",
+              "text": "Replacing the need for functions"
+            },
+            {
+              "id": "d",
+              "text": "Turning strings into numbers"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Async overlaps waits. A CPU-bound calculation still needs the CPU the whole time.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_sync_2",
+          "type": "multiple_choice",
+          "prompt": "What does await do inside an async function?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Skips the next line forever"
+            },
+            {
+              "id": "b",
+              "text": "Pauses until the awaited job has a result"
+            },
+            {
+              "id": "c",
+              "text": "Creates a virtual environment"
+            },
+            {
+              "id": "d",
+              "text": "Prints the stack trace"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "await gives control back to the event loop until that job completes, then continues with the result.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_concurrent",
+      "title": "Concurrent API calls",
+      "body": "If three network calls do not depend on each other, you can start them together. asyncio.gather(one(), two(), three()) waits for all of them. Three one-second calls can then finish in about one second, not three. You still await the gather. Do this only when the calls are independent. If the second call needs the first call's result, they have to stay in order.",
+      "sourceNote": "Python asyncio docs, gather · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_concurrent_1",
+          "type": "multiple_choice",
+          "prompt": "Three independent one-second API calls run with asyncio.gather. About how long might they take?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "About one second"
+            },
+            {
+              "id": "b",
+              "text": "About three seconds, always"
+            },
+            {
+              "id": "c",
+              "text": "About nine seconds"
+            },
+            {
+              "id": "d",
+              "text": "They cannot finish"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Gather overlaps the waits. The wall-clock time is close to the slowest call, not the sum.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_concurrent_2",
+          "type": "multiple_choice",
+          "prompt": "When should you not run two calls concurrently?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When both are network calls"
+            },
+            {
+              "id": "b",
+              "text": "When the second needs the first result"
+            },
+            {
+              "id": "c",
+              "text": "When they use await"
+            },
+            {
+              "id": "d",
+              "text": "When they return JSON"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "If one result is an input to the next, the second has to wait. Order matters there.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "id": "sll_a1_3_3",
+  "title": "Error Handling",
+  "bites": [
+    {
+      "id": "bit_a1_exceptions",
+      "title": "Exceptions and error messages",
+      "body": "When Python cannot continue, it raises an exception. A try block watches for that. An except block handles a chosen type. The message tells you what went wrong; the type tells you which failures you meant to catch. A bare except: hides bugs, including typos. Catch the narrowest type that you know how to handle, and let the rest surface.",
+      "sourceNote": "Python tutorial, errors and exceptions · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_exceptions_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a bare except: a red flag?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It only catches network errors"
+            },
+            {
+              "id": "b",
+              "text": "It hides every error, including ones you did not expect"
+            },
+            {
+              "id": "c",
+              "text": "It is required by JSON"
+            },
+            {
+              "id": "d",
+              "text": "It retries the call"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A bare except swallows all exceptions, so real bugs disappear. Catch a specific type instead.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_exceptions_2",
+          "type": "multiple_choice",
+          "prompt": "What should you read first on a failure?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The exception type and message"
+            },
+            {
+              "id": "b",
+              "text": "The licence file"
+            },
+            {
+              "id": "c",
+              "text": "The virtual environment size"
+            },
+            {
+              "id": "d",
+              "text": "Only the last print that succeeded"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The type and the message say what failed. The traceback then shows where.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_retries",
+      "title": "Retries and timeouts",
+      "body": "A timeout stops a call that might wait forever. A retry tries again after a failure, usually with a pause that grows — backoff — so you do not hammer a sick server. Retrying a read is usually safe. Retrying a payment or a \"create\" can do the action twice if the first one actually succeeded. That idea is called idempotency: doing it twice should not matter, or you should not blindly retry.",
+      "sourceNote": "Conceptual notes on timeouts, backoff, and idempotency · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_bit_a1_retries_A1_3",
+          "targetCode": "A1.3",
+          "label": "see A1.3",
+          "position": "a0"
+        },
+        {
+          "id": "lnk_bit_a1_retries_B5_3",
+          "targetCode": "B5.3",
+          "label": "see B5.3",
+          "position": "a1"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_a1_retries_1",
+          "type": "multiple_choice",
+          "prompt": "What is a timeout for?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To make a successful call run twice"
+            },
+            {
+              "id": "b",
+              "text": "To stop waiting after a set time"
+            },
+            {
+              "id": "c",
+              "text": "To hide the status code"
+            },
+            {
+              "id": "d",
+              "text": "To pin a dependency"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A timeout bounds the wait. Without one, a stuck call can stall the program.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_retries_2",
+          "type": "multiple_choice",
+          "prompt": "Why be careful retrying a request that creates something?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Creates are always free"
+            },
+            {
+              "id": "b",
+              "text": "The first try may have succeeded, so a retry can create a second one"
+            },
+            {
+              "id": "c",
+              "text": "JSON forbids retries"
+            },
+            {
+              "id": "d",
+              "text": "GET is the create method"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "If the response was lost but the server did the work, a blind retry repeats a side effect.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

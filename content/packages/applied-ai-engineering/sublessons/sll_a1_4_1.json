@@ -1,0 +1,207 @@
+{
+  "id": "sll_a1_4_1",
+  "title": "Reading & Understanding Code",
+  "bites": [
+    {
+      "id": "bit_a1_topdown",
+      "title": "Reading code top-down",
+      "body": "Start at the entry point: the function that runs first, or the block under if __name__ == \"__main__\". Note what it calls, then open those functions. For each one, read the name, the parameters, and the return before the details in the middle. You are building a map, not memorising every line. Generated files are easier once you know which function is in charge.",
+      "sourceNote": "Reading practice for generated Python · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_topdown_1",
+          "type": "multiple_choice",
+          "prompt": "Where is a sensible place to start reading a small script?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The middle of the longest function"
+            },
+            {
+              "id": "b",
+              "text": "The entry point that runs first"
+            },
+            {
+              "id": "c",
+              "text": "The licence comment only"
+            },
+            {
+              "id": "d",
+              "text": "A random import"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The entry point shows the real sequence. Everything else is there because something called it.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_topdown_2",
+          "type": "multiple_choice",
+          "prompt": "What should you notice about a function before its internal lines?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Its name, inputs, and return"
+            },
+            {
+              "id": "b",
+              "text": "How many blank lines it has"
+            },
+            {
+              "id": "c",
+              "text": "The author's favourite editor"
+            },
+            {
+              "id": "d",
+              "text": "Whether the file is on GitHub"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Name, parameters, and return tell you the job. The body is how that job is done.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_trace",
+      "title": "Tracing inputs and outputs",
+      "body": "Pick a tiny input and walk the code by hand. Write down the value of the important names after each line. Include an empty input, such as an empty list or an empty string, because generated code often assumes there is at least one item. If you cannot say what comes out, you do not understand it yet. That is the moment to slow down, not to run it on real data.",
+      "sourceNote": "Manual tracing as a reading technique · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_trace_1",
+          "type": "multiple_choice",
+          "prompt": "Why trace an empty list as well as a normal one?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Empty lists are faster"
+            },
+            {
+              "id": "b",
+              "text": "Generated code often assumes the collection has an item"
+            },
+            {
+              "id": "c",
+              "text": "Empty lists cannot be arguments"
+            },
+            {
+              "id": "d",
+              "text": "Python forbids empty collections"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Indexing the first item of an empty list raises an error. A trace catches that assumption.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_trace_2",
+          "type": "multiple_choice",
+          "prompt": "What are you writing down as you trace?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The colour scheme"
+            },
+            {
+              "id": "b",
+              "text": "How key values change for one input"
+            },
+            {
+              "id": "c",
+              "text": "Every comment, verbatim"
+            },
+            {
+              "id": "d",
+              "text": "The Git history"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A trace is a record of values. It shows what the code actually does with that input.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_redflags",
+      "title": "Spotting red flags in generated code",
+      "body": "Slow down when you see a bare except, a secret written into the file, a function that does five jobs, or a comment that claims something the code does not do. Also watch for unused results, checks that can never be true, and network calls with no timeout. Confidence in the chat is not evidence. The red flag is an invitation to read that part twice, not a reason to throw the whole file away.",
+      "sourceNote": "Review habits for AI-generated Python · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_redflags_1",
+          "type": "multiple_choice",
+          "prompt": "Which of these is a red flag in generated code?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A function with a clear name"
+            },
+            {
+              "id": "b",
+              "text": "An API key written in the source"
+            },
+            {
+              "id": "c",
+              "text": "A return of a computed value"
+            },
+            {
+              "id": "d",
+              "text": "A type you can name"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Secrets do not belong in source. A bare except, a huge function, or a missing timeout are other flags.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_redflags_2",
+          "type": "multiple_choice",
+          "prompt": "A comment says the function retries, but you see no retry. What is going on?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Comments are always exact"
+            },
+            {
+              "id": "b",
+              "text": "The comment and the code disagree, so check the code"
+            },
+            {
+              "id": "c",
+              "text": "Python ignores the function"
+            },
+            {
+              "id": "d",
+              "text": "The key is stored safely"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Trust the code over a comment, especially a comment an assistant wrote to sound finished.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

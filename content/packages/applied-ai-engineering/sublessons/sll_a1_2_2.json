@@ -1,0 +1,140 @@
+{
+  "id": "sll_a1_2_2",
+  "title": "Modules & Packages",
+  "bites": [
+    {
+      "id": "bit_a1_imports",
+      "title": "Imports and project structure",
+      "body": "A module is a Python file you can import. import math brings in the math module. from pathlib import Path brings in one name. A package is a folder of modules you import as a group. Keep related files together so imports read like a path: from notes import parse. Circular imports, where two files import each other at the top, are a common generated-code tangle.",
+      "sourceNote": "Python tutorial, modules · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_imports_1",
+          "type": "multiple_choice",
+          "prompt": "What is a module?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A running virtual environment"
+            },
+            {
+              "id": "b",
+              "text": "A Python file you can import"
+            },
+            {
+              "id": "c",
+              "text": "A boolean flag"
+            },
+            {
+              "id": "d",
+              "text": "Only a folder with tests"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A module is a file of Python code. Importing it lets another file use its names.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_imports_2",
+          "type": "multiple_choice",
+          "prompt": "What does from pathlib import Path do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Runs Path immediately"
+            },
+            {
+              "id": "b",
+              "text": "Makes the name Path available from that module"
+            },
+            {
+              "id": "c",
+              "text": "Creates a folder named Path"
+            },
+            {
+              "id": "d",
+              "text": "Installs pathlib from the internet"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "pathlib is in the standard library. This import binds the name Path in your file.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_docs",
+      "title": "Reading library documentation",
+      "body": "When an assistant picks a library, read the docs for the version you have installed. Start with a short example, then the parameter list: what is required, what is optional, and what the function returns. Check the exceptions it raises. A blog post can be stale. The project's own docs, matched to your version, are the contract you are actually calling.",
+      "sourceNote": "Practice for reading library docs · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_docs_1",
+          "type": "multiple_choice",
+          "prompt": "An assistant imports a library you do not know. What should you check first?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A random older blog"
+            },
+            {
+              "id": "b",
+              "text": "The docs for the version you installed"
+            },
+            {
+              "id": "c",
+              "text": "Only the function name"
+            },
+            {
+              "id": "d",
+              "text": "Whether the file is indented"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Behavior changes between versions. Match the docs to the version in your environment.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_docs_2",
+          "type": "multiple_choice",
+          "prompt": "Which question is most useful while reading a function's docs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "What does it return, and what can it raise?"
+            },
+            {
+              "id": "b",
+              "text": "Is the logo blue?"
+            },
+            {
+              "id": "c",
+              "text": "How many GitHub stars does it have?"
+            },
+            {
+              "id": "d",
+              "text": "Does the name sound modern?"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The return value and the errors tell you how to use the function and what can go wrong.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

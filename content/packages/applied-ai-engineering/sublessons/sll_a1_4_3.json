@@ -1,0 +1,207 @@
+{
+  "id": "sll_a1_4_3",
+  "title": "AI Coding Assistants",
+  "bites": [
+    {
+      "id": "bit_a1_tools",
+      "title": "Cursor, Copilot, and chat assistants",
+      "body": "Cursor, GitHub Copilot, and chat assistants suggest code from your prompt and the surrounding files. They are fast and they can be wrong with a straight face. You are still the author of anything you run. Use them to draft and to explain, then read the diff. Do not give them secrets. A suggestion that you cannot explain is not ready to keep.",
+      "sourceNote": "Product behavior of coding assistants, as a practice note · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_tools_1",
+          "type": "multiple_choice",
+          "prompt": "Who is responsible for code an assistant suggested and you ran?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The assistant, legally and practically, in this course's terms"
+            },
+            {
+              "id": "b",
+              "text": "You, because you chose to keep and run it"
+            },
+            {
+              "id": "c",
+              "text": "GitHub, always"
+            },
+            {
+              "id": "d",
+              "text": "Nobody, if it was autocompleted"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The assistant drafts. You decide what stays, what runs, and what you can explain.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_tools_2",
+          "type": "multiple_choice",
+          "prompt": "What should you do with a suggestion you cannot explain?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Keep it if the chat sounded sure"
+            },
+            {
+              "id": "b",
+              "text": "Read it until you can explain it, or do not keep it"
+            },
+            {
+              "id": "c",
+              "text": "Commit it so you can forget"
+            },
+            {
+              "id": "d",
+              "text": "Paste a secret in so it can test itself"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Unexplained code is a bug you have not met yet. Confidence in the reply is not a test.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_specs",
+      "title": "Writing clear coding prompts and specs",
+      "body": "A useful prompt names the goal, the inputs, the outputs, and the constraints. Say what not to change. \"Make it better\" is not a spec. A short written spec — a few sentences you could hand to a person — beats a long vague chat. Include an example: given this input, I want that output. The assistant is filling in a contract, and you wrote the contract.",
+      "sourceNote": "Spec-writing practice for coding assistants · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_specs_1",
+          "type": "multiple_choice",
+          "prompt": "Which prompt is a spec?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Make this nicer"
+            },
+            {
+              "id": "b",
+              "text": "Return the average of a list of numbers. Empty list returns None. Do not change the file reader."
+            },
+            {
+              "id": "c",
+              "text": "Fix it"
+            },
+            {
+              "id": "d",
+              "text": "Use AI"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "It names the output, an edge case, and what must stay. The others do not.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_specs_2",
+          "type": "multiple_choice",
+          "prompt": "Why include an example input and output?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Examples give a concrete check for the behavior you want"
+            },
+            {
+              "id": "b",
+              "text": "Examples replace the need to run anything"
+            },
+            {
+              "id": "c",
+              "text": "JSON requires an example"
+            },
+            {
+              "id": "d",
+              "text": "It pins the dependency version"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "An example is a tiny test in words. You can later turn it into an assert.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_review",
+      "title": "Reviewing and verifying AI output",
+      "body": "After a suggestion: read the diff, run it, and try one edge case. Check that errors are handled on purpose and that no secret was added. If the change is larger than you can review, ask for a smaller one. Verification is the point of this whole module. The assistant can draft the API script. You should still be able to explain every line you keep, and to find the bug in a review exercise.",
+      "sourceNote": "Review checklist for this module's learning outcomes · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_review_1",
+          "type": "multiple_choice",
+          "prompt": "A change is too big to review. What is a sound next step?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Merge it quickly"
+            },
+            {
+              "id": "b",
+              "text": "Ask for a smaller change you can actually read"
+            },
+            {
+              "id": "c",
+              "text": "Turn off the tests"
+            },
+            {
+              "id": "d",
+              "text": "Add the API key to the file so it runs"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Review only works on a diff you can hold in your head. Shrink the change.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_review_2",
+          "type": "multiple_choice",
+          "prompt": "Which set matches this module's outcomes?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Memorise syntax tables"
+            },
+            {
+              "id": "b",
+              "text": "Read, debug, and direct assistants with a clear spec"
+            },
+            {
+              "id": "c",
+              "text": "Avoid running any code"
+            },
+            {
+              "id": "d",
+              "text": "Let the chat approve its own output"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The aim is to read and debug AI-written Python, and to steer the assistant with a spec you could defend.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

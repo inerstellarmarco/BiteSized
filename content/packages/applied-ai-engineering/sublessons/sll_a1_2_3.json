@@ -1,0 +1,207 @@
+{
+  "id": "sll_a1_2_3",
+  "title": "Environments & Dependencies",
+  "bites": [
+    {
+      "id": "bit_a1_venv",
+      "title": "Virtual environments",
+      "body": "A virtual environment gives a project its own set of installed libraries. python -m venv .venv creates one with the standard library. uv venv does the same job with the uv tool, which is also fast at installing packages. Activate the environment before you install or run, so you are not changing the Python that belongs to the whole computer. Two projects can then use two versions of the same library.",
+      "sourceNote": "Python venv docs and the uv documentation · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_venv_1",
+          "type": "multiple_choice",
+          "prompt": "Why give a project a virtual environment?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So its libraries stay separate from other projects"
+            },
+            {
+              "id": "b",
+              "text": "So Python runs without electricity"
+            },
+            {
+              "id": "c",
+              "text": "So you never need Git"
+            },
+            {
+              "id": "d",
+              "text": "So booleans become optional"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Each environment has its own installed packages. Projects stop stepping on each other's versions.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_venv_2",
+          "type": "multiple_choice",
+          "prompt": "Which command uses only the Python standard library to create an environment?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "uv add"
+            },
+            {
+              "id": "b",
+              "text": "python -m venv .venv"
+            },
+            {
+              "id": "c",
+              "text": "git commit"
+            },
+            {
+              "id": "d",
+              "text": "pip freeze"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "venv is included with Python. uv is a separate, faster tool that can also create environments.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_deps",
+      "title": "Dependency files",
+      "body": "requirements.txt is a list of packages, often with versions pinned, like requests==2.32.3. pyproject.toml is the modern project file and can list dependencies too. A pin makes next month's install match today's. An unpinned name installs whatever is newest, which may break the code. Commit the dependency file. Do not commit the virtual environment folder itself.",
+      "sourceNote": "Python packaging user guide · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_deps_1",
+          "type": "multiple_choice",
+          "prompt": "What does requests==2.32.3 in a requirements file mean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Install any requests"
+            },
+            {
+              "id": "b",
+              "text": "Install that exact version"
+            },
+            {
+              "id": "c",
+              "text": "Uninstall requests"
+            },
+            {
+              "id": "d",
+              "text": "Import requests inside a string"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The == pin asks the installer for that version, so the environment is repeatable.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_deps_2",
+          "type": "multiple_choice",
+          "prompt": "What should you commit to Git?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The .venv folder"
+            },
+            {
+              "id": "b",
+              "text": "The dependency file, not the environment folder"
+            },
+            {
+              "id": "c",
+              "text": "Your API keys"
+            },
+            {
+              "id": "d",
+              "text": "Every __pycache__ folder"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The dependency file lets someone rebuild the environment. The environment folder is local and large.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_git",
+      "title": "Version control with Git and GitHub",
+      "body": "Git stores snapshots of your project, called commits. A branch is a line of commits you can use to try a change without losing the main line. GitHub is a website that hosts Git repositories. It is not Git itself. Before you ask an assistant for a big edit, commit or at least look at git status, so you can see the diff and return to a known snapshot.",
+      "sourceNote": "Git basics and GitHub docs · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_git_1",
+          "type": "multiple_choice",
+          "prompt": "What is a commit?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A hosted website"
+            },
+            {
+              "id": "b",
+              "text": "A snapshot of the project"
+            },
+            {
+              "id": "c",
+              "text": "A virtual environment"
+            },
+            {
+              "id": "d",
+              "text": "A Python package"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A commit records the project at one moment so you can compare and return to it.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_git_2",
+          "type": "multiple_choice",
+          "prompt": "How are Git and GitHub related?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They are the same program"
+            },
+            {
+              "id": "b",
+              "text": "Git is the version-control tool; GitHub hosts Git repositories"
+            },
+            {
+              "id": "c",
+              "text": "GitHub replaces the need to commit"
+            },
+            {
+              "id": "d",
+              "text": "Git only works on GitHub"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "You can use Git locally with no GitHub. GitHub is one place to store and share a repository.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

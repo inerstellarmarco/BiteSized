@@ -1,0 +1,214 @@
+{
+  "id": "sll_a1_3_2",
+  "title": "APIs, HTTP & JSON",
+  "bites": [
+    {
+      "id": "bit_a1_api",
+      "title": "What an API is",
+      "body": "An API is a contract for asking another program to do something or return data. On the web, that contract is usually a URL you call with HTTP, plus rules for the request and the response. The docs are the contract. A library is not the API itself; it is one way to call it. Read which URL, which method, and which fields are required before you trust generated client code.",
+      "sourceNote": "HTTP APIs, conceptual · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_api_1",
+          "type": "multiple_choice",
+          "prompt": "On the web, what is an API most often?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A private folder on your laptop"
+            },
+            {
+              "id": "b",
+              "text": "A contract for calling another program, often over HTTP"
+            },
+            {
+              "id": "c",
+              "text": "A Python boolean"
+            },
+            {
+              "id": "d",
+              "text": "A Git branch"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The API is the agreed way to ask. HTTP is the usual transport for web APIs.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_api_2",
+          "type": "multiple_choice",
+          "prompt": "What should you treat as the contract for an API?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The colour of the website"
+            },
+            {
+              "id": "b",
+              "text": "Its documentation for the endpoints you call"
+            },
+            {
+              "id": "c",
+              "text": "The length of the file"
+            },
+            {
+              "id": "d",
+              "text": "The assistant's confidence"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The docs say which URLs, methods, and fields are valid. Generated code can drift from that.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_http",
+      "title": "HTTP requests and responses",
+      "body": "A request has a method, a URL, headers, and sometimes a body. GET usually reads. POST usually sends data to create something or to trigger work. The response has a status code and often a body. 200 means success, 400 means your request was bad, 401 means you are not authenticated, 404 means it is missing, 429 means you are going too fast, and 500 means the server failed.",
+      "sourceNote": "HTTP semantics, common status codes · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": "sequenceDiagram\n  participant App\n  participant API\n  App->>API: Send an HTTP request\n  API-->>App: Send a status code and a body",
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_http_1",
+          "type": "multiple_choice",
+          "prompt": "Which method usually reads data without changing it?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "POST"
+            },
+            {
+              "id": "b",
+              "text": "GET"
+            },
+            {
+              "id": "c",
+              "text": "500"
+            },
+            {
+              "id": "d",
+              "text": "JSON"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "GET is the usual read. POST is the usual way to send a body that creates or triggers something.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_http_2",
+          "type": "multiple_choice",
+          "prompt": "What does status 404 mean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Success"
+            },
+            {
+              "id": "b",
+              "text": "The thing you asked for was not found"
+            },
+            {
+              "id": "c",
+              "text": "You sent too many requests"
+            },
+            {
+              "id": "d",
+              "text": "The JSON used single quotes"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "404 Not Found means that URL does not point at a resource. 429 is the \"slow down\" code.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_json",
+      "title": "JSON data and API keys",
+      "body": "JSON is text that looks like data: objects in {}, lists in [], strings in double quotes, plus numbers, true, false, and null. Note the lowercase true. Python uses True. An API key is a secret that proves the caller may use the API. Keep it in an environment variable, not in the source you commit or paste into a chat. A quoted key in a screenshot is still a leaked key.",
+      "sourceNote": "JSON specification and common API-key practice · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_bit_a1_json_A1_1",
+          "targetCode": "A1.1",
+          "label": "see A1.1",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_a1_json_1",
+          "type": "multiple_choice",
+          "prompt": "Which token is valid JSON for a boolean true?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "True"
+            },
+            {
+              "id": "b",
+              "text": "true"
+            },
+            {
+              "id": "c",
+              "text": "TRUE"
+            },
+            {
+              "id": "d",
+              "text": "\"true\""
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "JSON uses lowercase true, false, and null. True is Python, not JSON. \"true\" is a string.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_json_2",
+          "type": "multiple_choice",
+          "prompt": "Where should an API key live?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "In the source file you commit"
+            },
+            {
+              "id": "b",
+              "text": "In an environment variable, outside the committed code"
+            },
+            {
+              "id": "c",
+              "text": "In the function name"
+            },
+            {
+              "id": "d",
+              "text": "Inside a list called keys in Git"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Environment variables keep the secret out of the repository and out of chat logs.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

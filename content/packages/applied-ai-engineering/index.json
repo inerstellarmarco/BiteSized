@@ -1,0 +1,187 @@
+{
+  "format": "bite-sized.package",
+  "formatVersion": 1,
+  "course": {
+    "id": "crs_applied_ai",
+    "title": "Applied AI Engineering",
+    "subtitle": "From first Python concepts to applied AI work",
+    "description": "A self-paced course: shared foundations, then a main track in LLM and agentic engineering, with electives later. Bite Sized does not assume a subject. This package is only module A1, the first module of the first course.",
+    "author": "Eric D'Souza",
+    "licence": "Private family licence. Prepared for Eric D'Souza, November 2026. Not for redistribution.",
+    "aiGenerated": false,
+    "position": "a0",
+    "archivedAt": null
+  },
+  "categories": [
+    {
+      "id": "cat_track_a",
+      "code": "A",
+      "title": "Track A: Foundations",
+      "summary": "Required groundwork. Python here is concepts for reading and directing AI-written code, not a syntax drill.",
+      "position": "a0",
+      "archivedAt": null,
+      "subCategories": [
+        {
+          "id": "sub_a1",
+          "code": "A1",
+          "title": "Python Concepts for AI-Assisted Development",
+          "levelTag": "Foundations",
+          "toolkit": {
+            "handsOnProjects": [
+              "Use an AI assistant to build a small API-calling script, then explain and debug every line.",
+              "Code-review exercise: find the bugs in AI-generated code."
+            ],
+            "toolsAndFrameworks": [
+              "Python 3",
+              "Cursor / VS Code",
+              "GitHub Copilot",
+              "Jupyter",
+              "Google Colab",
+              "Git",
+              "uv"
+            ],
+            "learningOutcomes": [
+              "Read, understand, and debug Python written by AI.",
+              "Direct AI coding assistants with clear specs."
+            ]
+          },
+          "position": "a0",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_a1_1",
+              "code": "A1.1",
+              "title": "Core Programming Concepts",
+              "prerequisiteIds": [],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_a1_1_1",
+                  "title": "Data Types & Structures",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_1_1.json"
+                },
+                {
+                  "id": "sll_a1_1_2",
+                  "title": "Control Flow",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_1_2.json"
+                },
+                {
+                  "id": "sll_a1_1_3",
+                  "title": "Functions",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_1_3.json"
+                }
+              ]
+            },
+            {
+              "id": "les_a1_2",
+              "code": "A1.2",
+              "title": "Organizing Code",
+              "prerequisiteIds": [
+                "les_a1_1"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_a1_2_1",
+                  "title": "Classes & Objects",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_2_1.json"
+                },
+                {
+                  "id": "sll_a1_2_2",
+                  "title": "Modules & Packages",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_2_2.json"
+                },
+                {
+                  "id": "sll_a1_2_3",
+                  "title": "Environments & Dependencies",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_2_3.json"
+                }
+              ]
+            },
+            {
+              "id": "les_a1_3",
+              "code": "A1.3",
+              "title": "Talking to the Outside World",
+              "prerequisiteIds": [
+                "les_a1_1"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_a1_3_1",
+                  "title": "Async Concepts",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_3_1.json"
+                },
+                {
+                  "id": "sll_a1_3_2",
+                  "title": "APIs, HTTP & JSON",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_3_2.json"
+                },
+                {
+                  "id": "sll_a1_3_3",
+                  "title": "Error Handling",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_3_3.json"
+                }
+              ]
+            },
+            {
+              "id": "les_a1_4",
+              "code": "A1.4",
+              "title": "Working with AI-Generated Code",
+              "prerequisiteIds": [
+                "les_a1_1",
+                "les_a1_2"
+              ],
+              "position": "a3",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_a1_4_1",
+                  "title": "Reading & Understanding Code",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_4_1.json"
+                },
+                {
+                  "id": "sll_a1_4_2",
+                  "title": "Debugging",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_4_2.json"
+                },
+                {
+                  "id": "sll_a1_4_3",
+                  "title": "AI Coding Assistants",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_4_3.json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

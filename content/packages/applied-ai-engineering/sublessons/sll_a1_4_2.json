@@ -1,0 +1,214 @@
+{
+  "id": "sll_a1_4_2",
+  "title": "Debugging",
+  "bites": [
+    {
+      "id": "bit_a1_stack",
+      "title": "Reading stack traces",
+      "body": "A Python traceback lists the oldest call first and the newest last. The last line is the exception type and message. The frame just above it is where it was raised. Start there if that frame is your code. If it is inside a library, move up to the last frame that belongs to you: that is the call you made. Read the message before you change anything.",
+      "sourceNote": "Python traceback reference · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_stack_1",
+          "type": "multiple_choice",
+          "prompt": "In a Python traceback, where is the line that raised the exception?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The first frame, always"
+            },
+            {
+              "id": "b",
+              "text": "The last frame, just above the final error line"
+            },
+            {
+              "id": "c",
+              "text": "Inside the README"
+            },
+            {
+              "id": "d",
+              "text": "It is not shown"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The newest call is at the bottom. The final line names the exception.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_stack_2",
+          "type": "multiple_choice",
+          "prompt": "The last frame is inside a library. Where do you look next?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only at the library's logo"
+            },
+            {
+              "id": "b",
+              "text": "Up the trace, to the last frame in your code"
+            },
+            {
+              "id": "c",
+              "text": "At a random earlier print"
+            },
+            {
+              "id": "d",
+              "text": "You rewrite the library"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Your frame shows the call you made. That is usually the first place you can change.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_print",
+      "title": "Print, logs, and breakpoints",
+      "body": "print shows a value at one moment. It is fine for a quick look, then take it out. logging is print you can leave in, with levels such as debug, info, warning, and error, so you can quiet it later. A breakpoint pauses the program so you can inspect names. You can set one in the editor or call breakpoint(). Pausing beats guessing when the value is not what you assumed.",
+      "sourceNote": "Python logging howto and the breakpoint builtin · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_print_1",
+          "type": "multiple_choice",
+          "prompt": "What is logging good for, compared with a temporary print?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It can stay in the code and be filtered by level"
+            },
+            {
+              "id": "b",
+              "text": "It hides exceptions"
+            },
+            {
+              "id": "c",
+              "text": "It replaces tests"
+            },
+            {
+              "id": "d",
+              "text": "It pins dependencies"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Levels let you keep useful messages and turn down the noisy ones without deleting them.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_print_2",
+          "type": "multiple_choice",
+          "prompt": "What does a breakpoint give you?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A paused program you can inspect"
+            },
+            {
+              "id": "b",
+              "text": "A new Git commit"
+            },
+            {
+              "id": "c",
+              "text": "A JSON schema"
+            },
+            {
+              "id": "d",
+              "text": "An automatic retry"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "While paused, you can look at the real values instead of guessing which line was wrong.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_pytest",
+      "title": "Testing concepts",
+      "body": "A test is a small check that a piece of behavior stays true. With pytest, a function named test_something calls your code and uses assert to state a fact. If the fact is false, the test fails and shows the values. Tests let you change generated code without re-tracing everything by hand. Start with one example you already understand, including an edge such as an empty input.",
+      "sourceNote": "pytest docs, the basics · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_bit_a1_pytest_A1_1",
+          "targetCode": "A1.1",
+          "label": "see A1.1",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_a1_pytest_1",
+          "type": "multiple_choice",
+          "prompt": "What does a failing assert in a pytest test mean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The fact you stated was not true"
+            },
+            {
+              "id": "b",
+              "text": "The file failed to save"
+            },
+            {
+              "id": "c",
+              "text": "Git rejected the branch"
+            },
+            {
+              "id": "d",
+              "text": "The API key was correct"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "assert checks a fact. A failure is evidence about the code, and pytest shows what the values were.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_pytest_2",
+          "type": "multiple_choice",
+          "prompt": "Which name will pytest collect as a test?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "check_total"
+            },
+            {
+              "id": "b",
+              "text": "test_total_of_empty_list"
+            },
+            {
+              "id": "c",
+              "text": "total_of"
+            },
+            {
+              "id": "d",
+              "text": "Test"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "pytest collects functions whose names start with test_, by default.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

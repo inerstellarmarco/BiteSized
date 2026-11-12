@@ -1,0 +1,207 @@
+{
+  "id": "sll_a1_1_1",
+  "title": "Data Types & Structures",
+  "bites": [
+    {
+      "id": "bit_a1_types",
+      "title": "Strings, numbers, and booleans",
+      "body": "Python values have types. Text in quotes is a string, like \"hello\". Whole numbers and decimals are numbers, like 2 and 2.5. A boolean is only True or False, with those capitals. The quoted word \"True\" is text, not a boolean. When you read AI-written code, name the type of each value before you trust how it is used.",
+      "sourceNote": "Python language reference, built-in types · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_types_1",
+          "type": "multiple_choice",
+          "prompt": "Which of these is a boolean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "\"True\""
+            },
+            {
+              "id": "b",
+              "text": "True"
+            },
+            {
+              "id": "c",
+              "text": "true"
+            },
+            {
+              "id": "d",
+              "text": "1"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "True and False, with capitals and no quotes, are booleans. \"True\" is a string. 1 is a number, even though Python treats True as equal to 1.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_types_2",
+          "type": "multiple_choice",
+          "prompt": "What type is 2.5?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A string"
+            },
+            {
+              "id": "b",
+              "text": "A boolean"
+            },
+            {
+              "id": "c",
+              "text": "A number"
+            },
+            {
+              "id": "d",
+              "text": "A list"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "2.5 is a float, one of Python's number types. A string would be in quotes.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_collections",
+      "title": "Lists, dictionaries, sets, and tuples",
+      "body": "A list keeps items in order, and you can change it: [\"red\", \"blue\"]. A tuple is also ordered, but it is fixed, like (\"red\", \"blue\"). A dictionary maps a key to a value and keeps keys in the order you added them: {\"name\": \"Eric\"}. A set holds unique items and does not promise an order. Duplicates in a set disappear.",
+      "sourceNote": "Python tutorial, data structures · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_collections_1",
+          "type": "multiple_choice",
+          "prompt": "You need a name-to-score mapping you can look up by name. What fits?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A set"
+            },
+            {
+              "id": "b",
+              "text": "A dictionary"
+            },
+            {
+              "id": "c",
+              "text": "A single boolean"
+            },
+            {
+              "id": "d",
+              "text": "A number"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A dictionary stores a value under a key, so a name can point at a score.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_collections_2",
+          "type": "multiple_choice",
+          "prompt": "What happens when you add the same item to a set twice?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It is stored twice, in order"
+            },
+            {
+              "id": "b",
+              "text": "The set keeps one copy"
+            },
+            {
+              "id": "c",
+              "text": "Python turns it into a list"
+            },
+            {
+              "id": "d",
+              "text": "It becomes a tuple"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A set drops duplicates. It also does not give you an order you can rely on.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_mutability",
+      "title": "Mutability",
+      "body": "Some values can be changed in place. Lists, dictionaries, and sets can. Strings and tuples cannot: any \"change\" builds a new value. If two names point at the same list, editing it through one name shows up on the other. That surprise is common in generated code. A second name is not a copy. Use .copy() when you need a separate list.",
+      "sourceNote": "Python data model, mutable vs immutable objects · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_mutability_1",
+          "type": "multiple_choice",
+          "prompt": "Two variables name the same list. You append an item through the first. What does the second see?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The original list only"
+            },
+            {
+              "id": "b",
+              "text": "The list with the new item"
+            },
+            {
+              "id": "c",
+              "text": "A string of the item"
+            },
+            {
+              "id": "d",
+              "text": "An error, always"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Both names refer to one list object. Appending changes that object, so both names see it.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_mutability_2",
+          "type": "multiple_choice",
+          "prompt": "Which value cannot be changed in place?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A list"
+            },
+            {
+              "id": "b",
+              "text": "A dictionary"
+            },
+            {
+              "id": "c",
+              "text": "A string"
+            },
+            {
+              "id": "d",
+              "text": "A set"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Strings are immutable. Methods like replace return a new string rather than editing the old one.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

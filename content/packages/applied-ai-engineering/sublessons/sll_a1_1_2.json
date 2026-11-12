@@ -1,0 +1,140 @@
+{
+  "id": "sll_a1_1_2",
+  "title": "Control Flow",
+  "bites": [
+    {
+      "id": "bit_a1_conditionals",
+      "title": "Conditionals",
+      "body": "if, elif, and else choose a path. Python uses indentation, not braces, to show which lines belong to a branch. The first true condition runs, and the rest are skipped. A missing indent is a syntax error. When you read generated code, check that each branch is indented under the right condition and that a later elif is not impossible.",
+      "sourceNote": "Python tutorial, if statements · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": "flowchart TD\n  A[\"Look at the condition\"] --> B{\"Is it true?\"}\n  B -->|Yes| C[\"Run the if branch\"]\n  B -->|No| D[\"Run the else branch\"]\n  C --> E[\"Continue\"]\n  D --> E",
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_conditionals_1",
+          "type": "multiple_choice",
+          "prompt": "score is 80. The code checks if score > 90, then elif score > 70. Which branch runs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The if branch"
+            },
+            {
+              "id": "b",
+              "text": "The elif branch"
+            },
+            {
+              "id": "c",
+              "text": "Both branches"
+            },
+            {
+              "id": "d",
+              "text": "Neither branch"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "80 is not greater than 90, so the if is skipped. 80 is greater than 70, so the elif runs.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_conditionals_2",
+          "type": "multiple_choice",
+          "prompt": "How does Python know which lines belong to an if branch?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By braces around them"
+            },
+            {
+              "id": "b",
+              "text": "By indentation under the if"
+            },
+            {
+              "id": "c",
+              "text": "By a semicolon at the end"
+            },
+            {
+              "id": "d",
+              "text": "By the word branch"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A consistent indent marks the block. The next line that is outdented is outside the branch.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_loops",
+      "title": "Loops and iteration",
+      "body": "A for loop walks a collection one item at a time: for name in names. range(3) yields 0, then 1, then 2 — it stops before 3. A while loop repeats as long as its condition stays true. If that condition never becomes false, the loop never ends. Generated loops are worth tracing with a tiny collection before you trust them.",
+      "sourceNote": "Python tutorial, for and while · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_loops_1",
+          "type": "multiple_choice",
+          "prompt": "How many times does for n in range(3) run the body?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "2"
+            },
+            {
+              "id": "b",
+              "text": "3"
+            },
+            {
+              "id": "c",
+              "text": "4"
+            },
+            {
+              "id": "d",
+              "text": "Until you stop it"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "range(3) produces 0, 1, and 2. That is three passes, and 3 itself is not included.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_loops_2",
+          "type": "multiple_choice",
+          "prompt": "When does a while loop stop?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "After exactly one pass"
+            },
+            {
+              "id": "b",
+              "text": "When its condition is false"
+            },
+            {
+              "id": "c",
+              "text": "When the file ends"
+            },
+            {
+              "id": "d",
+              "text": "Only if you use for instead"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Before each pass, Python checks the condition. A false condition ends the loop.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}
