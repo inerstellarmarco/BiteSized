@@ -77,6 +77,8 @@ export const bites = pgTable("bites", {
   lastReviewedOn: text("last_reviewed_on"),
   diagram: text("diagram"),
   position: text("position").notNull(),
+  reviewStatus: text("review_status").notNull().default("approved"),
+  styleVersionId: text("style_version_id"),
   ...timestamps,
 });
 
@@ -101,6 +103,10 @@ export const questions = pgTable("questions", {
   correctChoiceId: text("correct_choice_id").notNull(),
   explanation: text("explanation").notNull().default(""),
   position: text("position").notNull(),
+  reviewStatus: text("review_status").notNull().default("approved"),
+  styleVersionId: text("style_version_id"),
+  answerKeyStatus: text("answer_key_status").notNull().default("confirmed"),
+  answerKeyNote: text("answer_key_note").notNull().default(""),
   ...timestamps,
 });
 
@@ -185,6 +191,65 @@ export const quizAttempts = pgTable("quiz_attempts", {
   stoppedEarly: boolean("stopped_early").notNull().default(false),
   startedAt: timestamp("started_at", { withTimezone: true }).notNull().defaultNow(),
   finishedAt: timestamp("finished_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const styleDrafts = pgTable("style_drafts", {
+  id: text("id").primaryKey(),
+  tone: text("tone").notNull(),
+  lengthGuide: text("length_guide").notNull(),
+  readingLevel: text("reading_level").notNull(),
+  analogyUse: text("analogy_use").notNull(),
+  formatting: text("formatting").notNull(),
+  temperature: text("temperature").notNull().default("0.4"),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const styleVersions = pgTable("style_versions", {
+  id: text("id").primaryKey(),
+  number: integer("number").notNull(),
+  tone: text("tone").notNull(),
+  lengthGuide: text("length_guide").notNull(),
+  readingLevel: text("reading_level").notNull(),
+  analogyUse: text("analogy_use").notNull(),
+  formatting: text("formatting").notNull(),
+  temperature: text("temperature").notNull(),
+  model: text("model").notNull(),
+  provider: text("provider").notNull(),
+  examples: jsonb("examples").$type<{ title: string; body: string }[]>().notNull(),
+  lockedAt: timestamp("locked_at", { withTimezone: true }).notNull().defaultNow(),
+  lockedBy: text("locked_by"),
+});
+
+export const styleExamples = pgTable("style_examples", {
+  id: text("id").primaryKey(),
+  title: text("title").notNull(),
+  body: text("body").notNull(),
+  position: text("position").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const importDrafts = pgTable("import_drafts", {
+  id: text("id").primaryKey(),
+  sourceLabel: text("source_label").notNull(),
+  blocks: jsonb("blocks").$type<unknown[]>().notNull(),
+  mapping: jsonb("mapping").$type<Record<string, string>>().notNull(),
+  createdBy: text("created_by"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const generationJobs = pgTable("generation_jobs", {
+  id: text("id").primaryKey(),
+  subLessonId: text("sub_lesson_id")
+    .notNull()
+    .references(() => subLessons.id, { onDelete: "cascade" }),
+  styleVersionId: text("style_version_id").notNull(),
+  status: text("status").notNull(),
+  stage: text("stage").notNull().default("bites"),
+  attemptCount: integer("attempt_count").notNull().default(0),
+  lastError: text("last_error").notNull().default(""),
+  nextRetryAt: timestamp("next_retry_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
 export const quizAnswers = pgTable("quiz_answers", {

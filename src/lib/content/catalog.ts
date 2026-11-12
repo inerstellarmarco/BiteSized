@@ -1,4 +1,4 @@
-import { asc, eq, isNull } from "drizzle-orm";
+import { and, asc, eq, isNull } from "drizzle-orm";
 import {
   biteLinks,
   bites,
@@ -104,8 +104,8 @@ export async function loadCatalog(db: AppDatabase, profileId?: string | null, co
     db.select().from(subCategories).where(isNull(subCategories.archivedAt)).orderBy(asc(subCategories.position)),
     db.select().from(lessons).where(isNull(lessons.archivedAt)).orderBy(asc(lessons.position)),
     db.select().from(subLessons).where(isNull(subLessons.archivedAt)).orderBy(asc(subLessons.position)),
-    db.select().from(bites).where(isNull(bites.archivedAt)),
-    db.select().from(questions).where(isNull(questions.archivedAt)),
+    db.select().from(bites).where(and(isNull(bites.archivedAt), eq(bites.reviewStatus, "approved"))),
+    db.select().from(questions).where(and(isNull(questions.archivedAt), eq(questions.reviewStatus, "approved"))),
     profileId
       ? db.select().from(biteProgress).where(eq(biteProgress.profileId, profileId))
       : Promise.resolve([]),
@@ -182,7 +182,7 @@ export async function loadLearnCards(db: AppDatabase, subLessonId: string) {
     .from(bites)
     .where(eq(bites.subLessonId, subLessonId))
     .orderBy(asc(bites.position));
-  const active = biteRows.filter((bite) => !bite.archivedAt);
+  const active = biteRows.filter((bite) => !bite.archivedAt && bite.reviewStatus === "approved");
   const linkRows = active.length
     ? await db.select().from(biteLinks).orderBy(asc(biteLinks.position))
     : [];

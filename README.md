@@ -140,3 +140,40 @@ These are left for later. The model has a place for them so they do not need a r
 - Spaced review scheduling, question types other than multiple choice (`true_false` and `predict_output` are already valid types), streaks, search, notes, and dashboards.
 
 Phase 1 quizzes are multiple choice only, and only when someone chooses Quiz.
+
+## Phase 2: style, import, and review
+
+Admins open Style, Import, and Review from the Family page.
+
+### Gemini
+
+The model boundary is `src/lib/llm`. Gemini is the default, using `gemini-3.8-flash` (override with `GEMINI_MODEL`). The call is server-side `generateContent` with thinking set to low. Set the key only in the environment:
+
+```bash
+GEMINI_API_KEY=your-key
+```
+
+`LLM_API_KEY` is accepted as an alias. There is a backup-provider slot (`LLM_BACKUP_PROVIDER`, `LLM_BACKUP_API_KEY`, `LLM_BACKUP_MODEL`) and a daily cap (`LLM_DAILY_REGENERATE_CAP`, default 100). Phase 2 does not fail over and does not enforce the cap yet. Those stay in the config for Phase 3.
+
+With no key, or with `LLM_PROVIDER=mock`, the app uses a deterministic mock. Tests use that mock. If a live call fails, the screen says "AI unavailable, try later."
+
+### Locked style
+
+Style is a draft until an admin locks it. Locking saves version 1, 2, 3… with the guide, up to 20 examples, the model name, and the temperature. Editing the draft does not change a locked version, and it does not rewrite bites that were already generated. Each generated bite and question stores the style version that made it.
+
+The default guide asks for one friendly, accurate idea, about 45–75 words, readable in about 30 seconds on a phone.
+
+### Google Docs
+
+Import reads headings and keeps their levels. The admin can point the levels at category, sub-category, lesson, toolkit, or ignore before applying. The default matches Eric's outline: H1 category, H2 sub-category with a `[Foundations]` style tag, H3 lesson, numbered lines as sub-lessons, bullets as bite topics, H4 toolkit, `(see B3.2)` as a cross-link, and the "Learning path" sentence as prerequisites.
+
+How a document gets in, in the order the app tries:
+
+1. Paste a Google Doc link shared as **anyone with the link**. The server fetches `https://docs.google.com/document/d/{id}/export?format=html`. No OAuth and no service account. A private doc cannot be read this way.
+2. Upload the same HTML export, a `.docx`, or the outline text format if the link is not public.
+
+The preview lists what will be created. Apply matches existing rows by heading code (such as `A1.1`) and then by title, so a second import does not duplicate them. New topics become pending bites. Approved bites are left alone.
+
+### Generation and review
+
+After a style is locked, Apply queues one job per sub-lesson and runs a small batch. Continue generation on the Review page picks up the rest, with backoff, and does not wipe bites that already succeeded. The model writes the bite, then multiple-choice questions, then a second pass plus a structural check (exactly one correct choice, distinct choices). Doubtful questions are flagged and cannot be batch-approved until an admin edits them and re-checks. Approval sets the bite's last-reviewed date. Learners only see approved bites.

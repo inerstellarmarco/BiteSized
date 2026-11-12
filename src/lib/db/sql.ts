@@ -69,6 +69,8 @@ CREATE TABLE IF NOT EXISTS bites (
   last_reviewed_on TEXT,
   diagram TEXT,
   position TEXT NOT NULL,
+  review_status TEXT NOT NULL DEFAULT 'approved',
+  style_version_id TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   archived_at TIMESTAMPTZ
@@ -91,6 +93,10 @@ CREATE TABLE IF NOT EXISTS questions (
   correct_choice_id TEXT NOT NULL,
   explanation TEXT NOT NULL DEFAULT '',
   position TEXT NOT NULL,
+  review_status TEXT NOT NULL DEFAULT 'approved',
+  style_version_id TEXT,
+  answer_key_status TEXT NOT NULL DEFAULT 'confirmed',
+  answer_key_note TEXT NOT NULL DEFAULT '',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   archived_at TIMESTAMPTZ
@@ -184,4 +190,68 @@ CREATE INDEX IF NOT EXISTS bite_links_bite_idx ON bite_links (bite_id, position)
 CREATE INDEX IF NOT EXISTS pin_attempts_profile_idx ON pin_attempts (profile_id, attempted_at);
 CREATE INDEX IF NOT EXISTS pin_attempts_ip_idx ON pin_attempts (ip, attempted_at);
 CREATE INDEX IF NOT EXISTS revisions_entity_idx ON content_revisions (entity_type, entity_id, created_at);
+
+ALTER TABLE bites ADD COLUMN IF NOT EXISTS review_status TEXT NOT NULL DEFAULT 'approved';
+ALTER TABLE bites ADD COLUMN IF NOT EXISTS style_version_id TEXT;
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS review_status TEXT NOT NULL DEFAULT 'approved';
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS style_version_id TEXT;
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS answer_key_status TEXT NOT NULL DEFAULT 'confirmed';
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS answer_key_note TEXT NOT NULL DEFAULT '';
+
+CREATE TABLE IF NOT EXISTS style_drafts (
+  id TEXT PRIMARY KEY,
+  tone TEXT NOT NULL,
+  length_guide TEXT NOT NULL,
+  reading_level TEXT NOT NULL,
+  analogy_use TEXT NOT NULL,
+  formatting TEXT NOT NULL,
+  temperature TEXT NOT NULL DEFAULT '0.4',
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS style_versions (
+  id TEXT PRIMARY KEY,
+  number INTEGER NOT NULL UNIQUE,
+  tone TEXT NOT NULL,
+  length_guide TEXT NOT NULL,
+  reading_level TEXT NOT NULL,
+  analogy_use TEXT NOT NULL,
+  formatting TEXT NOT NULL,
+  temperature TEXT NOT NULL,
+  model TEXT NOT NULL,
+  provider TEXT NOT NULL,
+  examples JSONB NOT NULL DEFAULT '[]'::jsonb,
+  locked_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  locked_by TEXT
+);
+
+CREATE TABLE IF NOT EXISTS style_examples (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  body TEXT NOT NULL,
+  position TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS import_drafts (
+  id TEXT PRIMARY KEY,
+  source_label TEXT NOT NULL,
+  blocks JSONB NOT NULL,
+  mapping JSONB NOT NULL,
+  created_by TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS generation_jobs (
+  id TEXT PRIMARY KEY,
+  sub_lesson_id TEXT NOT NULL REFERENCES sub_lessons(id) ON DELETE CASCADE,
+  style_version_id TEXT NOT NULL,
+  status TEXT NOT NULL,
+  stage TEXT NOT NULL DEFAULT 'bites',
+  attempt_count INTEGER NOT NULL DEFAULT 0,
+  last_error TEXT NOT NULL DEFAULT '',
+  next_retry_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
 `;

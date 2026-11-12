@@ -320,7 +320,7 @@ export async function activeBites(db: AppDatabase, subLessonId: string) {
   return db
     .select()
     .from(bites)
-    .where(and(eq(bites.subLessonId, subLessonId), isNull(bites.archivedAt)))
+    .where(and(eq(bites.subLessonId, subLessonId), isNull(bites.archivedAt), eq(bites.reviewStatus, "approved")))
     .orderBy(asc(bites.position));
 }
 

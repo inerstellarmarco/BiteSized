@@ -9,6 +9,7 @@ import {
   categories,
   contentRevisions,
   courses,
+  generationJobs,
   learnerCursors,
   lessons,
   pinAttempts,
@@ -355,6 +356,7 @@ export function unzipPackage(bytes: Uint8Array): Record<string, string> {
 }
 
 export async function wipeDatabase(db: AppDatabase) {
+  await db.delete(generationJobs);
   await db.delete(quizAnswers);
   await db.delete(quizAttempts);
   await db.delete(learnerCursors);

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { requireProfile } from "@/lib/auth/current";
 import { listProfiles } from "@/lib/auth/profiles";
+import { AdminNav } from "@/components/admin-nav";
 import { AdminPanel } from "@/components/admin-panel";
 import { getDb } from "@/lib/db";
 
@@ -12,6 +13,7 @@ export default async function AdminPage() {
   const activeAdmins = profiles.filter((item) => item.isAdmin && !item.archivedAt).length;
   return (
     <div className="mx-auto max-w-2xl">
+      <AdminNav current="/admin" />
       <h1 className="font-display text-4xl">Family</h1>
       <p className="mt-1 text-sm text-muted-foreground">Up to three profiles. Admin is a right, not a separate kind of person.</p>
       <div className="mt-6">

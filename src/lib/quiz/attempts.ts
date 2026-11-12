@@ -20,7 +20,7 @@ export async function quizQuestions(db: AppDatabase, subLessonId: string) {
   const rows = await db
     .select()
     .from(questions)
-    .where(and(inArray(questions.biteId, biteIds), isNull(questions.archivedAt)))
+    .where(and(inArray(questions.biteId, biteIds), isNull(questions.archivedAt), eq(questions.reviewStatus, "approved")))
     .orderBy(asc(questions.position));
   const biteOrder = new Map(bitesInLesson.map((bite, index) => [bite.id, index]));
   const biteTitle = new Map(bitesInLesson.map((bite) => [bite.id, bite.title]));

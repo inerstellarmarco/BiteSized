@@ -6,6 +6,7 @@ import { drizzle as drizzlePglite } from "drizzle-orm/pglite";
 import { drizzle as drizzlePg } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { createProfile } from "@/lib/auth/profiles";
+import { ensureStyleDraft } from "@/lib/style/guide";
 import * as schema from "@/lib/db/schema";
 import { courses, profiles } from "@/lib/db/schema";
 import { MIGRATION_SQL } from "@/lib/db/sql";
@@ -59,6 +60,7 @@ export async function createDatabase(options?: {
     opened = { db, close: () => client.close() };
   }
   if (options?.seed !== false) await seedIfEmpty(opened.db);
+  await ensureStyleDraft(opened.db);
   return opened;
 }
 
