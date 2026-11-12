@@ -6,6 +6,8 @@ The app does not assume a subject. **Applied AI Engineering** is only the first 
 
 It is an installable web app, so the same site runs on Android, iPhone, and Windows. It needs a connection. There is no offline copy of the course.
 
+Product decisions live in [PLAN.md](PLAN.md). That file is the reference when scope changes.
+
 ## Stack
 
 Next.js (App Router) and TypeScript, with Tailwind. One web codebase deploys as a site and as a PWA, which covers phones and Windows without three native apps.
@@ -100,6 +102,8 @@ Ran `npm run restore-drill` against a throwaway PGlite directory. It seeded A1 a
 }
 ```
 
+Deploy steps for Neon and Vercel are in [DEPLOY.md](DEPLOY.md).
+
 ## Deploy for $0
 
 1. Create a Neon project on the free tier and copy the pooled connection string.
@@ -129,17 +133,11 @@ npx playwright test
 
 Phone viewport 412×915 and desktop 1280×800: Learn (with a Mermaid diagram), Quiz, the quiz result, and the course tree.
 
-## Not in this phase
+## Still ahead
 
-These are left for later. The model has a place for them so they do not need a redesign.
+Phases 1 to 3 are done. What remains is in [PLAN.md](PLAN.md): spaced review, the other question types, retakes, the learner dashboard, streaks, search, notes, Word and PDF import, and the go-live checks.
 
-- AI regenerate and personal versions. The provider boundary is `src/lib/llm/config.ts` (Gemini by default, a backup provider, 100 regenerations a day per profile, all configurable).
-- Hearts, flags, a locked AI style, and style examples.
-- Outline import (Google Docs, then Word and PDF).
-- Batch approve and an approvals list.
-- Spaced review scheduling, question types other than multiple choice (`true_false` and `predict_output` are already valid types), streaks, search, notes, and dashboards.
-
-Phase 1 quizzes are multiple choice only, and only when someone chooses Quiz.
+Phase 1 quizzes are multiple choice only, and only when someone chooses Quiz. The other question types are stored but not used yet.
 
 ## Phase 2: style, import, and review
 
