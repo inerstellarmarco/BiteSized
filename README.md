@@ -15,7 +15,7 @@ Next.js (App Router) and TypeScript, with Tailwind. One web codebase deploys as 
 The database is Postgres-shaped. Drizzle is the query layer.
 
 - On this machine, with `DATABASE_URL` unset, the app uses [PGlite](https://pglite.dev/): Postgres compiled to WebAssembly, stored in `data/bitesized`. Nothing else has to be running, and the cost is $0.
-- For a hosted copy, point `DATABASE_URL` at [Neon](https://neon.tech)’s free Postgres and deploy the same app on [Vercel](https://vercel.com)’s hobby plan. Both have a $0 tier that fits a family of three. The code does not change between the two.
+- For a hosted copy, point `DATABASE_URL` at [Neon](https://neon.tech)’s free Postgres and import [inerstellarmarco/BiteSized](https://github.com/inerstellarmarco/BiteSized) into a [Vercel](https://vercel.com) Hobby project from GitHub. Both have a $0 tier that fits a family of three. The code does not change between the two.
 
 Course files are JSON. The database is the master copy. Packages are how you import, export, and back up, so a backup is not trapped inside Neon.
 
@@ -107,7 +107,7 @@ Deploy steps for Neon and Vercel are in [DEPLOY.md](DEPLOY.md).
 ## Deploy for $0
 
 1. Create a Neon project on the free tier and copy the pooled connection string.
-2. Import this repo into a Vercel hobby project.
+2. In Vercel, choose **Add New… → Project** and import the GitHub repository [inerstellarmarco/BiteSized](https://github.com/inerstellarmarco/BiteSized). Production tracks `main`.
 3. Set `DATABASE_URL`, `SEED_ADMIN_PIN`, and `COOKIE_SECURE=true`.
 4. Deploy. The first request creates the course and Eric.
 5. Sign in, change the PIN, and add a second admin.

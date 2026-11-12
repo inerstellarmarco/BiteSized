@@ -4,9 +4,9 @@ This is the free path: a Neon Postgres database and a Vercel Hobby project. The 
 
 You need a GitHub account, a Neon account, and a Vercel account. No credit card is required for the free tiers.
 
-## 1. Put the code on GitHub
+## 1. The GitHub repository
 
-Create an empty repository. The intended name is `inerstellarmarco/bite-sized`. Push this project there when you are ready. Do not make it public if the family PINs matter to you.
+The code's home is [https://github.com/inerstellarmarco/BiteSized](https://github.com/inerstellarmarco/BiteSized). Keep the repository private if the family PINs matter to you. You do not create a second copy.
 
 ## 2. Create the Neon database
 
@@ -15,11 +15,12 @@ Create an empty repository. The intended name is `inerstellarmarco/bite-sized`. 
 3. Open **Connection details** and copy the **pooled** connection string. It looks like `postgres://user:password@ep-something.region.aws.neon.tech/neondb?sslmode=require`.
 4. Keep that string secret. It is the only copy of the database password Neon will show in full.
 
-## 3. Create the Vercel project
+## 3. Import the GitHub repo into Vercel
 
-1. Sign in at [https://vercel.com](https://vercel.com) and import the GitHub repository.
-2. Framework preset: Next.js. Leave the build command as `npm run build` and the output as Next.js default.
-3. Before the first deploy, open **Settings → Environment Variables** and add:
+1. Sign in at [https://vercel.com](https://vercel.com).
+2. Choose **Add New… → Project**, then **Import** the GitHub repository `inerstellarmarco/BiteSized`. If Vercel asks to install the GitHub app, allow it access to that repository.
+3. Framework preset: Next.js. Leave the build command as `npm run build` and the output as the Next.js default. The production branch is `main`.
+4. Before the first deploy, open **Settings → Environment Variables** and add:
 
 | Name | Value |
 | --- | --- |
@@ -38,7 +39,7 @@ Create an empty repository. The intended name is `inerstellarmarco/bite-sized`. 
 
 Do not add a `NEXT_PUBLIC_` copy of any key. The app reads keys only on the server.
 
-4. Deploy.
+5. Deploy.
 
 Vercel sets `VERCEL=1`. Without `DATABASE_URL` the app refuses to start, so it never writes a database file on the server disk.
 
@@ -70,7 +71,7 @@ The site is a PWA. It needs a connection.
 
 Neon’s free tier is not your only copy. The backup is a JSON package (course, progress, PIN hashes, history) plus a SQL dump when `pg_dump` is installed.
 
-GitHub Actions is the path that does not need a disk on Vercel. In the GitHub repo, add a secret named `DATABASE_URL` with the same Neon string. The workflow `.github/workflows/backup.yml` runs every day at 04:00 UTC and uploads the package as a private Actions artifact for 30 days. You can also run it from the Actions tab with **Run workflow**.
+GitHub Actions is the path that does not need a disk on Vercel. In [inerstellarmarco/BiteSized](https://github.com/inerstellarmarco/BiteSized), add a secret named `DATABASE_URL` with the same Neon string. The workflow `.github/workflows/backup.yml` runs every day at 04:00 UTC and uploads the package as a private Actions artifact for 30 days. You can also run it from the Actions tab with **Run workflow**.
 
 Download an artifact when you want a copy on your own machine. That folder is outside Neon.
 
