@@ -252,6 +252,82 @@ export const generationJobs = pgTable("generation_jobs", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const appSettings = pgTable("app_settings", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
+});
+
+export const llmUsage = pgTable(
+  "llm_usage",
+  {
+    profileId: text("profile_id")
+      .notNull()
+      .references(() => profiles.id, { onDelete: "cascade" }),
+    day: text("day").notNull(),
+    count: integer("count").notNull().default(0),
+  },
+  (table) => [primaryKey({ columns: [table.profileId, table.day] })],
+);
+
+export const personalBites = pgTable(
+  "personal_bites",
+  {
+    profileId: text("profile_id")
+      .notNull()
+      .references(() => profiles.id, { onDelete: "cascade" }),
+    biteId: text("bite_id")
+      .notNull()
+      .references(() => bites.id, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    body: text("body").notNull(),
+    diagram: text("diagram"),
+    basedOnUpdatedAt: timestamp("based_on_updated_at", { withTimezone: true }).notNull(),
+    showing: text("showing").notNull().default("personal"),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.profileId, table.biteId] })],
+);
+
+export const hearts = pgTable(
+  "hearts",
+  {
+    profileId: text("profile_id")
+      .notNull()
+      .references(() => profiles.id, { onDelete: "cascade" }),
+    targetType: text("target_type").notNull(),
+    targetId: text("target_id").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.profileId, table.targetType, table.targetId] })],
+);
+
+export const contentFlags = pgTable("content_flags", {
+  id: text("id").primaryKey(),
+  profileId: text("profile_id")
+    .notNull()
+    .references(() => profiles.id, { onDelete: "cascade" }),
+  targetType: text("target_type").notNull(),
+  targetId: text("target_id").notNull(),
+  kind: text("kind").notNull(),
+  note: text("note").notNull().default(""),
+  status: text("status").notNull().default("open"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const subLessonProposals = pgTable("sub_lesson_proposals", {
+  id: text("id").primaryKey(),
+  profileId: text("profile_id")
+    .notNull()
+    .references(() => profiles.id, { onDelete: "cascade" }),
+  title: text("title").notNull(),
+  notes: text("notes").notNull().default(""),
+  status: text("status").notNull().default("pending"),
+  suggestedLessonId: text("suggested_lesson_id"),
+  suggestedReason: text("suggested_reason").notNull().default(""),
+  createdSubLessonId: text("created_sub_lesson_id"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export const quizAnswers = pgTable("quiz_answers", {
   id: text("id").primaryKey(),
   attemptId: text("attempt_id")

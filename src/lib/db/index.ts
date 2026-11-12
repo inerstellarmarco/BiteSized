@@ -41,6 +41,9 @@ export async function createDatabase(options?: {
   seed?: boolean;
 }): Promise<OpenedDatabase> {
   const url = options?.databaseUrl === undefined ? process.env.DATABASE_URL : options.databaseUrl;
+  if (!url && process.env.VERCEL === "1") {
+    throw new Error("DATABASE_URL is required on Vercel. The app does not write a local database in production.");
+  }
   let opened: OpenedDatabase;
   if (url) {
     const client = postgres(url, {

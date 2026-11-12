@@ -18,6 +18,7 @@ export default async function CoursePage() {
       <div>
         <div className="flex flex-wrap items-center gap-2">
           <h1 className="font-display text-4xl leading-tight">{catalog.course.title}</h1>
+        <Link href="/propose" className="text-sm underline decoration-primary/50 underline-offset-4">Propose a sub-lesson</Link>
           <Badge>{catalog.course.aiGenerated ? "AI-generated" : "Hand-written"}</Badge>
         </div>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{catalog.course.subtitle}</p>

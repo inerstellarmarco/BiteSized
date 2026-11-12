@@ -5,6 +5,8 @@ const links = [
   { href: "/admin/style", label: "Style" },
   { href: "/admin/import", label: "Import" },
   { href: "/admin/review", label: "Review" },
+  { href: "/admin/flags", label: "Flags" },
+  { href: "/admin/proposals", label: "Placement" },
 ];
 
 export function AdminNav({ current }: { current: string }) {

@@ -30,6 +30,7 @@ export default async function QuizPage({ params }: { params: Promise<{ subLesson
         skipped={quiz.skipped}
         nextHref={upcoming ? `/study/${upcoming.id}` : null}
         nextTitle={upcoming?.title ?? null}
+        isAdmin={profile.isAdmin}
       />
     </div>
   );

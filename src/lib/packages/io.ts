@@ -7,10 +7,14 @@ import {
   biteProgress,
   bites,
   categories,
+  contentFlags,
   contentRevisions,
   courses,
   generationJobs,
+  hearts,
   learnerCursors,
+  llmUsage,
+  personalBites,
   lessons,
   pinAttempts,
   profiles,
@@ -19,6 +23,7 @@ import {
   quizAttempts,
   sessions,
   subCategories,
+  subLessonProposals,
   subLessons,
 } from "@/lib/db/schema";
 import type { AppDatabase } from "@/lib/db/types";
@@ -357,6 +362,11 @@ export function unzipPackage(bytes: Uint8Array): Record<string, string> {
 
 export async function wipeDatabase(db: AppDatabase) {
   await db.delete(generationJobs);
+  await db.delete(personalBites);
+  await db.delete(hearts);
+  await db.delete(contentFlags);
+  await db.delete(subLessonProposals);
+  await db.delete(llmUsage);
   await db.delete(quizAnswers);
   await db.delete(quizAttempts);
   await db.delete(learnerCursors);

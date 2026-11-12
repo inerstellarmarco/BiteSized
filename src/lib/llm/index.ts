@@ -1,7 +1,9 @@
 import { getLlmConfig } from "@/lib/llm/config";
+import { completeWithFailover } from "@/lib/llm/failover";
 import { GeminiProvider } from "@/lib/llm/gemini";
 import { mockProvider } from "@/lib/llm/mock";
-import { LlmUnavailableError, type LlmProvider } from "@/lib/llm/types";
+import { OpenAiCompatibleProvider } from "@/lib/llm/openai";
+import type { LlmProvider } from "@/lib/llm/types";
 
 export { LlmUnavailableError } from "@/lib/llm/types";
 export type { LlmProvider, LlmRequest } from "@/lib/llm/types";
@@ -13,19 +15,23 @@ export type LlmClient = LlmProvider & {
   backupModel: string;
   dailyCap: number;
   usingMock: boolean;
-  /** Present for Phase 3 fallback. Phase 2 does not call it. */
   backup: LlmProvider | null;
 };
 
-function backupProvider(id: string, apiKey: string, model: string): LlmProvider | null {
+function backupProvider(id: string, apiKey: string, model: string, baseUrl: string): LlmProvider | null {
   if (!apiKey) return null;
   if (id === "gemini") return new GeminiProvider(apiKey, model);
-  return { id, complete: async () => { throw new LlmUnavailableError(); } };
+  return new OpenAiCompatibleProvider(apiKey, model, baseUrl, id || "openai");
 }
 
 export function getLlmClient(): LlmClient {
   const config = getLlmConfig();
-  const backup = backupProvider(config.backupProvider, config.backupApiKey, config.backupModel);
+  const backup = backupProvider(
+    config.backupProvider,
+    config.backupApiKey,
+    config.backupModel,
+    process.env.LLM_BACKUP_BASE_URL ?? "https://api.openai.com/v1",
+  );
   const useMock = config.provider === "mock" || config.apiKey.length === 0;
   const primary: LlmProvider = useMock ? mockProvider : new GeminiProvider(config.apiKey, config.model);
   return {
@@ -37,13 +43,8 @@ export function getLlmClient(): LlmClient {
     dailyCap: config.dailyRegenerateCapPerProfile,
     usingMock: useMock,
     backup,
-    async complete(input) {
-      try {
-        return await primary.complete(input);
-      } catch (error) {
-        if (error instanceof LlmUnavailableError) throw error;
-        throw new LlmUnavailableError();
-      }
+    complete(input) {
+      return completeWithFailover(primary, backup, input);
     },
   };
 }

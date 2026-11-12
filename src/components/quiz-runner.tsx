@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { finishQuizAction, gradeChoiceAction } from "@/lib/actions";
+import { addStyleExampleAction, flagAction, toggleHeartAction } from "@/lib/actions/phase3";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import type { Choice } from "@/lib/types";
@@ -25,6 +26,7 @@ export function QuizRunner({
   skipped,
   nextHref,
   nextTitle,
+  isAdmin = false,
 }: {
   subLessonId: string;
   title: string;
@@ -33,6 +35,7 @@ export function QuizRunner({
   skipped: number;
   nextHref: string | null;
   nextTitle: string | null;
+  isAdmin?: boolean;
 }) {
   const [started, setStarted] = useState(false);
   const [index, setIndex] = useState(0);
@@ -188,6 +191,13 @@ export function QuizRunner({
         </p>
       ) : null}
       {error ? <p className="mt-3 text-sm text-destructive">{error}</p> : null}
+      <div className="mt-3 flex flex-wrap gap-2">
+        <Button type="button" variant="ghost" size="sm" onClick={() => void toggleHeartAction("question", question.id)}>Heart</Button>
+        <Button type="button" variant="ghost" size="sm" onClick={() => void flagAction("question", question.id, "revisit")}>Revisit</Button>
+        <Button type="button" variant="ghost" size="sm" onClick={() => void flagAction("question", question.id, "rework")}>Flag for rework</Button>
+        <Button type="button" variant="ghost" size="sm" onClick={() => void flagAction("question", question.id, "error")}>Report an error</Button>
+        {isAdmin ? <Button type="button" variant="ghost" size="sm" onClick={() => void addStyleExampleAction("question", question.id)}>Use as style example</Button> : null}
+      </div>
       <div className="mt-6 flex flex-wrap gap-3">
         {!revealed ? (
           <Button data-testid="quiz-answer" disabled={!selected || busy} onClick={() => void reveal()}>

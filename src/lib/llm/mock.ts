@@ -42,6 +42,22 @@ function questionsFor(title: string) {
 }
 
 export function mockComplete(input: LlmRequest): string {
+  if (input.user.includes("TASK: place")) {
+    const code = input.user.match(/\b([A-Z]\d+\.\d+)\b/)?.[1] ?? "";
+    return JSON.stringify({ lessonCode: code, reason: "It continues that lesson." });
+  }
+  if (input.user.includes("TASK: regenerate")) {
+    const preset = field(input.user, "PRESET");
+    const title = field(input.user, "TITLE") || "this idea";
+    const body =
+      preset === "analogy"
+        ? `${title} is like a labelled jar. Read the label before you use what is inside.`
+        : preset === "different"
+          ? `Another way to see ${title}: start from what you want, then walk back to the first step.`
+          : `Simply put, ${title} is one idea. Name it, then stop.`;
+    const diagram = input.user.includes("BAD_DIAGRAM") ? "this will not render ((((" : "flowchart TD\n  A[Start] --> B[Idea]";
+    return JSON.stringify({ title, body, diagram });
+  }
   if (input.user.includes("TASK: answer-check")) {
     if (input.user.includes("DOUBTFUL")) {
       return JSON.stringify({ verdict: "flagged", note: "More than one choice could be defended." });

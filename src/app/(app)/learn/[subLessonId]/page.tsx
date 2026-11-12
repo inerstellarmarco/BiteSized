@@ -4,6 +4,7 @@ import { requireProfile } from "@/lib/auth/current";
 import { loadLearnCards } from "@/lib/content/catalog";
 import { learnerCursors } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+import { learnOverlay } from "@/lib/ai/view";
 import { LearnDeck } from "@/components/learn-deck";
 import { getDb } from "@/lib/db";
 
@@ -15,6 +16,7 @@ export default async function LearnPage({ params }: { params: Promise<{ subLesso
   if (!detail) notFound();
   const [cursor] = await db.select().from(learnerCursors).where(eq(learnerCursors.profileId, profile.id));
   const found = cursor?.subLessonId === subLessonId && cursor.biteId ? detail.bites.findIndex((bite) => bite.id === cursor.biteId) : -1;
+  const overlay = await learnOverlay(db, profile.id, detail.bites.map((bite) => bite.id));
   return (
     <div>
       <p className="mb-3 text-sm">
@@ -26,8 +28,15 @@ export default async function LearnPage({ params }: { params: Promise<{ subLesso
         lessonCode={detail.lesson.code}
         lessonTitle={detail.lesson.title}
         subLessonTitle={detail.subLesson.title}
-        bites={detail.bites}
+        bites={detail.bites.map((bite) => ({
+          ...bite,
+          personal: overlay.personal[bite.id] ?? null,
+          hearted: overlay.hearts.includes(bite.id),
+        }))}
         initialIndex={found >= 0 ? found : 0}
+        isAdmin={profile.isAdmin}
+        remaining={overlay.remaining}
+        limit={overlay.limit}
       />
     </div>
   );
