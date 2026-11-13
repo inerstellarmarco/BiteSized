@@ -1,0 +1,50 @@
+// B2 B2 Embeddings, Vector Search & RAG
+@@ sll_JE3G6tn01p0X | B2.1 Embeddings > What Embeddings Are
+## Vectors and latent space   // HAS BODY
+## Cosine similarity and distance metrics   // HAS BODY
+## Similar meaning, nearby vectors   // HAS BODY
+## What embeddings miss: exact names, numbers, and codes   // HAS BODY
+@@ sll_-m07Fr7PJGL7 | B2.1 Embeddings > Choosing Embedding Models
+## General vs. domain-specific embeddings   // HAS BODY
+## Benchmarks like MTEB   // HAS BODY
+## Dimensions, cost, and speed trade-offs   // HAS BODY
+## Multilingual needs   // HAS BODY
+## Changing the embedding model means re-indexing everything   // HAS BODY
+@@ sll_V2zHXtf_OL7K | B2.2 Data Ingestion > Loading Sources
+## Parsing PDFs, tables, and figures   // HAS BODY
+## Scraping websites and reading databases   // HAS BODY
+## OCR for scanned invoices, purchase orders, and forms   // HAS BODY
+## Cleaning: removing headers, footers, and duplicates   // HAS BODY
+## Bad parsing is a leading cause of bad answers   // HAS BODY
+@@ sll_csIkGsx3E0_t | B2.2 Data Ingestion > Chunking Strategies
+## Fixed, recursive, and semantic chunking   // HAS BODY
+## Chunk size, overlap, and metadata   // HAS BODY
+## Why documents are split into chunks   // HAS BODY
+## Too small loses context; too large adds noise   // HAS BODY
+## Keeping tables and sections whole   // HAS BODY
+## Metadata: source, date, and owner for filtering and citations   // HAS BODY
+@@ sll_bPmNZq7H1_2B | B2.3 Vector Databases & Search > Vector Databases
+## Indexing (HNSW, IVF) and ANN search   // HAS BODY
+## Chroma, Pinecone, pgvector compared   // HAS BODY
+## What a vector database stores: vectors, text, and metadata   // HAS BODY
+## Approximate search: trading a little accuracy for speed   // HAS BODY
+## Keeping the index fresh as documents change   // HAS BODY
+@@ sll_uMV-SwY-duoH | B2.3 Vector Databases & Search > Search Methods
+## Semantic search   // HAS BODY
+## Hybrid search (BM25 + vector)   // HAS BODY
+## Metadata filtering   // HAS BODY
+## Keyword search (BM25): exact words, names, and codes   // HAS BODY
+## Top-k: how many results to fetch   // HAS BODY
+## Access control: users only retrieve what they may see   // HAS BODY
+@@ sll_Tn2uCbMqqu8t | B2.4 Retrieval-Augmented Generation > Basic RAG Pipeline
+## Retrieve, augment, generate   // HAS BODY
+## Grounding answers with citations   // HAS BODY
+## Why RAG: fresh and private knowledge without retraining   // HAS BODY
+## Telling the model to answer only from the sources   // HAS BODY
+## Not found in the documents: a valid answer   // HAS BODY
+@@ sll_NKjn-9Wh5tyh | B2.4 Retrieval-Augmented Generation > Improving Retrieval
+## Re-ranking with cross-encoders   // HAS BODY
+## Query rewriting and HyDE   // HAS BODY
+## Retrieval metrics (recall@k, MRR)   // HAS BODY
+## Finding the fault: retrieval problem or generation problem?   // HAS BODY
+## A small test set of questions and their correct sources   // HAS BODY

@@ -1,0 +1,40 @@
+// C9 C9 MLOps
+@@ sll_T3Q4QeL8m3JY | C9.1 ML Lifecycle > Experiment Tracking
+## Experiment tracking
+## Model registries
+## Log parameters, data version, code version, and metrics
+## Compare runs side by side
+## A registry holds approved models and their lineage
+## Reproduce any past result on demand
+@@ sll_AkGQAxBygNYY | C9.1 ML Lifecycle > Data & Model Versioning
+## Data versioning (DVC)
+## Model versioning
+## Version data like code
+## Link each model to the data and code that built it
+## Stage names: experiment, staging, production
+@@ sll_aN9bkrL9HpX4 | C9.2 Pipelines & Automation > CI/CD for ML
+## Automated training pipelines
+## Testing models before release
+## Tests for the data, the code, and the model itself
+## Quality gates: the new model must beat the current one
+## Pipelines that run on a schedule or when new data arrives
+@@ sll_vFhoo98f2yKx | C9.2 Pipelines & Automation > Orchestration
+## Workflow orchestrators (Airflow, Prefect)
+## Feature stores
+## Pipelines as steps with dependencies
+## Retries and alerts when steps fail
+## Feature stores keep the same features in training and serving
+## Training-serving skew: a quiet cause of poor performance
+@@ sll_9MR8r65AL0P6 | C9.3 Production Monitoring > Drift & Retraining
+## Data and concept drift
+## Retraining triggers
+## Data drift: the inputs change; concept drift: the relationship changes
+## Drift tests and thresholds
+## Retrain on a schedule, on drift, or on a drop in quality
+## Delayed labels: measuring accuracy later
+@@ sll_VU_lLI1xlRSV | C9.3 Production Monitoring > Model Monitoring
+## Performance dashboards
+## Rollbacks and canary releases
+## Monitor inputs, outputs, and business results
+## Alert on missing data and sudden shifts
+## Shadow deployments before switching

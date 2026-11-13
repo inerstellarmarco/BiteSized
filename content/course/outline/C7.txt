@@ -1,0 +1,41 @@
+// C7 C7 Model Compression & Self-Hosting
+@@ sll_cpLA-vhnTuwF | C7.1 Quantization > Quantization Basics
+## Precision, memory, and speed
+## Post-training quantization
+## Fewer bits per weight means less memory
+## Memory needed is roughly parameters times bytes per parameter
+## Activations and the KV cache need memory too
+## Outlier values make quantization harder
+@@ sll_m_rpkqJgkEb_ | C7.1 Quantization > Formats & Tools
+## GGUF, AWQ, GPTQ
+## Quality loss measurement
+## GGUF for llama.cpp and local use; AWQ and GPTQ for GPU serving
+## Measure on your task, not only on perplexity
+## A smaller model at higher precision vs. a larger model at lower precision
+@@ sll_tm6An2W2nEhQ | C7.2 Distillation > Teacher-Student Training
+## Distillation
+## Distilling behaviour from large models
+## The student learns from the teacher's outputs, not only from labels
+## Synthetic data from a strong model to train a small one
+## Check licence terms before using model outputs for training
+@@ sll_lPvDgjAK9Ld9 | C7.2 Distillation > Benchmarking
+## Before vs. after comparisons
+## Cost-quality tradeoffs
+## Use the same eval set before and after
+## Look at failures, not only averages
+## Decide the minimum acceptable quality first
+@@ sll_USNUqjgnT47z | C7.3 Self-Hosting Models > Serving Engines
+## vLLM and TGI
+## Quantized models in production
+## Continuous batching keeps GPUs busy
+## Paged attention manages the KV cache efficiently
+## Load testing: throughput and latency under real traffic
+## OpenAI-compatible endpoints make swapping easy
+## TGI is in maintenance mode; vLLM and SGLang are the usual choices for new projects
+@@ sll_HqeVyYbwo-DX | C7.3 Self-Hosting Models > Hardware & Scaling
+## GPU sizing
+## Serverless GPUs and autoscaling
+## Rule of thumb: model memory plus cache must fit in GPU memory
+## Cold starts on serverless GPUs
+## Self-hosting beats an API at steady high volume or under strict data rules
+## Self-hosting adds operations work: updates, monitoring, and security

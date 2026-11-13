@@ -1,0 +1,103 @@
+// A6 A6 The AI Stack & Market Map
+@@ sll_rBIFuA4_EH13 | A6.1 The AI Stack in Layers > Layers of an AI System
+## Models: the intelligence itself, closed or open-weight   // HAS BODY
+## Model access: APIs, gateways, and hosting   // HAS BODY
+## Data and retrieval: documents, databases, and vector stores   // HAS BODY
+## Orchestration: the loop, workflows, and agent teams (see B4, B10)   // HAS BODY
+## Tools and integrations: how the system acts on the world   // HAS BODY
+## Safety and quality: guardrails and evals (see B11, B12)   // HAS BODY
+## Operations: deployment, cost, and monitoring (see B13, B14)   // HAS BODY
+## Clean boundaries between layers let you swap one without rebuilding the rest   // HAS BODY
+@@ sll_AuyfykqRj857 | A6.1 The AI Stack in Layers > Tracking a Fast Market
+## Why it moves so fast: new models and price cuts arrive every few months   // HAS BODY
+## Leaderboards and price-comparison sites (e.g., LMArena, Artificial Analysis)   // HAS BODY
+## Benchmarks measure benchmarks: test on your own tasks   // HAS BODY
+## Release notes and provider changelogs   // HAS BODY
+## Re-check prices and rankings every quarter   // HAS BODY
+## Keep a one-page market map and put a date on it   // HAS BODY
+@@ sll_tLg8Uyn708uQ | A6.2 Closed vs. Open-Weight Models > Closed Frontier Models
+## Claude, GPT, and Gemini: where each is strong   // HAS BODY
+## Reached through paid APIs and apps; the weights are never shared   // HAS BODY
+## Model tiers: large, small, and reasoning models   // HAS BODY
+## Strengths: top quality, easy to start, and the vendor runs the hardware   // HAS BODY
+## Risks: price changes, model retirement, and provider rules   // HAS BODY
+@@ sll_onLprK2Ye_C_ | A6.2 Closed vs. Open-Weight Models > Open-Weight Models
+## Llama, DeepSeek, Mistral, and Qwen: what each is good at   // HAS BODY
+## Open weights vs. open source: always read the licence   // HAS BODY
+## Licences can limit large companies or certain uses; check each one   // HAS BODY
+## Sizes: small models run on a laptop; the largest need data-centre hardware   // HAS BODY
+## Strengths: control, privacy, lower cost at volume, and fine-tuning   // HAS BODY
+## Weaknesses: you own the setup, updates, and safety   // HAS BODY
+@@ sll_FLKVXUxJ3RBT | A6.2 Closed vs. Open-Weight Models > The Host Decides Where Data Goes
+## The same open model can run on many hosts, including your own machine   // HAS BODY
+## Check where a hosted model runs before client data goes in   // HAS BODY
+## Where a model was built and where it runs are separate questions   // HAS BODY
+## Ask: who can see prompts, are they stored, and are they used for training?   // HAS BODY
+## Business and API plans usually treat data differently from consumer apps   // HAS BODY
+## Get the answers in writing for client work   // HAS BODY
+@@ sll_-FzJZoj3nr8v | A6.3 Paid vs. Cheap > How AI Is Sold
+## Consumer apps vs. developer APIs vs. business plans   // HAS BODY
+## Pay per token vs. flat subscription   // HAS BODY
+## Price per million input and output tokens   // HAS BODY
+## Output tokens cost more than input tokens   // HAS BODY
+## Prompt caching and batch discounts lower the bill   // HAS BODY
+## Free tiers are for testing, not for production   // HAS BODY
+@@ sll_jKYVQHW3pzUW | A6.3 Paid vs. Cheap > Getting Cost Down
+## Use a small model for easy steps   // HAS BODY
+## Open-weight models on low-cost hosts for high-volume work   // HAS BODY
+## Batch jobs that can wait   // HAS BODY
+## Running open models locally with Ollama or LM Studio   // HAS BODY
+## Local costs hardware and time, not tokens   // HAS BODY
+## Cheaper models need clearer prompts and tighter checks   // HAS BODY
+@@ sll_FbNPu9FkXRp_ | A6.3 Paid vs. Cheap > Cost Reality Check
+## Cost per 1,000 completed tasks, not per token   // HAS BODY
+## Count retries, failed runs, and human review time   // HAS BODY
+## The cheapest model that passes your evals wins   // HAS BODY
+## Paying more is worth it only if the value rises with the cost   // HAS BODY
+## Re-run the comparison whenever prices drop   // HAS BODY
+@@ sll_Ng8rYyxCJZxu | A6.4 Building Blocks & Frameworks > Model Access & Supporting Tools
+## Model routers (OpenRouter) and cloud platforms (AWS Bedrock, Azure AI Foundry, Google Vertex AI)   // HAS BODY
+## Fast inference providers (Groq, Together AI, Fireworks)   // HAS BODY
+## Cloud platforms bring one bill, enterprise controls, and a choice of region   // HAS BODY
+## Gateways like LiteLLM give one interface to many models   // HAS BODY
+## Vector databases and observability tools (see B2.3, B14.3)   // HAS BODY
+@@ sll_85Us7QobgKea | A6.4 Building Blocks & Frameworks > Agent Frameworks
+## LangChain and LangGraph, LlamaIndex, CrewAI   // HAS BODY
+## Claude Agent SDK, OpenAI Agents SDK, Google ADK, Microsoft Agent Framework   // HAS BODY
+## What each is built around: stateful graphs, role-based crews, data and retrieval, or a provider SDK (see B10, B2)   // HAS BODY
+## Frameworks merge and retire: Microsoft Agent Framework replaced AutoGen and Semantic Kernel (now in maintenance mode)   // HAS BODY
+## Framework or plain Python: use the criteria in B10.4   // HAS BODY
+## Frameworks change fast: learn the pattern, not the product   // HAS BODY
+## Provider SDKs tie you closer to one vendor; check portability   // HAS BODY
+@@ sll_zPZ4Oz11VcYf | A6.4 Building Blocks & Frameworks > Low-Code & Coding Agents
+## n8n, Zapier, and Make for automation   // HAS BODY
+## Low-code is enough for simple triggers and handoffs; it strains on complex logic   // HAS BODY
+## Claude Code, Cursor, and GitHub Copilot for building software   // HAS BODY
+## Coding agents speed you up, but you still review and test   // HAS BODY
+## Keep secrets and client data out of tools you have not vetted   // HAS BODY
+@@ sll_xdiCq6KQfo0x | A6.5 Image, Video & Voice Models > Generative Media
+## Image generation (e.g., GPT Image, Imagen, Midjourney, Flux)   // HAS BODY
+## Video and voice (e.g., Veo, Runway, ElevenLabs)   // HAS BODY
+## Weak spots: text inside images and consistent characters across images   // HAS BODY
+## Speech-to-text and text-to-speech as building blocks for voice agents   // HAS BODY
+## Open image models exist for self-hosting   // HAS BODY
+## Cost is per image or per minute, not per token   // HAS BODY
+@@ sll_UKk4D3mW_Ae4 | A6.5 Image, Video & Voice Models > Using Media Commercially
+## Commercial-use rights and licence terms for generated media   // HAS BODY
+## Copyright on AI-generated work is unsettled in many places   // HAS BODY
+## Brand safety and human review before publishing   // HAS BODY
+## Disclose AI-generated content where required or expected   // HAS BODY
+## Likeness and voice cloning need consent   // HAS BODY
+@@ sll_QVIjoEAi6CFL | A6.6 Choosing a Product > Decision Criteria
+## Start from the task and its risks, not from the brand   // HAS BODY
+## Quality on your task, not benchmark rank   // HAS BODY
+## Cost per task, licence, data residency, lock-in, and support   // HAS BODY
+## Speed and reliability: uptime history and rate limits   // HAS BODY
+## Features you need: tool use, long context, vision, structured output   // HAS BODY
+## Score two or three finalists on the same test set   // HAS BODY
+@@ sll_E0Rs3-sLeTc4 | A6.6 Choosing a Product > Avoiding Lock-In
+## Gateways that let you swap models   // HAS BODY
+## Keeping prompts, evals, and data portable   // HAS BODY
+## Use features only one vendor offers only when the gain is large   // HAS BODY
+## Plan for model retirement   // HAS BODY
+## Write the switching plan before you need it   // HAS BODY

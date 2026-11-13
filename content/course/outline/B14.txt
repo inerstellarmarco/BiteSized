@@ -1,0 +1,40 @@
+// B14 B14 Cost, Latency & Observability
+@@ sll_3qRPiEGV38Ph | B14.1 Cost Engineering > Understanding AI Costs
+## Token economics and pricing models
+## Unit economics per user and per task
+## Agents multiply cost: many calls per task
+## Where the money goes: finding the expensive steps
+## Cost against the value of the task done
+@@ sll_DQAnB3KD5ZRP | B14.1 Cost Engineering > Cost Reduction
+## Model routing and cascades
+## Prompt caching, semantic caching, and batching
+## Shorter prompts and smaller tool results
+## Batch jobs for work that can wait
+## Cut cost only while evals still pass
+@@ sll_b43IonbG9E6T | B14.2 Latency Optimization > Why Agents Are Slow
+## Latency sources
+## Time to first token
+## Output length drives response time
+## Every extra step adds a model call
+@@ sll_IaHLP88OABCj | B14.2 Latency Optimization > Speed Techniques
+## Streaming and parallel tool calls
+## KV cache reuse and speculative decoding
+## Smaller, faster models for simple steps
+## Fewer steps: redesigning the workflow
+## Perceived speed: show progress while work continues
+@@ sll_tmfnisOtZnQu | B14.3 Observability & Telemetry > Tracing & Telemetry
+## Telemetry
+## Tracing with OpenTelemetry
+## A trace: every step of one run, in order
+## What to record: prompts, tool calls, tokens, cost, and time
+## Keeping personal data out of logs
+@@ sll_0F84-NSrweV9 | B14.3 Observability & Telemetry > Traceability & Audit
+## Auditable decision trails for every action
+## Linking traces to evals and incidents
+## Who approved what, and when
+## How long to keep records
+@@ sll_ddiHNfANtGQd | B14.3 Observability & Telemetry > Dashboards & Incident Response
+## Dashboards for quality, cost, and latency
+## Alerting and trace-based debugging
+## Reading real traces every week
+## After an incident: fix it, then add a test

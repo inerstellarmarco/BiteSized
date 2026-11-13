@@ -1,0 +1,36 @@
+// D4 D4 Machine Learning on Omics Data
+@@ sll_7g961OMbOjOp | D4.1 Omics Data Challenges > High-Dimensional Data
+## p >> n problems and the curse of dimensionality
+## Batch effects and normalization
+## Thousands of features and dozens of samples make overfitting easy
+## Batch effects can be larger than the biology
+## Batch correction methods and their risks
+## Design studies so batch is not tied to the outcome
+@@ sll_WwucGovwUHLs | D4.1 Omics Data Challenges > Validation Pitfalls
+## Leakage across patients and batches
+## External validation cohorts
+## Split by patient, never by sample
+## Do feature selection inside the cross-validation loop
+## Internal results are optimistic; external cohorts tell the truth
+## Report confidence intervals, not one number
+@@ sll_JRiF-fZr-KIs | D4.2 Biomarker Discovery > Feature Selection
+## Filter, wrapper, and embedded methods (LASSO, RFE)
+## Stability selection
+## Filter: rank by simple statistics; wrapper: search subsets; embedded: built into the model
+## Stable features appear across resamples
+## Small signatures need independent confirmation
+@@ sll_sh7wFtX-25V0 | D4.2 Biomarker Discovery > Classification Models
+## Diagnostic and prognostic classifiers
+## Survival analysis basics
+## Diagnostic: is the disease present; prognostic: what will happen
+## Sensitivity and specificity, and the cost of each error
+## Survival: time-to-event data and censoring
+## Kaplan-Meier curves and Cox models (concept)
+## Prevalence changes the meaning of a positive result
+@@ sll_KJV1wd3R56zR | D4.3 Interpretation > Explainability in Biology
+## SHAP for biomarkers
+## Pathway enrichment analysis
+## SHAP shows what drove predictions, not what causes disease
+## Enrichment: do the selected genes cluster in known pathways?
+## Pathway databases (e.g., GO, KEGG, Reactome) differ and change
+## Biological follow-up: literature first, then lab validation

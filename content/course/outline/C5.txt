@@ -1,0 +1,44 @@
+// C5 C5 Transformer Internals & LLM Inference
+@@ sll_XwWRavHhAknZ | C5.1 Attention in Depth > Self-Attention Mechanics
+## Query, key, value matrices
+## Scaled dot-product attention
+## Attention masks
+## Scores are queries times keys, scaled by the square root of the key size
+## Softmax turns scores into weights; the output is a weighted sum of values
+## Causal mask: tokens cannot see the future
+## Cost grows with the square of the sequence length
+@@ sll_H13dngJMN8Or | C5.1 Attention in Depth > Multi-Head Attention & Positions
+## Multi-head attention
+## Positional encodings (sinusoidal, RoPE)
+## Heads attend to different relationships in parallel
+## Without position information, word order is lost
+## Rotary encodings (RoPE) and long contexts
+## Residual connections, layer norm, and the feed-forward block
+@@ sll_DPmOmbkU0hSw | C5.2 Architectures & Pretraining > Model Families
+## Encoder (BERT), decoder (GPT), encoder-decoder (T5)
+## Mixture-of-experts
+## Reasoning models
+## Encoders for understanding, decoders for generation
+## Mixture-of-experts: many experts, only a few active per token
+## Reasoning models spend extra tokens thinking before answering
+@@ sll_WSj-9ieb3lR7 | C5.2 Architectures & Pretraining > Pretraining at Scale
+## Tokenizer training (BPE, SentencePiece)
+## Next-token prediction with cross-entropy loss
+## Scaling laws and training data
+## Byte-pair encoding: merge frequent pairs into tokens
+## Data quality, deduplication, and filtering
+## Scaling laws: loss falls predictably with compute, data, and model size
+## Compute-optimal training balances model size and data
+@@ sll_juq_ylL--KkI | C5.3 Inference Mechanics > KV Cache
+## KV cache mechanics
+## Memory vs. context length
+## Caching keys and values avoids recomputing earlier tokens
+## Cache size grows with layers, heads, and context length
+## Grouped-query and multi-query attention shrink the cache
+@@ sll_qyLR_BDETD8o | C5.3 Inference Mechanics > Fast Decoding
+## Decoding strategies (greedy, beam, top-k, top-p)
+## Speculative decoding
+## Inference streaming
+## Prefill vs. decode: two phases with different bottlenecks
+## Batching requests to use the GPU well
+## Memory bandwidth, not compute, often limits decoding

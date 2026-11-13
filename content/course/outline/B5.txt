@@ -1,0 +1,64 @@
+// B5 B5 Tools, Function Calling & MCP
+@@ sll_x74DgglN77Ob | B5.1 Function Calling > How Tool Calling Works
+## Tool-call request and execution cycle   // HAS BODY
+## Parallel tool calls   // HAS BODY
+## APIs as the bridge to external software   // HAS BODY
+## The model asks; your code runs the tool   // HAS BODY
+## Tool results go back into the conversation   // HAS BODY
+## The model can pick the wrong tool or the wrong inputs   // HAS BODY
+@@ sll_otygFTgSNcCQ | B5.1 Function Calling > Tool Schemas
+## JSON Schema and Pydantic tool definitions   // HAS BODY
+## Clear names, descriptions, and required fields   // HAS BODY
+## The description is a prompt: say when to use the tool and when not to   // HAS BODY
+## Limiting inputs to fixed choices   // HAS BODY
+## Examples of good calls in the description   // HAS BODY
+@@ sll_zKOkFloWdVMR | B5.2 Agent-Computer Interface (ACI) > Designing Tools for Agents
+## ACI vs. UI   // HAS BODY
+## Small, composable, well-documented tools   // HAS BODY
+## Design for the task, not as a copy of the API   // HAS BODY
+## Return only what the agent needs, in text it can read   // HAS BODY
+## Error messages that tell the agent how to recover   // HAS BODY
+## Test tools by watching where the agent gets confused   // HAS BODY
+@@ sll_2AconlQbeyOH | B5.2 Agent-Computer Interface (ACI) > Common Tool Types
+## Search, code, database, and API tools   // HAS BODY
+## Computer use and browser tools   // HAS BODY
+## Code execution for maths and data work   // HAS BODY
+## File tools: read, write, and edit   // HAS BODY
+## Prefer an API over clicking through a screen   // HAS BODY
+@@ sll_l_pGL1RL0c3B | B5.3 Robust Tool Execution > Handling Tool Errors
+## Retries with exponential backoff   // HAS BODY
+## Fallbacks and error messages   // HAS BODY
+## Tools fail: networks, limits, and bad inputs   // HAS BODY
+## Showing the error to the agent so it can adapt   // HAS BODY
+## Knowing when to stop and ask a human   // HAS BODY
+@@ sll__33STjnvEVF0 | B5.3 Robust Tool Execution > Safe Tool Design
+## Idempotency   // HAS BODY
+## Rate limiting and spend limits   // HAS BODY
+## Timeouts and sandboxed execution   // HAS BODY
+## Why it matters: a retry must not pay or send twice   // HAS BODY
+## Secrets and API keys: never in prompts, code, or shared files   // HAS BODY
+## Dry-run mode: show what would happen first   // HAS BODY
+## Confirm before destructive actions   // HAS BODY
+@@ sll_P6vJo9NIkZDr | B5.4 Model Context Protocol (MCP) > MCP Concepts
+## Hosts, clients, and servers   // HAS BODY
+## Tools, resources, and prompts   // HAS BODY
+## What MCP solves: build a connector once, use it in many apps   // HAS BODY
+## MCP is an open standard, now hosted by the Linux Foundation   // HAS BODY
+## Local vs. remote servers   // HAS BODY
+## Finding and vetting existing MCP servers   // HAS BODY
+@@ sll_LV85fIscKnhI | B5.4 Model Context Protocol (MCP) > Building MCP Servers
+## Exposing an API or database via MCP   // HAS BODY
+## Authentication and permissions   // HAS BODY
+## OAuth: connecting agents to a client's own accounts   // HAS BODY
+## Least privilege: expose only what the job needs   // HAS BODY
+## Third-party servers as a security risk   // HAS BODY
+@@ sll_tAOBiH_7gz9_ | B5.5 Skills & Dynamic Tools > Skills & Progressive Disclosure
+## Skill libraries loaded only when needed   // HAS BODY
+## Keeping context small with tool discovery   // HAS BODY
+## What a skill is: instructions and files for one kind of task   // HAS BODY
+## Too many tools at once confuse the model   // HAS BODY
+## Skill vs. tool vs. sub-agent: which to use   // HAS BODY
+@@ sll_DpyzQpaFG6TO | B5.5 Skills & Dynamic Tools > Dynamic Tool Creation
+## Agents writing, testing, and using new tools   // HAS BODY
+## Risks and controls for self-made tools   // HAS BODY
+## Review before a self-made tool is reused   // HAS BODY

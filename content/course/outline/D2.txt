@@ -1,0 +1,30 @@
+// D2 D2 Sequencing Data & File Formats
+@@ sll_X5ei5Ku7doE6 | D2.1 Core File Formats > Raw & Aligned Reads
+## FASTA and FASTQ (quality scores)
+## SAM, BAM, CRAM
+## FASTA holds sequences; FASTQ adds a quality score for each base
+## Phred scores: a higher score means more confidence in the base
+## BAM is the compressed binary form of SAM; CRAM compresses further
+## Alignment records: position, strand, and mapping quality
+## Sorted and indexed BAMs are needed for most tools
+@@ sll_-XjLb75DlMOg | D2.1 Core File Formats > Variants & Annotations
+## VCF for variants
+## GTF/GFF and BED for annotations
+## VCF columns: position, reference, alternate, quality, and filters
+## Genome coordinates: 0-based vs. 1-based
+## BED for regions; GTF/GFF for gene structure
+## Always match the reference genome version across files
+@@ sll_3XR0ivSM2uRk | D2.2 Command-Line Bioinformatics > Linux for Biology
+## Shell basics, piping, and grep/awk
+## Working on HPC clusters and the cloud
+## Files, directories, and permissions
+## Pipes chain small tools together
+## Job schedulers (e.g., Slurm): request resources and queue work
+## Never run heavy jobs on the login node
+@@ sll_jpfyc5g1kH13 | D2.2 Command-Line Bioinformatics > Core Utilities
+## samtools for sorting, indexing, and viewing BAMs
+## bcftools for filtering and merging VCFs
+## bedtools for genomic interval arithmetic
+## Quick checks: read counts, mapping rates, and coverage
+## Ask an AI assistant for commands, then read the manual before running them
+## Keep raw files read-only

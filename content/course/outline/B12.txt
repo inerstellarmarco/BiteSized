@@ -1,0 +1,49 @@
+// B12 B12 Evaluation of AI Systems & Agents
+@@ sll_kHsY2fOxCXYM | B12.1 Evaluation Foundations > Why Evals Matter
+## LLM evals as the unit tests of AI
+## Offline vs. online evaluation
+## Without evals, every change is a guess
+## Define success before you build
+## Start small: twenty real cases beat none
+@@ sll_bLNptRaDS7LS | B12.1 Evaluation Foundations > Ground Truth & Datasets
+## Ground truth sets
+## Synthetic data generation for test scenarios
+## Error analysis from real traces
+## Human labelling workflows and inter-annotator agreement
+## Covering normal cases, edge cases, and attacks
+## Every real failure becomes a new test case
+@@ sll_jCMkXsQqMSsa | B12.2 Evaluation Methods > Automated Metrics
+## Exact match, BLEU/ROUGE, retrieval metrics
+## Task-specific scoring functions
+## Code checks first: cheapest and most reliable
+## Word-overlap scores miss meaning
+@@ sll_61c2ulT-113X | B12.2 Evaluation Methods > LLM-as-a-Judge
+## Rubric design and pairwise comparison
+## Judge bias and calibration with human labels
+## One criterion per judge works better than one overall score
+## Pass or fail is easier to trust than a 1-to-10 score
+## A judge is a prompt too: version and test it
+@@ sll_YIjgBaUy9e4r | B12.2 Evaluation Methods > Statistics for Evaluation
+## Noise: results differ from run to run with no change at all
+## Confidence intervals on pass rates
+## Sample size: how many test cases are enough
+## Paired tests when comparing two versions
+## Agreement with human judges (e.g., Cohen's kappa)
+@@ sll_zwGlHDLBuMIX | B12.3 Evaluating Agents & RAG > RAG Evals
+## Faithfulness, relevance, context precision
+## Hallucination rate measurement
+## Scoring retrieval and generation separately
+## Checking that citations support the claims
+@@ sll_kAFSvfWZtFjP | B12.3 Evaluating Agents & RAG > Agent Evals
+## Trajectory and tool-call evaluation
+## Task-success benchmarks
+## Outcome first: did the task get done?
+## Checking the final state of the system, not what the agent said
+## Cost, steps, and time as part of the score
+## Run each test several times: agents vary
+@@ sll_qubbENCp0Mat | B12.3 Evaluating Agents & RAG > Continuous Evaluation
+## Regression testing in CI
+## A/B tests and shadow mode
+## Re-running evals when the model or prompt changes
+## Monitoring live quality with sampled reviews
+## User feedback as an eval signal

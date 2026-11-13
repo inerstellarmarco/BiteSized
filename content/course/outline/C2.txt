@@ -1,0 +1,45 @@
+// C2 C2 Classical Machine Learning
+@@ sll_9GlW1kGOkn7X | C2.1 ML Fundamentals > The ML Workflow
+## Supervised vs. unsupervised vs. reinforcement learning
+## Train / validation / test splits
+## Bias-variance tradeoff, overfitting
+## Problem framing: what is predicted, from what, and when
+## Start with a baseline and a simple model
+## Time-based splits when the data has a time order
+## Keep the test set locked until the end
+@@ sll_7osvNTcf2qaT | C2.1 ML Fundamentals > Feature Engineering
+## Scaling, encoding, feature creation
+## Feature selection methods
+## Scaling matters for distance-based and gradient-based models
+## One-hot encoding for categories
+## Missing-value strategies and missing-value indicators
+## Domain features often beat clever models
+@@ sll_9aDsYeeLHoft | C2.2 Core Algorithms > Supervised Models
+## Linear and logistic regression
+## Decision trees, random forests, gradient boosting
+## SVMs and k-nearest neighbours
+## Regularization: ridge and lasso
+## Trees handle mixed data and need little scaling
+## Gradient boosting is often the strongest choice on tabular data
+## Choosing a model: data size, interpretability, and speed
+@@ sll_puFKobf6SyzI | C2.2 Core Algorithms > Unsupervised Models
+## k-means and hierarchical clustering
+## PCA, t-SNE, UMAP for dimensionality reduction
+## Choosing the number of clusters
+## t-SNE and UMAP plots are for exploring, not for measuring distances
+## Anomaly detection with isolation forests (concept)
+@@ sll_hFKnId1JjMF0 | C2.3 Model Evaluation & Tuning > Metrics
+## Accuracy, precision, recall, F1, ROC-AUC
+## RMSE, MAE, R-squared for regression
+## Class imbalance and calibration
+## Precision-recall curves for rare classes
+## Calibration: do predicted 80% events happen 80% of the time?
+## Choose the metric from the business cost of each error
+@@ sll_pRrvV-tfodXV | C2.3 Model Evaluation & Tuning > Validation & Tuning
+## Cross-validation and data leakage
+## Hyperparameter search (grid, random, Bayesian)
+## Model interpretability with SHAP
+## Grouped and time-series cross-validation
+## Nested validation avoids over-optimistic estimates
+## Tune on validation data, report on test data
+## Feature importance can mislead when features are correlated

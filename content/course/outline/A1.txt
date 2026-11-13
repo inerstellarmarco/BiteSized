@@ -1,0 +1,98 @@
+// A1 A1 Python Concepts for AI-Assisted Development
+@@ sll_a1_1_1 | A1.1 Core Programming Concepts > Data Types & Structures
+## Strings, numbers, and booleans   // HAS BODY
+## Lists, dictionaries, sets, and tuples   // HAS BODY
+## Mutability   // HAS BODY
+## Strings, numbers, booleans   // HAS BODY
+## Lists, dictionaries, sets, tuples   // HAS BODY
+## Mutability (concept)   // HAS BODY
+## Lists hold ordered items; dictionaries hold labelled data   // HAS BODY
+## JSON maps directly onto dictionaries and lists   // HAS BODY
+## None: the value that means "nothing here"   // HAS BODY
+## Why types matter: "5" is text, 5 is a number   // HAS BODY
+@@ sll_a1_1_2 | A1.1 Core Programming Concepts > Control Flow
+## Conditionals   // HAS BODY
+## Loops and iteration   // HAS BODY
+## Looping over a list: do something for each item   // HAS BODY
+## Loops that never stop are a classic bug   // HAS BODY
+## Comprehensions: a compact loop you will see often in generated code   // HAS BODY
+@@ sll_a1_1_3 | A1.1 Core Programming Concepts > Functions
+## Inputs, outputs, and scope   // HAS BODY
+## Reusable, single-purpose functions   // HAS BODY
+## Returning a value vs. printing it   // HAS BODY
+## Default values and named arguments   // HAS BODY
+## Type hints as documentation   // HAS BODY
+## Docstrings: what a function promises to do   // HAS BODY
+@@ sll_a1_2_1 | A1.2 Organizing Code > Classes & Objects
+## Classes, objects, and methods   // HAS BODY
+## Data models   // HAS BODY
+## Data models (dataclasses, Pydantic)   // HAS BODY
+## A class is a blueprint; an object is one instance of it   // HAS BODY
+## AI frameworks use classes everywhere: agents, tools, and clients   // HAS BODY
+## Validation: catching bad data at the door   // HAS BODY
+@@ sll_a1_2_2 | A1.2 Organizing Code > Modules & Packages
+## Imports and project structure   // HAS BODY
+## Reading library documentation   // HAS BODY
+## Find the one example in the docs that matches your task   // HAS BODY
+## Check a package's maintenance and popularity before using it   // HAS BODY
+## The standard library already covers much of what you need   // HAS BODY
+@@ sll_a1_2_3 | A1.2 Organizing Code > Environments & Dependencies
+## Virtual environments   // HAS BODY
+## Dependency files   // HAS BODY
+## Version control with Git and GitHub   // HAS BODY
+## Virtual environments (venv, uv)   // HAS BODY
+## Dependency files (requirements, pyproject)   // HAS BODY
+## Why environments: different projects need different versions   // HAS BODY
+## Commits, branches, and pull requests in plain terms   // HAS BODY
+## Never commit secrets: use environment variables and .gitignore   // HAS BODY
+## Commit before letting an AI assistant change many files   // HAS BODY
+@@ sll_a1_3_1 | A1.3 Talking to the Outside World > Async Concepts
+## Synchronous vs asynchronous code   // HAS BODY
+## Concurrent API calls   // HAS BODY
+## Synchronous vs. asynchronous code   // HAS BODY
+## Concurrent API calls (concept)   // HAS BODY
+## async/await: how to read it without writing it   // HAS BODY
+## Async helps when many slow network calls overlap   // HAS BODY
+## Rate limits still apply when calls run at once   // HAS BODY
+@@ sll_a1_3_2 | A1.3 Talking to the Outside World > APIs, HTTP & JSON
+## What an API is   // HAS BODY
+## HTTP requests and responses   // HAS BODY
+## JSON data and API keys   // HAS BODY
+## Methods: GET reads, POST sends, PUT or PATCH changes, DELETE removes   // HAS BODY
+## Status codes: 200 worked, 401 not allowed, 429 slow down, 500 server problem   // HAS BODY
+## Headers and authentication   // HAS BODY
+## Reading API documentation and trying a call before coding it   // HAS BODY
+## Webhooks: the other system calls you when something happens   // HAS BODY
+@@ sll_a1_3_3 | A1.3 Talking to the Outside World > Error Handling
+## Exceptions and error messages   // HAS BODY
+## Retries and timeouts   // HAS BODY
+## Retries and timeouts (concept)   // HAS BODY
+## Retry timeouts and rate limits; do not retry bad input   // HAS BODY
+## Log errors with enough context to find the cause   // HAS BODY
+## Failing clearly beats failing silently   // HAS BODY
+@@ sll_a1_4_1 | A1.4 Working with AI-Generated Code > Reading & Understanding Code
+## Reading code top-down   // HAS BODY
+## Tracing inputs and outputs   // HAS BODY
+## Spotting red flags in generated code   // HAS BODY
+## Red flags: hard-coded secrets, no error handling, invented library functions   // HAS BODY
+## Ask the assistant to explain each part, then test the explanation   // HAS BODY
+## Small functions are easier to review than long scripts   // HAS BODY
+@@ sll_a1_4_2 | A1.4 Working with AI-Generated Code > Debugging
+## Reading stack traces   // HAS BODY
+## Print, logs, and breakpoints   // HAS BODY
+## Testing concepts   // HAS BODY
+## Print/log debugging and breakpoints   // HAS BODY
+## Testing concepts (pytest)   // HAS BODY
+## The bottom of a stack trace usually points to the failing line   // HAS BODY
+## Reproduce first: make the bug happen on demand   // HAS BODY
+## Write a test that captures the bug, then fix it   // HAS BODY
+## Give the assistant the full error and the relevant code   // HAS BODY
+@@ sll_a1_4_3 | A1.4 Working with AI-Generated Code > AI Coding Assistants
+## Cursor, Copilot, and chat assistants   // HAS BODY
+## Writing clear coding prompts and specs   // HAS BODY
+## Reviewing and verifying AI output   // HAS BODY
+## Plan first, then build, then test   // HAS BODY
+## Work in small steps and commit each one   // HAS BODY
+## Context files that tell the assistant your project's rules (e.g., AGENTS.md, CLAUDE.md)   // HAS BODY
+## Assistants can invent packages that do not exist: check before installing   // HAS BODY
+## You stay responsible for security and correctness   // HAS BODY

@@ -1,0 +1,43 @@
+// D3 D3 Bioinformatics Pipelines
+@@ sll_-5Ch6IuOM_Ku | D3.1 Workflow Engines > Reproducible Pipelines
+## Nextflow and nf-core
+## Snakemake rules and workflows
+## Pipelines describe inputs, steps, and outputs
+## nf-core provides community-tested pipelines
+## Resume runs without redoing finished steps
+## Run the same pipeline locally, on a cluster, or in the cloud
+@@ sll_V0cc-3d6AMDf | D3.1 Workflow Engines > Environments
+## Conda/Bioconda environments
+## Docker and Singularity/Apptainer containers
+## Pinning versions for reproducibility
+## Containers on HPC: Apptainer, because Docker usually needs admin rights
+## Record tool versions and parameters with every result
+@@ sll_nEinom0m_u9W | D3.2 Core Processing Steps > QC & Alignment
+## Quality control and trimming
+## Read alignment and quantification
+## FastQC and MultiQC summaries: read quality, adapters, and duplication
+## Trim adapters and low-quality ends
+## Aligners map reads to a reference; some tools skip alignment and quantify directly
+## Check alignment rates and look for unexpected contamination
+@@ sll_qyw-ZLQ-t8Ve | D3.2 Core Processing Steps > Variant Calling
+## Germline vs. somatic variant calling
+## Annotation and filtering
+## Germline: inherited variants; somatic: variants acquired in tumours
+## Somatic calling is harder: low allele fractions and a normal-tissue comparison
+## Filter by depth, quality, and population frequency
+## Annotation predicts effects on genes and links to databases
+@@ sll_qVxVckfDG5Hm | D3.3 Transcriptomics & Single-Cell > RNA-seq & miRNA-seq
+## Quantification and normalization
+## Differential expression analysis
+## Counts depend on sequencing depth: normalize before comparing
+## Replicates are essential for statistics
+## Differential expression: log fold change and adjusted p-value
+## Multiple testing correction (false discovery rate)
+## miRNA-seq specifics: short reads and small-RNA databases
+@@ sll_6reMKOIIZ2ZM | D3.3 Transcriptomics & Single-Cell > Single-Cell Analysis
+## Clustering and cell-type annotation
+## Trajectory analysis
+## Typical steps: filter cells, normalize, reduce dimensions, cluster
+## Doublets and ambient RNA as artefacts
+## Annotate clusters with marker genes and reference atlases
+## Trajectories suggest an ordering; they do not prove lineage

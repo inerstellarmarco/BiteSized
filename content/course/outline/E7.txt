@@ -1,0 +1,58 @@
+// E7 E7 AI for ERP and MRP
+@@ sll_tI03jf0csHN4 | E7.1 How ERP and MRP Work > Core Records
+## Items, bills of materials, suppliers, and stock levels
+## Bill of materials: the parts list for a product, including sub-assemblies
+## Sales orders, work orders, and purchase orders
+## Routings: the steps and work centres used to make a product
+## Lead times: how long suppliers and production take
+## Unit costs and how they roll up
+@@ sll_m-Dn_hn_3GO5 | E7.1 How ERP and MRP Work > Planning Logic
+## Material requirements planning: what to buy, what to make, and when
+## Inputs: demand, stock, open orders, bills of materials, and lead times
+## Reorder points and safety stock
+## Lot sizes and minimum order quantities
+## Demand forecasts feed the plan
+## Garbage in, garbage out: wrong stock counts or lead times ruin the plan
+@@ sll_ZAkwpRTXX9S9 | E7.1 How ERP and MRP Work > How the Pieces Connect
+## ERP ties inventory, purchasing, sales, and accounting together
+## One system of record prevents conflicting numbers
+## Small companies often start with spreadsheets and grow into ERP
+## Where AI helps most: data entry, exceptions, and answering questions
+@@ sll_pEz1mnzfDSYb | E7.2 Build or Integrate > Two Paths
+## Agents on top of an existing ERP vs. a lightweight AI-native system
+## Existing ERP: faster, but limited by its API and customization
+## Lightweight system: full control, but you own every feature
+## Spreadsheets as the starting point for most small companies
+## Open-source ERPs (e.g., ERPNext, Odoo) as a middle path
+## Decide on size, process complexity, existing software, and budget
+@@ sll_Rw0MyvFAoDJx | E7.2 Build or Integrate > System of Record
+## Data modelling basics: tables, keys, and relationships
+## Calculations run in code; the LLM orchestrates and explains
+## Why: models slip on arithmetic and rules; code does not
+## Audit trail for every change an agent makes
+## Permissions: who and what can change which records
+## Backups and a way to undo changes
+@@ sll_qiosqjwBUPo8 | E7.2 Build or Integrate > Connecting to the ERP
+## APIs, webhooks, and database access
+## MCP servers that expose ERP data to agents
+## Test with sandbox data before touching live records
+## Rate limits and API quotas
+## Sync problems: duplicates and stale copies
+@@ sll_1TuQufRQuhWz | E7.3 Operations Agents > Ask-Your-Data Agents
+## Plain-language questions over ERP data
+## Typical questions: stock levels, late orders, and margin by product
+## Read-only access first; write access only with approval
+## Answers show the query or source so people can check
+## Test with questions whose answers you already know
+@@ sll_tI-aTG52x6Yz | E7.3 Operations Agents > Exception Agents
+## Flagging late suppliers, short stock, and mismatched documents
+## Exceptions only: people look at problems, not at everything
+## Drafting purchase orders for human approval
+## Explaining why an exception was raised
+## Logging what people override, and learning from it
+@@ sll_Fuhzii8kuZ4J | E7.3 Operations Agents > Documents In
+## Reading supplier invoices and delivery notes
+## Three-way match: purchase order, receipt, and invoice
+## Validation rules before anything is posted
+## Low-confidence items go to a human queue
+## Measure accuracy per field, not only overall

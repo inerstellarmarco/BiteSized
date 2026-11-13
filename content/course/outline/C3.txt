@@ -1,0 +1,45 @@
+// C3 C3 Deep Learning Engineering
+@@ sll_M7rw8URySwdu | C3.1 Neural Network Basics > Perceptrons to MLPs
+## Neurons, weights, activation functions
+## Forward pass and loss functions
+## ReLU, GELU, sigmoid, and tanh: what each is used for
+## Matching output layer and loss: softmax with cross-entropy, linear with squared error
+## Weight initialization and why it matters
+@@ sll_KeAAaTFiBM-Z | C3.1 Neural Network Basics > Backpropagation
+## Propagating error backward through layers
+## Autograd in PyTorch
+## Tensors, shapes, and devices
+## One training step in code: forward, loss, backward, step, zero the gradients
+## Checking gradients on a tiny example
+@@ sll_yVF21eRWBRLN | C3.2 Training Deep Networks > Training Loop Mechanics
+## Batches, epochs, optimizers
+## Learning-rate schedules
+## Data loaders and shuffling
+## Logging loss curves for training and validation
+## Overfit one small batch first to test the code
+## Seeds and reproducibility
+@@ sll_yf7l8-e5OVMl | C3.2 Training Deep Networks > Regularization & Stability
+## Dropout, weight decay, batch/layer norm
+## Early stopping and checkpointing
+## Gradient clipping
+## Data augmentation as regularization
+## Debugging a loss that will not fall
+@@ sll_KSKeYwWi_8H5 | C3.3 Core Architectures & Transfer Learning > Convolutional Networks
+## Convolutions, pooling, feature maps
+## Learned representations and latent space
+## Filters share weights: fewer parameters and awareness of position shifts
+## Receptive field: how much of the image a unit sees
+## Classic architectures: ResNet's skip connections
+## Vision transformers as the alternative
+@@ sll_kh9Y-xb_aC-N | C3.3 Core Architectures & Transfer Learning > Sequence Models
+## RNNs, LSTMs, GRUs
+## Why attention replaced recurrence
+## The hidden state carries memory from step to step
+## Vanishing gradients limit long memory
+## Still used for small, streaming, or on-device tasks
+@@ sll_iroPWNVM_Tmj | C3.3 Core Architectures & Transfer Learning > Transfer Learning
+## Reusing pretrained models on new tasks
+## Freezing layers vs. full fine-tuning
+## Lower learning rates for pretrained layers
+## Match the preprocessing the pretrained model expects
+## Little data: freeze most layers; more data: unfreeze more

@@ -1,0 +1,67 @@
+// A5 A5 How LLMs Work
+@@ sll_4y81UmM2WP6V | A5.1 From Text to Tokens > Tokens & Tokenization
+## Tokens and tokenization   // HAS BODY
+## Tokens as the currency of LLMs   // HAS BODY
+## Token limits and cost (intro)   // HAS BODY
+## A token is a piece of a word, not exactly a word   // HAS BODY
+## Rough rule: about three-quarters of an English word per token   // HAS BODY
+## Other languages and code often use more tokens   // HAS BODY
+## Numbers and rare words split oddly, which is why models stumble on spelling and arithmetic   // HAS BODY
+## Count tokens with a tokenizer tool before estimating cost   // HAS BODY
+@@ sll_Mz486evL94DB | A5.2 Embeddings & Similarity > Embeddings
+## Words as vectors   // HAS BODY
+## Meaning in latent space   // HAS BODY
+## A separate model, trained for the job, produces embeddings   // HAS BODY
+## Whole sentences and documents can be embedded, not only words   // HAS BODY
+## Directions in the space can capture relationships   // HAS BODY
+@@ sll_df8K6TM_cFq2 | A5.2 Embeddings & Similarity > Similarity
+## Cosine similarity (intuition)   // HAS BODY
+## Semantic search (preview)   // HAS BODY
+## Similar meaning scores high even with different words   // HAS BODY
+## Similar is not the same as true: close does not mean correct   // HAS BODY
+@@ sll_kNdyhBqcAGAN | A5.3 Transformers at a Conceptual Level > The Big Idea
+## Transformer architecture (overview)   // HAS BODY
+## Self-attention (intuition)   // HAS BODY
+## Why attention replaced recurrence   // HAS BODY
+## Attention lets each word look at every other word and decide what matters   // HAS BODY
+## Query, key, and value as a library lookup (intuition; full math in C5)   // HAS BODY
+## Parallel processing made huge training runs practical   // HAS BODY
+## Stacked layers of attention build up meaning   // HAS BODY
+@@ sll_Pssiwxz3o8-A | A5.3 Transformers at a Conceptual Level > How LLMs Are Trained (Overview)
+## Next-token prediction   // HAS BODY
+## Pretraining vs. post-training   // HAS BODY
+## Knowledge cutoff   // HAS BODY
+## Pretraining: read huge amounts of text and predict the next token   // HAS BODY
+## Post-training: instruction tuning and human feedback shape a helpful assistant   // HAS BODY
+## Post-training side effects: sycophancy and over-refusal   // HAS BODY
+## Reasoning models are trained to think before answering   // HAS BODY
+## The model has no live data unless you supply it   // HAS BODY
+@@ sll_XQ6Ow2D4pb5e | A5.4 How LLMs Generate > Probabilities & Sampling
+## Next-token probabilities   // HAS BODY
+## Temperature   // HAS BODY
+## Top-p (nucleus) sampling   // HAS BODY
+## Softmax: how temperature reshapes probabilities   // HAS BODY
+## Non-determinism: same prompt, different answers   // HAS BODY
+## Low temperature for consistency; higher for variety   // HAS BODY
+## Some reasoning models fix certain settings for you   // HAS BODY
+@@ sll_QBC2ikzlCEiJ | A5.4 How LLMs Generate > Context Windows
+## Context window limits   // HAS BODY
+## Lost-in-the-middle   // HAS BODY
+## Context includes the prompt, the history, and the answer   // HAS BODY
+## Bigger windows cost more and can lower quality   // HAS BODY
+## For long documents, retrieve the relevant parts instead   // HAS BODY
+@@ sll_wXECmMLdO8Vs | A5.4 How LLMs Generate > Failure Modes
+## Hallucination   // HAS BODY
+## Grounding (preview)   // HAS BODY
+## Models state wrong things with confidence   // HAS BODY
+## Common triggers: obscure facts, citations, and numbers   // HAS BODY
+## Reduce it: give sources, allow "I don't know", and verify   // HAS BODY
+## Stale knowledge and bias are other failure modes   // HAS BODY
+@@ sll_Y40KwV7qjecP | A5.5 The Model Landscape > Choosing Models
+## Closed APIs vs. open-weight models   // HAS BODY
+## Quality, cost, latency, and privacy tradeoffs   // HAS BODY
+## The LLM as the "brain" of an agent   // HAS BODY
+## The full market map   // HAS BODY
+## Model tiers: large, small, and reasoning   // HAS BODY
+## Test on your own task, not on leaderboards   // HAS BODY
+## Plan to switch models: prices and quality keep moving   // HAS BODY

@@ -1,0 +1,65 @@
+// B1 B1 Prompt Engineering, Context Engineering & LLM APIs
+@@ sll_aGqjcn3AIS4Q | B1.1 Programming LLMs via APIs > API Fundamentals
+## OpenAI and Anthropic SDKs, messages, and roles   // HAS BODY
+## Streaming responses and async calls   // HAS BODY
+## Handling rate limits, retries, and API errors   // HAS BODY
+## An API call: you send messages, the model sends one back   // HAS BODY
+## Roles: system sets the rules, user asks, assistant answers   // HAS BODY
+## The model remembers nothing: you resend the conversation on every call   // HAS BODY
+## Stop reasons: finished, cut off, or asking for a tool   // HAS BODY
+@@ sll_GL8EDO05Xzeh | B1.1 Programming LLMs via APIs > Tokens & Cost in Practice
+## Counting tokens and estimating cost   // HAS BODY
+## Choosing max tokens and model tiers   // HAS BODY
+## Input vs. output tokens: output costs more   // HAS BODY
+## Start with the best model, then step down while evals still pass   // HAS BODY
+## Long conversations cost more on every turn   // HAS BODY
+@@ sll_GqWOPei5aJ8y | B1.2 Prompting Fundamentals > System Prompts & Personas
+## System prompts and personas   // HAS BODY
+## Prompt engineering as programming   // HAS BODY
+## What belongs in a system prompt: role, task, rules, and format   // HAS BODY
+## Explaining why a rule exists, not only the rule   // HAS BODY
+## Write for a smart newcomer who has no context   // HAS BODY
+@@ sll_mP9t4w2s6ty7 | B1.2 Prompting Fundamentals > Core Techniques
+## Zero-shot prompting   // HAS BODY
+## Few-shot prompting with examples   // HAS BODY
+## Chain-of-thought prompting   // HAS BODY
+## Choosing examples: varied, realistic, and including edge cases   // HAS BODY
+## Delimiters and tags that separate instructions from data   // HAS BODY
+## Asking for the output format you need   // HAS BODY
+@@ sll_LlSc69UiGDUy | B1.2 Prompting Fundamentals > Advanced Prompt Patterns
+## Prompt chaining   // HAS BODY
+## Self-critique and rubric-based prompting   // HAS BODY
+## Meta-prompting   // HAS BODY
+## One prompt, one job: splitting a hard task into steps   // HAS BODY
+## Letting the model say it does not know   // HAS BODY
+## Iterating: change one thing, then re-test   // HAS BODY
+@@ sll__KY2jiLzJDAp | B1.3 Structured Outputs > Reliable Formats
+## Structured outputs and JSON mode   // HAS BODY
+## Schema validation with Pydantic   // HAS BODY
+## Why software needs structure, not prose   // HAS BODY
+## Schemas: naming the fields, types, and allowed values   // HAS BODY
+## Field descriptions as mini-prompts   // HAS BODY
+@@ sll_BJ4vUg3J3DAG | B1.3 Structured Outputs > Parsing & Repair
+## Retry on invalid output   // HAS BODY
+## Bridge to tool calling   // HAS BODY
+## Feeding the error back so the model can fix it   // HAS BODY
+## A valid format is not the same as correct content   // HAS BODY
+@@ sll_coJc5QmLYTkV | B1.4 Context Engineering > Managing the Context Window
+## What to include, compress, or drop   // HAS BODY
+## Context window pruning and summarization   // HAS BODY
+## Grounding prompts in provided sources   // HAS BODY
+## Context is everything the model sees on this call   // HAS BODY
+## Order matters: key instructions at the start or the end   // HAS BODY
+## More context is not always better: noise lowers quality   // HAS BODY
+@@ sll_acRBxRj5uIvl | B1.4 Context Engineering > Choosing an Approach
+## Prompting vs. RAG vs. fine-tuning (preview)   // HAS BODY
+## When to escalate to Track C   // HAS BODY
+## Prompting first: cheapest and fastest to change   // HAS BODY
+## RAG when the model lacks your knowledge   // HAS BODY
+## Fine-tuning when behaviour, not knowledge, is the problem   // HAS BODY
+@@ sll_p1n4CQJ8NxMv | B1.4 Context Engineering > Prompt Management
+## Versioning prompts as code   // HAS BODY
+## Spec-driven prompting   // HAS BODY
+## Prompt injection awareness   // HAS BODY
+## A prompt change is a release: test before shipping   // HAS BODY
+## Prompts written for one model may need rework on another   // HAS BODY

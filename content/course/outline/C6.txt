@@ -1,0 +1,45 @@
+// C6 C6 Fine-Tuning & Alignment
+@@ sll_zyRIFpfWbnBH | C6.1 When to Fine-Tune > Decision Framework
+## Prompting vs. RAG vs. fine-tuning
+## Cost, data, and maintenance tradeoffs
+## Fine-tune for style, format, and narrow skills, not for new facts
+## Try a better prompt and retrieval first
+## Evals decide whether fine-tuning helped
+## Maintenance: retraining when the base model changes
+@@ sll_HgbPdhsKkhG0 | C6.1 When to Fine-Tune > Data Preparation
+## Instruction datasets
+## Synthetic data generation and filtering
+## Data quality checks
+## Quality beats quantity: a few hundred excellent examples can matter
+## Deduplicate and remove personal data
+## Hold out a test set before training
+## Format examples exactly as the model will see them
+@@ sll__qfEGN9US7vm | C6.2 Parameter-Efficient Fine-Tuning > Transfer Learning for LLMs
+## Full fine-tuning
+## Catastrophic forgetting
+## Full fine-tuning needs memory for weights, gradients, and optimizer state
+## Forgetting: new skills can erase old ones
+## Mixing in general data reduces forgetting
+@@ sll_hlWQOE81E15V | C6.2 Parameter-Efficient Fine-Tuning > LoRA & QLoRA
+## LoRA
+## QLoRA
+## Adapter merging and hot-swapping
+## LoRA trains small low-rank matrices and freezes the base model
+## QLoRA adds a 4-bit quantized base to save memory
+## Rank and alpha: the main settings
+## One base model, many adapters for different clients or tasks
+@@ sll_y1-GUaqDeHWE | C6.3 Alignment Tuning > Supervised Fine-Tuning
+## SFT runs
+## Chat templates
+## Train on the assistant's answers, not on the prompts
+## A wrong chat template quietly ruins results
+## Watch validation loss and sample outputs
+@@ sll_ROV8ATBAazgF | C6.3 Alignment Tuning > Preference Optimization
+## RLHF and reward models
+## DPO
+## Reasoning training
+## Preference data: chosen vs. rejected answers
+## RLHF: a reward model scores answers, then the policy is optimized
+## DPO learns from preferences directly, without a separate reward model
+## Reward hacking and over-optimization
+## Reasoning training rewards correct final answers on checkable problems

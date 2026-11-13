@@ -1,0 +1,75 @@
+// B10 B10 Multi-Agent Orchestration & Frameworks
+@@ sll_tlSbCJC9tj-w | B10.1 Graph-Based Architectures > LangGraph Fundamentals
+## Nodes, edges, and shared state
+## Cyclical workflows
+## Why graphs: agent work as steps and decisions you can draw
+## Nodes: one step of work (an LLM call, a tool, or plain code)
+## Edges: what runs next; conditional edges choose a path
+## Shared state: the single record every node reads and updates
+## Loops need an exit: step limits and stop conditions
+@@ sll_3F2GPF28FO0C | B10.1 Graph-Based Architectures > State-Driven Control
+## State-driven transitions between agents
+## State machine routing
+## The state decides who acts next, not the last speaker
+## Keeping state small: only what the next step needs
+## Typed state: catching bad data between agents
+## Checkpoints: pause, resume, and replay a run
+@@ sll_q8IYDl1d9yot | B10.2 Role-Based Teams > CrewAI Crews
+## Roles, goals, and backstories
+## Sequential vs. hierarchical processes
+## Tasks: what is expected and what a good output looks like
+## Manager agents that assign and review work
+## Role prompts shape behaviour but do not guarantee it
+@@ sll_lGCBgmL8ip-u | B10.2 Role-Based Teams > Team Design
+## Specialist agents (researcher, writer, editor)
+## Applying single responsibility to teams
+## Start from the work, not the org chart: list the tasks first
+## Each agent gets only the tools its job needs
+## A reviewer agent that checks work before it leaves the team
+## The smallest team that passes your evals
+@@ sll_xZwcXknNZwo1 | B10.2 Role-Based Teams > Team Topologies
+## Pipeline: work passes down a fixed line
+## Supervisor: one agent delegates and collects results
+## Hierarchy: supervisors of supervisors for large jobs
+## Network: agents hand off to each other freely
+## Choosing a topology: predictability vs. flexibility
+@@ sll_6ZdrjuYxjEOE | B10.3 Agent-to-Agent Communication > Handoffs
+## Transferring control between agents
+## Passing context during handoffs
+## Handoff vs. delegation: giving away the task vs. asking for help
+## What to pass: the goal, work done so far, and what is still open
+## Too much context confuses; too little forces rework
+## Handing off to a human as a normal option
+@@ sll_eMSSn7UqySVm | B10.3 Agent-to-Agent Communication > Protocols & Messages
+## Structured messages between agents
+## Agent-to-agent (A2A) protocol
+## Message schemas: sender, task, inputs, and expected output
+## MCP connects agents to tools; A2A connects agents to agents
+## Both are open standards hosted by the Linux Foundation
+## Agent cards: how an agent advertises what it can do
+@@ sll_fOeK8pgq7Ze0 | B10.3 Agent-to-Agent Communication > Shared Work & Coordination
+## Shared memory vs. private memory for each agent
+## A shared task board: who is doing what
+## Isolated context: why sub-agents start with a clean slate
+## Returning a summary, not the full transcript
+## Conflicts: two agents changing the same thing
+@@ sll_1pXdoaztGNcB | B10.4 Advanced Orchestration > Swarm Intelligence
+## Many simple agents solving a problem together
+## Emergent behaviour and its risks
+## Parallel swarms for search and research tasks
+## Why swarms are hard to predict, test, and budget
+@@ sll_q0o2LAhxAvO_ | B10.4 Advanced Orchestration > Orchestration Platforms
+## n8n and low-code orchestration
+## Custom Python orchestration
+## Framework comparison
+## Triggers, webhooks, and schedules that start agent work
+## Mixing both: low-code for plumbing, code for the agent logic
+## Frameworks merge and retire: Microsoft Agent Framework replaced AutoGen and Semantic Kernel, which moved to maintenance mode
+## Comparison criteria: control, debugging, state handling, and lock-in
+@@ sll_X9fC3k9XLTpw | B10.4 Advanced Orchestration > When Multi-Agent Goes Wrong
+## Cost multiplies: every agent adds tokens and calls
+## Errors compound: one bad handoff spoils everything after it
+## Agents that loop, stall, or argue
+## Tracing a failure back to the agent that caused it
+## Evaluating the team and each agent separately
+## A single agent is the baseline to beat

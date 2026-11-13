@@ -1,0 +1,35 @@
+// B9 B9 Agentic Workflow Patterns
+@@ sll_aePXNNNyXwXf | B9.1 Sequential & Routing Patterns > Prompt Chaining Workflows
+## Gated assembly-line pipelines
+## When chaining beats a single prompt
+## Gates: checks between steps that stop bad work early
+## The trade-off: more reliable, but slower
+@@ sll_p-LBRoWhLx8Y | B9.1 Sequential & Routing Patterns > Routing
+## Agentic router
+## Multi-provider routing
+## Classifier vs. LLM-based routers
+## Sending each request to the right specialist
+## Easy requests to cheap models, hard ones to strong models
+## A fallback route for requests that fit nowhere
+@@ sll_tgVlFr6iXLZZ | B9.2 Parallel Patterns > Parallelization
+## Sectioning
+## Async fan-out and fan-in
+## Only independent tasks can run in parallel
+## Merging results into one answer
+## Faster, but not cheaper
+@@ sll_6Gh5XQj4zoi9 | B9.2 Parallel Patterns > Consensus Building
+## Voting
+## Ensembles to reduce hallucination
+## Different models or prompts give more independent votes
+## When the cost of several runs is worth it
+@@ sll_x3E1JP-e23-4 | B9.3 Feedback Patterns > Evaluator-Optimizer Workflow
+## Generator plus critic loop
+## Stopping criteria and quality thresholds
+## A critic needs clear criteria
+## Works when feedback clearly improves the result
+@@ sll_lWYXKNihIGJf | B9.3 Feedback Patterns > Orchestrator-Workers Architecture
+## Delegation and synthesis
+## Dynamic vs. fixed worker pools
+## Briefing a worker: goal, context, and what to return
+## Workers return summaries, not everything they read
+## The orchestrator checks worker results before using them
