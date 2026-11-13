@@ -18,6 +18,29 @@ export type OpenedDatabase = {
   close: () => Promise<void>;
 };
 
+/**
+ * Arbitrary constant that names the "migrations are running" lock. Every server copy uses the same
+ * number, so only one at a time can run the migration SQL.
+ */
+export const MIGRATION_LOCK_KEY = 827_341_905;
+
+/**
+ * Runs the migration SQL while holding a Postgres advisory lock.
+ *
+ * Two cold-starting server copies used to run the CREATE TABLE statements at the same moment, which
+ * fails with "duplicate key value violates unique constraint pg_type_typname_nsp_index". The
+ * transaction-level lock makes the second copy wait until the first has finished and then run the
+ * (idempotent, IF NOT EXISTS) SQL as a harmless no-op. The lock is released automatically when the
+ * transaction ends, even if it fails, and it works through Neon's pooled connection because it
+ * lives inside a single transaction.
+ */
+export async function migrateWithLock(client: postgres.Sql): Promise<void> {
+  await client.begin(async (tx) => {
+    await tx.unsafe(`SELECT pg_advisory_xact_lock(${MIGRATION_LOCK_KEY})`);
+    await tx.unsafe(MIGRATION_SQL);
+  });
+}
+
 async function seedIfEmpty(db: AppDatabase) {
   const [courseCount] = await db.select({ value: count() }).from(courses);
   if (Number(courseCount?.value ?? 0) === 0) {
@@ -51,7 +74,7 @@ export async function createDatabase(options?: {
       prepare: false,
       ssl: url.includes("localhost") || url.includes("127.0.0.1") ? undefined : "require",
     });
-    await client.unsafe(MIGRATION_SQL);
+    await migrateWithLock(client);
     const db = drizzlePg(client, { schema }) as unknown as AppDatabase;
     opened = { db, close: () => client.end({ timeout: 5 }) };
   } else {
