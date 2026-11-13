@@ -8,6 +8,7 @@ import { ImportStart } from "@/components/import-start";
 import { Button } from "@/components/ui/button";
 import { importDrafts } from "@/lib/db/schema";
 import { getDb } from "@/lib/db";
+import { findMissing } from "@/lib/import/apply";
 import { countProposal, defaultMapping, propose, type Block, type HeadingRole, type LevelMapping } from "@/lib/import/parse";
 
 const roles: HeadingRole[] = ["category", "sub_category", "lesson", "toolkit", "ignore"];
@@ -21,6 +22,7 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
   const mapping = (draft?.mapping as LevelMapping | undefined) ?? defaultMapping;
   const proposal = draft ? propose(draft.blocks as Block[], mapping) : null;
   const counts = proposal ? countProposal(proposal) : null;
+  const missing = proposal ? await findMissing(db, proposal) : [];
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -88,6 +90,33 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
                 </ul>
               </article>
             ))}
+            <label className="flex items-start gap-2 rounded-xl border border-border bg-card p-3 text-sm">
+              <input type="checkbox" name="structureOnly" defaultChecked className="mt-1" />
+              <span>
+                <span className="font-medium">Outline only.</span> Build the tracks, modules and lessons, but do not ask the AI to write any lesson text. Lessons show “Coming soon” until content is added.
+              </span>
+            </label>
+            {missing.length > 0 ? (
+              <div className="rounded-xl border border-border bg-card p-3 text-sm" data-testid="import-missing">
+                <p className="font-medium">In the app but not in this document</p>
+                <p className="mt-1 text-muted-foreground">
+                  These are kept as they are. Tick one only if you want it archived (it can be restored later).
+                </p>
+                <ul className="mt-2 space-y-2">
+                  {missing.map((item) => (
+                    <li key={`${item.type}:${item.id}`}>
+                      <label className="flex items-start gap-2">
+                        <input type="checkbox" name="archive" value={`${item.type}:${item.id}`} className="mt-1" />
+                        <span>
+                          {item.label}
+                          <span className="block text-xs text-muted-foreground">{item.path}</span>
+                        </span>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
             <Button type="submit" data-testid="import-apply">Apply import</Button>
           </form>
           <p className="mt-3 text-sm">

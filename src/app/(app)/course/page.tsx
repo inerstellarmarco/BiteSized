@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { requireProfile } from "@/lib/auth/current";
-import { loadCatalog } from "@/lib/content/catalog";
+import { loadCatalog, titleWithoutCode } from "@/lib/content/catalog";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { getDb } from "@/lib/db";
@@ -32,7 +32,7 @@ export default async function CoursePage() {
               <details key={subCategory.id} id={subCategory.id} open className="rounded-xl border border-border">
                 <summary className="flex cursor-pointer flex-wrap items-center gap-2 px-3 py-3">
                   <span className="font-medium">
-                    {subCategory.code} {subCategory.title}
+                    {subCategory.code} {titleWithoutCode(subCategory.code, subCategory.title)}
                   </span>
                   {subCategory.levelTag ? <Badge>{subCategory.levelTag}</Badge> : null}
                 </summary>
@@ -40,7 +40,8 @@ export default async function CoursePage() {
                   {subCategory.lessons.map((lesson, lessonIndex) => (
                     <details key={lesson.id} id={lesson.id} open={lessonIndex === 0} className="rounded-lg bg-background/60">
                       <summary className="cursor-pointer px-3 py-2">
-                        <span className="text-sm text-muted-foreground">{lesson.code}</span> {lesson.title}
+                        <span className="text-sm text-muted-foreground">{lesson.code}</span> {titleWithoutCode(lesson.code, lesson.title)}
+                        {lesson.subLessons.every((item) => item.biteCount === 0) ? <Badge className="ml-2">Coming soon</Badge> : null}
                       </summary>
                       <div className="space-y-2 px-3 pb-3">
                         {lesson.prerequisites.length > 0 ? (
@@ -50,8 +51,20 @@ export default async function CoursePage() {
                         ) : null}
                         {lesson.subLessons.map((subLesson) => {
                           const ratio = subLesson.biteCount === 0 ? 0 : (subLesson.seenCount / subLesson.biteCount) * 100;
+                          if (subLesson.biteCount === 0) {
+                            return (
+                              <div key={subLesson.id} data-testid={`sublesson-${subLesson.id}`} className="rounded-lg border border-dashed border-border bg-card/50 px-3 py-3">
+                                <div className="flex flex-wrap items-center gap-2">
+                                  <span className="text-xs text-muted-foreground">{subLesson.label}</span>
+                                  <span className="font-medium text-muted-foreground">{subLesson.title}</span>
+                                  <Badge>Coming soon</Badge>
+                                </div>
+                              </div>
+                            );
+                          }
                           return (
                             <div key={subLesson.id} data-testid={`sublesson-${subLesson.id}`} className="rounded-lg border border-border bg-card px-3 py-3">
+                              <span className="mr-2 text-xs text-muted-foreground">{subLesson.label}</span>
                               <Link href={`/study/${subLesson.id}`} className="font-medium hover:text-primary">
                                 {subLesson.title}
                               </Link>

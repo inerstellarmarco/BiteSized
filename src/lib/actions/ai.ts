@@ -7,6 +7,7 @@ import { getSessionProfile } from "@/lib/auth/current";
 import { importDrafts } from "@/lib/db/schema";
 import { getDb } from "@/lib/db";
 import { blocksFromUpload, fetchGoogleDocHtml } from "@/lib/import/fetch-doc";
+import { archiveEntity } from "@/lib/content/ops";
 import { applyProposal } from "@/lib/import/apply";
 import { defaultMapping, propose, type Block, type HeadingRole, type LevelMapping } from "@/lib/import/parse";
 import { AI_UNAVAILABLE, getLlmClient, LlmUnavailableError } from "@/lib/llm";
@@ -150,7 +151,8 @@ export async function updateMappingAction(draftId: string, mapping: LevelMapping
 }
 
 export async function applyImportAction(formData: FormData): Promise<void> {
-  if (!(await adminId())) redirect("/home");
+  const actor = await adminId();
+  if (!actor) redirect("/home");
   const draftId = String(formData.get("draftId") ?? "");
   const includedCodes = formData.getAll("include").map(String);
   const db = await getDb();
@@ -160,7 +162,16 @@ export async function applyImportAction(formData: FormData): Promise<void> {
   for (const category of proposal.categories) {
     category.include = includedCodes.includes(category.code || category.title);
   }
-  const result = await applyProposal(db, proposal);
+  // Outline only unless an admin clears the box to let the AI write lessons too.
+  const structureOnly = formData.get("structureOnly") === "on";
+  const result = await applyProposal(db, proposal, { structureOnly });
+  // Items missing from the document stay put; only ones an admin ticked are archived (reversible).
+  const archiveTypes = ["sub_category", "lesson", "sub_lesson"] as const;
+  for (const entry of formData.getAll("archive").map(String)) {
+    const [type, id] = entry.split(":");
+    if (!id || !archiveTypes.some((item) => item === type)) continue;
+    await archiveEntity(db, type as (typeof archiveTypes)[number], id, actor);
+  }
   revalidatePath("/course");
   revalidatePath("/admin/review");
   if (result.firstSubLessonId) redirect(`/admin/review/${result.firstSubLessonId}`);

@@ -14,8 +14,23 @@ import {
 import type { AppDatabase } from "@/lib/db/types";
 import type { Toolkit } from "@/lib/types";
 
+/**
+ * Short, readable label for a sub-lesson: its lesson code plus a letter by order (A1.1a, A1.1b…).
+ * Computed from the order, so nothing extra is stored and reordering keeps labels tidy.
+ */
+export function subLessonLabel(lessonCode: string, index: number): string {
+  return index < 26 ? `${lessonCode}${String.fromCharCode(97 + index)}` : `${lessonCode}-${index + 1}`;
+}
+
+/** Imported headings keep their code in the title ("A1.2 Foo"); drop it where the code is shown beside it. */
+export function titleWithoutCode(code: string, title: string): string {
+  if (code && title.startsWith(`${code} `)) return title.slice(code.length + 1).trim();
+  return title;
+}
+
 export type CatalogSubLesson = {
   id: string;
+  label: string;
   title: string;
   position: string;
   biteCount: number;
@@ -154,11 +169,12 @@ export async function loadCatalog(db: AppDatabase, profileId?: string | null, co
                 .map((item) => ({ id: item.id, code: item.code, title: item.title })),
               subLessons: subLessonRows
                 .filter((row) => row.lessonId === lesson.id)
-                .map((subLesson) => {
+                .map((subLesson, index) => {
                   const lessonBites = biteRows.filter((bite) => bite.subLessonId === subLesson.id);
                   const biteIds = new Set(lessonBites.map((bite) => bite.id));
                   return {
                     id: subLesson.id,
+                    label: subLessonLabel(lesson.code, index),
                     title: subLesson.title,
                     position: subLesson.position,
                     biteCount: lessonBites.length,

@@ -24,15 +24,27 @@ export default async function StudyPage({ params }: { params: Promise<{ subLesso
         {subLesson.seenCount} of {subLesson.biteCount} bites read · {subLesson.questionCount} quiz questions
       </p>
       <Progress value={ratio} aria-label="Sub-lesson progress" />
-      <p className="text-sm text-muted-foreground">Learn and quiz are separate. Opening the cards does not start a quiz.</p>
-      <div className="flex flex-wrap gap-3">
-        <Button asChild>
-          <Link href={`/learn/${subLesson.id}`}>Learn</Link>
-        </Button>
-        <Button asChild variant="outline">
-          <Link href={`/quiz/${subLesson.id}`}>Quiz</Link>
-        </Button>
-      </div>
+      {subLesson.biteCount === 0 ? (
+        <div className="space-y-3 rounded-2xl border border-dashed border-border bg-card p-4">
+          <p className="font-medium">Coming soon</p>
+          <p className="text-sm text-muted-foreground">This lesson is in the outline but has no content yet.</p>
+          <Button asChild variant="outline">
+            <Link href="/course">Back to the course</Link>
+          </Button>
+        </div>
+      ) : (
+        <>
+          <p className="text-sm text-muted-foreground">Learn and quiz are separate. Opening the cards does not start a quiz.</p>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild>
+              <Link href={`/learn/${subLesson.id}`}>Learn</Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href={`/quiz/${subLesson.id}`}>Quiz</Link>
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
