@@ -5,50 +5,162 @@
     {
       "id": "bit_VkiYwkhh5YiL",
       "title": "Checking outputs with code and tests",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The most dependable check on a model's output is one that does not involve a model.\n\nCode can verify many things exactly.\n\nIs the output valid JSON with every required field? Do the line items add up to the stated total? Is the date real, and in the future? Does every customer ID mentioned exist in the database? Does each cited link open? Does the generated code run and pass its tests?\n\nSuch checks are instant, free and never wrong in the way a model can be.\n\nIt is a spell-checker and a calculator, as opposed to a colleague's opinion.\n\nSo for each output, ask what about it can be checked mechanically, and write that check. Keep model-based review for what code cannot judge, such as tone and reasoning.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_VkiYwkhh5YiL_1",
+          "type": "multiple_choice",
+          "prompt": "Which check is best done by code, not by a model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whether the tone is friendly"
+            },
+            {
+              "id": "b",
+              "text": "Whether line items add up to the stated total"
+            },
+            {
+              "id": "c",
+              "text": "Whether the argument is persuasive"
+            },
+            {
+              "id": "d",
+              "text": "Whether the writing is elegant"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Arithmetic and format are exactly verifiable, so code checks them reliably and at no cost.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_0_2LQvpXCNOB",
       "title": "Confidence estimation and abstaining",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A trustworthy system knows when it does not know, and says so.\n\nAbstaining means declining to answer, or handing over to a person, when confidence is too low. \"I could not find this in the policy documents\" is a good answer when it is true.\n\nEstimating confidence is the difficult part. A model's own statement, \"I am 90 per cent sure\", is a poor guide. Models are often confident and wrong.\n\nBetter signals come from outside the model's self-report. Did retrieval find strongly relevant sources? Do several independent runs agree? Did the answer pass verification?\n\nA good doctor says \"I am not certain, so I am referring you to a specialist\".\n\nDesign for it. Give the agent explicit permission to say it does not know, and a route for those cases.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0_2LQvpXCNOB_1",
+          "type": "multiple_choice",
+          "prompt": "Which is a more reliable sign of confidence than the model's own claim?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model saying \"I am certain\""
+            },
+            {
+              "id": "b",
+              "text": "Several independent runs giving the same answer"
+            },
+            {
+              "id": "c",
+              "text": "A longer answer"
+            },
+            {
+              "id": "d",
+              "text": "The use of capital letters"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Agreement across runs, strong sources and passed checks are better evidence than self-reported confidence.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_oQFSUNi5qELB",
       "title": "External checks beat self-assessment",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "There is a clear ranking in how much different kinds of check can be trusted.\n\nWeakest: the model assessing itself. \"Are you sure?\" \"Yes.\"\n\nBetter: a second model reviewing with fresh context.\n\nStronger: a check against something outside any model. A test that passes. A database lookup that confirms the record. A calculation done in code. A source document that can be read.\n\nStrongest, for what matters most: a qualified person.\n\nThe principle is that evidence should come from outside the thing being judged. A student marking their own exam is less reliable than the answer key.\n\nWhen you design an agent, look for where reality can be brought in. Every external check you add replaces a claim with a fact.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oQFSUNi5qELB_1",
+          "type": "multiple_choice",
+          "prompt": "Which is the strongest kind of check among these?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model saying it is sure"
+            },
+            {
+              "id": "b",
+              "text": "The model rereading its own answer"
+            },
+            {
+              "id": "c",
+              "text": "A longer explanation from the model"
+            },
+            {
+              "id": "d",
+              "text": "A test or lookup against something outside the model"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Evidence from outside the model confirms facts, while self-assessment only repeats a claim.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_akA-_xNkWUSj",
       "title": "Done must be shown, not claimed",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Agents report success readily. \"I have fixed the bug and all tests pass.\" Sometimes the tests were never run.\n\nThat is not exactly lying. A model produces the text that typically follows completed work, and that text says the work succeeded.\n\nSo build the rule into the system: a claim of completion has to come with evidence.\n\nNot \"the tests pass\", but the actual test output. Not \"the email was sent\", but the message ID that the mail service returned. Not \"the file is updated\", but the changed lines.\n\nThen have your code, or a reviewer, check that evidence.\n\nIt is a courier's proof of delivery: a signature or a photograph, not a tick in a box.\n\nIn your prompts, ask for the proof explicitly, and make \"I could not verify this\" an acceptable thing to say.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_akA-_xNkWUSj_1",
+          "type": "multiple_choice",
+          "prompt": "What should accompany an agent's claim that a task is complete?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A longer sentence"
+            },
+            {
+              "id": "b",
+              "text": "An apology"
+            },
+            {
+              "id": "c",
+              "text": "Evidence, such as test output or a confirmation ID"
+            },
+            {
+              "id": "d",
+              "text": "Nothing"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Requiring proof replaces an unreliable claim with something that can be checked.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

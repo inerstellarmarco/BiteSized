@@ -5,38 +5,122 @@
     {
       "id": "bit_tWDI9q8bJ9SW",
       "title": "Exploring multiple reasoning paths",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Chain of thought follows one line of reasoning from start to finish. If an early step is wrong, everything after it is wasted.\n\nTree of thoughts explores several lines. At each point the model generates a few possible next steps, not one. Each becomes a branch. Promising branches are extended, and the rest are dropped.\n\nIt is a chess player considering three candidate moves, thinking a few moves down each, and playing the best.\n\nOr finding a way through a maze by trying several corridors, not committing to the first.\n\nIt suits problems where there are many ways to begin and it is hard to know at the start which will work: puzzles, planning with constraints, creative tasks that have to meet several requirements.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_tWDI9q8bJ9SW_1",
+          "type": "multiple_choice",
+          "prompt": "How does tree of thoughts differ from chain of thought?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It explores several reasoning paths, not just one"
+            },
+            {
+              "id": "b",
+              "text": "It uses no reasoning at all"
+            },
+            {
+              "id": "c",
+              "text": "It always gives a shorter answer"
+            },
+            {
+              "id": "d",
+              "text": "It needs no model"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Branching lets the method recover from a poor early choice by pursuing alternatives.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_dvccUEdBjjVQ",
       "title": "Evaluating and pruning branches",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A tree that grows unchecked becomes enormous. Three options at each of five steps is 243 paths.\n\nSo each branch is judged as you go, and the weak ones are cut. That is pruning.\n\nThe judging is usually done by a model as well. It is asked to rate each partial solution: \"is this likely to lead to a valid answer: sure, maybe or impossible?\" Only the best few are kept and extended.\n\nA gardener does the same, cutting weak shoots so that the plant puts its energy into the strong ones.\n\nThe quality of the evaluation decides everything. A poor judge prunes the path that would have worked, or keeps dead ends. Where you can, judge with something firm, such as a rule or a test.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_dvccUEdBjjVQ_1",
+          "type": "multiple_choice",
+          "prompt": "Why are branches pruned in tree of thoughts?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To stop the number of paths growing unmanageably"
+            },
+            {
+              "id": "b",
+              "text": "To make the answer longer"
+            },
+            {
+              "id": "c",
+              "text": "Because all branches are equally good"
+            },
+            {
+              "id": "d",
+              "text": "To avoid using a model"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Cutting weak branches keeps the search affordable by focusing on promising paths.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_p2PiliaiB0WM",
       "title": "The cost: many calls for one answer",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Tree of thoughts is expensive. Every branch is a model call, and so is every evaluation. One answer can take dozens or hundreds of calls, where chain of thought takes one.\n\nThat means many times the cost and a much longer wait.\n\nIt is commissioning five architects to draft a house and choosing between them, when one would normally do.\n\nSo it is a specialist tool. It is worth using when the problem is hard, a single pass often fails, and a correct answer is valuable enough to justify the bill.\n\nIn everyday practice you will rarely build one. Modern reasoning models do a form of this exploration internally, and a single call to one of those is usually the better first choice.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_p2PiliaiB0WM_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main drawback of tree of thoughts?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It cannot solve hard problems"
+            },
+            {
+              "id": "b",
+              "text": "It only works in one language"
+            },
+            {
+              "id": "c",
+              "text": "It never evaluates anything"
+            },
+            {
+              "id": "d",
+              "text": "It needs many model calls for a single answer"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Each branch and each evaluation is a separate call, which multiplies cost and time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

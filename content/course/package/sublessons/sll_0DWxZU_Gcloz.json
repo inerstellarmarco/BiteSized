@@ -5,50 +5,162 @@
     {
       "id": "bit_ozdtbeEvsCva",
       "title": "Breaking big goals into executable sub-tasks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Decomposition means splitting a large goal into smaller pieces, each of which can actually be done.\n\n\"Prepare a competitor analysis\" is not something anyone can do in one step. Broken down: list the five main competitors. For each, collect pricing, features and recent news. Compare them in a table. Write up the findings.\n\nEach of those is concrete. You know how to start it and when it is finished.\n\nIt is planning a house move. Nobody \"moves house\". They book the van, pack the kitchen, redirect the post.\n\nModels do better with this structure, for the same reasons people do. Each piece fits comfortably in attention, and an error stays in one piece where it is easier to find.\n\nThe skill is choosing the size: small enough to do reliably, large enough to be worth a step.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ozdtbeEvsCva_1",
+          "type": "multiple_choice",
+          "prompt": "What is task decomposition?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Deleting parts of a task"
+            },
+            {
+              "id": "b",
+              "text": "Splitting a large goal into smaller, doable sub-tasks"
+            },
+            {
+              "id": "c",
+              "text": "Combining several goals into one"
+            },
+            {
+              "id": "d",
+              "text": "Asking the same question repeatedly"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Breaking work down makes each piece concrete, manageable and easier to check.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_CFqaK2JEmDHK",
       "title": "Assigning sub-tasks to tools or agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Once a goal has been broken down, each piece needs someone or something to do it.\n\nMatch the piece to the right kind of worker.\n\nA deterministic step, such as adding up figures or converting a file, goes to ordinary code. It is exact, instant and free.\n\nA lookup goes to a search or database tool.\n\nA step that needs judgement or language, such as summarising or drafting, goes to a model call.\n\nA large, self-contained piece of work, such as researching one competitor in depth, goes to a sub-agent.\n\nA decision with real consequences goes to a person.\n\nA site manager assigns jobs the same way. The electrician wires, the plumber plumbs, and the architect is asked only about design.\n\nA common error is using a model for what code does better. If a step has one correct answer that can be computed, compute it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_CFqaK2JEmDHK_1",
+          "type": "multiple_choice",
+          "prompt": "Which kind of sub-task is best given to ordinary code?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Drafting a persuasive email"
+            },
+            {
+              "id": "b",
+              "text": "Summarising a long report"
+            },
+            {
+              "id": "c",
+              "text": "Adding up a column of figures"
+            },
+            {
+              "id": "d",
+              "text": "Judging the tone of a message"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Exact computation is deterministic, so code does it reliably where a model might slip.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hzjnko1bygwl",
       "title": "A good sub-task: clear input, clear output, checkable result",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A sub-task is well formed when three things about it are clear.\n\nThe input: what it starts from. \"The list of five competitor names.\"\n\nThe output: what it has to produce, and in what form. \"For each, a row with monthly price, three main features and one recent news item, with sources.\"\n\nThe check: how you would know it was done properly. \"Five rows, no empty cells, every source a working link.\"\n\nCompare \"look into the competitors\". Look into what? Produce what? Finished when?\n\nIt is a work order handed to a tradesperson. The good ones say what to fit, where, and how the job will be signed off.\n\nIf you cannot write those three things for a sub-task, it is not yet clear enough to hand to a tool, an agent or a human.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hzjnko1bygwl_1",
+          "type": "multiple_choice",
+          "prompt": "What three things make a sub-task well formed?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A long title, a logo and a slogan"
+            },
+            {
+              "id": "b",
+              "text": "A clear input, a clear output and a way to check the result"
+            },
+            {
+              "id": "c",
+              "text": "A budget, a holiday and a bonus"
+            },
+            {
+              "id": "d",
+              "text": "A question, a joke and a greeting"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Knowing what it starts from, what it must produce and how to verify it makes a sub-task executable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_og0D9m_CjtEj",
       "title": "Dependencies: what must finish first",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Some sub-tasks cannot begin until others have finished. That relationship is a dependency.\n\nYou cannot compare the competitors' prices until the prices have been collected. You cannot write the summary before the comparison exists.\n\nOther tasks are independent. Researching competitor A does not depend on competitor B.\n\nWorking this out matters for two reasons.\n\nOrder: dependent tasks have to run in sequence, in the right order.\n\nSpeed: independent tasks can run at the same time. Five research tasks in parallel take the time of one.\n\nIt is cooking a meal. The sauce and the pasta can be on at once. Neither can be served before it is cooked.\n\nA plan that marks its dependencies shows what can be parallel and what the critical path is.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_og0D9m_CjtEj_1",
+          "type": "multiple_choice",
+          "prompt": "Why identify dependencies between sub-tasks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To make the plan longer"
+            },
+            {
+              "id": "b",
+              "text": "To remove all sub-tasks"
+            },
+            {
+              "id": "c",
+              "text": "To get the order right and see what can run in parallel"
+            },
+            {
+              "id": "d",
+              "text": "To avoid using tools"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Dependencies fix the necessary sequence, and independent tasks can be run simultaneously.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

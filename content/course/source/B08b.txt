@@ -1,0 +1,338 @@
+// B8 Planning, Reasoning & Reflection (rest of B8.2, and B8.3)
+@@ sll_eRiNhl08tY1c | B8.2 Planning > Planning Styles
+## Explicit planning
+In explicit planning, the agent writes out a plan before it does anything.
+
+"1. Get the list of overdue invoices. 2. For each, find the customer's contact. 3. Draft a reminder. 4. Present the drafts for approval."
+
+Then it carries the plan out, step by step.
+
+The advantages are solid. The plan can be read and corrected, by a person or a checking step, before any action is taken. The agent has something to refer back to, which reduces wandering. And progress can be tracked against it.
+
+It is writing out a route before a long drive.
+
+The weakness is that a plan is made with what was known at the start. Reality may differ, so the agent must be able to revise it.
+?? What is an advantage of explicit planning?
++ The plan can be reviewed before any action is taken
+- It needs no model
+- It can never be changed
+- It makes tasks take no time
+= A written plan gives people and checks a chance to catch problems before work begins.
+## Implicit planning
+In implicit planning, there is no written plan. The agent decides each next step as it arrives at it, as in the basic ReAct loop.
+
+It is not planless. The model has a sense of direction. It simply never writes the whole route down.
+
+It is finding your way through a new town by looking round at each corner, with no map drawn first.
+
+That suits short tasks, exploratory ones, and situations where you cannot know the steps until you see what you find. Writing a plan for a three-step lookup is wasted effort.
+
+On long tasks it struggles. With nothing to refer back to, the agent drifts, forgets parts of the job or goes round in circles.
+
+A rough rule: implicit for short and exploratory work, explicit for long and structured work.
+?? When is implicit planning a reasonable choice?
++ For short or exploratory tasks
+- For long, multi-stage projects
+- When a human must approve the plan
+- When progress must be tracked against a list
+= With few steps or unknown terrain, deciding as you go is efficient, while long tasks need a written plan.
+## Plan-and-solve and plan-and-execute agents
+These are two closely related patterns that separate the planning from the doing.
+
+Plan-and-solve is a prompting technique, within one call: first devise a plan, then carry it out step by step.
+
+Plan-and-execute is an architecture, with two roles. A planner produces the full list of steps. An executor works through them, one at a time, often with a simpler loop for each step. If a step fails, control goes back to the planner to revise.
+
+It is an architect and a builder. One draws the plan, the other builds it, and they talk when the site throws up a surprise.
+
+The benefits: the planner can be a strong, expensive model called once, while the steps run on a cheaper one. And the whole plan is visible up front.
+?? In a plan-and-execute agent, what does the planner do?
++ Produces the list of steps for the executor to carry out
+- Runs every tool itself
+- Approves payments
+- Deletes the plan
+= Planning and execution are split, so one role creates the steps and another performs them.
+## A written plan a human can read and approve
+One of the most practical safety measures is also one of the simplest: have the agent show its plan and wait for approval before it acts.
+
+"Here is what I intend to do: 1. Archive the 340 tickets older than a year. 2. Email their owners. 3. Close the queue. Shall I go ahead?"
+
+A person can read that in twenty seconds and catch the problem: "do not email the owners".
+
+It is much cheaper to correct a plan than to undo an action.
+
+It is the builder's quote that you sign before work starts.
+
+For this to work, the plan has to be specific, with real numbers and names, and written in plain language. And the agent has to then do what was approved, with no additions.
+?? Why have a human approve an agent's plan before it acts?
++ Correcting a plan is far cheaper than undoing an action
+- It makes the agent think faster
+- Humans enjoy reading plans
+- It removes the need for tools
+= A quick review catches mistakes while they are still words, before anything has changed.
+## A to-do list the agent ticks off as it works
+A plan is most useful when it stays live: a to-do list that the agent updates as it goes.
+
+At the start it writes the items. As each is finished, it marks it done and looks at the next. If something new comes up, it adds an item.
+
+That does three things. It keeps the agent on track, since consulting the list pulls its attention back to what remains. It stops things being forgotten, particularly the dull final steps. And it shows the user where things stand.
+
+Many coding agents work exactly this way, and it is a large part of why they manage long tasks.
+
+It is a shopping list. Without it you return with nine of the ten things.
+
+Keep exactly one item "in progress" at a time. That simple discipline prevents half-finished work from piling up.
+?? How does a live to-do list help an agent?
++ It keeps it on track and stops steps being forgotten
+- It replaces the model
+- It hides progress from the user
+- It makes the task longer for no reason
+= Checking and updating a list refocuses the agent and ensures every item is completed.
+
+@@ sll_llT0pFxlo7n- | B8.2 Planning > Replanning
+## Backtracking and replanning on failure
+Plans fail. A good agent notices and changes course.
+
+Backtracking means going back to an earlier point and trying a different branch. "Searching by order number found nothing. Go back and search by customer email."
+
+Replanning means revising the rest of the plan in the light of what has been learned. "The data is not in the CRM at all. New plan: export from the billing system."
+
+It is a blocked road. You do not sit there. You go back to the last junction, or you work out a new route altogether.
+
+The alternative is an agent that keeps retrying a failed step unchanged, which is the commonest way agents waste time and money.
+
+A useful prompt instruction: "if a step fails twice, stop and reconsider the approach".
+?? What is backtracking?
++ Returning to an earlier point and trying a different approach
+- Retrying the same failed step forever
+- Deleting the goal
+- Ignoring failures
+= Going back to a decision point and choosing another path avoids being stuck on a dead end.
+## Hierarchical task planning
+For large goals, one flat list of steps becomes unmanageable. Hierarchical planning arranges the plan in levels.
+
+At the top are a few big phases. "1. Gather data. 2. Analyse. 3. Write the report."
+
+Each phase is then broken into its own steps, but only when the agent reaches it. "Gather data" becomes "export sales, export returns, pull the survey results".
+
+It is a book's outline: parts, then chapters, then sections. Nobody plans every paragraph before writing the first chapter.
+
+The advantages: the top level keeps the overall direction steady. Detail is worked out late, when more is known. And each level is small enough to think about clearly.
+
+It also maps well onto orchestrator and worker designs, with the top level held by one agent and the phases by others.
+?? What is a benefit of hierarchical planning?
++ Details are worked out later, when more is known
+- Every step is fixed at the start
+- It has only one level
+- It removes the overall goal
+= Planning in levels keeps direction stable while leaving specifics until they can be decided well.
+## Plans meet reality: updating after each result
+A plan is a prediction made before the work. Each result is information the plan did not have.
+
+So after every step, a good agent compares what happened with what was expected.
+
+As expected? Carry on.
+
+Different? Adjust. The file had 4,000 rows where 400 were expected, so process it in batches.
+
+Changes everything? Replan. The customer already cancelled, so the retention offer makes no sense.
+
+The military saying is that no plan survives first contact. Good commanders plan anyway, and then adapt.
+
+The two failure modes mirror each other. Sticking rigidly to a plan that reality has overtaken. Or dropping the plan at the first surprise and improvising aimlessly.
+
+The aim is a plan held firmly enough to give direction and loosely enough to change.
+?? What should an agent do after each step of a plan?
++ Compare the result with expectations and adjust the plan if needed
+- Ignore the result
+- Restart from the beginning every time
+- Delete the remaining steps
+= Each result is new information, so the plan should be confirmed, adjusted or revised accordingly.
+## Giving up well: reporting what blocked progress
+Sometimes a task cannot be finished. Access is denied, the data does not exist, or the request contradicts itself. An agent needs to recognise that and stop.
+
+How it stops matters a great deal.
+
+Badly: silence, a vague "I ran into some issues", or worst, a made-up result to cover the gap.
+
+Well: a clear report. What was asked. What was completed. What was not, and exactly why. What was tried. What is needed in order to continue.
+
+"I updated 46 of the 50 records. Four failed because their customer IDs do not exist in the billing system: 1021, 1088, 1140, 1193. I need the correct IDs, or confirmation to skip them."
+
+A person can act on that at once.
+
+Tell the agent plainly that reporting a block is an acceptable outcome. Otherwise it will feel bound to produce something.
+?? What does a good "giving up" report contain?
++ What was done, what was not, why, and what is needed to continue
+- Only an apology
+- An invented result
+- Nothing at all
+= A specific account of progress and blockers lets a person act immediately.
+
+@@ sll_s3jaQSK9i40K | B8.3 Reflection & Self-Correction > Reflection Patterns
+## Agentic reflection
+Reflection means an agent looking back over its own work and judging it before moving on.
+
+After writing a draft, it rereads it against the brief. After a failed step, it asks what went wrong. After completing a task, it checks whether the request was actually met.
+
+This is prompted for explicitly: "review your answer. Does it address every part of the question? Are there errors?"
+
+It is proofreading your own email before sending.
+
+It works because generating and evaluating are different activities. A model that produced a flawed answer in one pass can often spot the flaw when asked to look at the answer as a reader.
+
+It costs an extra call or two. For work where quality matters, that is usually a good trade.
+?? What is agentic reflection?
++ An agent reviewing and judging its own work before continuing
+- An agent copying another agent
+- A model retraining itself
+- A tool for image editing
+= Stepping back to evaluate its own output lets an agent catch problems it missed while producing it.
+## Self-correction and revision loops
+Reflection finds problems. A revision loop fixes them.
+
+The cycle: produce a draft. Review it and list what is wrong. Revise to address those points. Review again. Repeat until it passes or a limit is reached.
+
+A writer works this way: draft, edit, redraft.
+
+It is strongest when the review has something solid to go on. Code is the best example. Write the code, run the tests, read the failures, fix, run again. Each round is guided by real evidence, not opinion.
+
+With only the model's own opinion to guide it, loops are weaker. They may polish what was already fine, or go back and forth between two versions.
+
+So wherever you can, put a real check in the loop.
+?? When does a revision loop work best?
++ When each round is guided by concrete feedback, such as test results
+- When there is no feedback at all
+- When it runs with no limit
+- When the first draft is never reviewed
+= Real evidence about what is wrong directs each revision, unlike opinion alone.
+## Limits of self-review: models miss their own mistakes
+Asking a model to check its own work helps, but less than you might hope.
+
+The reviewer shares the author's blind spots. If the model misread the question, it will misread it again while reviewing. If it believes a false fact, it will confirm it. The same context that led to the error is still in front of it.
+
+Models also tend to agree with what is already on the page, including their own earlier text.
+
+It is proofreading your own writing. You read what you meant, not what you wrote.
+
+So self-review reliably catches slips: a missed requirement, a formatting error, a sum that does not add up. It is unreliable for deeper errors of understanding.
+
+For those you need an independent check, which the next cards cover.
+?? Why is a model's review of its own work limited?
++ It shares the same blind spots and context that caused the error
+- Models cannot read their own output
+- Reviews always make work worse
+- It is too fast
+= The same misunderstandings that produced a mistake tend to recur when the same model reviews it.
+## A separate reviewer with fresh context
+A stronger form of review uses a second agent that begins with a clean slate.
+
+The reviewer sees only the original request and the finished work. It has not seen the author's reasoning, false starts or assumptions. So it judges the result as an outsider would.
+
+That independence is the point. The author's context contains the path that led to the mistake. The reviewer never walked that path.
+
+It is why publishers use editors and engineers use code review. The second pair of eyes is not cleverer. It is uninvolved.
+
+For more independence still, give the reviewer different instructions, a critical brief such as "find the three most serious problems", or a different model.
+
+Avoid telling the reviewer what the author intended. That hands over the very bias you are trying to remove.
+?? Why does a reviewer with fresh context catch more errors?
++ It has not seen the reasoning and assumptions that led to the mistake
+- It uses a bigger screen
+- It has no instructions
+- It always agrees with the author
+= An uninvolved reviewer judges the result on its merits, without inheriting the author's assumptions.
+## Capping revision rounds
+A revision loop needs a hard limit on the number of rounds, usually two or three.
+
+Without one, three things happen. Cost climbs with every pass. Quality stops improving after the first round or two, and can get worse, as the model over-edits sound work or adds needless caveats. And some loops never converge. The critic always finds something, since finding fault is what it was asked to do.
+
+It is editing a photograph. The first adjustments help. Twenty adjustments later it looks worse than the original.
+
+So set a cap, and decide what happens when it is reached: accept the best version so far, or pass it to a person with the outstanding concerns listed.
+
+Also give the critic permission to say "this is good enough". Otherwise it never will.
+?? Why cap the number of revision rounds?
++ Gains fade quickly while cost keeps rising, and some loops never settle
+- More rounds always improve quality
+- Models can only revise once
+- Caps make the work slower
+= Returns diminish after a round or two, so a limit prevents wasted cost and over-editing.
+
+@@ sll_MRpAIaZAl5y_ | B8.3 Reflection & Self-Correction > Verification
+## Checking outputs with code and tests
+The most dependable check on a model's output is one that does not involve a model.
+
+Code can verify many things exactly.
+
+Is the output valid JSON with every required field? Do the line items add up to the stated total? Is the date real, and in the future? Does every customer ID mentioned exist in the database? Does each cited link open? Does the generated code run and pass its tests?
+
+Such checks are instant, free and never wrong in the way a model can be.
+
+It is a spell-checker and a calculator, as opposed to a colleague's opinion.
+
+So for each output, ask what about it can be checked mechanically, and write that check. Keep model-based review for what code cannot judge, such as tone and reasoning.
+?? Which check is best done by code, not by a model?
++ Whether line items add up to the stated total
+- Whether the tone is friendly
+- Whether the argument is persuasive
+- Whether the writing is elegant
+= Arithmetic and format are exactly verifiable, so code checks them reliably and at no cost.
+## Confidence estimation and abstaining
+A trustworthy system knows when it does not know, and says so.
+
+Abstaining means declining to answer, or handing over to a person, when confidence is too low. "I could not find this in the policy documents" is a good answer when it is true.
+
+Estimating confidence is the difficult part. A model's own statement, "I am 90 per cent sure", is a poor guide. Models are often confident and wrong.
+
+Better signals come from outside the model's self-report. Did retrieval find strongly relevant sources? Do several independent runs agree? Did the answer pass verification?
+
+A good doctor says "I am not certain, so I am referring you to a specialist".
+
+Design for it. Give the agent explicit permission to say it does not know, and a route for those cases.
+?? Which is a more reliable sign of confidence than the model's own claim?
++ Several independent runs giving the same answer
+- The model saying "I am certain"
+- A longer answer
+- The use of capital letters
+= Agreement across runs, strong sources and passed checks are better evidence than self-reported confidence.
+## External checks beat self-assessment
+There is a clear ranking in how much different kinds of check can be trusted.
+
+Weakest: the model assessing itself. "Are you sure?" "Yes."
+
+Better: a second model reviewing with fresh context.
+
+Stronger: a check against something outside any model. A test that passes. A database lookup that confirms the record. A calculation done in code. A source document that can be read.
+
+Strongest, for what matters most: a qualified person.
+
+The principle is that evidence should come from outside the thing being judged. A student marking their own exam is less reliable than the answer key.
+
+When you design an agent, look for where reality can be brought in. Every external check you add replaces a claim with a fact.
+?? Which is the strongest kind of check among these?
++ A test or lookup against something outside the model
+- The model saying it is sure
+- The model rereading its own answer
+- A longer explanation from the model
+= Evidence from outside the model confirms facts, while self-assessment only repeats a claim.
+## Done must be shown, not claimed
+Agents report success readily. "I have fixed the bug and all tests pass." Sometimes the tests were never run.
+
+That is not exactly lying. A model produces the text that typically follows completed work, and that text says the work succeeded.
+
+So build the rule into the system: a claim of completion has to come with evidence.
+
+Not "the tests pass", but the actual test output. Not "the email was sent", but the message ID that the mail service returned. Not "the file is updated", but the changed lines.
+
+Then have your code, or a reviewer, check that evidence.
+
+It is a courier's proof of delivery: a signature or a photograph, not a tick in a box.
+
+In your prompts, ask for the proof explicitly, and make "I could not verify this" an acceptable thing to say.
+?? What should accompany an agent's claim that a task is complete?
++ Evidence, such as test output or a confirmation ID
+- A longer sentence
+- An apology
+- Nothing
+= Requiring proof replaces an unreliable claim with something that can be checked.

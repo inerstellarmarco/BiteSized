@@ -5,8 +5,8 @@
     {
       "id": "bit_yCQzIE__Ms_6",
       "title": "Step-by-step reasoning in prompts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Chain of thought means having a model work through a problem in steps before it gives the answer.\n\nA model writes one token at a time, each based on what came before. If it jumps straight to an answer, it has done no visible working. If it writes the steps first, each step becomes something that the next can build on.\n\nAsk it \"is this invoice total correct?\" and it may simply guess. Ask it to \"add up each line, then compare with the stated total, then answer\" and it works the sum through.\n\nIt is \"show your working\" in a maths class. Writing the steps catches errors that mental arithmetic misses.\n\nThe old trick was adding \"think step by step\". With current models, a clear outline of the steps you want works better.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,55 +19,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_yCQzIE__Ms_6_1",
+          "type": "multiple_choice",
+          "prompt": "Why does step-by-step reasoning improve answers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the answer shorter"
+            },
+            {
+              "id": "b",
+              "text": "It removes the need for a question"
+            },
+            {
+              "id": "c",
+              "text": "It changes the model's weights"
+            },
+            {
+              "id": "d",
+              "text": "Each written step gives the model something to build the next on"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Working written out becomes context for what follows, which reduces leaps and errors.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_JtEKkH23_C_t",
       "title": "Reasoning models and hidden chains of thought",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Many current models reason by themselves, with no need to be asked. They are often called reasoning models, or models with extended thinking.\n\nBefore answering, the model produces a stretch of private working: it considers approaches, tries things and checks itself. Then it writes the reply.\n\nThat working is usually hidden, or shown only as a summary. You still pay for it. Thinking tokens are billed as output.\n\nIt is a student doing rough work on scrap paper and handing in the neat answer.\n\nWith these models, the instruction \"think step by step\" is unnecessary. They already do. Your job changes to stating the problem and the success criteria clearly, and then letting the model work.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_JtEKkH23_C_t_1",
+          "type": "multiple_choice",
+          "prompt": "What is true of a reasoning model's hidden thinking?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It is always free"
+            },
+            {
+              "id": "b",
+              "text": "It is written by a person"
+            },
+            {
+              "id": "c",
+              "text": "It is billed even though you may not see it in full"
+            },
+            {
+              "id": "d",
+              "text": "It never affects the answer"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Thinking tokens are generated and charged as output, whether or not they are displayed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Gh7lB7z71ZPb",
       "title": "Thinking budgets: more thinking costs more and takes longer",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Reasoning models let you set how much thinking they do. The control goes by different names: a thinking budget in tokens, or an effort level such as low, medium and high.\n\nMore thinking generally helps on hard problems. It always costs more, since the tokens are billed, and it takes longer. A response with heavy thinking can take a minute where a light one takes seconds.\n\nIt is deciding how long to give a consultant. Ten minutes gets a quick opinion. A day gets a considered one, at a day's fee.\n\nSo match the budget to the task. Low for simple extraction and classification. High for difficult analysis, planning or tricky code.\n\nLeaving everything on maximum is a common and expensive mistake.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Gh7lB7z71ZPb_1",
+          "type": "multiple_choice",
+          "prompt": "What is the trade-off of a higher thinking budget?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Better results on hard problems, at more cost and delay"
+            },
+            {
+              "id": "b",
+              "text": "Lower cost and faster answers"
+            },
+            {
+              "id": "c",
+              "text": "No effect at all"
+            },
+            {
+              "id": "d",
+              "text": "Shorter prompts"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Extra thinking tokens can improve difficult answers but are billed and take time to produce.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_eAPu_8OTy5AE",
       "title": "When extra reasoning helps and when it is wasted",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Extra reasoning pays off on problems with several steps where an early error would spoil the result.\n\nIt helps with maths and logic, planning, debugging, analysis with several interacting factors, and decisions with many constraints.\n\nIt is wasted on looking up a fact, simple classification, reformatting, short rewrites, and anything where the answer is immediate. The model either knows the capital of France or does not. Ten seconds of pondering will not change it.\n\nOn some simple tasks, extra thinking makes things worse. The model talks itself out of a right first answer.\n\nNobody deliberates for an hour over which sock to put on first.\n\nTest both ways on your own task. If the light setting gives the same quality, use it and keep the savings.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_eAPu_8OTy5AE_1",
+          "type": "multiple_choice",
+          "prompt": "Which task benefits least from extra reasoning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Looking up a simple fact"
+            },
+            {
+              "id": "b",
+              "text": "Debugging a complex program"
+            },
+            {
+              "id": "c",
+              "text": "Planning a multi-step project"
+            },
+            {
+              "id": "d",
+              "text": "Solving a logic puzzle"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Simple retrieval has no steps to work through, so additional thinking adds cost and delay only.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_m22hUJkdZmFl",
       "title": "Stated reasoning may not match what the model actually did",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "It is natural to read a model's reasoning as an account of how it reached its answer. Research shows that is not always the case.\n\nStudies have found models that gave a tidy step-by-step justification while the answer was in fact driven by something else, such as a hint in the prompt that the explanation never mentioned. The reasoning can be a plausible story composed alongside the answer, not a faithful record.\n\nIt is asking a person why they chose a particular product. They give you sensible reasons. The real cause may have been the packaging.\n\nReasoning is still useful. It often improves the answer, and it is a good clue when debugging.\n\nBut do not treat it as proof. Verify the result, not the explanation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_m22hUJkdZmFl_1",
+          "type": "multiple_choice",
+          "prompt": "How should a model's stated reasoning be treated?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "As a guaranteed, exact record"
+            },
+            {
+              "id": "b",
+              "text": "As legally binding"
+            },
+            {
+              "id": "c",
+              "text": "As always false"
+            },
+            {
+              "id": "d",
+              "text": "As a useful clue, not as proof of how the answer was reached"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Explanations can be plausible stories, so the result itself still needs checking.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

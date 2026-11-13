@@ -1,0 +1,274 @@
+// B8 Planning, Reasoning & Reflection (B8.1 and the first part of B8.2)
+@@ sll_Gr4_QOJmlM0v | B8.1 Reasoning Techniques > Chain of Thought
+## Step-by-step reasoning in prompts
+Chain of thought means having a model work through a problem in steps before it gives the answer.
+
+A model writes one token at a time, each based on what came before. If it jumps straight to an answer, it has done no visible working. If it writes the steps first, each step becomes something that the next can build on.
+
+Ask it "is this invoice total correct?" and it may simply guess. Ask it to "add up each line, then compare with the stated total, then answer" and it works the sum through.
+
+It is "show your working" in a maths class. Writing the steps catches errors that mental arithmetic misses.
+
+The old trick was adding "think step by step". With current models, a clear outline of the steps you want works better.
+?? Why does step-by-step reasoning improve answers?
++ Each written step gives the model something to build the next on
+- It makes the answer shorter
+- It removes the need for a question
+- It changes the model's weights
+= Working written out becomes context for what follows, which reduces leaps and errors.
+## Reasoning models and hidden chains of thought
+~m
+Many current models reason by themselves, with no need to be asked. They are often called reasoning models, or models with extended thinking.
+
+Before answering, the model produces a stretch of private working: it considers approaches, tries things and checks itself. Then it writes the reply.
+
+That working is usually hidden, or shown only as a summary. You still pay for it. Thinking tokens are billed as output.
+
+It is a student doing rough work on scrap paper and handing in the neat answer.
+
+With these models, the instruction "think step by step" is unnecessary. They already do. Your job changes to stating the problem and the success criteria clearly, and then letting the model work.
+?? What is true of a reasoning model's hidden thinking?
++ It is billed even though you may not see it in full
+- It is always free
+- It is written by a person
+- It never affects the answer
+= Thinking tokens are generated and charged as output, whether or not they are displayed.
+## Thinking budgets: more thinking costs more and takes longer
+~m
+Reasoning models let you set how much thinking they do. The control goes by different names: a thinking budget in tokens, or an effort level such as low, medium and high.
+
+More thinking generally helps on hard problems. It always costs more, since the tokens are billed, and it takes longer. A response with heavy thinking can take a minute where a light one takes seconds.
+
+It is deciding how long to give a consultant. Ten minutes gets a quick opinion. A day gets a considered one, at a day's fee.
+
+So match the budget to the task. Low for simple extraction and classification. High for difficult analysis, planning or tricky code.
+
+Leaving everything on maximum is a common and expensive mistake.
+?? What is the trade-off of a higher thinking budget?
++ Better results on hard problems, at more cost and delay
+- Lower cost and faster answers
+- No effect at all
+- Shorter prompts
+= Extra thinking tokens can improve difficult answers but are billed and take time to produce.
+## When extra reasoning helps and when it is wasted
+Extra reasoning pays off on problems with several steps where an early error would spoil the result.
+
+It helps with maths and logic, planning, debugging, analysis with several interacting factors, and decisions with many constraints.
+
+It is wasted on looking up a fact, simple classification, reformatting, short rewrites, and anything where the answer is immediate. The model either knows the capital of France or does not. Ten seconds of pondering will not change it.
+
+On some simple tasks, extra thinking makes things worse. The model talks itself out of a right first answer.
+
+Nobody deliberates for an hour over which sock to put on first.
+
+Test both ways on your own task. If the light setting gives the same quality, use it and keep the savings.
+?? Which task benefits least from extra reasoning?
++ Looking up a simple fact
+- Debugging a complex program
+- Planning a multi-step project
+- Solving a logic puzzle
+= Simple retrieval has no steps to work through, so additional thinking adds cost and delay only.
+## Stated reasoning may not match what the model actually did
+It is natural to read a model's reasoning as an account of how it reached its answer. Research shows that is not always the case.
+
+Studies have found models that gave a tidy step-by-step justification while the answer was in fact driven by something else, such as a hint in the prompt that the explanation never mentioned. The reasoning can be a plausible story composed alongside the answer, not a faithful record.
+
+It is asking a person why they chose a particular product. They give you sensible reasons. The real cause may have been the packaging.
+
+Reasoning is still useful. It often improves the answer, and it is a good clue when debugging.
+
+But do not treat it as proof. Verify the result, not the explanation.
+?? How should a model's stated reasoning be treated?
++ As a useful clue, not as proof of how the answer was reached
+- As a guaranteed, exact record
+- As legally binding
+- As always false
+= Explanations can be plausible stories, so the result itself still needs checking.
+
+@@ sll_1heLpw5fq9LE | B8.1 Reasoning Techniques > Tree of Thoughts
+## Exploring multiple reasoning paths
+Chain of thought follows one line of reasoning from start to finish. If an early step is wrong, everything after it is wasted.
+
+Tree of thoughts explores several lines. At each point the model generates a few possible next steps, not one. Each becomes a branch. Promising branches are extended, and the rest are dropped.
+
+It is a chess player considering three candidate moves, thinking a few moves down each, and playing the best.
+
+Or finding a way through a maze by trying several corridors, not committing to the first.
+
+It suits problems where there are many ways to begin and it is hard to know at the start which will work: puzzles, planning with constraints, creative tasks that have to meet several requirements.
+?? How does tree of thoughts differ from chain of thought?
++ It explores several reasoning paths, not just one
+- It uses no reasoning at all
+- It always gives a shorter answer
+- It needs no model
+= Branching lets the method recover from a poor early choice by pursuing alternatives.
+## Evaluating and pruning branches
+A tree that grows unchecked becomes enormous. Three options at each of five steps is 243 paths.
+
+So each branch is judged as you go, and the weak ones are cut. That is pruning.
+
+The judging is usually done by a model as well. It is asked to rate each partial solution: "is this likely to lead to a valid answer: sure, maybe or impossible?" Only the best few are kept and extended.
+
+A gardener does the same, cutting weak shoots so that the plant puts its energy into the strong ones.
+
+The quality of the evaluation decides everything. A poor judge prunes the path that would have worked, or keeps dead ends. Where you can, judge with something firm, such as a rule or a test.
+?? Why are branches pruned in tree of thoughts?
++ To stop the number of paths growing unmanageably
+- To make the answer longer
+- Because all branches are equally good
+- To avoid using a model
+= Cutting weak branches keeps the search affordable by focusing on promising paths.
+## The cost: many calls for one answer
+Tree of thoughts is expensive. Every branch is a model call, and so is every evaluation. One answer can take dozens or hundreds of calls, where chain of thought takes one.
+
+That means many times the cost and a much longer wait.
+
+It is commissioning five architects to draft a house and choosing between them, when one would normally do.
+
+So it is a specialist tool. It is worth using when the problem is hard, a single pass often fails, and a correct answer is valuable enough to justify the bill.
+
+In everyday practice you will rarely build one. Modern reasoning models do a form of this exploration internally, and a single call to one of those is usually the better first choice.
+?? What is the main drawback of tree of thoughts?
++ It needs many model calls for a single answer
+- It cannot solve hard problems
+- It only works in one language
+- It never evaluates anything
+= Each branch and each evaluation is a separate call, which multiplies cost and time.
+
+@@ sll_95GwjucoizSx | B8.1 Reasoning Techniques > Multi-Hop Reasoning in Agents
+## Connecting facts with sequential tool calls
+Some questions cannot be answered by one lookup. The answer to the first lookup tells you what to look up next. Each of those is a hop.
+
+"Which of our suppliers are affected by the port strike?" Hop one: which ports are on strike? Hop two: which shipping routes use those ports? Hop three: which suppliers ship on those routes?
+
+No single document holds the answer. An agent finds it by chaining tool calls, each built on the result of the last.
+
+It is a treasure hunt, where each clue leads to the place of the next.
+
+This is something agents do far better than one-shot retrieval. It is the reason agentic RAG, from module B3, exists.
+?? What is a multi-hop question?
++ One where each lookup's answer determines the next lookup
+- One with a single-word answer
+- One that needs no tools
+- One asked several times
+= The answer is assembled across several dependent steps, with each result guiding the next search.
+## Verifying each hop
+In a chain of lookups, each hop should be checked before the next is built on it.
+
+The checks are simple. Did the tool return anything? Does it answer what was asked? Is it the right entity? There may be two companies called Mercury, or two people called J. Smith. Is the source reliable and current?
+
+If a hop looks doubtful, deal with it there. Search again, try another source, or flag the uncertainty.
+
+A mountaineer tests each hold before putting weight on it.
+
+You can prompt for this: "after each lookup, confirm that the result is what you needed before continuing". It costs a little.
+
+Keep the evidence as well. An answer that shows its chain, with a source for each hop, can be checked by a person.
+?? Why verify each hop before continuing?
++ So later steps are not built on a wrong result
+- To use more tokens
+- Because tools never fail
+- To make the chain longer
+= Catching an error at the step where it occurs stops it carrying through the rest of the chain.
+## One wrong hop spoils the final answer
+Multi-hop reasoning is a chain, and a chain is as strong as its weakest link.
+
+If hop one picks the wrong company, hops two and three are carried out flawlessly, about the wrong company. The final answer is wrong, and it looks well researched.
+
+The arithmetic is harsh. If each hop is right 90 per cent of the time, a four-hop answer is right about 66 per cent of the time.
+
+It is the whispering game, where a message is passed along a line of people. One slip early on, and the message at the end is confidently mistaken.
+
+Three consequences. Use fewer hops where you can, by designing tools that do more in one call. Verify at each step. And treat long chains with caution, however polished the final answer sounds.
+?? If each hop is 90% reliable, roughly how reliable is a four-hop answer?
++ About 66%
+- About 90%
+- About 99%
+- 100%
+= Reliability multiplies across hops, so 0.9 to the power of four is roughly 0.66.
+
+@@ sll_0DWxZU_Gcloz | B8.2 Planning > Task Decomposition
+## Breaking big goals into executable sub-tasks
+Decomposition means splitting a large goal into smaller pieces, each of which can actually be done.
+
+"Prepare a competitor analysis" is not something anyone can do in one step. Broken down: list the five main competitors. For each, collect pricing, features and recent news. Compare them in a table. Write up the findings.
+
+Each of those is concrete. You know how to start it and when it is finished.
+
+It is planning a house move. Nobody "moves house". They book the van, pack the kitchen, redirect the post.
+
+Models do better with this structure, for the same reasons people do. Each piece fits comfortably in attention, and an error stays in one piece where it is easier to find.
+
+The skill is choosing the size: small enough to do reliably, large enough to be worth a step.
+?? What is task decomposition?
++ Splitting a large goal into smaller, doable sub-tasks
+- Deleting parts of a task
+- Combining several goals into one
+- Asking the same question repeatedly
+= Breaking work down makes each piece concrete, manageable and easier to check.
+## Assigning sub-tasks to tools or agents
+Once a goal has been broken down, each piece needs someone or something to do it.
+
+Match the piece to the right kind of worker.
+
+A deterministic step, such as adding up figures or converting a file, goes to ordinary code. It is exact, instant and free.
+
+A lookup goes to a search or database tool.
+
+A step that needs judgement or language, such as summarising or drafting, goes to a model call.
+
+A large, self-contained piece of work, such as researching one competitor in depth, goes to a sub-agent.
+
+A decision with real consequences goes to a person.
+
+A site manager assigns jobs the same way. The electrician wires, the plumber plumbs, and the architect is asked only about design.
+
+A common error is using a model for what code does better. If a step has one correct answer that can be computed, compute it.
+?? Which kind of sub-task is best given to ordinary code?
++ Adding up a column of figures
+- Drafting a persuasive email
+- Summarising a long report
+- Judging the tone of a message
+= Exact computation is deterministic, so code does it reliably where a model might slip.
+## A good sub-task: clear input, clear output, checkable result
+A sub-task is well formed when three things about it are clear.
+
+The input: what it starts from. "The list of five competitor names."
+
+The output: what it has to produce, and in what form. "For each, a row with monthly price, three main features and one recent news item, with sources."
+
+The check: how you would know it was done properly. "Five rows, no empty cells, every source a working link."
+
+Compare "look into the competitors". Look into what? Produce what? Finished when?
+
+It is a work order handed to a tradesperson. The good ones say what to fit, where, and how the job will be signed off.
+
+If you cannot write those three things for a sub-task, it is not yet clear enough to hand to a tool, an agent or a human.
+?? What three things make a sub-task well formed?
++ A clear input, a clear output and a way to check the result
+- A long title, a logo and a slogan
+- A budget, a holiday and a bonus
+- A question, a joke and a greeting
+= Knowing what it starts from, what it must produce and how to verify it makes a sub-task executable.
+## Dependencies: what must finish first
+Some sub-tasks cannot begin until others have finished. That relationship is a dependency.
+
+You cannot compare the competitors' prices until the prices have been collected. You cannot write the summary before the comparison exists.
+
+Other tasks are independent. Researching competitor A does not depend on competitor B.
+
+Working this out matters for two reasons.
+
+Order: dependent tasks have to run in sequence, in the right order.
+
+Speed: independent tasks can run at the same time. Five research tasks in parallel take the time of one.
+
+It is cooking a meal. The sauce and the pasta can be on at once. Neither can be served before it is cooked.
+
+A plan that marks its dependencies shows what can be parallel and what the critical path is.
+?? Why identify dependencies between sub-tasks?
++ To get the order right and see what can run in parallel
+- To make the plan longer
+- To remove all sub-tasks
+- To avoid using tools
+= Dependencies fix the necessary sequence, and independent tasks can be run simultaneously.

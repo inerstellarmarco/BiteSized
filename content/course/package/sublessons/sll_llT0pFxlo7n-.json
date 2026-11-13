@@ -5,50 +5,162 @@
     {
       "id": "bit_Hfk4KDPsthMI",
       "title": "Backtracking and replanning on failure",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Plans fail. A good agent notices and changes course.\n\nBacktracking means going back to an earlier point and trying a different branch. \"Searching by order number found nothing. Go back and search by customer email.\"\n\nReplanning means revising the rest of the plan in the light of what has been learned. \"The data is not in the CRM at all. New plan: export from the billing system.\"\n\nIt is a blocked road. You do not sit there. You go back to the last junction, or you work out a new route altogether.\n\nThe alternative is an agent that keeps retrying a failed step unchanged, which is the commonest way agents waste time and money.\n\nA useful prompt instruction: \"if a step fails twice, stop and reconsider the approach\".",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Hfk4KDPsthMI_1",
+          "type": "multiple_choice",
+          "prompt": "What is backtracking?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Returning to an earlier point and trying a different approach"
+            },
+            {
+              "id": "b",
+              "text": "Retrying the same failed step forever"
+            },
+            {
+              "id": "c",
+              "text": "Deleting the goal"
+            },
+            {
+              "id": "d",
+              "text": "Ignoring failures"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Going back to a decision point and choosing another path avoids being stuck on a dead end.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_9bfp9hs-CXar",
       "title": "Hierarchical task planning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "For large goals, one flat list of steps becomes unmanageable. Hierarchical planning arranges the plan in levels.\n\nAt the top are a few big phases. \"1. Gather data. 2. Analyse. 3. Write the report.\"\n\nEach phase is then broken into its own steps, but only when the agent reaches it. \"Gather data\" becomes \"export sales, export returns, pull the survey results\".\n\nIt is a book's outline: parts, then chapters, then sections. Nobody plans every paragraph before writing the first chapter.\n\nThe advantages: the top level keeps the overall direction steady. Detail is worked out late, when more is known. And each level is small enough to think about clearly.\n\nIt also maps well onto orchestrator and worker designs, with the top level held by one agent and the phases by others.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9bfp9hs-CXar_1",
+          "type": "multiple_choice",
+          "prompt": "What is a benefit of hierarchical planning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every step is fixed at the start"
+            },
+            {
+              "id": "b",
+              "text": "Details are worked out later, when more is known"
+            },
+            {
+              "id": "c",
+              "text": "It has only one level"
+            },
+            {
+              "id": "d",
+              "text": "It removes the overall goal"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Planning in levels keeps direction stable while leaving specifics until they can be decided well.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ZGM247K-G7FY",
       "title": "Plans meet reality: updating after each result",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A plan is a prediction made before the work. Each result is information the plan did not have.\n\nSo after every step, a good agent compares what happened with what was expected.\n\nAs expected? Carry on.\n\nDifferent? Adjust. The file had 4,000 rows where 400 were expected, so process it in batches.\n\nChanges everything? Replan. The customer already cancelled, so the retention offer makes no sense.\n\nThe military saying is that no plan survives first contact. Good commanders plan anyway, and then adapt.\n\nThe two failure modes mirror each other. Sticking rigidly to a plan that reality has overtaken. Or dropping the plan at the first surprise and improvising aimlessly.\n\nThe aim is a plan held firmly enough to give direction and loosely enough to change.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ZGM247K-G7FY_1",
+          "type": "multiple_choice",
+          "prompt": "What should an agent do after each step of a plan?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Ignore the result"
+            },
+            {
+              "id": "b",
+              "text": "Restart from the beginning every time"
+            },
+            {
+              "id": "c",
+              "text": "Delete the remaining steps"
+            },
+            {
+              "id": "d",
+              "text": "Compare the result with expectations and adjust the plan if needed"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Each result is new information, so the plan should be confirmed, adjusted or revised accordingly.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_FSfnY1fT3Kwh",
       "title": "Giving up well: reporting what blocked progress",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sometimes a task cannot be finished. Access is denied, the data does not exist, or the request contradicts itself. An agent needs to recognise that and stop.\n\nHow it stops matters a great deal.\n\nBadly: silence, a vague \"I ran into some issues\", or worst, a made-up result to cover the gap.\n\nWell: a clear report. What was asked. What was completed. What was not, and exactly why. What was tried. What is needed in order to continue.\n\n\"I updated 46 of the 50 records. Four failed because their customer IDs do not exist in the billing system: 1021, 1088, 1140, 1193. I need the correct IDs, or confirmation to skip them.\"\n\nA person can act on that at once.\n\nTell the agent plainly that reporting a block is an acceptable outcome. Otherwise it will feel bound to produce something.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FSfnY1fT3Kwh_1",
+          "type": "multiple_choice",
+          "prompt": "What does a good \"giving up\" report contain?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only an apology"
+            },
+            {
+              "id": "b",
+              "text": "An invented result"
+            },
+            {
+              "id": "c",
+              "text": "Nothing at all"
+            },
+            {
+              "id": "d",
+              "text": "What was done, what was not, why, and what is needed to continue"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A specific account of progress and blockers lets a person act immediately.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

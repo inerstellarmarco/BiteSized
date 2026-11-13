@@ -5,44 +5,128 @@
     {
       "id": "bit_SuKq2Ymf8Gk_",
       "title": "Agentic reflection",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Reflection means an agent looking back over its own work and judging it before moving on.\n\nAfter writing a draft, it rereads it against the brief. After a failed step, it asks what went wrong. After completing a task, it checks whether the request was actually met.\n\nThis is prompted for explicitly: \"review your answer. Does it address every part of the question? Are there errors?\"\n\nIt is proofreading your own email before sending.\n\nIt works because generating and evaluating are different activities. A model that produced a flawed answer in one pass can often spot the flaw when asked to look at the answer as a reader.\n\nIt costs an extra call or two. For work where quality matters, that is usually a good trade.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_SuKq2Ymf8Gk__1",
+          "type": "multiple_choice",
+          "prompt": "What is agentic reflection?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "An agent reviewing and judging its own work before continuing"
+            },
+            {
+              "id": "b",
+              "text": "An agent copying another agent"
+            },
+            {
+              "id": "c",
+              "text": "A model retraining itself"
+            },
+            {
+              "id": "d",
+              "text": "A tool for image editing"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Stepping back to evaluate its own output lets an agent catch problems it missed while producing it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_GdEelQXZ3hLi",
       "title": "Self-correction and revision loops",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Reflection finds problems. A revision loop fixes them.\n\nThe cycle: produce a draft. Review it and list what is wrong. Revise to address those points. Review again. Repeat until it passes or a limit is reached.\n\nA writer works this way: draft, edit, redraft.\n\nIt is strongest when the review has something solid to go on. Code is the best example. Write the code, run the tests, read the failures, fix, run again. Each round is guided by real evidence, not opinion.\n\nWith only the model's own opinion to guide it, loops are weaker. They may polish what was already fine, or go back and forth between two versions.\n\nSo wherever you can, put a real check in the loop.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GdEelQXZ3hLi_1",
+          "type": "multiple_choice",
+          "prompt": "When does a revision loop work best?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When there is no feedback at all"
+            },
+            {
+              "id": "b",
+              "text": "When each round is guided by concrete feedback, such as test results"
+            },
+            {
+              "id": "c",
+              "text": "When it runs with no limit"
+            },
+            {
+              "id": "d",
+              "text": "When the first draft is never reviewed"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Real evidence about what is wrong directs each revision, unlike opinion alone.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wb4DP94kls68",
       "title": "Limits of self-review: models miss their own mistakes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Asking a model to check its own work helps, but less than you might hope.\n\nThe reviewer shares the author's blind spots. If the model misread the question, it will misread it again while reviewing. If it believes a false fact, it will confirm it. The same context that led to the error is still in front of it.\n\nModels also tend to agree with what is already on the page, including their own earlier text.\n\nIt is proofreading your own writing. You read what you meant, not what you wrote.\n\nSo self-review reliably catches slips: a missed requirement, a formatting error, a sum that does not add up. It is unreliable for deeper errors of understanding.\n\nFor those you need an independent check, which the next cards cover.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wb4DP94kls68_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a model's review of its own work limited?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Models cannot read their own output"
+            },
+            {
+              "id": "b",
+              "text": "It shares the same blind spots and context that caused the error"
+            },
+            {
+              "id": "c",
+              "text": "Reviews always make work worse"
+            },
+            {
+              "id": "d",
+              "text": "It is too fast"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The same misunderstandings that produced a mistake tend to recur when the same model reviews it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_3ncduAUijpsD",
       "title": "A separate reviewer with fresh context",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A stronger form of review uses a second agent that begins with a clean slate.\n\nThe reviewer sees only the original request and the finished work. It has not seen the author's reasoning, false starts or assumptions. So it judges the result as an outsider would.\n\nThat independence is the point. The author's context contains the path that led to the mistake. The reviewer never walked that path.\n\nIt is why publishers use editors and engineers use code review. The second pair of eyes is not cleverer. It is uninvolved.\n\nFor more independence still, give the reviewer different instructions, a critical brief such as \"find the three most serious problems\", or a different model.\n\nAvoid telling the reviewer what the author intended. That hands over the very bias you are trying to remove.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,19 +139,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3ncduAUijpsD_1",
+          "type": "multiple_choice",
+          "prompt": "Why does a reviewer with fresh context catch more errors?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It uses a bigger screen"
+            },
+            {
+              "id": "b",
+              "text": "It has no instructions"
+            },
+            {
+              "id": "c",
+              "text": "It has not seen the reasoning and assumptions that led to the mistake"
+            },
+            {
+              "id": "d",
+              "text": "It always agrees with the author"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "An uninvolved reviewer judges the result on its merits, without inheriting the author's assumptions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_kxJBX0II4R1h",
       "title": "Capping revision rounds",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A revision loop needs a hard limit on the number of rounds, usually two or three.\n\nWithout one, three things happen. Cost climbs with every pass. Quality stops improving after the first round or two, and can get worse, as the model over-edits sound work or adds needless caveats. And some loops never converge. The critic always finds something, since finding fault is what it was asked to do.\n\nIt is editing a photograph. The first adjustments help. Twenty adjustments later it looks worse than the original.\n\nSo set a cap, and decide what happens when it is reached: accept the best version so far, or pass it to a person with the outstanding concerns listed.\n\nAlso give the critic permission to say \"this is good enough\". Otherwise it never will.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kxJBX0II4R1h_1",
+          "type": "multiple_choice",
+          "prompt": "Why cap the number of revision rounds?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "More rounds always improve quality"
+            },
+            {
+              "id": "b",
+              "text": "Models can only revise once"
+            },
+            {
+              "id": "c",
+              "text": "Caps make the work slower"
+            },
+            {
+              "id": "d",
+              "text": "Gains fade quickly while cost keeps rising, and some loops never settle"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Returns diminish after a round or two, so a limit prevents wasted cost and over-editing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -4,7 +4,7 @@ Written 13 November 2026 for the next agent taking over this task. Read this who
 
 ## 1. The job in one paragraph
 
-The owner (not a developer; checks changes on their phone through the Vercel preview of the `dev` branch) wants **every card ("bite") in the whole course written**, with one multiple-choice question each. The course has 5 tracks, 50 modules, 330 sub-lessons and 1,794 cards. **597 cards are written and pushed. 1,197 are still empty** (modules B8 to B16, all of C, D and E). When all are written, build a zip the owner uploads with the **Import package** button on the **Family** page.
+The owner (not a developer; checks changes on their phone through the Vercel preview of the `dev` branch) wants **every card ("bite") in the whole course written**, with one multiple-choice question each. The course has 5 tracks, 50 modules, 330 sub-lessons and 1,794 cards. **630 cards are written and pushed. 1,164 are still empty** (modules B9 to B16, all of C, D and E). When all are written, build a zip the owner uploads with the **Import package** button on the **Family** page.
 
 ## 2. Links
 
@@ -12,7 +12,7 @@ The owner (not a developer; checks changes on their phone through the Vercel pre
 | --- | --- |
 | Repository | https://github.com/inerstellarmarco/BiteSized |
 | Branch to work on (the only one) | https://github.com/inerstellarmarco/BiteSized/tree/dev |
-| Last pushed commit of this task | https://github.com/inerstellarmarco/BiteSized/commit/57ee71d |
+| Commit history of the branch (newest first) | https://github.com/inerstellarmarco/BiteSized/commits/dev |
 | Card text, one file per module | https://github.com/inerstellarmarco/BiteSized/tree/dev/content/course/source |
 | Outline of every module (titles to fill) | https://github.com/inerstellarmarco/BiteSized/tree/dev/content/course/outline |
 | Built package (what gets imported) | https://github.com/inerstellarmarco/BiteSized/tree/dev/content/course/package |
@@ -77,7 +77,7 @@ Rules the parser and tests enforce:
 
 Their words: "explained clearly, simply and concise - Meaning easy to understand tone, with clarity but not ignoring or compromising the complexity of it.. often giving analogies and Examples". There is no limit on cards per sub-lesson, but the outline already fixes the titles, so write one card per title.
 
-How that has been applied in the 597 finished cards (read `B05.txt` or `B07.txt` for the house voice before writing):
+How that has been applied in the 630 finished cards (read `B05.txt` or `B07.txt` for the house voice before writing):
 
 - Open with a plain statement of what the thing is.
 - Give one analogy from everyday life or one concrete business example, on its own short line ("It is a doctor writing a prescription.").
@@ -96,13 +96,13 @@ Run everything from the repo root.
 git pull --rebase origin dev
 ```
 
-Write `content/course/source/B08.txt` from `content/course/outline/B8.txt`, then:
+Write `content/course/source/B09.txt` from `content/course/outline/B9.txt`, then:
 
 ```bash
 npx tsx scripts/build-course.ts
 ```
 
-It prints, for example, `330 sub-lessons, 1794 bites, 597 written, 1197 still empty, 608 questions`. If it throws, the message names the file and line. Then:
+It prints, for example, `330 sub-lessons, 1794 bites, 630 written, 1164 still empty, 641 questions`. If it throws, the message names the file and line. Then:
 
 ```bash
 npx vitest run
@@ -123,14 +123,15 @@ Notes for this Windows machine:
 | A1 to A5 | `A1.txt` ... `A5.txt` | written, pushed |
 | A6 | `A6a.txt`, `A6b.txt` | written, pushed |
 | B1 to B7 | `B01.txt` ... `B07.txt` | written, pushed |
+| B8 | `B08a.txt`, `B08b.txt` | written, pushed |
 
-The working tree is clean at commit `57ee71d`. B8 was drafted but the save failed, so **nothing of B8 is in the repo. Start at B8.**
+Everything the previous agent wrote is pushed; nothing is held back anywhere else. **Start at B9.**
 
 ## 9. What is left (sub-lessons / cards)
 
 | Track B | | Track C | | Track D | | Track E | |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| B8 | 8 / 33 | C1 | 7 / 42 | D1 | 5 / 31 | E1 | 3 / 19 |
+| B8 | done | C1 | 7 / 42 | D1 | 5 / 31 | E1 | 3 / 19 |
 | B9 | 6 / 28 | C2 | 6 / 38 | D2 | 4 / 25 | E2 | 3 / 17 |
 | B10 | 11 / 63 | C3 | 7 / 37 | D3 | 6 / 36 | E3 | 3 / 16 |
 | B11 | 6 / 29 | C4 | 6 / 37 | D4 | 5 / 30 | E4 | 4 / 22 |
@@ -140,9 +141,9 @@ The working tree is clean at commit `57ee71d`. B8 was drafted but the save faile
 | B15 | 8 / 39 | C8 | 6 / 32 | D8 | 4 / 25 | E8 | 8 / 43 |
 | B16 | 10 / 39 | C9 | 6 / 33 | D9 | 4 / 22 | E9 | 7 / 37 |
 | | | | | | | E10 | 7 / 35 |
-| **336 cards** | | **328 cards** | | **249 cards** | | **284 cards** | |
+| **303 cards** | | **328 cards** | | **249 cards** | | **284 cards** | |
 
-Total left: 1,197 cards. Name the files with two digits so they sort correctly: `B08.txt` ... `B16.txt`, `C01.txt` ... `E10.txt`.
+Total left: 1,164 cards. Name the files with two digits so they sort correctly: `B09.txt` ... `B16.txt`, `C01.txt` ... `E10.txt`.
 
 ## 10. Finishing, once every card is written
 

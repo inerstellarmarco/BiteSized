@@ -5,44 +5,128 @@
     {
       "id": "bit_9m-YhwBgi1sU",
       "title": "Explicit planning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In explicit planning, the agent writes out a plan before it does anything.\n\n\"1. Get the list of overdue invoices. 2. For each, find the customer's contact. 3. Draft a reminder. 4. Present the drafts for approval.\"\n\nThen it carries the plan out, step by step.\n\nThe advantages are solid. The plan can be read and corrected, by a person or a checking step, before any action is taken. The agent has something to refer back to, which reduces wandering. And progress can be tracked against it.\n\nIt is writing out a route before a long drive.\n\nThe weakness is that a plan is made with what was known at the start. Reality may differ, so the agent must be able to revise it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9m-YhwBgi1sU_1",
+          "type": "multiple_choice",
+          "prompt": "What is an advantage of explicit planning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It needs no model"
+            },
+            {
+              "id": "b",
+              "text": "The plan can be reviewed before any action is taken"
+            },
+            {
+              "id": "c",
+              "text": "It can never be changed"
+            },
+            {
+              "id": "d",
+              "text": "It makes tasks take no time"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A written plan gives people and checks a chance to catch problems before work begins.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_J4SVTVEfKIPx",
       "title": "Implicit planning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In implicit planning, there is no written plan. The agent decides each next step as it arrives at it, as in the basic ReAct loop.\n\nIt is not planless. The model has a sense of direction. It simply never writes the whole route down.\n\nIt is finding your way through a new town by looking round at each corner, with no map drawn first.\n\nThat suits short tasks, exploratory ones, and situations where you cannot know the steps until you see what you find. Writing a plan for a three-step lookup is wasted effort.\n\nOn long tasks it struggles. With nothing to refer back to, the agent drifts, forgets parts of the job or goes round in circles.\n\nA rough rule: implicit for short and exploratory work, explicit for long and structured work.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_J4SVTVEfKIPx_1",
+          "type": "multiple_choice",
+          "prompt": "When is implicit planning a reasonable choice?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "For long, multi-stage projects"
+            },
+            {
+              "id": "b",
+              "text": "When a human must approve the plan"
+            },
+            {
+              "id": "c",
+              "text": "When progress must be tracked against a list"
+            },
+            {
+              "id": "d",
+              "text": "For short or exploratory tasks"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "With few steps or unknown terrain, deciding as you go is efficient, while long tasks need a written plan.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_8xcHN_ma-YMo",
       "title": "Plan-and-solve and plan-and-execute agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "These are two closely related patterns that separate the planning from the doing.\n\nPlan-and-solve is a prompting technique, within one call: first devise a plan, then carry it out step by step.\n\nPlan-and-execute is an architecture, with two roles. A planner produces the full list of steps. An executor works through them, one at a time, often with a simpler loop for each step. If a step fails, control goes back to the planner to revise.\n\nIt is an architect and a builder. One draws the plan, the other builds it, and they talk when the site throws up a surprise.\n\nThe benefits: the planner can be a strong, expensive model called once, while the steps run on a cheaper one. And the whole plan is visible up front.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8xcHN_ma-YMo_1",
+          "type": "multiple_choice",
+          "prompt": "In a plan-and-execute agent, what does the planner do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Runs every tool itself"
+            },
+            {
+              "id": "b",
+              "text": "Produces the list of steps for the executor to carry out"
+            },
+            {
+              "id": "c",
+              "text": "Approves payments"
+            },
+            {
+              "id": "d",
+              "text": "Deletes the plan"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Planning and execution are split, so one role creates the steps and another performs them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_oVQnxa16DyIX",
       "title": "A written plan a human can read and approve",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "One of the most practical safety measures is also one of the simplest: have the agent show its plan and wait for approval before it acts.\n\n\"Here is what I intend to do: 1. Archive the 340 tickets older than a year. 2. Email their owners. 3. Close the queue. Shall I go ahead?\"\n\nA person can read that in twenty seconds and catch the problem: \"do not email the owners\".\n\nIt is much cheaper to correct a plan than to undo an action.\n\nIt is the builder's quote that you sign before work starts.\n\nFor this to work, the plan has to be specific, with real numbers and names, and written in plain language. And the agent has to then do what was approved, with no additions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,19 +139,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oVQnxa16DyIX_1",
+          "type": "multiple_choice",
+          "prompt": "Why have a human approve an agent's plan before it acts?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the agent think faster"
+            },
+            {
+              "id": "b",
+              "text": "Correcting a plan is far cheaper than undoing an action"
+            },
+            {
+              "id": "c",
+              "text": "Humans enjoy reading plans"
+            },
+            {
+              "id": "d",
+              "text": "It removes the need for tools"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A quick review catches mistakes while they are still words, before anything has changed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_r3-4ECIfe74I",
       "title": "A to-do list the agent ticks off as it works",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A plan is most useful when it stays live: a to-do list that the agent updates as it goes.\n\nAt the start it writes the items. As each is finished, it marks it done and looks at the next. If something new comes up, it adds an item.\n\nThat does three things. It keeps the agent on track, since consulting the list pulls its attention back to what remains. It stops things being forgotten, particularly the dull final steps. And it shows the user where things stand.\n\nMany coding agents work exactly this way, and it is a large part of why they manage long tasks.\n\nIt is a shopping list. Without it you return with nine of the ten things.\n\nKeep exactly one item \"in progress\" at a time. That simple discipline prevents half-finished work from piling up.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_r3-4ECIfe74I_1",
+          "type": "multiple_choice",
+          "prompt": "How does a live to-do list help an agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It replaces the model"
+            },
+            {
+              "id": "b",
+              "text": "It hides progress from the user"
+            },
+            {
+              "id": "c",
+              "text": "It makes the task longer for no reason"
+            },
+            {
+              "id": "d",
+              "text": "It keeps it on track and stops steps being forgotten"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Checking and updating a list refocuses the agent and ensures every item is completed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

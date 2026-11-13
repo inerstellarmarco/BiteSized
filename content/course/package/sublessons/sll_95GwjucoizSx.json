@@ -5,8 +5,8 @@
     {
       "id": "bit_kfUAKn9kc52A",
       "title": "Connecting facts with sequential tool calls",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Some questions cannot be answered by one lookup. The answer to the first lookup tells you what to look up next. Each of those is a hop.\n\n\"Which of our suppliers are affected by the port strike?\" Hop one: which ports are on strike? Hop two: which shipping routes use those ports? Hop three: which suppliers ship on those routes?\n\nNo single document holds the answer. An agent finds it by chaining tool calls, each built on the result of the last.\n\nIt is a treasure hunt, where each clue leads to the place of the next.\n\nThis is something agents do far better than one-shot retrieval. It is the reason agentic RAG, from module B3, exists.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,31 +19,115 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kfUAKn9kc52A_1",
+          "type": "multiple_choice",
+          "prompt": "What is a multi-hop question?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "One with a single-word answer"
+            },
+            {
+              "id": "b",
+              "text": "One that needs no tools"
+            },
+            {
+              "id": "c",
+              "text": "One where each lookup's answer determines the next lookup"
+            },
+            {
+              "id": "d",
+              "text": "One asked several times"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The answer is assembled across several dependent steps, with each result guiding the next search.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_HtUCVpn3LNp1",
       "title": "Verifying each hop",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a chain of lookups, each hop should be checked before the next is built on it.\n\nThe checks are simple. Did the tool return anything? Does it answer what was asked? Is it the right entity? There may be two companies called Mercury, or two people called J. Smith. Is the source reliable and current?\n\nIf a hop looks doubtful, deal with it there. Search again, try another source, or flag the uncertainty.\n\nA mountaineer tests each hold before putting weight on it.\n\nYou can prompt for this: \"after each lookup, confirm that the result is what you needed before continuing\". It costs a little.\n\nKeep the evidence as well. An answer that shows its chain, with a source for each hop, can be checked by a person.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_HtUCVpn3LNp1_1",
+          "type": "multiple_choice",
+          "prompt": "Why verify each hop before continuing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To use more tokens"
+            },
+            {
+              "id": "b",
+              "text": "So later steps are not built on a wrong result"
+            },
+            {
+              "id": "c",
+              "text": "Because tools never fail"
+            },
+            {
+              "id": "d",
+              "text": "To make the chain longer"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Catching an error at the step where it occurs stops it carrying through the rest of the chain.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_jIF7ZWJJMtCt",
       "title": "One wrong hop spoils the final answer",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Multi-hop reasoning is a chain, and a chain is as strong as its weakest link.\n\nIf hop one picks the wrong company, hops two and three are carried out flawlessly, about the wrong company. The final answer is wrong, and it looks well researched.\n\nThe arithmetic is harsh. If each hop is right 90 per cent of the time, a four-hop answer is right about 66 per cent of the time.\n\nIt is the whispering game, where a message is passed along a line of people. One slip early on, and the message at the end is confidently mistaken.\n\nThree consequences. Use fewer hops where you can, by designing tools that do more in one call. Verify at each step. And treat long chains with caution, however polished the final answer sounds.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_jIF7ZWJJMtCt_1",
+          "type": "multiple_choice",
+          "prompt": "If each hop is 90% reliable, roughly how reliable is a four-hop answer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "About 90%"
+            },
+            {
+              "id": "b",
+              "text": "About 99%"
+            },
+            {
+              "id": "c",
+              "text": "About 66%"
+            },
+            {
+              "id": "d",
+              "text": "100%"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Reliability multiplies across hops, so 0.9 to the power of four is roughly 0.66.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }
