@@ -6,6 +6,8 @@ import { signInAction, type SignInState } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
 
 type ProfileCard = { id: string; name: string; isAdmin: boolean };
 
@@ -31,19 +33,26 @@ export function SignInForm({ profiles }: { profiles: ProfileCard[] }) {
             <label
               key={item.id}
               data-testid={`profile-${item.name}`}
-              className={`flex cursor-pointer items-center justify-between rounded-xl border px-4 py-3 ${selected === item.id ? "border-primary bg-secondary" : "border-border bg-card"}`}
+              className={cn(
+                "flex cursor-pointer items-center gap-3 rounded-2xl border p-4 transition-colors focus-within:ring-2 focus-within:ring-ring",
+                selected === item.id ? "border-primary bg-secondary shadow-sm" : "border-border bg-card hover:border-primary/50",
+              )}
             >
-              <span className="font-medium">{item.name}</span>
-              <span className="flex items-center gap-3 text-sm text-muted-foreground">
-                {item.isAdmin ? "Admin" : "Learner"}
-                <input
-                  type="radio"
-                  name="profilePick"
-                  className="h-4 w-4 accent-[var(--primary)]"
-                  checked={selected === item.id}
-                  onChange={() => setSelected(item.id)}
-                />
+              <input type="radio" name="profilePick" className="sr-only" checked={selected === item.id} onChange={() => setSelected(item.id)} />
+              <span
+                aria-hidden
+                className={cn(
+                  "flex h-11 w-11 shrink-0 items-center justify-center rounded-full font-display text-lg",
+                  selected === item.id ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground",
+                )}
+              >
+                {item.name.charAt(0).toUpperCase()}
               </span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-medium">{item.name}</span>
+                <span className="block text-xs text-muted-foreground">{item.isAdmin ? "Admin" : "Learner"}</span>
+              </span>
+              {selected === item.id ? <Check className="h-5 w-5 shrink-0 text-primary" aria-hidden /> : null}
             </label>
           ))}
         </div>
@@ -55,6 +64,7 @@ export function SignInForm({ profiles }: { profiles: ProfileCard[] }) {
           id="pin"
           name="pin"
           data-testid="pin-input"
+          className="h-12"
           type={profile?.isAdmin ? "text" : "password"}
           inputMode={profile?.isAdmin ? "text" : "numeric"}
           autoComplete="current-password"
