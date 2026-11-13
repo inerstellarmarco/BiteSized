@@ -12,7 +12,12 @@ async function nextPosition(current: string[]) {
   return generateKeyBetween(sorted.at(-1) ?? null, null);
 }
 
-export async function applyProposal(db: AppDatabase, proposal: Proposal) {
+export type ApplyOptions = {
+  /** Build the outline only: never queue AI writing, even if a style is locked. */
+  structureOnly?: boolean;
+};
+
+export async function applyProposal(db: AppDatabase, proposal: Proposal, options: ApplyOptions = {}) {
   const [course] = await db.select().from(courses).where(isNull(courses.archivedAt)).orderBy(asc(courses.position)).limit(1);
   let courseId = course?.id;
   if (!courseId) {
@@ -188,7 +193,7 @@ export async function applyProposal(db: AppDatabase, proposal: Proposal) {
   }
 
   await resolvePrerequisites(db, courseId, proposal);
-  const style = await latestLockedStyle(db);
+  const style = options.structureOnly ? null : await latestLockedStyle(db);
   if (style) {
     for (const subLessonId of [...new Set(touchedSubLessons)]) {
       const pending = await db.select().from(bites).where(and(eq(bites.subLessonId, subLessonId), eq(bites.reviewStatus, "pending"), isNull(bites.archivedAt)));
@@ -196,7 +201,7 @@ export async function applyProposal(db: AppDatabase, proposal: Proposal) {
     }
   }
   const jobs = style ? await processDueJobs(db, 8) : [];
-  return { courseId, created, matched, jobs, firstSubLessonId: touchedSubLessons[0] ?? null, styleLocked: Boolean(style) };
+  return { courseId, created, matched, jobs, firstSubLessonId: touchedSubLessons[0] ?? null, styleLocked: Boolean(style), structureOnly: Boolean(options.structureOnly) };
 }
 
 async function resolvePrerequisites(db: AppDatabase, courseId: string, proposal: Proposal) {
@@ -237,4 +242,55 @@ function lastLessonInTrack(
   if (!lastSub) return null;
   const inSub = lessonRows.filter((row) => row.subCategoryId === lastSub.id).sort((a, b) => (a.position < b.position ? -1 : 1));
   return inSub.at(-1)?.id ?? null;
+}
+
+export type MissingItem = {
+  type: "sub_category" | "lesson" | "sub_lesson";
+  id: string;
+  label: string;
+  /** Where it sits, so the admin can tell similar names apart. */
+  path: string;
+};
+
+function sameItem(row: { code: string; title: string }, proposedCode: string, proposedTitle: string) {
+  return Boolean((proposedCode && row.code === proposedCode) || row.title === proposedTitle);
+}
+
+/**
+ * Things the app has that the document does not mention. The document only adds and renames,
+ * so these stay untouched unless an admin ticks them to archive. That is what keeps additions
+ * made inside the app safe when the outline is re-imported.
+ */
+export async function findMissing(db: AppDatabase, proposal: Proposal): Promise<MissingItem[]> {
+  const [course] = await db.select().from(courses).where(isNull(courses.archivedAt)).orderBy(asc(courses.position)).limit(1);
+  if (!course) return [];
+  const missing: MissingItem[] = [];
+  const categoryRows = await db.select().from(categories).where(and(eq(categories.courseId, course.id), isNull(categories.archivedAt)));
+  for (const proposed of proposal.categories.filter((item) => item.include)) {
+    const category = categoryRows.find((row) => sameItem(row, proposed.code, proposed.title));
+    if (!category) continue;
+    const subRows = await db.select().from(subCategories).where(and(eq(subCategories.categoryId, category.id), isNull(subCategories.archivedAt)));
+    for (const sub of subRows) {
+      const proposedSub = proposed.subCategories.find((item) => sameItem(sub, item.code, item.title));
+      if (!proposedSub) {
+        missing.push({ type: "sub_category", id: sub.id, label: `${sub.code} ${sub.title}`.trim(), path: category.title });
+        continue;
+      }
+      const lessonRows = await db.select().from(lessons).where(and(eq(lessons.subCategoryId, sub.id), isNull(lessons.archivedAt)));
+      for (const lesson of lessonRows) {
+        const proposedLesson = proposedSub.lessons.find((item) => sameItem(lesson, item.code, item.title));
+        if (!proposedLesson) {
+          missing.push({ type: "lesson", id: lesson.id, label: `${lesson.code} ${lesson.title}`.trim(), path: `${category.title} › ${sub.title}` });
+          continue;
+        }
+        const subLessonRows = await db.select().from(subLessons).where(and(eq(subLessons.lessonId, lesson.id), isNull(subLessons.archivedAt)));
+        for (const subLesson of subLessonRows) {
+          if (!proposedLesson.subLessons.some((item) => item.title === subLesson.title)) {
+            missing.push({ type: "sub_lesson", id: subLesson.id, label: subLesson.title, path: `${category.title} › ${sub.title} › ${lesson.title}` });
+          }
+        }
+      }
+    }
+  }
+  return missing;
 }

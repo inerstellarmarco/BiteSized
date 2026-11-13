@@ -743,7 +743,11 @@ async function applyPackage(db: AppDatabase, files: Record<string, string>, opti
 }
 
 export async function importPackageFiles(db: AppDatabase, files: Record<string, string>, options: ImportOptions = {}) {
-  if (!files["index.json"]) throw new Error("The package needs an index.json file.");
+  if (!files["index.json"]) {
+    throw new Error(
+      "This is not a course package (no index.json inside). Packages are the ZIP files this app exports. To bring in a Word or Google Doc outline, use Admin → Import instead.",
+    );
+  }
   await db.transaction(async (tx) => {
     const database = tx as unknown as AppDatabase;
     if (options.replace) await wipeDatabase(database);
