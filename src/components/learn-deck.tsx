@@ -14,7 +14,7 @@ import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { Check, Heart, MoreHorizontal } from "lucide-react";
 import { formatReviewed } from "@/lib/utils";
-import { cardEnterClass, classifySwipe } from "@/lib/swipe";
+import { cardEnterClass, classifySwipe, lockPullToRefresh } from "@/lib/swipe";
 import { biteActions, bodyParagraphs, type BiteActionId } from "@/lib/bite-actions";
 
 export type LearnBite = {
@@ -76,6 +76,16 @@ export function LearnDeck({
     apply();
     media.addEventListener("change", apply);
     return () => media.removeEventListener("change", apply);
+  }, []);
+
+  // A swipe down from the top of a card means "previous bite", not "refresh the page".
+  useEffect(() => {
+    const unlockHtml = lockPullToRefresh(document.documentElement);
+    const unlockBody = lockPullToRefresh(document.body);
+    return () => {
+      unlockBody();
+      unlockHtml();
+    };
   }, []);
 
   useEffect(() => {

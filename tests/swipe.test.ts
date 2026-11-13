@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cardEnterClass, classifySwipe } from "@/lib/swipe";
+import { cardEnterClass, classifySwipe, lockPullToRefresh } from "@/lib/swipe";
 
 describe("cardEnterClass", () => {
   it("rises when moving forward and drops when moving back", () => {
@@ -43,5 +43,21 @@ describe("classifySwipe", () => {
 
   it("ignores mostly horizontal gestures", () => {
     expect(classifySwipe({ x: 100, y: 300 }, { x: 300, y: 340 }, shortCard)).toBeNull();
+  });
+});
+
+describe("lockPullToRefresh", () => {
+  it("stops pull-to-refresh on the page and restores the old value afterwards", () => {
+    const root = { style: { overscrollBehaviorY: "auto" } };
+    const unlock = lockPullToRefresh(root);
+    expect(root.style.overscrollBehaviorY).toBe("contain");
+    unlock();
+    expect(root.style.overscrollBehaviorY).toBe("auto");
+  });
+
+  it("restores an empty value too, so other pages keep their normal behaviour", () => {
+    const root = { style: { overscrollBehaviorY: "" } };
+    lockPullToRefresh(root)();
+    expect(root.style.overscrollBehaviorY).toBe("");
   });
 });

@@ -6,7 +6,19 @@ export function cardEnterClass(direction: "next" | "prev"): "card-rise" | "card-
   return direction === "prev" ? "card-drop" : "card-rise";
 }
 
-export type CardScroll = { scrollTop: number; clientHeight: number; scrollHeight: number };
+// Phones start "pull down to refresh" from the page-level scroller. Setting
+// overscroll-behavior on a card or wrapper does not stop that, so it has to be set
+// on the page root. This sets it and returns a function that puts the old value
+// back, so other pages keep their normal behaviour.
+export function lockPullToRefresh(root: { style: { overscrollBehaviorY: string } }): () => void {
+  const previous = root.style.overscrollBehaviorY;
+  root.style.overscrollBehaviorY = "contain";
+  return () => {
+    root.style.overscrollBehaviorY = previous;
+  };
+}
+
+export type CardScroll ={ scrollTop: number; clientHeight: number; scrollHeight: number };
 
 const MIN_DISTANCE = 56;
 const EDGE = 4;
