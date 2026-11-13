@@ -22,3 +22,15 @@ export function summarizeProgress(items: ProgressItem[]): ProgressSummary {
   const status = seen === 0 ? "not-started" : seen >= total ? "complete" : "in-progress";
   return { seen, total, percent, status };
 }
+
+// How many sub-lessons with content are fully read, out of how many exist.
+export function finishedCount(items: ProgressItem[]): { finished: number; total: number } {
+  let finished = 0;
+  let total = 0;
+  for (const item of items) {
+    if (item.biteCount <= 0) continue;
+    total += 1;
+    if (item.seenCount >= item.biteCount) finished += 1;
+  }
+  return { finished, total };
+}

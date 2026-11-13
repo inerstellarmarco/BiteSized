@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { summarizeProgress } from "@/lib/content/course-progress";
+import { finishedCount, summarizeProgress } from "@/lib/content/course-progress";
 
 describe("summarizeProgress", () => {
   it("reports empty when no sub-lesson has bites", () => {
@@ -26,5 +26,21 @@ describe("summarizeProgress", () => {
 
   it("caps overcounted seen values at the bite count", () => {
     expect(summarizeProgress([{ seenCount: 9, biteCount: 3 }])).toEqual({ seen: 3, total: 3, percent: 100, status: "complete" });
+  });
+});
+
+describe("finishedCount", () => {
+  it("counts fully read sub-lessons and skips empty ones", () => {
+    expect(
+      finishedCount([
+        { seenCount: 3, biteCount: 3 },
+        { seenCount: 1, biteCount: 2 },
+        { seenCount: 0, biteCount: 0 },
+      ]),
+    ).toEqual({ finished: 1, total: 2 });
+  });
+
+  it("is zero of zero when nothing has content", () => {
+    expect(finishedCount([{ seenCount: 0, biteCount: 0 }])).toEqual({ finished: 0, total: 0 });
   });
 });

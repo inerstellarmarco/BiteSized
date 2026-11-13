@@ -1,12 +1,16 @@
 import Link from "next/link";
+import { eq } from "drizzle-orm";
 import { requireProfile } from "@/lib/auth/current";
 import { listProfiles } from "@/lib/auth/profiles";
 import { continueFor, loadCatalog } from "@/lib/content/catalog";
+import { finishedCount, summarizeProgress } from "@/lib/content/course-progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
+import { quizAttempts } from "@/lib/db/schema";
 import { BookOpen } from "lucide-react";
 import { getDb } from "@/lib/db";
 
@@ -17,6 +21,13 @@ export default async function HomePage() {
   const profiles = await listProfiles(db);
   const admins = profiles.filter((item) => item.isAdmin && !item.archivedAt);
   const next = catalog ? await continueFor(db, profile.id, catalog) : null;
+  const attempts = catalog ? await db.select({ id: quizAttempts.id }).from(quizAttempts).where(eq(quizAttempts.profileId, profile.id)) : [];
+
+  const allSubLessons = catalog
+    ? catalog.categories.flatMap((category) => category.subCategories.flatMap((subCategory) => subCategory.lessons.flatMap((lesson) => lesson.subLessons)))
+    : [];
+  const overall = summarizeProgress(allSubLessons);
+  const lessonsDone = finishedCount(allSubLessons);
 
   return (
     <div className="space-y-6">
@@ -39,13 +50,14 @@ export default async function HomePage() {
             <p className="text-sm text-muted-foreground">
               {next.lessonCode} · {next.seenCount} of {next.biteCount} bites
             </p>
+            <Progress className="mt-2" value={next.biteCount === 0 ? 0 : (Math.min(next.seenCount, next.biteCount) / next.biteCount) * 100} aria-label={`${next.title} progress`} />
             <div className="mt-4 flex flex-wrap gap-3">
-              <Button asChild>
+              <Button asChild size="lg">
                 <Link href={`/learn/${next.id}`} data-testid="continue-learn">
                   {next.started ? "Continue" : "Start"}
                 </Link>
               </Button>
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" size="lg">
                 <Link href="/course">Browse the course</Link>
               </Button>
             </div>
@@ -65,6 +77,13 @@ export default async function HomePage() {
           }
         />
       )}
+      {catalog && overall.total > 0 ? (
+        <div className="grid grid-cols-3 gap-3" data-testid="home-stats">
+          <StatTile value={`${overall.seen}`} label={`of ${overall.total} bites seen`} />
+          <StatTile value={`${lessonsDone.finished}`} label={`of ${lessonsDone.total} sub-lessons finished`} />
+          <StatTile value={`${attempts.length}`} label={attempts.length === 1 ? "quiz taken" : "quizzes taken"} />
+        </div>
+      ) : null}
       {catalog ? (
         <section>
           <div className="flex flex-wrap items-center gap-2">
@@ -77,6 +96,15 @@ export default async function HomePage() {
           </p>
         </section>
       ) : null}
+    </div>
+  );
+}
+
+function StatTile({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="rounded-2xl border border-border bg-card px-4 py-3 text-center">
+      <p className="font-display text-2xl text-primary">{value}</p>
+      <p className="mt-0.5 text-xs text-muted-foreground">{label}</p>
     </div>
   );
 }
