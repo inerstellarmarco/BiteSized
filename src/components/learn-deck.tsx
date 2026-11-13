@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { markSeenAction } from "@/lib/actions";
 import { addStyleExampleAction, flagAction, regenerateAction, saveRegenerationAction, showOriginalAction, toggleHeartAction } from "@/lib/actions/phase3";
 import { REGENERATE_PRESETS } from "@/lib/ai/regenerate";
@@ -10,7 +10,10 @@ import type { PersonalView } from "@/lib/ai/view";
 import { Diagram } from "@/components/diagram";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
+import { Heart } from "lucide-react";
 import { formatReviewed } from "@/lib/utils";
+import { classifySwipe } from "@/lib/swipe";
 
 export type LearnBite = {
   id: string;
@@ -44,6 +47,8 @@ export function LearnDeck({
   limit?: number;
 }) {
   const router = useRouter();
+  const swipeStart = useRef<{ x: number; y: number } | null>(null);
+  const cardRef = useRef<HTMLElement | null>(null);
   const [index, setIndex] = useState(initialIndex);
   const [desktop, setDesktop] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -97,29 +102,38 @@ export function LearnDeck({
 
   return (
     <section
-      className="flex h-[calc(100dvh-10.5rem)] flex-col md:h-[calc(100dvh-7rem)]"
+      className="flex h-[calc(100dvh-10.5rem)] flex-col overscroll-y-contain md:h-[calc(100dvh-7rem)]"
       onTouchStart={(event) => {
-        const touch = event.changedTouches[0];
+        const touch = event.touches[0];
         if (!touch) return;
-        event.currentTarget.dataset.startY = String(touch.clientY);
+        swipeStart.current = { y: touch.clientY, x: touch.clientX };
+      }}
+      onTouchCancel={() => {
+        swipeStart.current = null;
       }}
       onTouchEnd={(event) => {
-        const start = Number(event.currentTarget.dataset.startY ?? "0");
+        const start = swipeStart.current;
+        swipeStart.current = null;
         const touch = event.changedTouches[0];
-        if (!touch || !start) return;
-        const delta = start - touch.clientY;
-        if (delta > 56) next();
-        else if (delta < -56) prev();
+        if (!start || !touch) return;
+        const card = cardRef.current;
+        const direction = classifySwipe(start, { x: touch.clientX, y: touch.clientY }, {
+          scrollTop: card?.scrollTop ?? 0,
+          clientHeight: card?.clientHeight ?? 0,
+          scrollHeight: card?.scrollHeight ?? 0,
+        });
+        if (direction === "next") next();
+        else if (direction === "prev") prev();
       }}
     >
-      <div className="mb-4">
-        <p className="text-sm text-muted-foreground">
+      <div className="mb-3">
+        <p className="truncate text-xs text-muted-foreground">
           {lessonCode} · {lessonTitle}
         </p>
-        <h1 className="font-display text-3xl leading-tight">{subLessonTitle}</h1>
-        <div className="mt-3 flex items-center gap-3">
-          <Progress value={progress} aria-label="Progress through this sub-lesson" />
-          <p className="shrink-0 text-sm text-muted-foreground" data-testid="learn-progress">
+        <h1 className="truncate font-display text-xl leading-tight md:text-2xl">{subLessonTitle}</h1>
+        <div className="mt-2 flex items-center gap-3">
+          <Progress className="h-1.5" value={progress} aria-label="Progress through this sub-lesson" />
+          <p className="shrink-0 text-xs text-muted-foreground" data-testid="learn-progress">
             {done ? `${bites.length} of ${bites.length}` : `${index + 1} of ${bites.length}`}
           </p>
         </div>
@@ -143,8 +157,9 @@ export function LearnDeck({
       ) : (
         <article
           key={bite.id}
+          ref={cardRef}
           data-testid="learn-card"
-          className="card-rise min-h-0 flex-1 overflow-y-auto rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8"
+          className="card-rise relative min-h-0 flex-1 overflow-y-auto overscroll-y-contain rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8"
           onClick={(event) => {
             if (!desktop) return;
             if ((event.target as HTMLElement).closest("a,button")) return;
@@ -236,7 +251,7 @@ export function LearnDeck({
         </Button>
       </div>
       <p className="mt-3 shrink-0 text-center text-sm text-muted-foreground md:hidden" data-testid="swipe-hint">
-        Swipe up for the next bite
+        Swipe up for the next bite, down for the previous
       </p>
     </section>
   );
@@ -282,19 +297,33 @@ function BiteTools({
   const diagram = draft ? draft.diagram : showPersonal ? personal?.diagram ?? null : bite.diagram;
   return (
     <>
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        {showPersonal ? (
+      <button
+        type="button"
+        data-testid="heart"
+        aria-pressed={bite.hearted}
+        aria-label={bite.hearted ? "Remove heart from this bite" : "Heart this bite"}
+        title={bite.hearted ? "Remove heart" : "Heart this bite"}
+        onClick={(event) => {
+          event.stopPropagation();
+          onHeart();
+        }}
+        className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        <Heart className={cn("h-5 w-5", bite.hearted && "fill-red-500 text-red-500")} aria-hidden />
+      </button>
+      {showPersonal ? (
+        <div className="mb-2 flex flex-wrap items-center gap-2">
           <span className="rounded-full bg-secondary px-2 py-0.5 text-xs font-semibold" data-testid="personal-badge">
             Your version
           </span>
-        ) : null}
-        {showPersonal && personal?.stale ? (
-          <span className="rounded-full bg-primary/15 px-2 py-0.5 text-xs font-semibold" data-testid="original-updated">
-            Original updated
-          </span>
-        ) : null}
-      </div>
-      <h2 className="font-display text-3xl leading-tight" data-testid="learn-title">
+          {personal?.stale ? (
+            <span className="rounded-full bg-primary/15 px-2 py-0.5 text-xs font-semibold" data-testid="original-updated">
+              Original updated
+            </span>
+          ) : null}
+        </div>
+      ) : null}
+      <h2 className="pr-10 font-display text-2xl leading-tight md:text-3xl" data-testid="learn-title">
         {title}
       </h2>
       <p className="mt-4 max-w-2xl text-[1.05em] leading-relaxed">{body}</p>
@@ -304,9 +333,6 @@ function BiteTools({
         </div>
       ) : null}
       <div className="mt-4 flex flex-wrap gap-2" onClick={(event) => event.stopPropagation()}>
-        <Button type="button" variant={bite.hearted ? "default" : "outline"} size="sm" data-testid="heart" onClick={onHeart}>
-          {bite.hearted ? "Hearted" : "Heart"}
-        </Button>
         <Button type="button" variant="outline" size="sm" data-testid="regenerate-menu" onClick={onMenu}>
           Regenerate
         </Button>
