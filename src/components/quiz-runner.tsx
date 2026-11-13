@@ -5,7 +5,11 @@ import { useState } from "react";
 import { finishQuizAction, gradeChoiceAction } from "@/lib/actions";
 import { addStyleExampleAction, flagAction, toggleHeartAction } from "@/lib/actions/phase3";
 import { Button } from "@/components/ui/button";
+import { PopMenu, PopMenuItem } from "@/components/ui/menu";
 import { Progress } from "@/components/ui/progress";
+import { choiceState } from "@/lib/quiz/choice-state";
+import { cn } from "@/lib/utils";
+import { Check, Heart, MoreHorizontal, X } from "lucide-react";
 import type { Choice } from "@/lib/types";
 
 type Question = { id: string; prompt: string; choices: Choice[]; biteTitle: string };
@@ -45,6 +49,9 @@ export function QuizRunner({
   const [result, setResult] = useState<Result | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [note, setNote] = useState<string | null>(null);
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const [hearted, setHearted] = useState<Record<string, boolean>>({});
   const question = questions[index];
 
   async function finish(finalAnswers: Answer[], stoppedEarly: boolean) {
@@ -77,6 +84,7 @@ export function QuizRunner({
     setAnswers(nextAnswers);
     setSelected(null);
     setRevealed(null);
+    setNote(null);
     if (index + 1 >= questions.length) {
       void finish(nextAnswers, false);
       return;
@@ -162,42 +170,98 @@ export function QuizRunner({
           {index + 1} of {questions.length}
         </p>
       </div>
-      <p className="text-sm text-muted-foreground">{question.biteTitle}</p>
-      <h1 className="mt-1 max-w-2xl font-display text-3xl leading-tight" data-testid="quiz-prompt">
-        {question.prompt}
-      </h1>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-sm text-muted-foreground">{question.biteTitle}</p>
+          <h1 className="mt-1 max-w-2xl font-display text-3xl leading-tight" data-testid="quiz-prompt">
+            {question.prompt}
+          </h1>
+        </div>
+        <div className="flex shrink-0 items-center gap-1 pt-1">
+          <div className="relative">
+            <button
+              type="button"
+              data-testid="question-tools"
+              aria-haspopup="menu"
+              aria-expanded={toolsOpen}
+              aria-label="More actions for this question"
+              title="More actions"
+              onClick={() => setToolsOpen((open) => !open)}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <MoreHorizontal className="h-5 w-5" aria-hidden />
+            </button>
+            <PopMenu open={toolsOpen} onClose={() => setToolsOpen(false)}>
+              <PopMenuItem onClick={() => { setToolsOpen(false); void flagAction("question", question.id, "revisit").then((r) => setNote(r.message)); }}>Revisit later</PopMenuItem>
+              <PopMenuItem onClick={() => { setToolsOpen(false); void flagAction("question", question.id, "rework").then((r) => setNote(r.message)); }}>Flag for rework</PopMenuItem>
+              <PopMenuItem onClick={() => { setToolsOpen(false); void flagAction("question", question.id, "error").then((r) => setNote(r.message)); }}>Report an error</PopMenuItem>
+              {isAdmin ? (
+                <PopMenuItem onClick={() => { setToolsOpen(false); void addStyleExampleAction("question", question.id).then((r) => setNote(r.ok ? "Added to style examples." : r.error)); }}>
+                  Use as style example
+                </PopMenuItem>
+              ) : null}
+            </PopMenu>
+          </div>
+          <button
+            type="button"
+            aria-pressed={hearted[question.id] ?? false}
+            aria-label={hearted[question.id] ? "Remove heart from this question" : "Heart this question"}
+            title={hearted[question.id] ? "Remove heart" : "Heart this question"}
+            onClick={async () => {
+              const result = await toggleHeartAction("question", question.id);
+              setHearted((previous) => ({ ...previous, [question.id]: result.hearted }));
+            }}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <Heart className={cn("h-5 w-5", hearted[question.id] && "fill-red-500 text-red-500")} aria-hidden />
+          </button>
+        </div>
+      </div>
       <div className="mt-5 grid gap-2">
         {question.choices.map((choice) => {
-          const picked = selected === choice.id;
-          const show = Boolean(revealed);
-          const isCorrect = revealed?.correctChoiceId === choice.id;
+          const state = choiceState(choice.id, selected, revealed);
           return (
             <button
               key={choice.id}
               type="button"
               data-testid={`quiz-choice-${choice.id}`}
-              disabled={show || busy}
+              disabled={Boolean(revealed) || busy}
               onClick={() => setSelected(choice.id)}
-              className={`rounded-xl border px-4 py-3 text-left ${picked ? "border-primary bg-secondary" : "border-border bg-card"} ${show && isCorrect ? "border-success" : ""}`}
+              className={cn(
+                "flex min-h-12 items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left transition-colors",
+                state === "idle" && "border-border bg-card hover:border-primary/60",
+                state === "picked" && "border-primary bg-secondary",
+                state === "correct" && "border-success bg-success/10 font-medium",
+                state === "wrong-pick" && "border-destructive bg-destructive/10",
+                state === "dimmed" && "border-border bg-card opacity-60",
+              )}
             >
-              {choice.text}
+              <span>{choice.text}</span>
+              {state === "correct" ? <Check className="h-5 w-5 shrink-0 text-success" aria-hidden /> : null}
+              {state === "wrong-pick" ? <X className="h-5 w-5 shrink-0 text-destructive" aria-hidden /> : null}
             </button>
           );
         })}
       </div>
       {revealed ? (
-        <p className={`mt-4 text-sm ${revealed.correct ? "text-success" : "text-destructive"}`} data-testid="quiz-feedback">
-          {revealed.correct ? "Right." : "Not this time."} {revealed.explanation}
-        </p>
+        <div
+          className={cn(
+            "mt-4 flex items-start gap-2 rounded-xl border px-4 py-3",
+            revealed.correct ? "border-success bg-success/10" : "border-destructive bg-destructive/10",
+          )}
+          data-testid="quiz-feedback"
+        >
+          {revealed.correct ? <Check className="mt-0.5 h-5 w-5 shrink-0 text-success" aria-hidden /> : <X className="mt-0.5 h-5 w-5 shrink-0 text-destructive" aria-hidden />}
+          <p className="text-sm">
+            <span className={cn("font-semibold", revealed.correct ? "text-success" : "text-destructive")}>
+              {revealed.correct ? "Right." : "Not this time."}
+            </span>{" "}
+            {revealed.explanation}
+          </p>
+        </div>
       ) : null}
       {error ? <p className="mt-3 text-sm text-destructive">{error}</p> : null}
-      <div className="mt-3 flex flex-wrap gap-2">
-        <Button type="button" variant="ghost" size="sm" onClick={() => void toggleHeartAction("question", question.id)}>Heart</Button>
-        <Button type="button" variant="ghost" size="sm" onClick={() => void flagAction("question", question.id, "revisit")}>Revisit</Button>
-        <Button type="button" variant="ghost" size="sm" onClick={() => void flagAction("question", question.id, "rework")}>Flag for rework</Button>
-        <Button type="button" variant="ghost" size="sm" onClick={() => void flagAction("question", question.id, "error")}>Report an error</Button>
-        {isAdmin ? <Button type="button" variant="ghost" size="sm" onClick={() => void addStyleExampleAction("question", question.id)}>Use as style example</Button> : null}
-      </div>
+      {note ? <p className="mt-3 text-sm text-muted-foreground">{note}</p> : null}
       <div className="mt-6 flex flex-wrap gap-3">
         {!revealed ? (
           <Button data-testid="quiz-answer" disabled={!selected || busy} onClick={() => void reveal()}>

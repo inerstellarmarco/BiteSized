@@ -9,6 +9,7 @@ import { REGENERATE_PRESETS } from "@/lib/ai/regenerate";
 import type { PersonalView } from "@/lib/ai/view";
 import { Diagram } from "@/components/diagram";
 import { Button } from "@/components/ui/button";
+import { PopMenu, PopMenuItem } from "@/components/ui/menu";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { Heart, MoreHorizontal } from "lucide-react";
@@ -56,6 +57,7 @@ export function LearnDeck({
   const [note, setNote] = useState<string | null>(null);
   const [left, setLeft] = useState(remaining);
   const [draft, setDraft] = useState<{ biteId: string; title: string; body: string; diagram: string | null; basedOnUpdatedAt: string } | null>(null);
+  const [heartOverrides, setHeartOverrides] = useState<Record<string, boolean>>({});
   const bite = bites[index];
   const done = index >= bites.length;
   const reviewed = bite ? formatReviewed(bite.lastReviewedOn) : null;
@@ -167,7 +169,7 @@ export function LearnDeck({
           }}
         >
           <BiteTools
-            bite={bite}
+            bite={{ ...bite, hearted: heartOverrides[bite.id] ?? bite.hearted }}
             isAdmin={isAdmin}
             menuOpen={menuOpen}
             busy={busy}
@@ -206,7 +208,8 @@ export function LearnDeck({
               router.refresh();
             }}
             onHeart={async () => {
-              await toggleHeartAction("bite", bite.id);
+              const result = await toggleHeartAction("bite", bite.id);
+              setHeartOverrides((previous) => ({ ...previous, [bite.id]: result.hearted }));
             }}
             onFlag={async (kind) => {
               const result = await flagAction("bite", bite.id, kind);
@@ -303,18 +306,27 @@ function BiteTools({
   return (
     <>
       <div className="absolute right-3 top-3 flex items-center gap-1" onClick={(event) => event.stopPropagation()}>
-        <button
-          type="button"
-          data-testid="bite-tools"
-          aria-haspopup="menu"
-          aria-expanded={toolsOpen}
-          aria-label="More actions for this bite"
-          title="More actions"
-          onClick={() => setToolsOpen((open) => !open)}
-          className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        >
-          <MoreHorizontal className="h-5 w-5" aria-hidden />
-        </button>
+        <div className="relative">
+          <button
+            type="button"
+            data-testid="bite-tools"
+            aria-haspopup="menu"
+            aria-expanded={toolsOpen}
+            aria-label="More actions for this bite"
+            title="More actions"
+            onClick={() => setToolsOpen((open) => !open)}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <MoreHorizontal className="h-5 w-5" aria-hidden />
+          </button>
+          <PopMenu open={toolsOpen} onClose={() => setToolsOpen(false)} testId="bite-tools-menu">
+            <PopMenuItem testId="regenerate-menu" onClick={() => pick(onMenu)}>Regenerate…</PopMenuItem>
+            <PopMenuItem onClick={() => pick(() => onFlag("revisit"))}>Revisit later</PopMenuItem>
+            <PopMenuItem testId="flag-rework" onClick={() => pick(() => onFlag("rework"))}>Flag for rework</PopMenuItem>
+            <PopMenuItem onClick={() => pick(() => onFlag("error"))}>Report an error</PopMenuItem>
+            {isAdmin ? <PopMenuItem testId="style-example" onClick={() => pick(onExample)}>Use as style example</PopMenuItem> : null}
+          </PopMenu>
+        </div>
         <button
           type="button"
           data-testid="heart"
@@ -327,23 +339,6 @@ function BiteTools({
           <Heart className={cn("h-5 w-5", bite.hearted && "fill-red-500 text-red-500")} aria-hidden />
         </button>
       </div>
-      {toolsOpen ? (
-        <>
-          <div className="fixed inset-0 z-10" aria-hidden onClick={(event) => { event.stopPropagation(); setToolsOpen(false); }} />
-          <div
-            role="menu"
-            data-testid="bite-tools-menu"
-            className="absolute right-3 top-14 z-20 w-56 rounded-xl border border-border bg-card p-1 shadow-lg"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <MenuItem testId="regenerate-menu" onClick={() => pick(onMenu)}>Regenerate…</MenuItem>
-            <MenuItem onClick={() => pick(() => onFlag("revisit"))}>Revisit later</MenuItem>
-            <MenuItem testId="flag-rework" onClick={() => pick(() => onFlag("rework"))}>Flag for rework</MenuItem>
-            <MenuItem onClick={() => pick(() => onFlag("error"))}>Report an error</MenuItem>
-            {isAdmin ? <MenuItem testId="style-example" onClick={() => pick(onExample)}>Use as style example</MenuItem> : null}
-          </div>
-        </>
-      ) : null}
       {showPersonal ? (
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <span className="rounded-full bg-secondary px-2 py-0.5 text-xs font-semibold" data-testid="personal-badge">
@@ -408,16 +403,3 @@ function BiteTools({
   );
 }
 
-function MenuItem({ children, onClick, testId }: { children: React.ReactNode; onClick: () => void; testId?: string }) {
-  return (
-    <button
-      type="button"
-      role="menuitem"
-      data-testid={testId}
-      onClick={onClick}
-      className="block w-full rounded-lg px-3 py-2.5 text-left text-sm transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-    >
-      {children}
-    </button>
-  );
-}
