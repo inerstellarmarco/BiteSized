@@ -18,7 +18,7 @@ export default async function FlagsPage() {
   return (
     <div className="mx-auto max-w-2xl" data-testid="flag-list">
       <AdminNav current="/admin/flags" />
-      <h1 className="font-display text-4xl">Flags</h1>
+      <h1 className="font-display text-3xl md:text-4xl">Flags</h1>
       <p className="mt-1 text-sm text-muted-foreground">Rework, factual errors, and diagrams that did not render. A heart never arrives here.</p>
       {flags.length === 0 ? <p className="mt-6">No open flags.</p> : null}
       <ul className="mt-4 space-y-4">

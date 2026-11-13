@@ -5,7 +5,9 @@ import { summarizeProgress } from "@/lib/content/course-progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { EmptyState } from "@/components/empty-state";
 import { Progress } from "@/components/ui/progress";
+import { BookOpen } from "lucide-react";
 import { getDb } from "@/lib/db";
 
 export default async function CoursePage() {
@@ -13,7 +15,20 @@ export default async function CoursePage() {
   const db = await getDb();
   const catalog = await loadCatalog(db, profile.id);
   if (!catalog) {
-    return <p>No course is loaded yet.</p>;
+    return (
+      <EmptyState
+        icon={<BookOpen className="h-6 w-6" aria-hidden />}
+        title="No course is loaded yet"
+        body={profile.isAdmin ? "Import a course outline or package to start learning." : "Ask an admin to import a course."}
+        action={
+          profile.isAdmin ? (
+            <Button asChild>
+              <Link href="/admin/import">Import a Google Doc</Link>
+            </Button>
+          ) : undefined
+        }
+      />
+    );
   }
 
   const allSubLessons = catalog.categories.flatMap((category) =>
@@ -31,7 +46,7 @@ export default async function CoursePage() {
           </Button>
         </div>
         <div>
-          <h1 className="font-display text-4xl leading-tight">{catalog.course.title}</h1>
+          <h1 className="font-display text-3xl leading-tight md:text-4xl">{catalog.course.title}</h1>
           <p className="mt-2 max-w-2xl text-muted-foreground">{catalog.course.subtitle}</p>
         </div>
         <Card>

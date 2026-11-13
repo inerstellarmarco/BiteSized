@@ -101,7 +101,7 @@ export function QuizRunner({
     return (
       <section data-testid="quiz-result" className="mx-auto max-w-xl">
         <p className="text-sm text-muted-foreground">{lessonCode}</p>
-        <h1 className="font-display text-4xl leading-tight">
+        <h1 className="font-display text-3xl md:text-4xl leading-tight">
           <span data-testid="quiz-score">
             {result.correct} of {result.answered}
           </span>
@@ -146,7 +146,7 @@ export function QuizRunner({
     return (
       <section className="mx-auto max-w-xl">
         <p className="text-sm text-muted-foreground">{lessonCode}</p>
-        <h1 className="font-display text-4xl leading-tight">{title}</h1>
+        <h1 className="font-display text-3xl md:text-4xl leading-tight">{title}</h1>
         <p className="mt-3 text-lg">
           {questions.length} multiple-choice {questions.length === 1 ? "question" : "questions"}. You can stop early and keep the score for what you answered.
         </p>

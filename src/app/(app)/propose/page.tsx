@@ -13,7 +13,7 @@ export default async function ProposePage() {
   const titles = new Map(lessonRows.map((lesson) => [lesson.id, `${lesson.code} ${lesson.title}`]));
   return (
     <div className="mx-auto max-w-xl">
-      <h1 className="font-display text-4xl">Propose a sub-lesson</h1>
+      <h1 className="font-display text-3xl md:text-4xl">Propose a sub-lesson</h1>
       <p className="mt-1 text-sm text-muted-foreground">Suggest a title and any notes. The AI picks a place in the tree. An admin confirms it before anyone studies it.</p>
       <div className="mt-6">
         <ProposeForm action={proposeSubLessonAction} />

@@ -15,7 +15,7 @@ export default async function ReviewIndexPage() {
   return (
     <div className="mx-auto max-w-2xl">
       <AdminNav current="/admin/review" />
-      <h1 className="font-display text-4xl">Review</h1>
+      <h1 className="font-display text-3xl md:text-4xl">Review</h1>
       <p className="mt-1 text-sm text-muted-foreground">Learners never see a bite until it is approved. Generation continues from where it stopped.</p>
       <form action={continueQueueAction} className="mt-4">
         <Button type="submit" variant="outline">Continue generation</Button>

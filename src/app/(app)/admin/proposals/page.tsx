@@ -16,7 +16,7 @@ export default async function ProposalsPage() {
   return (
     <div className="mx-auto max-w-2xl" data-testid="placement-approval">
       <AdminNav current="/admin/proposals" />
-      <h1 className="font-display text-4xl">Placement</h1>
+      <h1 className="font-display text-3xl md:text-4xl">Placement</h1>
       <p className="mt-1 text-sm text-muted-foreground">Confirm where a proposed sub-lesson belongs. Generation then waits in Review until you approve the bites.</p>
       {pending.length === 0 ? <p className="mt-6">No proposals waiting.</p> : null}
       <ul className="mt-4 space-y-4">

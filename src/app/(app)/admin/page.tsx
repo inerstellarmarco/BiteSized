@@ -14,7 +14,7 @@ export default async function AdminPage() {
   return (
     <div className="mx-auto max-w-2xl">
       <AdminNav current="/admin" />
-      <h1 className="font-display text-4xl">Family</h1>
+      <h1 className="font-display text-3xl md:text-4xl">Family</h1>
       <p className="mt-1 text-sm text-muted-foreground">Up to three profiles. Admin is a right, not a separate kind of person.</p>
       <div className="mt-6">
         <AdminPanel

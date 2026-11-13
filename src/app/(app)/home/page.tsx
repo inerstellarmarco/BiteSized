@@ -5,6 +5,9 @@ import { continueFor, loadCatalog } from "@/lib/content/catalog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { EmptyState } from "@/components/empty-state";
+import { PageHeader } from "@/components/page-header";
+import { BookOpen } from "lucide-react";
 import { getDb } from "@/lib/db";
 
 export default async function HomePage() {
@@ -17,10 +20,7 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <p className="text-sm text-muted-foreground">Hello, {profile.name}</p>
-        <h1 className="font-display text-4xl leading-tight">Pick up the next card.</h1>
-      </div>
+      <PageHeader eyebrow={`Hello, ${profile.name}`} title="Pick up the next card." />
       {profile.isAdmin && admins.length < 2 ? (
         <aside className="rounded-2xl border border-primary/40 bg-secondary px-4 py-3 text-sm">
           {profile.name} is the only admin. Add a second admin so a forgotten PIN is not a crisis.{" "}
@@ -52,7 +52,18 @@ export default async function HomePage() {
           </CardContent>
         </Card>
       ) : (
-        <p>No course is loaded yet.</p>
+        <EmptyState
+          icon={<BookOpen className="h-6 w-6" aria-hidden />}
+          title="No course is loaded yet"
+          body={profile.isAdmin ? "Import a course outline or package to start learning." : "Ask an admin to import a course."}
+          action={
+            profile.isAdmin ? (
+              <Button asChild>
+                <Link href="/admin/import">Import a Google Doc</Link>
+              </Button>
+            ) : undefined
+          }
+        />
       )}
       {catalog ? (
         <section>

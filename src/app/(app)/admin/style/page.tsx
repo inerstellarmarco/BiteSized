@@ -23,7 +23,7 @@ export default async function StylePage() {
   return (
     <div className="mx-auto max-w-2xl">
       <AdminNav current="/admin/style" />
-      <h1 className="font-display text-4xl">Locked style</h1>
+      <h1 className="font-display text-3xl md:text-4xl">Locked style</h1>
       <p className="mt-1 text-sm text-muted-foreground">Admins write the house style. Generation uses the latest locked version, not the unsaved draft.</p>
       <form action={setCapAction} className="mt-4 flex flex-wrap items-end gap-2">
         <label className="text-sm">

@@ -27,7 +27,7 @@ export default async function ImportPage({ searchParams }: { searchParams: Promi
   return (
     <div className="mx-auto max-w-3xl">
       <AdminNav current="/admin/import" />
-      <h1 className="font-display text-4xl">Import a Google Doc</h1>
+      <h1 className="font-display text-3xl md:text-4xl">Import a Google Doc</h1>
       <p className="mt-1 text-sm text-muted-foreground">
         Paste a Doc shared as anyone with the link, or upload an HTML, Word, or outline export. Headings stay at their levels. Nothing is written until you apply the preview.
       </p>

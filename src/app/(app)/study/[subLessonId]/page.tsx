@@ -19,7 +19,7 @@ export default async function StudyPage({ params }: { params: Promise<{ subLesso
       <p className="text-sm text-muted-foreground">
         {subLesson.lessonCode} · {subLesson.lessonTitle}
       </p>
-      <h1 className="font-display text-4xl leading-tight">{subLesson.title}</h1>
+      <h1 className="font-display text-3xl md:text-4xl leading-tight">{subLesson.title}</h1>
       <p className="text-sm text-muted-foreground">
         {subLesson.seenCount} of {subLesson.biteCount} bites read · {subLesson.questionCount} quiz questions
       </p>
