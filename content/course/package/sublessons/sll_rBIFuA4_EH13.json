@@ -1,0 +1,340 @@
+{
+  "id": "sll_rBIFuA4_EH13",
+  "title": "Layers of an AI System",
+  "bites": [
+    {
+      "id": "bit_4QKeZsU3Sbao",
+      "title": "Models: the intelligence itself, closed or open-weight",
+      "body": "At the bottom of every AI system sits a model: the part that reads, reasons and writes. Everything else exists to feed it or to act on what it says.\n\nThink of the engine in a car. It supplies the power, but an engine on a workbench takes nobody anywhere.\n\nYou get a model in one of two ways. Closed: rent access from the company that built it. Open-weight: download the files and run them yourself or through a host.\n\nThis layer gets all the attention, yet it is the one you are least likely to build and most likely to swap. Treat the model as a replaceable part.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_4QKeZsU3Sbao_1",
+          "type": "multiple_choice",
+          "prompt": "In the AI stack, what is the model layer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The part that does the reading, reasoning and writing"
+            },
+            {
+              "id": "b",
+              "text": "The database that stores documents"
+            },
+            {
+              "id": "c",
+              "text": "The monitoring dashboard"
+            },
+            {
+              "id": "d",
+              "text": "The user's web browser"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The model supplies the intelligence. The other layers feed it and act on its output.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_36CuElrmzHdO",
+      "title": "Model access: APIs, gateways, and hosting",
+      "body": "A model is no use until your software can reach it. The access layer is the plumbing.\n\nThere are three routes. Call the maker's API directly: simple, one bill per provider. Go through a gateway or router: one connection that reaches many models, so switching is a setting and not a rewrite. Or host it: run an open model on your own machines or on rented ones.\n\nThink of electricity. You can buy from one supplier, use a broker who switches suppliers for you, or run your own generator.\n\nThe choice decides where your data travels, who bills you, and how painful it is to change models later.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_36CuElrmzHdO_1",
+          "type": "multiple_choice",
+          "prompt": "What does a model gateway provide?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A new model trained on your data"
+            },
+            {
+              "id": "b",
+              "text": "Free unlimited usage"
+            },
+            {
+              "id": "c",
+              "text": "A replacement for writing prompts"
+            },
+            {
+              "id": "d",
+              "text": "One connection through which you can reach and switch between many models"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A gateway sits between your code and several providers, making it easy to change which model is used.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_F3HewOm3bWsL",
+      "title": "Data and retrieval: documents, databases, and vector stores",
+      "body": "A model knows the public internet up to its cutoff. It knows nothing about your customers, your prices or last Tuesday's meeting. The data layer supplies that.\n\nIt includes your documents, your databases and a retrieval system that finds the right pieces for each question. A vector store is a database built for that, searching by meaning instead of by exact word.\n\nThink of a brilliant new hire. The knowledge that makes them useful in your company is in the filing cabinets, and somebody has to hand them the right folder.\n\nIn most business projects this layer decides quality more than the model does. A mediocre model with the right document beats a superb one without it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_EsGxaBgEt106",
+          "targetCode": "B2",
+          "label": "see B2",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_F3HewOm3bWsL_1",
+          "type": "multiple_choice",
+          "prompt": "Why does an AI system need a data and retrieval layer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Models cannot read text without one"
+            },
+            {
+              "id": "b",
+              "text": "It makes the model's weights smaller"
+            },
+            {
+              "id": "c",
+              "text": "It is required by law"
+            },
+            {
+              "id": "d",
+              "text": "The model does not know your private or current information unless it is supplied"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Retrieval brings your own documents and data into the prompt, which the model otherwise has no knowledge of.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_rhyUt-3PUulu",
+      "title": "Orchestration: the loop, workflows, and agent teams (see B4, B10)",
+      "body": "One model call answers one prompt. Real tasks take many steps: look something up, decide, call a tool, check the result, try again. Orchestration is the layer that runs those steps.\n\nIt comes in three shapes. A workflow follows fixed steps in a set order. An agent loop lets the model decide the next step itself, again and again, until the job is done. A team of agents splits the work between specialists.\n\nThink of a kitchen. The model is a talented cook. Orchestration is the system that turns orders into dishes: who does what, in which order, and what happens when something burns.\n\nMost of an AI application's own code lives here.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_rhyUt-3PUulu_1",
+          "type": "multiple_choice",
+          "prompt": "What does the orchestration layer do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Controls the sequence of model calls, tool calls and decisions that complete a task"
+            },
+            {
+              "id": "b",
+              "text": "Stores the model's weights"
+            },
+            {
+              "id": "c",
+              "text": "Sets the price per token"
+            },
+            {
+              "id": "d",
+              "text": "Draws the user interface"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Orchestration manages multi-step work: the order of steps, loops, retries and handoffs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_SngihiQ2_QFz",
+      "title": "Tools and integrations: how the system acts on the world",
+      "body": "Without tools, a model can only talk. Tools let it do things: search the web, read a calendar, query a database, send an email, create an invoice.\n\nA tool is a function the model can ask to have run. The model says \"look up order 4812\". Your system runs the lookup and hands back the result. The model never touches your systems directly.\n\nThink of a consultant who cannot leave the room but can pass notes to assistants: \"fetch this file\", \"send this letter\".\n\nThis is the layer where AI stops being a writing aid and becomes part of operations. It is also where the real risk begins, because actions have consequences.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_86LFhVd0M_WJ",
+          "targetCode": "B5",
+          "label": "see B5",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_SngihiQ2_QFz_1",
+          "type": "multiple_choice",
+          "prompt": "What do tools add to an AI system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The ability to fetch information and take actions in other systems"
+            },
+            {
+              "id": "b",
+              "text": "A larger vocabulary"
+            },
+            {
+              "id": "c",
+              "text": "A later knowledge cutoff by retraining"
+            },
+            {
+              "id": "d",
+              "text": "Lower electricity use"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Tools connect the model to data and actions, such as searching, querying or sending messages.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_YoXRs_h43lzA",
+      "title": "Safety and quality: guardrails and evals (see B11, B12)",
+      "body": "Models make mistakes, and users sometimes try to misuse them. Two kinds of protection deal with that.\n\nGuardrails are checks that run while the system is working: screen what comes in, screen what goes out, and stop dangerous actions before they happen. They are the barriers at the edge of the road.\n\nEvals are tests you run to measure quality: a set of examples with known good answers that tells you how often the system gets it right. They are the MOT.\n\nWithout guardrails, one bad output reaches a customer. Without evals, you cannot tell whether a change made things better or worse. You are just hoping.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_YoXRs_h43lzA_1",
+          "type": "multiple_choice",
+          "prompt": "What is the difference between guardrails and evals?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They are two words for the same thing"
+            },
+            {
+              "id": "b",
+              "text": "Guardrails are for images and evals are for text"
+            },
+            {
+              "id": "c",
+              "text": "Evals stop harmful actions and guardrails compute prices"
+            },
+            {
+              "id": "d",
+              "text": "Guardrails check inputs, outputs and actions while the system runs; evals measure quality with test examples"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Guardrails protect live operation. Evals are tests that measure how well the system performs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_b1CxLPliXaJG",
+      "title": "Operations: deployment, cost, and monitoring (see B13, B14)",
+      "body": "A demo on your laptop is not a product. The operations layer is everything needed to run the system for real users, day after day.\n\nDeployment: getting it onto servers where people can reach it. Cost control: tracking what each request costs before the bill surprises you. Monitoring: recording what the system did, how long it took and when it failed, so problems can be found and fixed.\n\nIt is the difference between cooking a nice dinner once and running a restaurant. The second needs suppliers, accounts and health inspections.\n\nThis layer is unglamorous, and it is where many promising AI projects stall.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_b1CxLPliXaJG_1",
+          "type": "multiple_choice",
+          "prompt": "Which of these belongs to the operations layer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Monitoring what the system does and what it costs in real use"
+            },
+            {
+              "id": "b",
+              "text": "Choosing a temperature setting"
+            },
+            {
+              "id": "c",
+              "text": "Writing the first prompt"
+            },
+            {
+              "id": "d",
+              "text": "Picking a brand name"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Operations covers deployment, cost tracking and monitoring of the running system.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_dAgYNkOijt0g",
+      "title": "Clean boundaries between layers let you swap one without rebuilding the rest",
+      "body": "The reason to think in layers is replaceability. If each layer talks to the next through a small, clear connection, you can change one without touching the others.\n\nA lamp and a wall socket show the idea. Any lamp fits any socket, because the plug is standard. Nobody rewires the house to change a lamp.\n\nIn practice: your code calls \"the model\" through one function, so switching provider is a one-line change. Your prompts are kept in files, not buried in code. Your documents can be moved to another store.\n\nWithout boundaries everything is welded together. When a better or cheaper model appears, which happens every few months, moving costs weeks instead of an hour.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a7",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_dAgYNkOijt0g_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main benefit of clean boundaries between the layers of an AI system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The system needs no testing"
+            },
+            {
+              "id": "b",
+              "text": "The model becomes more accurate"
+            },
+            {
+              "id": "c",
+              "text": "One part, such as the model, can be replaced without rebuilding everything else"
+            },
+            {
+              "id": "d",
+              "text": "Users cannot see the interface"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Well-defined connections isolate change, so swapping a layer does not ripple through the rest.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

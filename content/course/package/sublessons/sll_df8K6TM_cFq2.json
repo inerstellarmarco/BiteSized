@@ -1,0 +1,166 @@
+{
+  "id": "sll_df8K6TM_cFq2",
+  "title": "Similarity",
+  "bites": [
+    {
+      "id": "bit_ZWK-KT493WIg",
+      "title": "Cosine similarity (intuition)",
+      "body": "Once two texts are vectors, you need one number that says how alike they are. The standard measure is cosine similarity.\n\nIt looks at the angle between the two vectors and ignores their length. Imagine two arrows starting from the same spot. Pointing the same way gives a score near 1. At right angles gives about 0. Pointing opposite ways gives minus 1.\n\nWhy direction and not distance? A short note and a long report on the same topic point the same way, even though one arrow is much longer. Direction captures what the text is about.\n\nIn practice you rarely need the formula. You just need to know that a higher score means closer in meaning.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_ZWK-KT493WIg_1",
+          "type": "multiple_choice",
+          "prompt": "What does a cosine similarity close to 1 mean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The two vectors point in nearly the same direction, so the texts are similar in meaning"
+            },
+            {
+              "id": "b",
+              "text": "The two texts are the same length"
+            },
+            {
+              "id": "c",
+              "text": "The two texts are opposite in meaning"
+            },
+            {
+              "id": "d",
+              "text": "One of the texts is empty"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Cosine similarity measures the angle between vectors, and values near 1 mean they are closely aligned.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_k4i634cKM2BP",
+      "title": "Semantic search (preview)",
+      "body": "Traditional search matches words. Search for \"car\" and it finds documents containing \"car\", and misses the ones that say \"vehicle\" or \"automobile\".\n\nSemantic search matches meaning. The steps: embed every document once and store the vectors. Embed the user's question. Return the documents whose vectors are closest to it.\n\nIt is the difference between a librarian who only checks the titles for your exact word and one who understands what you are asking for and walks you to the right shelf.\n\nThis is the engine behind \"chat with your documents\", and the course covers it in detail under retrieval-augmented generation, or RAG.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_k4i634cKM2BP_1",
+          "type": "multiple_choice",
+          "prompt": "How does semantic search differ from keyword search?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It only works on numbers"
+            },
+            {
+              "id": "b",
+              "text": "It matches by meaning using embeddings, not by exact words"
+            },
+            {
+              "id": "c",
+              "text": "It is always slower and worse"
+            },
+            {
+              "id": "d",
+              "text": "It requires the documents to be printed"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Semantic search compares vectors, so it finds relevant text even when the wording is different.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_VxMaZb4x6to2",
+      "title": "Similar meaning scores high even with different words",
+      "body": "The strength of embedding similarity is that it sees through wording.\n\n\"The meeting has been postponed\" and \"We are pushing the call to next week\" share hardly a word. A keyword search finds no link. Their embeddings are close, because they describe the same situation.\n\nIt also works across languages with a multilingual model. \"Where is the station?\" and \"¿Dónde está la estación?\" land near each other.\n\nUsers rarely phrase a question the way your documents phrase the answer. Meaning-based matching closes that gap.\n\nThe other side of it: exact strings such as product codes, names and error numbers are where keyword search is still better. Good systems use both.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_VxMaZb4x6to2_1",
+          "type": "multiple_choice",
+          "prompt": "Why can embeddings match \"postponed the meeting\" with \"pushing the call to next week\"?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They count shared letters"
+            },
+            {
+              "id": "b",
+              "text": "They only compare the first word"
+            },
+            {
+              "id": "c",
+              "text": "They capture meaning, not exact wording"
+            },
+            {
+              "id": "d",
+              "text": "They look up synonyms in a fixed dictionary"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Texts describing the same idea get nearby vectors even when they share no words.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_u2XONAgGFsM3",
+      "title": "Similar is not the same as true: close does not mean correct",
+      "body": "Similarity measures whether two texts are about the same thing. It does not measure whether either one is right.\n\n\"The warranty lasts two years\" and \"The warranty does not last two years\" are extremely similar: same topic, almost the same words. They say opposite things.\n\nA search for \"current refund policy\" can happily return last year's withdrawn policy, because it matches the topic perfectly.\n\nThink of a filing clerk who is brilliant at fetching folders on the right subject but never reads them to check they are current or correct.\n\nSo retrieval finds candidates. Something else, such as dates, source rules, a second check or a person, has to judge whether they should be trusted.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_u2XONAgGFsM3_1",
+          "type": "multiple_choice",
+          "prompt": "A statement and its exact negation will usually have embeddings that are:",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Completely opposite"
+            },
+            {
+              "id": "b",
+              "text": "Impossible to compute"
+            },
+            {
+              "id": "c",
+              "text": "Identical to every other sentence"
+            },
+            {
+              "id": "d",
+              "text": "Very similar, because they are about the same topic"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Embeddings capture topic and wording more than truth, so contradictory statements can sit close together.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

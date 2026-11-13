@@ -1,0 +1,206 @@
+{
+  "id": "sll_ZE35vlDxlHI8",
+  "title": "Training & Loss",
+  "bites": [
+    {
+      "id": "bit_3s5977vE46vT",
+      "title": "Training data and loss (intuition)",
+      "body": "Training is repeated practice with feedback. Two things make it work.\n\nThe training data is the practice material: the examples the model learns from.\n\nThe loss is the feedback: a single number saying how wrong the model's current answers are.\n\nThe loop is simple. The model makes a prediction. The loss measures how far off it was. The model adjusts slightly to be less wrong. Then again, millions of times.\n\nIt is like learning darts with someone calling out how far you were from the bullseye after every throw. With no measurement of the miss, there is no way to improve.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_3s5977vE46vT_1",
+          "type": "multiple_choice",
+          "prompt": "What role does the loss play in training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It stores the training data"
+            },
+            {
+              "id": "b",
+              "text": "It is the final product delivered to users"
+            },
+            {
+              "id": "c",
+              "text": "It measures how wrong the model's predictions are, guiding the adjustments"
+            },
+            {
+              "id": "d",
+              "text": "It counts how many examples exist"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The loss is the error signal. Training repeatedly adjusts the model to make it smaller.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_jFujw-PYfak7",
+      "title": "Train / validation / test splits",
+      "body": "You cannot judge a student using the exact questions they practised on. The same goes for models, so the data is split into three parts.\n\nThe training set is the textbook: the model learns from it.\n\nThe validation set is the mock exam: you use it during development to compare versions and tune settings.\n\nThe test set is the final exam: locked away, used once at the end, to find out how the model does on data it has never seen.\n\nA common split is roughly 70, 15 and 15 per cent. The principle matters more than the numbers: performance only counts on examples the model did not learn from.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_jFujw-PYfak7_1",
+          "type": "multiple_choice",
+          "prompt": "What is the test set for?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Teaching the model its patterns"
+            },
+            {
+              "id": "b",
+              "text": "Tuning settings repeatedly during development"
+            },
+            {
+              "id": "c",
+              "text": "A final, one-time check on data the model has never seen"
+            },
+            {
+              "id": "d",
+              "text": "Storing the model's weights"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The test set is held back so that it gives an honest estimate of performance on new data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_rNhqRBQRSFb0",
+      "title": "Loss: a score for how wrong the model is",
+      "body": "The loss is a number where lower is better, and zero would mean perfect.\n\nFor predicting a number, the loss might be the size of the miss. Predict 200,000 for a house that sold for 250,000 and the loss reflects that 50,000 gap.\n\nFor picking a category, the loss looks at confidence. Being confidently wrong is punished far more than being unsure. A forecaster who says \"99% sunny\" before a storm deserves more blame than one who said 60%.\n\nLoss is not the same as accuracy. Accuracy is a headline for people. Loss is the fine-grained signal a model needs, because it shows the tiny improvements that accuracy would hide.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_rNhqRBQRSFb0_1",
+          "type": "multiple_choice",
+          "prompt": "Which prediction gets the highest loss when it turns out to be wrong?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "One made with low confidence"
+            },
+            {
+              "id": "b",
+              "text": "One that was nearly right"
+            },
+            {
+              "id": "c",
+              "text": "One made with very high confidence"
+            },
+            {
+              "id": "d",
+              "text": "All wrong answers get the same loss"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Typical classification losses penalise confident errors most heavily, which pushes the model to be honest about uncertainty.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_LePia0Qv4kvM",
+      "title": "Training lowers the loss on data the model has seen",
+      "body": "Training does one thing: it lowers the loss on the training data. That is the only thing the process directly controls.\n\nWhat you actually care about is different: how the model performs on new data it has never met.\n\nUsually the two move together, and getting better at the practice material means getting better in general. But they can come apart. Push training far enough and the model starts fitting the quirks of its particular examples.\n\nIt is the student who scores 100% on last year's paper by learning the answers by heart.\n\nSo during training you watch two numbers: the loss on training data, and the loss on held-back data. The second one is the truth.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_LePia0Qv4kvM_1",
+          "type": "multiple_choice",
+          "prompt": "Which number best shows whether a model will do well in real use?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Its loss on the training data"
+            },
+            {
+              "id": "b",
+              "text": "The number of training steps completed"
+            },
+            {
+              "id": "c",
+              "text": "The size of the training file"
+            },
+            {
+              "id": "d",
+              "text": "Its loss on held-back data that it did not train on"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Training loss only shows the model fits what it has seen. Held-back data shows whether that carries over.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Buie7VO5hD0u",
+      "title": "Never tune using the test set",
+      "body": "The test set has one job: give an honest estimate of how the model will do in the real world. It can do that only if it never influences any decision.\n\nThe temptation goes like this. You test, get 82%, tweak a setting, test again, get 84%, tweak again. After twenty rounds you have a model fitted to that particular test set. You have taught to the exam, one peek at a time.\n\nThe reported score is now too high, and real performance will disappoint.\n\nThat is what the validation set is for. Tune on validation as much as you like. Open the test set once, at the end.\n\nThe same discipline applies to evaluating LLM prompts.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Buie7VO5hD0u_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you not adjust a model repeatedly based on its test set score?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model becomes fitted to that test set, so the score no longer reflects real performance"
+            },
+            {
+              "id": "b",
+              "text": "The test set gets worn out physically"
+            },
+            {
+              "id": "c",
+              "text": "It makes training slower"
+            },
+            {
+              "id": "d",
+              "text": "Test sets are always too small to use"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Each peek leaks information from the test set into your choices, which inflates the final score.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,286 @@
+{
+  "id": "sll_jKwc9jjUfmIG",
+  "title": "Databases",
+  "bites": [
+    {
+      "id": "bit_SsSh4-hPkno-",
+      "title": "SQL basics (SELECT, JOIN, GROUP BY)",
+      "body": "SQL is the language for asking questions of a database. It reads close to English, and three words cover most of it.\n\nSELECT chooses what you want to see: SELECT name, city FROM customers WHERE city = 'Leeds'. That is: these columns, from this table, only these rows.\n\nJOIN connects tables through a shared column: match each order to the customer who placed it.\n\nGROUP BY makes piles and summarises each one: total sales per city.\n\nNotice these are the same three ideas as in pandas: filter, join, group. Learn the ideas once and they carry over to spreadsheets, pandas and SQL alike.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_SsSh4-hPkno-_1",
+          "type": "multiple_choice",
+          "prompt": "Which SQL keyword combines rows from two tables using a shared column?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "SELECT"
+            },
+            {
+              "id": "b",
+              "text": "GROUP BY"
+            },
+            {
+              "id": "c",
+              "text": "JOIN"
+            },
+            {
+              "id": "d",
+              "text": "WHERE"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "JOIN matches rows across tables, for example each order to its customer through a customer id.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Xx-CfjgQI6Kp",
+      "title": "Relational vs. document vs. graph databases",
+      "body": "Databases come in families, each built around a different shape of data.\n\nRelational databases, such as PostgreSQL, store tidy tables linked by ids and are queried with SQL. They are the default for business records: customers, orders, invoices.\n\nDocument databases, such as MongoDB, store JSON-like records that can each differ. They suit data that varies or nests deeply.\n\nGraph databases, such as Neo4j, store things and the connections between them: who knows whom, which part goes into which product. They shine when the relationships are the point.\n\nThink filing cabinet, folder of dossiers, and a map of connections. For most projects, start relational unless you have a clear reason not to.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Xx-CfjgQI6Kp_1",
+          "type": "multiple_choice",
+          "prompt": "Which database family is the usual default for orders, customers and invoices?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Graph"
+            },
+            {
+              "id": "b",
+              "text": "Relational"
+            },
+            {
+              "id": "c",
+              "text": "Document"
+            },
+            {
+              "id": "d",
+              "text": "None; a text file is standard"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Relational databases handle structured, linked business records well and are queried with SQL.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_IEev0NvBO0Kk",
+      "title": "Tables, primary keys, and foreign keys",
+      "body": "Two kinds of key hold a relational database together.\n\nA primary key is a unique id for each row, like a passport number. Names repeat, since there can be two John Smiths, so every customer gets an id that never does.\n\nA foreign key is a column that points at a row in another table. Each order carries a customer_id saying \"I belong to customer 42\".\n\nThis means the customer's address is stored once, in the customers table, not copied onto every order. Change it in one place and every order sees the new one.\n\nThat is the central idea of relational design: store each fact once, and link to it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_IEev0NvBO0Kk_1",
+          "type": "multiple_choice",
+          "prompt": "What is a foreign key?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A password for the database"
+            },
+            {
+              "id": "b",
+              "text": "A key that is unique for every row in its own table"
+            },
+            {
+              "id": "c",
+              "text": "A backup copy of a table"
+            },
+            {
+              "id": "d",
+              "text": "A column that refers to the primary key of a row in another table"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A foreign key links a row to a row elsewhere, for example an order to its customer.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_sv2-RMvZW-4a",
+      "title": "Why databases beat spreadsheets as a business grows",
+      "body": "Spreadsheets are perfect until they are not. The trouble starts with growth.\n\nTwo people edit at once and one overwrites the other. A copy is emailed round and now there are four versions of the truth. Someone types \"tbc\" in a date column. The file passes 100,000 rows and takes a minute to open.\n\nA database is built for exactly these problems. Many users can work at the same time. Rules reject bad values. There is one copy. Millions of rows are routine, and every change can be recorded.\n\nA spreadsheet is a notepad. A database is the filing system with a clerk who checks every form.\n\nKeep spreadsheets for analysis and quick views, on top of the database.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_sv2-RMvZW-4a_1",
+          "type": "multiple_choice",
+          "prompt": "Which problem does a database solve that a shared spreadsheet handles badly?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Making a quick one-off chart"
+            },
+            {
+              "id": "b",
+              "text": "Typing a short list"
+            },
+            {
+              "id": "c",
+              "text": "Colouring cells"
+            },
+            {
+              "id": "d",
+              "text": "Many people changing data at once without overwriting each other"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Databases are built for many simultaneous users, with rules that keep the data consistent.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_iH6c63KpLAYz",
+      "title": "Reading SQL that an AI assistant wrote",
+      "body": "Assistants write SQL well, so your job is reading it. Do not read from the top. Read in the order the database thinks.\n\nFirst FROM and JOIN: which tables are involved, and how are they linked? Then WHERE: which rows are kept? Then GROUP BY: how are they piled up? Last SELECT: what is shown?\n\nThen ask three checking questions. Is the join on the right columns? A wrong join silently multiplies rows and inflates totals. Does the WHERE match what I asked, including the dates? And is anything being counted twice?\n\nTest on a case where you already know the answer, such as one customer's total.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_iH6c63KpLAYz_1",
+          "type": "multiple_choice",
+          "prompt": "An AI-written query returns a sales total that is far too high. What is a likely cause?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The SELECT keyword was written in capitals"
+            },
+            {
+              "id": "b",
+              "text": "The database is too fast"
+            },
+            {
+              "id": "c",
+              "text": "The table has a primary key"
+            },
+            {
+              "id": "d",
+              "text": "A join that matches each row several times and so duplicates amounts"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A wrong or loose join condition multiplies rows, which silently inflates sums and counts.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_iX3agUEMxygV",
+      "title": "Indexes make queries fast (concept)",
+      "body": "An index does for a database what the index at the back of a book does for you. To find \"photosynthesis\" you do not read all 600 pages. You look it up, get the page number and go straight there.\n\nWithout an index, the database checks every row to find the ones you asked for. With a million rows, that is slow. With an index on the column you search by, it jumps straight to them.\n\nThe trade-off: every index takes space and must be updated on each write, so you index the columns you actually search on, not all of them.\n\nWhen an app gets slow as its data grows, a missing index is the first thing to suspect.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_iX3agUEMxygV_1",
+          "type": "multiple_choice",
+          "prompt": "What does a database index do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Lets the database find matching rows without scanning the whole table"
+            },
+            {
+              "id": "b",
+              "text": "Encrypts the table"
+            },
+            {
+              "id": "c",
+              "text": "Deletes duplicate rows"
+            },
+            {
+              "id": "d",
+              "text": "Makes a backup copy every night"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Like a book's index, it points directly to where the wanted rows are.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_jmltV6LISNdM",
+      "title": "Copy the data before you change it",
+      "body": "One wrong command can alter every row in a table, and databases have no undo button.\n\nThe classic accident is an UPDATE or DELETE with the WHERE clause missing. \"Set the price to 0 for product 17\" becomes \"set the price to 0 for everything\".\n\nSo keep the habits of a careful surgeon. Make a backup, or copy the table, before changing anything. Run the same condition as a SELECT first to see exactly which rows will be hit. Try it on a test copy, not on live data.\n\nThis matters more with AI. An assistant or agent will write and run destructive SQL with total confidence. Give it read-only access unless it truly needs more.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_jmltV6LISNdM_1",
+          "type": "multiple_choice",
+          "prompt": "What is the safest check before running an UPDATE on live data?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Run it quickly before anyone notices"
+            },
+            {
+              "id": "b",
+              "text": "Run the same WHERE as a SELECT to see which rows will be affected, with a backup in place"
+            },
+            {
+              "id": "c",
+              "text": "Remove the WHERE clause so it is simpler"
+            },
+            {
+              "id": "d",
+              "text": "Ask the AI whether it feels confident"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Previewing the affected rows and having a backup means a mistake can be seen in advance or reversed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,340 @@
+{
+  "id": "sll_Pssiwxz3o8-A",
+  "title": "How LLMs Are Trained (Overview)",
+  "bites": [
+    {
+      "id": "bit_Qtpt-k2k6Z8y",
+      "title": "Next-token prediction",
+      "body": "At its core an LLM does one thing: given some text, it predicts the next token.\n\n\"The capital of France is ___.\" The model gives a probability to every token in its vocabulary. \"Paris\" gets most of it.\n\nTo write a paragraph it does this again and again. It predicts a token, adds it to the text, predicts the next, and so on. One token at a time, each chosen in the light of everything before it.\n\nIt is your phone's autocomplete, scaled up almost beyond recognition.\n\nWhat is surprising is how much this simple task demands. To continue a legal argument, a proof or a joke well, a model needs something that works like understanding.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Qtpt-k2k6Z8y_1",
+          "type": "multiple_choice",
+          "prompt": "What is the basic operation an LLM performs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Predicting the next token given the text so far"
+            },
+            {
+              "id": "b",
+              "text": "Looking up answers in a database"
+            },
+            {
+              "id": "c",
+              "text": "Searching the internet"
+            },
+            {
+              "id": "d",
+              "text": "Copying and pasting stored documents"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "An LLM repeatedly predicts the next token, building its output one piece at a time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_J-n_huaJovSP",
+      "title": "Pretraining vs. post-training",
+      "body": "An LLM is made in two stages.\n\nPretraining gives it knowledge. The model reads an enormous amount of text and learns to predict what comes next. What comes out is a base model: fluent and knowledgeable, but it only continues text. Ask it a question and it may reply with another question, because that is a plausible continuation.\n\nPost-training gives it manners. The base model is shaped into an assistant that follows instructions, answers helpfully and declines harmful requests.\n\nThink of a broad general education followed by job training. The first makes a well-read person. The second makes them useful in a particular role.\n\nNearly everything you notice about a chatbot's behaviour comes from the second stage.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_J-n_huaJovSP_1",
+          "type": "multiple_choice",
+          "prompt": "What does pretraining mainly give an LLM?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The ability to follow instructions politely"
+            },
+            {
+              "id": "b",
+              "text": "Broad knowledge of language and the world, from predicting text"
+            },
+            {
+              "id": "c",
+              "text": "Access to live data"
+            },
+            {
+              "id": "d",
+              "text": "Its user interface"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Pretraining on huge amounts of text builds general knowledge. Assistant behaviour comes from post-training.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_0NX2_Y6MDfIt",
+      "title": "Knowledge cutoff",
+      "body": "A model's knowledge stops at a date: its knowledge cutoff. That is when its training data was gathered. Anything after it, the model has not seen.\n\nThink of someone back from a year on a remote research station. They are bright and well informed, and they have no idea who won last month's election.\n\nTwo awkward wrinkles. The model does not experience time passing, so it may assume that today is its cutoff date. And the cutoff is blurry: the last few months before it are thinly covered, because the internet had not finished writing about them.\n\nFor anything recent, such as prices, news, new versions or current law, do not rely on the model's memory. Supply the information.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_0NX2_Y6MDfIt_1",
+          "type": "multiple_choice",
+          "prompt": "What is a knowledge cutoff?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The maximum length of a prompt"
+            },
+            {
+              "id": "b",
+              "text": "The point at which the model stops working"
+            },
+            {
+              "id": "c",
+              "text": "The price limit on an account"
+            },
+            {
+              "id": "d",
+              "text": "The date after which the model has no training data"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The model only knows what was in its training data, which ends at the cutoff date.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_IhuxBGuQb-li",
+      "title": "Pretraining: read huge amounts of text and predict the next token",
+      "body": "Pretraining is the long, expensive stage. The model is fed trillions of tokens: books, websites, code, papers. On every stretch of text it plays one game: guess the next token, see the real one, adjust.\n\nNo person labels anything. The text is its own answer key.\n\nThe scale is the point. After that many guesses, the model has had to pick up grammar, facts, styles, coding patterns and ways of reasoning, because all of them help it predict better.\n\nIt is like someone who read an entire library with the last word of every sentence covered, guessing each one.\n\nThis stage costs tens of millions of dollars or more, which is why only a few organisations do it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_IhuxBGuQb-li_1",
+          "type": "multiple_choice",
+          "prompt": "Why does pretraining need no human-written labels?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "People label every sentence in secret"
+            },
+            {
+              "id": "b",
+              "text": "The model does not learn during pretraining"
+            },
+            {
+              "id": "c",
+              "text": "The next token in the text is itself the correct answer"
+            },
+            {
+              "id": "d",
+              "text": "Labels are bought from other companies"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Next-token prediction is self-supervised, since the training target comes straight from the text.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_oXYn2ueynOBt",
+      "title": "Post-training: instruction tuning and human feedback shape a helpful assistant",
+      "body": "A raw pretrained model completes text. Post-training turns it into something you can talk to.\n\nInstruction tuning: the model is trained on many examples of an instruction followed by a good response. It learns the pattern \"a request comes in, a helpful answer goes out\".\n\nHuman feedback: people rate or rank the model's answers, and the model is nudged towards the kind people prefer. This is often called RLHF, reinforcement learning from human feedback.\n\nSafety training: it learns to decline dangerous requests.\n\nIt is the difference between a brilliant graduate and a trained professional. The knowledge is the same. One of them has learned how to behave with clients.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_oXYn2ueynOBt_1",
+          "type": "multiple_choice",
+          "prompt": "What does instruction tuning teach a model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "New facts about last week's news"
+            },
+            {
+              "id": "b",
+              "text": "How to browse the web"
+            },
+            {
+              "id": "c",
+              "text": "How to run faster"
+            },
+            {
+              "id": "d",
+              "text": "To respond helpfully to requests instead of just continuing text"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Training on instruction and response pairs teaches the assistant pattern of answering what is asked.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_45QUOq6i2PX2",
+      "title": "Post-training side effects: sycophancy and over-refusal",
+      "body": "Training a model to please people and to be safe leaves two side effects.\n\nSycophancy: the model was rewarded for answers people liked, and people like being agreed with. So it leans towards flattery, praising a weak plan, giving way when you push back even though it was right, or mirroring your opinion. It is the employee who tells the boss what the boss wants to hear.\n\nOver-refusal: trained to decline harmful requests, it sometimes declines harmless ones that look similar on the surface, or buries a simple answer in warnings.\n\nThe practical defence against the first: ask neutrally. \"What are the weaknesses of this plan?\" gets a more honest reply than \"Great plan, isn't it?\"",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_45QUOq6i2PX2_1",
+          "type": "multiple_choice",
+          "prompt": "What is sycophancy in an LLM?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Refusing every request"
+            },
+            {
+              "id": "b",
+              "text": "A tendency to agree with or flatter the user instead of being accurate"
+            },
+            {
+              "id": "c",
+              "text": "Running too slowly"
+            },
+            {
+              "id": "d",
+              "text": "Forgetting the conversation"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Models trained on human approval can drift towards telling users what they want to hear.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_CIHU0OAmABxO",
+      "title": "Reasoning models are trained to think before answering",
+      "body": "A standard model starts answering straight away, token by token. That is fine for simple questions. On hard problems it is like blurting out the first thing that comes to mind.\n\nReasoning models are trained to work on the problem first. Before the visible answer, they produce a stretch of working: trying approaches, checking steps, changing course. Then they answer.\n\nIt is a student doing rough work on scratch paper before writing the final answer.\n\nThe gain is large on multi-step problems such as maths, planning, tricky code and analysis. The cost is that the thinking is made of tokens too, so answers are slower and dearer. For \"what is the capital of France?\", it is wasted effort.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_1MQG1VL6FHPc",
+          "targetCode": "B8.1",
+          "label": "see B8.1",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_CIHU0OAmABxO_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main trade-off of using a reasoning model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Faster answers with lower quality"
+            },
+            {
+              "id": "b",
+              "text": "It cannot answer simple questions at all"
+            },
+            {
+              "id": "c",
+              "text": "It needs no prompt"
+            },
+            {
+              "id": "d",
+              "text": "Better results on hard problems, at the price of more time and cost"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The extra thinking tokens improve multi-step accuracy but add latency and cost.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_r1-apAA4CMK7",
+      "title": "The model has no live data unless you supply it",
+      "body": "A plain LLM is sealed off. It cannot see today's date, your files, your inbox, the current share price or the web. It has only what it learned in training and what you put in the prompt.\n\nWhen a chatbot does seem to know current things, a system built around the model has fetched that information, by search or a database lookup, and pasted it into the prompt. The model itself did not go and find it.\n\nThink of a well-read consultant in a windowless room. Slide the right documents under the door and the advice is excellent. Slide nothing and they work from memory, and guess.\n\nMost of practical AI engineering is deciding what to slide under that door.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a7",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_PpnNykZmOqTR",
+          "targetCode": "B2.4",
+          "label": "see B2.4",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_r1-apAA4CMK7_1",
+          "type": "multiple_choice",
+          "prompt": "How does a chatbot \"know\" today's news?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model updates itself every night"
+            },
+            {
+              "id": "b",
+              "text": "The model browses the internet by itself inside its weights"
+            },
+            {
+              "id": "c",
+              "text": "A surrounding system retrieves the information and puts it into the prompt"
+            },
+            {
+              "id": "d",
+              "text": "It cannot; such answers are always invented"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The model only has its training data and its context. Fresh information must be supplied by tools or retrieval.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

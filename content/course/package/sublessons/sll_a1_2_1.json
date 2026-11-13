@@ -1,0 +1,273 @@
+{
+  "id": "sll_a1_2_1",
+  "title": "Classes & Objects",
+  "bites": [
+    {
+      "id": "bit_a1_classes",
+      "title": "Classes, objects, and methods",
+      "body": "A class bundles data together with the actions that belong to that data. A method is one of those actions: a function that lives on the object.\n\nTake a bank account. It has data (a balance) and actions (deposit, withdraw). In code: account.deposit(50). The dot means \"ask this particular object to do this\".\n\nInside a class you will see the word self everywhere. It simply means \"this particular object\", so the method knows whose balance to change.\n\nYou also meet __init__, the setup routine that runs once when an object is created. It is where the starting data gets stored.",
+      "sourceNote": "Python tutorial, classes · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_classes_1",
+          "type": "multiple_choice",
+          "prompt": "In a Python class, what does self refer to?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The particular object the method is being called on"
+            },
+            {
+              "id": "b",
+              "text": "The class that all objects share"
+            },
+            {
+              "id": "c",
+              "text": "The file the code is saved in"
+            },
+            {
+              "id": "d",
+              "text": "The person running the program"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "self is the specific instance, which is how a method reaches that object's own data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_models",
+      "title": "Data models",
+      "body": "A dataclass is a class meant to hold data. You declare the fields, and Python writes the boring __init__ for you. Pydantic is a library with a similar idea, plus checks: if a field should be a number and you pass text, it tells you. That is useful for settings and for data from an API. A dataclass does not, by itself, validate types at runtime.",
+      "sourceNote": "Python dataclasses docs and Pydantic models overview · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": "2026-11-13T00:00:00.000Z",
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_models_1",
+          "type": "multiple_choice",
+          "prompt": "What does a dataclass mainly save you from writing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The HTTP server"
+            },
+            {
+              "id": "b",
+              "text": "A repetitive __init__ for the fields"
+            },
+            {
+              "id": "c",
+              "text": "The tests"
+            },
+            {
+              "id": "d",
+              "text": "The virtual environment"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A dataclass generates __init__ and a few helpers from the fields you list.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_models_2",
+          "type": "multiple_choice",
+          "prompt": "Why do people reach for Pydantic on API data?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It replaces Python lists"
+            },
+            {
+              "id": "b",
+              "text": "It checks that incoming data matches the shape you declared"
+            },
+            {
+              "id": "c",
+              "text": "It makes code run without a network"
+            },
+            {
+              "id": "d",
+              "text": "It is part of the Python standard library"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Pydantic validates and parses data into a model. It is a third-party library, not a built-in.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_juTk-e8eV8ED",
+      "title": "Data models (dataclasses, Pydantic)",
+      "body": "A data model is a class whose main job is to describe the shape of some data: which fields exist and what type each one is.\n\nThink of a paper form with labelled boxes: name, date of birth, email. A dataclass gives you that form with almost no code. You list the fields and Python writes the setup for you.\n\nPydantic goes further and checks what is written in the boxes. If age should be a number and \"abc\" arrives, it refuses with a clear error.\n\nThat is why AI projects use Pydantic so much: an LLM's reply is untrusted text, and a model class turns it into data you can rely on, or fails loudly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_juTk-e8eV8ED_1",
+          "type": "multiple_choice",
+          "prompt": "What does Pydantic add beyond a plain dataclass?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the program run in parallel"
+            },
+            {
+              "id": "b",
+              "text": "It stores the data in a database"
+            },
+            {
+              "id": "c",
+              "text": "It writes documentation pages"
+            },
+            {
+              "id": "d",
+              "text": "It validates that incoming data matches the declared types"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Pydantic checks and converts data against the declared fields, raising a clear error when it does not fit.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_FnlCoJCXR88F",
+      "title": "A class is a blueprint; an object is one instance of it",
+      "body": "A class is the plan. An object is a real thing built from the plan. One house blueprint can produce many houses, and painting one of them does not repaint the others.\n\nIn code: class Customer is the blueprint. ana = Customer(\"Ana\") and ben = Customer(\"Ben\") are two separate objects. Each has its own name and its own data, but both follow the same design and share the same methods.\n\nThe word instance just means \"one object made from a class\". When you read ana = Customer(\"Ana\"), say to yourself: \"build one Customer and call it ana\".",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_FnlCoJCXR88F_1",
+          "type": "multiple_choice",
+          "prompt": "Two objects are made from the same class. If you change the data of one, the other:",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Changes too, always"
+            },
+            {
+              "id": "b",
+              "text": "Is deleted"
+            },
+            {
+              "id": "c",
+              "text": "Stays as it was, because each object holds its own data"
+            },
+            {
+              "id": "d",
+              "text": "Becomes a class"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Objects built from one class share the design but keep separate data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_S94RAXTsOG0I",
+      "title": "AI frameworks use classes everywhere: agents, tools, and clients",
+      "body": "You rarely write classes from scratch in AI work, but you use them all the time. Libraries hand you ready-made blueprints and you build objects from them.\n\nA typical pattern: client = OpenAI() makes a client object that knows how to talk to the service. agent = Agent(model=..., tools=[...]) makes an agent with its own settings. Then you call methods: client.chat(...), agent.run(\"task\").\n\nSo reading framework code is mostly spotting two moves. First, create an object and configure it. Second, ask the object to do things with a dot. Once you see that rhythm, unfamiliar frameworks stop looking alien.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_S94RAXTsOG0I_1",
+          "type": "multiple_choice",
+          "prompt": "In client = OpenAI() followed by client.chat(...), what is client?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A plain text string"
+            },
+            {
+              "id": "b",
+              "text": "A Python keyword"
+            },
+            {
+              "id": "c",
+              "text": "An object created from the library's class"
+            },
+            {
+              "id": "d",
+              "text": "A file on disk"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Calling the class builds an object, and the dot then calls a method on that object.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_hOHexgGoxMOl",
+      "title": "Validation: catching bad data at the door",
+      "body": "Validation means checking data the moment it enters your program, before anything uses it. Think of airport security: problems are far cheaper to deal with at the entrance than at 30,000 feet.\n\nWithout validation, a bad value travels deep into the program. It finally breaks something far from where it came in, and the error message points at the wrong place.\n\nWith validation, the failure is immediate and specific: \"price must be a number, got 'ten'\".\n\nThis is essential with LLMs, because a model can return text that is nearly right: a missing field, a number written as a word. Validate the reply, and retry or stop if it fails.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_hOHexgGoxMOl_1",
+          "type": "multiple_choice",
+          "prompt": "Why validate data at the point where it enters a program?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Errors are caught early with a clear message, before they cause confusing failures later"
+            },
+            {
+              "id": "b",
+              "text": "It makes the data smaller"
+            },
+            {
+              "id": "c",
+              "text": "It removes the need for any testing"
+            },
+            {
+              "id": "d",
+              "text": "It guarantees the LLM never makes a mistake"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Checking at the door turns a hidden problem into an immediate, specific error close to its cause.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

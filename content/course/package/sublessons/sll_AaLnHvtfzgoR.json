@@ -1,0 +1,206 @@
+{
+  "id": "sll_AaLnHvtfzgoR",
+  "title": "Backpropagation (Intuition)",
+  "bites": [
+    {
+      "id": "bit_aE6qiHCAwa-p",
+      "title": "Passing error backward",
+      "body": "A network makes a prediction and it is wrong. With millions of weights involved, which of them were to blame?\n\nBackpropagation answers that. It starts with the error at the output and works backwards through the layers, calculating how much each weight contributed.\n\nThink of a restaurant that gets a complaint about a dish. The manager traces it back: was it the plating, the cooking, the recipe, the supplier? Each stage gets feedback in proportion to its part in the problem.\n\n\"Backprop\" is that tracing, done with mathematics, for every weight at once. It gives gradient descent what it needs: a direction for every weight.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_aE6qiHCAwa-p_1",
+          "type": "multiple_choice",
+          "prompt": "What does backpropagation work out?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The correct label for the example"
+            },
+            {
+              "id": "b",
+              "text": "How many layers the network should have"
+            },
+            {
+              "id": "c",
+              "text": "How much each weight contributed to the error"
+            },
+            {
+              "id": "d",
+              "text": "How long training will take"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Backpropagation carries the output error back through the network to assign each weight its share of the blame.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Zq7bXw3trclK",
+      "title": "Frameworks do the math (PyTorch)",
+      "body": "Nobody works out backpropagation by hand. Frameworks do it automatically.\n\nPyTorch is the most widely used one in AI research. TensorFlow and JAX are others. You describe the network and the loss in a few lines. The framework keeps track of every calculation and then computes all the gradients for you. One line, loss.backward(), does the backward pass.\n\nIt is like a spreadsheet. You write the formulas, and it recalculates everything when a number changes. You never do the long arithmetic yourself.\n\nSo practitioners spend their time on the data, the design and the evaluation, not on calculus. If you only use models and do not train them, you may never touch this layer at all.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Zq7bXw3trclK_1",
+          "type": "multiple_choice",
+          "prompt": "What does a framework such as PyTorch do for you during training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It writes the training data"
+            },
+            {
+              "id": "b",
+              "text": "It computes the gradients automatically"
+            },
+            {
+              "id": "c",
+              "text": "It guarantees the model will be accurate"
+            },
+            {
+              "id": "d",
+              "text": "It replaces the need for a GPU"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The framework tracks the calculations and derives all the gradients, so no manual calculus is needed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_qgO_gLJgOhUl",
+      "title": "Each weight is nudged by how much it contributed to the error",
+      "body": "Once backpropagation has shared out the blame, every weight is adjusted, and the size of the adjustment follows the blame.\n\nA weight that pushed the answer strongly the wrong way gets a larger correction. One that hardly mattered is left almost alone. One that helped may be strengthened.\n\nThink of a band rehearsing. The conductor does not tell everyone to play differently. The trumpet that came in far too loud is told to pull right back. The violins that were nearly right get a small note.\n\nEach nudge is tiny on purpose. One example should not rewrite the model. Learning is the sum of millions of small, well-aimed corrections.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_qgO_gLJgOhUl_1",
+          "type": "multiple_choice",
+          "prompt": "After a wrong prediction, which weights receive the largest adjustment?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "All weights are changed by the same amount"
+            },
+            {
+              "id": "b",
+              "text": "Those that contributed most to the error"
+            },
+            {
+              "id": "c",
+              "text": "Only the weights in the first layer"
+            },
+            {
+              "id": "d",
+              "text": "A randomly chosen few"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The update for each weight is proportional to its share of the error, so the most responsible weights move most.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Cqca9U6dIfOY",
+      "title": "One training step: predict, measure the error, adjust; repeat millions of times",
+      "body": "The whole of training is one short loop.\n\nPredict: push a batch of examples through the network and get its answers. This is the forward pass.\n\nMeasure: compare the answers with the correct ones and compute the loss.\n\nAdjust: use backpropagation to find each weight's share of the error, and nudge every weight slightly in the helpful direction.\n\nThen do it again with the next batch. And again, millions of times.\n\nIt is how anyone learns a skill: try, see how far off you were, correct a little, repeat. No single step achieves much. A large model's ability is nothing more than this loop run at an enormous scale.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Cqca9U6dIfOY_1",
+          "type": "multiple_choice",
+          "prompt": "What is the correct order of one training step?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Adjust the weights, predict, measure the error"
+            },
+            {
+              "id": "b",
+              "text": "Measure the error, adjust, then never predict"
+            },
+            {
+              "id": "c",
+              "text": "Predict, measure the error, adjust the weights"
+            },
+            {
+              "id": "d",
+              "text": "Predict once and stop"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Each step runs a forward pass, computes the loss and then updates the weights from the gradients.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_JTZJosIzeTxj",
+      "title": "GPUs make this fast by doing many calculations at once",
+      "body": "Training is billions of simple multiplications and additions. No single one is hard. There are just an enormous number of them.\n\nA CPU, the ordinary processor, is like a handful of brilliant mathematicians. A GPU, a graphics processor, is like thousands of schoolchildren who can each do one simple sum, all at the same moment. For this kind of work the crowd wins easily.\n\nGPUs were built for video games, where millions of pixels must be computed together. Neural network maths turned out to have the same shape.\n\nThe difference is enormous: training that would take years on CPUs takes days or weeks on GPUs. That is why AI companies compete so hard for chips.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_JTZJosIzeTxj_1",
+          "type": "multiple_choice",
+          "prompt": "Why are GPUs well suited to training neural networks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They store more files than a hard disk"
+            },
+            {
+              "id": "b",
+              "text": "They perform huge numbers of simple calculations in parallel"
+            },
+            {
+              "id": "c",
+              "text": "They are cheaper than every other part"
+            },
+            {
+              "id": "d",
+              "text": "They understand language"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Neural network maths is many simple operations that can run side by side, which is what GPUs are built for.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,246 @@
+{
+  "id": "sll_v_pd67aP4Kiw",
+  "title": "Neurons & Layers",
+  "bites": [
+    {
+      "id": "bit_U9ZxAUbADhUH",
+      "title": "Neurons, weights, and activations",
+      "body": "A neural network is built from simple units called neurons. Each one does a small sum.\n\nIt takes in several numbers. It multiplies each by a weight, which is that input's importance. It adds them up. Then an activation rule decides how strongly to pass the result on.\n\nThink of deciding whether to go for a walk. Sunshine counts a lot, a free afternoon counts a bit, tired legs count against. Weigh them, add them, and if the total is high enough, you go.\n\nThe weights are the part that gets learned. One neuron is trivial. The power comes from wiring millions of them together.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_U9ZxAUbADhUH_1",
+          "type": "multiple_choice",
+          "prompt": "In a neuron, what does a weight represent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The final answer of the network"
+            },
+            {
+              "id": "b",
+              "text": "The number of layers"
+            },
+            {
+              "id": "c",
+              "text": "The speed of the computer"
+            },
+            {
+              "id": "d",
+              "text": "How much importance one input is given"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Each input is multiplied by its weight, so the weight sets how strongly that input influences the result.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_PNK8NibEMOLj",
+      "title": "Layers and deep networks",
+      "body": "Neurons are arranged in layers. Data enters at the input layer, passes through one or more hidden layers, and comes out at the output layer. Each layer hands its results to the next.\n\n\"Deep\" learning simply means many layers.\n\nIt is like an assembly line where each station does one step on what the previous station passed along. No single station builds the car. The line does.\n\nA shallow network can learn simple patterns. Stacking layers lets the network build complicated ideas out of simple ones, step by step. That stacking, plus enough data and computing power, is what turned neural networks from a curiosity into the engine of modern AI.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_PNK8NibEMOLj_1",
+          "type": "multiple_choice",
+          "prompt": "What does \"deep\" mean in deep learning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The network thinks profound thoughts"
+            },
+            {
+              "id": "b",
+              "text": "The data is stored deep on a disk"
+            },
+            {
+              "id": "c",
+              "text": "The network has many layers"
+            },
+            {
+              "id": "d",
+              "text": "The model is very slow"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Depth refers to the number of layers stacked between the input and the output.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_-7pLIFSyQxIR",
+      "title": "A neuron weighs its inputs, adds them up, and applies a rule",
+      "body": "Here is one neuron worked through with numbers.\n\nThree inputs arrive: 2, 1 and 3. The neuron's weights are 0.5, minus 1 and 0.2.\n\nWeigh: 2 times 0.5 is 1. 1 times minus 1 is minus 1. 3 times 0.2 is 0.6. Add: the total is 0.6. A small fixed number called the bias may be added as well.\n\nApply the rule: a common one says \"if the total is negative, output 0, otherwise pass it on\". So this neuron outputs 0.6.\n\nThat is all there is to it: multiply, add, apply a rule. Notice the negative weight. It lets an input count against the result.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_-7pLIFSyQxIR_1",
+          "type": "multiple_choice",
+          "prompt": "What are the three steps a neuron performs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Multiply inputs by weights, add them up, apply an activation rule"
+            },
+            {
+              "id": "b",
+              "text": "Read a file, save a file, close a file"
+            },
+            {
+              "id": "c",
+              "text": "Ask a question, wait, answer"
+            },
+            {
+              "id": "d",
+              "text": "Sort, filter and group"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A neuron computes a weighted sum of its inputs and then passes it through an activation function.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_-Kx5h4gJkBtL",
+      "title": "Activation functions let networks learn curves, not only straight lines",
+      "body": "Without activation functions, a neural network could only draw straight lines, however many layers it had. Stack straight-line sums on straight-line sums and you still get a straight line.\n\nBut the world bends. Price does not rise evenly with size. Risk does not grow evenly with age.\n\nThe activation function adds the bend. The most common, ReLU, is very simple: negative numbers become zero, positive numbers pass through. That small kink, repeated across millions of neurons, lets the network shape itself round almost any pattern.\n\nThink of building a curve from many short straight sticks joined at angles. With enough sticks, it looks smooth.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_-Kx5h4gJkBtL_1",
+          "type": "multiple_choice",
+          "prompt": "Why do neural networks need activation functions?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They store the training data"
+            },
+            {
+              "id": "b",
+              "text": "They connect the network to the internet"
+            },
+            {
+              "id": "c",
+              "text": "Without them the network could only model straight-line relationships"
+            },
+            {
+              "id": "d",
+              "text": "They reduce the number of layers"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Activations add non-linearity, which lets layers combine into curved, complex patterns.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_GvFCvgFZGYte",
+      "title": "Parameters: the weights a model learns (billions in an LLM)",
+      "body": "Parameters are the numbers inside a model that training adjusts. In practice they are the weights, plus the biases. They are what the model has learned.\n\nPicture a giant mixing desk with a dial for each one. Training turns the dials, a little at a time, until the output sounds right.\n\nA small network has thousands of them. Large LLMs have billions, some hundreds of billions. When a model is described as \"7B\", that means seven billion parameters.\n\nMore parameters give more capacity to store patterns, and usually more ability. They also mean more memory, more cost and slower answers. Bigger is not automatically better for a given job.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_GvFCvgFZGYte_1",
+          "type": "multiple_choice",
+          "prompt": "A model is described as \"7B\". What does that refer to?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Seven billion users"
+            },
+            {
+              "id": "b",
+              "text": "Seven billion training documents"
+            },
+            {
+              "id": "c",
+              "text": "A price of seven billion dollars"
+            },
+            {
+              "id": "d",
+              "text": "About seven billion parameters"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The figure counts the model's learned weights, a rough measure of its size and capacity.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_x3mnCQAMaAty",
+      "title": "Depth lets later layers build on what earlier layers found",
+      "body": "Each layer works with what the layer before it produced, so understanding builds up in stages.\n\nIn an image network, the first layer notices edges. The next combines edges into corners and curves. The next combines those into eyes and wheels. Later layers recognise faces and cars.\n\nIt is like reading. Strokes make letters, letters make words, words make sentences, sentences make meaning. You cannot jump from ink marks to the plot in one step.\n\nNobody programs these stages. They appear by themselves during training, because building on earlier results is the most efficient way to solve the task. That is why depth matters and not just size.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_x3mnCQAMaAty_1",
+          "type": "multiple_choice",
+          "prompt": "In a deep image network, what do the earliest layers tend to detect?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Simple patterns such as edges"
+            },
+            {
+              "id": "b",
+              "text": "Whole objects such as cars"
+            },
+            {
+              "id": "c",
+              "text": "The photographer's name"
+            },
+            {
+              "id": "d",
+              "text": "The meaning of the scene"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Early layers pick up basic features, and later layers combine them into more complex ones.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

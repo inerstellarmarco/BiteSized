@@ -1,0 +1,427 @@
+{
+  "id": "sll_a1_4_2",
+  "title": "Debugging",
+  "bites": [
+    {
+      "id": "bit_a1_stack",
+      "title": "Reading stack traces",
+      "body": "When Python crashes it prints a stack trace, also called a traceback: the list of function calls that were in progress at the moment things went wrong.\n\nThink of retracing your steps after losing your keys: \"I was in the kitchen, having come from the hall, having come in from the car\". The trace is that trail, with a file name and line number at every step.\n\nIt looks intimidating mainly because it is long. Most of it is just the route. You do not have to read every line.\n\nThe useful parts are the lines that mention your own files, and the final line, which names the error itself.",
+      "sourceNote": "Python traceback reference · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_stack_1",
+          "type": "multiple_choice",
+          "prompt": "What does a stack trace show?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The chain of function calls that led to the error, with files and line numbers"
+            },
+            {
+              "id": "b",
+              "text": "A list of every file on the computer"
+            },
+            {
+              "id": "c",
+              "text": "The history of your Git commits"
+            },
+            {
+              "id": "d",
+              "text": "The amount of memory installed"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A traceback records the path the program took to reach the failure.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_print",
+      "title": "Print, logs, and breakpoints",
+      "body": "print shows a value at one moment. It is fine for a quick look, then take it out. logging is print you can leave in, with levels such as debug, info, warning, and error, so you can quiet it later. A breakpoint pauses the program so you can inspect names. You can set one in the editor or call breakpoint(). Pausing beats guessing when the value is not what you assumed.",
+      "sourceNote": "Python logging howto and the breakpoint builtin · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": "2026-11-13T00:00:00.000Z",
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_print_1",
+          "type": "multiple_choice",
+          "prompt": "What is logging good for, compared with a temporary print?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It can stay in the code and be filtered by level"
+            },
+            {
+              "id": "b",
+              "text": "It hides exceptions"
+            },
+            {
+              "id": "c",
+              "text": "It replaces tests"
+            },
+            {
+              "id": "d",
+              "text": "It pins dependencies"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Levels let you keep useful messages and turn down the noisy ones without deleting them.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_print_2",
+          "type": "multiple_choice",
+          "prompt": "What does a breakpoint give you?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A paused program you can inspect"
+            },
+            {
+              "id": "b",
+              "text": "A new Git commit"
+            },
+            {
+              "id": "c",
+              "text": "A JSON schema"
+            },
+            {
+              "id": "d",
+              "text": "An automatic retry"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "While paused, you can look at the real values instead of guessing which line was wrong.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_pytest",
+      "title": "Testing concepts",
+      "body": "A test is a small check that a piece of behavior stays true. With pytest, a function named test_something calls your code and uses assert to state a fact. If the fact is false, the test fails and shows the values. Tests let you change generated code without re-tracing everything by hand. Start with one example you already understand, including an edge such as an empty input.",
+      "sourceNote": "pytest docs, the basics · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": "2026-11-13T00:00:00.000Z",
+      "crossLinks": [
+        {
+          "id": "lnk_bit_a1_pytest_A1_1",
+          "targetCode": "A1.1",
+          "label": "see A1.1",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_a1_pytest_1",
+          "type": "multiple_choice",
+          "prompt": "What does a failing assert in a pytest test mean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The fact you stated was not true"
+            },
+            {
+              "id": "b",
+              "text": "The file failed to save"
+            },
+            {
+              "id": "c",
+              "text": "Git rejected the branch"
+            },
+            {
+              "id": "d",
+              "text": "The API key was correct"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "assert checks a fact. A failure is evidence about the code, and pytest shows what the values were.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_pytest_2",
+          "type": "multiple_choice",
+          "prompt": "Which name will pytest collect as a test?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "check_total"
+            },
+            {
+              "id": "b",
+              "text": "test_total_of_empty_list"
+            },
+            {
+              "id": "c",
+              "text": "total_of"
+            },
+            {
+              "id": "d",
+              "text": "Test"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "pytest collects functions whose names start with test_, by default.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_VGJbaYp7_nYL",
+      "title": "Print/log debugging and breakpoints",
+      "body": "Debugging is finding out what the code is really doing, as opposed to what you believe it is doing. There are two basic tools.\n\nPrint debugging: add print(value) at key points and run again. It is crude and it works. It is like dropping dye into a pipe to see where the water goes. Logging is the grown-up version that you can leave in place and switch on when needed.\n\nA breakpoint is a pause button. You mark a line, the program stops there, and you can inspect every value and step forward one line at a time.\n\nUse prints for a quick look. Use breakpoints when you need to poke around in a complicated state.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_VGJbaYp7_nYL_1",
+          "type": "multiple_choice",
+          "prompt": "What does a breakpoint do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Deletes the line that has the bug"
+            },
+            {
+              "id": "b",
+              "text": "Pauses the program at a chosen line so you can inspect values"
+            },
+            {
+              "id": "c",
+              "text": "Speeds up the program"
+            },
+            {
+              "id": "d",
+              "text": "Sends the error to the AI provider"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A breakpoint stops execution at a marked line, letting you look at the program's state and step through it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_tJbS9e1MuWAa",
+      "title": "Testing concepts (pytest)",
+      "body": "A test is a small piece of code that checks another piece of code: \"given this input, I expect that output\". If the result is different, the test fails and tells you.\n\nassert total([2, 3]) == 5 is a complete test. pytest is the most common Python tool for running them. It finds every function whose name starts with test_, runs them all and reports what passed.\n\nTests are like the smoke detectors in a house. You fit them once, and they keep watch every time something changes.\n\nThat matters with AI assistants. When the assistant rewrites a function, the tests tell you in seconds whether the old behaviour survived.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_tJbS9e1MuWAa_1",
+          "type": "multiple_choice",
+          "prompt": "What does a test do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Makes code run faster"
+            },
+            {
+              "id": "b",
+              "text": "Writes the code for you"
+            },
+            {
+              "id": "c",
+              "text": "Checks that code gives the expected result for a given input"
+            },
+            {
+              "id": "d",
+              "text": "Removes the need to read the code"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A test states an expected outcome and fails loudly if the code no longer produces it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_1GLQudNPWhwj",
+      "title": "The bottom of a stack trace usually points to the failing line",
+      "body": "A Python traceback is ordered from the oldest call at the top to the most recent at the bottom. So start reading from the bottom.\n\nThe last line names the error and gives its message: ZeroDivisionError: division by zero. The lines just above show where it happened.\n\nOne refinement. Sometimes the very bottom is inside a library you did not write. In that case, scan upwards for the last line that mentions one of your own files. That is where your code handed the library something it could not handle, and that is almost always where the fix belongs.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_1GLQudNPWhwj_1",
+          "type": "multiple_choice",
+          "prompt": "Where should you look first in a Python traceback?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "At the top line only"
+            },
+            {
+              "id": "b",
+              "text": "In the exact middle"
+            },
+            {
+              "id": "c",
+              "text": "Nowhere, tracebacks are not meant to be read"
+            },
+            {
+              "id": "d",
+              "text": "At the bottom, where the error type and message are"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Python lists the most recent call last, so the error and its location are at the bottom.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_jKryeZ_xagjz",
+      "title": "Reproduce first: make the bug happen on demand",
+      "body": "Before fixing a bug, find a way to make it happen every time. A bug you can trigger on demand is half solved. A bug that appears \"sometimes\" cannot be confirmed as fixed.\n\nA mechanic does the same: \"show me the noise\". If the car will not make the noise in the workshop, any repair is a guess.\n\nWrite down the exact steps and the exact input: this file, this row, this prompt. Then shrink it to the smallest case that still fails.\n\nWith that in hand, a fix can be judged properly. The steps failed before, and now they pass. Without it, you are changing code and hoping.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_jKryeZ_xagjz_1",
+          "type": "multiple_choice",
+          "prompt": "Why reproduce a bug before trying to fix it?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because it makes the bug less serious"
+            },
+            {
+              "id": "b",
+              "text": "Because bugs fix themselves once they are seen"
+            },
+            {
+              "id": "c",
+              "text": "So that you can skip testing"
+            },
+            {
+              "id": "d",
+              "text": "So you can confirm that the fix really worked"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A reliable way to trigger the bug gives you a before-and-after check for any fix.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_2QsMCjwO0-7l",
+      "title": "Write a test that captures the bug, then fix it",
+      "body": "Once you can reproduce a bug, turn the reproduction into a test. Write a test that fails because of the bug. Then change the code until the test passes.\n\nThis gives you two things. The first is proof: the test failed before, it passes now, so the fix is real. The second is protection: the test stays in the project, so the bug cannot return unnoticed.\n\nIt is like fitting a guard rail at the spot where someone fell.\n\nIt is also a superb way to direct an assistant: \"Here is a failing test. Make it pass without changing the test.\" A clear target gets a far better result than a vague description.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a7",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_2QsMCjwO0-7l_1",
+          "type": "multiple_choice",
+          "prompt": "What is the advantage of writing a failing test before fixing a bug?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the bug vanish without any code change"
+            },
+            {
+              "id": "b",
+              "text": "It lowers your API bill"
+            },
+            {
+              "id": "c",
+              "text": "It replaces the need for version control"
+            },
+            {
+              "id": "d",
+              "text": "It proves the fix works and guards against the bug coming back"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The test fails before the fix and passes after, and it stays in place to catch the same bug in future.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_LD_aq5P7XgVq",
+      "title": "Give the assistant the full error and the relevant code",
+      "body": "An assistant can only work with what you give it. \"It doesn't work\" forces it to guess, and its guesses will sound confident.\n\nGive it three things: the complete error message with the whole traceback, not a summary. The code involved. And what you expected to happen compared with what did happen.\n\nThink of visiting a doctor. \"I feel bad\" gets you questions. \"Sharp pain here, since Tuesday, worse after eating\" gets you a diagnosis.\n\nDo not paraphrase errors. The exact wording, line numbers included, is often the clue. Copy and paste beats describing every time.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a8",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_LD_aq5P7XgVq_1",
+          "type": "multiple_choice",
+          "prompt": "What is the most useful thing to give an assistant when asking it to fix an error?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A short note saying it does not work"
+            },
+            {
+              "id": "b",
+              "text": "Only the first word of the error"
+            },
+            {
+              "id": "c",
+              "text": "The full error message and traceback, plus the relevant code"
+            },
+            {
+              "id": "d",
+              "text": "A screenshot of your desktop wallpaper"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Exact error text and the code involved let the assistant reason about the real cause instead of guessing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

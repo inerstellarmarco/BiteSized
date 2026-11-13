@@ -1,0 +1,286 @@
+{
+  "id": "sll_a1_3_3",
+  "title": "Error Handling",
+  "bites": [
+    {
+      "id": "bit_a1_exceptions",
+      "title": "Exceptions and error messages",
+      "body": "An exception is Python's way of saying \"I cannot continue with this\". The program stops what it was doing and reports what went wrong, like a smoke alarm: unpleasant, but far better than a silent fire.\n\nThe message has a type and a detail. KeyError: 'name' means you asked a dictionary for a label it does not have. TypeError means the wrong kind of value was used. FileNotFoundError means what it says.\n\nCode can catch exceptions with try and except to respond sensibly: try the risky step, and if it fails in an expected way, do something else.\n\nRead error messages properly. They are usually the fastest route to the fix.",
+      "sourceNote": "Python tutorial, errors and exceptions · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_exceptions_1",
+          "type": "multiple_choice",
+          "prompt": "What does KeyError: 'name' tell you?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The file called name is missing"
+            },
+            {
+              "id": "b",
+              "text": "The internet connection dropped"
+            },
+            {
+              "id": "c",
+              "text": "The code asked a dictionary for the key 'name' and it was not there"
+            },
+            {
+              "id": "d",
+              "text": "The program ran out of memory"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A KeyError names the dictionary key that was requested but does not exist.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_retries",
+      "title": "Retries and timeouts",
+      "body": "A timeout stops a call that might wait forever. A retry tries again after a failure, usually with a pause that grows — backoff — so you do not hammer a sick server. Retrying a read is usually safe. Retrying a payment or a \"create\" can do the action twice if the first one actually succeeded. That idea is called idempotency: doing it twice should not matter, or you should not blindly retry.",
+      "sourceNote": "Conceptual notes on timeouts, backoff, and idempotency · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": "2026-11-13T00:00:00.000Z",
+      "crossLinks": [
+        {
+          "id": "lnk_bit_a1_retries_A1_3",
+          "targetCode": "A1.3",
+          "label": "see A1.3",
+          "position": "a0"
+        },
+        {
+          "id": "lnk_bit_a1_retries_B5_3",
+          "targetCode": "B5.3",
+          "label": "see B5.3",
+          "position": "a1"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_a1_retries_1",
+          "type": "multiple_choice",
+          "prompt": "What is a timeout for?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To make a successful call run twice"
+            },
+            {
+              "id": "b",
+              "text": "To stop waiting after a set time"
+            },
+            {
+              "id": "c",
+              "text": "To hide the status code"
+            },
+            {
+              "id": "d",
+              "text": "To pin a dependency"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A timeout bounds the wait. Without one, a stuck call can stall the program.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_retries_2",
+          "type": "multiple_choice",
+          "prompt": "Why be careful retrying a request that creates something?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Creates are always free"
+            },
+            {
+              "id": "b",
+              "text": "The first try may have succeeded, so a retry can create a second one"
+            },
+            {
+              "id": "c",
+              "text": "JSON forbids retries"
+            },
+            {
+              "id": "d",
+              "text": "GET is the create method"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "If the response was lost but the server did the work, a blind retry repeats a side effect.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_JeoAyNfvJlGm",
+      "title": "Retries and timeouts (concept)",
+      "body": "Networks fail in small, temporary ways all the time. Two tools deal with that.\n\nA timeout is a limit on waiting: \"if there is no answer in 30 seconds, give up\". Without one, a program can hang forever, like staying on hold with no intention of ever putting the phone down.\n\nA retry is trying again after a failure. Good retries wait a little longer each time (1 second, 2, 4), which is called exponential backoff. That gives a struggling service room to recover instead of piling on.\n\nAnd retries need a cap. Three to five attempts is typical. After that, stop and report the failure.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_JeoAyNfvJlGm_1",
+          "type": "multiple_choice",
+          "prompt": "What is exponential backoff?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Retrying instantly as fast as possible"
+            },
+            {
+              "id": "b",
+              "text": "Waiting longer between each retry, for example 1, 2, then 4 seconds"
+            },
+            {
+              "id": "c",
+              "text": "Never retrying at all"
+            },
+            {
+              "id": "d",
+              "text": "Halving the timeout on every attempt"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Backoff increases the pause between attempts so a struggling service is not flooded with retries.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_LGanEmlz2LZy",
+      "title": "Retry timeouts and rate limits; do not retry bad input",
+      "body": "Not every failure deserves a second try. The question is: would the same request succeed if I simply sent it again later?\n\nYes, for temporary problems: a timeout, a 429 rate limit, a 500 server error. The request was fine and the moment was bad.\n\nNo, for a bad request: a 400 for malformed input, a 401 for a wrong key, a 404 for a wrong address. Sending it again will fail the same way, however many times you try.\n\nIt is like a locked shop door. If the shop is closed for lunch, come back later. If you have the wrong address, coming back later will not help.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_LGanEmlz2LZy_1",
+          "type": "multiple_choice",
+          "prompt": "Which error is worth retrying after a short wait?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "429 Too Many Requests"
+            },
+            {
+              "id": "b",
+              "text": "401 Unauthorized"
+            },
+            {
+              "id": "c",
+              "text": "400 Bad Request"
+            },
+            {
+              "id": "d",
+              "text": "404 Not Found"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A 429 is temporary and clears with time. The others mean the request itself is wrong and will keep failing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_6R6dlc7Ez0wl",
+      "title": "Log errors with enough context to find the cause",
+      "body": "A log is a written record of what a program did. When something fails at 3 a.m. and nobody is watching, the log is the only witness.\n\nA useless entry says \"Error occurred\". A useful one says what was being attempted, with which input, when, and the full error: \"Failed to summarise document 4812 for user 77: timeout after 30s\".\n\nThink of a doctor's notes. \"Patient unwell\" helps nobody. Symptoms, time and what was tried lets the next person carry on.\n\nOne firm limit: never log secrets or private data. API keys, passwords and personal details do not belong in log files.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_6R6dlc7Ez0wl_1",
+          "type": "multiple_choice",
+          "prompt": "Which log entry is most useful for finding a problem later?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "\"Error\""
+            },
+            {
+              "id": "b",
+              "text": "\"Something went wrong\""
+            },
+            {
+              "id": "c",
+              "text": "\"Oops, try again\""
+            },
+            {
+              "id": "d",
+              "text": "\"Failed to summarise document 4812: timeout after 30s\""
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A good entry says what was being done, to which item, and exactly how it failed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_DUw7Bl4TPsLa",
+      "title": "Failing clearly beats failing silently",
+      "body": "The worst bug is not the crash. It is the code that hits a problem, hides it, and carries on with wrong data.\n\nThe usual culprit in generated code looks like this: try: ... except: pass. It means \"if anything at all goes wrong, say nothing\". The program looks healthy while quietly producing rubbish.\n\nCompare a car with a broken fuel gauge that always shows half full. You would much rather have the warning light.\n\nA clear failure stops and says what went wrong and where. That is something you can fix. So when you review AI-written code, treat an empty except block as a red flag and ask what should really happen there.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_DUw7Bl4TPsLa_1",
+          "type": "multiple_choice",
+          "prompt": "Why is \"except: pass\" dangerous?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It hides every error, so the program continues with missing or wrong data"
+            },
+            {
+              "id": "b",
+              "text": "It makes the program run slowly"
+            },
+            {
+              "id": "c",
+              "text": "It deletes the program's files"
+            },
+            {
+              "id": "d",
+              "text": "It is not valid Python"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Swallowing all exceptions removes the signal that something failed, so bad results spread unnoticed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

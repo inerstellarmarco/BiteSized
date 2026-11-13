@@ -1,0 +1,542 @@
+// A2 Data Essentials
+@@ sll_Dit_Qyx-PJpB | A2.1 Working with Data > Data Formats
+## CSV, JSON, and text files
+Three plain formats carry most everyday data.
+
+CSV is a table saved as text: one line per row, commas between the values. It is what a spreadsheet looks like with the formatting stripped off.
+
+JSON is labelled, nested data: {"name": "Ana", "orders": [12, 15]}. It can hold lists inside records, which a flat table cannot.
+
+Plain text is just words with no structure at all, like an email or a contract.
+
+All three open in any text editor, which is why they travel so well between systems. The difference is how much structure they carry: text has none, CSV has rows and columns, JSON has nesting.
+?? Which format naturally holds a customer record that contains a list of several orders?
++ JSON
+- CSV
+- Plain text
+- None of them can
+= JSON supports nesting, so a record can contain a list. CSV is flat: one row, one set of columns.
+## Tables vs. documents
+Data comes in two broad shapes.
+
+A table has the same columns on every row, like a class register: name, date of birth, form. Every pupil has the same boxes. This is called structured data.
+
+A document shape lets each record carry its own nested details, like a patient file: one patient has three allergies and two operations, another has none. JSON is the usual format.
+
+Tables are superb for comparing and adding up. Documents are better when records vary.
+
+Then there is unstructured data: emails, PDFs, recordings. Most company knowledge lives there, and it is exactly what LLMs made usable.
+?? Which data is best described as structured?
++ A spreadsheet where every row has the same columns
+- A folder of customer emails
+- A recorded phone call
+- A scanned letter
+= Structured data has a fixed set of fields for every record, which is what a table provides.
+## Excel and Google Sheets as everyday business data
+In most small businesses, the real database is a spreadsheet. Price lists, customer lists, stock counts and rotas all live in Excel or Google Sheets.
+
+Spreadsheets are friendly because they mix everything: data, formulas, colours, notes and totals on one page. That same mix is what makes them hard for code to read. A program expects one header row and then clean rows of data. It trips over merged cells, a title in row 1, subtotals halfway down, or "meaning" carried by cell colour.
+
+Before using a sheet with code or AI, make it boring: one header row, one record per row, one kind of value per column.
+?? Which spreadsheet habit causes the most trouble when code reads the file?
++ Merged cells and subtotal rows mixed in with the data
+- Having a single header row
+- Putting one record on each row
+- Keeping one type of value per column
+= Programs expect a plain grid. Merged cells and embedded totals break the one-row-per-record pattern.
+## Encoding and delimiter problems when opening CSV files
+A CSV looks simple, but two hidden settings can scramble it.
+
+Encoding is the rule for turning stored bytes into letters. Open a file with the wrong one and "José" becomes "JosÃ©". The safe modern choice is UTF-8.
+
+The delimiter is the character between values. It is usually a comma, but many European systems use a semicolon, because the comma is their decimal point. Read with the wrong delimiter and every row lands in a single column.
+
+A third trap: a comma inside a value, like "Smith, John", needs quotes round it or it splits in two.
+
+When a CSV looks broken, check these before blaming the data.
+?? A CSV opens with names like "JosÃ©" instead of "José". What is the likely cause?
++ The file was read with the wrong text encoding
+- The file has too many rows
+- The delimiter is a semicolon
+- The data was entered incorrectly
+= Garbled accented characters are the classic sign of an encoding mismatch, typically UTF-8 read as something else.
+## PDFs and scans are not data until extracted
+A PDF is designed to look right on paper, not to be read by a program. Inside, it mostly records "put these letters at this spot on the page". The idea of a table, a column or a heading is often not stored at all.
+
+A scan is one step further away. It is a photograph of text. To a computer it is only pixels until OCR, optical character recognition, turns the picture back into letters.
+
+So an invoice total you can see plainly is not yet a number you can add up. It has to be extracted, and extraction makes mistakes, especially with tables, columns and handwriting.
+
+Always spot-check extracted values against the original.
+?? What does OCR do?
++ Turns an image of text into actual text characters
+- Compresses PDF files
+- Translates text into another language
+- Encrypts scanned documents
+= Optical character recognition reads the letters in a picture so that software can work with them as text.
+## Choose the format by who or what reads it next
+There is no best format, only the right one for the next reader. Ask who or what receives the data.
+
+A person who wants to scan and sort it: a spreadsheet. Another program or an API: JSON. A big analysis job: CSV, or a compact analytics format such as Parquet. A person who needs something to sign or print: PDF. An LLM: clean text or Markdown, with the structure kept simple.
+
+It is the same thinking as packing. The contents are the same, but you pack differently for a courier, for a suitcase and for a gift.
+
+Picking by habit is how a finance report ends up as a PDF that someone has to retype.
+?? Which format is the usual choice when one program sends data to another through an API?
++ JSON
+- PDF
+- A scanned image
+- A slide deck
+= JSON is structured, easy for software to read and the standard for API exchanges.
+
+@@ sll__0uM0XGMHx4f | A2.1 Working with Data > DataFrames (Concept)
+## Filtering, grouping, and joining with pandas
+pandas is the standard Python library for working with tables. Its table object is called a DataFrame. Three operations do most of the work.
+
+Filtering keeps only the rows you want: orders over 100 pounds.
+
+Grouping splits rows into piles and summarises each pile: total sales per region. A pivot table in Excel does the same thing.
+
+Joining combines two tables through a shared column: match each order to its customer by customer ID. It is the grown-up VLOOKUP.
+
+Almost any business question is some mix of the three: "average order value by city, for last month's new customers" is a join, a filter and a group.
+?? Which operation answers "what are total sales per region?"
++ Grouping
+- Filtering
+- Joining
+- Renaming columns
+= Grouping collects rows by a shared value, such as region, and summarises each group.
+## Missing values and cleaning
+Real data has holes. A customer left the phone box blank, a sensor dropped out, an import skipped a column. pandas marks these gaps as NaN, meaning "not a number".
+
+You have three honest options. Remove the rows, fine when only a few are affected. Fill the gaps with a sensible value, such as the median. Or keep them as "unknown" and handle them on purpose.
+
+What you must not do is ignore them. Think of a survey where the unhappy customers did not reply: averaging the rest gives a rosy and wrong answer.
+
+Cleaning is where most of the time in data work goes. It is not glamorous, and it decides whether the result can be trusted.
+?? Why is it risky to ignore missing values without thinking?
++ The gaps may not be random, so results from the remaining data can be biased
+- Missing values make files larger
+- pandas cannot open files with gaps
+- Missing values are always zero
+= If the missing records differ from the rest, dropping them silently skews every average and count.
+## Rows are records; columns are fields
+One rule keeps a table usable: each row is one thing, and each column is one fact about that thing.
+
+In a customer table, each row is one customer. The columns are name, email, city. A cell holds a single value.
+
+Common ways it goes wrong: two facts squeezed into one cell ("Leeds, UK"), one fact spread across many columns (Jan, Feb, Mar instead of a month column and an amount column), or a new column for every new product.
+
+A test: adding more data should mean adding rows, not columns. If the table grows sideways, the layout needs rethinking before code or AI can work with it easily.
+?? In a tidy table, adding next month's sales should normally mean:
++ Adding new rows
+- Adding a new column for the month
+- Creating a new file per month
+- Merging some cells
+= Tidy tables grow downwards: each new record is a row, while the set of columns stays the same.
+## Duplicates and inconsistent labels (e.g., "NY" and "New York")
+People know that "NY", "New York" and "new york " are the same place. A computer sees three different values. Group sales by city and you get three small totals instead of one correct one.
+
+The same happens with company names (Acme Ltd, ACME Limited), stray spaces and different capital letters.
+
+Duplicates are the cousin of this problem: the same customer entered twice, so they are counted twice and emailed twice.
+
+The fix is standardising: trim spaces, make the case consistent, and map the variants to one agreed value. LLMs are genuinely good at suggesting which labels mean the same thing. Review the mapping, though, before applying it to everything.
+?? Sales for "NY" and "New York" appear as two separate totals. What is the fix?
++ Standardise the labels to one agreed value before grouping
+- Delete all rows from New York
+- Add the two totals together by hand every month
+- Change the chart colours
+= Mapping variants to a single label lets the grouping treat them as the same category.
+## Dates and units: a quiet source of bad data
+Some errors do not look like errors.
+
+Is 03/04/2025 the third of April or the fourth of March? It depends on the country, and software will pick one without asking. Times have the same trap with time zones: an order at 23:30 in London is already tomorrow in Tokyo.
+
+Units hide the same way. A weight column mixing kilograms and pounds, or prices in two currencies, still looks like a neat column of numbers.
+
+NASA lost a Mars orbiter in 1999 because one team used metric units and another used imperial.
+
+So write dates as 2025-04-03, which cannot be misread, and put the unit in the column name: weight_kg, price_gbp.
+?? Which date format avoids day and month being confused?
++ 2025-04-03 (year-month-day)
+- 03/04/2025
+- 04/03/25
+- 3-4-25
+= The ISO year-month-day order is unambiguous everywhere and also sorts correctly.
+## Have AI write the pandas code, then check a few rows by hand
+You do not need to memorise pandas. Describe what you want and an assistant will write it well: "join orders to customers and total the spend per city".
+
+What you do need is a way to know the answer is right. The code can run without any error and still be wrong: a join that silently doubles rows, or a filter that drops more than intended.
+
+So verify like an accountant with a sample. Pick two or three records and work them out by hand or in a spreadsheet. Check that the row count still makes sense after each step. Compare one total with a figure you already trust.
+
+Five minutes of checking is the job. The typing was never the hard part.
+?? AI-written pandas code runs with no errors. What does that prove?
++ Only that it ran; the result still needs checking against known values
+- That the result is correct
+- That the data has no missing values
+- That the join matched every row
+= Code can run cleanly and still compute the wrong thing, so spot-check a few rows and totals by hand.
+
+@@ sll_D5PaSUpsQZb1 | A2.2 Exploring Data > Visualization
+## Choosing the right chart
+A chart is an answer to a question, so start with the question, not with the chart menu.
+
+"How did it change over time?" "Which is biggest?" "Are these two things related?" "How is it spread out?" Each has a chart type that makes the answer obvious at a glance, and others that hide it.
+
+Choosing a chart is like choosing a map. A road map and a weather map show the same country, and each is useless for the other's job.
+
+When a chart confuses people, the usual cause is not the styling. It is that nobody decided what single question it was meant to answer.
+?? What should you decide first when making a chart?
++ The question the chart is meant to answer
+- The colour scheme
+- Whether it should be 3D
+- The font
+= The question determines the chart type. Styling comes last.
+## Avoiding misleading charts
+A chart can deceive without containing a single false number.
+
+The usual tricks: an axis that starts at 95 instead of 0, so a 2% rise looks like a cliff. Cherry-picked dates that begin at the lowest point. Two different scales on one chart, lined up to suggest a link. 3D effects that swell the slices at the front.
+
+Most misleading charts are accidents, often the software's default settings. That does not make the decisions based on them any better.
+
+A quick test: describe the chart in one plain sentence, then read the actual numbers. If the sentence feels more dramatic than the numbers, the chart is exaggerating.
+?? A chart's vertical axis starts at 95 instead of 0. What is the effect?
++ Small differences look much larger than they are
+- The data becomes false
+- The chart becomes more accurate
+- It has no visual effect
+= Cutting off the axis stretches small changes so that they appear dramatic.
+## Line for trends, bars for comparisons, scatter for relationships
+Three chart types cover most needs.
+
+A line chart shows change over time: monthly revenue across two years. The line's slope is the message.
+
+A bar chart compares separate things: sales by product. The eye compares the lengths.
+
+A scatter plot shows whether two measures move together: advertising spend against sales, one dot per month. A pattern in the dots suggests a relationship.
+
+And pie charts? Use them rarely. People judge angles badly, so beyond two or three slices a bar chart is clearer.
+
+If you ask an assistant for a chart, name the type and say why. Left alone, it will choose something that merely looks impressive.
+?? Which chart best shows how website visits changed week by week over a year?
++ A line chart
+- A pie chart
+- A scatter plot
+- A single large number
+= Line charts are made for trends over time, because the slope shows direction and speed of change.
+## Bar charts should start at zero
+In a bar chart, the length of the bar is the message. A bar twice as long says "twice as much". That only holds if the bars start at zero.
+
+Suppose sales were 98 and then 100. Start the axis at 97 and the second bar is three times the height of the first. The numbers differ by 2%. The picture says 200%.
+
+Line charts are different. There you are reading the slope, not a length, so zooming in to show the detail can be fair, as long as the axis is clearly labelled.
+
+So the rule is narrow but firm: bars from zero, always.
+?? Why must a bar chart's axis start at zero?
++ Because bar length is read as the amount, and a cut-off axis distorts the comparison
+- Because software cannot draw it otherwise
+- Because negative numbers are not allowed
+- Because it makes the bars more colourful
+= Viewers compare bar lengths directly, so truncating the axis exaggerates the differences.
+## Label units and sources
+A chart with no labels makes the reader guess, and readers guess wrong.
+
+Is the axis in pounds, or thousands of pounds? Is 12 a percentage or a count? Per month or per year? "Sales up 40" means nothing until the unit is known.
+
+Every chart needs four things: a title that says what it shows, axis labels with units, the time period covered, and the source of the data.
+
+The source matters as much as the units. It lets someone check the figure, and it tells them how much to trust it. It is like a quotation: without a name and a date attached, it is just a rumour.
+?? Which of these is essential on any chart you share?
++ Axis labels with units, and the source of the data
+- A 3D effect
+- At least five colours
+- A company logo
+= Units make the numbers meaningful, and the source lets readers verify and judge them.
+
+@@ sll_2hlrnvibGxGW | A2.2 Exploring Data > Storytelling with Data
+## Turning findings into a clear narrative
+Analysis produces findings. Decisions need a story: what is happening, why it matters and what to do.
+
+Compare two openings. "Here are twelve charts about Q3." Or: "We are losing repeat customers in the north. Here is the evidence, and here is what I suggest."
+
+A simple structure works: the main point first, then the two or three facts that support it, then the recommendation. Everything else goes in an appendix.
+
+Think of a doctor after your blood test. You do not want forty readings. You want "your iron is low, take this, come back in a month".
+
+The story must still be true to the data. A narrative is for clarity, not for spin.
+?? What should come first when presenting an analysis to a decision-maker?
++ The main conclusion
+- Every chart you made, in the order you made them
+- A detailed description of the method
+- The raw data table
+= Leading with the conclusion tells the audience what the evidence that follows is meant to support.
+## Summary statistics (mean, median, spread)
+Summary statistics squeeze thousands of numbers into a few you can hold in your head.
+
+The mean is the ordinary average: add everything up and divide by how many there are.
+
+The median is the middle value when you line them up in order. Half are above it and half below.
+
+Spread says how far the values scatter around that middle. The range and the standard deviation both measure it.
+
+You need a centre and a spread together. Two cities can both average 15 degrees: one sits between 13 and 17 all year, the other swings from minus 10 to 40. The average alone would have you pack the wrong clothes.
+?? What does the median tell you?
++ The middle value when all values are put in order
+- The most common value
+- The sum of all values
+- The gap between highest and lowest
+= The median splits the sorted data in half: as many values lie above it as below.
+## Median beats mean when outliers exist
+An outlier is a value far from the rest, and the mean is very sensitive to it.
+
+Ten people are in a café, each earning around 30,000 a year. A billionaire walks in. The mean income in the room is now nearly 100 million, which describes nobody there. The median barely moves: it is still about 30,000.
+
+That is why house prices and salaries are usually reported as medians.
+
+A handy check: if the mean and the median are far apart, something is pulling the data to one side, and the mean will mislead.
+
+Neither figure is wrong. They answer different questions. The median says what is typical. The mean still matters for totals.
+?? Why are salaries usually reported with a median rather than a mean?
++ A few very high earners pull the mean up, while the median stays typical
+- The median is always the larger number
+- The mean cannot be calculated for money
+- The median includes the highest values twice
+= Extreme values distort the mean but hardly affect the middle value, so the median better reflects a typical person.
+## One message per chart
+A chart should make one point, and the title should say it.
+
+"Sales by region, 2025" is a label. "The north now outsells the south" is a message. With the second title, the reader knows what to look for before their eyes reach the bars.
+
+When a chart tries to show sales, margin, headcount and growth all at once, the reader has to do the analysis themselves, and most will not.
+
+It is like a road sign. One instruction can be read at speed. Five on the same post get ignored.
+
+If you have three messages, make three small charts. Remove any line, colour or label that does not help the one point.
+?? Which chart title carries a message rather than just a label?
++ "The north now outsells the south"
+- "Sales by region"
+- "Chart 4"
+- "Regional data, various years"
+= A message title states the conclusion, telling the reader what to see in the chart.
+## Say what the data cannot tell you
+Every dataset has edges, and honest analysis points them out.
+
+Typical limits: the data covers only six months. It covers only customers who answered the survey. It shows that two things rose together, not that one caused the other. It was collected before the price change.
+
+Saying this does not weaken your work. It is what makes the rest believable. A weather forecaster who says "70% chance of rain" is more useful than one who promises sunshine.
+
+A simple format: "What we know. What we do not know. What would settle it."
+
+This matters doubly with AI tools, which will state conclusions fluently whether or not the data supports them.
+?? Why state the limits of your data when presenting findings?
++ It helps people judge how much weight to put on the conclusions
+- It makes the report longer
+- It hides weak results
+- It is only needed for scientific papers
+= Clear limits prevent over-confident decisions and make the supported findings more credible.
+
+@@ sll_jKwc9jjUfmIG | A2.3 Data Sources > Databases
+## SQL basics (SELECT, JOIN, GROUP BY)
+SQL is the language for asking questions of a database. It reads close to English, and three words cover most of it.
+
+SELECT chooses what you want to see: SELECT name, city FROM customers WHERE city = 'Leeds'. That is: these columns, from this table, only these rows.
+
+JOIN connects tables through a shared column: match each order to the customer who placed it.
+
+GROUP BY makes piles and summarises each one: total sales per city.
+
+Notice these are the same three ideas as in pandas: filter, join, group. Learn the ideas once and they carry over to spreadsheets, pandas and SQL alike.
+?? Which SQL keyword combines rows from two tables using a shared column?
++ JOIN
+- SELECT
+- GROUP BY
+- WHERE
+= JOIN matches rows across tables, for example each order to its customer through a customer id.
+## Relational vs. document vs. graph databases
+Databases come in families, each built around a different shape of data.
+
+Relational databases, such as PostgreSQL, store tidy tables linked by ids and are queried with SQL. They are the default for business records: customers, orders, invoices.
+
+Document databases, such as MongoDB, store JSON-like records that can each differ. They suit data that varies or nests deeply.
+
+Graph databases, such as Neo4j, store things and the connections between them: who knows whom, which part goes into which product. They shine when the relationships are the point.
+
+Think filing cabinet, folder of dossiers, and a map of connections. For most projects, start relational unless you have a clear reason not to.
+?? Which database family is the usual default for orders, customers and invoices?
++ Relational
+- Graph
+- Document
+- None; a text file is standard
+= Relational databases handle structured, linked business records well and are queried with SQL.
+## Tables, primary keys, and foreign keys
+Two kinds of key hold a relational database together.
+
+A primary key is a unique id for each row, like a passport number. Names repeat, since there can be two John Smiths, so every customer gets an id that never does.
+
+A foreign key is a column that points at a row in another table. Each order carries a customer_id saying "I belong to customer 42".
+
+This means the customer's address is stored once, in the customers table, not copied onto every order. Change it in one place and every order sees the new one.
+
+That is the central idea of relational design: store each fact once, and link to it.
+?? What is a foreign key?
++ A column that refers to the primary key of a row in another table
+- A password for the database
+- A key that is unique for every row in its own table
+- A backup copy of a table
+= A foreign key links a row to a row elsewhere, for example an order to its customer.
+## Why databases beat spreadsheets as a business grows
+Spreadsheets are perfect until they are not. The trouble starts with growth.
+
+Two people edit at once and one overwrites the other. A copy is emailed round and now there are four versions of the truth. Someone types "tbc" in a date column. The file passes 100,000 rows and takes a minute to open.
+
+A database is built for exactly these problems. Many users can work at the same time. Rules reject bad values. There is one copy. Millions of rows are routine, and every change can be recorded.
+
+A spreadsheet is a notepad. A database is the filing system with a clerk who checks every form.
+
+Keep spreadsheets for analysis and quick views, on top of the database.
+?? Which problem does a database solve that a shared spreadsheet handles badly?
++ Many people changing data at once without overwriting each other
+- Making a quick one-off chart
+- Typing a short list
+- Colouring cells
+= Databases are built for many simultaneous users, with rules that keep the data consistent.
+## Reading SQL that an AI assistant wrote
+Assistants write SQL well, so your job is reading it. Do not read from the top. Read in the order the database thinks.
+
+First FROM and JOIN: which tables are involved, and how are they linked? Then WHERE: which rows are kept? Then GROUP BY: how are they piled up? Last SELECT: what is shown?
+
+Then ask three checking questions. Is the join on the right columns? A wrong join silently multiplies rows and inflates totals. Does the WHERE match what I asked, including the dates? And is anything being counted twice?
+
+Test on a case where you already know the answer, such as one customer's total.
+?? An AI-written query returns a sales total that is far too high. What is a likely cause?
++ A join that matches each row several times and so duplicates amounts
+- The SELECT keyword was written in capitals
+- The database is too fast
+- The table has a primary key
+= A wrong or loose join condition multiplies rows, which silently inflates sums and counts.
+## Indexes make queries fast (concept)
+An index does for a database what the index at the back of a book does for you. To find "photosynthesis" you do not read all 600 pages. You look it up, get the page number and go straight there.
+
+Without an index, the database checks every row to find the ones you asked for. With a million rows, that is slow. With an index on the column you search by, it jumps straight to them.
+
+The trade-off: every index takes space and must be updated on each write, so you index the columns you actually search on, not all of them.
+
+When an app gets slow as its data grows, a missing index is the first thing to suspect.
+?? What does a database index do?
++ Lets the database find matching rows without scanning the whole table
+- Encrypts the table
+- Deletes duplicate rows
+- Makes a backup copy every night
+= Like a book's index, it points directly to where the wanted rows are.
+## Copy the data before you change it
+One wrong command can alter every row in a table, and databases have no undo button.
+
+The classic accident is an UPDATE or DELETE with the WHERE clause missing. "Set the price to 0 for product 17" becomes "set the price to 0 for everything".
+
+So keep the habits of a careful surgeon. Make a backup, or copy the table, before changing anything. Run the same condition as a SELECT first to see exactly which rows will be hit. Try it on a test copy, not on live data.
+
+This matters more with AI. An assistant or agent will write and run destructive SQL with total confidence. Give it read-only access unless it truly needs more.
+?? What is the safest check before running an UPDATE on live data?
++ Run the same WHERE as a SELECT to see which rows will be affected, with a backup in place
+- Run it quickly before anyone notices
+- Remove the WHERE clause so it is simpler
+- Ask the AI whether it feels confident
+= Previewing the affected rows and having a backup means a mistake can be seen in advance or reversed.
+
+@@ sll_hT5d4uNy1_ma | A2.3 Data Sources > Data Collection
+## Pulling data from APIs
+An API is the clean, official way to get data out of another system: your accounting package, your shop, a weather service.
+
+You ask for a specific slice, "orders since Monday", and it arrives as structured JSON, ready to use. Compare that with copying numbers off a screen by hand.
+
+Two practical details. Large results come in pages, 100 records at a time, so the code must keep asking for the next page until none are left. And rate limits cap how fast you may ask.
+
+Good practice is to fetch only what changed since last time, not everything again. It is faster, cheaper and kinder to the provider.
+?? An API returns results 100 at a time. What must your code do to get all 2,000 records?
++ Keep requesting the next page until there are no more
+- Ask once and assume the rest are the same
+- Increase the timeout
+- Change the API key
+= Paginated APIs return results in chunks, so the code loops through pages until the data runs out.
+## Licensing and ethics of data
+Being able to download something does not mean you are allowed to use it.
+
+Data comes with terms, like a photo found online: visible to everyone, still owned by someone. A licence says what you may do. Some data is open for any use. Some is free for research but not for business. Some you may read but not copy into a product.
+
+Beyond the legal question sits the ethical one. Would the people this data describes be surprised or upset by how you are using it?
+
+Before building on a dataset, ask three things: where did it come from, what do the terms allow, and who could be harmed?
+
+Sorting this out afterwards is slow and expensive.
+?? You find a useful dataset freely downloadable online. What should you check before using it in a commercial product?
++ Its licence and terms of use
+- Only its file size
+- Whether it opens in Excel
+- Nothing, because public data is free for any use
+= Availability is not permission. The licence states whether commercial use is allowed.
+## Webhooks and event-triggered data
+There are two ways to keep data current.
+
+Polling means asking on a schedule: "any new orders?" every five minutes. It is simple, but mostly wasted effort, and you are always a little behind.
+
+A webhook reverses it: the other system sends you the data the moment something happens. A customer pays, and your system hears about it within a second.
+
+It is the difference between checking the letterbox every hour and having a doorbell.
+
+Event-triggered data is what makes automation feel instant: a form is submitted, and that event starts an AI workflow that drafts a reply. The catch: your receiving end must be reliable, because an event missed while you were down may not be sent again.
+?? What is the main advantage of a webhook over polling?
++ You receive the data as soon as the event happens, without repeatedly asking
+- It never fails
+- It needs no receiving system
+- It works only once a day
+= With webhooks the source pushes events to you in real time, which avoids wasted and delayed polling.
+## ETL basics: extract, transform, load
+ETL is the standard three-step pattern for moving data from where it is created to where it is used.
+
+Extract: pull the raw data out of the source, such as the shop system or the CRM.
+
+Transform: clean it and reshape it. Fix the dates, standardise the labels, join the tables, work out the totals.
+
+Load: put the result somewhere useful, such as a database or a dashboard.
+
+It is a kitchen supply chain. Ingredients come in from suppliers, are washed and chopped, and are then set out ready for the chefs.
+
+A pipeline is just these steps run automatically on a schedule. Most "AI projects" quietly begin with one, because models need clean, current data.
+?? In ETL, what happens during the transform step?
++ Data is cleaned and reshaped into a usable form
+- Data is pulled from the source system
+- Data is deleted
+- Data is shown on a dashboard
+= Transform is the middle step: fixing, standardising and combining the raw data before it is loaded.
+## Scraping rules: terms of service and robots.txt
+Scraping means having a program read web pages and pull the data out, as a last resort when there is no API.
+
+Two documents set the rules. The site's terms of service may forbid automated collection altogether. And robots.txt, a small file at the root of the site, tells automated visitors which areas they are asked to stay out of.
+
+robots.txt is a request, not a lock. Think of a "staff only" sign on an open door. Ignoring it is easy and still not acceptable.
+
+Scrape politely too: slowly, so you do not strain the site. And remember that public does not mean free to reuse. Copyright and privacy law still apply. Check for an API first.
+?? What is robots.txt?
++ A file where a website states which areas automated visitors should not access
+- A program that blocks all scrapers technically
+- A list of the site's passwords
+- A law that applies in every country
+= It is a published set of instructions for crawlers. It relies on visitors choosing to respect it.
+## Personal data: collect only what you need
+Personal data is anything that can be linked to a living person: a name, an email, a location, a customer number.
+
+The rule, written into laws such as GDPR, is data minimisation: collect only what you need for a stated purpose, and keep it only as long as you need it.
+
+Treat it like other people's house keys. Each one you hold is a responsibility, and one you never took cannot be lost or stolen.
+
+A booking form does not need a date of birth. A newsletter does not need a home address.
+
+In AI projects this bites quickly. Before pasting customer records into a prompt, ask whether the task needs the names at all.
+?? What does data minimisation mean?
++ Collect and keep only the personal data that is needed for the stated purpose
+- Compress files so that they take less space
+- Collect everything in case it becomes useful later
+- Delete all data every day
+= Minimisation limits collection to what the purpose requires, which reduces both risk and legal exposure.

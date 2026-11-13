@@ -1,0 +1,5446 @@
+{
+  "format": "bite-sized.package",
+  "formatVersion": 1,
+  "course": {
+    "id": "crs_applied_ai",
+    "title": "Applied AI Engineering",
+    "subtitle": "From first Python concepts to applied AI work",
+    "description": "A self-paced course: shared foundations, then a main track in LLM and agentic engineering, with electives later. Bite Sized does not assume a subject. This package is only module A1, the first module of the first course.",
+    "author": "Eric D'Souza",
+    "licence": "Private family licence. Prepared for Eric D'Souza, November 2026. Not for redistribution.",
+    "aiGenerated": false,
+    "position": "a0",
+    "archivedAt": null,
+    "createdAt": "2026-11-13T03:04:29.779Z",
+    "updatedAt": "2026-11-12T22:48:34.392Z"
+  },
+  "categories": [
+    {
+      "id": "cat_track_a",
+      "code": "A",
+      "title": "Track A: Foundations",
+      "summary": "Required groundwork. Python here is concepts for reading and directing AI-written code, not a syntax drill.",
+      "position": "a0",
+      "archivedAt": null,
+      "subCategories": [
+        {
+          "id": "sub_a1",
+          "code": "A1",
+          "title": "A1 Python Concepts for AI-Assisted Development",
+          "levelTag": "Foundations",
+          "toolkit": {
+            "handsOnProjects": [
+              "Use an AI assistant to build a small API-calling script, then explain and debug every line",
+              "Code-review exercise: find the bugs in AI-generated code",
+              "Commit a small project to GitHub with a .gitignore and an environment file so no secrets are exposed"
+            ],
+            "learningOutcomes": [
+              "Read, understand, and debug Python written by AI",
+              "Direct AI coding assistants with clear specs",
+              "Keep secrets and keys out of code and version control"
+            ],
+            "toolsAndFrameworks": [
+              "Python 3, Cursor / VS Code, GitHub Copilot, Claude Code, Jupyter, Google Colab, Git, uv"
+            ]
+          },
+          "position": "a0",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_a1_1",
+              "code": "A1.1",
+              "title": "A1.1 Core Programming Concepts",
+              "prerequisiteIds": [],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_a1_1_1",
+                  "title": "Data Types & Structures",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_1_1.json"
+                },
+                {
+                  "id": "sll_a1_1_2",
+                  "title": "Control Flow",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_1_2.json"
+                },
+                {
+                  "id": "sll_a1_1_3",
+                  "title": "Functions",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_1_3.json"
+                }
+              ]
+            },
+            {
+              "id": "les_a1_2",
+              "code": "A1.2",
+              "title": "A1.2 Organizing Code",
+              "prerequisiteIds": [
+                "les_a1_1"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_a1_2_1",
+                  "title": "Classes & Objects",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_2_1.json"
+                },
+                {
+                  "id": "sll_a1_2_2",
+                  "title": "Modules & Packages",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_2_2.json"
+                },
+                {
+                  "id": "sll_a1_2_3",
+                  "title": "Environments & Dependencies",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_2_3.json"
+                }
+              ]
+            },
+            {
+              "id": "les_a1_3",
+              "code": "A1.3",
+              "title": "A1.3 Talking to the Outside World",
+              "prerequisiteIds": [
+                "les_a1_1"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_a1_3_1",
+                  "title": "Async Concepts",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_3_1.json"
+                },
+                {
+                  "id": "sll_a1_3_2",
+                  "title": "APIs, HTTP & JSON",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_3_2.json"
+                },
+                {
+                  "id": "sll_a1_3_3",
+                  "title": "Error Handling",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_3_3.json"
+                }
+              ]
+            },
+            {
+              "id": "les_a1_4",
+              "code": "A1.4",
+              "title": "A1.4 Working with AI-Generated Code",
+              "prerequisiteIds": [
+                "les_a1_1",
+                "les_a1_2"
+              ],
+              "position": "a3",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_a1_4_1",
+                  "title": "Reading & Understanding Code",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_4_1.json"
+                },
+                {
+                  "id": "sll_a1_4_2",
+                  "title": "Debugging",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_4_2.json"
+                },
+                {
+                  "id": "sll_a1_4_3",
+                  "title": "AI Coding Assistants",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_a1_4_3.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_Kf184KVphZP4",
+          "code": "A2",
+          "title": "A2 Data Essentials",
+          "levelTag": "Foundations",
+          "toolkit": {
+            "handsOnProjects": [
+              "AI-assisted exploratory analysis of a public dataset with a one-page summary",
+              "Pull data from an API into a database table, then answer three business questions with SQL"
+            ],
+            "learningOutcomes": [
+              "Load, clean, explore, and explain real-world data",
+              "Query data sources with basic SQL and APIs",
+              "Choose between a spreadsheet and a database for a given job"
+            ],
+            "toolsAndFrameworks": [
+              "pandas, DuckDB, SQLite, Matplotlib, Plotly, Kaggle, Statistics Canada"
+            ]
+          },
+          "position": "a1",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_GPAXEo-p4sYD",
+              "code": "A2.1",
+              "title": "A2.1 Working with Data",
+              "prerequisiteIds": [],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_Dit_Qyx-PJpB",
+                  "title": "Data Formats",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Dit_Qyx-PJpB.json"
+                },
+                {
+                  "id": "sll__0uM0XGMHx4f",
+                  "title": "DataFrames (Concept)",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll__0uM0XGMHx4f.json"
+                }
+              ]
+            },
+            {
+              "id": "les_sKNwEzJwrJdU",
+              "code": "A2.2",
+              "title": "A2.2 Exploring Data",
+              "prerequisiteIds": [],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_D5PaSUpsQZb1",
+                  "title": "Visualization",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_D5PaSUpsQZb1.json"
+                },
+                {
+                  "id": "sll_2hlrnvibGxGW",
+                  "title": "Storytelling with Data",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_2hlrnvibGxGW.json"
+                }
+              ]
+            },
+            {
+              "id": "les_sOPbgB4mpLXo",
+              "code": "A2.3",
+              "title": "A2.3 Data Sources",
+              "prerequisiteIds": [],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_jKwc9jjUfmIG",
+                  "title": "Databases",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_jKwc9jjUfmIG.json"
+                },
+                {
+                  "id": "sll_hT5d4uNy1_ma",
+                  "title": "Data Collection",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_hT5d4uNy1_ma.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_R5L5GBUtViuV",
+          "code": "A3",
+          "title": "A3 Machine Learning Essentials",
+          "levelTag": "Foundations",
+          "toolkit": {
+            "handsOnProjects": [
+              "Train and evaluate a simple classifier with AI-generated code and explain the results",
+              "Show how accuracy misleads on a lopsided dataset, then fix it with a baseline and better metrics"
+            ],
+            "learningOutcomes": [
+              "Explain what ML is and how models are trained and evaluated",
+              "Recognize overfitting and misleading results",
+              "Pick the metric that matches the cost of each kind of error"
+            ],
+            "toolsAndFrameworks": [
+              "scikit-learn, Google Colab, Teachable Machine"
+            ]
+          },
+          "position": "a2",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_Z0yca2xkf3NU",
+              "code": "A3.1",
+              "title": "A3.1 What Machine Learning Is",
+              "prerequisiteIds": [],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_vOlKNWDKypJU",
+                  "title": "Learning from Data",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_vOlKNWDKypJU.json"
+                },
+                {
+                  "id": "sll_3QmT1zjW5itK",
+                  "title": "Types of Learning",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_3QmT1zjW5itK.json"
+                }
+              ]
+            },
+            {
+              "id": "les_hUqet0aDrJad",
+              "code": "A3.2",
+              "title": "A3.2 How Models Are Trained",
+              "prerequisiteIds": [],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_ZE35vlDxlHI8",
+                  "title": "Training & Loss",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_ZE35vlDxlHI8.json"
+                },
+                {
+                  "id": "sll_69ICXw3Qm2k0",
+                  "title": "Overfitting",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_69ICXw3Qm2k0.json"
+                }
+              ]
+            },
+            {
+              "id": "les_H1IkqInhpEey",
+              "code": "A3.3",
+              "title": "A3.3 Evaluating Models",
+              "prerequisiteIds": [],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_lwgvSe2aHVZK",
+                  "title": "Evaluation Basics",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_lwgvSe2aHVZK.json"
+                },
+                {
+                  "id": "sll_L5Dw_WWSVjB-",
+                  "title": "Math Intuition",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_L5Dw_WWSVjB-.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_Y1vOayZN_KYM",
+          "code": "A4",
+          "title": "A4 Neural Networks & How They Learn",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Fine-tune a pretrained image or text classifier with a few lines of AI-assisted code",
+              "Change the learning rate in a playground and describe what happens to training"
+            ],
+            "learningOutcomes": [
+              "Explain intuitively how neural networks learn",
+              "Use pretrained models instead of training from scratch",
+              "Explain what parameters, layers, and learning rate each do"
+            ],
+            "toolsAndFrameworks": [
+              "PyTorch (conceptual), Hugging Face Hub, TensorFlow Playground, Google Colab"
+            ]
+          },
+          "position": "a3",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_T3ddt98-uyBm",
+              "code": "A4.1",
+              "title": "A4.1 Neural Network Basics",
+              "prerequisiteIds": [],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_v_pd67aP4Kiw",
+                  "title": "Neurons & Layers",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_v_pd67aP4Kiw.json"
+                },
+                {
+                  "id": "sll_6znkaMrxX9OK",
+                  "title": "Representations",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_6znkaMrxX9OK.json"
+                }
+              ]
+            },
+            {
+              "id": "les_Yf1cT0rcklTR",
+              "code": "A4.2",
+              "title": "A4.2 How Networks Learn",
+              "prerequisiteIds": [],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_z7oetIfjVXPl",
+                  "title": "Gradient Descent (Intuition)",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_z7oetIfjVXPl.json"
+                },
+                {
+                  "id": "sll_AaLnHvtfzgoR",
+                  "title": "Backpropagation (Intuition)",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_AaLnHvtfzgoR.json"
+                }
+              ]
+            },
+            {
+              "id": "les_MCf1WPPQlnHr",
+              "code": "A4.3",
+              "title": "A4.3 Pretrained Models",
+              "prerequisiteIds": [],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_E9MxCqZi2Kb0",
+                  "title": "Transfer Learning (Intro)",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_E9MxCqZi2Kb0.json"
+                },
+                {
+                  "id": "sll_KIMXcrPNTsmQ",
+                  "title": "Model Types (Overview)",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_KIMXcrPNTsmQ.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_0_hWZMd4_xOb",
+          "code": "A5",
+          "title": "A5 How LLMs Work",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Sampling lab: vary temperature and top-p and compare outputs",
+              "Model-selection memo comparing three LLMs on the same task",
+              "Token lab: compare token counts and cost for English text, another language, and code"
+            ],
+            "learningOutcomes": [
+              "Explain at a conceptual level how LLMs read, predict, and generate text",
+              "Anticipate common LLM failure modes before building on them",
+              "Explain why tokens, probabilities, and context limits shape model behaviour and cost"
+            ],
+            "toolsAndFrameworks": [
+              "Hugging Face LLM Course (chapter 1), tiktoken, OpenAI / Anthropic / Google playgrounds, Ollama"
+            ]
+          },
+          "position": "a4",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_KDqjtU9kNFpM",
+              "code": "A5.1",
+              "title": "A5.1 From Text to Tokens",
+              "prerequisiteIds": [],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_4y81UmM2WP6V",
+                  "title": "Tokens & Tokenization",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_4y81UmM2WP6V.json"
+                }
+              ]
+            },
+            {
+              "id": "les_AuQtbk4aNtW3",
+              "code": "A5.2",
+              "title": "A5.2 Embeddings & Similarity",
+              "prerequisiteIds": [],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_Mz486evL94DB",
+                  "title": "Embeddings",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Mz486evL94DB.json"
+                },
+                {
+                  "id": "sll_df8K6TM_cFq2",
+                  "title": "Similarity",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_df8K6TM_cFq2.json"
+                }
+              ]
+            },
+            {
+              "id": "les_41XsePw762dM",
+              "code": "A5.3",
+              "title": "A5.3 Transformers at a Conceptual Level",
+              "prerequisiteIds": [],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_kNdyhBqcAGAN",
+                  "title": "The Big Idea",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_kNdyhBqcAGAN.json"
+                },
+                {
+                  "id": "sll_Pssiwxz3o8-A",
+                  "title": "How LLMs Are Trained (Overview)",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Pssiwxz3o8-A.json"
+                }
+              ]
+            },
+            {
+              "id": "les_Lu6JVeuEBR1T",
+              "code": "A5.4",
+              "title": "A5.4 How LLMs Generate",
+              "prerequisiteIds": [],
+              "position": "a3",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_XQ6Ow2D4pb5e",
+                  "title": "Probabilities & Sampling",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_XQ6Ow2D4pb5e.json"
+                },
+                {
+                  "id": "sll_QBC2ikzlCEiJ",
+                  "title": "Context Windows",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_QBC2ikzlCEiJ.json"
+                },
+                {
+                  "id": "sll_wXECmMLdO8Vs",
+                  "title": "Failure Modes",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_wXECmMLdO8Vs.json"
+                }
+              ]
+            },
+            {
+              "id": "les_TlWg0ilEA16Q",
+              "code": "A5.5",
+              "title": "A5.5 The Model Landscape",
+              "prerequisiteIds": [],
+              "position": "a4",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_Y40KwV7qjecP",
+                  "title": "Choosing Models",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Y40KwV7qjecP.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_TZRa8yMCIDCG",
+          "code": "A6",
+          "title": "A6 The AI Stack & Market Map",
+          "levelTag": "Foundations",
+          "toolkit": {
+            "handsOnProjects": [
+              "Run the same business task on three models (one closed, one open-weight, one small) and build a cost and quality table",
+              "Market map for one use case: the stack you would pick and why"
+            ],
+            "learningOutcomes": [
+              "Explain the AI stack layer by layer and name leading products in each",
+              "Choose models and tools on quality, cost, licence, and data residency"
+            ],
+            "toolsAndFrameworks": [
+              "OpenRouter, Ollama, LM Studio, LMArena, Artificial Analysis, provider playgrounds"
+            ]
+          },
+          "position": "a5",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_h5xUGUoy-4UQ",
+              "code": "A6.1",
+              "title": "A6.1 The AI Stack in Layers",
+              "prerequisiteIds": [],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_rBIFuA4_EH13",
+                  "title": "Layers of an AI System",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_rBIFuA4_EH13.json"
+                },
+                {
+                  "id": "sll_AuyfykqRj857",
+                  "title": "Tracking a Fast Market",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_AuyfykqRj857.json"
+                }
+              ]
+            },
+            {
+              "id": "les_rq7mTLDrJoey",
+              "code": "A6.2",
+              "title": "A6.2 Closed vs. Open-Weight Models",
+              "prerequisiteIds": [],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_tLg8Uyn708uQ",
+                  "title": "Closed Frontier Models",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_tLg8Uyn708uQ.json"
+                },
+                {
+                  "id": "sll_onLprK2Ye_C_",
+                  "title": "Open-Weight Models",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_onLprK2Ye_C_.json"
+                },
+                {
+                  "id": "sll_FLKVXUxJ3RBT",
+                  "title": "The Host Decides Where Data Goes",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_FLKVXUxJ3RBT.json"
+                }
+              ]
+            },
+            {
+              "id": "les_loa5X2oDmn9o",
+              "code": "A6.3",
+              "title": "A6.3 Paid vs. Cheap",
+              "prerequisiteIds": [],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_-FzJZoj3nr8v",
+                  "title": "How AI Is Sold",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_-FzJZoj3nr8v.json"
+                },
+                {
+                  "id": "sll_jKYVQHW3pzUW",
+                  "title": "Getting Cost Down",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_jKYVQHW3pzUW.json"
+                },
+                {
+                  "id": "sll_FbNPu9FkXRp_",
+                  "title": "Cost Reality Check",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_FbNPu9FkXRp_.json"
+                }
+              ]
+            },
+            {
+              "id": "les_y_J2ZPDpASB0",
+              "code": "A6.4",
+              "title": "A6.4 Building Blocks & Frameworks",
+              "prerequisiteIds": [],
+              "position": "a3",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_Ng8rYyxCJZxu",
+                  "title": "Model Access & Supporting Tools",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Ng8rYyxCJZxu.json"
+                },
+                {
+                  "id": "sll_85Us7QobgKea",
+                  "title": "Agent Frameworks",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_85Us7QobgKea.json"
+                },
+                {
+                  "id": "sll_zPZ4Oz11VcYf",
+                  "title": "Low-Code & Coding Agents",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_zPZ4Oz11VcYf.json"
+                }
+              ]
+            },
+            {
+              "id": "les_RcM1q0EipHe2",
+              "code": "A6.5",
+              "title": "A6.5 Image, Video & Voice Models",
+              "prerequisiteIds": [],
+              "position": "a4",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_xdiCq6KQfo0x",
+                  "title": "Generative Media",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_xdiCq6KQfo0x.json"
+                },
+                {
+                  "id": "sll_UKk4D3mW_Ae4",
+                  "title": "Using Media Commercially",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_UKk4D3mW_Ae4.json"
+                }
+              ]
+            },
+            {
+              "id": "les_G6RVz1Gk0myX",
+              "code": "A6.6",
+              "title": "A6.6 Choosing a Product",
+              "prerequisiteIds": [],
+              "position": "a5",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_QVIjoEAi6CFL",
+                  "title": "Decision Criteria",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_QVIjoEAi6CFL.json"
+                },
+                {
+                  "id": "sll_E0Rs3-sLeTc4",
+                  "title": "Avoiding Lock-In",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_E0Rs3-sLeTc4.json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat_JU1rIHD6vMcC",
+      "code": "B",
+      "title": "Track B: LLM & Agentic AI Engineering",
+      "summary": "",
+      "position": "a1",
+      "archivedAt": null,
+      "subCategories": [
+        {
+          "id": "sub_4NdI1Zh7799b",
+          "code": "B1",
+          "title": "B1 Prompt Engineering, Context Engineering & LLM APIs",
+          "levelTag": "Foundations",
+          "toolkit": {
+            "handsOnProjects": [
+              "Structured-data extractor that turns messy text into validated JSON",
+              "Prompt-chained research assistant with a versioned prompt library and a meta-prompt optimizer",
+              "Prompt test set: compare two prompt versions on twenty real cases and report which wins"
+            ],
+            "learningOutcomes": [
+              "Program LLM behaviour reliably through APIs, prompts, and context",
+              "Treat prompts as versioned, testable engineering artifacts",
+              "Compare prompt changes on real cases instead of by impression"
+            ],
+            "toolsAndFrameworks": [
+              "OpenAI / Anthropic SDKs, Pydantic, Instructor, DSPy, tiktoken, prompt playgrounds"
+            ]
+          },
+          "position": "a0",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_NKe-7VHy353m",
+              "code": "B1.1",
+              "title": "B1.1 Programming LLMs via APIs",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_aGqjcn3AIS4Q",
+                  "title": "API Fundamentals",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_aGqjcn3AIS4Q.json"
+                },
+                {
+                  "id": "sll_GL8EDO05Xzeh",
+                  "title": "Tokens & Cost in Practice",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_GL8EDO05Xzeh.json"
+                }
+              ]
+            },
+            {
+              "id": "les_X0nB1qEmZo18",
+              "code": "B1.2",
+              "title": "B1.2 Prompting Fundamentals",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_GqWOPei5aJ8y",
+                  "title": "System Prompts & Personas",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_GqWOPei5aJ8y.json"
+                },
+                {
+                  "id": "sll_mP9t4w2s6ty7",
+                  "title": "Core Techniques",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_mP9t4w2s6ty7.json"
+                },
+                {
+                  "id": "sll_LlSc69UiGDUy",
+                  "title": "Advanced Prompt Patterns",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_LlSc69UiGDUy.json"
+                }
+              ]
+            },
+            {
+              "id": "les_4AGw-jc2Whry",
+              "code": "B1.3",
+              "title": "B1.3 Structured Outputs",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll__KY2jiLzJDAp",
+                  "title": "Reliable Formats",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll__KY2jiLzJDAp.json"
+                },
+                {
+                  "id": "sll_BJ4vUg3J3DAG",
+                  "title": "Parsing & Repair",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_BJ4vUg3J3DAG.json"
+                }
+              ]
+            },
+            {
+              "id": "les_V26TPDGBH9eP",
+              "code": "B1.4",
+              "title": "B1.4 Context Engineering",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a3",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_coJc5QmLYTkV",
+                  "title": "Managing the Context Window",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_coJc5QmLYTkV.json"
+                },
+                {
+                  "id": "sll_acRBxRj5uIvl",
+                  "title": "Choosing an Approach",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_acRBxRj5uIvl.json"
+                },
+                {
+                  "id": "sll_p1n4CQJ8NxMv",
+                  "title": "Prompt Management",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_p1n4CQJ8NxMv.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_SMsUZi-ncIet",
+          "code": "B2",
+          "title": "B2 Embeddings, Vector Search & RAG",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "RAG chatbot over a document collection with source citations",
+              "Compare chunking, hybrid search, and re-ranking strategies with retrieval metrics",
+              "Index scanned invoices or forms with OCR and answer questions about them with citations"
+            ],
+            "learningOutcomes": [
+              "Build grounded LLM apps that answer from private data",
+              "Diagnose and improve retrieval quality",
+              "Handle messy real-world documents, not just clean text"
+            ],
+            "toolsAndFrameworks": [
+              "sentence-transformers, FAISS, Chroma, Pinecone, pgvector, LlamaIndex, LangChain, Cohere Rerank, Docling, Tesseract"
+            ]
+          },
+          "position": "a1",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_BRgbWA6Onp1x",
+              "code": "B2.1",
+              "title": "B2.1 Embeddings",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_JE3G6tn01p0X",
+                  "title": "What Embeddings Are",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_JE3G6tn01p0X.json"
+                },
+                {
+                  "id": "sll_-m07Fr7PJGL7",
+                  "title": "Choosing Embedding Models",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_-m07Fr7PJGL7.json"
+                }
+              ]
+            },
+            {
+              "id": "les_bzT24-FbEf4p",
+              "code": "B2.2",
+              "title": "B2.2 Data Ingestion",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_V2zHXtf_OL7K",
+                  "title": "Loading Sources",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_V2zHXtf_OL7K.json"
+                },
+                {
+                  "id": "sll_csIkGsx3E0_t",
+                  "title": "Chunking Strategies",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_csIkGsx3E0_t.json"
+                }
+              ]
+            },
+            {
+              "id": "les_QAjFq8afHIXy",
+              "code": "B2.3",
+              "title": "B2.3 Vector Databases & Search",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_bPmNZq7H1_2B",
+                  "title": "Vector Databases",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_bPmNZq7H1_2B.json"
+                },
+                {
+                  "id": "sll_uMV-SwY-duoH",
+                  "title": "Search Methods",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_uMV-SwY-duoH.json"
+                }
+              ]
+            },
+            {
+              "id": "les_ERUqpOKavRiU",
+              "code": "B2.4",
+              "title": "B2.4 Retrieval-Augmented Generation",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a3",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_Tn2uCbMqqu8t",
+                  "title": "Basic RAG Pipeline",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Tn2uCbMqqu8t.json"
+                },
+                {
+                  "id": "sll_NKjn-9Wh5tyh",
+                  "title": "Improving Retrieval",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_NKjn-9Wh5tyh.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_HGpfplZrNRri",
+          "code": "B3",
+          "title": "B3 Advanced RAG, Knowledge Graphs & Agentic RAG",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Graph RAG system that answers multi-hop questions over a knowledge graph",
+              "Agentic RAG assistant that decides when and where to search",
+              "Text-to-SQL assistant over a sample business database with read-only access and answer checks"
+            ],
+            "learningOutcomes": [
+              "Model complex relationships with knowledge graphs",
+              "Build retrieval that reasons across sources and decides when to retrieve",
+              "Choose between documents, graphs, and databases for each kind of question"
+            ],
+            "toolsAndFrameworks": [
+              "Neo4j, Microsoft GraphRAG, LlamaIndex, LangGraph, LangChain"
+            ]
+          },
+          "position": "a2",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_CGWrtMDjqEPt",
+              "code": "B3.1",
+              "title": "B3.1 Knowledge Graphs",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_BHgORrEVr2TN",
+                  "title": "Graph Fundamentals",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_BHgORrEVr2TN.json"
+                },
+                {
+                  "id": "sll_85It_H-t7yKe",
+                  "title": "Building Knowledge Graphs",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_85It_H-t7yKe.json"
+                }
+              ]
+            },
+            {
+              "id": "les_L8tseUVrMT05",
+              "code": "B3.2",
+              "title": "B3.2 Graph RAG & Multi-Hop Reasoning",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_yvMWUBgL_NPg",
+                  "title": "Graph RAG",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_yvMWUBgL_NPg.json"
+                },
+                {
+                  "id": "sll_SvAja3ynxx8Z",
+                  "title": "Multi-Hop Reasoning",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_SvAja3ynxx8Z.json"
+                }
+              ]
+            },
+            {
+              "id": "les_oQy24lmfGwqi",
+              "code": "B3.3",
+              "title": "B3.3 Agentic RAG",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_MFzdG0fVvqq4",
+                  "title": "Retrieval as a Tool",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_MFzdG0fVvqq4.json"
+                },
+                {
+                  "id": "sll_WsAzCnrhLkF2",
+                  "title": "Corrective & Adaptive RAG",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_WsAzCnrhLkF2.json"
+                },
+                {
+                  "id": "sll_Ld5lNqj9BPXV",
+                  "title": "Querying Structured Data",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Ld5lNqj9BPXV.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_aA-5ZRni7vRH",
+          "code": "B4",
+          "title": "B4 Agent Foundations",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Write a one-page design for an agent: goal, action space, autonomy level, and risks",
+              "Convert a rigid workflow into an agent and compare reliability",
+              "Choose workflow, single agent, or multi-agent for three business scenarios and defend each choice"
+            ],
+            "learningOutcomes": [
+              "Explain what makes a system agentic and when to use one",
+              "Apply core agent design principles before writing code",
+              "Match autonomy to risk before building"
+            ],
+            "toolsAndFrameworks": [
+              "OpenAI / Anthropic APIs, plain Python, Excalidraw for architecture diagrams"
+            ]
+          },
+          "position": "a3",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_Nad3fNI0v0YO",
+              "code": "B4.1",
+              "title": "B4.1 What Is an Agent?",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_pg05ddXuJAsy",
+                  "title": "From Chatbot to Worker",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_pg05ddXuJAsy.json"
+                },
+                {
+                  "id": "sll_NjlXDHdGrxpO",
+                  "title": "Agents vs. Workflows",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_NjlXDHdGrxpO.json"
+                }
+              ]
+            },
+            {
+              "id": "les_Uo2JvB0h1-ck",
+              "code": "B4.2",
+              "title": "B4.2 Agent Design Principles",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_n_7epIs6h9lq",
+                  "title": "Action Space",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_n_7epIs6h9lq.json"
+                },
+                {
+                  "id": "sll_qeD_AHPs8Ubk",
+                  "title": "Single-Responsibility Principle",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_qeD_AHPs8Ubk.json"
+                },
+                {
+                  "id": "sll_lXrL-pbsj8QZ",
+                  "title": "Autonomy Levels",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_lXrL-pbsj8QZ.json"
+                }
+              ]
+            },
+            {
+              "id": "les_TeGTRFT8gNHQ",
+              "code": "B4.3",
+              "title": "B4.3 Agent Use Cases & Landscape",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_-M9En6Qz5Ae8",
+                  "title": "Where Agents Work Today",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_-M9En6Qz5Ae8.json"
+                },
+                {
+                  "id": "sll_nKOJ6J8lWrFB",
+                  "title": "Framework Landscape (Overview)",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_nKOJ6J8lWrFB.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_h-j-vNejDOu7",
+          "code": "B5",
+          "title": "B5 Tools, Function Calling & MCP",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Build an agent from scratch (no framework) with search, calculator, and database tools",
+              "Build and publish a custom MCP server for a real data source",
+              "Tool-reliability lab: inject API failures and measure recovery",
+              "Security review of one tool: secrets, permissions, failure modes, and what the agent can reach"
+            ],
+            "learningOutcomes": [
+              "Give agents reliable, safe, well-designed tools",
+              "Connect agents to any tool or data source through MCP",
+              "Keep secrets and permissions tight when connecting agents to real systems"
+            ],
+            "toolsAndFrameworks": [
+              "OpenAI / Anthropic tool-use APIs, Pydantic, MCP SDKs, E2B sandboxes, tenacity"
+            ]
+          },
+          "position": "a4",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_222-HLWsF-FX",
+              "code": "B5.1",
+              "title": "B5.1 Function Calling",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_x74DgglN77Ob",
+                  "title": "How Tool Calling Works",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_x74DgglN77Ob.json"
+                },
+                {
+                  "id": "sll_otygFTgSNcCQ",
+                  "title": "Tool Schemas",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_otygFTgSNcCQ.json"
+                }
+              ]
+            },
+            {
+              "id": "les_og-fX7Cjuyuz",
+              "code": "B5.2",
+              "title": "B5.2 Agent-Computer Interface (ACI)",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_zKOkFloWdVMR",
+                  "title": "Designing Tools for Agents",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_zKOkFloWdVMR.json"
+                },
+                {
+                  "id": "sll_2AconlQbeyOH",
+                  "title": "Common Tool Types",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_2AconlQbeyOH.json"
+                }
+              ]
+            },
+            {
+              "id": "les_lRKEk7KpwRJ6",
+              "code": "B5.3",
+              "title": "B5.3 Robust Tool Execution",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_l_pGL1RL0c3B",
+                  "title": "Handling Tool Errors",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_l_pGL1RL0c3B.json"
+                },
+                {
+                  "id": "sll__33STjnvEVF0",
+                  "title": "Safe Tool Design",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll__33STjnvEVF0.json"
+                }
+              ]
+            },
+            {
+              "id": "les_5fM6Vv4g1uJ6",
+              "code": "B5.4",
+              "title": "B5.4 Model Context Protocol (MCP)",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a3",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_P6vJo9NIkZDr",
+                  "title": "MCP Concepts",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_P6vJo9NIkZDr.json"
+                },
+                {
+                  "id": "sll_LV85fIscKnhI",
+                  "title": "Building MCP Servers",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_LV85fIscKnhI.json"
+                }
+              ]
+            },
+            {
+              "id": "les_oDmsY_s6Ahqk",
+              "code": "B5.5",
+              "title": "B5.5 Skills & Dynamic Tools",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a4",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_tAOBiH_7gz9_",
+                  "title": "Skills & Progressive Disclosure",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_tAOBiH_7gz9_.json"
+                },
+                {
+                  "id": "sll_DpyzQpaFG6TO",
+                  "title": "Dynamic Tool Creation",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_DpyzQpaFG6TO.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_B0OxlVeii9GH",
+          "code": "B6",
+          "title": "B6 Memory & Context Engineering",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Add short-term and long-term (episodic) memory to an assistant and evaluate recall",
+              "Semantic cache layer that cuts cost on repeated questions",
+              "Compaction experiment: summarize a long conversation and measure what the summary loses"
+            ],
+            "learningOutcomes": [
+              "Design memory that keeps agents useful across sessions",
+              "Engineer context to prevent degradation and control cost",
+              "Decide what an agent should remember, summarize, or forget"
+            ],
+            "toolsAndFrameworks": [
+              "LangGraph memory, Letta (MemGPT), Mem0, Zep, Redis, GPTCache"
+            ]
+          },
+          "position": "a5",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_MarIVKBFt41x",
+              "code": "B6.1",
+              "title": "B6.1 Short-Term Memory",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_KigR3WAnaS3m",
+                  "title": "Conversation State",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_KigR3WAnaS3m.json"
+                },
+                {
+                  "id": "sll_bcHmQZxWULM5",
+                  "title": "Context Window Management",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_bcHmQZxWULM5.json"
+                }
+              ]
+            },
+            {
+              "id": "les_BytOLsXuHN02",
+              "code": "B6.2",
+              "title": "B6.2 Long-Term Memory",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_jDIt0AQWKaJw",
+                  "title": "Memory Types",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_jDIt0AQWKaJw.json"
+                },
+                {
+                  "id": "sll_Roz6UzNL_xlX",
+                  "title": "Memory Storage",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Roz6UzNL_xlX.json"
+                }
+              ]
+            },
+            {
+              "id": "les_prp18_jRLkpV",
+              "code": "B6.3",
+              "title": "B6.3 Caching & Efficiency",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_7X-OfuKXmd9-",
+                  "title": "Semantic Caching",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_7X-OfuKXmd9-.json"
+                },
+                {
+                  "id": "sll_XybDcrfvgU0T",
+                  "title": "Prompt Caching",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_XybDcrfvgU0T.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_mVw3MWJsWZGq",
+          "code": "B7",
+          "title": "B7 Single-Agent Architectures",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "ReAct agent with checkpointed state that survives a forced crash mid-task",
+              "Background autonomous agent that monitors a data source and acts on triggers"
+            ],
+            "learningOutcomes": [
+              "Implement robust single-agent loops",
+              "Build agents that recover from failure without starting over",
+              "Set budgets, limits, and a named owner for every long-running agent"
+            ],
+            "toolsAndFrameworks": [
+              "Plain Python, LangGraph checkpointers, Claude Agent SDK, Temporal, Inngest"
+            ]
+          },
+          "position": "a6",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_HLDZf8jU6vdd",
+              "code": "B7.1",
+              "title": "B7.1 The ReAct Loop",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_zQ2_c3GJhuVN",
+                  "title": "Reason, Act, Observe",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_zQ2_c3GJhuVN.json"
+                },
+                {
+                  "id": "sll_BM06J9xeTNbw",
+                  "title": "Building the Loop",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_BM06J9xeTNbw.json"
+                }
+              ]
+            },
+            {
+              "id": "les_B0lj6LdcMUi2",
+              "code": "B7.2",
+              "title": "B7.2 State Management",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_EVT6vAtUnhrz",
+                  "title": "Agent State",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_EVT6vAtUnhrz.json"
+                },
+                {
+                  "id": "sll_A2lKQT8vY-Xg",
+                  "title": "Crash Recovery",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_A2lKQT8vY-Xg.json"
+                }
+              ]
+            },
+            {
+              "id": "les_ldADFHpGi4jf",
+              "code": "B7.3",
+              "title": "B7.3 Autonomous Loops",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_vXuIa0xXuKRc",
+                  "title": "Long-Running Agents",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_vXuIa0xXuKRc.json"
+                },
+                {
+                  "id": "sll_JoqmE6cD1Oiz",
+                  "title": "Managing Degradation",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_JoqmE6cD1Oiz.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_sXr7G6ZbnT0o",
+          "code": "B8",
+          "title": "B8 Planning, Reasoning & Reflection",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Plan-and-execute research agent with a reflection step",
+              "Compare CoT, ToT, and reflection on a reasoning benchmark",
+              "Thinking-budget experiment: compare cost and accuracy at different reasoning settings"
+            ],
+            "learningOutcomes": [
+              "Apply planning and reasoning patterns to complex goals",
+              "Use reflection to measurably improve agent reliability",
+              "Decide when extra reasoning is worth its cost"
+            ],
+            "toolsAndFrameworks": [
+              "LangGraph, DSPy, OpenAI / Anthropic reasoning models"
+            ]
+          },
+          "position": "a7",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_M3TMTLeGWr3x",
+              "code": "B8.1",
+              "title": "B8.1 Reasoning Techniques",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_Gr4_QOJmlM0v",
+                  "title": "Chain of Thought",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Gr4_QOJmlM0v.json"
+                },
+                {
+                  "id": "sll_1heLpw5fq9LE",
+                  "title": "Tree of Thoughts",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_1heLpw5fq9LE.json"
+                },
+                {
+                  "id": "sll_95GwjucoizSx",
+                  "title": "Multi-Hop Reasoning in Agents",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_95GwjucoizSx.json"
+                }
+              ]
+            },
+            {
+              "id": "les_mJxOM4kbtruM",
+              "code": "B8.2",
+              "title": "B8.2 Planning",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_0DWxZU_Gcloz",
+                  "title": "Task Decomposition",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_0DWxZU_Gcloz.json"
+                },
+                {
+                  "id": "sll_eRiNhl08tY1c",
+                  "title": "Planning Styles",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_eRiNhl08tY1c.json"
+                },
+                {
+                  "id": "sll_llT0pFxlo7n-",
+                  "title": "Replanning",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_llT0pFxlo7n-.json"
+                }
+              ]
+            },
+            {
+              "id": "les_JPwR4SbDq4nZ",
+              "code": "B8.3",
+              "title": "B8.3 Reflection & Self-Correction",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_s3jaQSK9i40K",
+                  "title": "Reflection Patterns",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_s3jaQSK9i40K.json"
+                },
+                {
+                  "id": "sll_MRpAIaZAl5y_",
+                  "title": "Verification",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_MRpAIaZAl5y_.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_KEjbOYZMaBkf",
+          "code": "B9",
+          "title": "B9 Agentic Workflow Patterns",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Implement all five core workflow patterns on one task and compare quality, cost, and latency",
+              "Multi-provider router that cuts cost without hurting eval scores"
+            ],
+            "learningOutcomes": [
+              "Pick the simplest workflow pattern that solves the problem",
+              "Combine routing, parallelization, and feedback loops",
+              "Combine patterns without adding steps that do not improve results"
+            ],
+            "toolsAndFrameworks": [
+              "Plain Python asyncio, LangGraph, LiteLLM, OpenRouter"
+            ]
+          },
+          "position": "a8",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_IEUv-qnHiG4-",
+              "code": "B9.1",
+              "title": "B9.1 Sequential & Routing Patterns",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_aePXNNNyXwXf",
+                  "title": "Prompt Chaining Workflows",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_aePXNNNyXwXf.json"
+                },
+                {
+                  "id": "sll_p-LBRoWhLx8Y",
+                  "title": "Routing",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_p-LBRoWhLx8Y.json"
+                }
+              ]
+            },
+            {
+              "id": "les_v956u8EmPIE5",
+              "code": "B9.2",
+              "title": "B9.2 Parallel Patterns",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_tgVlFr6iXLZZ",
+                  "title": "Parallelization",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_tgVlFr6iXLZZ.json"
+                },
+                {
+                  "id": "sll_6Gh5XQj4zoi9",
+                  "title": "Consensus Building",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_6Gh5XQj4zoi9.json"
+                }
+              ]
+            },
+            {
+              "id": "les_BE-udoQlIRLy",
+              "code": "B9.3",
+              "title": "B9.3 Feedback Patterns",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_x3E1JP-e23-4",
+                  "title": "Evaluator-Optimizer Workflow",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_x3E1JP-e23-4.json"
+                },
+                {
+                  "id": "sll_lWYXKNihIGJf",
+                  "title": "Orchestrator-Workers Architecture",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_lWYXKNihIGJf.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_kyD3M_SrYUUR",
+          "code": "B10",
+          "title": "B10 Multi-Agent Orchestration & Frameworks",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Multi-agent system (researcher, writer, critic) built in LangGraph and CrewAI and compared",
+              "n8n workflow that triggers a Python agent team via webhook",
+              "Failure lab: inject errors into a multi-agent team and trace which agent caused each failure"
+            ],
+            "learningOutcomes": [
+              "Architect multi-agent systems with the right orchestration approach",
+              "Choose and combine frameworks without lock-in",
+              "Spot cost, error, and coordination problems in multi-agent systems"
+            ],
+            "toolsAndFrameworks": [
+              "LangGraph, LangChain, CrewAI, OpenAI Agents SDK, Claude Agent SDK, Google ADK, Microsoft Agent Framework, n8n, A2A"
+            ]
+          },
+          "position": "a9",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_L_UNFhjtPxPo",
+              "code": "B10.1",
+              "title": "B10.1 Graph-Based Architectures",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_tlSbCJC9tj-w",
+                  "title": "LangGraph Fundamentals",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_tlSbCJC9tj-w.json"
+                },
+                {
+                  "id": "sll_3F2GPF28FO0C",
+                  "title": "State-Driven Control",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_3F2GPF28FO0C.json"
+                }
+              ]
+            },
+            {
+              "id": "les_miWXtOEqvVbf",
+              "code": "B10.2",
+              "title": "B10.2 Role-Based Teams",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_q8IYDl1d9yot",
+                  "title": "CrewAI Crews",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_q8IYDl1d9yot.json"
+                },
+                {
+                  "id": "sll_lGCBgmL8ip-u",
+                  "title": "Team Design",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_lGCBgmL8ip-u.json"
+                },
+                {
+                  "id": "sll_xZwcXknNZwo1",
+                  "title": "Team Topologies",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_xZwcXknNZwo1.json"
+                }
+              ]
+            },
+            {
+              "id": "les_pIWbSl-0yggX",
+              "code": "B10.3",
+              "title": "B10.3 Agent-to-Agent Communication",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_6ZdrjuYxjEOE",
+                  "title": "Handoffs",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_6ZdrjuYxjEOE.json"
+                },
+                {
+                  "id": "sll_eMSSn7UqySVm",
+                  "title": "Protocols & Messages",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_eMSSn7UqySVm.json"
+                },
+                {
+                  "id": "sll_fOeK8pgq7Ze0",
+                  "title": "Shared Work & Coordination",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_fOeK8pgq7Ze0.json"
+                }
+              ]
+            },
+            {
+              "id": "les_uYf9-dgPfstI",
+              "code": "B10.4",
+              "title": "B10.4 Advanced Orchestration",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a3",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_1pXdoaztGNcB",
+                  "title": "Swarm Intelligence",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_1pXdoaztGNcB.json"
+                },
+                {
+                  "id": "sll_q0o2LAhxAvO_",
+                  "title": "Orchestration Platforms",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_q0o2LAhxAvO_.json"
+                },
+                {
+                  "id": "sll_X9fC3k9XLTpw",
+                  "title": "When Multi-Agent Goes Wrong",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_X9fC3k9XLTpw.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_FcV9nrWUEgxi",
+          "code": "B11",
+          "title": "B11 Guardrails, Human-in-the-Loop & Agent UX",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Add guardrails, sandboxing, and approval steps to an agent that takes real actions",
+              "Run an agent in shadow mode against historical human decisions",
+              "Design the approval gates for an agent that touches money, email, or customer data"
+            ],
+            "learningOutcomes": [
+              "Build agents that are safe to give real permissions",
+              "Design human oversight and UX that users trust",
+              "Choose which actions need approval and keep the approval step meaningful"
+            ],
+            "toolsAndFrameworks": [
+              "Guardrails AI, NeMo Guardrails, Llama Guard, LangGraph interrupts, E2B, Docker"
+            ]
+          },
+          "position": "aA",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_gOdCHoBmfBWZ",
+              "code": "B11.1",
+              "title": "B11.1 Guardrails",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_aJ1f3R7QhrhJ",
+                  "title": "Input & Output Guardrails",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_aJ1f3R7QhrhJ.json"
+                },
+                {
+                  "id": "sll_eLqcX12gOJHX",
+                  "title": "Action Guardrails",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_eLqcX12gOJHX.json"
+                }
+              ]
+            },
+            {
+              "id": "les_JLeI81mrT3m0",
+              "code": "B11.2",
+              "title": "B11.2 Human-in-the-Loop",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_A3Z5LgwjQxtn",
+                  "title": "Approval Workflows",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_A3Z5LgwjQxtn.json"
+                },
+                {
+                  "id": "sll_CPeyMYozOBWY",
+                  "title": "Shadow Mode",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_CPeyMYozOBWY.json"
+                }
+              ]
+            },
+            {
+              "id": "les_ru3169jzbYel",
+              "code": "B11.3",
+              "title": "B11.3 HCI / UX for Agents",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_y3QQtdbhsP0Y",
+                  "title": "Designing Agent Interfaces",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_y3QQtdbhsP0Y.json"
+                },
+                {
+                  "id": "sll_tfQYuQDz4yGj",
+                  "title": "Trust & Control",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_tfQYuQDz4yGj.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_8X_dp05hTkhe",
+          "code": "B12",
+          "title": "B12 Evaluation of AI Systems & Agents",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Eval harness for your RAG app and agent with an LLM-judge and a ground-truth set",
+              "Generate a synthetic test suite and set up automated regression checks in CI",
+              "Compare two prompt versions with confidence intervals and decide whether the difference is real"
+            ],
+            "learningOutcomes": [
+              "Measure AI quality rigorously instead of relying on vibes",
+              "Catch regressions before they reach users",
+              "Tell a real improvement from noise"
+            ],
+            "toolsAndFrameworks": [
+              "Ragas, DeepEval, promptfoo, OpenAI Evals, LangSmith, Braintrust, Inspect"
+            ]
+          },
+          "position": "aB",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_c5G3wnAvo1Ec",
+              "code": "B12.1",
+              "title": "B12.1 Evaluation Foundations",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_kHsY2fOxCXYM",
+                  "title": "Why Evals Matter",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_kHsY2fOxCXYM.json"
+                },
+                {
+                  "id": "sll_bLNptRaDS7LS",
+                  "title": "Ground Truth & Datasets",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_bLNptRaDS7LS.json"
+                }
+              ]
+            },
+            {
+              "id": "les_BJNT7v_bO6Zm",
+              "code": "B12.2",
+              "title": "B12.2 Evaluation Methods",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_jCMkXsQqMSsa",
+                  "title": "Automated Metrics",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_jCMkXsQqMSsa.json"
+                },
+                {
+                  "id": "sll_61c2ulT-113X",
+                  "title": "LLM-as-a-Judge",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_61c2ulT-113X.json"
+                },
+                {
+                  "id": "sll_YIjgBaUy9e4r",
+                  "title": "Statistics for Evaluation",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_YIjgBaUy9e4r.json"
+                }
+              ]
+            },
+            {
+              "id": "les_o0lR62dqtsHn",
+              "code": "B12.3",
+              "title": "B12.3 Evaluating Agents & RAG",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_zwGlHDLBuMIX",
+                  "title": "RAG Evals",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_zwGlHDLBuMIX.json"
+                },
+                {
+                  "id": "sll_kAFSvfWZtFjP",
+                  "title": "Agent Evals",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_kAFSvfWZtFjP.json"
+                },
+                {
+                  "id": "sll_qubbENCp0Mat",
+                  "title": "Continuous Evaluation",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_qubbENCp0Mat.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_gcpweO9FXIjY",
+          "code": "B13",
+          "title": "B13 Deployment & LLMOps",
+          "levelTag": "Expert",
+          "toolkit": {
+            "handsOnProjects": [
+              "Deploy a containerized agent API to AWS with FastAPI and CI/CD",
+              "Add a multi-provider gateway with fallbacks and rate limits",
+              "Pin a model version, then rehearse a migration to a newer model behind an eval gate"
+            ],
+            "learningOutcomes": [
+              "Take an AI prototype to a reliable production service",
+              "Operate the full prompt and model lifecycle for LLM apps",
+              "Plan for model retirement and updates"
+            ],
+            "toolsAndFrameworks": [
+              "FastAPI, Docker, AWS, GitHub Actions, LiteLLM, Modal"
+            ]
+          },
+          "position": "aC",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_zZ7v5zM3Mxky",
+              "code": "B13.1",
+              "title": "B13.1 Shipping AI Applications",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_on5s5wTLHTsj",
+                  "title": "Backend & APIs",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_on5s5wTLHTsj.json"
+                },
+                {
+                  "id": "sll__s5Ei_ddGRiJ",
+                  "title": "Frontends & Prototypes",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll__s5Ei_ddGRiJ.json"
+                }
+              ]
+            },
+            {
+              "id": "les_SwcfoIFtd0X5",
+              "code": "B13.2",
+              "title": "B13.2 Containers & Cloud",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_KxSc-7wnj0Hv",
+                  "title": "Containerization",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_KxSc-7wnj0Hv.json"
+                },
+                {
+                  "id": "sll_GbuKiFMrYwCw",
+                  "title": "Cloud Deployment",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_GbuKiFMrYwCw.json"
+                }
+              ]
+            },
+            {
+              "id": "les_BGXmp7ANsxwx",
+              "code": "B13.3",
+              "title": "B13.3 Gateways & Limits",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_z5mCHn6y1kLS",
+                  "title": "Model Gateways",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_z5mCHn6y1kLS.json"
+                },
+                {
+                  "id": "sll_cykznWp5OZfo",
+                  "title": "Rate Limits & Quotas",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_cykznWp5OZfo.json"
+                }
+              ]
+            },
+            {
+              "id": "les_nKa5g9bj8aMw",
+              "code": "B13.4",
+              "title": "B13.4 LLMOps Lifecycle",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a3",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_4k9eD99wEwZN",
+                  "title": "Versioning",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_4k9eD99wEwZN.json"
+                },
+                {
+                  "id": "sll_l8CrcKfNy8nK",
+                  "title": "CI/CD for LLM Apps",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_l8CrcKfNy8nK.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_4voUuVP1TBpf",
+          "code": "B14",
+          "title": "B14 Cost, Latency & Observability",
+          "levelTag": "Expert",
+          "toolkit": {
+            "handsOnProjects": [
+              "Cut the cost of an existing app by 50% while maintaining eval scores",
+              "Instrument an agent with full telemetry and a live cost dashboard"
+            ],
+            "learningOutcomes": [
+              "Balance quality, cost, and latency with data",
+              "Observe, trace, and audit AI systems in production",
+              "Report cost per completed task, not just cost per token"
+            ],
+            "toolsAndFrameworks": [
+              "LangSmith, Langfuse, Arize Phoenix, OpenTelemetry, Helicone, Grafana"
+            ]
+          },
+          "position": "aD",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_wTQsXYfVRywA",
+              "code": "B14.1",
+              "title": "B14.1 Cost Engineering",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_3qRPiEGV38Ph",
+                  "title": "Understanding AI Costs",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_3qRPiEGV38Ph.json"
+                },
+                {
+                  "id": "sll_DQAnB3KD5ZRP",
+                  "title": "Cost Reduction",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_DQAnB3KD5ZRP.json"
+                }
+              ]
+            },
+            {
+              "id": "les_5UM5T2CO0R2N",
+              "code": "B14.2",
+              "title": "B14.2 Latency Optimization",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_b43IonbG9E6T",
+                  "title": "Why Agents Are Slow",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_b43IonbG9E6T.json"
+                },
+                {
+                  "id": "sll_IaHLP88OABCj",
+                  "title": "Speed Techniques",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_IaHLP88OABCj.json"
+                }
+              ]
+            },
+            {
+              "id": "les_gZa6ioJ5dgTQ",
+              "code": "B14.3",
+              "title": "B14.3 Observability & Telemetry",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_tmfnisOtZnQu",
+                  "title": "Tracing & Telemetry",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_tmfnisOtZnQu.json"
+                },
+                {
+                  "id": "sll_0F84-NSrweV9",
+                  "title": "Traceability & Audit",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_0F84-NSrweV9.json"
+                },
+                {
+                  "id": "sll_ddiHNfANtGQd",
+                  "title": "Dashboards & Incident Response",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_ddiHNfANtGQd.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_wTqgR5jsmpKS",
+          "code": "B15",
+          "title": "B15 Security, Safety & Responsible AI",
+          "levelTag": "Expert",
+          "toolkit": {
+            "handsOnProjects": [
+              "Red-team an LLM agent against the OWASP lists for LLM and agentic applications and write a remediation report",
+              "Responsible-AI assessment (model card + risk register) for a project",
+              "Threat-model one agent: map what it can read, what it can do, and where untrusted input enters"
+            ],
+            "learningOutcomes": [
+              "Secure AI systems against modern attacks",
+              "Apply responsible-AI and governance practices to real projects",
+              "Treat everything an agent reads as untrusted input"
+            ],
+            "toolsAndFrameworks": [
+              "OWASP Top 10 lists for LLM and agentic applications, Garak, PyRIT, Fairlearn, NIST AI RMF"
+            ]
+          },
+          "position": "aE",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_dow12ZX3ckG5",
+              "code": "B15.1",
+              "title": "B15.1 AI Security",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_YO3aYNazCOBU",
+                  "title": "Threats",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_YO3aYNazCOBU.json"
+                },
+                {
+                  "id": "sll_ODwQ4S3_2lP3",
+                  "title": "Defenses",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_ODwQ4S3_2lP3.json"
+                }
+              ]
+            },
+            {
+              "id": "les_vOXr_NgMQK4v",
+              "code": "B15.2",
+              "title": "B15.2 Red Teaming",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_251PUEbJTQSo",
+                  "title": "Red-Teaming Methods",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_251PUEbJTQSo.json"
+                },
+                {
+                  "id": "sll_Bc5MnaGp6Ycy",
+                  "title": "Remediation",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Bc5MnaGp6Ycy.json"
+                }
+              ]
+            },
+            {
+              "id": "les_SM3t40Qnbo5b",
+              "code": "B15.3",
+              "title": "B15.3 Safety & Alignment",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_rstJwOGo2uAY",
+                  "title": "Model Behaviour Risks",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_rstJwOGo2uAY.json"
+                },
+                {
+                  "id": "sll_NEV1AeYqUGI9",
+                  "title": "Safety Practice",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_NEV1AeYqUGI9.json"
+                }
+              ]
+            },
+            {
+              "id": "les_w1j0KQCWG9wH",
+              "code": "B15.4",
+              "title": "B15.4 Responsible AI & Governance",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a3",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_gKg9j1CmcpVL",
+                  "title": "Fairness & Transparency",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_gKg9j1CmcpVL.json"
+                },
+                {
+                  "id": "sll_GAodj9lOLSWw",
+                  "title": "Law & Regulation",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_GAodj9lOLSWw.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_xb1r2FgwNCOg",
+          "code": "B16",
+          "title": "B16 Agentic AI Architecture Capstone Studio",
+          "levelTag": "Expert",
+          "toolkit": {
+            "handsOnProjects": [
+              "Design, build, evaluate, and deploy a production-grade multi-agent system with guardrails, memory, MCP tools, and observability",
+              "Architecture document for your own use case, using the layered framework and decision records"
+            ],
+            "learningOutcomes": [
+              "Architect and defend a complete agentic AI system end to end",
+              "Operate at the level of an applied AI engineer",
+              "Document an architecture with layers, decisions, and reference designs for your own use case"
+            ],
+            "toolsAndFrameworks": [
+              "Any of the Core stack: LangGraph / Agents SDK, MCP, Langfuse, Ragas, FastAPI, Docker"
+            ]
+          },
+          "position": "aF",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_160xEqjqQT4M",
+              "code": "B16.1",
+              "title": "B16.1 System Design for Agents",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_d_AfNT8zYz67",
+                  "title": "Architecture Decisions",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_d_AfNT8zYz67.json"
+                },
+                {
+                  "id": "sll_o39DWqlwvV82",
+                  "title": "Spec-Driven Development",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_o39DWqlwvV82.json"
+                },
+                {
+                  "id": "sll_Y9RnKaFzcv6g",
+                  "title": "Design Documents",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Y9RnKaFzcv6g.json"
+                }
+              ]
+            },
+            {
+              "id": "les_m2vJQIFBhvQH",
+              "code": "B16.2",
+              "title": "B16.2 Advanced Agent Topics",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_ZGpfkYlqIJ7U",
+                  "title": "Autonomous & Long-Horizon Agents",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_ZGpfkYlqIJ7U.json"
+                },
+                {
+                  "id": "sll_ViBn3WM8tYnJ",
+                  "title": "Agent Improvement Loops",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_ViBn3WM8tYnJ.json"
+                }
+              ]
+            },
+            {
+              "id": "les_K8zPksvxj61y",
+              "code": "B16.3",
+              "title": "B16.3 Frontier Topics",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_wuUuGYNi0yJB",
+                  "title": "Emerging Trends",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_wuUuGYNi0yJB.json"
+                },
+                {
+                  "id": "sll_-uajq9qDM-Cj",
+                  "title": "Staying Current",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_-uajq9qDM-Cj.json"
+                }
+              ]
+            },
+            {
+              "id": "les_E0TTJjV5CV5U",
+              "code": "B16.4",
+              "title": "B16.4 Architecture Framework & Reference Designs",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX"
+              ],
+              "position": "a3",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_auGzhSPAxEZG",
+                  "title": "A Layered Architecture Framework",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_auGzhSPAxEZG.json"
+                },
+                {
+                  "id": "sll_2mkPriPQfCNF",
+                  "title": "Choosing the Pattern",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_2mkPriPQfCNF.json"
+                },
+                {
+                  "id": "sll_ZD5Of1t0qHyu",
+                  "title": "Reference Architectures",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_ZD5Of1t0qHyu.json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat_5AgN_7JTmMBI",
+      "code": "C",
+      "title": "Track C: Advanced ML Engineering",
+      "summary": "",
+      "position": "a2",
+      "archivedAt": null,
+      "subCategories": [
+        {
+          "id": "sub_tEW5yd0hgneG",
+          "code": "C1",
+          "title": "C1 Math for Machine Learning",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Implement gradient descent from scratch in NumPy to fit a line",
+              "Visualize PCA on a real dataset and explain the components"
+            ],
+            "learningOutcomes": [
+              "Explain the math behind how models learn",
+              "Read ML papers and docs without being blocked by notation"
+            ],
+            "toolsAndFrameworks": [
+              "NumPy, SymPy, Matplotlib, 3Blue1Brown / Khan Academy references"
+            ]
+          },
+          "position": "a0",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_mef6AVmxgS8L",
+              "code": "C1.1",
+              "title": "C1.1 Linear Algebra",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_p9GYt9v0boBQ",
+                  "title": "Vectors & Matrices",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_p9GYt9v0boBQ.json"
+                },
+                {
+                  "id": "sll_Ql092E0zXeaJ",
+                  "title": "Spaces & Decompositions",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Ql092E0zXeaJ.json"
+                }
+              ]
+            },
+            {
+              "id": "les_9-yksEu_TgzZ",
+              "code": "C1.2",
+              "title": "C1.2 Calculus & Optimization",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_Q5WBGp7zi6m0",
+                  "title": "Derivatives & Gradients",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Q5WBGp7zi6m0.json"
+                },
+                {
+                  "id": "sll_9iCG195_fZgD",
+                  "title": "Gradient Descent",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_9iCG195_fZgD.json"
+                }
+              ]
+            },
+            {
+              "id": "les_Ltx4HVONPq5O",
+              "code": "C1.3",
+              "title": "C1.3 Probability & Statistics",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_mN3Y6E8KYbtP",
+                  "title": "Probability Fundamentals",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_mN3Y6E8KYbtP.json"
+                },
+                {
+                  "id": "sll_jRO8FxaiBNrY",
+                  "title": "Information Theory Basics",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_jRO8FxaiBNrY.json"
+                },
+                {
+                  "id": "sll_OjLcIltSOLZn",
+                  "title": "Statistical Inference",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_OjLcIltSOLZn.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_6k2fqrtbCqz1",
+          "code": "C2",
+          "title": "C2 Classical Machine Learning",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Build and compare three classifiers on a tabular dataset with a written model card",
+              "Customer segmentation with clustering and UMAP visualization"
+            ],
+            "learningOutcomes": [
+              "Choose, train, and evaluate the right classical model for a problem",
+              "Detect leakage and justify model choices with proper metrics"
+            ],
+            "toolsAndFrameworks": [
+              "scikit-learn, XGBoost, LightGBM, SHAP, Optuna"
+            ]
+          },
+          "position": "a1",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_KyXkm0cpEOxC",
+              "code": "C2.1",
+              "title": "C2.1 ML Fundamentals",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_9GlW1kGOkn7X",
+                  "title": "The ML Workflow",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_9GlW1kGOkn7X.json"
+                },
+                {
+                  "id": "sll_7osvNTcf2qaT",
+                  "title": "Feature Engineering",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_7osvNTcf2qaT.json"
+                }
+              ]
+            },
+            {
+              "id": "les_dTKemESBqLbV",
+              "code": "C2.2",
+              "title": "C2.2 Core Algorithms",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_9aDsYeeLHoft",
+                  "title": "Supervised Models",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_9aDsYeeLHoft.json"
+                },
+                {
+                  "id": "sll_puFKobf6SyzI",
+                  "title": "Unsupervised Models",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_puFKobf6SyzI.json"
+                }
+              ]
+            },
+            {
+              "id": "les_tO8gfsIYAvJm",
+              "code": "C2.3",
+              "title": "C2.3 Model Evaluation & Tuning",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_hFKnId1JjMF0",
+                  "title": "Metrics",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_hFKnId1JjMF0.json"
+                },
+                {
+                  "id": "sll_pRrvV-tfodXV",
+                  "title": "Validation & Tuning",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_pRrvV-tfodXV.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_7clX5Oo-JY2i",
+          "code": "C3",
+          "title": "C3 Deep Learning Engineering",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Train an image classifier with transfer learning",
+              "Write a full PyTorch training loop with logging and checkpoints"
+            ],
+            "learningOutcomes": [
+              "Build, train, and debug neural networks in PyTorch",
+              "Explain how architecture choices affect performance"
+            ],
+            "toolsAndFrameworks": [
+              "PyTorch, PyTorch Lightning, torchvision, Weights & Biases, Google Colab"
+            ]
+          },
+          "position": "a2",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_lT0-LtJUCwUL",
+              "code": "C3.1",
+              "title": "C3.1 Neural Network Basics",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_M7rw8URySwdu",
+                  "title": "Perceptrons to MLPs",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_M7rw8URySwdu.json"
+                },
+                {
+                  "id": "sll_KeAAaTFiBM-Z",
+                  "title": "Backpropagation",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_KeAAaTFiBM-Z.json"
+                }
+              ]
+            },
+            {
+              "id": "les_JOzVJTs4mfUw",
+              "code": "C3.2",
+              "title": "C3.2 Training Deep Networks",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_yVF21eRWBRLN",
+                  "title": "Training Loop Mechanics",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_yVF21eRWBRLN.json"
+                },
+                {
+                  "id": "sll_yf7l8-e5OVMl",
+                  "title": "Regularization & Stability",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_yf7l8-e5OVMl.json"
+                }
+              ]
+            },
+            {
+              "id": "les_oXGx7_X-lYDB",
+              "code": "C3.3",
+              "title": "C3.3 Core Architectures & Transfer Learning",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_KSKeYwWi_8H5",
+                  "title": "Convolutional Networks",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_KSKeYwWi_8H5.json"
+                },
+                {
+                  "id": "sll_kh9Y-xb_aC-N",
+                  "title": "Sequence Models",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_kh9Y-xb_aC-N.json"
+                },
+                {
+                  "id": "sll_iroPWNVM_Tmj",
+                  "title": "Transfer Learning",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_iroPWNVM_Tmj.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_9ZDArIWnhg6k",
+          "code": "C4",
+          "title": "C4 Advanced Deep Learning & Modelling",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Train a model with mixed precision and compare optimizers and schedules",
+              "Build a small diffusion model or VAE and visualize its latent space"
+            ],
+            "learningOutcomes": [
+              "Train and tune deep models beyond the basics",
+              "Choose architectures and losses for specialist problems"
+            ],
+            "toolsAndFrameworks": [
+              "PyTorch, PyTorch Lightning, Hugging Face Accelerate, PyTorch Geometric, Weights & Biases"
+            ]
+          },
+          "position": "a3",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_KoUqjYrpiWwO",
+              "code": "C4.1",
+              "title": "C4.1 Optimization in Depth",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_D9iegAROFRC0",
+                  "title": "Optimizers & Schedules",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_D9iegAROFRC0.json"
+                },
+                {
+                  "id": "sll_522bfXvEzsy1",
+                  "title": "Training at Scale",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_522bfXvEzsy1.json"
+                }
+              ]
+            },
+            {
+              "id": "les_QthZ8JqXMxTV",
+              "code": "C4.2",
+              "title": "C4.2 Loss Functions & Representations",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_rv-xCsT80Fj_",
+                  "title": "Loss Functions",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_rv-xCsT80Fj_.json"
+                },
+                {
+                  "id": "sll_2GFdtIhyhw8O",
+                  "title": "Representation Learning",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_2GFdtIhyhw8O.json"
+                }
+              ]
+            },
+            {
+              "id": "les_XQVOfmC9lUXk",
+              "code": "C4.3",
+              "title": "C4.3 Generative & Graph Models",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_BRw030kOTzvZ",
+                  "title": "Generative Models",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_BRw030kOTzvZ.json"
+                },
+                {
+                  "id": "sll_KjbvxESzJJ3z",
+                  "title": "Graph Neural Networks",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_KjbvxESzJJ3z.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_QnM0ivOTEtkn",
+          "code": "C5",
+          "title": "C5 Transformer Internals & LLM Inference",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Build a tiny character-level transformer from scratch",
+              "Implement a KV cache and measure generation speed-up"
+            ],
+            "learningOutcomes": [
+              "Explain transformer internals mathematically",
+              "Reason about inference speed and memory"
+            ],
+            "toolsAndFrameworks": [
+              "PyTorch, Hugging Face Transformers, nanoGPT, tokenizers"
+            ]
+          },
+          "position": "a4",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_UB_hv1WWjvCw",
+              "code": "C5.1",
+              "title": "C5.1 Attention in Depth",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_XwWRavHhAknZ",
+                  "title": "Self-Attention Mechanics",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_XwWRavHhAknZ.json"
+                },
+                {
+                  "id": "sll_H13dngJMN8Or",
+                  "title": "Multi-Head Attention & Positions",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_H13dngJMN8Or.json"
+                }
+              ]
+            },
+            {
+              "id": "les_c1idPYXV_UyD",
+              "code": "C5.2",
+              "title": "C5.2 Architectures & Pretraining",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_DPmOmbkU0hSw",
+                  "title": "Model Families",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_DPmOmbkU0hSw.json"
+                },
+                {
+                  "id": "sll_WSj-9ieb3lR7",
+                  "title": "Pretraining at Scale",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_WSj-9ieb3lR7.json"
+                }
+              ]
+            },
+            {
+              "id": "les_IB-8Y9KW-SGJ",
+              "code": "C5.3",
+              "title": "C5.3 Inference Mechanics",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_juq_ylL--KkI",
+                  "title": "KV Cache",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_juq_ylL--KkI.json"
+                },
+                {
+                  "id": "sll_qyLR_BDETD8o",
+                  "title": "Fast Decoding",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_qyLR_BDETD8o.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_jsuB5Zpe-6nt",
+          "code": "C6",
+          "title": "C6 Fine-Tuning & Alignment",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Fine-tune a small open model with QLoRA for a domain task",
+              "Preference-tune a model with DPO and compare against SFT",
+              "Evaluate a fine-tuned model against the base model with a strong prompt"
+            ],
+            "learningOutcomes": [
+              "Decide when fine-tuning is worth it and execute it efficiently",
+              "Align models with preference data",
+              "Show that fine-tuning beat the simpler alternatives"
+            ],
+            "toolsAndFrameworks": [
+              "Hugging Face TRL, PEFT, Unsloth, Axolotl, bitsandbytes, OpenAI fine-tuning API"
+            ]
+          },
+          "position": "a5",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_67BiYTDkxn9T",
+              "code": "C6.1",
+              "title": "C6.1 When to Fine-Tune",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_zyRIFpfWbnBH",
+                  "title": "Decision Framework",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_zyRIFpfWbnBH.json"
+                },
+                {
+                  "id": "sll_HgbPdhsKkhG0",
+                  "title": "Data Preparation",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_HgbPdhsKkhG0.json"
+                }
+              ]
+            },
+            {
+              "id": "les_4l8dI75PRNuk",
+              "code": "C6.2",
+              "title": "C6.2 Parameter-Efficient Fine-Tuning",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll__qfEGN9US7vm",
+                  "title": "Transfer Learning for LLMs",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll__qfEGN9US7vm.json"
+                },
+                {
+                  "id": "sll_hlWQOE81E15V",
+                  "title": "LoRA & QLoRA",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_hlWQOE81E15V.json"
+                }
+              ]
+            },
+            {
+              "id": "les_DsFGv5MV93k9",
+              "code": "C6.3",
+              "title": "C6.3 Alignment Tuning",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_y1-GUaqDeHWE",
+                  "title": "Supervised Fine-Tuning",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_y1-GUaqDeHWE.json"
+                },
+                {
+                  "id": "sll_ROV8ATBAazgF",
+                  "title": "Preference Optimization",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_ROV8ATBAazgF.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_CiS5AjN4AINo",
+          "code": "C7",
+          "title": "C7 Model Compression & Self-Hosting",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Distill a large-model behaviour into a small, cheap model",
+              "Quantize and self-host an open model with vLLM and benchmark it",
+              "Compare one model at two quantization levels on your own task"
+            ],
+            "learningOutcomes": [
+              "Shrink models while preserving quality",
+              "Serve open models efficiently"
+            ],
+            "toolsAndFrameworks": [
+              "llama.cpp, vLLM, SGLang, bitsandbytes, AutoAWQ, Modal"
+            ]
+          },
+          "position": "a6",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_W81SVzzscoJc",
+              "code": "C7.1",
+              "title": "C7.1 Quantization",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_cpLA-vhnTuwF",
+                  "title": "Quantization Basics",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_cpLA-vhnTuwF.json"
+                },
+                {
+                  "id": "sll_m_rpkqJgkEb_",
+                  "title": "Formats & Tools",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_m_rpkqJgkEb_.json"
+                }
+              ]
+            },
+            {
+              "id": "les_iwlflltVsi-T",
+              "code": "C7.2",
+              "title": "C7.2 Distillation",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_tm6An2W2nEhQ",
+                  "title": "Teacher-Student Training",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_tm6An2W2nEhQ.json"
+                },
+                {
+                  "id": "sll_lPvDgjAK9Ld9",
+                  "title": "Benchmarking",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_lPvDgjAK9Ld9.json"
+                }
+              ]
+            },
+            {
+              "id": "les_X9X2xHwNPp9G",
+              "code": "C7.3",
+              "title": "C7.3 Self-Hosting Models",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_USNUqjgnT47z",
+                  "title": "Serving Engines",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_USNUqjgnT47z.json"
+                },
+                {
+                  "id": "sll_HqeVyYbwo-DX",
+                  "title": "Hardware & Scaling",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_HqeVyYbwo-DX.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_STOeOCjZqRlU",
+          "code": "C8",
+          "title": "C8 Multimodal AI",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Voice agent that answers questions about uploaded documents and images",
+              "Multimodal RAG over a slide deck or scientific PDF"
+            ],
+            "learningOutcomes": [
+              "Build applications that combine text, images, and audio",
+              "Choose the right modality pipeline for a problem"
+            ],
+            "toolsAndFrameworks": [
+              "Current vision-language models from OpenAI, Google, and Anthropic, Whisper, CLIP, Stable Diffusion, LiveKit"
+            ]
+          },
+          "position": "a7",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_gzlRkyw54FjO",
+              "code": "C8.1",
+              "title": "C8.1 Vision & Language",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_8WIx6YvlUjlo",
+                  "title": "Vision-Language Models",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_8WIx6YvlUjlo.json"
+                },
+                {
+                  "id": "sll_M_ygtb43Og1l",
+                  "title": "Image Generation",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_M_ygtb43Og1l.json"
+                }
+              ]
+            },
+            {
+              "id": "les_I22AVqtEiL5x",
+              "code": "C8.2",
+              "title": "C8.2 Audio & Speech",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_F8ehG--zYWzn",
+                  "title": "Speech Pipelines",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_F8ehG--zYWzn.json"
+                },
+                {
+                  "id": "sll_bA4e1FOF-5zG",
+                  "title": "Audio Understanding",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_bA4e1FOF-5zG.json"
+                }
+              ]
+            },
+            {
+              "id": "les_JIE5lVn3JZhT",
+              "code": "C8.3",
+              "title": "C8.3 Multimodal Systems",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_zU--v8zid94z",
+                  "title": "Multimodal RAG",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_zU--v8zid94z.json"
+                },
+                {
+                  "id": "sll_Fjrtl7bsoL5c",
+                  "title": "Video & Beyond",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Fjrtl7bsoL5c.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_M3CIbEH5ueUz",
+          "code": "C9",
+          "title": "C9 MLOps",
+          "levelTag": "Expert",
+          "toolkit": {
+            "handsOnProjects": [
+              "Build an automated train-evaluate-deploy pipeline with drift monitoring"
+            ],
+            "learningOutcomes": [
+              "Operate ML models across their full lifecycle",
+              "Automate training, deployment, and monitoring"
+            ],
+            "toolsAndFrameworks": [
+              "MLflow, DVC, Airflow / Prefect, Evidently, GitHub Actions"
+            ]
+          },
+          "position": "a8",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_wvKnLDxeCfdH",
+              "code": "C9.1",
+              "title": "C9.1 ML Lifecycle",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_T3Q4QeL8m3JY",
+                  "title": "Experiment Tracking",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_T3Q4QeL8m3JY.json"
+                },
+                {
+                  "id": "sll_AkGQAxBygNYY",
+                  "title": "Data & Model Versioning",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_AkGQAxBygNYY.json"
+                }
+              ]
+            },
+            {
+              "id": "les_YHM8crmKaVWq",
+              "code": "C9.2",
+              "title": "C9.2 Pipelines & Automation",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_aN9bkrL9HpX4",
+                  "title": "CI/CD for ML",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_aN9bkrL9HpX4.json"
+                },
+                {
+                  "id": "sll_vFhoo98f2yKx",
+                  "title": "Orchestration",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_vFhoo98f2yKx.json"
+                }
+              ]
+            },
+            {
+              "id": "les_5DXHeXXmyFL5",
+              "code": "C9.3",
+              "title": "C9.3 Production Monitoring",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_9MR8r65AL0P6",
+                  "title": "Drift & Retraining",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_9MR8r65AL0P6.json"
+                },
+                {
+                  "id": "sll_VU_lLI1xlRSV",
+                  "title": "Model Monitoring",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_VU_lLI1xlRSV.json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat_qEIHV03I_d2b",
+      "code": "D",
+      "title": "Track D: Bioinformatics",
+      "summary": "",
+      "position": "a3",
+      "archivedAt": null,
+      "subCategories": [
+        {
+          "id": "sub_2x_PZyEqCTAk",
+          "code": "D1",
+          "title": "D1 Biology & Genomics Primer",
+          "levelTag": "Foundations",
+          "toolkit": {
+            "handsOnProjects": [
+              "Pull a gene's sequence, annotation, and protein structure from public databases"
+            ],
+            "learningOutcomes": [
+              "Speak the language of molecular biology and genomics",
+              "Find and access the right public biological data"
+            ],
+            "toolsAndFrameworks": [
+              "NCBI, Ensembl, UniProt, PDB, Biopython"
+            ]
+          },
+          "position": "a0",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_4HbZrvDy0Rnw",
+              "code": "D1.1",
+              "title": "D1.1 Molecular Biology Basics",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_pFHWo9Lyoa3_",
+                  "title": "The Central Dogma",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_pFHWo9Lyoa3_.json"
+                },
+                {
+                  "id": "sll_XW_-sHEoCSi-",
+                  "title": "Genes & Genomes",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_XW_-sHEoCSi-.json"
+                }
+              ]
+            },
+            {
+              "id": "les_xIYWdB4qKidi",
+              "code": "D1.2",
+              "title": "D1.2 Genomics Concepts",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_aMyeAE4FdVxJ",
+                  "title": "Sequencing Technologies",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_aMyeAE4FdVxJ.json"
+                },
+                {
+                  "id": "sll_6w5oHq1IZbpL",
+                  "title": "Omics Layers",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_6w5oHq1IZbpL.json"
+                }
+              ]
+            },
+            {
+              "id": "les_yeGAQFQVRu5L",
+              "code": "D1.3",
+              "title": "D1.3 Biological Databases",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_MJ1D0R-5W0KS",
+                  "title": "Key Resources",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_MJ1D0R-5W0KS.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_AR6HLyiapHqg",
+          "code": "D2",
+          "title": "D2 Sequencing Data & File Formats",
+          "levelTag": "Foundations",
+          "toolkit": {
+            "handsOnProjects": [
+              "Inspect, filter, and summarize real FASTQ, BAM, and VCF files"
+            ],
+            "learningOutcomes": [
+              "Read and manipulate standard sequencing file formats",
+              "Work comfortably on the command line and HPC"
+            ],
+            "toolsAndFrameworks": [
+              "Linux shell, samtools, bcftools, bedtools, Biopython, pysam"
+            ]
+          },
+          "position": "a1",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_g8ObCmQwl_YJ",
+              "code": "D2.1",
+              "title": "D2.1 Core File Formats",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_X5ei5Ku7doE6",
+                  "title": "Raw & Aligned Reads",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_X5ei5Ku7doE6.json"
+                },
+                {
+                  "id": "sll_-XjLb75DlMOg",
+                  "title": "Variants & Annotations",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_-XjLb75DlMOg.json"
+                }
+              ]
+            },
+            {
+              "id": "les_W8coG80rjWab",
+              "code": "D2.2",
+              "title": "D2.2 Command-Line Bioinformatics",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_3XR0ivSM2uRk",
+                  "title": "Linux for Biology",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_3XR0ivSM2uRk.json"
+                },
+                {
+                  "id": "sll_jpfyc5g1kH13",
+                  "title": "Core Utilities",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_jpfyc5g1kH13.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_SwCKuhn_9tQs",
+          "code": "D3",
+          "title": "D3 Bioinformatics Pipelines",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Run an nf-core RNA-seq or miRNA-seq pipeline end to end and interpret results",
+              "Single-cell clustering and annotation of a public dataset"
+            ],
+            "learningOutcomes": [
+              "Build and run reproducible omics pipelines",
+              "Interpret QC, alignment, variant, and expression outputs"
+            ],
+            "toolsAndFrameworks": [
+              "Nextflow, nf-core, Snakemake, FastQC, MultiQC, BWA, STAR, Salmon, GATK, DESeq2, Scanpy, Seurat"
+            ]
+          },
+          "position": "a2",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_HoqEeY0EI_y7",
+              "code": "D3.1",
+              "title": "D3.1 Workflow Engines",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_-5Ch6IuOM_Ku",
+                  "title": "Reproducible Pipelines",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_-5Ch6IuOM_Ku.json"
+                },
+                {
+                  "id": "sll_V0cc-3d6AMDf",
+                  "title": "Environments",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_V0cc-3d6AMDf.json"
+                }
+              ]
+            },
+            {
+              "id": "les_y36RPNFx_eUh",
+              "code": "D3.2",
+              "title": "D3.2 Core Processing Steps",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_nEinom0m_u9W",
+                  "title": "QC & Alignment",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_nEinom0m_u9W.json"
+                },
+                {
+                  "id": "sll_qyw-ZLQ-t8Ve",
+                  "title": "Variant Calling",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_qyw-ZLQ-t8Ve.json"
+                }
+              ]
+            },
+            {
+              "id": "les_sl8jEFFrRE0L",
+              "code": "D3.3",
+              "title": "D3.3 Transcriptomics & Single-Cell",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_qVxVckfDG5Hm",
+                  "title": "RNA-seq & miRNA-seq",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_qVxVckfDG5Hm.json"
+                },
+                {
+                  "id": "sll_6reMKOIIZ2ZM",
+                  "title": "Single-Cell Analysis",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_6reMKOIIZ2ZM.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_pr-elAPQT-80",
+          "code": "D4",
+          "title": "D4 Machine Learning on Omics Data",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "miRNA-seq biomarker classifier for early cancer detection with rigorous external validation",
+              "Survival model on TCGA data with pathway interpretation",
+              "Re-run a biomarker model with patient-level splits and compare it with a leaky split"
+            ],
+            "learningOutcomes": [
+              "Build trustworthy ML models on omics data",
+              "Translate model features into biological insight",
+              "Show how leakage inflates results"
+            ],
+            "toolsAndFrameworks": [
+              "scikit-learn, XGBoost, SHAP, lifelines, GSEApy, TCGA, GEO"
+            ]
+          },
+          "position": "a3",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_oytd1Dh-eZYm",
+              "code": "D4.1",
+              "title": "D4.1 Omics Data Challenges",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_7g961OMbOjOp",
+                  "title": "High-Dimensional Data",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_7g961OMbOjOp.json"
+                },
+                {
+                  "id": "sll_WwucGovwUHLs",
+                  "title": "Validation Pitfalls",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_WwucGovwUHLs.json"
+                }
+              ]
+            },
+            {
+              "id": "les_02-K1WJ3_VsY",
+              "code": "D4.2",
+              "title": "D4.2 Biomarker Discovery",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_JRiF-fZr-KIs",
+                  "title": "Feature Selection",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_JRiF-fZr-KIs.json"
+                },
+                {
+                  "id": "sll_sh7wFtX-25V0",
+                  "title": "Classification Models",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_sh7wFtX-25V0.json"
+                }
+              ]
+            },
+            {
+              "id": "les_PK06NIHgefqF",
+              "code": "D4.3",
+              "title": "D4.3 Interpretation",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_KJV1wd3R56zR",
+                  "title": "Explainability in Biology",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_KJV1wd3R56zR.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_g4FOxh_r7nYT",
+          "code": "D5",
+          "title": "D5 Deep Learning for Biology",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Predict variant effects with protein language model embeddings",
+              "Fine-tune a DNA language model for a classification task"
+            ],
+            "learningOutcomes": [
+              "Apply modern deep learning models to biological sequences and structures",
+              "Evaluate the limits of biological AI predictions"
+            ],
+            "toolsAndFrameworks": [
+              "AlphaFold / ColabFold, ESM, Hugging Face, PyTorch Geometric, RDKit"
+            ]
+          },
+          "position": "a4",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_XonqD9InlJss",
+              "code": "D5.1",
+              "title": "D5.1 Protein Structure & Design",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_JwzCbBGjKTwr",
+                  "title": "Structure Prediction",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_JwzCbBGjKTwr.json"
+                },
+                {
+                  "id": "sll_VimgktWCskuO",
+                  "title": "Protein Language Models",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_VimgktWCskuO.json"
+                }
+              ]
+            },
+            {
+              "id": "les_s6bM9VurNl0t",
+              "code": "D5.2",
+              "title": "D5.2 Genomic Deep Learning",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_HmKkjheWlIcX",
+                  "title": "DNA Language Models",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_HmKkjheWlIcX.json"
+                },
+                {
+                  "id": "sll_SFoMqL27nkLf",
+                  "title": "Graph & Molecular Models",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_SFoMqL27nkLf.json"
+                }
+              ]
+            },
+            {
+              "id": "les_ntmTWkDoucOc",
+              "code": "D5.3",
+              "title": "D5.3 Imaging & Pathology",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_7l5OXvLxmuzS",
+                  "title": "Computational Pathology",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_7l5OXvLxmuzS.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_nDqj3wva5Azm",
+          "code": "D6",
+          "title": "D6 LLMs & Agentic AI for Biology",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Literature-RAG assistant for a disease area with cited answers",
+              "Bio agent that runs a QC + expression pipeline via MCP tools and writes a report",
+              "Check three claims from an agent-written analysis against sources and a reproduction"
+            ],
+            "learningOutcomes": [
+              "Connect bioinformatics workflows to LLMs and agents",
+              "Build bio agents with scientific validation built in"
+            ],
+            "toolsAndFrameworks": [
+              "PubMed APIs, LangGraph, MCP, Biopython, Nextflow, Opentrons API"
+            ]
+          },
+          "position": "a5",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_0AuaR4XyypkD",
+              "code": "D6.1",
+              "title": "D6.1 Literature & Knowledge Systems",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_L6yflSXRJiQD",
+                  "title": "Scientific RAG",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_L6yflSXRJiQD.json"
+                },
+                {
+                  "id": "sll_DuSpg9Y7kU50",
+                  "title": "Biomedical Knowledge Graphs",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_DuSpg9Y7kU50.json"
+                }
+              ]
+            },
+            {
+              "id": "les_xkWwDzgK_oPG",
+              "code": "D6.2",
+              "title": "D6.2 Bio Agents",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_7wUO0LqjVXs8",
+                  "title": "Pipeline Agents",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_7wUO0LqjVXs8.json"
+                },
+                {
+                  "id": "sll_aMLZ1Pie0xCY",
+                  "title": "Analysis Agents",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_aMLZ1Pie0xCY.json"
+                }
+              ]
+            },
+            {
+              "id": "les_slPr_I5LfgmM",
+              "code": "D6.3",
+              "title": "D6.3 Lab Automation",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_g_292XeWHlkN",
+                  "title": "Self-Driving Labs",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_g_292XeWHlkN.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_zKH5ESHsWTQW",
+          "code": "D7",
+          "title": "D7 AI for Drug Discovery",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Virtual screening workflow with property prediction for a known target"
+            ],
+            "learningOutcomes": [
+              "Explain where AI adds value across the drug discovery pipeline",
+              "Run basic computational screening workflows"
+            ],
+            "toolsAndFrameworks": [
+              "RDKit, DeepChem, AutoDock Vina, ChEMBL, DiffDock"
+            ]
+          },
+          "position": "a6",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_RipA4h1Ff97_",
+              "code": "D7.1",
+              "title": "D7.1 Discovery Pipeline",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_DOCule0sCk_P",
+                  "title": "Target Identification",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_DOCule0sCk_P.json"
+                },
+                {
+                  "id": "sll_gpzWv4QE3jkS",
+                  "title": "Hit & Lead Discovery",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_gpzWv4QE3jkS.json"
+                }
+              ]
+            },
+            {
+              "id": "les_Mdmim-ZSz_Hj",
+              "code": "D7.2",
+              "title": "D7.2 Generative Chemistry & Biologics",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_ax83fu5EMDDF",
+                  "title": "Molecule Generation",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_ax83fu5EMDDF.json"
+                },
+                {
+                  "id": "sll_ao1zfMfjl9PJ",
+                  "title": "Biologics Design",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_ao1zfMfjl9PJ.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_igZxqCPQwg_S",
+          "code": "D8",
+          "title": "D8 Clinical, Regulatory & Data Privacy",
+          "levelTag": "Expert",
+          "toolkit": {
+            "handsOnProjects": [
+              "Regulatory and privacy plan for a cancer-detection AI diagnostic"
+            ],
+            "learningOutcomes": [
+              "Map the path from research model to approved clinical product",
+              "Handle sensitive health and genomic data responsibly"
+            ],
+            "toolsAndFrameworks": [
+              "FDA / Health Canada guidance, Flower (federated learning), synthetic data tools"
+            ]
+          },
+          "position": "a7",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_RdiXbedzuVrS",
+              "code": "D8.1",
+              "title": "D8.1 Clinical Translation",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_apF7ndOQZQw2",
+                  "title": "Clinical Validation",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_apF7ndOQZQw2.json"
+                },
+                {
+                  "id": "sll_QAso4aCo7wbK",
+                  "title": "Regulatory Pathways",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_QAso4aCo7wbK.json"
+                }
+              ]
+            },
+            {
+              "id": "les_mRbG5YvztAoT",
+              "code": "D8.2",
+              "title": "D8.2 Data Privacy & Ethics",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_U-t4vU2_cQ5d",
+                  "title": "Health Data Protection",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_U-t4vU2_cQ5d.json"
+                },
+                {
+                  "id": "sll_yidaYKhLQxuL",
+                  "title": "Privacy-Preserving ML",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_yidaYKhLQxuL.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_e9sWGaA4vUW8",
+          "code": "D9",
+          "title": "D9 Future-Ready Bio AI & Bio-Business",
+          "levelTag": "Expert",
+          "toolkit": {
+            "handsOnProjects": [
+              "Investment memo or consulting brief on an AI-bio startup or technology"
+            ],
+            "learningOutcomes": [
+              "Anticipate where AI in biology is heading",
+              "Evaluate bio-AI opportunities through scientific, strategic, and investor lenses"
+            ],
+            "toolsAndFrameworks": [
+              "Crunchbase, PitchBook (if available), ClinicalTrials.gov, company filings"
+            ]
+          },
+          "position": "a8",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_z7p2O7A8U4QI",
+              "code": "D9.1",
+              "title": "D9.1 Frontier Science",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_XPLPQ8dvohLm",
+                  "title": "Foundation Models for Biology",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_XPLPQ8dvohLm.json"
+                },
+                {
+                  "id": "sll_PvbdMyjN1QWF",
+                  "title": "Generative Design & AI-Driven Labs",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_PvbdMyjN1QWF.json"
+                }
+              ]
+            },
+            {
+              "id": "les_MLQLhLay90-y",
+              "code": "D9.2",
+              "title": "D9.2 Commercialization",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_OURo4e0KSzth",
+                  "title": "Bio-Business Models",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_OURo4e0KSzth.json"
+                },
+                {
+                  "id": "sll_bplhXY34VYEI",
+                  "title": "Life-Science Venture Capital",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_bplhXY34VYEI.json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat_sgM1ck59hIkc",
+      "code": "E",
+      "title": "Track E: Business",
+      "summary": "",
+      "position": "a4",
+      "archivedAt": null,
+      "subCategories": [
+        {
+          "id": "sub_zf20snjFWvVf",
+          "code": "E1",
+          "title": "E1 AI Strategy & ROI",
+          "levelTag": "Foundations",
+          "toolkit": {
+            "handsOnProjects": [
+              "AI opportunity map and ROI business case for a real company",
+              "Score ten candidate AI use cases for a real company on value, effort, risk, and data readiness"
+            ],
+            "learningOutcomes": [
+              "Identify and prioritize high-value AI opportunities",
+              "Build credible ROI cases for AI investment"
+            ],
+            "toolsAndFrameworks": [
+              "Value-vs-feasibility matrices, spreadsheet ROI models, case studies (e.g., McKinsey, BCG reports)"
+            ]
+          },
+          "position": "a0",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_0bvboCtGnUZS",
+              "code": "E1.1",
+              "title": "E1.1 AI Strategy Fundamentals",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_ZWre1VpvcmWY",
+                  "title": "Where AI Creates Value",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_ZWre1VpvcmWY.json"
+                },
+                {
+                  "id": "sll_84rmIeyj3O8u",
+                  "title": "Build, Buy, or Partner",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_84rmIeyj3O8u.json"
+                }
+              ]
+            },
+            {
+              "id": "les_5bVX_CMdrn9Q",
+              "code": "E1.2",
+              "title": "E1.2 Measuring ROI",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_SWChH2onHDql",
+                  "title": "Business Cases",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_SWChH2onHDql.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_l5q6yDQc9Fl6",
+          "code": "E2",
+          "title": "E2 AI for Marketing",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Agentic campaign generator that drafts, evaluates, and A/B-tests content",
+              "A/B test AI-written copy against a human baseline and report the result with its uncertainty"
+            ],
+            "learningOutcomes": [
+              "Apply AI to create, personalize, and measure marketing",
+              "Evaluate marketing AI tools against business goals"
+            ],
+            "toolsAndFrameworks": [
+              "HubSpot AI, Jasper, Google Ads AI, Meta Advantage+, Python MMM tools (Meridian, Robyn)"
+            ]
+          },
+          "position": "a1",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_F8mN-_I4JpGv",
+              "code": "E2.1",
+              "title": "E2.1 Content & Campaigns",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_CxWNpFjfOeIe",
+                  "title": "Generative Content",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_CxWNpFjfOeIe.json"
+                },
+                {
+                  "id": "sll_q_HYlRMsmL9Y",
+                  "title": "Personalization",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_q_HYlRMsmL9Y.json"
+                }
+              ]
+            },
+            {
+              "id": "les_HFo-rS0m_i3C",
+              "code": "E2.2",
+              "title": "E2.2 Marketing Analytics",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_tvxGu7WFSHe-",
+                  "title": "Measurement",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_tvxGu7WFSHe-.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_9cvtfSDlV2X2",
+          "code": "E3",
+          "title": "E3 AI for Brand Management",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Brand-monitoring agent that tracks sentiment and flags risks"
+            ],
+            "learningOutcomes": [
+              "Use AI to monitor, protect, and grow a brand",
+              "Keep generated content on-brand at scale"
+            ],
+            "toolsAndFrameworks": [
+              "Brandwatch, Sprinklr, LLM sentiment pipelines, RAG over brand guidelines"
+            ]
+          },
+          "position": "a2",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_n-LsAiFxjaMr",
+              "code": "E3.1",
+              "title": "E3.1 Brand Intelligence",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_KUfIluWE2ayt",
+                  "title": "Social Listening",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_KUfIluWE2ayt.json"
+                },
+                {
+                  "id": "sll_NazCKQ35LwAk",
+                  "title": "Brand Consistency",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_NazCKQ35LwAk.json"
+                }
+              ]
+            },
+            {
+              "id": "les_PQU4po-hblfH",
+              "code": "E3.2",
+              "title": "E3.2 Brand Strategy with AI",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_SO9A0a7DydTS",
+                  "title": "Consumer Insight",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_SO9A0a7DydTS.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_dAewA1xhHV4H",
+          "code": "E4",
+          "title": "E4 AI for Sales & Customer Service",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Customer-service agent with RAG over a knowledge base and human handoff",
+              "Lead-scoring model plus personalized outreach drafts",
+              "Compare an AI support agent with human answers on a sample of real tickets"
+            ],
+            "learningOutcomes": [
+              "Deploy AI across the sales funnel and support operations",
+              "Design escalation paths that protect customer experience"
+            ],
+            "toolsAndFrameworks": [
+              "Salesforce Einstein / Agentforce, Gong, Intercom Fin, Zendesk AI, LangGraph"
+            ]
+          },
+          "position": "a3",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_Fkx1zQaNkHmo",
+              "code": "E4.1",
+              "title": "E4.1 Sales",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_yVqpo911sY2z",
+                  "title": "Prospecting & Pipeline",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_yVqpo911sY2z.json"
+                },
+                {
+                  "id": "sll_1yPx7F_RpDj-",
+                  "title": "Sales Enablement",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_1yPx7F_RpDj-.json"
+                }
+              ]
+            },
+            {
+              "id": "les_ldPNxBj4XzYY",
+              "code": "E4.2",
+              "title": "E4.2 Customer Service",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_CKuoAIRSiK03",
+                  "title": "AI Support Agents",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_CKuoAIRSiK03.json"
+                },
+                {
+                  "id": "sll_r9fBbRbfKQ8W",
+                  "title": "Support Analytics",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_r9fBbRbfKQ8W.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_0MIDz_N2I5MG",
+          "code": "E5",
+          "title": "E5 AI for Manufacturing & Operations",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Predictive-maintenance model on sensor data with a cost-savings estimate",
+              "Back-office agent that processes invoices end to end",
+              "Estimate the savings from automating one invoice or ordering process, including exception handling"
+            ],
+            "learningOutcomes": [
+              "Apply AI to physical operations and supply chains",
+              "Quantify operational impact of AI projects"
+            ],
+            "toolsAndFrameworks": [
+              "Azure IoT / AWS IoT, Prophet, OR-Tools, UiPath, n8n, Zapier"
+            ]
+          },
+          "position": "a4",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_Qu_-FlgvsXs8",
+              "code": "E5.1",
+              "title": "E5.1 Manufacturing",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_riATOIFowJay",
+                  "title": "Predictive Maintenance",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_riATOIFowJay.json"
+                },
+                {
+                  "id": "sll_PhUSWseR3Aiu",
+                  "title": "Quality Control",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_PhUSWseR3Aiu.json"
+                }
+              ]
+            },
+            {
+              "id": "les_JCyXHgpxi_n-",
+              "code": "E5.2",
+              "title": "E5.2 Operations & Supply Chain",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_b1u3lbeYkOh6",
+                  "title": "Forecasting & Planning",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_b1u3lbeYkOh6.json"
+                },
+                {
+                  "id": "sll_OVIXx_k8NjJf",
+                  "title": "Process Automation",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_OVIXx_k8NjJf.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_I6KOc7E_-7VM",
+          "code": "E6",
+          "title": "E6 Responsible Adoption & Change Management",
+          "levelTag": "Expert",
+          "toolkit": {
+            "handsOnProjects": [
+              "AI adoption roadmap and governance policy for an organization",
+              "Write an acceptable-use policy and an approved-tools list for a small company"
+            ],
+            "learningOutcomes": [
+              "Lead responsible, sustainable AI adoption in an organization",
+              "Balance innovation speed with risk and trust"
+            ],
+            "toolsAndFrameworks": [
+              "NIST AI RMF, ISO 42001, change frameworks (ADKAR, Kotter)"
+            ]
+          },
+          "position": "a5",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_3fZ1Y3jwO-x3",
+              "code": "E6.1",
+              "title": "E6.1 Organizational Adoption",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_hUB4-WFN-fvM",
+                  "title": "Operating Models",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_hUB4-WFN-fvM.json"
+                },
+                {
+                  "id": "sll_Af_Pwo2UNB_n",
+                  "title": "Change Management",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Af_Pwo2UNB_n.json"
+                }
+              ]
+            },
+            {
+              "id": "les_9L-U47VLSvOq",
+              "code": "E6.2",
+              "title": "E6.2 Responsible Deployment",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_antTUDzhsuhn",
+                  "title": "Risk & Compliance",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_antTUDzhsuhn.json"
+                },
+                {
+                  "id": "sll_OTFtptPJ5r4P",
+                  "title": "Trust & Ethics",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_OTFtptPJ5r4P.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_Q2FQjT0hiJHw",
+          "code": "E7",
+          "title": "E7 AI for ERP and MRP",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Agent that reads an inventory export, runs reorder calculations in code, and drafts purchase orders for approval",
+              "Ask-your-data assistant over a sample ERP database with read-only access",
+              "Three-way match (purchase order, receipt, invoice) with exception alerts"
+            ],
+            "learningOutcomes": [
+              "Map a small company's core records and planning logic",
+              "Decide between integrating with an ERP and building a lightweight system"
+            ],
+            "toolsAndFrameworks": [
+              "ERPNext, Odoo, PostgreSQL, n8n, LangGraph, MCP"
+            ]
+          },
+          "position": "a6",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_xb70ZIryMZHu",
+              "code": "E7.1",
+              "title": "E7.1 How ERP and MRP Work",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_tI03jf0csHN4",
+                  "title": "Core Records",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_tI03jf0csHN4.json"
+                },
+                {
+                  "id": "sll_m-Dn_hn_3GO5",
+                  "title": "Planning Logic",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_m-Dn_hn_3GO5.json"
+                },
+                {
+                  "id": "sll_ZAkwpRTXX9S9",
+                  "title": "How the Pieces Connect",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_ZAkwpRTXX9S9.json"
+                }
+              ]
+            },
+            {
+              "id": "les_ciLyWrI5kIc8",
+              "code": "E7.2",
+              "title": "E7.2 Build or Integrate",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_pEz1mnzfDSYb",
+                  "title": "Two Paths",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_pEz1mnzfDSYb.json"
+                },
+                {
+                  "id": "sll_Rw0MyvFAoDJx",
+                  "title": "System of Record",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Rw0MyvFAoDJx.json"
+                },
+                {
+                  "id": "sll_qiosqjwBUPo8",
+                  "title": "Connecting to the ERP",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_qiosqjwBUPo8.json"
+                }
+              ]
+            },
+            {
+              "id": "les_Qa9TSFF3QNoT",
+              "code": "E7.3",
+              "title": "E7.3 Operations Agents",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_1TuQufRQuhWz",
+                  "title": "Ask-Your-Data Agents",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_1TuQufRQuhWz.json"
+                },
+                {
+                  "id": "sll_tI-aTG52x6Yz",
+                  "title": "Exception Agents",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_tI-aTG52x6Yz.json"
+                },
+                {
+                  "id": "sll_Fuhzii8kuZ4J",
+                  "title": "Documents In",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Fuhzii8kuZ4J.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_AYAMQz8ld-IM",
+          "code": "E8",
+          "title": "E8 Agentic Marketing Systems",
+          "levelTag": "Intermediate",
+          "toolkit": {
+            "handsOnProjects": [
+              "Marketing agent team: brief in, reviewed multi-channel drafts and a weekly performance report out"
+            ],
+            "learningOutcomes": [
+              "Design a marketing agent team with shared memory and human checkpoints",
+              "Prove marketing AI impact with a baseline and cost per outcome"
+            ],
+            "toolsAndFrameworks": [
+              "LangGraph or CrewAI, n8n, MCP, email, social, and ad-platform APIs, Langfuse"
+            ]
+          },
+          "position": "a7",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_Bk_kaNeH8GN6",
+              "code": "E8.1",
+              "title": "E8.1 Marketing as a System",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_VkCDOr-c8W4A",
+                  "title": "Full-Funnel Map",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_VkCDOr-c8W4A.json"
+                },
+                {
+                  "id": "sll_fio-GJwprdRm",
+                  "title": "Shared Brand Memory",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_fio-GJwprdRm.json"
+                },
+                {
+                  "id": "sll_ncWxIjxCwjrp",
+                  "title": "Rules of the Road",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_ncWxIjxCwjrp.json"
+                }
+              ]
+            },
+            {
+              "id": "les_qB09paFabE5S",
+              "code": "E8.2",
+              "title": "E8.2 The Marketing Agent Team",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_1cBne-tZmaXY",
+                  "title": "Agent Roles",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_1cBne-tZmaXY.json"
+                },
+                {
+                  "id": "sll_Sn1PnIeQicgV",
+                  "title": "Channel Connectors",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Sn1PnIeQicgV.json"
+                },
+                {
+                  "id": "sll_oYpUb3OHNqqT",
+                  "title": "Content Operations",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_oYpUb3OHNqqT.json"
+                }
+              ]
+            },
+            {
+              "id": "les_gjoCB7Vpwa5z",
+              "code": "E8.3",
+              "title": "E8.3 The Measurement Loop",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_o0SzP8jAYUz0",
+                  "title": "Proving Impact",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_o0SzP8jAYUz0.json"
+                },
+                {
+                  "id": "sll_VRavjMo0X5-m",
+                  "title": "Cost Per Outcome",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_VRavjMo0X5-m.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_5r3FRlzAPt8L",
+          "code": "E9",
+          "title": "E9 Designing Teams of Bots",
+          "levelTag": "Advanced",
+          "toolkit": {
+            "handsOnProjects": [
+              "Bot team for one business function (e.g., marketing or purchasing) with a manager, specialists, a reviewer, and human approval",
+              "Scorecard that shows each bot's quality and cost"
+            ],
+            "learningOutcomes": [
+              "Turn a business function into a bot team with clear roles and handoffs",
+              "Measure and manage a team of bots like a workforce"
+            ],
+            "toolsAndFrameworks": [
+              "LangGraph, CrewAI, Claude Agent SDK, n8n, Langfuse"
+            ]
+          },
+          "position": "a8",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_pT-8IIARqGXp",
+              "code": "E9.1",
+              "title": "E9.1 From Org Chart to Bot Team",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_e2doDCuU3wqm",
+                  "title": "Mapping a Business Function",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_e2doDCuU3wqm.json"
+                },
+                {
+                  "id": "sll_FkqePEuoD8Cf",
+                  "title": "Team Structure",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_FkqePEuoD8Cf.json"
+                },
+                {
+                  "id": "sll_IpQNmcAlL6Ma",
+                  "title": "Team Examples",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_IpQNmcAlL6Ma.json"
+                }
+              ]
+            },
+            {
+              "id": "les_hXsWdpqPt4V3",
+              "code": "E9.2",
+              "title": "E9.2 Running the Team",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_zZ7xgu5Wlu7l",
+                  "title": "Shared Work",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_zZ7xgu5Wlu7l.json"
+                },
+                {
+                  "id": "sll_ZShmtryI6KUy",
+                  "title": "Keeping Control",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_ZShmtryI6KUy.json"
+                }
+              ]
+            },
+            {
+              "id": "les_oIqlGOsFhMRh",
+              "code": "E9.3",
+              "title": "E9.3 Managing a Bot Workforce",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_d_e0xbkD5afd",
+                  "title": "Performance",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_d_e0xbkD5afd.json"
+                },
+                {
+                  "id": "sll_gs2HXH4N4H3d",
+                  "title": "Change",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_gs2HXH4N4H3d.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sub_3QDC5d857ivZ",
+          "code": "E10",
+          "title": "E10 Delivering AI Systems for Clients",
+          "levelTag": "Expert",
+          "toolkit": {
+            "handsOnProjects": [
+              "Package one past project as a client proposal with scope, price, and an ROI report"
+            ],
+            "learningOutcomes": [
+              "Scope and price an AI engagement with clear success metrics",
+              "Run a client system safely after launch"
+            ],
+            "toolsAndFrameworks": [
+              "Proposal templates, spreadsheet ROI models, observability tools (see B14.3)"
+            ]
+          },
+          "position": "a9",
+          "archivedAt": null,
+          "lessons": [
+            {
+              "id": "les_CpM8WLQq95hI",
+              "code": "E10.1",
+              "title": "E10.1 Scoping & Pricing",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a0",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_XBynFZWQmpbI",
+                  "title": "Scoping",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_XBynFZWQmpbI.json"
+                },
+                {
+                  "id": "sll_FiD71ZRmVYEb",
+                  "title": "Pricing & Packaging",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_FiD71ZRmVYEb.json"
+                },
+                {
+                  "id": "sll_4CqrMWFQ5IRz",
+                  "title": "Productizing",
+                  "position": "a2",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_4CqrMWFQ5IRz.json"
+                }
+              ]
+            },
+            {
+              "id": "les_yOEMqv-XRNK0",
+              "code": "E10.2",
+              "title": "E10.2 Operating for Clients",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a1",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_OKStbv9tSY2h",
+                  "title": "Data & Access",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_OKStbv9tSY2h.json"
+                },
+                {
+                  "id": "sll_Dj1D8BSJj15z",
+                  "title": "Support & Reliability",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_Dj1D8BSJj15z.json"
+                }
+              ]
+            },
+            {
+              "id": "les_HgsOcvDUJGxj",
+              "code": "E10.3",
+              "title": "E10.3 Proving ROI",
+              "prerequisiteIds": [
+                "les_G6RVz1Gk0myX",
+                "les_E0TTJjV5CV5U"
+              ],
+              "position": "a2",
+              "archivedAt": null,
+              "subLessons": [
+                {
+                  "id": "sll_sp8B0-MO_AkD",
+                  "title": "Reporting",
+                  "position": "a0",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_sp8B0-MO_AkD.json"
+                },
+                {
+                  "id": "sll_-pEzSeoKvTcr",
+                  "title": "Renewal",
+                  "position": "a1",
+                  "archivedAt": null,
+                  "file": "sublessons/sll_-pEzSeoKvTcr.json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

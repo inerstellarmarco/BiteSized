@@ -1,0 +1,300 @@
+{
+  "id": "sll_Y40KwV7qjecP",
+  "title": "Choosing Models",
+  "bites": [
+    {
+      "id": "bit_yvhlJR-mrjC7",
+      "title": "Closed APIs vs. open-weight models",
+      "body": "There are two ways to get an LLM.\n\nClosed models are run by their makers and reached over the internet through an API. You send text and get text back. You never hold the model. GPT, Claude and Gemini work like this.\n\nOpen-weight models publish the model files, the weights, so anyone can download and run them on their own machines. Llama, Mistral and Qwen are examples.\n\nIt is renting against owning. Renting is easy, maintained for you and usually the best quality, but you follow the landlord's rules and prices. Owning gives control and privacy, and makes the upkeep your problem.\n\nMost teams start with closed models and consider open ones when privacy, cost or control demands it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_yvhlJR-mrjC7_1",
+          "type": "multiple_choice",
+          "prompt": "What is the defining feature of an open-weight model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It is always free of any licence terms"
+            },
+            {
+              "id": "b",
+              "text": "It can only be used through one company's app"
+            },
+            {
+              "id": "c",
+              "text": "Its weights can be downloaded and run on your own hardware"
+            },
+            {
+              "id": "d",
+              "text": "It has no parameters"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Open-weight means the model files are published, so you can host it yourself.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_166rk45zjnXU",
+      "title": "Quality, cost, latency, and privacy tradeoffs",
+      "body": "Choosing a model means balancing four things, and no model wins on all of them.\n\nQuality: how well it handles your task. Cost: what each request costs at your volume. Latency: how long the user waits. Privacy: where your data goes and who may see it.\n\nThey pull against each other. The most capable models are slower and dearer. The cheapest and fastest make more mistakes. The most private options can mean more work.\n\nIt is the familiar \"good, fast, cheap: pick two\", with privacy as a fourth corner.\n\nSo there is no best model, only the best for this task. A support chatbot needs speed. A contract review needs quality. A hospital needs privacy first.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_166rk45zjnXU_1",
+          "type": "multiple_choice",
+          "prompt": "What are the four main trade-offs when choosing a model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Colour, shape, size and weight"
+            },
+            {
+              "id": "b",
+              "text": "Quality, cost, latency and privacy"
+            },
+            {
+              "id": "c",
+              "text": "Name, logo, slogan and font"
+            },
+            {
+              "id": "d",
+              "text": "Length, width, height and depth"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Model choice balances how good, how expensive, how fast and how private the option is.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_4AkkBiLV09aO",
+      "title": "The LLM as the \"brain\" of an agent",
+      "body": "An LLM by itself only produces text. An agent is a system built around one, so that it can do things.\n\nIn an agent the LLM is the decision-maker. It reads the goal, decides what to do next, picks a tool, looks at the result and decides again. The parts around it supply hands and memory: tools for searching, sending and calculating, and storage for what has happened so far.\n\nThink of a manager at a desk with a phone. The manager does none of the physical work, but decides who to call and what to ask for.\n\nModel quality matters more here. An agent makes many decisions in a row, and one bad one can derail the rest.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_4AkkBiLV09aO_1",
+          "type": "multiple_choice",
+          "prompt": "What role does the LLM play in an agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It decides what to do next and which tools to use"
+            },
+            {
+              "id": "b",
+              "text": "It stores all the company's files"
+            },
+            {
+              "id": "c",
+              "text": "It provides the electricity"
+            },
+            {
+              "id": "d",
+              "text": "It replaces the need for any tools"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The LLM is the reasoning core, choosing actions, while tools and memory carry them out and record them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_SBCDSbH2E8zi",
+      "title": "The full market map",
+      "body": "The model market looks crowded, but it sorts into a few groups.\n\nClosed frontier labs sell access to their best models: OpenAI with GPT, Anthropic with Claude, Google with Gemini.\n\nOpen-weight publishers release models you can run yourself: Meta with Llama, Mistral, DeepSeek, Alibaba with Qwen and others.\n\nCloud platforms such as AWS, Azure and Google Cloud resell many models under one account.\n\nSpecialist hosts run open models fast or cheaply for you.\n\nThen come the tools built on top: frameworks, coding assistants, automation platforms.\n\nThe names change every few months. The groups stay put. Learn the map and not the leaderboard. The next module walks through it.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_hIeIUeHTaxJL",
+          "targetCode": "A6",
+          "label": "see A6",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_SBCDSbH2E8zi_1",
+          "type": "multiple_choice",
+          "prompt": "Which statement about the model market is most durable?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The categories of player stay fairly stable while the leading names change"
+            },
+            {
+              "id": "b",
+              "text": "One company will always have the best model"
+            },
+            {
+              "id": "c",
+              "text": "Open-weight models do not exist"
+            },
+            {
+              "id": "d",
+              "text": "Cloud platforms build all the models themselves"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Rankings shift constantly, but the structure of labs, open publishers, clouds and hosts persists.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_7k5Vf0_2X1S_",
+      "title": "Model tiers: large, small, and reasoning",
+      "body": "Most providers sell a family of models, not one, in three broad tiers.\n\nLarge models are the most capable generalists. Use them for hard, open-ended or high-stakes work.\n\nSmall models are much faster and far cheaper, sometimes ten or more times cheaper. They handle simple, high-volume jobs well: classifying, extracting, routing, short replies.\n\nReasoning models, or reasoning modes, think before answering. Use them for multi-step problems where accuracy matters more than speed.\n\nThink of staffing a firm. You do not put the senior partner on filing, or the trainee on the hardest case.\n\nA good system mixes tiers: a small model for easy steps, a strong one only where it is needed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_7k5Vf0_2X1S__1",
+          "type": "multiple_choice",
+          "prompt": "Which tier fits a simple, high-volume task such as sorting emails into categories?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The largest model available"
+            },
+            {
+              "id": "b",
+              "text": "A reasoning model at maximum effort"
+            },
+            {
+              "id": "c",
+              "text": "A small, fast model"
+            },
+            {
+              "id": "d",
+              "text": "An image generation model"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Small models are cheap and quick, and are good enough for simple classification at scale.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_i2VFQI6FdQGW",
+      "title": "Test on your own task, not on leaderboards",
+      "body": "Leaderboards rank models on standard tests. They are useful for a first shortlist and misleading as a final answer.\n\nA benchmark measures performance on the benchmark. Your task has different documents, different jargon, different edge cases and different standards. The model ranked first overall may be third on your invoices.\n\nIt is like buying running shoes from magazine reviews. The reviews narrow the field, but you still have to run in them.\n\nSo build a small test set from your real work: 20 to 50 examples with known good answers. Run the candidates on it and compare. It takes an afternoon and beats any league table.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_va8p_BdXS5jL",
+          "targetCode": "B12.1",
+          "label": "see B12.1",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_i2VFQI6FdQGW_1",
+          "type": "multiple_choice",
+          "prompt": "What is the best way to choose between two models for your task?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Pick whichever is higher on a public leaderboard"
+            },
+            {
+              "id": "b",
+              "text": "Run both on a set of your own real examples and compare the results"
+            },
+            {
+              "id": "c",
+              "text": "Choose the one with the better logo"
+            },
+            {
+              "id": "d",
+              "text": "Choose the newest without testing"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "General benchmarks do not reflect your specific data and standards, so a test on your own examples is the reliable guide.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_EypqpzAnQa_b",
+      "title": "Plan to switch models: prices and quality keep moving",
+      "body": "Whichever model you choose today will not be the best choice for long. New ones arrive every few months, prices fall, and old models are retired on a schedule. That last point is a deadline, not an option.\n\nSo build as if you will switch, because you will.\n\nIn practice: keep the model name in a setting, not scattered through the code. Keep your prompts and test examples in your own files. Avoid leaning on features only one provider offers unless they are worth it.\n\nIt is like not building a house round one particular fridge.\n\nThe test set from the previous card is what makes switching safe. Rerun it on a new model and you know within minutes whether to move.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_EypqpzAnQa_b_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you design an AI system so that the model can be swapped easily?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Models never change, so it does not matter"
+            },
+            {
+              "id": "b",
+              "text": "Switching is illegal"
+            },
+            {
+              "id": "c",
+              "text": "Models are regularly improved, repriced and retired"
+            },
+            {
+              "id": "d",
+              "text": "Each prompt only works once"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The market moves fast and old models are withdrawn, so easy switching protects both quality and cost.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

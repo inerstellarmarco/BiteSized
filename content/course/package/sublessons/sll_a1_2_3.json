@@ -1,0 +1,420 @@
+{
+  "id": "sll_a1_2_3",
+  "title": "Environments & Dependencies",
+  "bites": [
+    {
+      "id": "bit_a1_venv",
+      "title": "Virtual environments",
+      "body": "A virtual environment gives a project its own set of installed libraries. python -m venv .venv creates one with the standard library. uv venv does the same job with the uv tool, which is also fast at installing packages. Activate the environment before you install or run, so you are not changing the Python that belongs to the whole computer. Two projects can then use two versions of the same library.",
+      "sourceNote": "Python venv docs and the uv documentation · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": "2026-11-13T00:00:00.000Z",
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_venv_1",
+          "type": "multiple_choice",
+          "prompt": "Why give a project a virtual environment?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So its libraries stay separate from other projects"
+            },
+            {
+              "id": "b",
+              "text": "So Python runs without electricity"
+            },
+            {
+              "id": "c",
+              "text": "So you never need Git"
+            },
+            {
+              "id": "d",
+              "text": "So booleans become optional"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Each environment has its own installed packages. Projects stop stepping on each other's versions.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_venv_2",
+          "type": "multiple_choice",
+          "prompt": "Which command uses only the Python standard library to create an environment?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "uv add"
+            },
+            {
+              "id": "b",
+              "text": "python -m venv .venv"
+            },
+            {
+              "id": "c",
+              "text": "git commit"
+            },
+            {
+              "id": "d",
+              "text": "pip freeze"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "venv is included with Python. uv is a separate, faster tool that can also create environments.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_deps",
+      "title": "Dependency files",
+      "body": "requirements.txt is a list of packages, often with versions pinned, like requests==2.32.3. pyproject.toml is the modern project file and can list dependencies too. A pin makes next month's install match today's. An unpinned name installs whatever is newest, which may break the code. Commit the dependency file. Do not commit the virtual environment folder itself.",
+      "sourceNote": "Python packaging user guide · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": "2026-11-13T00:00:00.000Z",
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_deps_1",
+          "type": "multiple_choice",
+          "prompt": "What does requests==2.32.3 in a requirements file mean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Install any requests"
+            },
+            {
+              "id": "b",
+              "text": "Install that exact version"
+            },
+            {
+              "id": "c",
+              "text": "Uninstall requests"
+            },
+            {
+              "id": "d",
+              "text": "Import requests inside a string"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The == pin asks the installer for that version, so the environment is repeatable.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_deps_2",
+          "type": "multiple_choice",
+          "prompt": "What should you commit to Git?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The .venv folder"
+            },
+            {
+              "id": "b",
+              "text": "The dependency file, not the environment folder"
+            },
+            {
+              "id": "c",
+              "text": "Your API keys"
+            },
+            {
+              "id": "d",
+              "text": "Every __pycache__ folder"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The dependency file lets someone rebuild the environment. The environment folder is local and large.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_git",
+      "title": "Version control with Git and GitHub",
+      "body": "Git keeps a history of your project, like save points in a video game. You can try something risky, and if it goes wrong, jump back to the last good point.\n\nEach save point is called a commit: a snapshot of every file plus a short message saying what changed.\n\nGit runs on your own computer. GitHub is a website that stores a copy online, so the work is backed up and other people (or other machines) can get it.\n\nThe two are often confused. Git is the tool that tracks history. GitHub is one place to keep and share that history.",
+      "sourceNote": "Git basics and GitHub docs · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_git_1",
+          "type": "multiple_choice",
+          "prompt": "What is the difference between Git and GitHub?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Git tracks history on your computer; GitHub hosts a copy online for backup and sharing"
+            },
+            {
+              "id": "b",
+              "text": "They are two names for exactly the same thing"
+            },
+            {
+              "id": "c",
+              "text": "Git is for Python and GitHub is for JavaScript"
+            },
+            {
+              "id": "d",
+              "text": "GitHub tracks history and Git is the website"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Git is the version-control tool. GitHub is a hosting service for Git projects.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_3p-Xs5UMOXvc",
+      "title": "Virtual environments (venv, uv)",
+      "body": "A virtual environment is a private folder of installed packages that belongs to one project. Think of each project having its own toolbox instead of everyone sharing one messy shed.\n\nWithout it, every project on your computer shares the same packages, and installing something for project A can silently break project B.\n\nvenv is the tool built into Python for creating these. uv is a newer, much faster tool that creates environments and installs packages in one go.\n\nPractical sign you need one: the code works on someone else's machine but fails on yours with import errors. The first question to ask is \"which environment am I in?\"",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_3p-Xs5UMOXvc_1",
+          "type": "multiple_choice",
+          "prompt": "What problem does a virtual environment solve?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes Python code run faster"
+            },
+            {
+              "id": "b",
+              "text": "It keeps each project's packages separate so they cannot clash"
+            },
+            {
+              "id": "c",
+              "text": "It backs up your code online"
+            },
+            {
+              "id": "d",
+              "text": "It hides your code from other people"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "An environment isolates one project's installed packages from every other project on the machine.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_SNvVsToMjrK_",
+      "title": "Dependency files (requirements, pyproject)",
+      "body": "A dependency file lists the packages a project needs, and often which versions. It is the ingredients list on a recipe: without it, nobody else can cook the dish.\n\nTwo common forms: requirements.txt is a plain list, one package per line. pyproject.toml is the newer standard and also holds other project settings.\n\nWith the file in place, one command rebuilds the same setup on another computer or on a server.\n\nThe detail that matters is pinning: writing requests==2.32.0 instead of just requests. Unpinned, you get whatever is newest that day, and code that worked last month can break without you changing a line.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_SNvVsToMjrK__1",
+          "type": "multiple_choice",
+          "prompt": "Why pin package versions in a dependency file?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So the packages download faster"
+            },
+            {
+              "id": "b",
+              "text": "So everyone installs the same versions and the code behaves the same way"
+            },
+            {
+              "id": "c",
+              "text": "So the file is shorter"
+            },
+            {
+              "id": "d",
+              "text": "So the packages become free"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Pinning fixes the exact versions, which stops a new release from silently changing how your project behaves.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_JXGGrhOXlPMS",
+      "title": "Why environments: different projects need different versions",
+      "body": "Suppose last year's project needs version 1 of a library, and today's project needs version 2, which changed how things work. One computer, two incompatible needs.\n\nIt is like two recipes that each need the oven at a different temperature at the same moment. One oven cannot serve both. Give each recipe its own oven and the problem disappears.\n\nA separate environment per project is that separate oven. Each project gets exactly the versions it was built with.\n\nThis comes up quickly in AI work, because AI libraries change fast and tutorials from a year ago often need older versions than new code does.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_JXGGrhOXlPMS_1",
+          "type": "multiple_choice",
+          "prompt": "Two projects need different versions of the same library. What is the clean solution?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Give each project its own environment"
+            },
+            {
+              "id": "b",
+              "text": "Install both versions into the same shared place"
+            },
+            {
+              "id": "c",
+              "text": "Rewrite one project from scratch"
+            },
+            {
+              "id": "d",
+              "text": "Stop using libraries"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Separate environments let each project keep its own versions without affecting the other.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_JEbjACdGS43K",
+      "title": "Commits, branches, and pull requests in plain terms",
+      "body": "Three Git words cover most of daily life.\n\nA commit is a save point: a snapshot of the project with a message such as \"Fix total on invoice page\".\n\nA branch is a parallel copy where you can work without touching the main version, like drafting changes on a photocopy of a contract rather than on the signed original.\n\nA pull request, or PR, is a proposal to fold your branch back into the main version. It shows exactly what changed so someone can review it first.\n\nThe flow is: branch off, commit your work, open a pull request, review, merge. Even working alone, it keeps the main version in a working state.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_JEbjACdGS43K_1",
+          "type": "multiple_choice",
+          "prompt": "What is a pull request?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A proposal to merge changes from a branch, shown so they can be reviewed first"
+            },
+            {
+              "id": "b",
+              "text": "A command that downloads the internet"
+            },
+            {
+              "id": "c",
+              "text": "A backup copy of the whole computer"
+            },
+            {
+              "id": "d",
+              "text": "A request to delete a branch"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A pull request presents a branch's changes for review before they are merged into the main version.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_IAIboHT5mGXt",
+      "title": "Never commit secrets: use environment variables and .gitignore",
+      "body": "An API key is a password that can spend your money. If it is written inside a code file and that file goes to GitHub, treat the key as stolen. Automated bots scan public code for keys within minutes.\n\nThe standard fix has two parts. Keep secrets in environment variables, usually in a file named .env, and have the code read them from there. Then list .env in a file called .gitignore, which tells Git \"never track this\".\n\nOne hard truth: Git remembers. Deleting a key in a later commit does not remove it from history. If a key was ever committed, the only safe move is to revoke it and create a new one.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a7",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_IAIboHT5mGXt_1",
+          "type": "multiple_choice",
+          "prompt": "You accidentally committed an API key and pushed it. What is the correct response?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Revoke the key and create a new one"
+            },
+            {
+              "id": "b",
+              "text": "Delete the line in a new commit and carry on"
+            },
+            {
+              "id": "c",
+              "text": "Rename the file that contains it"
+            },
+            {
+              "id": "d",
+              "text": "Wait and see if anyone uses it"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The key remains in Git history even after deletion, so it must be treated as compromised and replaced.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_MTHseSgGXK3n",
+      "title": "Commit before letting an AI assistant change many files",
+      "body": "Before you ask an assistant for a large change, commit your current work. It costs ten seconds and gives you a clean save point.\n\nAI coding tools can edit many files in one go. Most of the time that is helpful. Sometimes the change goes wrong in ways that are hard to untangle by hand, and without a save point you cannot easily get back.\n\nIt is the same instinct as saving a document before running \"replace all\".\n\nWith a commit in place, a bad change is no drama: review what changed, keep the good parts, or discard everything and return to exactly where you were.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a8",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_MTHseSgGXK3n_1",
+          "type": "multiple_choice",
+          "prompt": "Why commit before asking an AI assistant for a large multi-file change?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The assistant refuses to work otherwise"
+            },
+            {
+              "id": "b",
+              "text": "It makes the assistant write better code"
+            },
+            {
+              "id": "c",
+              "text": "Commits speed up the computer"
+            },
+            {
+              "id": "d",
+              "text": "It gives you a clean point to compare against and return to if the change goes wrong"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A commit is a save point, so a bad batch of edits can be reviewed or undone completely.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

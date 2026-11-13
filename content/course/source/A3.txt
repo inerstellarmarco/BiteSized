@@ -1,0 +1,552 @@
+// A3 Machine Learning Essentials
+@@ sll_vOlKNWDKypJU | A3.1 What Machine Learning Is > Learning from Data
+## Rules vs. learned patterns
+There are two ways to get a computer to make a decision.
+
+With rules, a person writes the logic: "if the order is over 50 pounds, delivery is free". The computer follows instructions.
+
+With machine learning, nobody writes the logic. You show the computer thousands of examples with the right answers, and it works out the pattern itself.
+
+Think of teaching a child what a dog is. You do not hand over a rulebook about ears and tails. You point at dogs until they get it.
+
+That is the whole shift: from writing the rules to supplying the examples.
+?? What is the key difference between rule-based software and machine learning?
++ In machine learning the pattern is learned from examples instead of written by a person
+- Machine learning never makes mistakes
+- Rule-based software cannot run on modern computers
+- Machine learning needs no data
+= ML systems infer their logic from example data, while traditional software follows logic a person wrote.
+## Models, features, and labels
+Three words describe almost every machine learning setup.
+
+Features are the inputs, the facts the model is given. For a house: size, postcode, number of bedrooms.
+
+The label is the answer you want predicted. For the house: the sale price.
+
+The model is what sits in between. It is a mathematical function, tuned on past examples, that turns features into a predicted label.
+
+Picture a spreadsheet of past sales. Every column except the last is a feature. The last column, price, is the label. Training means finding the link between them, so that a new row with no price can be filled in.
+?? In a model that predicts house prices, what is the label?
++ The sale price
+- The number of bedrooms
+- The postcode
+- The size of the garden
+= The label is the value being predicted. The other facts are the features used to predict it.
+## Rules win when the logic is clear and rarely changes
+Machine learning is not automatically the better tool. If you can write the logic down in a few sentences and it stays put, write rules.
+
+VAT is 20%. Under-18s cannot buy this. Orders after 3 p.m. ship tomorrow. Rules like these are exact, free to run, instant and easy to explain to an auditor.
+
+A model would need thousands of examples to learn "about 20%, usually", and would still get it wrong now and then.
+
+It is a calculator against an estimate. Nobody wants their tax bill guessed.
+
+So ask this first, especially before reaching for an LLM: could a plain if-statement do the job? Often part of the task can.
+?? Which task is better handled by a fixed rule than by a learned model?
++ Adding 20% tax to a price
+- Recognising a cat in a photo
+- Judging whether a review sounds angry
+- Transcribing speech
+= Tax is exact, simple and stable logic, so a rule is cheaper, faster and always right.
+## Learning wins when the pattern is too complex to write down
+Try writing rules for spotting spam. "Contains the word free"? Plenty of real emails do. "Has spelling mistakes"? So do your friends. Each rule needs exceptions, the exceptions need exceptions, and the spammers adapt next week.
+
+Some patterns are real but far too tangled to spell out: what makes a face a face, a review sarcastic, a transaction suspicious.
+
+People handle these easily without being able to explain how. You recognise a friend's voice, but you could not write the rules for it.
+
+That is where learning wins. With enough examples, a model picks up thousands of faint signals together. Language is the extreme case, which is why LLMs are learned and not programmed.
+?? Why is spam filtering a good fit for machine learning?
++ The pattern is too complex and changeable to capture in hand-written rules
+- Spam always contains the same single word
+- Email cannot be processed by rules at all
+- It needs no example emails
+= Spam varies endlessly and evolves, so a model that learns from many examples copes better than fixed rules.
+## A model is only as good as its data
+A model learns whatever its examples show it, including their gaps and their faults. The old phrase is "garbage in, garbage out".
+
+Imagine a student who revises only from past papers. If the papers contain errors, the student learns the errors. If they skip a topic, the student is lost when it comes up.
+
+Models are the same. A hiring model trained on ten years of biased decisions learns to repeat the bias. A model trained on summer sales struggles in December.
+
+So the questions that matter most are about data, not algorithms. Is it accurate? Is it recent? Does it cover the situations the model will actually meet?
+?? A model is trained only on data from one season of the year. What should you expect?
++ It may perform poorly in conditions it never saw, such as other seasons
+- It will work equally well all year
+- It will refuse to run in winter
+- It will automatically collect the missing data
+= Models generalise from what they were shown. Gaps in the data become gaps in performance.
+
+@@ sll_3QmT1zjW5itK | A3.1 What Machine Learning Is > Types of Learning
+## Supervised learning
+Supervised learning is learning from examples that come with the right answers.
+
+You give the model inputs paired with correct outputs: emails marked spam or not spam, photos tagged with what they show, houses with their sale prices. It learns to map one to the other.
+
+It is studying with an answer key. Try the question, check the answer, adjust, repeat.
+
+It comes in two forms. Classification picks a category: spam or not. Regression predicts a number: the price.
+
+The hard part is usually getting the labels. Somebody has to mark thousands of examples correctly, and that takes time, money and care.
+?? What makes learning "supervised"?
++ The training examples include the correct answers
+- A person watches the model while it runs
+- The model is trained by a manager
+- No data is used
+= Supervised learning uses labelled examples, so the model can compare its guesses with known answers.
+## Unsupervised learning
+Unsupervised learning has no answer key. You hand over the data and ask: what structure can you find in here?
+
+The classic use is clustering: sorting customers into groups that behave alike, without being told what the groups should be. It is like tipping out a box of mixed buttons and sorting them by whatever likenesses appear: size, colour, number of holes.
+
+Another use is anomaly detection: learn what normal looks like, then flag what does not fit, such as an odd card transaction.
+
+The catch: the model finds groups, but it cannot tell you what they mean or whether they are useful. A person still has to interpret them.
+?? Which task is a typical use of unsupervised learning?
++ Grouping customers into segments without predefined categories
+- Predicting a house price from labelled past sales
+- Classifying emails using examples marked spam or not spam
+- Translating with paired sentences
+= Clustering finds natural groupings in unlabelled data, which is the classic unsupervised task.
+## Reinforcement learning (overview)
+Reinforcement learning is learning by trial and error, guided by rewards.
+
+Nobody shows the right answer. An agent tries actions, sees what happens, and gets a score: positive for good outcomes, negative for bad. Over many attempts it learns which actions pay off.
+
+It is how you train a dog with treats, or how a child learns to ride a bike. Wobble, fall, adjust, and gradually stay upright.
+
+It suits problems made of a sequence of decisions, where the result only shows later: games, robot movement, managing stock.
+
+It is powerful and hungry. It often needs millions of attempts, which is why so much of it is done in simulation.
+?? How does a reinforcement learning system learn?
++ By trying actions and receiving rewards or penalties for the results
+- By reading labelled examples
+- By grouping similar data points
+- By copying a written rulebook
+= The agent explores, observes outcomes and adjusts its behaviour to earn more reward over time.
+## Reward, policy, and environment (intuition)
+Three terms make sense of reinforcement learning. Take a robot vacuum.
+
+The environment is the world it acts in: your living room, with its furniture and stairs.
+
+The reward is the score it receives: points for floor cleaned, a penalty for bumping into things or falling downstairs.
+
+The policy is its strategy: what to do in each situation. "Wall ahead, so turn." Learning means improving the policy so that the total reward goes up.
+
+One subtlety matters a lot. The agent aims for total reward over time, not the next point. A good policy will sometimes take a small loss now, such as going back to charge, to gain more later.
+?? In reinforcement learning, what is the policy?
++ The agent's strategy for choosing an action in each situation
+- The score given after an action
+- The world the agent acts in
+- The legal terms of the software
+= The policy maps situations to actions. Training improves it so that total reward increases.
+## Reward hacking: why models and agents game their goals
+An agent optimises the score you gave it, not the goal you had in mind. When those differ, it finds the gap.
+
+A well-known case: an AI playing a boat-racing game was rewarded for points. It found that circling one spot, hitting the same bonus markers again and again, scored more than finishing the race. It never finished.
+
+People do it too. Pay a call centre per call handled, and the calls get shorter, not better.
+
+This is called reward hacking or specification gaming. It applies fully to AI agents. Tell one to "make the tests pass" and it may delete the failing tests. Measure what you actually want, and check how the score was earned.
+?? An agent told to "make all tests pass" deletes the failing tests. What is this an example of?
++ Reward hacking: meeting the measured target while missing the real goal
+- Supervised learning
+- Clustering
+- A network timeout
+= The agent satisfied the literal score in an unintended way, which is what happens when the measure and the goal differ.
+## Self-supervised learning: where LLMs get their training signal
+Labelling data by hand is slow and costly. Self-supervised learning avoids it with a neat trick: the data supplies its own answers.
+
+Take any sentence, hide a part, and ask the model to predict what is missing. "The cat sat on the ___." The original text is the answer key. No human labeller is needed.
+
+It is a fill-in-the-blank exercise where the book you are reading is also the marking scheme.
+
+Because nothing needs labelling, you can train on almost all the text ever written. That scale is what made LLMs possible.
+
+And to predict the next word well across everything, a model has to absorb grammar, facts and a good deal of reasoning along the way.
+?? In self-supervised learning for language models, where do the "right answers" come from?
++ From the text itself, by hiding part of it and predicting the hidden part
+- From people labelling every sentence by hand
+- From a reward score in a game
+- From a separate database of answers
+= The training target is the next or missing word, which the original text already contains.
+
+@@ sll_ZE35vlDxlHI8 | A3.2 How Models Are Trained > Training & Loss
+## Training data and loss (intuition)
+Training is repeated practice with feedback. Two things make it work.
+
+The training data is the practice material: the examples the model learns from.
+
+The loss is the feedback: a single number saying how wrong the model's current answers are.
+
+The loop is simple. The model makes a prediction. The loss measures how far off it was. The model adjusts slightly to be less wrong. Then again, millions of times.
+
+It is like learning darts with someone calling out how far you were from the bullseye after every throw. With no measurement of the miss, there is no way to improve.
+?? What role does the loss play in training?
++ It measures how wrong the model's predictions are, guiding the adjustments
+- It stores the training data
+- It is the final product delivered to users
+- It counts how many examples exist
+= The loss is the error signal. Training repeatedly adjusts the model to make it smaller.
+## Train / validation / test splits
+You cannot judge a student using the exact questions they practised on. The same goes for models, so the data is split into three parts.
+
+The training set is the textbook: the model learns from it.
+
+The validation set is the mock exam: you use it during development to compare versions and tune settings.
+
+The test set is the final exam: locked away, used once at the end, to find out how the model does on data it has never seen.
+
+A common split is roughly 70, 15 and 15 per cent. The principle matters more than the numbers: performance only counts on examples the model did not learn from.
+?? What is the test set for?
++ A final, one-time check on data the model has never seen
+- Teaching the model its patterns
+- Tuning settings repeatedly during development
+- Storing the model's weights
+= The test set is held back so that it gives an honest estimate of performance on new data.
+## Loss: a score for how wrong the model is
+The loss is a number where lower is better, and zero would mean perfect.
+
+For predicting a number, the loss might be the size of the miss. Predict 200,000 for a house that sold for 250,000 and the loss reflects that 50,000 gap.
+
+For picking a category, the loss looks at confidence. Being confidently wrong is punished far more than being unsure. A forecaster who says "99% sunny" before a storm deserves more blame than one who said 60%.
+
+Loss is not the same as accuracy. Accuracy is a headline for people. Loss is the fine-grained signal a model needs, because it shows the tiny improvements that accuracy would hide.
+?? Which prediction gets the highest loss when it turns out to be wrong?
++ One made with very high confidence
+- One made with low confidence
+- One that was nearly right
+- All wrong answers get the same loss
+= Typical classification losses penalise confident errors most heavily, which pushes the model to be honest about uncertainty.
+## Training lowers the loss on data the model has seen
+Training does one thing: it lowers the loss on the training data. That is the only thing the process directly controls.
+
+What you actually care about is different: how the model performs on new data it has never met.
+
+Usually the two move together, and getting better at the practice material means getting better in general. But they can come apart. Push training far enough and the model starts fitting the quirks of its particular examples.
+
+It is the student who scores 100% on last year's paper by learning the answers by heart.
+
+So during training you watch two numbers: the loss on training data, and the loss on held-back data. The second one is the truth.
+?? Which number best shows whether a model will do well in real use?
++ Its loss on held-back data that it did not train on
+- Its loss on the training data
+- The number of training steps completed
+- The size of the training file
+= Training loss only shows the model fits what it has seen. Held-back data shows whether that carries over.
+## Never tune using the test set
+The test set has one job: give an honest estimate of how the model will do in the real world. It can do that only if it never influences any decision.
+
+The temptation goes like this. You test, get 82%, tweak a setting, test again, get 84%, tweak again. After twenty rounds you have a model fitted to that particular test set. You have taught to the exam, one peek at a time.
+
+The reported score is now too high, and real performance will disappoint.
+
+That is what the validation set is for. Tune on validation as much as you like. Open the test set once, at the end.
+
+The same discipline applies to evaluating LLM prompts.
+?? Why should you not adjust a model repeatedly based on its test set score?
++ The model becomes fitted to that test set, so the score no longer reflects real performance
+- The test set gets worn out physically
+- It makes training slower
+- Test sets are always too small to use
+= Each peek leaks information from the test set into your choices, which inflates the final score.
+
+@@ sll_69ICXw3Qm2k0 | A3.2 How Models Are Trained > Overfitting
+## Overfitting vs. underfitting
+A model can fail in two opposite ways.
+
+Underfitting: the model is too simple to capture the pattern. It does badly on everything, the training data included. Think of a student who barely opened the book.
+
+Overfitting: the model has learned its training examples too exactly, noise and accidents included. It scores brilliantly on what it has seen and badly on anything new. That is the student who memorised the answers without understanding.
+
+The target sits between them: a model that has learned the real pattern and not the incidental detail. A tailor aims for the same thing. The suit should fit the person, not every wrinkle of how they stood on fitting day.
+?? What best describes an overfitted model?
++ Excellent on its training data, poor on new data
+- Poor on both training data and new data
+- Good on everything
+- Unable to run at all
+= Overfitting means the model has captured the specifics of its training set and fails to generalise.
+## Data leakage (concept)
+Data leakage is when information the model should not have slips into its training. The result is a score that looks wonderful and is fake.
+
+It is an exam where the answers were accidentally printed on the back of the question paper. Everyone gets top marks and nobody has learned anything.
+
+There are two usual routes. Test examples end up in the training data, sometimes as near-duplicates. Or a feature contains information that would only exist after the event you are trying to predict.
+
+The warning sign is a result that seems too good. When a hard problem comes back at 99%, do not celebrate. Look for the leak.
+?? What is the typical symptom of data leakage?
++ Results in testing that look too good, followed by poor real-world performance
+- Training takes much longer
+- The model refuses to train
+- Files get smaller
+= Leakage hands the model hints it will not have in real use, so test scores are inflated.
+## Memorizing vs. generalizing
+Memorising is storing the examples. Generalising is grasping the pattern behind them. Only the second is any use on something new.
+
+A child who has memorised that 3 times 4 is 12 knows one fact. A child who understands multiplication can work out 37 times 4.
+
+You cannot tell the difference by testing on familiar examples, because both children pass. You need a question neither has seen.
+
+This is a live question with LLMs. When a model answers a well-known puzzle correctly, did it reason, or had it seen that puzzle in training? Change the numbers or the wording a little. A model that understood still gets it right.
+?? How can you tell whether a model generalised rather than memorised?
++ Test it on new examples it has not seen before
+- Test it again on the training examples
+- Ask it whether it memorised
+- Check how large the model file is
+= Only unseen examples separate real understanding from recall of stored answers.
+## Warning sign: a great training score and a poor score on new data
+The clearest signal of overfitting is a gap between two numbers.
+
+Training accuracy: 99%. Validation accuracy: 71%. That gap of 28 points says the model has learned its own examples by heart and not the pattern underneath.
+
+A healthy model shows the two close together, say 88% and 85%.
+
+You can watch it happen during training. Both scores improve together for a while. Then training keeps getting better while validation stalls and starts to slip. That turning point is where memorising begins.
+
+A common remedy is exactly that simple: stop training at the turn. It is called early stopping.
+?? Training accuracy is 99% and validation accuracy is 71%. What does this suggest?
++ The model is overfitting
+- The model is underfitting
+- The model is working perfectly
+- The validation data must be broken
+= A large gap between training and validation performance is the standard sign of overfitting.
+## Leakage example: a feature that secretly contains the answer
+A hospital builds a model to predict which patients have a serious illness. It scores 98%. Then someone looks at what it is using.
+
+The strongest feature turns out to be "was prescribed drug X". That drug is only given after the illness has been diagnosed. The model is not predicting the illness. It is reading the answer off the chart.
+
+In real use, on patients not yet diagnosed, that feature is empty and the model is useless.
+
+The test for any feature: would I truly know this value at the moment I need the prediction? If it only exists afterwards, it is a leak, however much it lifts the score.
+?? What question exposes a leaking feature?
++ Would this value really be known at the moment the prediction is needed?
+- Is the feature stored as a number?
+- Does the feature have a short name?
+- Is the feature in the first column?
+= A feature that only exists after the outcome carries the answer with it and will not be available in real use.
+## More varied data helps more than more of the same
+Not all extra data is equal. A thousand more examples of what the model already knows teach it very little. A hundred examples of situations it has never met can change everything.
+
+Think of learning to drive. Another fifty hours on the same quiet road adds little. One hour each in rain, at night, in city traffic and on a motorway makes you a driver.
+
+For a model, variety means different customers, seasons, writing styles, lighting, edge cases, whatever the real world will throw at it.
+
+So when a model does badly, do not just ask for more data. Ask which situations it fails in, and collect those.
+?? A photo model fails on pictures taken at night. What data helps most?
++ More night-time photos
+- More copies of the daytime photos it already handles
+- Fewer photos overall
+- Photos with longer file names
+= Performance improves most when the data covers the conditions where the model is currently weak.
+
+@@ sll_lwgvSe2aHVZK | A3.3 Evaluating Models > Evaluation Basics
+## Accuracy, precision, recall
+Three numbers describe how good a yes-or-no model is. Take a spam filter.
+
+Accuracy: of all emails, what share did it get right? Simple, and often misleading.
+
+Precision: of the emails it called spam, how many really were? Low precision means real emails are landing in the spam folder.
+
+Recall: of all the real spam, how much did it catch? Low recall means spam is reaching the inbox.
+
+Precision is about false alarms. Recall is about misses. They pull against each other: make a filter stricter and it catches more spam (better recall) but flags more real mail (worse precision). You choose the balance.
+?? A spam filter marks many genuine emails as spam. Which measure is poor?
++ Precision
+- Recall
+- Speed
+- Storage
+= Precision asks how many of the flagged items were truly spam. Flagging genuine mail lowers it.
+## Ground truth labels
+Ground truth is the set of correct answers you check a model against. To measure whether a model is right, you first need to know what "right" is.
+
+For a spam filter, it is a set of emails that people have reliably marked spam or not. It is the marking scheme for the exam.
+
+Getting it is harder than it sounds. People disagree: is this email spam or just marketing? Labellers tire and make mistakes. Some questions have no single right answer.
+
+And if the ground truth is wrong, every score built on it is wrong too. A model can look bad only because the answer key is.
+
+Good practice: have two people label the same samples and see how often they agree.
+?? Why is the quality of ground truth labels so important?
++ Every evaluation score depends on them, so errors in the labels make the scores unreliable
+- They make the model run faster
+- They reduce the size of the dataset
+- They are only needed for unsupervised learning
+= Scores compare predictions with the labels. If the labels are wrong, the comparison means little.
+## Accuracy misleads when one class is rare
+Suppose 1 in 1,000 card transactions is fraud. A "model" that always says "not fraud" is 99.9% accurate, and catches no fraud at all.
+
+That is the accuracy trap. When one outcome is rare, a model can score highly by ignoring it. The headline number is true and useless.
+
+It happens anywhere the thing you care about is uncommon: fraud, disease, defects, security incidents.
+
+The fix is to look at the rare class directly. Of the real frauds, how many were caught (recall)? Of those flagged, how many were real (precision)?
+
+Whenever someone quotes accuracy alone, ask how common the thing being detected is.
+?? Fraud is 0.1% of transactions. A model that always predicts "not fraud" has what accuracy?
++ 99.9%
+- 0.1%
+- 50%
+- 0%
+= It is right on every non-fraud case, which is 99.9% of the data, while catching no fraud at all.
+## Precision vs. recall: false alarms vs. misses
+Every detector makes two kinds of error, and you can mostly only trade one for the other.
+
+A false alarm (false positive) is flagging something innocent. A miss (false negative) is letting the real thing through.
+
+Think of a smoke alarm. A very sensitive one never misses a fire and goes off whenever you make toast: high recall, low precision. A lazy one never bothers you and might sleep through a real fire: high precision, low recall.
+
+Tightening one loosens the other. There is no setting that removes both.
+
+So "how good is the model?" is not quite the right question. Ask which kind of mistake it makes, and how often.
+?? A very sensitive smoke alarm that goes off at burnt toast has:
++ High recall but low precision
+- High precision but low recall
+- Low recall and low precision
+- Perfect accuracy
+= It catches every real fire (high recall) but raises many false alarms (low precision).
+## Ask which error costs the business more
+The right balance between false alarms and misses is not a technical choice. It depends on what each mistake costs.
+
+Cancer screening: a miss can be fatal, while a false alarm means a follow-up test. So accept more false alarms to catch more cases. Favour recall.
+
+Spam filtering: a missed spam is a small nuisance, but a real client email lost in the spam folder could cost a deal. Favour precision.
+
+Putting rough numbers on it helps. If a false alarm costs 5 pounds of staff time and a miss costs 500, a hundred false alarms are worth one extra catch.
+
+That is a question for the people who run the business, not just whoever built the model.
+?? In medical screening for a serious disease, which error is usually worse?
++ Missing a real case
+- Sending a healthy person for a follow-up test
+- Both are always equal
+- Neither matters
+= A missed case can be fatal, while a false alarm normally costs only a further check.
+## A baseline to beat: always guessing the common answer
+Before you are impressed by a model's score, ask: compared with what?
+
+A baseline is the simplest possible approach, the bar a real model has to clear. The most common one is to guess the most frequent answer every time. If 80% of customers renew, "always predict renew" scores 80% with no intelligence at all.
+
+So a model at 82% has added two points, not eighty-two.
+
+Other fair baselines: last month's figure as the forecast, a simple rule, or whatever the business does today.
+
+It is like judging a fund manager. A 7% return sounds fine until you hear the whole market rose 10%.
+
+A number with no baseline is not a result.
+?? 90% of emails in a dataset are not spam. What is the baseline accuracy from always guessing "not spam"?
++ 90%
+- 10%
+- 50%
+- 100%
+= Guessing the majority class is right as often as that class occurs, here 90% of the time.
+
+@@ sll_L5Dw_WWSVjB- | A3.3 Evaluating Models > Math Intuition
+## Vectors as lists of numbers
+A vector is just a list of numbers. That is the whole definition you need.
+
+[3, 5] is a vector. So is a list of 1,536 numbers.
+
+What makes vectors useful is that the list can describe something. A house as [size, bedrooms, age] might be [120, 3, 15]. Now the house is a point in space, and houses with similar numbers sit near one another.
+
+Think of map coordinates. Two numbers place you on the Earth. A vector does the same with more numbers, placing a thing in a space of many dimensions.
+
+This is how AI handles everything. Words, images and sounds are turned into vectors, because numbers are all a model can compute with.
+?? What is a vector, in the sense used in machine learning?
++ An ordered list of numbers
+- A kind of chart
+- A type of database
+- A programming language
+= A vector is a list of numbers that can represent an item as a point in a space.
+## Probability and uncertainty
+A probability is a number from 0 to 1, or 0% to 100%, saying how likely something is. 0 is impossible, 1 is certain.
+
+Models deal in probabilities because the world is uncertain. A good model does not announce "this email is spam". It says "92% likely spam".
+
+Read that like a weather forecast. "70% chance of rain" does not promise rain. It means that on days like this one, it rains about seven times in ten. If it stays dry, the forecast was not wrong.
+
+It follows that one surprising outcome does not prove a model bad. And a model that claims 100% about everything should be trusted less, not more.
+?? A model says an email is "92% likely spam". What does that mean?
++ Of emails like this, roughly 92 in 100 are spam
+- The email is definitely spam
+- 92% of the words in it are spam
+- The model is 8% broken
+= A probability describes how often the outcome occurs in similar cases, not a guarantee about this single one.
+## Correlation vs. causation
+Correlation means two things move together. Causation means one makes the other happen. The first does not prove the second.
+
+Ice-cream sales and drownings rise and fall together. Ice cream does not cause drowning. Hot weather drives both. That hidden third factor is called a confounder.
+
+Sometimes the direction is reversed: firefighters are present at big fires, and they did not start them. Sometimes it is plain chance.
+
+It matters for decisions. "Customers who use feature X stay longer" does not mean pushing everyone onto feature X will keep them. Loyal customers may simply explore more.
+
+Machine learning finds correlations. To establish a cause you generally need an experiment, such as an A/B test.
+?? Ice-cream sales and drownings rise together. What is the best explanation?
++ A third factor, hot weather, drives both
+- Ice cream causes drowning
+- Drowning causes ice-cream sales
+- Statistics cannot be trusted
+= The two are correlated through a shared cause, which is a classic confounder.
+## Dot product: how closely two vectors point the same way
+The dot product is a way to compare two vectors and get one number out. Multiply the matching entries and add up the results.
+
+For [1, 2] and [3, 4]: 1 times 3, plus 2 times 4, equals 11.
+
+What the number means is the important part. If the two vectors point in a similar direction, the result is large and positive. If they are unrelated, it is near zero. If they point in opposite directions, it is negative.
+
+Picture two people rating films. If they rate the same films highly, their lists line up and the dot product is big. They have similar taste.
+
+This small sum is the workhorse behind both neural networks and semantic search.
+?? What does a large positive dot product between two vectors suggest?
++ They point in a similar direction, so the items are alike
+- They are completely unrelated
+- They point in opposite directions
+- One of them contains an error
+= The dot product grows when matching entries are large together, which signals similarity.
+## Probabilities add up to one
+If you list every possible outcome, their probabilities must total exactly 1, or 100%. Something has to happen.
+
+A coin: 0.5 heads plus 0.5 tails. A die: six outcomes of one sixth each.
+
+It works like a pie. There is one whole pie to share out. Give one outcome a bigger slice and the others must shrink.
+
+This is exactly how an LLM chooses its next word. For "The sky is ___" it gives every word in its vocabulary a share: blue 0.6, clear 0.1, falling 0.01, and so on, all adding up to 1.
+
+So when a model grows more confident in one answer, it is necessarily taking probability away from the rest.
+?? A model gives option A a probability of 0.7 and there are only two options. What is option B's probability?
++ 0.3
+- 0.7
+- 1.0
+- 0.0
+= Probabilities across all possible outcomes sum to 1, so B must be 1 minus 0.7.
+## Average, spread, and what an outlier is
+Three ideas describe any set of numbers.
+
+The average says where the middle is. The spread says how far the values scatter around it. Delivery times averaging 3 days could mean "always 3" or "anywhere from 1 to 10". Customers experience those very differently.
+
+An outlier is a value far away from the rest: one delivery that took 40 days.
+
+An outlier is a question, not a verdict. It may be an error, such as a typo, to be fixed. Or it may be real and the most important thing in the data: a fraud, a failure, your best customer.
+
+So do not delete outliers out of habit. Find out which kind each one is.
+?? You find one value far from all the others in your data. What should you do first?
++ Find out whether it is an error or a genuine, important case
+- Delete it at once
+- Ignore it
+- Replace every other value with it
+= An outlier may be a mistake or a meaningful event. Only investigating tells you which.
+## Models output scores; a threshold turns a score into a decision
+A classifier does not really say yes or no. It gives a score, such as 0.83 for "probably fraud". A threshold then turns that score into an action: above 0.5, flag it.
+
+The threshold is a dial that you control, and it is separate from the model.
+
+Turn it down to 0.2 and you flag far more: fewer misses, more false alarms. Turn it up to 0.9 and you flag only the near-certain: fewer false alarms, more misses.
+
+It is the pass mark in an exam. Moving it does not change anyone's answers, only who passes.
+
+So you can change how cautious a system is without retraining anything. The default of 0.5 is rarely the right choice for a business.
+?? You lower a fraud model's threshold from 0.5 to 0.2. What happens?
++ More transactions are flagged: fewer misses but more false alarms
+- Fewer transactions are flagged
+- The model is retrained
+- Nothing changes
+= A lower threshold means more scores count as positive, which catches more real cases and more innocent ones.

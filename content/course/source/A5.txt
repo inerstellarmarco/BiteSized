@@ -1,0 +1,878 @@
+// A5 How LLMs Work
+@@ sll_4y81UmM2WP6V | A5.1 From Text to Tokens > Tokens & Tokenization
+## Tokens and tokenization
+An LLM does not read letters or whole words. It reads tokens: small chunks of text, each swapped for a number.
+
+Tokenization is the chopping. "Unbelievable!" might become "Un", "believ", "able" and "!". Each chunk has an id in a fixed list called the vocabulary, typically 50,000 to 200,000 entries.
+
+Think of Lego. Any structure can be built from a fixed set of bricks. Any text, even a made-up word, can be built from tokens.
+
+This happens on the way in and on the way out. The model reads token numbers and produces token numbers, which are turned back into text for you.
+?? What is tokenization?
++ Splitting text into small chunks that are mapped to numbers
+- Translating text into English
+- Encrypting a prompt
+- Checking a prompt for spelling mistakes
+= A tokenizer breaks text into tokens from a fixed vocabulary, because models compute on numbers.
+## Tokens as the currency of LLMs
+Tokens are the unit in which everything about an LLM is measured.
+
+Price is charged per token, for what you send and for what comes back. Limits are set in tokens: how much the model can take in at once and how long an answer may be. Speed is quoted in tokens per second.
+
+It is like electricity. You do not pay per appliance. You pay per kilowatt-hour, and every device draws from the same meter.
+
+So "how long is this document?" becomes "how many tokens is it?" Thinking in tokens instead of words or pages is the first habit of someone who builds with LLMs.
+?? Which of these is measured in tokens?
++ Price, input limits and output length
+- Only the price
+- Only the model's download size
+- The number of users
+= Cost, context limits and generation speed are all counted in tokens.
+## Token limits and cost (intro)
+Two practical facts follow from tokens.
+
+Limits: every model has a maximum number of tokens it can handle in a single request, called the context window. Your instructions, your documents, the conversation so far and the reply all have to fit inside it.
+
+Cost: you are billed for every token in and every token out, on every call. Each one costs a tiny amount. Multiply by long documents and thousands of requests and it becomes a real bill.
+
+Think of a taxi meter that runs on distance. A short trip is cheap. Make the same long trip a thousand times a day and you need a budget.
+?? What is a context window?
++ The maximum number of tokens a model can handle in one request
+- The model's opening hours
+- A chart of token prices
+- The window in which a chat appears on screen
+= The context window caps the combined size of the input and the output for a single call.
+## A token is a piece of a word, not exactly a word
+It is tempting to treat tokens as words. They are not.
+
+A short, common word is usually one token: "the", "cat". A longer or rarer word splits into several: "tokenization" might be "token" plus "ization". Punctuation marks are tokens. A leading space is often part of a token too, so " cat" and "cat" can differ.
+
+Why chop this way? A vocabulary of whole words would need millions of entries and still be thrown by a new one. Pieces of words cover everything with a far smaller list, the way 26 letters cover every English word, only chunkier.
+
+So the token count is always somewhat higher than the word count.
+?? How is a long, uncommon word usually tokenized?
++ It is split into several tokens
+- It is always exactly one token
+- It is skipped
+- It becomes one token per letter, always
+= Tokenizers break rare or long words into smaller, more common pieces.
+## Rough rule: about three-quarters of an English word per token
+For ordinary English, one token is roughly three-quarters of a word. Turned round, 100 tokens is about 75 words, and 1,000 words is about 1,300 tokens.
+
+Two more yardsticks: a token is about four characters, and a page of plain text is something like 500 to 700 tokens.
+
+That gives quick estimates. A 10-page report is around 6,000 tokens. A 300-page book is around 150,000.
+
+It is a rule of thumb, like "a pint is about half a litre". It is good enough for planning and not for an invoice. The exact figure depends on the text and on which model's tokenizer is used.
+?? Roughly how many tokens is a 750-word English document?
++ About 1,000
+- About 75
+- About 7,500
+- Exactly 750
+= At around three-quarters of a word per token, 750 words comes to roughly 1,000 tokens.
+## Other languages and code often use more tokens
+The three-quarters rule is for English. Tokenizers are built mostly from English-heavy text, so English is chopped efficiently and other content often is not.
+
+Languages with long compound words or non-Latin scripts, such as German, Hindi, Japanese or Arabic, can take noticeably more tokens to say the same thing.
+
+Code is costly as well. Brackets, symbols, indentation and unusual variable names all break into many small tokens. JSON is especially wasteful, because every quote mark and brace counts.
+
+It is like baggage fees charged by volume instead of weight: the same contents cost more when the packing is awkward.
+
+Budget on real samples of your own content, not on English averages.
+?? Why might the same message cost more in tokens in Japanese than in English?
++ Tokenizers split non-English text into more pieces
+- Japanese characters are banned
+- Providers charge a language fee
+- The message becomes longer when translated
+= Tokenizer vocabularies favour English, so other languages often need more tokens for the same meaning.
+## Numbers and rare words split oddly, which is why models stumble on spelling and arithmetic
+A long number such as 48,217,395 is not seen as one quantity. It is cut into arbitrary chunks, perhaps "48", ",", "217", ",", "395". The model has to do arithmetic across pieces that hide place value.
+
+Spelling suffers in the same way. If "strawberry" is two or three tokens, the model never directly sees its letters. Asking it to count the r's is like asking you to count the letters in a word you have only heard spoken.
+
+So the cause is not stupidity. It is the format of the input.
+
+The practical lesson: give exact arithmetic and letter-level jobs to a tool, such as a calculator or code. Good AI systems do exactly that.
+?? Why do LLMs sometimes miscount the letters in a word?
++ They see tokens, not individual letters
+- They cannot read English
+- Counting is disabled by providers
+- Words are stored as images
+= The model works with multi-letter chunks, so letter-level detail is not directly visible to it.
+## Count tokens with a tokenizer tool before estimating cost
+Do not guess a token count when money depends on it. Measure it.
+
+Each model family has its own tokenizer, and the same text gives different counts on different ones. Providers offer tools for this: web pages where you paste text and see the tokens, and code libraries or API endpoints that return a count.
+
+The method is simple. Take a few real samples of your documents and prompts. Count them. Multiply by the volume you expect and by the price. Remember to include the output and any instructions that are sent with every request.
+
+It is weighing the parcel before quoting the postage. It takes minutes and prevents nasty surprises.
+?? What is the most reliable way to estimate the token cost of a workload?
++ Run real samples through the model's tokenizer and multiply by volume and price
+- Count the pages and guess
+- Assume one token per word
+- Wait for the first invoice
+= Token counts vary by text and by model, so measuring actual samples gives a trustworthy estimate.
+
+@@ sll_Mz486evL94DB | A5.2 Embeddings & Similarity > Embeddings
+## Words as vectors
+To a computer, the word "cat" is just an arbitrary label. Nothing about it says it is closer to "kitten" than to "carburettor".
+
+An embedding fixes that by giving each word a vector, a list of numbers that works as coordinates on a map of meaning. "Cat" and "kitten" land near each other. "Carburettor" lands far away.
+
+Think of a map of cities. From the coordinates alone you can tell that Leeds and Bradford are close, and that both are far from Sydney.
+
+These positions are learned from vast amounts of text, on a simple principle: words that appear in similar contexts get similar vectors. "You shall know a word by the company it keeps."
+?? What does a word embedding capture?
++ The word's meaning, as a position where similar words are nearby
+- The word's length in letters
+- The word's place in the alphabet
+- How often the word is misspelt
+= Embeddings place words in a space so that those with related meanings sit close together.
+## Meaning in latent space
+An embedding space has far more than two dimensions. It often has hundreds or thousands, and each one captures some shade of meaning.
+
+You cannot picture a thousand dimensions, but you can picture the idea. Describe a film with sliders: how funny, how scary, how long, how romantic. Twenty sliders already pin a film down quite well. Films with similar slider settings are similar films.
+
+An embedding is a thousand such sliders. The difference is that the model invented them, and most have no neat human name.
+
+This is where an LLM does its thinking. Text is converted into this space, worked on there, and converted back into words at the end.
+?? Why do embeddings use hundreds or thousands of dimensions?
++ To capture many different aspects of meaning at once
+- To make the files bigger
+- Because each dimension is one letter
+- To slow down competitors
+= Each dimension can encode some learned aspect of meaning, and many are needed to represent language richly.
+## A separate model, trained for the job, produces embeddings
+When you need embeddings for search or retrieval, you do not use the chat model. You call an embedding model, a separate and smaller model built for one purpose: text in, vector out.
+
+It writes no sentences. Its only output is the list of numbers.
+
+These models are trained specifically so that texts with similar meaning get nearby vectors. They are much cheaper and faster than chat models, which matters when you need to embed a million documents.
+
+One firm rule: vectors from different embedding models are not compatible. It is like mixing two map systems with different grids. Pick one model, and if you change it later, re-embed everything.
+?? Why can you not mix embeddings from two different embedding models in one search index?
++ Each model has its own space, so their vectors are not comparable
+- It is against the law
+- The files have different names
+- Embeddings expire after a day
+= Positions only have meaning inside the space of the model that made them.
+## Whole sentences and documents can be embedded, not only words
+Embeddings are not limited to single words. A sentence, a paragraph or a whole page can be turned into one vector that stands for its overall meaning.
+
+"How do I get my money back?" and "What is your refund policy?" share almost no words, and their vectors sit close together because they mean nearly the same thing.
+
+That is what makes embeddings practical. You embed each chunk of your documents once and store the vectors. When a question comes in, you embed it and find the nearest chunks.
+
+One limit: a single vector for a very long text is a blurry summary, like one photo of a whole city. That is why documents are split into chunks first.
+?? Why are long documents split into chunks before embedding?
++ One vector for a long text blurs its many topics together
+- Embedding models can only read one word
+- Chunks are cheaper to print
+- To make the document secret
+= A single vector cannot represent many separate ideas well, so smaller chunks give sharper matches.
+## Directions in the space can capture relationships
+Nearness is not the only thing an embedding space encodes. Directions carry meaning too.
+
+The famous example: take the vector for "king", subtract "man", add "woman", and you arrive close to "queen". The step from man to woman is roughly the same step as from king to queen. A direction in the space behaves like "gender".
+
+Other directions act like "capital city of" (France to Paris, Japan to Tokyo) or "past tense" (walk to walked).
+
+Nobody programmed these in. They fell out of learning from text.
+
+A caution: the tidy examples are the well-behaved ones. Real spaces are messier, and they also pick up the biases of the text they learned from.
+?? "King minus man plus woman is close to queen" shows that embedding spaces:
++ Capture relationships as consistent directions
+- Can do arithmetic on royal families
+- Store a dictionary definition for each word
+- Only work for four words
+= The offset between related words is similar across pairs, so relationships appear as directions.
+
+@@ sll_df8K6TM_cFq2 | A5.2 Embeddings & Similarity > Similarity
+## Cosine similarity (intuition)
+Once two texts are vectors, you need one number that says how alike they are. The standard measure is cosine similarity.
+
+It looks at the angle between the two vectors and ignores their length. Imagine two arrows starting from the same spot. Pointing the same way gives a score near 1. At right angles gives about 0. Pointing opposite ways gives minus 1.
+
+Why direction and not distance? A short note and a long report on the same topic point the same way, even though one arrow is much longer. Direction captures what the text is about.
+
+In practice you rarely need the formula. You just need to know that a higher score means closer in meaning.
+?? What does a cosine similarity close to 1 mean?
++ The two vectors point in nearly the same direction, so the texts are similar in meaning
+- The two texts are the same length
+- The two texts are opposite in meaning
+- One of the texts is empty
+= Cosine similarity measures the angle between vectors, and values near 1 mean they are closely aligned.
+## Semantic search (preview)
+Traditional search matches words. Search for "car" and it finds documents containing "car", and misses the ones that say "vehicle" or "automobile".
+
+Semantic search matches meaning. The steps: embed every document once and store the vectors. Embed the user's question. Return the documents whose vectors are closest to it.
+
+It is the difference between a librarian who only checks the titles for your exact word and one who understands what you are asking for and walks you to the right shelf.
+
+This is the engine behind "chat with your documents", and the course covers it in detail under retrieval-augmented generation, or RAG.
+?? How does semantic search differ from keyword search?
++ It matches by meaning using embeddings, not by exact words
+- It only works on numbers
+- It is always slower and worse
+- It requires the documents to be printed
+= Semantic search compares vectors, so it finds relevant text even when the wording is different.
+## Similar meaning scores high even with different words
+The strength of embedding similarity is that it sees through wording.
+
+"The meeting has been postponed" and "We are pushing the call to next week" share hardly a word. A keyword search finds no link. Their embeddings are close, because they describe the same situation.
+
+It also works across languages with a multilingual model. "Where is the station?" and "¿Dónde está la estación?" land near each other.
+
+Users rarely phrase a question the way your documents phrase the answer. Meaning-based matching closes that gap.
+
+The other side of it: exact strings such as product codes, names and error numbers are where keyword search is still better. Good systems use both.
+?? Why can embeddings match "postponed the meeting" with "pushing the call to next week"?
++ They capture meaning, not exact wording
+- They count shared letters
+- They only compare the first word
+- They look up synonyms in a fixed dictionary
+= Texts describing the same idea get nearby vectors even when they share no words.
+## Similar is not the same as true: close does not mean correct
+Similarity measures whether two texts are about the same thing. It does not measure whether either one is right.
+
+"The warranty lasts two years" and "The warranty does not last two years" are extremely similar: same topic, almost the same words. They say opposite things.
+
+A search for "current refund policy" can happily return last year's withdrawn policy, because it matches the topic perfectly.
+
+Think of a filing clerk who is brilliant at fetching folders on the right subject but never reads them to check they are current or correct.
+
+So retrieval finds candidates. Something else, such as dates, source rules, a second check or a person, has to judge whether they should be trusted.
+?? A statement and its exact negation will usually have embeddings that are:
++ Very similar, because they are about the same topic
+- Completely opposite
+- Impossible to compute
+- Identical to every other sentence
+= Embeddings capture topic and wording more than truth, so contradictory statements can sit close together.
+
+@@ sll_kNdyhBqcAGAN | A5.3 Transformers at a Conceptual Level > The Big Idea
+## Transformer architecture (overview)
+The transformer is the design behind every modern LLM. The "T" in GPT stands for it.
+
+In outline: text is split into tokens. Each token becomes a vector. Those vectors pass up through a tall stack of identical layers, and each layer refines them a little using what the surrounding tokens say. At the top, the model reads off a prediction for the next token.
+
+Think of an editing room where a draft passes through dozens of editors in turn. Each one rereads the whole thing and sharpens the meaning of every word in the light of all the others.
+
+Two ingredients make it work: attention, which lets tokens share information, and depth, the stacking of many layers.
+?? What does the "T" in GPT stand for?
++ Transformer
+- Token
+- Training
+- Text
+= GPT means generative pretrained transformer, after the architecture it is built on.
+## Self-attention (intuition)
+Words take their meaning from their neighbours. In "the bank of the river" and "the bank raised its rates", the word "bank" means two different things, and only the surrounding words tell you which.
+
+Self-attention is how a transformer handles this. For each word, the model looks at all the other words in the text and works out which ones matter for understanding this one. It then blends in information from those.
+
+So "bank" beside "river" becomes a riverside-bank vector. Beside "rates", it becomes a financial one.
+
+It is called self-attention because the text is attending to itself. Each word is understood in the context of all the rest.
+?? What problem does self-attention solve?
++ Working out a word's meaning from the other words around it
+- Counting the words in a sentence
+- Correcting spelling mistakes
+- Shrinking the file
+= Attention lets each token draw on relevant tokens elsewhere, which settles meaning from context.
+## Why attention replaced recurrence
+Before transformers, language models read strictly in sequence, one word after another, passing along a single running summary. Two weaknesses followed.
+
+Forgetting: by word 500, the detail of word 5 had been squeezed through 495 handovers. It is the game of telephone played along a long line.
+
+Slowness: each word had to wait for the one before it, so training could not be spread across many processors.
+
+Attention removes both. Any word can consult any other word directly, with no chain in between. And every position is computed at the same time.
+
+The 2017 paper that introduced this was titled "Attention Is All You Need", and the field has built on it ever since.
+?? What were the two main weaknesses of the models that came before transformers?
++ They forgot distant words and could not be trained in parallel
+- They used too much colour and sound
+- They were too accurate and too cheap
+- They could only handle images
+= Sequential processing lost long-range detail and prevented the parallel training that scale requires.
+## Attention lets each word look at every other word and decide what matters
+Take the sentence: "The trophy did not fit in the suitcase because it was too big." What does "it" mean?
+
+You know immediately that it is the trophy. To get there, you linked "it" with "big" and "did not fit", and worked out which object that points to.
+
+Attention does the same with numbers. For the token "it", the model gives every other token a weight: a lot of weight on "trophy", some on "big", almost none on "the". Those weights decide whose information gets blended into "it".
+
+Change "big" to "small" and the weights shift to "suitcase".
+
+Nobody wrote a rule about pronouns. The model learned where to look.
+?? In attention, what do the weights between tokens represent?
++ How much each other token matters for understanding the current one
+- The number of letters in each token
+- The price of each token
+- The order in which the tokens were typed
+= Attention weights set how strongly each token draws information from every other token.
+## Query, key, and value as a library lookup (intuition; full math in C5)
+Attention is often explained with three roles: query, key and value. A library makes it concrete.
+
+You arrive with a query: "I need something about Roman roads". Every book has a key, the label on its spine saying what it is about. You compare your query with every key. The books whose keys match best are the ones you draw from. What you take away is the value: the contents.
+
+In a transformer, each token plays all three parts. It sends out a query ("what am I looking for?"), offers a key ("what do I contain?") and holds a value ("what I will pass on").
+
+The match between query and key sets the attention weight.
+?? In the library analogy, what does the "key" correspond to?
++ The label describing what each book contains, which is matched against your request
+- The request you walk in with
+- The contents you take away
+- The library's opening hours
+= Queries are compared with keys, and the best matches decide which values are passed along.
+## Parallel processing made huge training runs practical
+Because attention handles every position at the same moment, a transformer can use thousands of GPU calculations in parallel. Older designs had to wait for each word in turn.
+
+Think of marking exam papers. One teacher working through the pile is the old way. Handing a paper to each of a thousand teachers at once is the transformer way.
+
+This is not a small convenience. It is what made it feasible to train on a large share of the internet in weeks instead of centuries.
+
+And scale turned out to be the secret. The same design, with more data and more computing power, kept getting more capable. Without parallel training there would be no large language models.
+?? Why was parallel processing so important for LLMs?
++ It made training on enormous amounts of text feasible in a reasonable time
+- It made the models smaller
+- It removed the need for data
+- It made the models cheaper than calculators
+= Processing all positions at once lets training scale across many GPUs, which is what enabled today's model sizes.
+## Stacked layers of attention build up meaning
+One round of attention is not enough. Transformers stack dozens of layers, each made of attention followed by a processing step, and each working on the output of the one below.
+
+Understanding builds as the text rises through the stack. Lower layers sort out grammar and which words belong together. Middle layers work out who did what and what refers to what. Upper layers hold the gist: the topic, the intent and what is likely to come next.
+
+It is like rereading a difficult paragraph. The first pass gets the words, the second the structure, the third the point.
+
+By the top, each token's vector carries not just the word but its meaning in this exact context.
+?? What happens to a token's representation as it passes up through a transformer's layers?
++ It becomes richer, carrying more context and meaning
+- It is deleted
+- It turns into an image
+- It stays exactly the same
+= Each layer refines the representation using context, moving from surface features towards meaning.
+
+@@ sll_Pssiwxz3o8-A | A5.3 Transformers at a Conceptual Level > How LLMs Are Trained (Overview)
+## Next-token prediction
+At its core an LLM does one thing: given some text, it predicts the next token.
+
+"The capital of France is ___." The model gives a probability to every token in its vocabulary. "Paris" gets most of it.
+
+To write a paragraph it does this again and again. It predicts a token, adds it to the text, predicts the next, and so on. One token at a time, each chosen in the light of everything before it.
+
+It is your phone's autocomplete, scaled up almost beyond recognition.
+
+What is surprising is how much this simple task demands. To continue a legal argument, a proof or a joke well, a model needs something that works like understanding.
+?? What is the basic operation an LLM performs?
++ Predicting the next token given the text so far
+- Looking up answers in a database
+- Searching the internet
+- Copying and pasting stored documents
+= An LLM repeatedly predicts the next token, building its output one piece at a time.
+## Pretraining vs. post-training
+An LLM is made in two stages.
+
+Pretraining gives it knowledge. The model reads an enormous amount of text and learns to predict what comes next. What comes out is a base model: fluent and knowledgeable, but it only continues text. Ask it a question and it may reply with another question, because that is a plausible continuation.
+
+Post-training gives it manners. The base model is shaped into an assistant that follows instructions, answers helpfully and declines harmful requests.
+
+Think of a broad general education followed by job training. The first makes a well-read person. The second makes them useful in a particular role.
+
+Nearly everything you notice about a chatbot's behaviour comes from the second stage.
+?? What does pretraining mainly give an LLM?
++ Broad knowledge of language and the world, from predicting text
+- The ability to follow instructions politely
+- Access to live data
+- Its user interface
+= Pretraining on huge amounts of text builds general knowledge. Assistant behaviour comes from post-training.
+## Knowledge cutoff
+A model's knowledge stops at a date: its knowledge cutoff. That is when its training data was gathered. Anything after it, the model has not seen.
+
+Think of someone back from a year on a remote research station. They are bright and well informed, and they have no idea who won last month's election.
+
+Two awkward wrinkles. The model does not experience time passing, so it may assume that today is its cutoff date. And the cutoff is blurry: the last few months before it are thinly covered, because the internet had not finished writing about them.
+
+For anything recent, such as prices, news, new versions or current law, do not rely on the model's memory. Supply the information.
+?? What is a knowledge cutoff?
++ The date after which the model has no training data
+- The maximum length of a prompt
+- The point at which the model stops working
+- The price limit on an account
+= The model only knows what was in its training data, which ends at the cutoff date.
+## Pretraining: read huge amounts of text and predict the next token
+Pretraining is the long, expensive stage. The model is fed trillions of tokens: books, websites, code, papers. On every stretch of text it plays one game: guess the next token, see the real one, adjust.
+
+No person labels anything. The text is its own answer key.
+
+The scale is the point. After that many guesses, the model has had to pick up grammar, facts, styles, coding patterns and ways of reasoning, because all of them help it predict better.
+
+It is like someone who read an entire library with the last word of every sentence covered, guessing each one.
+
+This stage costs tens of millions of dollars or more, which is why only a few organisations do it.
+?? Why does pretraining need no human-written labels?
++ The next token in the text is itself the correct answer
+- People label every sentence in secret
+- The model does not learn during pretraining
+- Labels are bought from other companies
+= Next-token prediction is self-supervised, since the training target comes straight from the text.
+## Post-training: instruction tuning and human feedback shape a helpful assistant
+A raw pretrained model completes text. Post-training turns it into something you can talk to.
+
+Instruction tuning: the model is trained on many examples of an instruction followed by a good response. It learns the pattern "a request comes in, a helpful answer goes out".
+
+Human feedback: people rate or rank the model's answers, and the model is nudged towards the kind people prefer. This is often called RLHF, reinforcement learning from human feedback.
+
+Safety training: it learns to decline dangerous requests.
+
+It is the difference between a brilliant graduate and a trained professional. The knowledge is the same. One of them has learned how to behave with clients.
+?? What does instruction tuning teach a model?
++ To respond helpfully to requests instead of just continuing text
+- New facts about last week's news
+- How to browse the web
+- How to run faster
+= Training on instruction and response pairs teaches the assistant pattern of answering what is asked.
+## Post-training side effects: sycophancy and over-refusal
+Training a model to please people and to be safe leaves two side effects.
+
+Sycophancy: the model was rewarded for answers people liked, and people like being agreed with. So it leans towards flattery, praising a weak plan, giving way when you push back even though it was right, or mirroring your opinion. It is the employee who tells the boss what the boss wants to hear.
+
+Over-refusal: trained to decline harmful requests, it sometimes declines harmless ones that look similar on the surface, or buries a simple answer in warnings.
+
+The practical defence against the first: ask neutrally. "What are the weaknesses of this plan?" gets a more honest reply than "Great plan, isn't it?"
+?? What is sycophancy in an LLM?
++ A tendency to agree with or flatter the user instead of being accurate
+- Refusing every request
+- Running too slowly
+- Forgetting the conversation
+= Models trained on human approval can drift towards telling users what they want to hear.
+## Reasoning models are trained to think before answering
+A standard model starts answering straight away, token by token. That is fine for simple questions. On hard problems it is like blurting out the first thing that comes to mind.
+
+Reasoning models are trained to work on the problem first. Before the visible answer, they produce a stretch of working: trying approaches, checking steps, changing course. Then they answer.
+
+It is a student doing rough work on scratch paper before writing the final answer.
+
+The gain is large on multi-step problems such as maths, planning, tricky code and analysis. The cost is that the thinking is made of tokens too, so answers are slower and dearer. For "what is the capital of France?", it is wasted effort.
+?? What is the main trade-off of using a reasoning model?
++ Better results on hard problems, at the price of more time and cost
+- Faster answers with lower quality
+- It cannot answer simple questions at all
+- It needs no prompt
+= The extra thinking tokens improve multi-step accuracy but add latency and cost.
+## The model has no live data unless you supply it
+A plain LLM is sealed off. It cannot see today's date, your files, your inbox, the current share price or the web. It has only what it learned in training and what you put in the prompt.
+
+When a chatbot does seem to know current things, a system built around the model has fetched that information, by search or a database lookup, and pasted it into the prompt. The model itself did not go and find it.
+
+Think of a well-read consultant in a windowless room. Slide the right documents under the door and the advice is excellent. Slide nothing and they work from memory, and guess.
+
+Most of practical AI engineering is deciding what to slide under that door.
+?? How does a chatbot "know" today's news?
++ A surrounding system retrieves the information and puts it into the prompt
+- The model updates itself every night
+- The model browses the internet by itself inside its weights
+- It cannot; such answers are always invented
+= The model only has its training data and its context. Fresh information must be supplied by tools or retrieval.
+
+@@ sll_XQ6Ow2D4pb5e | A5.4 How LLMs Generate > Probabilities & Sampling
+## Next-token probabilities
+At every step the model does not produce one word. It produces a probability for every token in its vocabulary.
+
+For "The weather today is ___" it might say: sunny 30%, cold 15%, nice 12%, terrible 4%, and tiny amounts for tens of thousands of others. "Purple" gets close to zero.
+
+Then one token is picked from that list, added to the text, and the process repeats.
+
+Think of a weighted lottery where the likely tokens hold most of the tickets.
+
+So the model never knows the answer in the sense of looking it up. It holds a ranked set of plausible continuations. Everything about how it writes follows from how you pick from that list.
+?? What does an LLM produce at each step before a token is chosen?
++ A probability for every token in its vocabulary
+- A single fixed word
+- A complete paragraph
+- A link to a web page
+= The model outputs a distribution over all tokens, and one is then selected from it.
+## Temperature
+Temperature is a setting that controls how adventurous the model is when it picks the next token.
+
+At a low temperature, near 0, it almost always takes the most likely token. The output is focused, predictable and repeatable.
+
+At a higher temperature, around 1 or above, the less likely tokens get a real chance. The output is more varied and surprising, and more likely to wander off.
+
+Think of ordering at a restaurant. Low temperature is having your usual every time. High temperature is letting the waiter surprise you: sometimes delightful, sometimes a mistake.
+
+It does not make the model smarter or less smart. It only changes how it chooses among options it already had.
+?? What does a low temperature do?
++ Makes the output more focused and predictable
+- Makes the model know more facts
+- Makes the output more random
+- Makes the answer longer
+= Low temperature concentrates choices on the most likely tokens, giving consistent output.
+## Top-p (nucleus) sampling
+Top-p is a second control over which tokens can be chosen.
+
+The model ranks the tokens from most likely to least. It then keeps only the smallest group at the top whose probabilities add up to p, for example 90%, and picks from that group. Everything below the line is thrown out.
+
+So with top-p at 0.9, the long tail of very unlikely tokens can never be chosen, however the dice fall.
+
+It is a cut-off that adapts. When the model is sure, the group may be two tokens. When many continuations are reasonable, it may be fifty.
+
+Think of a shortlist: decide among the serious candidates and ignore the no-hopers. The usual advice is to adjust temperature or top-p, not both.
+?? What does top-p sampling do?
++ Limits the choice to the most likely tokens that together reach a set probability
+- Always picks the single most likely token
+- Picks at random from the whole vocabulary
+- Sets the maximum length of the answer
+= Top-p keeps the smallest set of top tokens whose combined probability reaches p, and removes the unlikely tail.
+## Softmax: how temperature reshapes probabilities
+Inside the model, each token first gets a raw score, called a logit. A step called softmax turns those scores into probabilities that add up to 1.
+
+Temperature acts just before that step. Every score is divided by the temperature.
+
+Low temperature exaggerates the gaps. The leader's probability climbs towards 100% and the rest collapse. The distribution becomes a sharp spike.
+
+High temperature shrinks the gaps. The scores move closer together and the distribution flattens, so the underdogs become real possibilities.
+
+Picture a mountain range. Low temperature stretches it upward until one peak towers over the rest. High temperature squashes it towards a plateau. The order of the peaks never changes, only how much the tallest dominates.
+?? What does raising the temperature do to the token probabilities?
++ Flattens them, giving less likely tokens a greater chance
+- Sharpens them around the top token
+- Changes which token is ranked first
+- Sets all of them to zero
+= Dividing the scores by a larger temperature narrows the gaps, so the distribution is more even.
+## Non-determinism: same prompt, different answers
+Ask an LLM the same question twice and you may get two different answers. That is non-determinism, and it surprises anyone used to ordinary software, where the same input always gives the same output.
+
+The cause is sampling. Each token is drawn from a probability list, like rolling weighted dice. One different early roll sends the rest of the answer down another path.
+
+For chatting, that is fine and even pleasant. For a business process it is a problem: the same invoice might be classified two ways on two runs.
+
+Lowering the temperature reduces the variation but does not guarantee it away. So AI systems need testing over many runs, not one.
+?? Why can the same prompt produce different answers?
++ Each token is sampled from a probability distribution
+- The model forgets the question
+- The provider changes the model every minute
+- Prompts are altered in transit
+= Sampling introduces randomness, and an early difference changes everything generated after it.
+## Low temperature for consistency; higher for variety
+Match the temperature to the job.
+
+Low, around 0 to 0.3, for tasks with a right answer or a strict format: pulling data from an invoice, sorting tickets, writing code, answering from a document. You want the same input to give the same output.
+
+Medium to higher, around 0.7 to 1, for tasks where variety is the point: brainstorming names, drafting marketing copy, writing fiction. Ten runs should give ten different ideas.
+
+It is the difference between an accountant and a brainstorming session. You want one to be boringly consistent and the other to range widely.
+
+Note that low temperature improves consistency, not correctness. A model can be reliably wrong.
+?? Which task suits a low temperature?
++ Extracting the total from an invoice
+- Brainstorming twenty product names
+- Writing a surprising short story
+- Suggesting unusual holiday ideas
+= Extraction has one correct answer and should be consistent, which is what low temperature favours.
+## Some reasoning models fix certain settings for you
+~m
+With many reasoning models you cannot freely set temperature or top-p. The provider fixes them, or accepts only a narrow range, and the API may ignore or reject your value.
+
+The reason is that these models were tuned to do their internal thinking under particular sampling conditions. Changing those could quietly hurt the quality of the reasoning.
+
+In return you often get a different dial: how much effort or thinking budget the model should spend.
+
+It is like a camera in automatic mode. It will not let you set the shutter speed, but it lets you choose "portrait" or "sport".
+
+So check the documentation for each model, because the rules differ and change. Code that sets a temperature may need adjusting when you switch models.
+?? Why might an API reject or ignore your temperature setting?
++ Some reasoning models have sampling settings fixed by the provider
+- Temperature is never adjustable on any model
+- Your API key has expired
+- The prompt was too short
+= Certain reasoning models restrict sampling parameters and offer a reasoning-effort control instead.
+
+@@ sll_QBC2ikzlCEiJ | A5.4 How LLMs Generate > Context Windows
+## Context window limits
+The context window is everything the model can see at once, measured in tokens. It is the model's working memory for a single request.
+
+Think of a desk. Whatever is on the desk, the model can use. Whatever is not, does not exist for it. And the desk has a fixed size.
+
+Modern windows are large, from a hundred thousand tokens up to a million or more, enough for several books. But they are finite. Go over the limit and the request fails, or the oldest material is dropped.
+
+The key consequence: the model has no memory between requests. When a chatbot seems to remember, it is because the earlier conversation was put back on the desk each time.
+?? What happens to information that is not in the context window?
++ The model cannot use it at all
+- The model retrieves it from memory automatically
+- It is stored for the next request
+- It is summarised in the background
+= The model can only work with what is inside the current context. Nothing else is visible to it.
+## Lost-in-the-middle
+Models do not attend evenly across a long context. They tend to use what is at the beginning and at the end well, and to overlook material buried in the middle.
+
+Researchers call this "lost in the middle". Put the same key fact at different positions in a long document, and accuracy sags when it sits in the centre.
+
+People do something similar: after a long meeting you remember the opening and the closing remarks best.
+
+Newer models have reduced the effect but not removed it.
+
+The practical response: put the most important instructions and facts at the start or the end. Restate the question after a long document. And do not pad the context with material that is not needed.
+?? Where should the most important instruction go in a very long prompt?
++ At the beginning or the end
+- Exactly in the middle
+- It makes no difference
+- In a separate request that is never sent
+= Models attend most reliably to the start and end of long contexts, so key content belongs there.
+## Context includes the prompt, the history, and the answer
+The context window is not just your latest message. Everything shares it.
+
+It holds the system instructions that set the model's behaviour. The whole conversation so far, with every earlier question and answer. Any documents or tool results that were added. Your new message. And the answer the model is about to write, which needs space too.
+
+It is a suitcase with a fixed size. Clothes, shoes and gifts all compete for the same space, and you have to leave room for what you will bring back.
+
+That is why long chats eventually hit limits, cost more with every turn, and can run out of room for a full answer.
+?? Which of these does NOT count towards the context window?
++ Text you never sent to the model
+- The system instructions
+- The earlier conversation turns
+- The answer being generated
+= Instructions, history, added documents and the output all occupy the window. Only unsent text does not.
+## Bigger windows cost more and can lower quality
+A huge context window invites you to throw everything in. There are two reasons not to.
+
+Cost: you pay for every token in the window on every request. Send a 300-page manual with each question and you pay for 300 pages each time, however small the question. It is slower as well.
+
+Quality: more text means more for the model to sift through. Irrelevant passages distract it, important details get diluted, and accuracy tends to fall as the context fills. This is sometimes called context rot.
+
+Think of briefing a colleague. Hand them the three relevant pages, not the whole filing cabinet with "the answer is in there somewhere".
+
+A big window is a capacity, not a target.
+?? What is a downside of filling a large context window with everything available?
++ Higher cost and often lower answer quality
+- The model becomes permanently smarter
+- The provider refunds the unused tokens
+- The model's knowledge cutoff moves forward
+= Every token is billed on each call, and irrelevant content distracts the model from what matters.
+## For long documents, retrieve the relevant parts instead
+When you have more material than fits, or more than is sensible to send, do not send it all. Find the relevant pieces first and send only those.
+
+This is retrieval. Split the documents into chunks, index them, and for each question pull out the few passages most likely to hold the answer. Only those go into the context.
+
+It is how you use a reference book. You do not reread the whole encyclopaedia for one question. You go to the index, open the right page and read that.
+
+The result is cheaper, faster and usually more accurate, because the model sees a focused context. The technique is called retrieval-augmented generation, or RAG, and it has its own module later.
+?? What is the main idea of retrieval for long documents?
++ Find and send only the passages relevant to the question
+- Send every document every time
+- Shorten the question
+- Raise the temperature
+= Retrieval selects the relevant chunks so the model gets a small, focused context.
+
+@@ sll_wXECmMLdO8Vs | A5.4 How LLMs Generate > Failure Modes
+## Hallucination
+A hallucination is when a model produces something that sounds right and is false: an invented fact, a quotation nobody said, a reference to a paper that does not exist.
+
+It is not a glitch added on top. It follows from how the model works. It generates plausible text, and nothing inside it separates "plausible" from "true". When it knows, the plausible answer is usually the right one. When it does not, it produces something of the same shape anyway.
+
+Think of a student in an exam who never leaves a blank, and writes a confident, well-formed answer to every question, known or not.
+
+Hallucination can be reduced a great deal. It cannot be assumed away.
+?? Why do LLMs hallucinate?
++ They generate plausible text and have no built-in check that it is true
+- They are programmed to lie
+- Their internet connection drops
+- The user typed too slowly
+= The model predicts likely continuations. When it lacks the knowledge, it still produces something that sounds plausible.
+## Grounding (preview)
+Grounding means tying the model's answer to specific source material you provide, instead of to its memory.
+
+Compare two instructions. "What is our returns policy?" leaves the model to guess from general knowledge. "Here is our returns policy document. Answer using only this, and quote the relevant line" gives it something solid to stand on.
+
+It is the difference between a closed-book and an open-book exam. Even a good student is more accurate with the book open.
+
+Grounding is the most effective single defence against hallucination. It also brings two bonuses: the answers can be up to date, and they can cite where they came from, so a person can check.
+?? What does grounding mean?
++ Basing the model's answer on source material supplied in the prompt
+- Running the model on a server in a basement
+- Lowering the temperature to zero
+- Training a new model
+= Grounding ties answers to provided sources, which reduces invention and allows citation.
+## Models state wrong things with confidence
+With people, confidence is a rough guide. Someone who hesitates is probably unsure. With LLMs that signal is broken.
+
+A model writes an invented statistic in the same fluent, assured tone as a well-known fact. There is no wobble in the voice, no "I think" unless it was trained or told to add one. Fluency is the one thing it always has.
+
+It is the sat-nav that says "turn left" in the same calm voice whether there is a road there or a lake.
+
+So tone tells you nothing about accuracy. Polished, detailed and specific does not mean correct. Detail can even be a warning: an invented citation comes complete with authors, year and page number.
+?? What does a confident, fluent tone tell you about the accuracy of an LLM's answer?
++ Nothing reliable; models sound equally confident when wrong
+- That the answer is correct
+- That the answer was checked by a person
+- That the model searched the web
+= Fluency is constant in LLM output, so confidence of tone is not evidence of correctness.
+## Common triggers: obscure facts, citations, and numbers
+Hallucination is not evenly spread. It gathers in predictable places.
+
+Obscure facts: a small company's history or a minor local rule. The model saw little about them, so it fills in.
+
+Citations and links: paper titles, legal cases, URLs and page numbers are easy to make look right and hard to get exactly right.
+
+Precise numbers: dates, statistics, prices, measurements. The model recalls the rough shape and invents the digits.
+
+Recent events, and anything about you or your business that was never public.
+
+The pattern: the more specific the claim and the thinner the training data, the higher the risk. Those are the claims to check, and the ones to supply sources for.
+?? Which request is most likely to produce a hallucination?
++ "Give me five academic references with page numbers on this niche topic"
+- "What is two plus two?"
+- "Rephrase this sentence more politely"
+- "Summarise the paragraph I pasted"
+= Exact citations on obscure topics are a classic trigger, because they are easy to fabricate convincingly.
+## Reduce it: give sources, allow "I don't know", and verify
+Three practical moves cut hallucination sharply.
+
+Give sources. Put the relevant documents in the prompt and tell the model to answer only from them. That turns a memory test into a reading task.
+
+Allow "I don't know". Say it outright: "If the answer is not in the documents, say so." Without that permission the model feels obliged to produce something.
+
+Verify. Ask for quotations or citations and check them. For anything important, a person or a second automated check confirms it before it is used.
+
+Think of a newsroom: use sources, admit what is not known, and check the facts before publishing. None of the three is perfect. Together they make the difference between a toy and a tool.
+?? Which instruction helps reduce hallucination?
++ "If the answer is not in the provided documents, say you do not know"
+- "Always give an answer, whatever happens"
+- "Be as creative as possible with the facts"
+- "Never mention your sources"
+= Explicit permission to decline removes the pressure to invent an answer.
+## Stale knowledge and bias are other failure modes
+Hallucination gets the headlines, but two quieter failures matter as much.
+
+Stale knowledge: the model answers correctly for the world as it was at its cutoff. It recommends a software version that has been replaced, or a tax rate that has changed. Nothing was invented. It is simply out of date.
+
+Bias: the model learned from human writing and absorbed its slants. It may assume a nurse is a woman and an engineer a man, favour Western examples, or write about some groups in stereotypes.
+
+Both are hard to notice, because the output still reads as reasonable.
+
+The defences are the usual ones: supply current information, test with varied examples and review anything that affects people.
+?? A model recommends a software version that was replaced after its training. Which failure is this?
++ Stale knowledge
+- Bias
+- Tokenization
+- Over-refusal
+= The answer was right at the cutoff date but is now out of date.
+
+@@ sll_Y40KwV7qjecP | A5.5 The Model Landscape > Choosing Models
+## Closed APIs vs. open-weight models
+There are two ways to get an LLM.
+
+Closed models are run by their makers and reached over the internet through an API. You send text and get text back. You never hold the model. GPT, Claude and Gemini work like this.
+
+Open-weight models publish the model files, the weights, so anyone can download and run them on their own machines. Llama, Mistral and Qwen are examples.
+
+It is renting against owning. Renting is easy, maintained for you and usually the best quality, but you follow the landlord's rules and prices. Owning gives control and privacy, and makes the upkeep your problem.
+
+Most teams start with closed models and consider open ones when privacy, cost or control demands it.
+?? What is the defining feature of an open-weight model?
++ Its weights can be downloaded and run on your own hardware
+- It is always free of any licence terms
+- It can only be used through one company's app
+- It has no parameters
+= Open-weight means the model files are published, so you can host it yourself.
+## Quality, cost, latency, and privacy tradeoffs
+Choosing a model means balancing four things, and no model wins on all of them.
+
+Quality: how well it handles your task. Cost: what each request costs at your volume. Latency: how long the user waits. Privacy: where your data goes and who may see it.
+
+They pull against each other. The most capable models are slower and dearer. The cheapest and fastest make more mistakes. The most private options can mean more work.
+
+It is the familiar "good, fast, cheap: pick two", with privacy as a fourth corner.
+
+So there is no best model, only the best for this task. A support chatbot needs speed. A contract review needs quality. A hospital needs privacy first.
+?? What are the four main trade-offs when choosing a model?
++ Quality, cost, latency and privacy
+- Colour, shape, size and weight
+- Name, logo, slogan and font
+- Length, width, height and depth
+= Model choice balances how good, how expensive, how fast and how private the option is.
+## The LLM as the "brain" of an agent
+An LLM by itself only produces text. An agent is a system built around one, so that it can do things.
+
+In an agent the LLM is the decision-maker. It reads the goal, decides what to do next, picks a tool, looks at the result and decides again. The parts around it supply hands and memory: tools for searching, sending and calculating, and storage for what has happened so far.
+
+Think of a manager at a desk with a phone. The manager does none of the physical work, but decides who to call and what to ask for.
+
+Model quality matters more here. An agent makes many decisions in a row, and one bad one can derail the rest.
+?? What role does the LLM play in an agent?
++ It decides what to do next and which tools to use
+- It stores all the company's files
+- It provides the electricity
+- It replaces the need for any tools
+= The LLM is the reasoning core, choosing actions, while tools and memory carry them out and record them.
+## The full market map
+~m
+The model market looks crowded, but it sorts into a few groups.
+
+Closed frontier labs sell access to their best models: OpenAI with GPT, Anthropic with Claude, Google with Gemini.
+
+Open-weight publishers release models you can run yourself: Meta with Llama, Mistral, DeepSeek, Alibaba with Qwen and others.
+
+Cloud platforms such as AWS, Azure and Google Cloud resell many models under one account.
+
+Specialist hosts run open models fast or cheaply for you.
+
+Then come the tools built on top: frameworks, coding assistants, automation platforms.
+
+The names change every few months. The groups stay put. Learn the map and not the leaderboard. The next module walks through it.
+?? Which statement about the model market is most durable?
++ The categories of player stay fairly stable while the leading names change
+- One company will always have the best model
+- Open-weight models do not exist
+- Cloud platforms build all the models themselves
+= Rankings shift constantly, but the structure of labs, open publishers, clouds and hosts persists.
+## Model tiers: large, small, and reasoning
+Most providers sell a family of models, not one, in three broad tiers.
+
+Large models are the most capable generalists. Use them for hard, open-ended or high-stakes work.
+
+Small models are much faster and far cheaper, sometimes ten or more times cheaper. They handle simple, high-volume jobs well: classifying, extracting, routing, short replies.
+
+Reasoning models, or reasoning modes, think before answering. Use them for multi-step problems where accuracy matters more than speed.
+
+Think of staffing a firm. You do not put the senior partner on filing, or the trainee on the hardest case.
+
+A good system mixes tiers: a small model for easy steps, a strong one only where it is needed.
+?? Which tier fits a simple, high-volume task such as sorting emails into categories?
++ A small, fast model
+- The largest model available
+- A reasoning model at maximum effort
+- An image generation model
+= Small models are cheap and quick, and are good enough for simple classification at scale.
+## Test on your own task, not on leaderboards
+Leaderboards rank models on standard tests. They are useful for a first shortlist and misleading as a final answer.
+
+A benchmark measures performance on the benchmark. Your task has different documents, different jargon, different edge cases and different standards. The model ranked first overall may be third on your invoices.
+
+It is like buying running shoes from magazine reviews. The reviews narrow the field, but you still have to run in them.
+
+So build a small test set from your real work: 20 to 50 examples with known good answers. Run the candidates on it and compare. It takes an afternoon and beats any league table.
+?? What is the best way to choose between two models for your task?
++ Run both on a set of your own real examples and compare the results
+- Pick whichever is higher on a public leaderboard
+- Choose the one with the better logo
+- Choose the newest without testing
+= General benchmarks do not reflect your specific data and standards, so a test on your own examples is the reliable guide.
+## Plan to switch models: prices and quality keep moving
+Whichever model you choose today will not be the best choice for long. New ones arrive every few months, prices fall, and old models are retired on a schedule. That last point is a deadline, not an option.
+
+So build as if you will switch, because you will.
+
+In practice: keep the model name in a setting, not scattered through the code. Keep your prompts and test examples in your own files. Avoid leaning on features only one provider offers unless they are worth it.
+
+It is like not building a house round one particular fridge.
+
+The test set from the previous card is what makes switching safe. Rerun it on a new model and you know within minutes whether to move.
+?? Why should you design an AI system so that the model can be swapped easily?
++ Models are regularly improved, repriced and retired
+- Models never change, so it does not matter
+- Switching is illegal
+- Each prompt only works once
+= The market moves fast and old models are withdrawn, so easy switching protects both quality and cost.

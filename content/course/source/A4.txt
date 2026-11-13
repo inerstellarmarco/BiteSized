@@ -1,0 +1,451 @@
+// A4 Neural Networks & How They Learn
+@@ sll_v_pd67aP4Kiw | A4.1 Neural Network Basics > Neurons & Layers
+## Neurons, weights, and activations
+A neural network is built from simple units called neurons. Each one does a small sum.
+
+It takes in several numbers. It multiplies each by a weight, which is that input's importance. It adds them up. Then an activation rule decides how strongly to pass the result on.
+
+Think of deciding whether to go for a walk. Sunshine counts a lot, a free afternoon counts a bit, tired legs count against. Weigh them, add them, and if the total is high enough, you go.
+
+The weights are the part that gets learned. One neuron is trivial. The power comes from wiring millions of them together.
+?? In a neuron, what does a weight represent?
++ How much importance one input is given
+- The final answer of the network
+- The number of layers
+- The speed of the computer
+= Each input is multiplied by its weight, so the weight sets how strongly that input influences the result.
+## Layers and deep networks
+Neurons are arranged in layers. Data enters at the input layer, passes through one or more hidden layers, and comes out at the output layer. Each layer hands its results to the next.
+
+"Deep" learning simply means many layers.
+
+It is like an assembly line where each station does one step on what the previous station passed along. No single station builds the car. The line does.
+
+A shallow network can learn simple patterns. Stacking layers lets the network build complicated ideas out of simple ones, step by step. That stacking, plus enough data and computing power, is what turned neural networks from a curiosity into the engine of modern AI.
+?? What does "deep" mean in deep learning?
++ The network has many layers
+- The network thinks profound thoughts
+- The data is stored deep on a disk
+- The model is very slow
+= Depth refers to the number of layers stacked between the input and the output.
+## A neuron weighs its inputs, adds them up, and applies a rule
+Here is one neuron worked through with numbers.
+
+Three inputs arrive: 2, 1 and 3. The neuron's weights are 0.5, minus 1 and 0.2.
+
+Weigh: 2 times 0.5 is 1. 1 times minus 1 is minus 1. 3 times 0.2 is 0.6. Add: the total is 0.6. A small fixed number called the bias may be added as well.
+
+Apply the rule: a common one says "if the total is negative, output 0, otherwise pass it on". So this neuron outputs 0.6.
+
+That is all there is to it: multiply, add, apply a rule. Notice the negative weight. It lets an input count against the result.
+?? What are the three steps a neuron performs?
++ Multiply inputs by weights, add them up, apply an activation rule
+- Read a file, save a file, close a file
+- Ask a question, wait, answer
+- Sort, filter and group
+= A neuron computes a weighted sum of its inputs and then passes it through an activation function.
+## Activation functions let networks learn curves, not only straight lines
+Without activation functions, a neural network could only draw straight lines, however many layers it had. Stack straight-line sums on straight-line sums and you still get a straight line.
+
+But the world bends. Price does not rise evenly with size. Risk does not grow evenly with age.
+
+The activation function adds the bend. The most common, ReLU, is very simple: negative numbers become zero, positive numbers pass through. That small kink, repeated across millions of neurons, lets the network shape itself round almost any pattern.
+
+Think of building a curve from many short straight sticks joined at angles. With enough sticks, it looks smooth.
+?? Why do neural networks need activation functions?
++ Without them the network could only model straight-line relationships
+- They store the training data
+- They connect the network to the internet
+- They reduce the number of layers
+= Activations add non-linearity, which lets layers combine into curved, complex patterns.
+## Parameters: the weights a model learns (billions in an LLM)
+Parameters are the numbers inside a model that training adjusts. In practice they are the weights, plus the biases. They are what the model has learned.
+
+Picture a giant mixing desk with a dial for each one. Training turns the dials, a little at a time, until the output sounds right.
+
+A small network has thousands of them. Large LLMs have billions, some hundreds of billions. When a model is described as "7B", that means seven billion parameters.
+
+More parameters give more capacity to store patterns, and usually more ability. They also mean more memory, more cost and slower answers. Bigger is not automatically better for a given job.
+?? A model is described as "7B". What does that refer to?
++ About seven billion parameters
+- Seven billion users
+- Seven billion training documents
+- A price of seven billion dollars
+= The figure counts the model's learned weights, a rough measure of its size and capacity.
+## Depth lets later layers build on what earlier layers found
+Each layer works with what the layer before it produced, so understanding builds up in stages.
+
+In an image network, the first layer notices edges. The next combines edges into corners and curves. The next combines those into eyes and wheels. Later layers recognise faces and cars.
+
+It is like reading. Strokes make letters, letters make words, words make sentences, sentences make meaning. You cannot jump from ink marks to the plot in one step.
+
+Nobody programs these stages. They appear by themselves during training, because building on earlier results is the most efficient way to solve the task. That is why depth matters and not just size.
+?? In a deep image network, what do the earliest layers tend to detect?
++ Simple patterns such as edges
+- Whole objects such as cars
+- The photographer's name
+- The meaning of the scene
+= Early layers pick up basic features, and later layers combine them into more complex ones.
+
+@@ sll_6znkaMrxX9OK | A4.1 Neural Network Basics > Representations
+## Learned features
+In older machine learning, people chose the features by hand. To recognise faces, engineers wrote code to measure the distance between the eyes and the width of the nose. It was slow and brittle.
+
+A neural network learns its own features. Give it raw pixels and the right answers, and it works out for itself what is worth noticing.
+
+It is the difference between giving an apprentice a checklist and letting them watch a master for years until they just see it.
+
+This is the main reason deep learning won. The learned features are usually better than any we could design, and the same method works for images, sound and text. The cost is that those features are hard for people to inspect.
+?? What is a "learned feature"?
++ A pattern the network discovered for itself during training
+- A column typed in by an engineer
+- A setting chosen before training
+- A label given by a person
+= Deep networks work out which aspects of the raw input are useful, instead of being told.
+## Latent space (intuition)
+Inside a network, every input is turned into a list of numbers: a position in an internal space. That hidden space is called the latent space.
+
+Think of a library. Books are not shelved at random. Cookbooks sit together, near the gardening section, far from car manuals. A book's place tells you something about its content.
+
+A network arranges its inputs in the same way, but by meaning, and across hundreds of dimensions instead of along a few aisles. Nobody designed the layout. It emerged from training.
+
+"Latent" just means hidden. You never see this space directly, but it is where the model's understanding lives.
+?? What is a latent space?
++ The model's internal space, where inputs are placed according to their learned features
+- The folder where training files are kept
+- The empty space on a hard disk
+- A list of the model's users
+= Inputs are mapped to positions in an internal space whose layout reflects patterns the network learned.
+## Early layers find simple patterns; later layers find complex ones
+As data moves through a network, its representation gets more abstract at each step.
+
+For language, early layers mostly track surface things: which words are present, and their grammar. Middle layers pick out relationships: who did what to whom. Later layers hold meaning: the topic, the tone, what is being asked.
+
+It is like a company. Front-line staff handle individual facts, managers summarise them, and directors deal in the big picture.
+
+Two practical consequences. Useful general knowledge sits in the early and middle layers, which is why a pretrained model can be reused for a new job. And nobody labelled these levels. Researchers found the structure by studying trained networks.
+?? Which layers of a language model tend to hold the most abstract information, such as topic or intent?
++ The later layers
+- The very first layer
+- No layer holds meaning
+- Only the input layer
+= Representations become more abstract with depth, moving from surface form towards meaning.
+## Similar things end up close together
+In a trained model's internal space, distance means something. Items the model treats as alike land near each other.
+
+Photos of cats cluster together, apart from photos of trucks. The words "doctor" and "nurse" sit close. "Doctor" and "banana" do not.
+
+Think of the guests at a party, who naturally drift into groups by shared interest. Nobody assigns the corners.
+
+This one property drives a huge amount of practical AI. Search by meaning: find the stored text nearest to the question. Recommendations: find products near the ones you liked. Spotting duplicates and oddities: what is nearly on top of something else, or far from everything.
+
+"Find similar things" becomes "find nearby points".
+?? In a model's internal space, what does it mean if two items are close together?
++ The model treats them as similar
+- They were added on the same day
+- They have the same file size
+- They are stored on the same disk
+= Training arranges the space so that distance reflects similarity in learned features.
+## Embeddings are one kind of representation
+An embedding is a representation that you take out of a model and use: a list of numbers standing for a piece of text, an image or a sound.
+
+Send the sentence "How do I reset my password?" to an embedding model and it returns, say, 1,536 numbers. That list is the sentence's position on the model's map of meaning.
+
+Treat it as a postcode for meaning. The digits themselves tell you little, but two close postcodes are neighbours.
+
+Embeddings are how you put a model's sense of similarity to work in your own systems. Semantic search, document retrieval for chatbots and recommendation engines are all built on them. They come back in detail later in the course.
+?? What is an embedding?
++ A list of numbers that represents the meaning of an item such as a sentence
+- A compressed zip file
+- A type of chart
+- A password
+= An embedding is a vector produced by a model, positioning an item so that similar items lie close together.
+
+@@ sll_z7oetIfjVXPl | A4.2 How Networks Learn > Gradient Descent (Intuition)
+## Walking downhill on the loss
+Training means finding the weights that make the loss as small as possible. Gradient descent is the method.
+
+Imagine standing on a hillside in thick fog, wanting to reach the valley. You cannot see the bottom. But you can feel which way the ground slopes under your feet. So you take a step downhill, feel again, and step again.
+
+That is gradient descent. The "gradient" is the slope: it tells the model which way to change each weight to lower the loss a little. Take a small step that way, and repeat.
+
+Nobody knows the right weights in advance. The model reaches them by millions of small downhill steps.
+?? In gradient descent, what does the gradient tell the model?
++ Which direction to change the weights to reduce the loss
+- How many layers to add
+- What the correct answer is
+- How much data is left
+= The gradient is the slope of the loss, showing which way each weight should move to lower it.
+## Learning rate
+The learning rate is the size of each step downhill. It is one of the most important settings in training, and a person chooses it. The model does not learn it.
+
+Think of the temperature knob on a shower. Small careful turns get you to a comfortable temperature, slowly. Big yanks send you from freezing to scalding and back again.
+
+Settings like this, chosen before training starts, are called hyperparameters. They are the settings about learning, as opposed to the weights that are learned.
+
+A common approach is to start with larger steps and shrink them over time: stride while you are far from the valley, tiptoe as you get close.
+?? What is the learning rate?
++ The size of the adjustment made to the weights at each step
+- The number of examples in the dataset
+- The speed of the internet connection
+- The number of neurons
+= It sets how far the weights move on each update, and is chosen by people before training.
+## Too big a step overshoots; too small a step crawls
+The learning rate fails in two opposite ways.
+
+Too big, and each step jumps right over the valley and lands on the opposite slope, possibly higher than before. The loss bounces around or blows up. It is trying to park by flooring the accelerator.
+
+Too small, and every step moves a hair's width. Training runs for days and may stall in a shallow dip well short of the real valley.
+
+The right value sits between them and differs from problem to problem, so it is found by trying.
+
+A loss curve tells you which you have. Wild jumps mean the steps are too large. A nearly flat line means they are too small.
+?? During training the loss jumps around wildly and then explodes. What is the likely cause?
++ The learning rate is too high
+- The learning rate is too low
+- There is too much training data
+- The model has too few users
+= Oversized steps overshoot the minimum, which makes the loss unstable.
+## Batches: learning from small groups of examples
+A model does not study the whole dataset before each adjustment. That would be far too slow. It does not adjust after every single example either, since one example is too noisy to trust.
+
+Instead it works through a batch: a small group, say 32 examples. It measures the average error across them, makes one adjustment, and moves to the next batch.
+
+It is a chef tasting a spoonful instead of eating the whole pot. The spoonful is not perfect, but it is good enough to decide on more salt, and far quicker.
+
+One full pass through all the data is called an epoch. Training usually runs for several.
+?? What is a batch in training?
++ A small group of examples used for one weight update
+- The whole dataset at once
+- A single example
+- A saved copy of the model
+= The model averages its error over a batch and then adjusts, balancing speed against a reliable signal.
+## Training can stall or become unstable
+Training does not always glide smoothly to a good answer. Two things commonly go wrong.
+
+It stalls: the loss stops improving while the model is still poor. The walker has reached flat ground or a small dip and can find no slope to follow.
+
+It becomes unstable: the loss swings about or shoots off to enormous values, sometimes shown as NaN, "not a number". The steps were too big and the weights have run away.
+
+That is why engineers watch the loss curve while training runs and save checkpoints, which are copies of the model along the way. If things go wrong at hour ten, they go back to hour eight instead of starting again.
+?? Why are checkpoints saved during training?
++ So training can resume from an earlier good state if something goes wrong
+- To make the model larger
+- To raise the learning rate
+- To delete old data
+= A checkpoint is a saved copy of the weights, which lets you roll back without restarting from zero.
+
+@@ sll_AaLnHvtfzgoR | A4.2 How Networks Learn > Backpropagation (Intuition)
+## Passing error backward
+A network makes a prediction and it is wrong. With millions of weights involved, which of them were to blame?
+
+Backpropagation answers that. It starts with the error at the output and works backwards through the layers, calculating how much each weight contributed.
+
+Think of a restaurant that gets a complaint about a dish. The manager traces it back: was it the plating, the cooking, the recipe, the supplier? Each stage gets feedback in proportion to its part in the problem.
+
+"Backprop" is that tracing, done with mathematics, for every weight at once. It gives gradient descent what it needs: a direction for every weight.
+?? What does backpropagation work out?
++ How much each weight contributed to the error
+- The correct label for the example
+- How many layers the network should have
+- How long training will take
+= Backpropagation carries the output error back through the network to assign each weight its share of the blame.
+## Frameworks do the math (PyTorch)
+Nobody works out backpropagation by hand. Frameworks do it automatically.
+
+PyTorch is the most widely used one in AI research. TensorFlow and JAX are others. You describe the network and the loss in a few lines. The framework keeps track of every calculation and then computes all the gradients for you. One line, loss.backward(), does the backward pass.
+
+It is like a spreadsheet. You write the formulas, and it recalculates everything when a number changes. You never do the long arithmetic yourself.
+
+So practitioners spend their time on the data, the design and the evaluation, not on calculus. If you only use models and do not train them, you may never touch this layer at all.
+?? What does a framework such as PyTorch do for you during training?
++ It computes the gradients automatically
+- It writes the training data
+- It guarantees the model will be accurate
+- It replaces the need for a GPU
+= The framework tracks the calculations and derives all the gradients, so no manual calculus is needed.
+## Each weight is nudged by how much it contributed to the error
+Once backpropagation has shared out the blame, every weight is adjusted, and the size of the adjustment follows the blame.
+
+A weight that pushed the answer strongly the wrong way gets a larger correction. One that hardly mattered is left almost alone. One that helped may be strengthened.
+
+Think of a band rehearsing. The conductor does not tell everyone to play differently. The trumpet that came in far too loud is told to pull right back. The violins that were nearly right get a small note.
+
+Each nudge is tiny on purpose. One example should not rewrite the model. Learning is the sum of millions of small, well-aimed corrections.
+?? After a wrong prediction, which weights receive the largest adjustment?
++ Those that contributed most to the error
+- All weights are changed by the same amount
+- Only the weights in the first layer
+- A randomly chosen few
+= The update for each weight is proportional to its share of the error, so the most responsible weights move most.
+## One training step: predict, measure the error, adjust; repeat millions of times
+The whole of training is one short loop.
+
+Predict: push a batch of examples through the network and get its answers. This is the forward pass.
+
+Measure: compare the answers with the correct ones and compute the loss.
+
+Adjust: use backpropagation to find each weight's share of the error, and nudge every weight slightly in the helpful direction.
+
+Then do it again with the next batch. And again, millions of times.
+
+It is how anyone learns a skill: try, see how far off you were, correct a little, repeat. No single step achieves much. A large model's ability is nothing more than this loop run at an enormous scale.
+?? What is the correct order of one training step?
++ Predict, measure the error, adjust the weights
+- Adjust the weights, predict, measure the error
+- Measure the error, adjust, then never predict
+- Predict once and stop
+= Each step runs a forward pass, computes the loss and then updates the weights from the gradients.
+## GPUs make this fast by doing many calculations at once
+Training is billions of simple multiplications and additions. No single one is hard. There are just an enormous number of them.
+
+A CPU, the ordinary processor, is like a handful of brilliant mathematicians. A GPU, a graphics processor, is like thousands of schoolchildren who can each do one simple sum, all at the same moment. For this kind of work the crowd wins easily.
+
+GPUs were built for video games, where millions of pixels must be computed together. Neural network maths turned out to have the same shape.
+
+The difference is enormous: training that would take years on CPUs takes days or weeks on GPUs. That is why AI companies compete so hard for chips.
+?? Why are GPUs well suited to training neural networks?
++ They perform huge numbers of simple calculations in parallel
+- They store more files than a hard disk
+- They are cheaper than every other part
+- They understand language
+= Neural network maths is many simple operations that can run side by side, which is what GPUs are built for.
+
+@@ sll_E9MxCqZi2Kb0 | A4.3 Pretrained Models > Transfer Learning (Intro)
+## Reusing pretrained models
+A pretrained model has already been trained, by somebody else, on a huge amount of general data. You take it and put it to work on your own task.
+
+Think of hiring an experienced graduate instead of raising a child from birth. They can already read, write and reason. You only teach them your company's particulars.
+
+This is called transfer learning: knowledge gained on one task carries over to another.
+
+It is how nearly all AI is built today. Almost nobody trains a large model from nothing. You start from one that exists and then either use it as it is, guide it with prompts, or adapt it with a little extra training.
+?? What is transfer learning?
++ Reusing a model trained on one task as the starting point for another
+- Moving files between two computers
+- Training every model from scratch
+- Translating text between languages
+= Knowledge captured in a pretrained model transfers to new tasks, so you need not start from nothing.
+## Hugging Face Hub models
+~m
+The Hugging Face Hub is the main public library of AI models. Think of it as a vast app store, or as GitHub for models. It hosts well over a million of them, along with datasets and demos.
+
+You can search by task, such as translation, speech recognition or image labelling, and download a model with a few lines of code.
+
+The quality varies as much as in any open marketplace. Some models come from major labs. Many are experiments uploaded by individuals.
+
+So treat it like any marketplace. Check who published the model, how much it is used, what the documentation says and what the licence permits before you build on it.
+?? What is the Hugging Face Hub?
++ A public platform for sharing and downloading AI models and datasets
+- A paid chatbot
+- A brand of computer chip
+- A programming language
+= The Hub hosts openly shared models, datasets and demos that can be downloaded and used.
+## Why reuse: training from scratch costs a fortune
+Training a leading LLM from nothing takes thousands of specialised chips running for months, a large share of the internet's text, and a big expert team. The bill runs to tens or hundreds of millions of dollars for a single model.
+
+A small business has none of that. Even big companies rarely bother.
+
+Reuse changes the sums completely. Calling an existing model through an API costs fractions of a penny per request. Adapting one costs a tiny part of the original training.
+
+It is the difference between building a power station and plugging into the socket.
+
+So the real question is almost never "should we train a model?" It is "which existing model, and how do we use it?"
+?? Why do most organisations not train large models from scratch?
++ It needs enormous computing power, data and money
+- It is illegal
+- Pretrained models cannot be used commercially
+- Training from scratch always gives worse results
+= The cost of training a frontier model is out of reach for almost everyone, while reusing one is cheap.
+## Fine-tuning adapts a model using a small dataset
+Fine-tuning means taking a pretrained model and training it a little further on your own examples. That shifts its behaviour towards your task.
+
+The model already knows the language. Fine-tuning teaches it your house style, your categories or your specialist vocabulary.
+
+It is a qualified doctor doing a short course in a speciality. That takes months, not another medical degree.
+
+Because the model starts from so much knowledge, a few hundred to a few thousand good examples are often enough.
+
+A caution for later in the course: fine-tuning is rarely the first thing to try. Better prompts, or giving the model the right documents, are cheaper and often enough.
+?? What does fine-tuning do?
++ Continues training a pretrained model on a small, specific dataset
+- Trains a brand-new model from random weights
+- Deletes the model's general knowledge
+- Makes the model's file smaller
+= Fine-tuning adjusts an existing model with task-specific examples, building on what it already knows.
+## Read the model card and the licence before using a model
+Every reputable model comes with two things worth five minutes of your time.
+
+The model card is the label on the tin. It says what the model was trained on, what it is good at, where it is known to fail and how it was tested. If it says "English only" or "not evaluated for medical use", believe it.
+
+The licence says what you may legally do. Some models are free for any use. Some forbid commercial use. Some carry conditions.
+
+"Open" and "downloadable" do not mean "free to use in my product".
+
+Skipping this is like installing a machine in your shop without reading the safety sheet or checking that you are allowed to operate it.
+?? Where would you find a model's intended uses and known limitations?
++ In its model card
+- In its file name
+- In the price list
+- Nowhere; this is never published
+= A model card documents training data, intended use, limitations and evaluation.
+
+@@ sll_KIMXcrPNTsmQ | A4.3 Pretrained Models > Model Types (Overview)
+## Vision, language, and audio models
+Models are grouped by the kind of data they handle. Each kind is called a modality.
+
+Vision models work with images and video: recognising objects, reading documents, generating pictures.
+
+Language models work with text: writing, summarising, translating, answering questions, writing code.
+
+Audio models work with sound: turning speech into text, text into speech, and generating music.
+
+Under the surface they share the same idea. Each turns its input into numbers, finds patterns and produces an output. But each was shaped by its own data, the way a wine taster, an editor and a piano tuner all have trained senses pointed in different directions.
+?? What is a "modality" in AI?
++ A type of data, such as text, images or audio
+- A model's price
+- A programming style
+- A kind of computer chip
+= Modality refers to the form of data a model works with.
+## Why attention replaced recurrence
+Older language models, called recurrent networks, read text one word at a time, carrying a running memory forward. By the end of a long paragraph the beginning had faded, like a message passed along a line of people.
+
+They were also slow to train, because word 50 could not be processed until word 49 was done.
+
+Attention changed both things. Every word can look directly at every other word, however far apart, and decide which ones matter. And all the words are processed at the same time, which suits GPUs perfectly.
+
+The 2017 design built on this is the transformer. It trained faster and coped with long text far better, and every modern LLM descends from it.
+?? What was a key weakness of recurrent networks that attention fixed?
++ They processed words one at a time and lost track of distant earlier words
+- They could not handle numbers
+- They needed no training data
+- They were too accurate
+= Attention lets every word relate directly to every other and allows parallel processing.
+## Multimodal models handle several types together
+A multimodal model works with more than one kind of data at once. You can show it a photo and ask a question in text. You can speak to it and hear an answer. You can give it a chart and get an explanation.
+
+Earlier, you had to chain separate models: one to describe the image, another to reason about the description. Detail was lost at each handover, like explaining a painting over the phone.
+
+A multimodal model takes in the picture and the words together, so its reasoning uses both.
+
+Most leading models are now multimodal to some degree. Practical uses include reading receipts and forms, describing product photos and answering questions about screenshots.
+?? What can a multimodal model do that a text-only model cannot?
++ Take in other kinds of input, such as images, alongside text
+- Run without electricity
+- Guarantee correct answers
+- Work without any training
+= Multimodal models process several data types together, for example an image plus a question about it.
+## Match the model type to the task
+Start with the job, then pick the tool. A very large, very general model is not always the answer.
+
+Turning a recording into text? A dedicated speech-to-text model is cheaper and better at it than a general chatbot. Sorting support tickets into five categories? A small, fast model will do. Reasoning over a long, messy contract? That deserves a strong LLM.
+
+It is like vehicles. You could deliver a pizza in a lorry, but a scooter is quicker and cheaper.
+
+Three questions settle most cases. What goes in and what must come out? How good must it be? And what do speed and cost need to be at the volume you expect?
+?? You need to transcribe recorded meetings into text. Which model type fits best?
++ A dedicated speech-to-text model
+- An image generation model
+- A model that predicts house prices
+- Any model at all, since it makes no difference
+= A specialised speech recognition model is built for exactly this and is usually cheaper and more accurate at it.

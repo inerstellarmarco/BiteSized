@@ -1,0 +1,206 @@
+{
+  "id": "sll_z7oetIfjVXPl",
+  "title": "Gradient Descent (Intuition)",
+  "bites": [
+    {
+      "id": "bit_PzQA8VULh-CH",
+      "title": "Walking downhill on the loss",
+      "body": "Training means finding the weights that make the loss as small as possible. Gradient descent is the method.\n\nImagine standing on a hillside in thick fog, wanting to reach the valley. You cannot see the bottom. But you can feel which way the ground slopes under your feet. So you take a step downhill, feel again, and step again.\n\nThat is gradient descent. The \"gradient\" is the slope: it tells the model which way to change each weight to lower the loss a little. Take a small step that way, and repeat.\n\nNobody knows the right weights in advance. The model reaches them by millions of small downhill steps.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_PzQA8VULh-CH_1",
+          "type": "multiple_choice",
+          "prompt": "In gradient descent, what does the gradient tell the model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "How many layers to add"
+            },
+            {
+              "id": "b",
+              "text": "What the correct answer is"
+            },
+            {
+              "id": "c",
+              "text": "Which direction to change the weights to reduce the loss"
+            },
+            {
+              "id": "d",
+              "text": "How much data is left"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The gradient is the slope of the loss, showing which way each weight should move to lower it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_TIx4U0s9DdhP",
+      "title": "Learning rate",
+      "body": "The learning rate is the size of each step downhill. It is one of the most important settings in training, and a person chooses it. The model does not learn it.\n\nThink of the temperature knob on a shower. Small careful turns get you to a comfortable temperature, slowly. Big yanks send you from freezing to scalding and back again.\n\nSettings like this, chosen before training starts, are called hyperparameters. They are the settings about learning, as opposed to the weights that are learned.\n\nA common approach is to start with larger steps and shrink them over time: stride while you are far from the valley, tiptoe as you get close.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_TIx4U0s9DdhP_1",
+          "type": "multiple_choice",
+          "prompt": "What is the learning rate?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The number of examples in the dataset"
+            },
+            {
+              "id": "b",
+              "text": "The speed of the internet connection"
+            },
+            {
+              "id": "c",
+              "text": "The number of neurons"
+            },
+            {
+              "id": "d",
+              "text": "The size of the adjustment made to the weights at each step"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "It sets how far the weights move on each update, and is chosen by people before training.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_h-UFCIdeMcD1",
+      "title": "Too big a step overshoots; too small a step crawls",
+      "body": "The learning rate fails in two opposite ways.\n\nToo big, and each step jumps right over the valley and lands on the opposite slope, possibly higher than before. The loss bounces around or blows up. It is trying to park by flooring the accelerator.\n\nToo small, and every step moves a hair's width. Training runs for days and may stall in a shallow dip well short of the real valley.\n\nThe right value sits between them and differs from problem to problem, so it is found by trying.\n\nA loss curve tells you which you have. Wild jumps mean the steps are too large. A nearly flat line means they are too small.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_h-UFCIdeMcD1_1",
+          "type": "multiple_choice",
+          "prompt": "During training the loss jumps around wildly and then explodes. What is the likely cause?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The learning rate is too low"
+            },
+            {
+              "id": "b",
+              "text": "The learning rate is too high"
+            },
+            {
+              "id": "c",
+              "text": "There is too much training data"
+            },
+            {
+              "id": "d",
+              "text": "The model has too few users"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Oversized steps overshoot the minimum, which makes the loss unstable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_L8Z6q2NlAn3Q",
+      "title": "Batches: learning from small groups of examples",
+      "body": "A model does not study the whole dataset before each adjustment. That would be far too slow. It does not adjust after every single example either, since one example is too noisy to trust.\n\nInstead it works through a batch: a small group, say 32 examples. It measures the average error across them, makes one adjustment, and moves to the next batch.\n\nIt is a chef tasting a spoonful instead of eating the whole pot. The spoonful is not perfect, but it is good enough to decide on more salt, and far quicker.\n\nOne full pass through all the data is called an epoch. Training usually runs for several.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_L8Z6q2NlAn3Q_1",
+          "type": "multiple_choice",
+          "prompt": "What is a batch in training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The whole dataset at once"
+            },
+            {
+              "id": "b",
+              "text": "A single example"
+            },
+            {
+              "id": "c",
+              "text": "A saved copy of the model"
+            },
+            {
+              "id": "d",
+              "text": "A small group of examples used for one weight update"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The model averages its error over a batch and then adjusts, balancing speed against a reliable signal.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_D7Mnb_rOqLWo",
+      "title": "Training can stall or become unstable",
+      "body": "Training does not always glide smoothly to a good answer. Two things commonly go wrong.\n\nIt stalls: the loss stops improving while the model is still poor. The walker has reached flat ground or a small dip and can find no slope to follow.\n\nIt becomes unstable: the loss swings about or shoots off to enormous values, sometimes shown as NaN, \"not a number\". The steps were too big and the weights have run away.\n\nThat is why engineers watch the loss curve while training runs and save checkpoints, which are copies of the model along the way. If things go wrong at hour ten, they go back to hour eight instead of starting again.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_D7Mnb_rOqLWo_1",
+          "type": "multiple_choice",
+          "prompt": "Why are checkpoints saved during training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So training can resume from an earlier good state if something goes wrong"
+            },
+            {
+              "id": "b",
+              "text": "To make the model larger"
+            },
+            {
+              "id": "c",
+              "text": "To raise the learning rate"
+            },
+            {
+              "id": "d",
+              "text": "To delete old data"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A checkpoint is a saved copy of the weights, which lets you roll back without restarting from zero.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

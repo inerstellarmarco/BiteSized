@@ -1,0 +1,246 @@
+{
+  "id": "sll_a1_1_3",
+  "title": "Functions",
+  "bites": [
+    {
+      "id": "bit_a1_scope",
+      "title": "Inputs, outputs, and scope",
+      "body": "A function is a small machine: things go in, a job is done, something comes out. A vending machine takes coins and a button press (inputs) and hands back a drink (output).\n\nIn def add(a, b): return a + b, the names a and b are the inputs and return hands back the result.\n\nScope is the rule about where names live. A name created inside a function exists only inside it, like a notepad kept in that room. The rest of the program cannot see it unless the function returns it.\n\nWhen reading a function, look at the def line and the return first. They tell you the contract.",
+      "sourceNote": "Python tutorial, defining functions · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_scope_1",
+          "type": "multiple_choice",
+          "prompt": "A variable is created inside a function and not returned. Can code outside the function use it?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "No, it only exists inside the function"
+            },
+            {
+              "id": "b",
+              "text": "Yes, every variable is visible everywhere"
+            },
+            {
+              "id": "c",
+              "text": "Only if its name is in capitals"
+            },
+            {
+              "id": "d",
+              "text": "Only after the function has run twice"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Names made inside a function are local to it. Returning the value is how it gets out.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_single",
+      "title": "Reusable, single-purpose functions",
+      "body": "A good function does one job, and its name says what the job is. Think of kitchen tools: a peeler peels. A gadget that peels, boils and plates would be hard to use and harder to fix.\n\ntotal_of(prices) is easy to trust. process(data) could do anything.\n\nSmall functions pay off three ways: you can test each one alone, reuse it elsewhere, and ask an AI to change it without disturbing the rest.\n\nA warning sign in generated code is one long function that loads a file, calls the network and formats a report. Each \"and\" in that description is a function waiting to be split out.",
+      "sourceNote": "Common Python style, single responsibility · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_single_1",
+          "type": "multiple_choice",
+          "prompt": "Which function name suggests a single, clear job?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "total_of(prices)"
+            },
+            {
+              "id": "b",
+              "text": "process(data)"
+            },
+            {
+              "id": "c",
+              "text": "do_everything(input)"
+            },
+            {
+              "id": "d",
+              "text": "handle(stuff)"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A specific name signals one specific job. Vague names often hide functions that do too much.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_lQcZmIOPvUP1",
+      "title": "Returning a value vs. printing it",
+      "body": "print shows a value on the screen for a human. return hands a value back to the code that called the function. They are easy to confuse and very different.\n\nPicture asking a colleague for a total. Printing is them shouting the number across the office: you hear it, but it is not written anywhere you can use. Returning is them handing you a slip of paper you can carry into the next step.\n\nSo total = get_total() only works if get_total returns. If it only prints, total ends up as None, and the next line fails in a confusing way.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_lQcZmIOPvUP1_1",
+          "type": "multiple_choice",
+          "prompt": "A function prints its result but has no return. What is x after x = that_function()?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "None"
+            },
+            {
+              "id": "b",
+              "text": "The printed text"
+            },
+            {
+              "id": "c",
+              "text": "The number that was printed"
+            },
+            {
+              "id": "d",
+              "text": "An error is raised straight away"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Printing only displays the value. Without return, the function hands back None.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_mSToksSWlu6E",
+      "title": "Default values and named arguments",
+      "body": "A function can give an input a fallback value: def greet(name, greeting=\"Hello\"). Call greet(\"Ana\") and greeting is \"Hello\". Call greet(\"Ana\", greeting=\"Hi\") to override it. It is like ordering coffee: say nothing and you get the regular size.\n\nNamed arguments let you pass values by label instead of by position. create(model=\"small\", temperature=0) is far clearer than create(\"small\", 0).\n\nAI libraries lean on this heavily. A model call may accept twenty settings, and you name only the three you care about. When reading such a call, remember everything unnamed is running on its default, which may not be what you assumed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_mSToksSWlu6E_1",
+          "type": "multiple_choice",
+          "prompt": "Given def greet(name, greeting=\"Hello\"), what does greet(\"Ana\") use for greeting?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "None"
+            },
+            {
+              "id": "b",
+              "text": "\"Ana\""
+            },
+            {
+              "id": "c",
+              "text": "\"Hello\", the default"
+            },
+            {
+              "id": "d",
+              "text": "It fails because greeting is missing"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "When an argument with a default is left out, the default value is used.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_3LDlMK6dysKe",
+      "title": "Type hints as documentation",
+      "body": "Type hints are labels that say what kind of value a function expects and returns: def total(prices: list[float]) -> float. Read it as \"takes a list of decimals, gives back a decimal\".\n\nThey work like labels on a parcel: \"fragile\", \"this way up\". The courier can still drop it. In the same way Python does not enforce hints when the code runs. Pass a string where an int was promised and it will try anyway.\n\nTheir value is to readers and tools. Editors and checkers use them to warn you early, and AI assistants write better code when hints are present. For you, they are the quickest way to understand a function.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_3LDlMK6dysKe_1",
+          "type": "multiple_choice",
+          "prompt": "What happens at run time if you pass a string to a parameter hinted as int?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Python does not stop you, because hints are not enforced by default"
+            },
+            {
+              "id": "b",
+              "text": "Python always refuses to run the function"
+            },
+            {
+              "id": "c",
+              "text": "The string is converted to an int automatically"
+            },
+            {
+              "id": "d",
+              "text": "The hint is deleted from the code"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Type hints are documentation for people and tools. Plain Python ignores them when running.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_pNcDaT_chW2V",
+      "title": "Docstrings: what a function promises to do",
+      "body": "A docstring is a short description in triple quotes on the first line inside a function. It says what the function does, what it needs and what it gives back. Think of the label on a medicine bottle: what it is for and how to use it, without the chemistry.\n\nDocstrings matter even more in AI work. When you hand a function to an LLM as a tool, the model often reads the docstring to decide when and how to call it. A vague docstring leads to wrong tool calls.\n\nOne caution: a docstring is a promise, not proof. Generated code can describe one thing and do another.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_pNcDaT_chW2V_1",
+          "type": "multiple_choice",
+          "prompt": "Why do docstrings matter extra when a function is given to an LLM as a tool?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They make the function run faster"
+            },
+            {
+              "id": "b",
+              "text": "They encrypt the function"
+            },
+            {
+              "id": "c",
+              "text": "The model reads the description to decide when and how to use the tool"
+            },
+            {
+              "id": "d",
+              "text": "Python refuses to run tools without them"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Tool descriptions, often taken from docstrings, are what the model relies on to choose and call a tool correctly.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

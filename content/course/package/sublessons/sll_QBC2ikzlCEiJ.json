@@ -1,0 +1,220 @@
+{
+  "id": "sll_QBC2ikzlCEiJ",
+  "title": "Context Windows",
+  "bites": [
+    {
+      "id": "bit_gZcvlWXKbsS5",
+      "title": "Context window limits",
+      "body": "The context window is everything the model can see at once, measured in tokens. It is the model's working memory for a single request.\n\nThink of a desk. Whatever is on the desk, the model can use. Whatever is not, does not exist for it. And the desk has a fixed size.\n\nModern windows are large, from a hundred thousand tokens up to a million or more, enough for several books. But they are finite. Go over the limit and the request fails, or the oldest material is dropped.\n\nThe key consequence: the model has no memory between requests. When a chatbot seems to remember, it is because the earlier conversation was put back on the desk each time.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_gZcvlWXKbsS5_1",
+          "type": "multiple_choice",
+          "prompt": "What happens to information that is not in the context window?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model retrieves it from memory automatically"
+            },
+            {
+              "id": "b",
+              "text": "It is stored for the next request"
+            },
+            {
+              "id": "c",
+              "text": "The model cannot use it at all"
+            },
+            {
+              "id": "d",
+              "text": "It is summarised in the background"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The model can only work with what is inside the current context. Nothing else is visible to it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_klbyMOx-6uhw",
+      "title": "Lost-in-the-middle",
+      "body": "Models do not attend evenly across a long context. They tend to use what is at the beginning and at the end well, and to overlook material buried in the middle.\n\nResearchers call this \"lost in the middle\". Put the same key fact at different positions in a long document, and accuracy sags when it sits in the centre.\n\nPeople do something similar: after a long meeting you remember the opening and the closing remarks best.\n\nNewer models have reduced the effect but not removed it.\n\nThe practical response: put the most important instructions and facts at the start or the end. Restate the question after a long document. And do not pad the context with material that is not needed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_klbyMOx-6uhw_1",
+          "type": "multiple_choice",
+          "prompt": "Where should the most important instruction go in a very long prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "At the beginning or the end"
+            },
+            {
+              "id": "b",
+              "text": "Exactly in the middle"
+            },
+            {
+              "id": "c",
+              "text": "It makes no difference"
+            },
+            {
+              "id": "d",
+              "text": "In a separate request that is never sent"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Models attend most reliably to the start and end of long contexts, so key content belongs there.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_jciUWC4YjQRT",
+      "title": "Context includes the prompt, the history, and the answer",
+      "body": "The context window is not just your latest message. Everything shares it.\n\nIt holds the system instructions that set the model's behaviour. The whole conversation so far, with every earlier question and answer. Any documents or tool results that were added. Your new message. And the answer the model is about to write, which needs space too.\n\nIt is a suitcase with a fixed size. Clothes, shoes and gifts all compete for the same space, and you have to leave room for what you will bring back.\n\nThat is why long chats eventually hit limits, cost more with every turn, and can run out of room for a full answer.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_jciUWC4YjQRT_1",
+          "type": "multiple_choice",
+          "prompt": "Which of these does NOT count towards the context window?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The system instructions"
+            },
+            {
+              "id": "b",
+              "text": "The earlier conversation turns"
+            },
+            {
+              "id": "c",
+              "text": "Text you never sent to the model"
+            },
+            {
+              "id": "d",
+              "text": "The answer being generated"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Instructions, history, added documents and the output all occupy the window. Only unsent text does not.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Gi33vXBN4sYs",
+      "title": "Bigger windows cost more and can lower quality",
+      "body": "A huge context window invites you to throw everything in. There are two reasons not to.\n\nCost: you pay for every token in the window on every request. Send a 300-page manual with each question and you pay for 300 pages each time, however small the question. It is slower as well.\n\nQuality: more text means more for the model to sift through. Irrelevant passages distract it, important details get diluted, and accuracy tends to fall as the context fills. This is sometimes called context rot.\n\nThink of briefing a colleague. Hand them the three relevant pages, not the whole filing cabinet with \"the answer is in there somewhere\".\n\nA big window is a capacity, not a target.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_ZXrgsm8rVzV3",
+          "targetCode": "B6.1",
+          "label": "see B6.1",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_Gi33vXBN4sYs_1",
+          "type": "multiple_choice",
+          "prompt": "What is a downside of filling a large context window with everything available?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Higher cost and often lower answer quality"
+            },
+            {
+              "id": "b",
+              "text": "The model becomes permanently smarter"
+            },
+            {
+              "id": "c",
+              "text": "The provider refunds the unused tokens"
+            },
+            {
+              "id": "d",
+              "text": "The model's knowledge cutoff moves forward"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Every token is billed on each call, and irrelevant content distracts the model from what matters.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_CuSOjgRXbBQn",
+      "title": "For long documents, retrieve the relevant parts instead",
+      "body": "When you have more material than fits, or more than is sensible to send, do not send it all. Find the relevant pieces first and send only those.\n\nThis is retrieval. Split the documents into chunks, index them, and for each question pull out the few passages most likely to hold the answer. Only those go into the context.\n\nIt is how you use a reference book. You do not reread the whole encyclopaedia for one question. You go to the index, open the right page and read that.\n\nThe result is cheaper, faster and usually more accurate, because the model sees a focused context. The technique is called retrieval-augmented generation, or RAG, and it has its own module later.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_oJ2Cg1xXiCXi",
+          "targetCode": "B2.4",
+          "label": "see B2.4",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_CuSOjgRXbBQn_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main idea of retrieval for long documents?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Send every document every time"
+            },
+            {
+              "id": "b",
+              "text": "Find and send only the passages relevant to the question"
+            },
+            {
+              "id": "c",
+              "text": "Shorten the question"
+            },
+            {
+              "id": "d",
+              "text": "Raise the temperature"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Retrieval selects the relevant chunks so the model gets a small, focused context.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

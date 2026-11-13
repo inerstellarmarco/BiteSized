@@ -1,0 +1,253 @@
+{
+  "id": "sll_FLKVXUxJ3RBT",
+  "title": "The Host Decides Where Data Goes",
+  "bites": [
+    {
+      "id": "bit_Oc63FWC6nX3I",
+      "title": "The same open model can run on many hosts, including your own machine",
+      "body": "Because the weights are public, an open model is not tied to one company. The same model can run in several places at once.\n\nOn your laptop, with a tool such as Ollama. On your company's servers. On a big cloud platform. On a specialist host that rents it by the token, like a closed API.\n\nThe model is identical in each. What differs is everything round it: speed, price, reliability, and where your data goes.\n\nThink of a recipe that any kitchen can cook. The dish is the same. Whether you eat at home, at a restaurant or from a van changes the price, the wait and who sees your order.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Oc63FWC6nX3I_1",
+          "type": "multiple_choice",
+          "prompt": "If the same open model runs on your laptop and on a cloud host, what differs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Speed, price and where your data travels"
+            },
+            {
+              "id": "b",
+              "text": "The model's weights"
+            },
+            {
+              "id": "c",
+              "text": "The model's training data"
+            },
+            {
+              "id": "d",
+              "text": "Nothing at all"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The model is identical, but the host decides performance, cost and data handling.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_AIIFRe8i4zC6",
+      "title": "Check where a hosted model runs before client data goes in",
+      "body": "Before any client or sensitive data goes into a hosted model, find out where it will physically be processed.\n\nIt matters for two reasons. The law: rules such as GDPR restrict sending personal data to some countries, and certain sectors require data to stay in a named region. Contracts: your client may have promised their own customers that data stays in the UK or the EU, and you inherit that promise.\n\nMost serious hosts let you choose a region and publish where their servers are.\n\nThink of posting confidential papers. You would want to know which countries the parcel passes through before you seal it.\n\n\"Somewhere in the cloud\" is not an answer you can give a client.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_AIIFRe8i4zC6_1",
+          "type": "multiple_choice",
+          "prompt": "Why find out which region a hosted model runs in before sending client data?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Models are more accurate in some regions"
+            },
+            {
+              "id": "b",
+              "text": "Laws and client contracts can restrict where data may be processed"
+            },
+            {
+              "id": "c",
+              "text": "Tokens are a different size in each country"
+            },
+            {
+              "id": "d",
+              "text": "It changes the model's knowledge cutoff"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Data protection rules and contractual promises often require processing to stay in particular regions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_4_9xJhc_WKlo",
+      "title": "Where a model was built and where it runs are separate questions",
+      "body": "People often mix up two different things: who made the model, and who is running it.\n\nA model developed in one country can be downloaded and run in another, on your own hardware, with no connection to its maker. Your prompts go to whoever runs the computer, not to whoever trained the weights. A model file is just numbers. It does not phone home.\n\nThe reverse also holds. Using a company's own app or API sends your data to that company's servers, wherever those are.\n\nA book printed abroad and read at your kitchen table tells the printer nothing. Reading it in the printer's own reading room is a different matter.\n\nSo ask two questions: who built it, and who hosts it?",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_4_9xJhc_WKlo_1",
+          "type": "multiple_choice",
+          "prompt": "You run an open model developed abroad on your own server. Where do your prompts go?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To the company that trained the model"
+            },
+            {
+              "id": "b",
+              "text": "To every user of the same model"
+            },
+            {
+              "id": "c",
+              "text": "Nowhere beyond your own server"
+            },
+            {
+              "id": "d",
+              "text": "To a public leaderboard"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Data goes to whoever operates the hardware. A self-hosted model file does not send prompts to its maker.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Tr-lJpTh9B5j",
+      "title": "Ask: who can see prompts, are they stored, and are they used for training?",
+      "body": "Three questions cut through every provider's privacy page.\n\nWho can see the prompts? Can staff read them, and if so when: for abuse checks, for support, never?\n\nAre they stored? For how long: not at all, 30 days, indefinitely? Can you ask for deletion, or for no storage?\n\nAre they used for training? Will your data be used to improve future models? If so, pieces of it could in principle show up in someone else's answers.\n\nIt is like handing documents to an outside firm. Who reads them, how long are they kept, and will they be reused?\n\nIf a provider cannot answer all three clearly, treat that as the answer.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Tr-lJpTh9B5j_1",
+          "type": "multiple_choice",
+          "prompt": "Which question matters when judging a provider's handling of your data?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whether your prompts are used to train future models"
+            },
+            {
+              "id": "b",
+              "text": "What colour the dashboard is"
+            },
+            {
+              "id": "c",
+              "text": "How many employees the provider has"
+            },
+            {
+              "id": "d",
+              "text": "Which font the documentation uses"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Use in training, along with who can see prompts and how long they are kept, determines the privacy risk.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_MntdHuUyDYZ3",
+      "title": "Business and API plans usually treat data differently from consumer apps",
+      "body": "The same company often applies different data rules to different products.\n\nConsumer apps, especially free ones, may use your conversations to improve the models unless you opt out in the settings.\n\nBusiness plans and developer APIs usually promise the opposite by default: your data is not used for training, storage is limited, and there are administrator controls and a signed data agreement.\n\nIt is the difference between a free email account and a paid business one with a contract.\n\nSo \"we use that chatbot at work\" hides a real question: on which plan? An employee pasting client data into a personal free account is a very different situation from the same model on a business plan.\n\nCheck the current terms. They change.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_MntdHuUyDYZ3_1",
+          "type": "multiple_choice",
+          "prompt": "Why does it matter which plan a team uses for the same AI model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model is a different size on each plan"
+            },
+            {
+              "id": "b",
+              "text": "Business plans have no usage limits of any kind"
+            },
+            {
+              "id": "c",
+              "text": "Consumer plans cannot be used in the evening"
+            },
+            {
+              "id": "d",
+              "text": "Consumer and business plans often have different rules on training and storage of your data"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Providers commonly train on consumer conversations by default but exclude business and API data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_2J5011IFVXfl",
+      "title": "Get the answers in writing for client work",
+      "body": "For client work, a verbal assurance or a line on a marketing page is not enough. You need documents.\n\nThe main one is a data processing agreement, or DPA: a contract stating what the provider does with data, where, for how long and with which safeguards. Add the provider's terms of service and its published list of subcontractors.\n\nSave copies with the date. Web pages change, and \"the site said so last year\" is hard to prove.\n\nIt is like a builder's quote. A friendly promise is pleasant. The signed paper is what counts when something goes wrong.\n\nWhen a client asks \"where does our data go?\", you can then hand over an answer instead of an opinion.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_0G6J0n3hIrKu",
+          "targetCode": "E10.2",
+          "label": "see E10.2",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_2J5011IFVXfl_1",
+          "type": "multiple_choice",
+          "prompt": "What is a data processing agreement (DPA)?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A tool for counting tokens"
+            },
+            {
+              "id": "b",
+              "text": "A contract setting out how a provider handles your data"
+            },
+            {
+              "id": "c",
+              "text": "A type of model licence for open weights"
+            },
+            {
+              "id": "d",
+              "text": "A marketing brochure"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A DPA is the written, binding commitment about data handling that client work normally requires.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

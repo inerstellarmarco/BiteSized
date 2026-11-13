@@ -1,0 +1,246 @@
+{
+  "id": "sll_wXECmMLdO8Vs",
+  "title": "Failure Modes",
+  "bites": [
+    {
+      "id": "bit_idyR0ppgPN5b",
+      "title": "Hallucination",
+      "body": "A hallucination is when a model produces something that sounds right and is false: an invented fact, a quotation nobody said, a reference to a paper that does not exist.\n\nIt is not a glitch added on top. It follows from how the model works. It generates plausible text, and nothing inside it separates \"plausible\" from \"true\". When it knows, the plausible answer is usually the right one. When it does not, it produces something of the same shape anyway.\n\nThink of a student in an exam who never leaves a blank, and writes a confident, well-formed answer to every question, known or not.\n\nHallucination can be reduced a great deal. It cannot be assumed away.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_idyR0ppgPN5b_1",
+          "type": "multiple_choice",
+          "prompt": "Why do LLMs hallucinate?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They are programmed to lie"
+            },
+            {
+              "id": "b",
+              "text": "Their internet connection drops"
+            },
+            {
+              "id": "c",
+              "text": "The user typed too slowly"
+            },
+            {
+              "id": "d",
+              "text": "They generate plausible text and have no built-in check that it is true"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The model predicts likely continuations. When it lacks the knowledge, it still produces something that sounds plausible.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_jPRmsvM_Nhdr",
+      "title": "Grounding (preview)",
+      "body": "Grounding means tying the model's answer to specific source material you provide, instead of to its memory.\n\nCompare two instructions. \"What is our returns policy?\" leaves the model to guess from general knowledge. \"Here is our returns policy document. Answer using only this, and quote the relevant line\" gives it something solid to stand on.\n\nIt is the difference between a closed-book and an open-book exam. Even a good student is more accurate with the book open.\n\nGrounding is the most effective single defence against hallucination. It also brings two bonuses: the answers can be up to date, and they can cite where they came from, so a person can check.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_jPRmsvM_Nhdr_1",
+          "type": "multiple_choice",
+          "prompt": "What does grounding mean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Running the model on a server in a basement"
+            },
+            {
+              "id": "b",
+              "text": "Lowering the temperature to zero"
+            },
+            {
+              "id": "c",
+              "text": "Training a new model"
+            },
+            {
+              "id": "d",
+              "text": "Basing the model's answer on source material supplied in the prompt"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Grounding ties answers to provided sources, which reduces invention and allows citation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_PqIwh25AvGWD",
+      "title": "Models state wrong things with confidence",
+      "body": "With people, confidence is a rough guide. Someone who hesitates is probably unsure. With LLMs that signal is broken.\n\nA model writes an invented statistic in the same fluent, assured tone as a well-known fact. There is no wobble in the voice, no \"I think\" unless it was trained or told to add one. Fluency is the one thing it always has.\n\nIt is the sat-nav that says \"turn left\" in the same calm voice whether there is a road there or a lake.\n\nSo tone tells you nothing about accuracy. Polished, detailed and specific does not mean correct. Detail can even be a warning: an invented citation comes complete with authors, year and page number.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_PqIwh25AvGWD_1",
+          "type": "multiple_choice",
+          "prompt": "What does a confident, fluent tone tell you about the accuracy of an LLM's answer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "That the answer is correct"
+            },
+            {
+              "id": "b",
+              "text": "That the answer was checked by a person"
+            },
+            {
+              "id": "c",
+              "text": "Nothing reliable; models sound equally confident when wrong"
+            },
+            {
+              "id": "d",
+              "text": "That the model searched the web"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Fluency is constant in LLM output, so confidence of tone is not evidence of correctness.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_nRenvV4xQV_j",
+      "title": "Common triggers: obscure facts, citations, and numbers",
+      "body": "Hallucination is not evenly spread. It gathers in predictable places.\n\nObscure facts: a small company's history or a minor local rule. The model saw little about them, so it fills in.\n\nCitations and links: paper titles, legal cases, URLs and page numbers are easy to make look right and hard to get exactly right.\n\nPrecise numbers: dates, statistics, prices, measurements. The model recalls the rough shape and invents the digits.\n\nRecent events, and anything about you or your business that was never public.\n\nThe pattern: the more specific the claim and the thinner the training data, the higher the risk. Those are the claims to check, and the ones to supply sources for.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_nRenvV4xQV_j_1",
+          "type": "multiple_choice",
+          "prompt": "Which request is most likely to produce a hallucination?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "\"Give me five academic references with page numbers on this niche topic\""
+            },
+            {
+              "id": "b",
+              "text": "\"What is two plus two?\""
+            },
+            {
+              "id": "c",
+              "text": "\"Rephrase this sentence more politely\""
+            },
+            {
+              "id": "d",
+              "text": "\"Summarise the paragraph I pasted\""
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Exact citations on obscure topics are a classic trigger, because they are easy to fabricate convincingly.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_O5mwVrJJ2NUm",
+      "title": "Reduce it: give sources, allow \"I don't know\", and verify",
+      "body": "Three practical moves cut hallucination sharply.\n\nGive sources. Put the relevant documents in the prompt and tell the model to answer only from them. That turns a memory test into a reading task.\n\nAllow \"I don't know\". Say it outright: \"If the answer is not in the documents, say so.\" Without that permission the model feels obliged to produce something.\n\nVerify. Ask for quotations or citations and check them. For anything important, a person or a second automated check confirms it before it is used.\n\nThink of a newsroom: use sources, admit what is not known, and check the facts before publishing. None of the three is perfect. Together they make the difference between a toy and a tool.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_O5mwVrJJ2NUm_1",
+          "type": "multiple_choice",
+          "prompt": "Which instruction helps reduce hallucination?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "\"Always give an answer, whatever happens\""
+            },
+            {
+              "id": "b",
+              "text": "\"Be as creative as possible with the facts\""
+            },
+            {
+              "id": "c",
+              "text": "\"Never mention your sources\""
+            },
+            {
+              "id": "d",
+              "text": "\"If the answer is not in the provided documents, say you do not know\""
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Explicit permission to decline removes the pressure to invent an answer.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_IYwcU7wkhadk",
+      "title": "Stale knowledge and bias are other failure modes",
+      "body": "Hallucination gets the headlines, but two quieter failures matter as much.\n\nStale knowledge: the model answers correctly for the world as it was at its cutoff. It recommends a software version that has been replaced, or a tax rate that has changed. Nothing was invented. It is simply out of date.\n\nBias: the model learned from human writing and absorbed its slants. It may assume a nurse is a woman and an engineer a man, favour Western examples, or write about some groups in stereotypes.\n\nBoth are hard to notice, because the output still reads as reasonable.\n\nThe defences are the usual ones: supply current information, test with varied examples and review anything that affects people.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_IYwcU7wkhadk_1",
+          "type": "multiple_choice",
+          "prompt": "A model recommends a software version that was replaced after its training. Which failure is this?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Bias"
+            },
+            {
+              "id": "b",
+              "text": "Stale knowledge"
+            },
+            {
+              "id": "c",
+              "text": "Tokenization"
+            },
+            {
+              "id": "d",
+              "text": "Over-refusal"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The answer was right at the cutoff date but is now out of date.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

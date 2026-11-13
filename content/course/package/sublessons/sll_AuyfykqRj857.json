@@ -1,0 +1,253 @@
+{
+  "id": "sll_AuyfykqRj857",
+  "title": "Tracking a Fast Market",
+  "bites": [
+    {
+      "id": "bit_xzSc6AnNRWqi",
+      "title": "Why it moves so fast: new models and price cuts arrive every few months",
+      "body": "In most industries the leading product changes every few years. In AI it changes every few months.\n\nSeveral forces push together. A handful of very well-funded labs race each other. Research is published openly, so a breakthrough at one lab is at the others within months. Chips keep improving. And each lab cuts prices to win developers.\n\nThe result is striking: the price of a given level of capability has repeatedly fallen by something like ten times in a year.\n\nThink of phones in the 2000s, with every stage compressed into a season.\n\nThe practical consequence: any fact about \"the best model\" or \"the cheapest option\" has a short shelf life, including the ones in this course.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_xzSc6AnNRWqi_1",
+          "type": "multiple_choice",
+          "prompt": "What is a practical consequence of how fast the AI market moves?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "You only need to choose a model once"
+            },
+            {
+              "id": "b",
+              "text": "Claims about the best or cheapest model go out of date quickly"
+            },
+            {
+              "id": "c",
+              "text": "Prices always rise"
+            },
+            {
+              "id": "d",
+              "text": "Old models are supported forever"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Rapid releases and price cuts mean any ranking or price is only valid for a short time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_DGpVK2nIhGiS",
+      "title": "Leaderboards and price-comparison sites (e.g., LMArena, Artificial Analysis)",
+      "body": "You do not have to track the market by reading every announcement. A few public sites do the collecting.\n\nLeaderboards rank models by quality. LMArena shows people two anonymous answers to the same question and asks which is better. Millions of such votes produce a ranking.\n\nComparison sites such as Artificial Analysis put the practical numbers side by side: benchmark scores, price per million tokens, speed and context size.\n\nThink of them as comparison sites for energy or insurance. They are excellent for seeing the field and building a shortlist in ten minutes.\n\nThey do not replace judgement. They tell you what is on the market, not what suits your job.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_DGpVK2nIhGiS_1",
+          "type": "multiple_choice",
+          "prompt": "What are leaderboards and comparison sites best used for?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Making the final choice without any testing"
+            },
+            {
+              "id": "b",
+              "text": "Storing your own data"
+            },
+            {
+              "id": "c",
+              "text": "Training your own model"
+            },
+            {
+              "id": "d",
+              "text": "Getting an overview of the market and building a shortlist"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "They summarise quality, price and speed across models, which is ideal for narrowing the field.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Br0Ioife0kGE",
+      "title": "Benchmarks measure benchmarks: test on your own tasks",
+      "body": "A benchmark is a standard exam for models. The scores are real, and they do not mean quite what they seem to.\n\nThere are three problems. Benchmark questions are often public, so they leak into training data and models get a head start. Labs tune for the famous benchmarks, because the scores are marketing. And the tasks are general puzzles, not your invoices written in your trade's jargon.\n\nIt is the gap between a car's official fuel figure and what you get on your commute. Both are measurements. Only one is about you.\n\nSo treat a benchmark as a rough filter. The only result you can lean on is from your own examples.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_9qs-O132KVQd",
+          "targetCode": "B12.1",
+          "label": "see B12.1",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_Br0Ioife0kGE_1",
+          "type": "multiple_choice",
+          "prompt": "Why can a model's benchmark score be a poor guide to how it will do on your work?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Benchmark scores are invented"
+            },
+            {
+              "id": "b",
+              "text": "Benchmarks only test images"
+            },
+            {
+              "id": "c",
+              "text": "Benchmarks may be in the training data and do not resemble your specific tasks"
+            },
+            {
+              "id": "d",
+              "text": "A high score means the model is slower"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Leaked test items and tuning inflate scores, and general tasks differ from your own data and standards.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_F7-LM8UzCcmL",
+      "title": "Release notes and provider changelogs",
+      "body": "Providers publish release notes, also called changelogs: a running record of new models, price changes, new features and, most important, retirements.\n\nThat last one is a deadline. Providers retire old models on announced dates. After that date, any system still calling the old model simply stops working.\n\nThink of the notices a utility company sends. Most are dull. The one saying \"your meter will be disconnected on the 1st\" is one you must not miss.\n\nSo for each provider you depend on, subscribe to the changelog or check it monthly. Look for three things: deprecation dates, price changes, and changes in behaviour of models you use.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_F7-LM8UzCcmL_1",
+          "type": "multiple_choice",
+          "prompt": "What is the most important thing to watch for in a provider's changelog?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The colour of the new logo"
+            },
+            {
+              "id": "b",
+              "text": "Staff changes at the company"
+            },
+            {
+              "id": "c",
+              "text": "Deprecation dates for models your system depends on"
+            },
+            {
+              "id": "d",
+              "text": "The number of pages in the notes"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A retired model stops responding, so missing a deprecation notice can break a live system.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_d2To-KNpfTFJ",
+      "title": "Re-check prices and rankings every quarter",
+      "body": "A decision made in January may be wrong by April. Not because it was a bad decision, but because the market moved.\n\nSo put a recurring review in the calendar, about every three months. It takes an hour or two. Check whether there is a newer model in the tier you use, whether prices have dropped, and whether anything you rely on is being retired. Then run your test set on one or two promising candidates.\n\nIt is like reviewing an energy tariff or a mortgage rate. Loyalty is not rewarded, and the saving from switching can be large.\n\nA year of not looking often means paying several times more than necessary for worse results.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_d2To-KNpfTFJ_1",
+          "type": "multiple_choice",
+          "prompt": "How often is it sensible to review your model choices and prices?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Never, once a model is chosen"
+            },
+            {
+              "id": "b",
+              "text": "Every hour"
+            },
+            {
+              "id": "c",
+              "text": "About every three months"
+            },
+            {
+              "id": "d",
+              "text": "Once every ten years"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A quarterly review catches price drops, better models and upcoming retirements without consuming much time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_MX0f500gco7H",
+      "title": "Keep a one-page market map and put a date on it",
+      "body": "Write down your current picture of the market on one page. Which models you use and why. The main alternatives in each tier. Rough prices. Which you tested and how they did. What is due for retirement.\n\nThen put the date at the top.\n\nThe date is the important part. Without it, a note saying \"Model X is the cheapest\" is a trap for whoever reads it next year. With it, the reader knows how far to trust the page.\n\nThink of the \"best before\" on food. The contents may still be fine, but you want to know how old they are.\n\nOne page updated quarterly beats a long report nobody maintains.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_MX0f500gco7H_1",
+          "type": "multiple_choice",
+          "prompt": "Why put a date on your market map?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To make the page look official"
+            },
+            {
+              "id": "b",
+              "text": "Because the model needs it to run"
+            },
+            {
+              "id": "c",
+              "text": "Dates lower the price of tokens"
+            },
+            {
+              "id": "d",
+              "text": "So readers know how current the information is"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "In a fast-moving market, the date tells the reader how much the facts can still be trusted.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

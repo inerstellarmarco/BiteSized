@@ -1,0 +1,213 @@
+{
+  "id": "sll_6znkaMrxX9OK",
+  "title": "Representations",
+  "bites": [
+    {
+      "id": "bit_j3qT6b4UFfBy",
+      "title": "Learned features",
+      "body": "In older machine learning, people chose the features by hand. To recognise faces, engineers wrote code to measure the distance between the eyes and the width of the nose. It was slow and brittle.\n\nA neural network learns its own features. Give it raw pixels and the right answers, and it works out for itself what is worth noticing.\n\nIt is the difference between giving an apprentice a checklist and letting them watch a master for years until they just see it.\n\nThis is the main reason deep learning won. The learned features are usually better than any we could design, and the same method works for images, sound and text. The cost is that those features are hard for people to inspect.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_j3qT6b4UFfBy_1",
+          "type": "multiple_choice",
+          "prompt": "What is a \"learned feature\"?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A column typed in by an engineer"
+            },
+            {
+              "id": "b",
+              "text": "A pattern the network discovered for itself during training"
+            },
+            {
+              "id": "c",
+              "text": "A setting chosen before training"
+            },
+            {
+              "id": "d",
+              "text": "A label given by a person"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Deep networks work out which aspects of the raw input are useful, instead of being told.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_CRp0z3hQ-xPq",
+      "title": "Latent space (intuition)",
+      "body": "Inside a network, every input is turned into a list of numbers: a position in an internal space. That hidden space is called the latent space.\n\nThink of a library. Books are not shelved at random. Cookbooks sit together, near the gardening section, far from car manuals. A book's place tells you something about its content.\n\nA network arranges its inputs in the same way, but by meaning, and across hundreds of dimensions instead of along a few aisles. Nobody designed the layout. It emerged from training.\n\n\"Latent\" just means hidden. You never see this space directly, but it is where the model's understanding lives.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_CRp0z3hQ-xPq_1",
+          "type": "multiple_choice",
+          "prompt": "What is a latent space?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The folder where training files are kept"
+            },
+            {
+              "id": "b",
+              "text": "The empty space on a hard disk"
+            },
+            {
+              "id": "c",
+              "text": "The model's internal space, where inputs are placed according to their learned features"
+            },
+            {
+              "id": "d",
+              "text": "A list of the model's users"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Inputs are mapped to positions in an internal space whose layout reflects patterns the network learned.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_3k3ikFSTVN-k",
+      "title": "Early layers find simple patterns; later layers find complex ones",
+      "body": "As data moves through a network, its representation gets more abstract at each step.\n\nFor language, early layers mostly track surface things: which words are present, and their grammar. Middle layers pick out relationships: who did what to whom. Later layers hold meaning: the topic, the tone, what is being asked.\n\nIt is like a company. Front-line staff handle individual facts, managers summarise them, and directors deal in the big picture.\n\nTwo practical consequences. Useful general knowledge sits in the early and middle layers, which is why a pretrained model can be reused for a new job. And nobody labelled these levels. Researchers found the structure by studying trained networks.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_3k3ikFSTVN-k_1",
+          "type": "multiple_choice",
+          "prompt": "Which layers of a language model tend to hold the most abstract information, such as topic or intent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The very first layer"
+            },
+            {
+              "id": "b",
+              "text": "The later layers"
+            },
+            {
+              "id": "c",
+              "text": "No layer holds meaning"
+            },
+            {
+              "id": "d",
+              "text": "Only the input layer"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Representations become more abstract with depth, moving from surface form towards meaning.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Je9-FU3eAl_Z",
+      "title": "Similar things end up close together",
+      "body": "In a trained model's internal space, distance means something. Items the model treats as alike land near each other.\n\nPhotos of cats cluster together, apart from photos of trucks. The words \"doctor\" and \"nurse\" sit close. \"Doctor\" and \"banana\" do not.\n\nThink of the guests at a party, who naturally drift into groups by shared interest. Nobody assigns the corners.\n\nThis one property drives a huge amount of practical AI. Search by meaning: find the stored text nearest to the question. Recommendations: find products near the ones you liked. Spotting duplicates and oddities: what is nearly on top of something else, or far from everything.\n\n\"Find similar things\" becomes \"find nearby points\".",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Je9-FU3eAl_Z_1",
+          "type": "multiple_choice",
+          "prompt": "In a model's internal space, what does it mean if two items are close together?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They were added on the same day"
+            },
+            {
+              "id": "b",
+              "text": "They have the same file size"
+            },
+            {
+              "id": "c",
+              "text": "They are stored on the same disk"
+            },
+            {
+              "id": "d",
+              "text": "The model treats them as similar"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Training arranges the space so that distance reflects similarity in learned features.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_WUBKOvjkU8w6",
+      "title": "Embeddings are one kind of representation",
+      "body": "An embedding is a representation that you take out of a model and use: a list of numbers standing for a piece of text, an image or a sound.\n\nSend the sentence \"How do I reset my password?\" to an embedding model and it returns, say, 1,536 numbers. That list is the sentence's position on the model's map of meaning.\n\nTreat it as a postcode for meaning. The digits themselves tell you little, but two close postcodes are neighbours.\n\nEmbeddings are how you put a model's sense of similarity to work in your own systems. Semantic search, document retrieval for chatbots and recommendation engines are all built on them. They come back in detail later in the course.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_lFhuZkO9g7Fc",
+          "targetCode": "A5.2",
+          "label": "see A5.2",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_WUBKOvjkU8w6_1",
+          "type": "multiple_choice",
+          "prompt": "What is an embedding?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A list of numbers that represents the meaning of an item such as a sentence"
+            },
+            {
+              "id": "b",
+              "text": "A compressed zip file"
+            },
+            {
+              "id": "c",
+              "text": "A type of chart"
+            },
+            {
+              "id": "d",
+              "text": "A password"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "An embedding is a vector produced by a model, positioning an item so that similar items lie close together.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "id": "sll_vOlKNWDKypJU",
+  "title": "Learning from Data",
+  "bites": [
+    {
+      "id": "bit_kCyPkwa93ICk",
+      "title": "Rules vs. learned patterns",
+      "body": "There are two ways to get a computer to make a decision.\n\nWith rules, a person writes the logic: \"if the order is over 50 pounds, delivery is free\". The computer follows instructions.\n\nWith machine learning, nobody writes the logic. You show the computer thousands of examples with the right answers, and it works out the pattern itself.\n\nThink of teaching a child what a dog is. You do not hand over a rulebook about ears and tails. You point at dogs until they get it.\n\nThat is the whole shift: from writing the rules to supplying the examples.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_kCyPkwa93ICk_1",
+          "type": "multiple_choice",
+          "prompt": "What is the key difference between rule-based software and machine learning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "In machine learning the pattern is learned from examples instead of written by a person"
+            },
+            {
+              "id": "b",
+              "text": "Machine learning never makes mistakes"
+            },
+            {
+              "id": "c",
+              "text": "Rule-based software cannot run on modern computers"
+            },
+            {
+              "id": "d",
+              "text": "Machine learning needs no data"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "ML systems infer their logic from example data, while traditional software follows logic a person wrote.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_ZEr8pIu3vd5j",
+      "title": "Models, features, and labels",
+      "body": "Three words describe almost every machine learning setup.\n\nFeatures are the inputs, the facts the model is given. For a house: size, postcode, number of bedrooms.\n\nThe label is the answer you want predicted. For the house: the sale price.\n\nThe model is what sits in between. It is a mathematical function, tuned on past examples, that turns features into a predicted label.\n\nPicture a spreadsheet of past sales. Every column except the last is a feature. The last column, price, is the label. Training means finding the link between them, so that a new row with no price can be filled in.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_ZEr8pIu3vd5j_1",
+          "type": "multiple_choice",
+          "prompt": "In a model that predicts house prices, what is the label?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The sale price"
+            },
+            {
+              "id": "b",
+              "text": "The number of bedrooms"
+            },
+            {
+              "id": "c",
+              "text": "The postcode"
+            },
+            {
+              "id": "d",
+              "text": "The size of the garden"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The label is the value being predicted. The other facts are the features used to predict it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_XeqRKe0CPKcz",
+      "title": "Rules win when the logic is clear and rarely changes",
+      "body": "Machine learning is not automatically the better tool. If you can write the logic down in a few sentences and it stays put, write rules.\n\nVAT is 20%. Under-18s cannot buy this. Orders after 3 p.m. ship tomorrow. Rules like these are exact, free to run, instant and easy to explain to an auditor.\n\nA model would need thousands of examples to learn \"about 20%, usually\", and would still get it wrong now and then.\n\nIt is a calculator against an estimate. Nobody wants their tax bill guessed.\n\nSo ask this first, especially before reaching for an LLM: could a plain if-statement do the job? Often part of the task can.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_XeqRKe0CPKcz_1",
+          "type": "multiple_choice",
+          "prompt": "Which task is better handled by a fixed rule than by a learned model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Adding 20% tax to a price"
+            },
+            {
+              "id": "b",
+              "text": "Recognising a cat in a photo"
+            },
+            {
+              "id": "c",
+              "text": "Judging whether a review sounds angry"
+            },
+            {
+              "id": "d",
+              "text": "Transcribing speech"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Tax is exact, simple and stable logic, so a rule is cheaper, faster and always right.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_soIgOJ4GtjQE",
+      "title": "Learning wins when the pattern is too complex to write down",
+      "body": "Try writing rules for spotting spam. \"Contains the word free\"? Plenty of real emails do. \"Has spelling mistakes\"? So do your friends. Each rule needs exceptions, the exceptions need exceptions, and the spammers adapt next week.\n\nSome patterns are real but far too tangled to spell out: what makes a face a face, a review sarcastic, a transaction suspicious.\n\nPeople handle these easily without being able to explain how. You recognise a friend's voice, but you could not write the rules for it.\n\nThat is where learning wins. With enough examples, a model picks up thousands of faint signals together. Language is the extreme case, which is why LLMs are learned and not programmed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_soIgOJ4GtjQE_1",
+          "type": "multiple_choice",
+          "prompt": "Why is spam filtering a good fit for machine learning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Spam always contains the same single word"
+            },
+            {
+              "id": "b",
+              "text": "Email cannot be processed by rules at all"
+            },
+            {
+              "id": "c",
+              "text": "It needs no example emails"
+            },
+            {
+              "id": "d",
+              "text": "The pattern is too complex and changeable to capture in hand-written rules"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Spam varies endlessly and evolves, so a model that learns from many examples copes better than fixed rules.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_5nNOKqyPPqJy",
+      "title": "A model is only as good as its data",
+      "body": "A model learns whatever its examples show it, including their gaps and their faults. The old phrase is \"garbage in, garbage out\".\n\nImagine a student who revises only from past papers. If the papers contain errors, the student learns the errors. If they skip a topic, the student is lost when it comes up.\n\nModels are the same. A hiring model trained on ten years of biased decisions learns to repeat the bias. A model trained on summer sales struggles in December.\n\nSo the questions that matter most are about data, not algorithms. Is it accurate? Is it recent? Does it cover the situations the model will actually meet?",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_5nNOKqyPPqJy_1",
+          "type": "multiple_choice",
+          "prompt": "A model is trained only on data from one season of the year. What should you expect?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It will work equally well all year"
+            },
+            {
+              "id": "b",
+              "text": "It will refuse to run in winter"
+            },
+            {
+              "id": "c",
+              "text": "It may perform poorly in conditions it never saw, such as other seasons"
+            },
+            {
+              "id": "d",
+              "text": "It will automatically collect the missing data"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Models generalise from what they were shown. Gaps in the data become gaps in performance.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

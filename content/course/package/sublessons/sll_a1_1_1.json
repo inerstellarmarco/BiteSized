@@ -1,0 +1,487 @@
+{
+  "id": "sll_a1_1_1",
+  "title": "Data Types & Structures",
+  "bites": [
+    {
+      "id": "bit_a1_types",
+      "title": "Strings, numbers, and booleans",
+      "body": "Python values have types. Text in quotes is a string, like \"hello\". Whole numbers and decimals are numbers, like 2 and 2.5. A boolean is only True or False, with those capitals. The quoted word \"True\" is text, not a boolean. When you read AI-written code, name the type of each value before you trust how it is used.",
+      "sourceNote": "Python language reference, built-in types · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": "2026-11-13T00:00:00.000Z",
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_types_1",
+          "type": "multiple_choice",
+          "prompt": "Which of these is a boolean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "\"True\""
+            },
+            {
+              "id": "b",
+              "text": "True"
+            },
+            {
+              "id": "c",
+              "text": "true"
+            },
+            {
+              "id": "d",
+              "text": "1"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "True and False, with capitals and no quotes, are booleans. \"True\" is a string. 1 is a number, even though Python treats True as equal to 1.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_types_2",
+          "type": "multiple_choice",
+          "prompt": "What type is 2.5?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A string"
+            },
+            {
+              "id": "b",
+              "text": "A boolean"
+            },
+            {
+              "id": "c",
+              "text": "A number"
+            },
+            {
+              "id": "d",
+              "text": "A list"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "2.5 is a float, one of Python's number types. A string would be in quotes.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_collections",
+      "title": "Lists, dictionaries, sets, and tuples",
+      "body": "A list keeps items in order, and you can change it: [\"red\", \"blue\"]. A tuple is also ordered, but it is fixed, like (\"red\", \"blue\"). A dictionary maps a key to a value and keeps keys in the order you added them: {\"name\": \"Eric\"}. A set holds unique items and does not promise an order. Duplicates in a set disappear.",
+      "sourceNote": "Python tutorial, data structures · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": "2026-11-13T00:00:00.000Z",
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_collections_1",
+          "type": "multiple_choice",
+          "prompt": "You need a name-to-score mapping you can look up by name. What fits?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A set"
+            },
+            {
+              "id": "b",
+              "text": "A dictionary"
+            },
+            {
+              "id": "c",
+              "text": "A single boolean"
+            },
+            {
+              "id": "d",
+              "text": "A number"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A dictionary stores a value under a key, so a name can point at a score.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_collections_2",
+          "type": "multiple_choice",
+          "prompt": "What happens when you add the same item to a set twice?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It is stored twice, in order"
+            },
+            {
+              "id": "b",
+              "text": "The set keeps one copy"
+            },
+            {
+              "id": "c",
+              "text": "Python turns it into a list"
+            },
+            {
+              "id": "d",
+              "text": "It becomes a tuple"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A set drops duplicates. It also does not give you an order you can rely on.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_mutability",
+      "title": "Mutability",
+      "body": "Some values can be changed in place. Lists, dictionaries, and sets can. Strings and tuples cannot: any \"change\" builds a new value. If two names point at the same list, editing it through one name shows up on the other. That surprise is common in generated code. A second name is not a copy. Use .copy() when you need a separate list.",
+      "sourceNote": "Python data model, mutable vs immutable objects · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": "2026-11-13T00:00:00.000Z",
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_mutability_1",
+          "type": "multiple_choice",
+          "prompt": "Two variables name the same list. You append an item through the first. What does the second see?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The original list only"
+            },
+            {
+              "id": "b",
+              "text": "The list with the new item"
+            },
+            {
+              "id": "c",
+              "text": "A string of the item"
+            },
+            {
+              "id": "d",
+              "text": "An error, always"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Both names refer to one list object. Appending changes that object, so both names see it.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_mutability_2",
+          "type": "multiple_choice",
+          "prompt": "Which value cannot be changed in place?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A list"
+            },
+            {
+              "id": "b",
+              "text": "A dictionary"
+            },
+            {
+              "id": "c",
+              "text": "A string"
+            },
+            {
+              "id": "d",
+              "text": "A set"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Strings are immutable. Methods like replace return a new string rather than editing the old one.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_dH9qM_wUN7Be",
+      "title": "Strings, numbers, booleans",
+      "body": "Every value in Python has a type, and the type decides what you can do with it. Think of containers in a kitchen: a jug holds liquid, a tin holds biscuits, and you would not pour soup into the biscuit tin.\n\nA string is text in quotes, like \"hello\". Numbers come as whole numbers (2) or decimals (2.5). A boolean is only True or False, with a capital letter and no quotes.\n\nThe catch: \"True\" in quotes is text, not a boolean. When you read AI-written code, name the type of each value before you trust how it is used.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": "2026-11-13",
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_dH9qM_wUN7Be_1",
+          "type": "multiple_choice",
+          "prompt": "Which of these is a boolean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "\"True\""
+            },
+            {
+              "id": "b",
+              "text": "True"
+            },
+            {
+              "id": "c",
+              "text": "\"yes\""
+            },
+            {
+              "id": "d",
+              "text": "1.0"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "True and False, capitalised and without quotes, are the booleans. \"True\" in quotes is a string that only looks like one.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_TTciQUwYt82n",
+      "title": "Lists, dictionaries, sets, tuples",
+      "body": "These are Python's four everyday ways to hold many values.\n\nA list is a numbered queue: [\"red\", \"blue\"]. Order matters and you can change it. A tuple is a list that is sealed after it is made: (\"red\", \"blue\"). A dictionary is a labelled filing cabinet: {\"name\": \"Eric\"}, where you look things up by key. A set is a bag of unique items: add \"red\" twice and it holds one.\n\nChoosing between them is a real decision. Code that uses a list to check \"have I seen this before?\" works, but gets slow as it grows. A set answers that question instantly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": "2026-11-13",
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_TTciQUwYt82n_1",
+          "type": "multiple_choice",
+          "prompt": "You need to look up a person's score by their name. Which structure fits best?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A set"
+            },
+            {
+              "id": "b",
+              "text": "A tuple"
+            },
+            {
+              "id": "c",
+              "text": "A single string"
+            },
+            {
+              "id": "d",
+              "text": "A dictionary"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A dictionary stores a value under a key, so the name can point straight at the score.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_v8FqtLxDonGz",
+      "title": "Mutability (concept)",
+      "body": "Mutable means \"can be changed in place\". Lists, dictionaries and sets are mutable. Strings and tuples are not: any \"change\" quietly builds a new value.\n\nHere is why it matters. Picture a shared online document. If you send a friend the link, you both edit the same document. In Python, b = a on a list hands over the link, not a photocopy. Change b and a changes too.\n\nThis is a classic surprise in generated code. When you truly need a separate copy, the code should say so with a.copy().",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": "2026-11-13",
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_v8FqtLxDonGz_1",
+          "type": "multiple_choice",
+          "prompt": "a is a list and you write b = a, then add an item to b. What happens to a?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Nothing, because b is an independent copy"
+            },
+            {
+              "id": "b",
+              "text": "Python raises an error"
+            },
+            {
+              "id": "c",
+              "text": "It gains the item too, because both names point at the same list"
+            },
+            {
+              "id": "d",
+              "text": "a becomes a tuple"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Assignment gives a second name to the same list. Only an explicit copy, such as a.copy(), makes a separate one.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_m8D0KttDSb7k",
+      "title": "Lists hold ordered items; dictionaries hold labelled data",
+      "body": "Most data you meet in AI work is built from just these two shapes.\n\nUse a list when the items are the same kind of thing and order matters: the messages in a chat, the rows in a file, the steps in a plan. You reach an item by its position, counting from 0.\n\nUse a dictionary when each piece has a name: {\"role\": \"user\", \"content\": \"Hi\"}. You reach a value by its label, not its position.\n\nThey nest. A chat history is a list of dictionaries: an ordered run of messages, each with labelled parts. Spotting that shape makes API code far easier to read.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": "2026-11-13",
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_m8D0KttDSb7k_1",
+          "type": "multiple_choice",
+          "prompt": "A chat history sent to an LLM is usually shaped as:",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A list of dictionaries, one per message"
+            },
+            {
+              "id": "b",
+              "text": "A single long string only"
+            },
+            {
+              "id": "c",
+              "text": "A set of numbers"
+            },
+            {
+              "id": "d",
+              "text": "A dictionary of tuples keyed by time"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The messages are ordered (a list) and each one has labelled parts such as role and content (a dictionary).",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_3Nl9UjWkIR1B",
+      "title": "JSON maps directly onto dictionaries and lists",
+      "body": "JSON is the text format most APIs speak. The good news: it has almost the same shapes as Python. A JSON object {} becomes a dictionary. A JSON array [] becomes a list. Strings and numbers carry straight over.\n\nSo when an API replies with {\"items\": [{\"id\": 1}]}, Python sees a dictionary holding a list of dictionaries, and data[\"items\"][0][\"id\"] walks down to the 1.\n\nSmall differences to remember: JSON writes true, false and null in lowercase, and Python turns them into True, False and None. JSON also insists on double quotes.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": "2026-11-13",
+      "diagram": null,
+      "position": "a7",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_3Nl9UjWkIR1B_1",
+          "type": "multiple_choice",
+          "prompt": "A JSON array, once loaded into Python, becomes a:",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Dictionary"
+            },
+            {
+              "id": "b",
+              "text": "Set"
+            },
+            {
+              "id": "c",
+              "text": "List"
+            },
+            {
+              "id": "d",
+              "text": "String"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "JSON arrays map to Python lists, and JSON objects map to dictionaries.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_YKNPWmRCyiIb",
+      "title": "None: the value that means \"nothing here\"",
+      "body": "None is Python's way to say \"there is no value\". It is not zero, not an empty string and not False. Think of a form: a box where someone wrote 0 is different from a box left blank. None is the blank box.\n\nYou will see it constantly. A function with no return gives back None. A lookup that finds nothing often returns None.\n\nThe classic crash is using None as if it were real data, such as asking for result[\"name\"] when result is None. Careful code checks first: if result is None. Generated code often skips that check.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": "2026-11-13",
+      "diagram": null,
+      "position": "a8",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_YKNPWmRCyiIb_1",
+          "type": "multiple_choice",
+          "prompt": "A Python function has no return statement. What does calling it give back?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "0"
+            },
+            {
+              "id": "b",
+              "text": "None"
+            },
+            {
+              "id": "c",
+              "text": "An empty string"
+            },
+            {
+              "id": "d",
+              "text": "An error"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A function that ends without returning anything hands back None automatically.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_kfZ024xy9wQD",
+      "title": "Why types matter: \"5\" is text, 5 is a number",
+      "body": "\"5\" and 5 look alike to a person, but Python treats them as different things. \"5\" + \"5\" glues text together and gives \"55\". 5 + 5 does arithmetic and gives 10. Mix them, \"5\" + 5, and Python stops with an error rather than guess.\n\nThis matters because nearly everything arriving from outside starts life as text: what a user types, a spreadsheet cell, a web form. The code must convert it, int(\"5\"), before doing maths.\n\nWhen totals in generated code look wildly wrong, check whether numbers are secretly strings.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": "2026-11-13",
+      "diagram": null,
+      "position": "a9",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_kfZ024xy9wQD_1",
+          "type": "multiple_choice",
+          "prompt": "In Python, what is \"5\" + \"5\"?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "10"
+            },
+            {
+              "id": "b",
+              "text": "25"
+            },
+            {
+              "id": "c",
+              "text": "\"55\""
+            },
+            {
+              "id": "d",
+              "text": "An error"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Both values are strings, so + joins them end to end instead of adding.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

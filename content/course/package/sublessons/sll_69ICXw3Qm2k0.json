@@ -1,0 +1,246 @@
+{
+  "id": "sll_69ICXw3Qm2k0",
+  "title": "Overfitting",
+  "bites": [
+    {
+      "id": "bit_b_uPNobpti79",
+      "title": "Overfitting vs. underfitting",
+      "body": "A model can fail in two opposite ways.\n\nUnderfitting: the model is too simple to capture the pattern. It does badly on everything, the training data included. Think of a student who barely opened the book.\n\nOverfitting: the model has learned its training examples too exactly, noise and accidents included. It scores brilliantly on what it has seen and badly on anything new. That is the student who memorised the answers without understanding.\n\nThe target sits between them: a model that has learned the real pattern and not the incidental detail. A tailor aims for the same thing. The suit should fit the person, not every wrinkle of how they stood on fitting day.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_b_uPNobpti79_1",
+          "type": "multiple_choice",
+          "prompt": "What best describes an overfitted model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Poor on both training data and new data"
+            },
+            {
+              "id": "b",
+              "text": "Excellent on its training data, poor on new data"
+            },
+            {
+              "id": "c",
+              "text": "Good on everything"
+            },
+            {
+              "id": "d",
+              "text": "Unable to run at all"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Overfitting means the model has captured the specifics of its training set and fails to generalise.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_71I-XoQ_6T16",
+      "title": "Data leakage (concept)",
+      "body": "Data leakage is when information the model should not have slips into its training. The result is a score that looks wonderful and is fake.\n\nIt is an exam where the answers were accidentally printed on the back of the question paper. Everyone gets top marks and nobody has learned anything.\n\nThere are two usual routes. Test examples end up in the training data, sometimes as near-duplicates. Or a feature contains information that would only exist after the event you are trying to predict.\n\nThe warning sign is a result that seems too good. When a hard problem comes back at 99%, do not celebrate. Look for the leak.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_71I-XoQ_6T16_1",
+          "type": "multiple_choice",
+          "prompt": "What is the typical symptom of data leakage?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Training takes much longer"
+            },
+            {
+              "id": "b",
+              "text": "The model refuses to train"
+            },
+            {
+              "id": "c",
+              "text": "Files get smaller"
+            },
+            {
+              "id": "d",
+              "text": "Results in testing that look too good, followed by poor real-world performance"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Leakage hands the model hints it will not have in real use, so test scores are inflated.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_g7gRv3EhEiEf",
+      "title": "Memorizing vs. generalizing",
+      "body": "Memorising is storing the examples. Generalising is grasping the pattern behind them. Only the second is any use on something new.\n\nA child who has memorised that 3 times 4 is 12 knows one fact. A child who understands multiplication can work out 37 times 4.\n\nYou cannot tell the difference by testing on familiar examples, because both children pass. You need a question neither has seen.\n\nThis is a live question with LLMs. When a model answers a well-known puzzle correctly, did it reason, or had it seen that puzzle in training? Change the numbers or the wording a little. A model that understood still gets it right.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_g7gRv3EhEiEf_1",
+          "type": "multiple_choice",
+          "prompt": "How can you tell whether a model generalised rather than memorised?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Test it again on the training examples"
+            },
+            {
+              "id": "b",
+              "text": "Test it on new examples it has not seen before"
+            },
+            {
+              "id": "c",
+              "text": "Ask it whether it memorised"
+            },
+            {
+              "id": "d",
+              "text": "Check how large the model file is"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Only unseen examples separate real understanding from recall of stored answers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_At0Hf6H6nS46",
+      "title": "Warning sign: a great training score and a poor score on new data",
+      "body": "The clearest signal of overfitting is a gap between two numbers.\n\nTraining accuracy: 99%. Validation accuracy: 71%. That gap of 28 points says the model has learned its own examples by heart and not the pattern underneath.\n\nA healthy model shows the two close together, say 88% and 85%.\n\nYou can watch it happen during training. Both scores improve together for a while. Then training keeps getting better while validation stalls and starts to slip. That turning point is where memorising begins.\n\nA common remedy is exactly that simple: stop training at the turn. It is called early stopping.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_At0Hf6H6nS46_1",
+          "type": "multiple_choice",
+          "prompt": "Training accuracy is 99% and validation accuracy is 71%. What does this suggest?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model is underfitting"
+            },
+            {
+              "id": "b",
+              "text": "The model is working perfectly"
+            },
+            {
+              "id": "c",
+              "text": "The validation data must be broken"
+            },
+            {
+              "id": "d",
+              "text": "The model is overfitting"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A large gap between training and validation performance is the standard sign of overfitting.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_P4cPDENndsqb",
+      "title": "Leakage example: a feature that secretly contains the answer",
+      "body": "A hospital builds a model to predict which patients have a serious illness. It scores 98%. Then someone looks at what it is using.\n\nThe strongest feature turns out to be \"was prescribed drug X\". That drug is only given after the illness has been diagnosed. The model is not predicting the illness. It is reading the answer off the chart.\n\nIn real use, on patients not yet diagnosed, that feature is empty and the model is useless.\n\nThe test for any feature: would I truly know this value at the moment I need the prediction? If it only exists afterwards, it is a leak, however much it lifts the score.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_P4cPDENndsqb_1",
+          "type": "multiple_choice",
+          "prompt": "What question exposes a leaking feature?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Is the feature stored as a number?"
+            },
+            {
+              "id": "b",
+              "text": "Does the feature have a short name?"
+            },
+            {
+              "id": "c",
+              "text": "Is the feature in the first column?"
+            },
+            {
+              "id": "d",
+              "text": "Would this value really be known at the moment the prediction is needed?"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A feature that only exists after the outcome carries the answer with it and will not be available in real use.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_5jKUkDGT52ER",
+      "title": "More varied data helps more than more of the same",
+      "body": "Not all extra data is equal. A thousand more examples of what the model already knows teach it very little. A hundred examples of situations it has never met can change everything.\n\nThink of learning to drive. Another fifty hours on the same quiet road adds little. One hour each in rain, at night, in city traffic and on a motorway makes you a driver.\n\nFor a model, variety means different customers, seasons, writing styles, lighting, edge cases, whatever the real world will throw at it.\n\nSo when a model does badly, do not just ask for more data. Ask which situations it fails in, and collect those.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_5jKUkDGT52ER_1",
+          "type": "multiple_choice",
+          "prompt": "A photo model fails on pictures taken at night. What data helps most?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "More copies of the daytime photos it already handles"
+            },
+            {
+              "id": "b",
+              "text": "Fewer photos overall"
+            },
+            {
+              "id": "c",
+              "text": "More night-time photos"
+            },
+            {
+              "id": "d",
+              "text": "Photos with longer file names"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Performance improves most when the data covers the conditions where the model is currently weak.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "id": "sll_a1_2_2",
+  "title": "Modules & Packages",
+  "bites": [
+    {
+      "id": "bit_a1_imports",
+      "title": "Imports and project structure",
+      "body": "A module is simply a Python file. A package is a folder of modules. import is how one file borrows code from another, like taking a tool from a labelled drawer rather than forging it again.\n\nimport math brings the whole drawer. from pathlib import Path takes one tool out of it.\n\nA tidy project groups related files so imports read like directions: from billing.invoices import total.\n\nTwo things to watch in generated code. Circular imports, where two files import each other, cause confusing startup errors. And an import of something that is not installed fails with ModuleNotFoundError, which usually means a missing dependency rather than a bug in your logic.",
+      "sourceNote": "Python tutorial, modules · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_imports_1",
+          "type": "multiple_choice",
+          "prompt": "What does \"from pathlib import Path\" do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Copies the entire pathlib file into your file"
+            },
+            {
+              "id": "b",
+              "text": "Installs pathlib from the internet"
+            },
+            {
+              "id": "c",
+              "text": "Brings one name, Path, in from the pathlib module"
+            },
+            {
+              "id": "d",
+              "text": "Creates a new folder called Path"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The from ... import form pulls a specific name out of a module so you can use it directly.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_docs",
+      "title": "Reading library documentation",
+      "body": "Documentation is the manual for someone else's code. You do not read a car manual cover to cover. You look up the one thing you need.\n\nA workable routine: find the quickstart example, then the parameter list for the function you are calling (what is required, what is optional, what comes back), then the errors it can raise.\n\nAlways check that the docs match the version you have installed. Libraries change, and AI assistants are trained on older text, so they often suggest a function that was renamed or removed.\n\nWhen the assistant and the official docs disagree, the docs for your version win.",
+      "sourceNote": "Practice for reading library docs · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_docs_1",
+          "type": "multiple_choice",
+          "prompt": "An AI assistant's code uses a library function that the official docs for your installed version do not list. What should you trust?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The assistant, because it sounded confident"
+            },
+            {
+              "id": "b",
+              "text": "Whichever answer is longer"
+            },
+            {
+              "id": "c",
+              "text": "A blog post from several years ago"
+            },
+            {
+              "id": "d",
+              "text": "The official documentation for your installed version"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The library's own docs for your version describe what actually exists. Assistants can suggest outdated or invented functions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_PiOpqxhuP1M_",
+      "title": "Find the one example in the docs that matches your task",
+      "body": "The fastest way into a new library is not reading everything. It is finding a single working example close to what you want, running it unchanged, and then adjusting it.\n\nIt is like cooking from a recipe for a similar dish: you swap the chicken for tofu rather than inventing dinner from first principles.\n\nLook for sections named Quickstart, Examples or Cookbook. Copy the smallest example, run it and confirm it works. Then change one thing at a time towards your goal.\n\nThe same example makes excellent context for an AI assistant. \"Adapt this official example to do X\" gets far better results than a bare request.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_PiOpqxhuP1M__1",
+          "type": "multiple_choice",
+          "prompt": "What is the most efficient first step with an unfamiliar library?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Run a small official example that is close to your task, then adapt it"
+            },
+            {
+              "id": "b",
+              "text": "Read the entire reference manual first"
+            },
+            {
+              "id": "c",
+              "text": "Ask the assistant to write everything from memory"
+            },
+            {
+              "id": "d",
+              "text": "Read the library's source code line by line"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A working example gives you a known-good starting point that you can change one step at a time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_oMmEMmeVtnBj",
+      "title": "Check a package's maintenance and popularity before using it",
+      "body": "Anyone can publish a Python package. Before you depend on one, check it the way you would check a tradesperson before letting them into your house.\n\nQuick signals: when was the last release? Are issues being answered? How many people use it? Is there real documentation?\n\nA package untouched for three years may not work with current Python and will not receive security fixes. A brand-new package with a handful of downloads is a risk of a different kind.\n\nNone of these signals is proof of quality. Together they tell you whether someone will still be fixing the thing next year, when you need them to.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_oMmEMmeVtnBj_1",
+          "type": "multiple_choice",
+          "prompt": "Which is the strongest warning sign about a package?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "No releases or maintainer activity for several years"
+            },
+            {
+              "id": "b",
+              "text": "It has thorough documentation"
+            },
+            {
+              "id": "c",
+              "text": "Many well-known projects depend on it"
+            },
+            {
+              "id": "d",
+              "text": "It released an update last month"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "An abandoned package will not get bug or security fixes and may break with newer Python versions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_sqSEdD9FpILE",
+      "title": "The standard library already covers much of what you need",
+      "body": "Python ships with a large toolbox called the standard library. It is there the moment Python is installed, with nothing extra to download.\n\nIt reads JSON (json), handles dates (datetime), works with files and folders (pathlib), reads spreadsheets saved as CSV (csv), does maths (math) and much more.\n\nIt is like checking the toolbox already in your garage before driving to the shop. Every extra package you install is something to update, something that can break, and something that could be malicious.\n\nWhen an assistant reaches for a third-party package for a simple job, ask: \"Can this be done with the standard library?\"",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_sqSEdD9FpILE_1",
+          "type": "multiple_choice",
+          "prompt": "Which of these comes built in with Python, with nothing to install?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every package on the internet"
+            },
+            {
+              "id": "b",
+              "text": "A paid LLM subscription"
+            },
+            {
+              "id": "c",
+              "text": "The json module"
+            },
+            {
+              "id": "d",
+              "text": "A vector database"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "json is part of the standard library, which ships with Python itself.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

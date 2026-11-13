@@ -1,0 +1,286 @@
+{
+  "id": "sll_XQ6Ow2D4pb5e",
+  "title": "Probabilities & Sampling",
+  "bites": [
+    {
+      "id": "bit_fFoyDXxoNuCa",
+      "title": "Next-token probabilities",
+      "body": "At every step the model does not produce one word. It produces a probability for every token in its vocabulary.\n\nFor \"The weather today is ___\" it might say: sunny 30%, cold 15%, nice 12%, terrible 4%, and tiny amounts for tens of thousands of others. \"Purple\" gets close to zero.\n\nThen one token is picked from that list, added to the text, and the process repeats.\n\nThink of a weighted lottery where the likely tokens hold most of the tickets.\n\nSo the model never knows the answer in the sense of looking it up. It holds a ranked set of plausible continuations. Everything about how it writes follows from how you pick from that list.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_fFoyDXxoNuCa_1",
+          "type": "multiple_choice",
+          "prompt": "What does an LLM produce at each step before a token is chosen?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A single fixed word"
+            },
+            {
+              "id": "b",
+              "text": "A probability for every token in its vocabulary"
+            },
+            {
+              "id": "c",
+              "text": "A complete paragraph"
+            },
+            {
+              "id": "d",
+              "text": "A link to a web page"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The model outputs a distribution over all tokens, and one is then selected from it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_wsuRUSxkXmgR",
+      "title": "Temperature",
+      "body": "Temperature is a setting that controls how adventurous the model is when it picks the next token.\n\nAt a low temperature, near 0, it almost always takes the most likely token. The output is focused, predictable and repeatable.\n\nAt a higher temperature, around 1 or above, the less likely tokens get a real chance. The output is more varied and surprising, and more likely to wander off.\n\nThink of ordering at a restaurant. Low temperature is having your usual every time. High temperature is letting the waiter surprise you: sometimes delightful, sometimes a mistake.\n\nIt does not make the model smarter or less smart. It only changes how it chooses among options it already had.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_wsuRUSxkXmgR_1",
+          "type": "multiple_choice",
+          "prompt": "What does a low temperature do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Makes the model know more facts"
+            },
+            {
+              "id": "b",
+              "text": "Makes the output more random"
+            },
+            {
+              "id": "c",
+              "text": "Makes the answer longer"
+            },
+            {
+              "id": "d",
+              "text": "Makes the output more focused and predictable"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Low temperature concentrates choices on the most likely tokens, giving consistent output.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_aHW_BxDH2dsP",
+      "title": "Top-p (nucleus) sampling",
+      "body": "Top-p is a second control over which tokens can be chosen.\n\nThe model ranks the tokens from most likely to least. It then keeps only the smallest group at the top whose probabilities add up to p, for example 90%, and picks from that group. Everything below the line is thrown out.\n\nSo with top-p at 0.9, the long tail of very unlikely tokens can never be chosen, however the dice fall.\n\nIt is a cut-off that adapts. When the model is sure, the group may be two tokens. When many continuations are reasonable, it may be fifty.\n\nThink of a shortlist: decide among the serious candidates and ignore the no-hopers. The usual advice is to adjust temperature or top-p, not both.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_aHW_BxDH2dsP_1",
+          "type": "multiple_choice",
+          "prompt": "What does top-p sampling do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Always picks the single most likely token"
+            },
+            {
+              "id": "b",
+              "text": "Limits the choice to the most likely tokens that together reach a set probability"
+            },
+            {
+              "id": "c",
+              "text": "Picks at random from the whole vocabulary"
+            },
+            {
+              "id": "d",
+              "text": "Sets the maximum length of the answer"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Top-p keeps the smallest set of top tokens whose combined probability reaches p, and removes the unlikely tail.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_1WfosHdYomFN",
+      "title": "Softmax: how temperature reshapes probabilities",
+      "body": "Inside the model, each token first gets a raw score, called a logit. A step called softmax turns those scores into probabilities that add up to 1.\n\nTemperature acts just before that step. Every score is divided by the temperature.\n\nLow temperature exaggerates the gaps. The leader's probability climbs towards 100% and the rest collapse. The distribution becomes a sharp spike.\n\nHigh temperature shrinks the gaps. The scores move closer together and the distribution flattens, so the underdogs become real possibilities.\n\nPicture a mountain range. Low temperature stretches it upward until one peak towers over the rest. High temperature squashes it towards a plateau. The order of the peaks never changes, only how much the tallest dominates.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_1WfosHdYomFN_1",
+          "type": "multiple_choice",
+          "prompt": "What does raising the temperature do to the token probabilities?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Sharpens them around the top token"
+            },
+            {
+              "id": "b",
+              "text": "Changes which token is ranked first"
+            },
+            {
+              "id": "c",
+              "text": "Flattens them, giving less likely tokens a greater chance"
+            },
+            {
+              "id": "d",
+              "text": "Sets all of them to zero"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Dividing the scores by a larger temperature narrows the gaps, so the distribution is more even.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_3Sdv7UjZWPSr",
+      "title": "Non-determinism: same prompt, different answers",
+      "body": "Ask an LLM the same question twice and you may get two different answers. That is non-determinism, and it surprises anyone used to ordinary software, where the same input always gives the same output.\n\nThe cause is sampling. Each token is drawn from a probability list, like rolling weighted dice. One different early roll sends the rest of the answer down another path.\n\nFor chatting, that is fine and even pleasant. For a business process it is a problem: the same invoice might be classified two ways on two runs.\n\nLowering the temperature reduces the variation but does not guarantee it away. So AI systems need testing over many runs, not one.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_3Sdv7UjZWPSr_1",
+          "type": "multiple_choice",
+          "prompt": "Why can the same prompt produce different answers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model forgets the question"
+            },
+            {
+              "id": "b",
+              "text": "The provider changes the model every minute"
+            },
+            {
+              "id": "c",
+              "text": "Prompts are altered in transit"
+            },
+            {
+              "id": "d",
+              "text": "Each token is sampled from a probability distribution"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Sampling introduces randomness, and an early difference changes everything generated after it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_i_08QGFYd3Xp",
+      "title": "Low temperature for consistency; higher for variety",
+      "body": "Match the temperature to the job.\n\nLow, around 0 to 0.3, for tasks with a right answer or a strict format: pulling data from an invoice, sorting tickets, writing code, answering from a document. You want the same input to give the same output.\n\nMedium to higher, around 0.7 to 1, for tasks where variety is the point: brainstorming names, drafting marketing copy, writing fiction. Ten runs should give ten different ideas.\n\nIt is the difference between an accountant and a brainstorming session. You want one to be boringly consistent and the other to range widely.\n\nNote that low temperature improves consistency, not correctness. A model can be reliably wrong.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_i_08QGFYd3Xp_1",
+          "type": "multiple_choice",
+          "prompt": "Which task suits a low temperature?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Brainstorming twenty product names"
+            },
+            {
+              "id": "b",
+              "text": "Extracting the total from an invoice"
+            },
+            {
+              "id": "c",
+              "text": "Writing a surprising short story"
+            },
+            {
+              "id": "d",
+              "text": "Suggesting unusual holiday ideas"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Extraction has one correct answer and should be consistent, which is what low temperature favours.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_SKmpzxWNsac3",
+      "title": "Some reasoning models fix certain settings for you",
+      "body": "With many reasoning models you cannot freely set temperature or top-p. The provider fixes them, or accepts only a narrow range, and the API may ignore or reject your value.\n\nThe reason is that these models were tuned to do their internal thinking under particular sampling conditions. Changing those could quietly hurt the quality of the reasoning.\n\nIn return you often get a different dial: how much effort or thinking budget the model should spend.\n\nIt is like a camera in automatic mode. It will not let you set the shutter speed, but it lets you choose \"portrait\" or \"sport\".\n\nSo check the documentation for each model, because the rules differ and change. Code that sets a temperature may need adjusting when you switch models.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_SKmpzxWNsac3_1",
+          "type": "multiple_choice",
+          "prompt": "Why might an API reject or ignore your temperature setting?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Temperature is never adjustable on any model"
+            },
+            {
+              "id": "b",
+              "text": "Your API key has expired"
+            },
+            {
+              "id": "c",
+              "text": "The prompt was too short"
+            },
+            {
+              "id": "d",
+              "text": "Some reasoning models have sampling settings fixed by the provider"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Certain reasoning models restrict sampling parameters and offer a reasoning-effort control instead.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "id": "sll_FbNPu9FkXRp_",
+  "title": "Cost Reality Check",
+  "bites": [
+    {
+      "id": "bit_CXeovmlcECOb",
+      "title": "Cost per 1,000 completed tasks, not per token",
+      "body": "The price per token is the number on the provider's website. It is not the number that matters to your business.\n\nWhat matters is the cost of a finished task: a ticket resolved, an invoice processed, a report written.\n\nOne task may take several model calls, long prompts and a retry or two. A model that is half the price per token and needs three times as many tokens to get there is more expensive.\n\nIt is comparing cars by the price of fuel per litre while ignoring how far each goes on a litre.\n\nSo measure this: run 1,000 real tasks, add up everything spent, and divide. Compare models on that figure.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_nY9pSDcZ9cN6",
+          "targetCode": "B14.1",
+          "label": "see B14.1",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_CXeovmlcECOb_1",
+          "type": "multiple_choice",
+          "prompt": "Which measure best compares the real cost of two models?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Price per token alone"
+            },
+            {
+              "id": "b",
+              "text": "The size of the context window"
+            },
+            {
+              "id": "c",
+              "text": "The number of parameters"
+            },
+            {
+              "id": "d",
+              "text": "Cost per completed task"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A task can need many calls and retries, so only the total cost per finished task shows which is cheaper.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_1rvwVbxSKejg",
+      "title": "Count retries, failed runs, and human review time",
+      "body": "The token bill is only part of what an AI process costs. Three other items belong in the sum.\n\nRetries: when the output is malformed or wrong and the system tries again, you pay again.\n\nFailed runs: a task abandoned halfway still used tokens and produced nothing.\n\nHuman review: the biggest item, and the one most often left out. If a person spends three minutes checking and correcting each output, that labour dwarfs the pennies of model cost.\n\nIt is the true cost of a cheap printer once you count the ink and the paper jams.\n\nA model that costs twice as much and needs half the human correction is usually the bargain.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_1rvwVbxSKejg_1",
+          "type": "multiple_choice",
+          "prompt": "Which cost is most often overlooked when pricing an AI workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The price of input tokens"
+            },
+            {
+              "id": "b",
+              "text": "The price of output tokens"
+            },
+            {
+              "id": "c",
+              "text": "The subscription to a leaderboard"
+            },
+            {
+              "id": "d",
+              "text": "The time people spend reviewing and correcting outputs"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Human review time usually costs far more than tokens and is frequently left out of the comparison.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Drr3Kg0WVNnE",
+      "title": "The cheapest model that passes your evals wins",
+      "body": "Here is a clean rule for choosing a model, and it settles a lot of arguments.\n\nFirst decide what \"good enough\" means and turn it into a test: a set of real examples with a pass mark. That is your eval.\n\nThen run the candidates, starting with the cheapest. The first one that passes is your model.\n\nNotice what the rule leaves out. It does not ask which model is best, newest or most impressive. Past the pass mark, extra capability is money spent on nothing.\n\nIt is hiring to a job description. You need someone who can do this job well, not the most decorated person on earth.\n\nAnd without an eval there is nothing to pass, which is why evals come first.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_5duKXu3tkFQI",
+          "targetCode": "B12.1",
+          "label": "see B12.1",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_Drr3Kg0WVNnE_1",
+          "type": "multiple_choice",
+          "prompt": "According to this rule, which model should you choose?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The highest on a public leaderboard"
+            },
+            {
+              "id": "b",
+              "text": "The most expensive, to be safe"
+            },
+            {
+              "id": "c",
+              "text": "The least expensive one that meets your quality bar on your own tests"
+            },
+            {
+              "id": "d",
+              "text": "The one released most recently"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Once a model meets the required quality on your eval, further capability adds cost without benefit.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_P-LSEoGZTNhp",
+      "title": "Paying more is worth it only if the value rises with the cost",
+      "body": "A more expensive model is justified when the extra quality is worth more than the extra money. That depends entirely on the task.\n\nDrafting a legal clause where one error could cost thousands: pay for the best. A few extra pennies per request is nothing against the risk.\n\nTagging a million product reviews as positive or negative, where 96% and 98% accuracy lead to the same business decision: the premium buys nothing.\n\nYou insure a house and not a pencil.\n\nSo ask: what does a mistake cost here, and what is a better answer worth? Stakes and value decide the tier, not habit and not the wish to have \"the best\".",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_P-LSEoGZTNhp_1",
+          "type": "multiple_choice",
+          "prompt": "When is paying for a more expensive model justified?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When errors are costly or the better quality creates more value than it costs"
+            },
+            {
+              "id": "b",
+              "text": "Always"
+            },
+            {
+              "id": "c",
+              "text": "Never"
+            },
+            {
+              "id": "d",
+              "text": "Only when the provider recommends it"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The premium makes sense when the stakes or the added value outweigh the extra spend.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit__-Rxje-uri8d",
+      "title": "Re-run the comparison whenever prices drop",
+      "body": "A cost decision is a snapshot. When prices change, and they change often, the snapshot is out of date.\n\nThe model you rejected as too expensive six months ago may now cost half as much. A new small model may now pass a test that only a large one used to pass. Either can cut your bill sharply for the same quality.\n\nRerunning is cheap if you kept your eval. Point the test set at the new model or the new price, and the answer is there in minutes.\n\nIt is checking whether your energy deal is still the best available.\n\nTeams that never look again end up paying last year's price for last year's quality.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q__-Rxje-uri8d_1",
+          "type": "multiple_choice",
+          "prompt": "What makes it quick to re-evaluate model choices after a price change?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Having no tests at all"
+            },
+            {
+              "id": "b",
+              "text": "Having a saved eval set you can rerun"
+            },
+            {
+              "id": "c",
+              "text": "Rewriting the whole application"
+            },
+            {
+              "id": "d",
+              "text": "Waiting for the provider to phone you"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A reusable test set lets you compare new prices and models in minutes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

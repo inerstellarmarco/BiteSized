@@ -1,0 +1,246 @@
+{
+  "id": "sll_lwgvSe2aHVZK",
+  "title": "Evaluation Basics",
+  "bites": [
+    {
+      "id": "bit_pT4mmJ6Ovn1g",
+      "title": "Accuracy, precision, recall",
+      "body": "Three numbers describe how good a yes-or-no model is. Take a spam filter.\n\nAccuracy: of all emails, what share did it get right? Simple, and often misleading.\n\nPrecision: of the emails it called spam, how many really were? Low precision means real emails are landing in the spam folder.\n\nRecall: of all the real spam, how much did it catch? Low recall means spam is reaching the inbox.\n\nPrecision is about false alarms. Recall is about misses. They pull against each other: make a filter stricter and it catches more spam (better recall) but flags more real mail (worse precision). You choose the balance.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_pT4mmJ6Ovn1g_1",
+          "type": "multiple_choice",
+          "prompt": "A spam filter marks many genuine emails as spam. Which measure is poor?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Recall"
+            },
+            {
+              "id": "b",
+              "text": "Speed"
+            },
+            {
+              "id": "c",
+              "text": "Precision"
+            },
+            {
+              "id": "d",
+              "text": "Storage"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Precision asks how many of the flagged items were truly spam. Flagging genuine mail lowers it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Z7njetyaez9Z",
+      "title": "Ground truth labels",
+      "body": "Ground truth is the set of correct answers you check a model against. To measure whether a model is right, you first need to know what \"right\" is.\n\nFor a spam filter, it is a set of emails that people have reliably marked spam or not. It is the marking scheme for the exam.\n\nGetting it is harder than it sounds. People disagree: is this email spam or just marketing? Labellers tire and make mistakes. Some questions have no single right answer.\n\nAnd if the ground truth is wrong, every score built on it is wrong too. A model can look bad only because the answer key is.\n\nGood practice: have two people label the same samples and see how often they agree.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Z7njetyaez9Z_1",
+          "type": "multiple_choice",
+          "prompt": "Why is the quality of ground truth labels so important?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They make the model run faster"
+            },
+            {
+              "id": "b",
+              "text": "Every evaluation score depends on them, so errors in the labels make the scores unreliable"
+            },
+            {
+              "id": "c",
+              "text": "They reduce the size of the dataset"
+            },
+            {
+              "id": "d",
+              "text": "They are only needed for unsupervised learning"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Scores compare predictions with the labels. If the labels are wrong, the comparison means little.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_c_fkSLszsInO",
+      "title": "Accuracy misleads when one class is rare",
+      "body": "Suppose 1 in 1,000 card transactions is fraud. A \"model\" that always says \"not fraud\" is 99.9% accurate, and catches no fraud at all.\n\nThat is the accuracy trap. When one outcome is rare, a model can score highly by ignoring it. The headline number is true and useless.\n\nIt happens anywhere the thing you care about is uncommon: fraud, disease, defects, security incidents.\n\nThe fix is to look at the rare class directly. Of the real frauds, how many were caught (recall)? Of those flagged, how many were real (precision)?\n\nWhenever someone quotes accuracy alone, ask how common the thing being detected is.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_c_fkSLszsInO_1",
+          "type": "multiple_choice",
+          "prompt": "Fraud is 0.1% of transactions. A model that always predicts \"not fraud\" has what accuracy?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "0.1%"
+            },
+            {
+              "id": "b",
+              "text": "99.9%"
+            },
+            {
+              "id": "c",
+              "text": "50%"
+            },
+            {
+              "id": "d",
+              "text": "0%"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "It is right on every non-fraud case, which is 99.9% of the data, while catching no fraud at all.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_kowK33m79v9N",
+      "title": "Precision vs. recall: false alarms vs. misses",
+      "body": "Every detector makes two kinds of error, and you can mostly only trade one for the other.\n\nA false alarm (false positive) is flagging something innocent. A miss (false negative) is letting the real thing through.\n\nThink of a smoke alarm. A very sensitive one never misses a fire and goes off whenever you make toast: high recall, low precision. A lazy one never bothers you and might sleep through a real fire: high precision, low recall.\n\nTightening one loosens the other. There is no setting that removes both.\n\nSo \"how good is the model?\" is not quite the right question. Ask which kind of mistake it makes, and how often.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_kowK33m79v9N_1",
+          "type": "multiple_choice",
+          "prompt": "A very sensitive smoke alarm that goes off at burnt toast has:",
+          "choices": [
+            {
+              "id": "a",
+              "text": "High precision but low recall"
+            },
+            {
+              "id": "b",
+              "text": "Low recall and low precision"
+            },
+            {
+              "id": "c",
+              "text": "Perfect accuracy"
+            },
+            {
+              "id": "d",
+              "text": "High recall but low precision"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "It catches every real fire (high recall) but raises many false alarms (low precision).",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_zUNOiMOaFL7Y",
+      "title": "Ask which error costs the business more",
+      "body": "The right balance between false alarms and misses is not a technical choice. It depends on what each mistake costs.\n\nCancer screening: a miss can be fatal, while a false alarm means a follow-up test. So accept more false alarms to catch more cases. Favour recall.\n\nSpam filtering: a missed spam is a small nuisance, but a real client email lost in the spam folder could cost a deal. Favour precision.\n\nPutting rough numbers on it helps. If a false alarm costs 5 pounds of staff time and a miss costs 500, a hundred false alarms are worth one extra catch.\n\nThat is a question for the people who run the business, not just whoever built the model.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_zUNOiMOaFL7Y_1",
+          "type": "multiple_choice",
+          "prompt": "In medical screening for a serious disease, which error is usually worse?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Sending a healthy person for a follow-up test"
+            },
+            {
+              "id": "b",
+              "text": "Both are always equal"
+            },
+            {
+              "id": "c",
+              "text": "Neither matters"
+            },
+            {
+              "id": "d",
+              "text": "Missing a real case"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A missed case can be fatal, while a false alarm normally costs only a further check.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Db3h0L5C3pF6",
+      "title": "A baseline to beat: always guessing the common answer",
+      "body": "Before you are impressed by a model's score, ask: compared with what?\n\nA baseline is the simplest possible approach, the bar a real model has to clear. The most common one is to guess the most frequent answer every time. If 80% of customers renew, \"always predict renew\" scores 80% with no intelligence at all.\n\nSo a model at 82% has added two points, not eighty-two.\n\nOther fair baselines: last month's figure as the forecast, a simple rule, or whatever the business does today.\n\nIt is like judging a fund manager. A 7% return sounds fine until you hear the whole market rose 10%.\n\nA number with no baseline is not a result.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Db3h0L5C3pF6_1",
+          "type": "multiple_choice",
+          "prompt": "90% of emails in a dataset are not spam. What is the baseline accuracy from always guessing \"not spam\"?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "10%"
+            },
+            {
+              "id": "b",
+              "text": "50%"
+            },
+            {
+              "id": "c",
+              "text": "100%"
+            },
+            {
+              "id": "d",
+              "text": "90%"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Guessing the majority class is right as often as that class occurs, here 90% of the time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

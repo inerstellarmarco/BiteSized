@@ -1,0 +1,340 @@
+{
+  "id": "sll_a1_3_1",
+  "title": "Async Concepts",
+  "bites": [
+    {
+      "id": "bit_a1_sync",
+      "title": "Synchronous vs asynchronous code",
+      "body": "Synchronous code waits. The next line runs only when this one has finished. Asynchronous code can start a wait, such as a network call, and do other waiting work until the result is ready. async def defines a coroutine. await pauses that coroutine until the awaited job finishes. Async does not make a heavy calculation faster. It helps when the program is waiting.",
+      "sourceNote": "Python asyncio docs, coroutines · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": "2026-11-13T00:00:00.000Z",
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_sync_1",
+          "type": "multiple_choice",
+          "prompt": "What is async especially useful for?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Waiting on slow I/O, like network calls"
+            },
+            {
+              "id": "b",
+              "text": "Making every loop faster"
+            },
+            {
+              "id": "c",
+              "text": "Replacing the need for functions"
+            },
+            {
+              "id": "d",
+              "text": "Turning strings into numbers"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Async overlaps waits. A CPU-bound calculation still needs the CPU the whole time.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_sync_2",
+          "type": "multiple_choice",
+          "prompt": "What does await do inside an async function?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Skips the next line forever"
+            },
+            {
+              "id": "b",
+              "text": "Pauses until the awaited job has a result"
+            },
+            {
+              "id": "c",
+              "text": "Creates a virtual environment"
+            },
+            {
+              "id": "d",
+              "text": "Prints the stack trace"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "await gives control back to the event loop until that job completes, then continues with the result.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_concurrent",
+      "title": "Concurrent API calls",
+      "body": "If three network calls do not depend on each other, you can start them together. asyncio.gather(one(), two(), three()) waits for all of them. Three one-second calls can then finish in about one second, not three. You still await the gather. Do this only when the calls are independent. If the second call needs the first call's result, they have to stay in order.",
+      "sourceNote": "Python asyncio docs, gather · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": "2026-11-13T00:00:00.000Z",
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_concurrent_1",
+          "type": "multiple_choice",
+          "prompt": "Three independent one-second API calls run with asyncio.gather. About how long might they take?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "About one second"
+            },
+            {
+              "id": "b",
+              "text": "About three seconds, always"
+            },
+            {
+              "id": "c",
+              "text": "About nine seconds"
+            },
+            {
+              "id": "d",
+              "text": "They cannot finish"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Gather overlaps the waits. The wall-clock time is close to the slowest call, not the sum.",
+          "position": "a0",
+          "archivedAt": null
+        },
+        {
+          "id": "q_a1_concurrent_2",
+          "type": "multiple_choice",
+          "prompt": "When should you not run two calls concurrently?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When both are network calls"
+            },
+            {
+              "id": "b",
+              "text": "When the second needs the first result"
+            },
+            {
+              "id": "c",
+              "text": "When they use await"
+            },
+            {
+              "id": "d",
+              "text": "When they return JSON"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "If one result is an input to the next, the second has to wait. Order matters there.",
+          "position": "a1",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Wx6YoBDDSC6X",
+      "title": "Synchronous vs. asynchronous code",
+      "body": "Think of a cook making breakfast. A synchronous cook puts bread in the toaster and stands there until it pops, then starts the eggs. An asynchronous cook starts the toast, cracks the eggs while it browns, and comes back when it pops.\n\nCode works the same way. Synchronous code finishes each line before the next begins. Asynchronous code can start something slow, like a network call, and get on with other work while it waits.\n\nThe catch: async only helps with waiting. It is still one cook. If the job is heavy chopping, such as a big calculation, async does not make it faster.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Wx6YoBDDSC6X_1",
+          "type": "multiple_choice",
+          "prompt": "When does asynchronous code help most?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When doing one very large calculation"
+            },
+            {
+              "id": "b",
+              "text": "When the program has only a single quick step"
+            },
+            {
+              "id": "c",
+              "text": "When the program spends much of its time waiting, for example on network calls"
+            },
+            {
+              "id": "d",
+              "text": "When the computer is switched off"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Async lets the program do other work during waits. It does not speed up work that keeps the processor busy.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_SFbWl0Cf7UIQ",
+      "title": "Concurrent API calls (concept)",
+      "body": "Concurrent means several tasks are in progress at the same time, their waiting periods overlapping.\n\nSay you need to summarise 20 documents and each model call takes 5 seconds. One after another, that is 100 seconds. Started together, the whole batch finishes in roughly the time of the slowest call, a little over 5 seconds.\n\nIt is like posting 20 letters on the same day instead of waiting for each reply before sending the next.\n\nNothing got faster individually. You simply stopped waiting in a queue of your own making. This one idea is behind most \"we made the AI feature ten times faster\" stories.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_SFbWl0Cf7UIQ_1",
+          "type": "multiple_choice",
+          "prompt": "Twenty API calls each take 5 seconds. Run concurrently, with no limits hit, the batch takes about:",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A little over 5 seconds"
+            },
+            {
+              "id": "b",
+              "text": "100 seconds"
+            },
+            {
+              "id": "c",
+              "text": "20 seconds"
+            },
+            {
+              "id": "d",
+              "text": "Under one second"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The waits overlap, so total time is close to the slowest single call rather than the sum of all of them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_jGt3y-V-Fk8t",
+      "title": "async/await: how to read it without writing it",
+      "body": "You only need two words to read async Python.\n\nasync def marks a function that is able to pause. await marks the exact spot where it pauses: \"this will take a while, let others work, come back to me when it is done\".\n\nSo result = await fetch(url) reads as \"start the fetch, step aside while it is in flight, then carry on with the result\".\n\nOne more to recognise: asyncio.gather(a, b, c) means \"start all of these and wait for the lot\".\n\nA common bug in generated code is a missing await. The call then returns a placeholder, called a coroutine, instead of the real result, and later lines break in odd ways.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_jGt3y-V-Fk8t_1",
+          "type": "multiple_choice",
+          "prompt": "In Python, what does await mean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Run this line twice"
+            },
+            {
+              "id": "b",
+              "text": "Skip this line if it is slow"
+            },
+            {
+              "id": "c",
+              "text": "Convert the result to text"
+            },
+            {
+              "id": "d",
+              "text": "Pause here until this slow operation finishes, letting other work run meanwhile"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "await marks a pause point where the function yields control until the awaited operation completes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_vcbsbtYuwi1-",
+      "title": "Async helps when many slow network calls overlap",
+      "body": "Async pays off under one condition: lots of waiting that can overlap.\n\nA waiter is the picture to keep. One waiter can serve ten tables, because most of the time each table is reading the menu or eating. The waiter moves on and returns when needed. That is async.\n\nAI applications fit this well. They wait on model APIs, databases and web pages, often many at once. A chat server handling 200 users is mostly waiting for 200 replies.\n\nWhere it does not help: a single call on its own, or heavy number-crunching that keeps the processor busy. Async reorganises waiting. It does not add horsepower.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_vcbsbtYuwi1-_1",
+          "type": "multiple_choice",
+          "prompt": "Which workload benefits least from async?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Fetching 50 web pages"
+            },
+            {
+              "id": "b",
+              "text": "Calling an LLM API for 100 different prompts"
+            },
+            {
+              "id": "c",
+              "text": "Serving many chat users who are each waiting for a reply"
+            },
+            {
+              "id": "d",
+              "text": "One long calculation that keeps the processor busy the whole time"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Async only makes use of waiting time. A busy calculation has no waiting to share.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Y36M0CSHGxol",
+      "title": "Rate limits still apply when calls run at once",
+      "body": "A rate limit is a provider's cap on how much you may ask in a given time, for example 500 requests per minute. It works like a turnstile: only so many people get through per minute, however big the crowd.\n\nConcurrency makes it very easy to hit. Launch 1,000 calls at once and most will be refused with error 429, \"too many requests\".\n\nThe fix is to limit how many run at the same time, say 10, using a tool such as a semaphore, and to retry refused calls after a short wait.\n\nSo the true speed limit of a batch job is usually the provider's rate limit, not your code.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Y36M0CSHGxol_1",
+          "type": "multiple_choice",
+          "prompt": "You start 1,000 API calls at the same moment and many fail with status 429. What does that mean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Your API key is wrong"
+            },
+            {
+              "id": "b",
+              "text": "The server has crashed permanently"
+            },
+            {
+              "id": "c",
+              "text": "You exceeded the provider's rate limit"
+            },
+            {
+              "id": "d",
+              "text": "The prompts were too short"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "429 means too many requests in a given time. Limit how many run at once and retry after a pause.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

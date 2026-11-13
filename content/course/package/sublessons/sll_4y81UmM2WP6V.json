@@ -1,0 +1,326 @@
+{
+  "id": "sll_4y81UmM2WP6V",
+  "title": "Tokens & Tokenization",
+  "bites": [
+    {
+      "id": "bit_yXOULvLzGBdp",
+      "title": "Tokens and tokenization",
+      "body": "An LLM does not read letters or whole words. It reads tokens: small chunks of text, each swapped for a number.\n\nTokenization is the chopping. \"Unbelievable!\" might become \"Un\", \"believ\", \"able\" and \"!\". Each chunk has an id in a fixed list called the vocabulary, typically 50,000 to 200,000 entries.\n\nThink of Lego. Any structure can be built from a fixed set of bricks. Any text, even a made-up word, can be built from tokens.\n\nThis happens on the way in and on the way out. The model reads token numbers and produces token numbers, which are turned back into text for you.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_yXOULvLzGBdp_1",
+          "type": "multiple_choice",
+          "prompt": "What is tokenization?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Translating text into English"
+            },
+            {
+              "id": "b",
+              "text": "Splitting text into small chunks that are mapped to numbers"
+            },
+            {
+              "id": "c",
+              "text": "Encrypting a prompt"
+            },
+            {
+              "id": "d",
+              "text": "Checking a prompt for spelling mistakes"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A tokenizer breaks text into tokens from a fixed vocabulary, because models compute on numbers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_lzDLICE_OdGM",
+      "title": "Tokens as the currency of LLMs",
+      "body": "Tokens are the unit in which everything about an LLM is measured.\n\nPrice is charged per token, for what you send and for what comes back. Limits are set in tokens: how much the model can take in at once and how long an answer may be. Speed is quoted in tokens per second.\n\nIt is like electricity. You do not pay per appliance. You pay per kilowatt-hour, and every device draws from the same meter.\n\nSo \"how long is this document?\" becomes \"how many tokens is it?\" Thinking in tokens instead of words or pages is the first habit of someone who builds with LLMs.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_lzDLICE_OdGM_1",
+          "type": "multiple_choice",
+          "prompt": "Which of these is measured in tokens?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Price, input limits and output length"
+            },
+            {
+              "id": "b",
+              "text": "Only the price"
+            },
+            {
+              "id": "c",
+              "text": "Only the model's download size"
+            },
+            {
+              "id": "d",
+              "text": "The number of users"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Cost, context limits and generation speed are all counted in tokens.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_UkSSUM5feC8v",
+      "title": "Token limits and cost (intro)",
+      "body": "Two practical facts follow from tokens.\n\nLimits: every model has a maximum number of tokens it can handle in a single request, called the context window. Your instructions, your documents, the conversation so far and the reply all have to fit inside it.\n\nCost: you are billed for every token in and every token out, on every call. Each one costs a tiny amount. Multiply by long documents and thousands of requests and it becomes a real bill.\n\nThink of a taxi meter that runs on distance. A short trip is cheap. Make the same long trip a thousand times a day and you need a budget.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_UkSSUM5feC8v_1",
+          "type": "multiple_choice",
+          "prompt": "What is a context window?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The maximum number of tokens a model can handle in one request"
+            },
+            {
+              "id": "b",
+              "text": "The model's opening hours"
+            },
+            {
+              "id": "c",
+              "text": "A chart of token prices"
+            },
+            {
+              "id": "d",
+              "text": "The window in which a chat appears on screen"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The context window caps the combined size of the input and the output for a single call.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_ltCOt1vz003-",
+      "title": "A token is a piece of a word, not exactly a word",
+      "body": "It is tempting to treat tokens as words. They are not.\n\nA short, common word is usually one token: \"the\", \"cat\". A longer or rarer word splits into several: \"tokenization\" might be \"token\" plus \"ization\". Punctuation marks are tokens. A leading space is often part of a token too, so \" cat\" and \"cat\" can differ.\n\nWhy chop this way? A vocabulary of whole words would need millions of entries and still be thrown by a new one. Pieces of words cover everything with a far smaller list, the way 26 letters cover every English word, only chunkier.\n\nSo the token count is always somewhat higher than the word count.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_ltCOt1vz003-_1",
+          "type": "multiple_choice",
+          "prompt": "How is a long, uncommon word usually tokenized?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It is split into several tokens"
+            },
+            {
+              "id": "b",
+              "text": "It is always exactly one token"
+            },
+            {
+              "id": "c",
+              "text": "It is skipped"
+            },
+            {
+              "id": "d",
+              "text": "It becomes one token per letter, always"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Tokenizers break rare or long words into smaller, more common pieces.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_xghBTlOUJE1R",
+      "title": "Rough rule: about three-quarters of an English word per token",
+      "body": "For ordinary English, one token is roughly three-quarters of a word. Turned round, 100 tokens is about 75 words, and 1,000 words is about 1,300 tokens.\n\nTwo more yardsticks: a token is about four characters, and a page of plain text is something like 500 to 700 tokens.\n\nThat gives quick estimates. A 10-page report is around 6,000 tokens. A 300-page book is around 150,000.\n\nIt is a rule of thumb, like \"a pint is about half a litre\". It is good enough for planning and not for an invoice. The exact figure depends on the text and on which model's tokenizer is used.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_xghBTlOUJE1R_1",
+          "type": "multiple_choice",
+          "prompt": "Roughly how many tokens is a 750-word English document?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "About 1,000"
+            },
+            {
+              "id": "b",
+              "text": "About 75"
+            },
+            {
+              "id": "c",
+              "text": "About 7,500"
+            },
+            {
+              "id": "d",
+              "text": "Exactly 750"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "At around three-quarters of a word per token, 750 words comes to roughly 1,000 tokens.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_S0yGPbcJyF-N",
+      "title": "Other languages and code often use more tokens",
+      "body": "The three-quarters rule is for English. Tokenizers are built mostly from English-heavy text, so English is chopped efficiently and other content often is not.\n\nLanguages with long compound words or non-Latin scripts, such as German, Hindi, Japanese or Arabic, can take noticeably more tokens to say the same thing.\n\nCode is costly as well. Brackets, symbols, indentation and unusual variable names all break into many small tokens. JSON is especially wasteful, because every quote mark and brace counts.\n\nIt is like baggage fees charged by volume instead of weight: the same contents cost more when the packing is awkward.\n\nBudget on real samples of your own content, not on English averages.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_S0yGPbcJyF-N_1",
+          "type": "multiple_choice",
+          "prompt": "Why might the same message cost more in tokens in Japanese than in English?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Japanese characters are banned"
+            },
+            {
+              "id": "b",
+              "text": "Tokenizers split non-English text into more pieces"
+            },
+            {
+              "id": "c",
+              "text": "Providers charge a language fee"
+            },
+            {
+              "id": "d",
+              "text": "The message becomes longer when translated"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Tokenizer vocabularies favour English, so other languages often need more tokens for the same meaning.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_LTKjLCOvhYQa",
+      "title": "Numbers and rare words split oddly, which is why models stumble on spelling and arithmetic",
+      "body": "A long number such as 48,217,395 is not seen as one quantity. It is cut into arbitrary chunks, perhaps \"48\", \",\", \"217\", \",\", \"395\". The model has to do arithmetic across pieces that hide place value.\n\nSpelling suffers in the same way. If \"strawberry\" is two or three tokens, the model never directly sees its letters. Asking it to count the r's is like asking you to count the letters in a word you have only heard spoken.\n\nSo the cause is not stupidity. It is the format of the input.\n\nThe practical lesson: give exact arithmetic and letter-level jobs to a tool, such as a calculator or code. Good AI systems do exactly that.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_LTKjLCOvhYQa_1",
+          "type": "multiple_choice",
+          "prompt": "Why do LLMs sometimes miscount the letters in a word?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They cannot read English"
+            },
+            {
+              "id": "b",
+              "text": "They see tokens, not individual letters"
+            },
+            {
+              "id": "c",
+              "text": "Counting is disabled by providers"
+            },
+            {
+              "id": "d",
+              "text": "Words are stored as images"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The model works with multi-letter chunks, so letter-level detail is not directly visible to it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_DygdBy8-GUj0",
+      "title": "Count tokens with a tokenizer tool before estimating cost",
+      "body": "Do not guess a token count when money depends on it. Measure it.\n\nEach model family has its own tokenizer, and the same text gives different counts on different ones. Providers offer tools for this: web pages where you paste text and see the tokens, and code libraries or API endpoints that return a count.\n\nThe method is simple. Take a few real samples of your documents and prompts. Count them. Multiply by the volume you expect and by the price. Remember to include the output and any instructions that are sent with every request.\n\nIt is weighing the parcel before quoting the postage. It takes minutes and prevents nasty surprises.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a7",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_DygdBy8-GUj0_1",
+          "type": "multiple_choice",
+          "prompt": "What is the most reliable way to estimate the token cost of a workload?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Count the pages and guess"
+            },
+            {
+              "id": "b",
+              "text": "Run real samples through the model's tokenizer and multiply by volume and price"
+            },
+            {
+              "id": "c",
+              "text": "Assume one token per word"
+            },
+            {
+              "id": "d",
+              "text": "Wait for the first invoice"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Token counts vary by text and by model, so measuring actual samples gives a trustworthy estimate.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

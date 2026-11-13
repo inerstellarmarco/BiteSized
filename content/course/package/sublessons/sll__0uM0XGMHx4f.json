@@ -1,0 +1,246 @@
+{
+  "id": "sll__0uM0XGMHx4f",
+  "title": "DataFrames (Concept)",
+  "bites": [
+    {
+      "id": "bit_r287gHP4drxV",
+      "title": "Filtering, grouping, and joining with pandas",
+      "body": "pandas is the standard Python library for working with tables. Its table object is called a DataFrame. Three operations do most of the work.\n\nFiltering keeps only the rows you want: orders over 100 pounds.\n\nGrouping splits rows into piles and summarises each pile: total sales per region. A pivot table in Excel does the same thing.\n\nJoining combines two tables through a shared column: match each order to its customer by customer ID. It is the grown-up VLOOKUP.\n\nAlmost any business question is some mix of the three: \"average order value by city, for last month's new customers\" is a join, a filter and a group.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_r287gHP4drxV_1",
+          "type": "multiple_choice",
+          "prompt": "Which operation answers \"what are total sales per region?\"",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Filtering"
+            },
+            {
+              "id": "b",
+              "text": "Joining"
+            },
+            {
+              "id": "c",
+              "text": "Renaming columns"
+            },
+            {
+              "id": "d",
+              "text": "Grouping"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Grouping collects rows by a shared value, such as region, and summarises each group.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_UAugANU9KBzp",
+      "title": "Missing values and cleaning",
+      "body": "Real data has holes. A customer left the phone box blank, a sensor dropped out, an import skipped a column. pandas marks these gaps as NaN, meaning \"not a number\".\n\nYou have three honest options. Remove the rows, fine when only a few are affected. Fill the gaps with a sensible value, such as the median. Or keep them as \"unknown\" and handle them on purpose.\n\nWhat you must not do is ignore them. Think of a survey where the unhappy customers did not reply: averaging the rest gives a rosy and wrong answer.\n\nCleaning is where most of the time in data work goes. It is not glamorous, and it decides whether the result can be trusted.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_UAugANU9KBzp_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it risky to ignore missing values without thinking?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Missing values make files larger"
+            },
+            {
+              "id": "b",
+              "text": "The gaps may not be random, so results from the remaining data can be biased"
+            },
+            {
+              "id": "c",
+              "text": "pandas cannot open files with gaps"
+            },
+            {
+              "id": "d",
+              "text": "Missing values are always zero"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "If the missing records differ from the rest, dropping them silently skews every average and count.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_gRTtE3wkxNzh",
+      "title": "Rows are records; columns are fields",
+      "body": "One rule keeps a table usable: each row is one thing, and each column is one fact about that thing.\n\nIn a customer table, each row is one customer. The columns are name, email, city. A cell holds a single value.\n\nCommon ways it goes wrong: two facts squeezed into one cell (\"Leeds, UK\"), one fact spread across many columns (Jan, Feb, Mar instead of a month column and an amount column), or a new column for every new product.\n\nA test: adding more data should mean adding rows, not columns. If the table grows sideways, the layout needs rethinking before code or AI can work with it easily.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_gRTtE3wkxNzh_1",
+          "type": "multiple_choice",
+          "prompt": "In a tidy table, adding next month's sales should normally mean:",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Adding a new column for the month"
+            },
+            {
+              "id": "b",
+              "text": "Creating a new file per month"
+            },
+            {
+              "id": "c",
+              "text": "Adding new rows"
+            },
+            {
+              "id": "d",
+              "text": "Merging some cells"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Tidy tables grow downwards: each new record is a row, while the set of columns stays the same.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_dgvKm1V3bWPH",
+      "title": "Duplicates and inconsistent labels (e.g., \"NY\" and \"New York\")",
+      "body": "People know that \"NY\", \"New York\" and \"new york \" are the same place. A computer sees three different values. Group sales by city and you get three small totals instead of one correct one.\n\nThe same happens with company names (Acme Ltd, ACME Limited), stray spaces and different capital letters.\n\nDuplicates are the cousin of this problem: the same customer entered twice, so they are counted twice and emailed twice.\n\nThe fix is standardising: trim spaces, make the case consistent, and map the variants to one agreed value. LLMs are genuinely good at suggesting which labels mean the same thing. Review the mapping, though, before applying it to everything.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_dgvKm1V3bWPH_1",
+          "type": "multiple_choice",
+          "prompt": "Sales for \"NY\" and \"New York\" appear as two separate totals. What is the fix?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Delete all rows from New York"
+            },
+            {
+              "id": "b",
+              "text": "Standardise the labels to one agreed value before grouping"
+            },
+            {
+              "id": "c",
+              "text": "Add the two totals together by hand every month"
+            },
+            {
+              "id": "d",
+              "text": "Change the chart colours"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Mapping variants to a single label lets the grouping treat them as the same category.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_QRJEh_VM25Lp",
+      "title": "Dates and units: a quiet source of bad data",
+      "body": "Some errors do not look like errors.\n\nIs 03/04/2025 the third of April or the fourth of March? It depends on the country, and software will pick one without asking. Times have the same trap with time zones: an order at 23:30 in London is already tomorrow in Tokyo.\n\nUnits hide the same way. A weight column mixing kilograms and pounds, or prices in two currencies, still looks like a neat column of numbers.\n\nNASA lost a Mars orbiter in 1999 because one team used metric units and another used imperial.\n\nSo write dates as 2025-04-03, which cannot be misread, and put the unit in the column name: weight_kg, price_gbp.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_QRJEh_VM25Lp_1",
+          "type": "multiple_choice",
+          "prompt": "Which date format avoids day and month being confused?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "03/04/2025"
+            },
+            {
+              "id": "b",
+              "text": "04/03/25"
+            },
+            {
+              "id": "c",
+              "text": "2025-04-03 (year-month-day)"
+            },
+            {
+              "id": "d",
+              "text": "3-4-25"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The ISO year-month-day order is unambiguous everywhere and also sorts correctly.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_ptUmqHLiaQxI",
+      "title": "Have AI write the pandas code, then check a few rows by hand",
+      "body": "You do not need to memorise pandas. Describe what you want and an assistant will write it well: \"join orders to customers and total the spend per city\".\n\nWhat you do need is a way to know the answer is right. The code can run without any error and still be wrong: a join that silently doubles rows, or a filter that drops more than intended.\n\nSo verify like an accountant with a sample. Pick two or three records and work them out by hand or in a spreadsheet. Check that the row count still makes sense after each step. Compare one total with a figure you already trust.\n\nFive minutes of checking is the job. The typing was never the hard part.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_ptUmqHLiaQxI_1",
+          "type": "multiple_choice",
+          "prompt": "AI-written pandas code runs with no errors. What does that prove?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only that it ran; the result still needs checking against known values"
+            },
+            {
+              "id": "b",
+              "text": "That the result is correct"
+            },
+            {
+              "id": "c",
+              "text": "That the data has no missing values"
+            },
+            {
+              "id": "d",
+              "text": "That the join matched every row"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Code can run cleanly and still compute the wrong thing, so spot-check a few rows and totals by hand.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

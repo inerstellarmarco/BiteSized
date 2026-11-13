@@ -1,0 +1,286 @@
+{
+  "id": "sll_kNdyhBqcAGAN",
+  "title": "The Big Idea",
+  "bites": [
+    {
+      "id": "bit_Tq-wx-NS510m",
+      "title": "Transformer architecture (overview)",
+      "body": "The transformer is the design behind every modern LLM. The \"T\" in GPT stands for it.\n\nIn outline: text is split into tokens. Each token becomes a vector. Those vectors pass up through a tall stack of identical layers, and each layer refines them a little using what the surrounding tokens say. At the top, the model reads off a prediction for the next token.\n\nThink of an editing room where a draft passes through dozens of editors in turn. Each one rereads the whole thing and sharpens the meaning of every word in the light of all the others.\n\nTwo ingredients make it work: attention, which lets tokens share information, and depth, the stacking of many layers.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Tq-wx-NS510m_1",
+          "type": "multiple_choice",
+          "prompt": "What does the \"T\" in GPT stand for?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Token"
+            },
+            {
+              "id": "b",
+              "text": "Training"
+            },
+            {
+              "id": "c",
+              "text": "Text"
+            },
+            {
+              "id": "d",
+              "text": "Transformer"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "GPT means generative pretrained transformer, after the architecture it is built on.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_dep8t60U9Dka",
+      "title": "Self-attention (intuition)",
+      "body": "Words take their meaning from their neighbours. In \"the bank of the river\" and \"the bank raised its rates\", the word \"bank\" means two different things, and only the surrounding words tell you which.\n\nSelf-attention is how a transformer handles this. For each word, the model looks at all the other words in the text and works out which ones matter for understanding this one. It then blends in information from those.\n\nSo \"bank\" beside \"river\" becomes a riverside-bank vector. Beside \"rates\", it becomes a financial one.\n\nIt is called self-attention because the text is attending to itself. Each word is understood in the context of all the rest.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_dep8t60U9Dka_1",
+          "type": "multiple_choice",
+          "prompt": "What problem does self-attention solve?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Counting the words in a sentence"
+            },
+            {
+              "id": "b",
+              "text": "Correcting spelling mistakes"
+            },
+            {
+              "id": "c",
+              "text": "Working out a word's meaning from the other words around it"
+            },
+            {
+              "id": "d",
+              "text": "Shrinking the file"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Attention lets each token draw on relevant tokens elsewhere, which settles meaning from context.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_3-a6bxCrWz3L",
+      "title": "Why attention replaced recurrence",
+      "body": "Before transformers, language models read strictly in sequence, one word after another, passing along a single running summary. Two weaknesses followed.\n\nForgetting: by word 500, the detail of word 5 had been squeezed through 495 handovers. It is the game of telephone played along a long line.\n\nSlowness: each word had to wait for the one before it, so training could not be spread across many processors.\n\nAttention removes both. Any word can consult any other word directly, with no chain in between. And every position is computed at the same time.\n\nThe 2017 paper that introduced this was titled \"Attention Is All You Need\", and the field has built on it ever since.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_3-a6bxCrWz3L_1",
+          "type": "multiple_choice",
+          "prompt": "What were the two main weaknesses of the models that came before transformers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They used too much colour and sound"
+            },
+            {
+              "id": "b",
+              "text": "They were too accurate and too cheap"
+            },
+            {
+              "id": "c",
+              "text": "They could only handle images"
+            },
+            {
+              "id": "d",
+              "text": "They forgot distant words and could not be trained in parallel"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Sequential processing lost long-range detail and prevented the parallel training that scale requires.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_2CO48qV30SoG",
+      "title": "Attention lets each word look at every other word and decide what matters",
+      "body": "Take the sentence: \"The trophy did not fit in the suitcase because it was too big.\" What does \"it\" mean?\n\nYou know immediately that it is the trophy. To get there, you linked \"it\" with \"big\" and \"did not fit\", and worked out which object that points to.\n\nAttention does the same with numbers. For the token \"it\", the model gives every other token a weight: a lot of weight on \"trophy\", some on \"big\", almost none on \"the\". Those weights decide whose information gets blended into \"it\".\n\nChange \"big\" to \"small\" and the weights shift to \"suitcase\".\n\nNobody wrote a rule about pronouns. The model learned where to look.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_2CO48qV30SoG_1",
+          "type": "multiple_choice",
+          "prompt": "In attention, what do the weights between tokens represent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The number of letters in each token"
+            },
+            {
+              "id": "b",
+              "text": "The price of each token"
+            },
+            {
+              "id": "c",
+              "text": "How much each other token matters for understanding the current one"
+            },
+            {
+              "id": "d",
+              "text": "The order in which the tokens were typed"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Attention weights set how strongly each token draws information from every other token.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_ecCHFUVzNWmu",
+      "title": "Query, key, and value as a library lookup (intuition; full math in C5)",
+      "body": "Attention is often explained with three roles: query, key and value. A library makes it concrete.\n\nYou arrive with a query: \"I need something about Roman roads\". Every book has a key, the label on its spine saying what it is about. You compare your query with every key. The books whose keys match best are the ones you draw from. What you take away is the value: the contents.\n\nIn a transformer, each token plays all three parts. It sends out a query (\"what am I looking for?\"), offers a key (\"what do I contain?\") and holds a value (\"what I will pass on\").\n\nThe match between query and key sets the attention weight.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_ecCHFUVzNWmu_1",
+          "type": "multiple_choice",
+          "prompt": "In the library analogy, what does the \"key\" correspond to?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The request you walk in with"
+            },
+            {
+              "id": "b",
+              "text": "The contents you take away"
+            },
+            {
+              "id": "c",
+              "text": "The label describing what each book contains, which is matched against your request"
+            },
+            {
+              "id": "d",
+              "text": "The library's opening hours"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Queries are compared with keys, and the best matches decide which values are passed along.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_ddECn6jXDfwF",
+      "title": "Parallel processing made huge training runs practical",
+      "body": "Because attention handles every position at the same moment, a transformer can use thousands of GPU calculations in parallel. Older designs had to wait for each word in turn.\n\nThink of marking exam papers. One teacher working through the pile is the old way. Handing a paper to each of a thousand teachers at once is the transformer way.\n\nThis is not a small convenience. It is what made it feasible to train on a large share of the internet in weeks instead of centuries.\n\nAnd scale turned out to be the secret. The same design, with more data and more computing power, kept getting more capable. Without parallel training there would be no large language models.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_ddECn6jXDfwF_1",
+          "type": "multiple_choice",
+          "prompt": "Why was parallel processing so important for LLMs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It made training on enormous amounts of text feasible in a reasonable time"
+            },
+            {
+              "id": "b",
+              "text": "It made the models smaller"
+            },
+            {
+              "id": "c",
+              "text": "It removed the need for data"
+            },
+            {
+              "id": "d",
+              "text": "It made the models cheaper than calculators"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Processing all positions at once lets training scale across many GPUs, which is what enabled today's model sizes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_XSk8G1t65z1Q",
+      "title": "Stacked layers of attention build up meaning",
+      "body": "One round of attention is not enough. Transformers stack dozens of layers, each made of attention followed by a processing step, and each working on the output of the one below.\n\nUnderstanding builds as the text rises through the stack. Lower layers sort out grammar and which words belong together. Middle layers work out who did what and what refers to what. Upper layers hold the gist: the topic, the intent and what is likely to come next.\n\nIt is like rereading a difficult paragraph. The first pass gets the words, the second the structure, the third the point.\n\nBy the top, each token's vector carries not just the word but its meaning in this exact context.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_XSk8G1t65z1Q_1",
+          "type": "multiple_choice",
+          "prompt": "What happens to a token's representation as it passes up through a transformer's layers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It becomes richer, carrying more context and meaning"
+            },
+            {
+              "id": "b",
+              "text": "It is deleted"
+            },
+            {
+              "id": "c",
+              "text": "It turns into an image"
+            },
+            {
+              "id": "d",
+              "text": "It stays exactly the same"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Each layer refines the representation using context, moving from surface features towards meaning.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

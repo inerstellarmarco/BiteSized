@@ -1,0 +1,206 @@
+{
+  "id": "sll_2hlrnvibGxGW",
+  "title": "Storytelling with Data",
+  "bites": [
+    {
+      "id": "bit_g7-XzMEMKvsb",
+      "title": "Turning findings into a clear narrative",
+      "body": "Analysis produces findings. Decisions need a story: what is happening, why it matters and what to do.\n\nCompare two openings. \"Here are twelve charts about Q3.\" Or: \"We are losing repeat customers in the north. Here is the evidence, and here is what I suggest.\"\n\nA simple structure works: the main point first, then the two or three facts that support it, then the recommendation. Everything else goes in an appendix.\n\nThink of a doctor after your blood test. You do not want forty readings. You want \"your iron is low, take this, come back in a month\".\n\nThe story must still be true to the data. A narrative is for clarity, not for spin.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_g7-XzMEMKvsb_1",
+          "type": "multiple_choice",
+          "prompt": "What should come first when presenting an analysis to a decision-maker?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every chart you made, in the order you made them"
+            },
+            {
+              "id": "b",
+              "text": "The main conclusion"
+            },
+            {
+              "id": "c",
+              "text": "A detailed description of the method"
+            },
+            {
+              "id": "d",
+              "text": "The raw data table"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Leading with the conclusion tells the audience what the evidence that follows is meant to support.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_fIAV8O3TvS4Q",
+      "title": "Summary statistics (mean, median, spread)",
+      "body": "Summary statistics squeeze thousands of numbers into a few you can hold in your head.\n\nThe mean is the ordinary average: add everything up and divide by how many there are.\n\nThe median is the middle value when you line them up in order. Half are above it and half below.\n\nSpread says how far the values scatter around that middle. The range and the standard deviation both measure it.\n\nYou need a centre and a spread together. Two cities can both average 15 degrees: one sits between 13 and 17 all year, the other swings from minus 10 to 40. The average alone would have you pack the wrong clothes.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_fIAV8O3TvS4Q_1",
+          "type": "multiple_choice",
+          "prompt": "What does the median tell you?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The most common value"
+            },
+            {
+              "id": "b",
+              "text": "The middle value when all values are put in order"
+            },
+            {
+              "id": "c",
+              "text": "The sum of all values"
+            },
+            {
+              "id": "d",
+              "text": "The gap between highest and lowest"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The median splits the sorted data in half: as many values lie above it as below.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_4KqhAbSMlrNp",
+      "title": "Median beats mean when outliers exist",
+      "body": "An outlier is a value far from the rest, and the mean is very sensitive to it.\n\nTen people are in a café, each earning around 30,000 a year. A billionaire walks in. The mean income in the room is now nearly 100 million, which describes nobody there. The median barely moves: it is still about 30,000.\n\nThat is why house prices and salaries are usually reported as medians.\n\nA handy check: if the mean and the median are far apart, something is pulling the data to one side, and the mean will mislead.\n\nNeither figure is wrong. They answer different questions. The median says what is typical. The mean still matters for totals.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_4KqhAbSMlrNp_1",
+          "type": "multiple_choice",
+          "prompt": "Why are salaries usually reported with a median rather than a mean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The median is always the larger number"
+            },
+            {
+              "id": "b",
+              "text": "The mean cannot be calculated for money"
+            },
+            {
+              "id": "c",
+              "text": "A few very high earners pull the mean up, while the median stays typical"
+            },
+            {
+              "id": "d",
+              "text": "The median includes the highest values twice"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Extreme values distort the mean but hardly affect the middle value, so the median better reflects a typical person.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_WhsFE6UbVgti",
+      "title": "One message per chart",
+      "body": "A chart should make one point, and the title should say it.\n\n\"Sales by region, 2025\" is a label. \"The north now outsells the south\" is a message. With the second title, the reader knows what to look for before their eyes reach the bars.\n\nWhen a chart tries to show sales, margin, headcount and growth all at once, the reader has to do the analysis themselves, and most will not.\n\nIt is like a road sign. One instruction can be read at speed. Five on the same post get ignored.\n\nIf you have three messages, make three small charts. Remove any line, colour or label that does not help the one point.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_WhsFE6UbVgti_1",
+          "type": "multiple_choice",
+          "prompt": "Which chart title carries a message rather than just a label?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "\"Sales by region\""
+            },
+            {
+              "id": "b",
+              "text": "\"Chart 4\""
+            },
+            {
+              "id": "c",
+              "text": "\"Regional data, various years\""
+            },
+            {
+              "id": "d",
+              "text": "\"The north now outsells the south\""
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A message title states the conclusion, telling the reader what to see in the chart.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit__LcqzrsYSpg1",
+      "title": "Say what the data cannot tell you",
+      "body": "Every dataset has edges, and honest analysis points them out.\n\nTypical limits: the data covers only six months. It covers only customers who answered the survey. It shows that two things rose together, not that one caused the other. It was collected before the price change.\n\nSaying this does not weaken your work. It is what makes the rest believable. A weather forecaster who says \"70% chance of rain\" is more useful than one who promises sunshine.\n\nA simple format: \"What we know. What we do not know. What would settle it.\"\n\nThis matters doubly with AI tools, which will state conclusions fluently whether or not the data supports them.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q__LcqzrsYSpg1_1",
+          "type": "multiple_choice",
+          "prompt": "Why state the limits of your data when presenting findings?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the report longer"
+            },
+            {
+              "id": "b",
+              "text": "It helps people judge how much weight to put on the conclusions"
+            },
+            {
+              "id": "c",
+              "text": "It hides weak results"
+            },
+            {
+              "id": "d",
+              "text": "It is only needed for scientific papers"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Clear limits prevent over-confident decisions and make the supported findings more credible.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

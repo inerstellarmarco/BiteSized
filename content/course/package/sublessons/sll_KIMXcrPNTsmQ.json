@@ -1,0 +1,173 @@
+{
+  "id": "sll_KIMXcrPNTsmQ",
+  "title": "Model Types (Overview)",
+  "bites": [
+    {
+      "id": "bit_bGuSKNLEy_Bc",
+      "title": "Vision, language, and audio models",
+      "body": "Models are grouped by the kind of data they handle. Each kind is called a modality.\n\nVision models work with images and video: recognising objects, reading documents, generating pictures.\n\nLanguage models work with text: writing, summarising, translating, answering questions, writing code.\n\nAudio models work with sound: turning speech into text, text into speech, and generating music.\n\nUnder the surface they share the same idea. Each turns its input into numbers, finds patterns and produces an output. But each was shaped by its own data, the way a wine taster, an editor and a piano tuner all have trained senses pointed in different directions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_bGuSKNLEy_Bc_1",
+          "type": "multiple_choice",
+          "prompt": "What is a \"modality\" in AI?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A model's price"
+            },
+            {
+              "id": "b",
+              "text": "A programming style"
+            },
+            {
+              "id": "c",
+              "text": "A kind of computer chip"
+            },
+            {
+              "id": "d",
+              "text": "A type of data, such as text, images or audio"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Modality refers to the form of data a model works with.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_v2ub3lwKQu25",
+      "title": "Why attention replaced recurrence",
+      "body": "Older language models, called recurrent networks, read text one word at a time, carrying a running memory forward. By the end of a long paragraph the beginning had faded, like a message passed along a line of people.\n\nThey were also slow to train, because word 50 could not be processed until word 49 was done.\n\nAttention changed both things. Every word can look directly at every other word, however far apart, and decide which ones matter. And all the words are processed at the same time, which suits GPUs perfectly.\n\nThe 2017 design built on this is the transformer. It trained faster and coped with long text far better, and every modern LLM descends from it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_v2ub3lwKQu25_1",
+          "type": "multiple_choice",
+          "prompt": "What was a key weakness of recurrent networks that attention fixed?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They processed words one at a time and lost track of distant earlier words"
+            },
+            {
+              "id": "b",
+              "text": "They could not handle numbers"
+            },
+            {
+              "id": "c",
+              "text": "They needed no training data"
+            },
+            {
+              "id": "d",
+              "text": "They were too accurate"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Attention lets every word relate directly to every other and allows parallel processing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_V2AHOACMoBtx",
+      "title": "Multimodal models handle several types together",
+      "body": "A multimodal model works with more than one kind of data at once. You can show it a photo and ask a question in text. You can speak to it and hear an answer. You can give it a chart and get an explanation.\n\nEarlier, you had to chain separate models: one to describe the image, another to reason about the description. Detail was lost at each handover, like explaining a painting over the phone.\n\nA multimodal model takes in the picture and the words together, so its reasoning uses both.\n\nMost leading models are now multimodal to some degree. Practical uses include reading receipts and forms, describing product photos and answering questions about screenshots.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_iMWLev8o01dZ",
+          "targetCode": "A6.5",
+          "label": "see A6.5",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_V2AHOACMoBtx_1",
+          "type": "multiple_choice",
+          "prompt": "What can a multimodal model do that a text-only model cannot?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Run without electricity"
+            },
+            {
+              "id": "b",
+              "text": "Take in other kinds of input, such as images, alongside text"
+            },
+            {
+              "id": "c",
+              "text": "Guarantee correct answers"
+            },
+            {
+              "id": "d",
+              "text": "Work without any training"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Multimodal models process several data types together, for example an image plus a question about it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_UqpY-_kfuwax",
+      "title": "Match the model type to the task",
+      "body": "Start with the job, then pick the tool. A very large, very general model is not always the answer.\n\nTurning a recording into text? A dedicated speech-to-text model is cheaper and better at it than a general chatbot. Sorting support tickets into five categories? A small, fast model will do. Reasoning over a long, messy contract? That deserves a strong LLM.\n\nIt is like vehicles. You could deliver a pizza in a lorry, but a scooter is quicker and cheaper.\n\nThree questions settle most cases. What goes in and what must come out? How good must it be? And what do speed and cost need to be at the volume you expect?",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_UqpY-_kfuwax_1",
+          "type": "multiple_choice",
+          "prompt": "You need to transcribe recorded meetings into text. Which model type fits best?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A dedicated speech-to-text model"
+            },
+            {
+              "id": "b",
+              "text": "An image generation model"
+            },
+            {
+              "id": "c",
+              "text": "A model that predicts house prices"
+            },
+            {
+              "id": "d",
+              "text": "Any model at all, since it makes no difference"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A specialised speech recognition model is built for exactly this and is usually cheaper and more accurate at it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

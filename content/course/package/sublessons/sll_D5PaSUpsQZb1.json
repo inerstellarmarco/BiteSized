@@ -1,0 +1,206 @@
+{
+  "id": "sll_D5PaSUpsQZb1",
+  "title": "Visualization",
+  "bites": [
+    {
+      "id": "bit_pHKJeXXh3n32",
+      "title": "Choosing the right chart",
+      "body": "A chart is an answer to a question, so start with the question, not with the chart menu.\n\n\"How did it change over time?\" \"Which is biggest?\" \"Are these two things related?\" \"How is it spread out?\" Each has a chart type that makes the answer obvious at a glance, and others that hide it.\n\nChoosing a chart is like choosing a map. A road map and a weather map show the same country, and each is useless for the other's job.\n\nWhen a chart confuses people, the usual cause is not the styling. It is that nobody decided what single question it was meant to answer.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_pHKJeXXh3n32_1",
+          "type": "multiple_choice",
+          "prompt": "What should you decide first when making a chart?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The colour scheme"
+            },
+            {
+              "id": "b",
+              "text": "The question the chart is meant to answer"
+            },
+            {
+              "id": "c",
+              "text": "Whether it should be 3D"
+            },
+            {
+              "id": "d",
+              "text": "The font"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The question determines the chart type. Styling comes last.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_YRlymTkdjdjL",
+      "title": "Avoiding misleading charts",
+      "body": "A chart can deceive without containing a single false number.\n\nThe usual tricks: an axis that starts at 95 instead of 0, so a 2% rise looks like a cliff. Cherry-picked dates that begin at the lowest point. Two different scales on one chart, lined up to suggest a link. 3D effects that swell the slices at the front.\n\nMost misleading charts are accidents, often the software's default settings. That does not make the decisions based on them any better.\n\nA quick test: describe the chart in one plain sentence, then read the actual numbers. If the sentence feels more dramatic than the numbers, the chart is exaggerating.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_YRlymTkdjdjL_1",
+          "type": "multiple_choice",
+          "prompt": "A chart's vertical axis starts at 95 instead of 0. What is the effect?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The data becomes false"
+            },
+            {
+              "id": "b",
+              "text": "The chart becomes more accurate"
+            },
+            {
+              "id": "c",
+              "text": "It has no visual effect"
+            },
+            {
+              "id": "d",
+              "text": "Small differences look much larger than they are"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Cutting off the axis stretches small changes so that they appear dramatic.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_CzuXk8qZ4ZS5",
+      "title": "Line for trends, bars for comparisons, scatter for relationships",
+      "body": "Three chart types cover most needs.\n\nA line chart shows change over time: monthly revenue across two years. The line's slope is the message.\n\nA bar chart compares separate things: sales by product. The eye compares the lengths.\n\nA scatter plot shows whether two measures move together: advertising spend against sales, one dot per month. A pattern in the dots suggests a relationship.\n\nAnd pie charts? Use them rarely. People judge angles badly, so beyond two or three slices a bar chart is clearer.\n\nIf you ask an assistant for a chart, name the type and say why. Left alone, it will choose something that merely looks impressive.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_CzuXk8qZ4ZS5_1",
+          "type": "multiple_choice",
+          "prompt": "Which chart best shows how website visits changed week by week over a year?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A pie chart"
+            },
+            {
+              "id": "b",
+              "text": "A scatter plot"
+            },
+            {
+              "id": "c",
+              "text": "A single large number"
+            },
+            {
+              "id": "d",
+              "text": "A line chart"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Line charts are made for trends over time, because the slope shows direction and speed of change.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_ClkhBaJ9KA6P",
+      "title": "Bar charts should start at zero",
+      "body": "In a bar chart, the length of the bar is the message. A bar twice as long says \"twice as much\". That only holds if the bars start at zero.\n\nSuppose sales were 98 and then 100. Start the axis at 97 and the second bar is three times the height of the first. The numbers differ by 2%. The picture says 200%.\n\nLine charts are different. There you are reading the slope, not a length, so zooming in to show the detail can be fair, as long as the axis is clearly labelled.\n\nSo the rule is narrow but firm: bars from zero, always.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_ClkhBaJ9KA6P_1",
+          "type": "multiple_choice",
+          "prompt": "Why must a bar chart's axis start at zero?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because software cannot draw it otherwise"
+            },
+            {
+              "id": "b",
+              "text": "Because negative numbers are not allowed"
+            },
+            {
+              "id": "c",
+              "text": "Because it makes the bars more colourful"
+            },
+            {
+              "id": "d",
+              "text": "Because bar length is read as the amount, and a cut-off axis distorts the comparison"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Viewers compare bar lengths directly, so truncating the axis exaggerates the differences.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_ZooxsEB0yjch",
+      "title": "Label units and sources",
+      "body": "A chart with no labels makes the reader guess, and readers guess wrong.\n\nIs the axis in pounds, or thousands of pounds? Is 12 a percentage or a count? Per month or per year? \"Sales up 40\" means nothing until the unit is known.\n\nEvery chart needs four things: a title that says what it shows, axis labels with units, the time period covered, and the source of the data.\n\nThe source matters as much as the units. It lets someone check the figure, and it tells them how much to trust it. It is like a quotation: without a name and a date attached, it is just a rumour.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_ZooxsEB0yjch_1",
+          "type": "multiple_choice",
+          "prompt": "Which of these is essential on any chart you share?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A 3D effect"
+            },
+            {
+              "id": "b",
+              "text": "At least five colours"
+            },
+            {
+              "id": "c",
+              "text": "A company logo"
+            },
+            {
+              "id": "d",
+              "text": "Axis labels with units, and the source of the data"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Units make the numbers meaningful, and the source lets readers verify and judge them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

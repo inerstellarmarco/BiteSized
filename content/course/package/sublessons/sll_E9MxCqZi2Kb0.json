@@ -1,0 +1,206 @@
+{
+  "id": "sll_E9MxCqZi2Kb0",
+  "title": "Transfer Learning (Intro)",
+  "bites": [
+    {
+      "id": "bit_MxQDjllbSZHo",
+      "title": "Reusing pretrained models",
+      "body": "A pretrained model has already been trained, by somebody else, on a huge amount of general data. You take it and put it to work on your own task.\n\nThink of hiring an experienced graduate instead of raising a child from birth. They can already read, write and reason. You only teach them your company's particulars.\n\nThis is called transfer learning: knowledge gained on one task carries over to another.\n\nIt is how nearly all AI is built today. Almost nobody trains a large model from nothing. You start from one that exists and then either use it as it is, guide it with prompts, or adapt it with a little extra training.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_MxQDjllbSZHo_1",
+          "type": "multiple_choice",
+          "prompt": "What is transfer learning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Moving files between two computers"
+            },
+            {
+              "id": "b",
+              "text": "Reusing a model trained on one task as the starting point for another"
+            },
+            {
+              "id": "c",
+              "text": "Training every model from scratch"
+            },
+            {
+              "id": "d",
+              "text": "Translating text between languages"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Knowledge captured in a pretrained model transfers to new tasks, so you need not start from nothing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_wyHiEGU1EaEV",
+      "title": "Hugging Face Hub models",
+      "body": "The Hugging Face Hub is the main public library of AI models. Think of it as a vast app store, or as GitHub for models. It hosts well over a million of them, along with datasets and demos.\n\nYou can search by task, such as translation, speech recognition or image labelling, and download a model with a few lines of code.\n\nThe quality varies as much as in any open marketplace. Some models come from major labs. Many are experiments uploaded by individuals.\n\nSo treat it like any marketplace. Check who published the model, how much it is used, what the documentation says and what the licence permits before you build on it.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_wyHiEGU1EaEV_1",
+          "type": "multiple_choice",
+          "prompt": "What is the Hugging Face Hub?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A paid chatbot"
+            },
+            {
+              "id": "b",
+              "text": "A public platform for sharing and downloading AI models and datasets"
+            },
+            {
+              "id": "c",
+              "text": "A brand of computer chip"
+            },
+            {
+              "id": "d",
+              "text": "A programming language"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The Hub hosts openly shared models, datasets and demos that can be downloaded and used.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_uyesZq79NVtW",
+      "title": "Why reuse: training from scratch costs a fortune",
+      "body": "Training a leading LLM from nothing takes thousands of specialised chips running for months, a large share of the internet's text, and a big expert team. The bill runs to tens or hundreds of millions of dollars for a single model.\n\nA small business has none of that. Even big companies rarely bother.\n\nReuse changes the sums completely. Calling an existing model through an API costs fractions of a penny per request. Adapting one costs a tiny part of the original training.\n\nIt is the difference between building a power station and plugging into the socket.\n\nSo the real question is almost never \"should we train a model?\" It is \"which existing model, and how do we use it?\"",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_uyesZq79NVtW_1",
+          "type": "multiple_choice",
+          "prompt": "Why do most organisations not train large models from scratch?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It is illegal"
+            },
+            {
+              "id": "b",
+              "text": "Pretrained models cannot be used commercially"
+            },
+            {
+              "id": "c",
+              "text": "Training from scratch always gives worse results"
+            },
+            {
+              "id": "d",
+              "text": "It needs enormous computing power, data and money"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The cost of training a frontier model is out of reach for almost everyone, while reusing one is cheap.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Lm2-68GiHqZl",
+      "title": "Fine-tuning adapts a model using a small dataset",
+      "body": "Fine-tuning means taking a pretrained model and training it a little further on your own examples. That shifts its behaviour towards your task.\n\nThe model already knows the language. Fine-tuning teaches it your house style, your categories or your specialist vocabulary.\n\nIt is a qualified doctor doing a short course in a speciality. That takes months, not another medical degree.\n\nBecause the model starts from so much knowledge, a few hundred to a few thousand good examples are often enough.\n\nA caution for later in the course: fine-tuning is rarely the first thing to try. Better prompts, or giving the model the right documents, are cheaper and often enough.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Lm2-68GiHqZl_1",
+          "type": "multiple_choice",
+          "prompt": "What does fine-tuning do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Continues training a pretrained model on a small, specific dataset"
+            },
+            {
+              "id": "b",
+              "text": "Trains a brand-new model from random weights"
+            },
+            {
+              "id": "c",
+              "text": "Deletes the model's general knowledge"
+            },
+            {
+              "id": "d",
+              "text": "Makes the model's file smaller"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Fine-tuning adjusts an existing model with task-specific examples, building on what it already knows.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_QfPK-4qKNgIa",
+      "title": "Read the model card and the licence before using a model",
+      "body": "Every reputable model comes with two things worth five minutes of your time.\n\nThe model card is the label on the tin. It says what the model was trained on, what it is good at, where it is known to fail and how it was tested. If it says \"English only\" or \"not evaluated for medical use\", believe it.\n\nThe licence says what you may legally do. Some models are free for any use. Some forbid commercial use. Some carry conditions.\n\n\"Open\" and \"downloadable\" do not mean \"free to use in my product\".\n\nSkipping this is like installing a machine in your shop without reading the safety sheet or checking that you are allowed to operate it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_QfPK-4qKNgIa_1",
+          "type": "multiple_choice",
+          "prompt": "Where would you find a model's intended uses and known limitations?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "In its file name"
+            },
+            {
+              "id": "b",
+              "text": "In the price list"
+            },
+            {
+              "id": "c",
+              "text": "Nowhere; this is never published"
+            },
+            {
+              "id": "d",
+              "text": "In its model card"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A model card documents training data, intended use, limitations and evaluation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

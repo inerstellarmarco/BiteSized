@@ -1,0 +1,286 @@
+{
+  "id": "sll_L5Dw_WWSVjB-",
+  "title": "Math Intuition",
+  "bites": [
+    {
+      "id": "bit_OBCCt2WUnj4l",
+      "title": "Vectors as lists of numbers",
+      "body": "A vector is just a list of numbers. That is the whole definition you need.\n\n[3, 5] is a vector. So is a list of 1,536 numbers.\n\nWhat makes vectors useful is that the list can describe something. A house as [size, bedrooms, age] might be [120, 3, 15]. Now the house is a point in space, and houses with similar numbers sit near one another.\n\nThink of map coordinates. Two numbers place you on the Earth. A vector does the same with more numbers, placing a thing in a space of many dimensions.\n\nThis is how AI handles everything. Words, images and sounds are turned into vectors, because numbers are all a model can compute with.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_OBCCt2WUnj4l_1",
+          "type": "multiple_choice",
+          "prompt": "What is a vector, in the sense used in machine learning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "An ordered list of numbers"
+            },
+            {
+              "id": "b",
+              "text": "A kind of chart"
+            },
+            {
+              "id": "c",
+              "text": "A type of database"
+            },
+            {
+              "id": "d",
+              "text": "A programming language"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A vector is a list of numbers that can represent an item as a point in a space.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_11nvsIAFesLZ",
+      "title": "Probability and uncertainty",
+      "body": "A probability is a number from 0 to 1, or 0% to 100%, saying how likely something is. 0 is impossible, 1 is certain.\n\nModels deal in probabilities because the world is uncertain. A good model does not announce \"this email is spam\". It says \"92% likely spam\".\n\nRead that like a weather forecast. \"70% chance of rain\" does not promise rain. It means that on days like this one, it rains about seven times in ten. If it stays dry, the forecast was not wrong.\n\nIt follows that one surprising outcome does not prove a model bad. And a model that claims 100% about everything should be trusted less, not more.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_11nvsIAFesLZ_1",
+          "type": "multiple_choice",
+          "prompt": "A model says an email is \"92% likely spam\". What does that mean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The email is definitely spam"
+            },
+            {
+              "id": "b",
+              "text": "92% of the words in it are spam"
+            },
+            {
+              "id": "c",
+              "text": "Of emails like this, roughly 92 in 100 are spam"
+            },
+            {
+              "id": "d",
+              "text": "The model is 8% broken"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A probability describes how often the outcome occurs in similar cases, not a guarantee about this single one.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_1YfzAS16VPgo",
+      "title": "Correlation vs. causation",
+      "body": "Correlation means two things move together. Causation means one makes the other happen. The first does not prove the second.\n\nIce-cream sales and drownings rise and fall together. Ice cream does not cause drowning. Hot weather drives both. That hidden third factor is called a confounder.\n\nSometimes the direction is reversed: firefighters are present at big fires, and they did not start them. Sometimes it is plain chance.\n\nIt matters for decisions. \"Customers who use feature X stay longer\" does not mean pushing everyone onto feature X will keep them. Loyal customers may simply explore more.\n\nMachine learning finds correlations. To establish a cause you generally need an experiment, such as an A/B test.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_1YfzAS16VPgo_1",
+          "type": "multiple_choice",
+          "prompt": "Ice-cream sales and drownings rise together. What is the best explanation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A third factor, hot weather, drives both"
+            },
+            {
+              "id": "b",
+              "text": "Ice cream causes drowning"
+            },
+            {
+              "id": "c",
+              "text": "Drowning causes ice-cream sales"
+            },
+            {
+              "id": "d",
+              "text": "Statistics cannot be trusted"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The two are correlated through a shared cause, which is a classic confounder.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_GX23ZnQj-eo-",
+      "title": "Dot product: how closely two vectors point the same way",
+      "body": "The dot product is a way to compare two vectors and get one number out. Multiply the matching entries and add up the results.\n\nFor [1, 2] and [3, 4]: 1 times 3, plus 2 times 4, equals 11.\n\nWhat the number means is the important part. If the two vectors point in a similar direction, the result is large and positive. If they are unrelated, it is near zero. If they point in opposite directions, it is negative.\n\nPicture two people rating films. If they rate the same films highly, their lists line up and the dot product is big. They have similar taste.\n\nThis small sum is the workhorse behind both neural networks and semantic search.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_GX23ZnQj-eo-_1",
+          "type": "multiple_choice",
+          "prompt": "What does a large positive dot product between two vectors suggest?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They point in a similar direction, so the items are alike"
+            },
+            {
+              "id": "b",
+              "text": "They are completely unrelated"
+            },
+            {
+              "id": "c",
+              "text": "They point in opposite directions"
+            },
+            {
+              "id": "d",
+              "text": "One of them contains an error"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The dot product grows when matching entries are large together, which signals similarity.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_XT0VYDJDmjc9",
+      "title": "Probabilities add up to one",
+      "body": "If you list every possible outcome, their probabilities must total exactly 1, or 100%. Something has to happen.\n\nA coin: 0.5 heads plus 0.5 tails. A die: six outcomes of one sixth each.\n\nIt works like a pie. There is one whole pie to share out. Give one outcome a bigger slice and the others must shrink.\n\nThis is exactly how an LLM chooses its next word. For \"The sky is ___\" it gives every word in its vocabulary a share: blue 0.6, clear 0.1, falling 0.01, and so on, all adding up to 1.\n\nSo when a model grows more confident in one answer, it is necessarily taking probability away from the rest.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_XT0VYDJDmjc9_1",
+          "type": "multiple_choice",
+          "prompt": "A model gives option A a probability of 0.7 and there are only two options. What is option B's probability?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "0.7"
+            },
+            {
+              "id": "b",
+              "text": "1.0"
+            },
+            {
+              "id": "c",
+              "text": "0.0"
+            },
+            {
+              "id": "d",
+              "text": "0.3"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Probabilities across all possible outcomes sum to 1, so B must be 1 minus 0.7.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_qGIGTAVkXh7c",
+      "title": "Average, spread, and what an outlier is",
+      "body": "Three ideas describe any set of numbers.\n\nThe average says where the middle is. The spread says how far the values scatter around it. Delivery times averaging 3 days could mean \"always 3\" or \"anywhere from 1 to 10\". Customers experience those very differently.\n\nAn outlier is a value far away from the rest: one delivery that took 40 days.\n\nAn outlier is a question, not a verdict. It may be an error, such as a typo, to be fixed. Or it may be real and the most important thing in the data: a fraud, a failure, your best customer.\n\nSo do not delete outliers out of habit. Find out which kind each one is.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_qGIGTAVkXh7c_1",
+          "type": "multiple_choice",
+          "prompt": "You find one value far from all the others in your data. What should you do first?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Delete it at once"
+            },
+            {
+              "id": "b",
+              "text": "Ignore it"
+            },
+            {
+              "id": "c",
+              "text": "Replace every other value with it"
+            },
+            {
+              "id": "d",
+              "text": "Find out whether it is an error or a genuine, important case"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "An outlier may be a mistake or a meaningful event. Only investigating tells you which.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_qGIfKmhmN1bv",
+      "title": "Models output scores; a threshold turns a score into a decision",
+      "body": "A classifier does not really say yes or no. It gives a score, such as 0.83 for \"probably fraud\". A threshold then turns that score into an action: above 0.5, flag it.\n\nThe threshold is a dial that you control, and it is separate from the model.\n\nTurn it down to 0.2 and you flag far more: fewer misses, more false alarms. Turn it up to 0.9 and you flag only the near-certain: fewer false alarms, more misses.\n\nIt is the pass mark in an exam. Moving it does not change anyone's answers, only who passes.\n\nSo you can change how cautious a system is without retraining anything. The default of 0.5 is rarely the right choice for a business.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_qGIfKmhmN1bv_1",
+          "type": "multiple_choice",
+          "prompt": "You lower a fraud model's threshold from 0.5 to 0.2. What happens?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "More transactions are flagged: fewer misses but more false alarms"
+            },
+            {
+              "id": "b",
+              "text": "Fewer transactions are flagged"
+            },
+            {
+              "id": "c",
+              "text": "The model is retrained"
+            },
+            {
+              "id": "d",
+              "text": "Nothing changes"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A lower threshold means more scores count as positive, which catches more real cases and more innocent ones.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

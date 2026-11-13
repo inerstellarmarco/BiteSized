@@ -1,0 +1,253 @@
+{
+  "id": "sll_Dit_Qyx-PJpB",
+  "title": "Data Formats",
+  "bites": [
+    {
+      "id": "bit_MiG1Mi80RdcD",
+      "title": "CSV, JSON, and text files",
+      "body": "Three plain formats carry most everyday data.\n\nCSV is a table saved as text: one line per row, commas between the values. It is what a spreadsheet looks like with the formatting stripped off.\n\nJSON is labelled, nested data: {\"name\": \"Ana\", \"orders\": [12, 15]}. It can hold lists inside records, which a flat table cannot.\n\nPlain text is just words with no structure at all, like an email or a contract.\n\nAll three open in any text editor, which is why they travel so well between systems. The difference is how much structure they carry: text has none, CSV has rows and columns, JSON has nesting.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_MiG1Mi80RdcD_1",
+          "type": "multiple_choice",
+          "prompt": "Which format naturally holds a customer record that contains a list of several orders?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "JSON"
+            },
+            {
+              "id": "b",
+              "text": "CSV"
+            },
+            {
+              "id": "c",
+              "text": "Plain text"
+            },
+            {
+              "id": "d",
+              "text": "None of them can"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "JSON supports nesting, so a record can contain a list. CSV is flat: one row, one set of columns.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_DHCVlBLyabbb",
+      "title": "Tables vs. documents",
+      "body": "Data comes in two broad shapes.\n\nA table has the same columns on every row, like a class register: name, date of birth, form. Every pupil has the same boxes. This is called structured data.\n\nA document shape lets each record carry its own nested details, like a patient file: one patient has three allergies and two operations, another has none. JSON is the usual format.\n\nTables are superb for comparing and adding up. Documents are better when records vary.\n\nThen there is unstructured data: emails, PDFs, recordings. Most company knowledge lives there, and it is exactly what LLMs made usable.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_DHCVlBLyabbb_1",
+          "type": "multiple_choice",
+          "prompt": "Which data is best described as structured?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A folder of customer emails"
+            },
+            {
+              "id": "b",
+              "text": "A recorded phone call"
+            },
+            {
+              "id": "c",
+              "text": "A spreadsheet where every row has the same columns"
+            },
+            {
+              "id": "d",
+              "text": "A scanned letter"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Structured data has a fixed set of fields for every record, which is what a table provides.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_uU5cMoibu_ge",
+      "title": "Excel and Google Sheets as everyday business data",
+      "body": "In most small businesses, the real database is a spreadsheet. Price lists, customer lists, stock counts and rotas all live in Excel or Google Sheets.\n\nSpreadsheets are friendly because they mix everything: data, formulas, colours, notes and totals on one page. That same mix is what makes them hard for code to read. A program expects one header row and then clean rows of data. It trips over merged cells, a title in row 1, subtotals halfway down, or \"meaning\" carried by cell colour.\n\nBefore using a sheet with code or AI, make it boring: one header row, one record per row, one kind of value per column.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_uU5cMoibu_ge_1",
+          "type": "multiple_choice",
+          "prompt": "Which spreadsheet habit causes the most trouble when code reads the file?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Merged cells and subtotal rows mixed in with the data"
+            },
+            {
+              "id": "b",
+              "text": "Having a single header row"
+            },
+            {
+              "id": "c",
+              "text": "Putting one record on each row"
+            },
+            {
+              "id": "d",
+              "text": "Keeping one type of value per column"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Programs expect a plain grid. Merged cells and embedded totals break the one-row-per-record pattern.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_I2HCJ5BelMlA",
+      "title": "Encoding and delimiter problems when opening CSV files",
+      "body": "A CSV looks simple, but two hidden settings can scramble it.\n\nEncoding is the rule for turning stored bytes into letters. Open a file with the wrong one and \"José\" becomes \"JosÃ©\". The safe modern choice is UTF-8.\n\nThe delimiter is the character between values. It is usually a comma, but many European systems use a semicolon, because the comma is their decimal point. Read with the wrong delimiter and every row lands in a single column.\n\nA third trap: a comma inside a value, like \"Smith, John\", needs quotes round it or it splits in two.\n\nWhen a CSV looks broken, check these before blaming the data.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_I2HCJ5BelMlA_1",
+          "type": "multiple_choice",
+          "prompt": "A CSV opens with names like \"JosÃ©\" instead of \"José\". What is the likely cause?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The file has too many rows"
+            },
+            {
+              "id": "b",
+              "text": "The delimiter is a semicolon"
+            },
+            {
+              "id": "c",
+              "text": "The data was entered incorrectly"
+            },
+            {
+              "id": "d",
+              "text": "The file was read with the wrong text encoding"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Garbled accented characters are the classic sign of an encoding mismatch, typically UTF-8 read as something else.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_fmGru5CtXARP",
+      "title": "PDFs and scans are not data until extracted",
+      "body": "A PDF is designed to look right on paper, not to be read by a program. Inside, it mostly records \"put these letters at this spot on the page\". The idea of a table, a column or a heading is often not stored at all.\n\nA scan is one step further away. It is a photograph of text. To a computer it is only pixels until OCR, optical character recognition, turns the picture back into letters.\n\nSo an invoice total you can see plainly is not yet a number you can add up. It has to be extracted, and extraction makes mistakes, especially with tables, columns and handwriting.\n\nAlways spot-check extracted values against the original.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_VUWmbmQgmexW",
+          "targetCode": "B2.2",
+          "label": "see B2.2",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_fmGru5CtXARP_1",
+          "type": "multiple_choice",
+          "prompt": "What does OCR do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Compresses PDF files"
+            },
+            {
+              "id": "b",
+              "text": "Turns an image of text into actual text characters"
+            },
+            {
+              "id": "c",
+              "text": "Translates text into another language"
+            },
+            {
+              "id": "d",
+              "text": "Encrypts scanned documents"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Optical character recognition reads the letters in a picture so that software can work with them as text.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_EYvLgF1oyFj2",
+      "title": "Choose the format by who or what reads it next",
+      "body": "There is no best format, only the right one for the next reader. Ask who or what receives the data.\n\nA person who wants to scan and sort it: a spreadsheet. Another program or an API: JSON. A big analysis job: CSV, or a compact analytics format such as Parquet. A person who needs something to sign or print: PDF. An LLM: clean text or Markdown, with the structure kept simple.\n\nIt is the same thinking as packing. The contents are the same, but you pack differently for a courier, for a suitcase and for a gift.\n\nPicking by habit is how a finance report ends up as a PDF that someone has to retype.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_EYvLgF1oyFj2_1",
+          "type": "multiple_choice",
+          "prompt": "Which format is the usual choice when one program sends data to another through an API?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "PDF"
+            },
+            {
+              "id": "b",
+              "text": "A scanned image"
+            },
+            {
+              "id": "c",
+              "text": "A slide deck"
+            },
+            {
+              "id": "d",
+              "text": "JSON"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "JSON is structured, easy for software to read and the standard for API exchanges.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

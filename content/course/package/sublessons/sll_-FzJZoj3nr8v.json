@@ -1,0 +1,260 @@
+{
+  "id": "sll_-FzJZoj3nr8v",
+  "title": "How AI Is Sold",
+  "bites": [
+    {
+      "id": "bit_ivAsCLuaG4PN",
+      "title": "Consumer apps vs. developer APIs vs. business plans",
+      "body": "The same model is sold three ways, for three kinds of buyer.\n\nConsumer apps are chat products for individuals, usually a flat monthly fee. You type and it answers. Nothing connects to your own software.\n\nDeveloper APIs are for building things. Your code sends requests and is billed for exactly what it uses, by the token.\n\nBusiness plans are the app for a whole team, with what companies need: central billing, administrator controls, stronger privacy terms and single sign-on.\n\nThink of water. You can buy a bottle, connect to the mains with a meter, or sign a commercial supply contract.\n\n\"Should we buy the subscription?\" has no answer until you know which of these you need.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_ivAsCLuaG4PN_1",
+          "type": "multiple_choice",
+          "prompt": "Which way of buying AI is meant for connecting a model to your own software?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A consumer chat app"
+            },
+            {
+              "id": "b",
+              "text": "A printed manual"
+            },
+            {
+              "id": "c",
+              "text": "A developer API"
+            },
+            {
+              "id": "d",
+              "text": "A gift card"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "APIs let code send requests to the model and are billed by usage.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_iyzOOINub1x-",
+      "title": "Pay per token vs. flat subscription",
+      "body": "There are two pricing models, and they suit opposite situations.\n\nA flat subscription is a fixed monthly fee for use within limits. The cost is predictable. It suits a person using a chat app through the day.\n\nPay per token charges for exactly what you use. Low use costs pennies. Heavy use scales without a ceiling. It suits software, where volume varies and every request can be counted.\n\nIt is a phone contract against pay-as-you-go.\n\nThe trap with metered billing is surprise. A bug that calls the model in a loop, or a feature that suddenly becomes popular, can produce a large bill overnight. Set a spending limit and an alert before you launch anything.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_iyzOOINub1x-_1",
+          "type": "multiple_choice",
+          "prompt": "What should you set up before launching anything on pay-per-token pricing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A second subscription"
+            },
+            {
+              "id": "b",
+              "text": "A larger context window"
+            },
+            {
+              "id": "c",
+              "text": "A new company logo"
+            },
+            {
+              "id": "d",
+              "text": "Spending limits and alerts"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Metered usage can spike from bugs or popularity, so caps and alerts prevent a surprise bill.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_SXwimasUGbFH",
+      "title": "Price per million input and output tokens",
+      "body": "API prices are quoted per million tokens, with separate rates for input, what you send, and output, what the model writes.\n\nA million tokens is about 750,000 words, or eight to ten novels.\n\nA worked example. Suppose a model costs 3 dollars per million input tokens and 15 per million output tokens. A request with 2,000 tokens in and 500 out costs 0.006 plus 0.0075, about one and a third cents.\n\nThat is tiny. A hundred thousand such requests a month is about 1,350 dollars.\n\nSo the method is always the same: tokens per request, times requests, times price. Actual prices vary enormously between tiers and change often, so look up current figures.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_hAio_2GUwUsf",
+          "targetCode": "A5.1",
+          "label": "see A5.1",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_SXwimasUGbFH_1",
+          "type": "multiple_choice",
+          "prompt": "How do you estimate monthly API cost?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Count the users and guess"
+            },
+            {
+              "id": "b",
+              "text": "Multiply the context window by the temperature"
+            },
+            {
+              "id": "c",
+              "text": "Divide the model size by its age"
+            },
+            {
+              "id": "d",
+              "text": "Tokens per request, times the number of requests, times the price per token"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Cost is usage multiplied by price, with input and output tokens priced separately.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_LU0F3yWXP8w3",
+      "title": "Output tokens cost more than input tokens",
+      "body": "On almost every price list, output tokens cost several times more than input tokens. Three to five times is common.\n\nThe reason is how the model works. It can read your whole input in a single parallel pass. Writing is different: each output token needs its own pass, one after another. Reading is cheap and writing is slow.\n\nThink of a consultant who skims your 50-page report in minutes and then bills for the hours spent writing the reply.\n\nThis shapes design. Feeding in a long document is relatively cheap. Asking for a long answer is relatively expensive, and slow too. So ask for what you need: \"reply with only the category name\" costs far less than an essay.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_LU0F3yWXP8w3_1",
+          "type": "multiple_choice",
+          "prompt": "Why do output tokens usually cost more than input tokens?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Output tokens are longer words"
+            },
+            {
+              "id": "b",
+              "text": "Each output token must be generated one at a time, which takes more computation"
+            },
+            {
+              "id": "c",
+              "text": "Providers dislike long answers"
+            },
+            {
+              "id": "d",
+              "text": "Input tokens are not processed at all"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Input is processed in parallel, while every output token needs its own sequential step.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Jn45X5Esbp4T",
+      "title": "Prompt caching and batch discounts lower the bill",
+      "body": "Providers offer two standard discounts that many teams never switch on.\n\nPrompt caching. If many requests begin with the same long text, such as the same instructions or the same reference document, the provider can remember that part after the first time. Later requests are charged a fraction for it, and they run faster.\n\nBatch processing. If you do not need answers at once, you can submit a large job to be done within about a day, commonly at around half price.\n\nIt is the regular's discount and the off-peak fare.\n\nBoth need a little setup: stable content at the start of the prompt for caching, and patience for batches. Check the current rules for your provider.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_18qlkwvYBNTo",
+          "targetCode": "B6.3",
+          "label": "see B6.3",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_Jn45X5Esbp4T_1",
+          "type": "multiple_choice",
+          "prompt": "When does prompt caching save money?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When every request is completely different"
+            },
+            {
+              "id": "b",
+              "text": "When no instructions are ever sent"
+            },
+            {
+              "id": "c",
+              "text": "Only when the model is offline"
+            },
+            {
+              "id": "d",
+              "text": "When many requests share the same long opening text"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Caching discounts the repeated prefix, so shared instructions or documents are billed at a reduced rate.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_zQOS3TBk--5j",
+      "title": "Free tiers are for testing, not for production",
+      "body": "Most providers let you try their models free. It is the right way to experiment and the wrong thing to build a business on.\n\nFree tiers have low rate limits, a handful of requests per minute, so they fail once real users arrive. They carry no promise of availability. They can change or vanish without notice. And the data terms are often weaker: your inputs may be used for training.\n\nThink of the free samples at a supermarket. They are perfect for deciding what to buy and useless for catering a wedding.\n\nUse the free tier to learn and to prototype. Before real users or real client data are involved, move to a paid plan with proper terms.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_zQOS3TBk--5j_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a free tier unsuitable for a live business system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Free models are always less accurate"
+            },
+            {
+              "id": "b",
+              "text": "Free tiers cannot process text"
+            },
+            {
+              "id": "c",
+              "text": "It is illegal to use free tiers"
+            },
+            {
+              "id": "d",
+              "text": "Low limits, no reliability guarantee and often weaker data terms"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Free access is throttled and unguaranteed, and inputs may be used for training.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

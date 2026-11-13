@@ -1,0 +1,253 @@
+{
+  "id": "sll_hT5d4uNy1_ma",
+  "title": "Data Collection",
+  "bites": [
+    {
+      "id": "bit_h6eCzKcIBysW",
+      "title": "Pulling data from APIs",
+      "body": "An API is the clean, official way to get data out of another system: your accounting package, your shop, a weather service.\n\nYou ask for a specific slice, \"orders since Monday\", and it arrives as structured JSON, ready to use. Compare that with copying numbers off a screen by hand.\n\nTwo practical details. Large results come in pages, 100 records at a time, so the code must keep asking for the next page until none are left. And rate limits cap how fast you may ask.\n\nGood practice is to fetch only what changed since last time, not everything again. It is faster, cheaper and kinder to the provider.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_h6eCzKcIBysW_1",
+          "type": "multiple_choice",
+          "prompt": "An API returns results 100 at a time. What must your code do to get all 2,000 records?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Ask once and assume the rest are the same"
+            },
+            {
+              "id": "b",
+              "text": "Increase the timeout"
+            },
+            {
+              "id": "c",
+              "text": "Change the API key"
+            },
+            {
+              "id": "d",
+              "text": "Keep requesting the next page until there are no more"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Paginated APIs return results in chunks, so the code loops through pages until the data runs out.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_fBOU42YywoWo",
+      "title": "Licensing and ethics of data",
+      "body": "Being able to download something does not mean you are allowed to use it.\n\nData comes with terms, like a photo found online: visible to everyone, still owned by someone. A licence says what you may do. Some data is open for any use. Some is free for research but not for business. Some you may read but not copy into a product.\n\nBeyond the legal question sits the ethical one. Would the people this data describes be surprised or upset by how you are using it?\n\nBefore building on a dataset, ask three things: where did it come from, what do the terms allow, and who could be harmed?\n\nSorting this out afterwards is slow and expensive.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_fBOU42YywoWo_1",
+          "type": "multiple_choice",
+          "prompt": "You find a useful dataset freely downloadable online. What should you check before using it in a commercial product?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only its file size"
+            },
+            {
+              "id": "b",
+              "text": "Its licence and terms of use"
+            },
+            {
+              "id": "c",
+              "text": "Whether it opens in Excel"
+            },
+            {
+              "id": "d",
+              "text": "Nothing, because public data is free for any use"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Availability is not permission. The licence states whether commercial use is allowed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit__KxY64FrfwV2",
+      "title": "Webhooks and event-triggered data",
+      "body": "There are two ways to keep data current.\n\nPolling means asking on a schedule: \"any new orders?\" every five minutes. It is simple, but mostly wasted effort, and you are always a little behind.\n\nA webhook reverses it: the other system sends you the data the moment something happens. A customer pays, and your system hears about it within a second.\n\nIt is the difference between checking the letterbox every hour and having a doorbell.\n\nEvent-triggered data is what makes automation feel instant: a form is submitted, and that event starts an AI workflow that drafts a reply. The catch: your receiving end must be reliable, because an event missed while you were down may not be sent again.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q__KxY64FrfwV2_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main advantage of a webhook over polling?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It never fails"
+            },
+            {
+              "id": "b",
+              "text": "You receive the data as soon as the event happens, without repeatedly asking"
+            },
+            {
+              "id": "c",
+              "text": "It needs no receiving system"
+            },
+            {
+              "id": "d",
+              "text": "It works only once a day"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "With webhooks the source pushes events to you in real time, which avoids wasted and delayed polling.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_l2KLo7HSQbdm",
+      "title": "ETL basics: extract, transform, load",
+      "body": "ETL is the standard three-step pattern for moving data from where it is created to where it is used.\n\nExtract: pull the raw data out of the source, such as the shop system or the CRM.\n\nTransform: clean it and reshape it. Fix the dates, standardise the labels, join the tables, work out the totals.\n\nLoad: put the result somewhere useful, such as a database or a dashboard.\n\nIt is a kitchen supply chain. Ingredients come in from suppliers, are washed and chopped, and are then set out ready for the chefs.\n\nA pipeline is just these steps run automatically on a schedule. Most \"AI projects\" quietly begin with one, because models need clean, current data.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_l2KLo7HSQbdm_1",
+          "type": "multiple_choice",
+          "prompt": "In ETL, what happens during the transform step?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Data is pulled from the source system"
+            },
+            {
+              "id": "b",
+              "text": "Data is deleted"
+            },
+            {
+              "id": "c",
+              "text": "Data is shown on a dashboard"
+            },
+            {
+              "id": "d",
+              "text": "Data is cleaned and reshaped into a usable form"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Transform is the middle step: fixing, standardising and combining the raw data before it is loaded.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_0-QtTKbTH4-K",
+      "title": "Scraping rules: terms of service and robots.txt",
+      "body": "Scraping means having a program read web pages and pull the data out, as a last resort when there is no API.\n\nTwo documents set the rules. The site's terms of service may forbid automated collection altogether. And robots.txt, a small file at the root of the site, tells automated visitors which areas they are asked to stay out of.\n\nrobots.txt is a request, not a lock. Think of a \"staff only\" sign on an open door. Ignoring it is easy and still not acceptable.\n\nScrape politely too: slowly, so you do not strain the site. And remember that public does not mean free to reuse. Copyright and privacy law still apply. Check for an API first.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_0-QtTKbTH4-K_1",
+          "type": "multiple_choice",
+          "prompt": "What is robots.txt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A file where a website states which areas automated visitors should not access"
+            },
+            {
+              "id": "b",
+              "text": "A program that blocks all scrapers technically"
+            },
+            {
+              "id": "c",
+              "text": "A list of the site's passwords"
+            },
+            {
+              "id": "d",
+              "text": "A law that applies in every country"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "It is a published set of instructions for crawlers. It relies on visitors choosing to respect it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_48weRTjRnyd8",
+      "title": "Personal data: collect only what you need",
+      "body": "Personal data is anything that can be linked to a living person: a name, an email, a location, a customer number.\n\nThe rule, written into laws such as GDPR, is data minimisation: collect only what you need for a stated purpose, and keep it only as long as you need it.\n\nTreat it like other people's house keys. Each one you hold is a responsibility, and one you never took cannot be lost or stolen.\n\nA booking form does not need a date of birth. A newsletter does not need a home address.\n\nIn AI projects this bites quickly. Before pasting customer records into a prompt, ask whether the task needs the names at all.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_-dxV7-KnCeOY",
+          "targetCode": "B15.4",
+          "label": "see B15.4",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_48weRTjRnyd8_1",
+          "type": "multiple_choice",
+          "prompt": "What does data minimisation mean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Compress files so that they take less space"
+            },
+            {
+              "id": "b",
+              "text": "Collect everything in case it becomes useful later"
+            },
+            {
+              "id": "c",
+              "text": "Collect and keep only the personal data that is needed for the stated purpose"
+            },
+            {
+              "id": "d",
+              "text": "Delete all data every day"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Minimisation limits collection to what the purpose requires, which reduces both risk and legal exposure.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

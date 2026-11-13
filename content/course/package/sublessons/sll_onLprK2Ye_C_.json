@@ -1,0 +1,253 @@
+{
+  "id": "sll_onLprK2Ye_C_",
+  "title": "Open-Weight Models",
+  "bites": [
+    {
+      "id": "bit_zrixe_WWffic",
+      "title": "Llama, DeepSeek, Mistral, and Qwen: what each is good at",
+      "body": "Several families lead the open-weight field, each released by a different organisation.\n\nLlama, from Meta, is the best known, with the widest ecosystem of tools and guides. Mistral, a French company, offers efficient models and a European base, which matters to some customers. DeepSeek, from China, drew attention for strong reasoning and coding at low cost. Qwen, from Alibaba, comes in many sizes and is strong across languages. Google's Gemma and Microsoft's Phi are small models worth knowing.\n\nThe standings move even faster here than among closed models. So learn the families as a shortlist, and check a current comparison site before choosing.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_zrixe_WWffic_1",
+          "type": "multiple_choice",
+          "prompt": "What is a sensible way to use your knowledge of open-weight model families?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "As a permanent ranking that never changes"
+            },
+            {
+              "id": "b",
+              "text": "As proof that open models are all the same"
+            },
+            {
+              "id": "c",
+              "text": "As a shortlist to check against current comparisons before choosing"
+            },
+            {
+              "id": "d",
+              "text": "As a reason never to test"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Open-weight rankings shift rapidly, so the families give you candidates, not a final answer.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_QvMa8Nm27ANP",
+      "title": "Open weights vs. open source: always read the licence",
+      "body": "\"Open\" is used loosely, and the differences matter.\n\nOpen weights means the trained model files are published and you can download and run them. That is all it means.\n\nOpen source, in the proper sense, means you may use, change and share the thing for any purpose. Many open-weight models do not go that far. The training data and training code are usually not released, and the licence may carry conditions.\n\nThink of a restaurant that hands you the finished dish to take home, compared with one that gives you the recipe and lets you sell it.\n\nThe only way to know what you have is the licence text. \"It is on the internet\" is not permission.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_QvMa8Nm27ANP_1",
+          "type": "multiple_choice",
+          "prompt": "What does \"open weights\" guarantee?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "That you may use it for any purpose without conditions"
+            },
+            {
+              "id": "b",
+              "text": "That the training data is public"
+            },
+            {
+              "id": "c",
+              "text": "That the model is free of errors"
+            },
+            {
+              "id": "d",
+              "text": "Only that the model files are available to download and run"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Open weights means the files are published. What you may do with them depends on the licence.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_BW3hKumIxe10",
+      "title": "Licences can limit large companies or certain uses; check each one",
+      "body": "Model licences vary a great deal, and the conditions can bite.\n\nSome are fully permissive, such as Apache 2.0 and MIT: use them commercially, change them, no strings beyond giving credit.\n\nOthers are custom \"community\" licences with conditions. Typical ones: limits above a certain number of users or amount of revenue, bans on particular uses, rules about naming, or \"research only, no commercial use\".\n\nThe same family can use different licences for different versions and sizes, so last year's check does not cover this year's release.\n\nRead it like a rental agreement before moving in. For client or commercial work, record which model, which version and which licence you relied on.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_BW3hKumIxe10_1",
+          "type": "multiple_choice",
+          "prompt": "Why must you check the licence for each specific model version?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Licences are identical for all models"
+            },
+            {
+              "id": "b",
+              "text": "Terms differ between models and versions and may restrict commercial or certain uses"
+            },
+            {
+              "id": "c",
+              "text": "Licences only matter for images"
+            },
+            {
+              "id": "d",
+              "text": "A licence is only a marketing document"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Conditions vary by model and release, so permission for one does not carry over to another.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_ZSxeYk0QjGi_",
+      "title": "Sizes: small models run on a laptop; the largest need data-centre hardware",
+      "body": "Open models come in sizes, counted in parameters, and size decides where they can run.\n\nSmall, up to about 8 billion parameters: runs on a good laptop or even a phone. Quick, private and limited.\n\nMedium, tens of billions: needs a strong desktop with a serious graphics card, or a rented cloud machine.\n\nLarge, hundreds of billions: needs several data-centre GPUs, each costing as much as a car.\n\nThe thing to check is memory. The model has to fit in the graphics card's memory. A trick called quantisation shrinks a model by storing its numbers less precisely, like saving a photo as a smaller JPEG. You lose a little quality and it fits on cheaper hardware.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_ZSxeYk0QjGi__1",
+          "type": "multiple_choice",
+          "prompt": "What does quantisation do to a model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Makes it more accurate than the original"
+            },
+            {
+              "id": "b",
+              "text": "Shrinks its memory needs by storing weights with less precision, at a small cost in quality"
+            },
+            {
+              "id": "c",
+              "text": "Converts it to a closed model"
+            },
+            {
+              "id": "d",
+              "text": "Adds more parameters"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Lower-precision numbers make the model smaller and cheaper to run, with a modest quality loss.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_z8a2NMJaDTSK",
+      "title": "Strengths: control, privacy, lower cost at volume, and fine-tuning",
+      "body": "Open-weight models earn their place in four situations.\n\nControl: the model does not change unless you change it. No surprise retirement and no silent update.\n\nPrivacy: run it on your own machines and no data leaves the building. For some clients and regulators that settles the matter.\n\nCost at volume: for steady, heavy workloads, running your own can beat paying per token. At low volume it is usually dearer.\n\nFine-tuning: you can retrain the model freely on your own data.\n\nIt is owning a van instead of using couriers. If you ship all day every day, it makes sense. For one parcel a week, it does not.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_ifDr8a6T0oCj",
+          "targetCode": "C6",
+          "label": "see C6",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_z8a2NMJaDTSK_1",
+          "type": "multiple_choice",
+          "prompt": "When is running an open-weight model most likely to save money?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "With a few requests a month"
+            },
+            {
+              "id": "b",
+              "text": "When you have no hardware and no staff time"
+            },
+            {
+              "id": "c",
+              "text": "With steady, high-volume workloads"
+            },
+            {
+              "id": "d",
+              "text": "Never, under any circumstances"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Fixed hardware costs pay off only when usage is high and consistent enough to beat per-token pricing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_lpAtlW5elygo",
+      "title": "Weaknesses: you own the setup, updates, and safety",
+      "body": "With an open model, everything the provider used to do becomes your job.\n\nSetup: choosing hardware, installing the serving software, getting acceptable speed. Operations: keeping it running, handling busy periods, fixing it at night. Updates: nobody improves your copy, so better versions are yours to find, test and install. Safety: the filters and abuse monitoring a provider bundles in are yours to add.\n\nAnd for the hardest tasks, the best open model usually trails the best closed one.\n\nIt is owning a house instead of renting. Nobody raises the rent, and when the boiler fails, you are the one who gets the call.\n\nThe token price may be zero. The engineer's time is not.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_lpAtlW5elygo_1",
+          "type": "multiple_choice",
+          "prompt": "What is a hidden cost of running an open-weight model yourself?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A fee per download"
+            },
+            {
+              "id": "b",
+              "text": "A higher price per token from the provider"
+            },
+            {
+              "id": "c",
+              "text": "The staff time for setup, operations, updates and safety measures"
+            },
+            {
+              "id": "d",
+              "text": "A legal requirement to publish your data"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Self-hosting moves operational and safety work to you, which costs time even when the model is free.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

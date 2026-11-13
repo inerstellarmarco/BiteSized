@@ -1,0 +1,246 @@
+{
+  "id": "sll_a1_4_1",
+  "title": "Reading & Understanding Code",
+  "bites": [
+    {
+      "id": "bit_a1_topdown",
+      "title": "Reading code top-down",
+      "body": "Do not read code like a novel, from the first line to the last. Read it like a map: get the overall layout first, then zoom in.\n\nStart at the entry point, the function that runs first. This is often called main, or sits under the line if __name__ == \"__main__\". Note which functions it calls, and in what order. That sequence is the story of the program.\n\nThen open each function and read only its name, its inputs and what it returns. Skip the middle for now.\n\nAfter five minutes you know what the program does and who is in charge of each part. Only then dive into the details that matter.",
+      "sourceNote": "Reading practice for generated Python · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_topdown_1",
+          "type": "multiple_choice",
+          "prompt": "Where should you start when reading an unfamiliar program?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "At the last line, reading upwards"
+            },
+            {
+              "id": "b",
+              "text": "At the longest function"
+            },
+            {
+              "id": "c",
+              "text": "At the list of imports only"
+            },
+            {
+              "id": "d",
+              "text": "At the entry point, to see which functions are called and in what order"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The entry point shows the overall flow, which gives every other part its context.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_trace",
+      "title": "Tracing inputs and outputs",
+      "body": "Tracing means pretending to be the computer. Pick a tiny input and walk through the code one line at a time, writing down what each name holds as you go.\n\nTake a function that averages a list. Feed it [2, 4] by hand: the total becomes 6, the count is 2, the result is 3. Good.\n\nNow try an awkward input: an empty list. The total is 0, the count is 0, and dividing by zero crashes. You have found a bug without running anything.\n\nGenerated code is usually right for the ordinary case and wrong at the edges. Empty, zero, missing and very large inputs are where to look.",
+      "sourceNote": "Manual tracing as a reading technique · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_trace_1",
+          "type": "multiple_choice",
+          "prompt": "Which input is most likely to reveal a hidden bug in generated code?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A typical, ordinary input"
+            },
+            {
+              "id": "b",
+              "text": "An edge case such as an empty list"
+            },
+            {
+              "id": "c",
+              "text": "The same input the assistant used in its example"
+            },
+            {
+              "id": "d",
+              "text": "No input at all, without running anything"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Generated code tends to handle the normal case and fail on empty, zero or missing values.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_redflags",
+      "title": "Spotting red flags in generated code",
+      "body": "A red flag is not proof of a bug. It is a reason to slow down and read that part twice, the way a mechanic listens for a noise that should not be there.\n\nAssistants write code that looks finished. It is tidy, commented and confident, and that polish says nothing about whether it is correct.\n\nUseful habits: be suspicious of anything that seems too convenient, such as a library function that does exactly what you asked for. Check that comments match what the code really does. Notice what is missing, not just what is there: what happens if the file is absent, the list is empty, or the network is down?",
+      "sourceNote": "Review habits for AI-generated Python · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_redflags_1",
+          "type": "multiple_choice",
+          "prompt": "Generated code is neatly formatted and well commented. What does that tell you about its correctness?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It is almost certainly correct"
+            },
+            {
+              "id": "b",
+              "text": "It has definitely been tested"
+            },
+            {
+              "id": "c",
+              "text": "Nothing: polish and correctness are separate things"
+            },
+            {
+              "id": "d",
+              "text": "It was written by a person"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Assistants always produce tidy-looking code. Whether it works can only be established by reading and testing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_g2-bR5GVfOLJ",
+      "title": "Red flags: hard-coded secrets, no error handling, invented library functions",
+      "body": "Three specific warning signs are worth memorising.\n\nHard-coded secrets: an API key or password typed straight into the code, such as api_key = \"sk-...\". It should be read from an environment variable.\n\nNo error handling: network calls and file reads with nothing around them, as though nothing could fail. In real use, something always does.\n\nInvented functions: the assistant calls something that sounds right but does not exist, like a street on a hand-drawn map that was never built. This is a hallucination. You find out with an AttributeError or ImportError, or by checking the docs.\n\nNone of these takes expertise to spot. They take the habit of looking.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_g2-bR5GVfOLJ_1",
+          "type": "multiple_choice",
+          "prompt": "An assistant's code calls a library function that does not exist. What is this called?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A virtual environment"
+            },
+            {
+              "id": "b",
+              "text": "A rate limit"
+            },
+            {
+              "id": "c",
+              "text": "A hallucination"
+            },
+            {
+              "id": "d",
+              "text": "A docstring"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Models can produce plausible but invented names. Checking the library's docs or running the code exposes them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_Wa_yRh7DdHZ_",
+      "title": "Ask the assistant to explain each part, then test the explanation",
+      "body": "When you do not understand a piece of code, ask the assistant to walk through it line by line in plain language. It is good at this, and it is the fastest tutor available.\n\nBut treat the explanation as a claim, not a fact. A model can explain wrong code with complete confidence, describing what the code was meant to do rather than what it does.\n\nSo test it. If the explanation says \"this skips empty rows\", feed it an empty row and watch. A sat-nav that says \"you have arrived\" is worth a glance out of the window.\n\nExplanation plus a quick experiment is how you actually learn the code, rather than just feeling reassured.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_Wa_yRh7DdHZ__1",
+          "type": "multiple_choice",
+          "prompt": "The assistant explains that a function \"ignores blank lines\". What is the best next step?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Accept it, since explanations are always accurate"
+            },
+            {
+              "id": "b",
+              "text": "Delete the function"
+            },
+            {
+              "id": "c",
+              "text": "Ask for the same explanation again in different words"
+            },
+            {
+              "id": "d",
+              "text": "Run it with a blank line and see whether that is true"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "An explanation is a claim about behaviour. A small test confirms whether the code really behaves that way.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_7k86LHp0Jw-i",
+      "title": "Small functions are easier to review than long scripts",
+      "body": "You can only hold so much in your head at once. A 15-line function with a clear name can be checked in a minute. A 300-line script where everything touches everything cannot really be checked at all.\n\nIt is the difference between proofreading one paragraph and proofreading a whole book in one sitting. Errors slip through when attention runs out.\n\nSo when you direct an assistant, ask for small pieces: \"one function that loads the file, one that cleans the rows, one that writes the report\". Each can be read, tested and replaced on its own.\n\nSmall pieces also make the assistant better, because it has less to keep track of at once.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_7k86LHp0Jw-i_1",
+          "type": "multiple_choice",
+          "prompt": "Why ask an assistant for several small functions instead of one long script?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Each piece can be read, tested and fixed on its own"
+            },
+            {
+              "id": "b",
+              "text": "Long scripts are not allowed in Python"
+            },
+            {
+              "id": "c",
+              "text": "Small functions use no memory"
+            },
+            {
+              "id": "d",
+              "text": "It guarantees the code has no bugs"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Small, focused units fit in your head, which makes review and testing realistic.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

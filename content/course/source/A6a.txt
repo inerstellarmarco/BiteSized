@@ -1,0 +1,771 @@
+// A6 The AI Stack & Market Map (part 1: A6.1 to A6.3)
+@@ sll_rBIFuA4_EH13 | A6.1 The AI Stack in Layers > Layers of an AI System
+## Models: the intelligence itself, closed or open-weight
+At the bottom of every AI system sits a model: the part that reads, reasons and writes. Everything else exists to feed it or to act on what it says.
+
+Think of the engine in a car. It supplies the power, but an engine on a workbench takes nobody anywhere.
+
+You get a model in one of two ways. Closed: rent access from the company that built it. Open-weight: download the files and run them yourself or through a host.
+
+This layer gets all the attention, yet it is the one you are least likely to build and most likely to swap. Treat the model as a replaceable part.
+?? In the AI stack, what is the model layer?
++ The part that does the reading, reasoning and writing
+- The database that stores documents
+- The monitoring dashboard
+- The user's web browser
+= The model supplies the intelligence. The other layers feed it and act on its output.
+## Model access: APIs, gateways, and hosting
+A model is no use until your software can reach it. The access layer is the plumbing.
+
+There are three routes. Call the maker's API directly: simple, one bill per provider. Go through a gateway or router: one connection that reaches many models, so switching is a setting and not a rewrite. Or host it: run an open model on your own machines or on rented ones.
+
+Think of electricity. You can buy from one supplier, use a broker who switches suppliers for you, or run your own generator.
+
+The choice decides where your data travels, who bills you, and how painful it is to change models later.
+?? What does a model gateway provide?
++ One connection through which you can reach and switch between many models
+- A new model trained on your data
+- Free unlimited usage
+- A replacement for writing prompts
+= A gateway sits between your code and several providers, making it easy to change which model is used.
+## Data and retrieval: documents, databases, and vector stores
+A model knows the public internet up to its cutoff. It knows nothing about your customers, your prices or last Tuesday's meeting. The data layer supplies that.
+
+It includes your documents, your databases and a retrieval system that finds the right pieces for each question. A vector store is a database built for that, searching by meaning instead of by exact word.
+
+Think of a brilliant new hire. The knowledge that makes them useful in your company is in the filing cabinets, and somebody has to hand them the right folder.
+
+In most business projects this layer decides quality more than the model does. A mediocre model with the right document beats a superb one without it.
+?? Why does an AI system need a data and retrieval layer?
++ The model does not know your private or current information unless it is supplied
+- Models cannot read text without one
+- It makes the model's weights smaller
+- It is required by law
+= Retrieval brings your own documents and data into the prompt, which the model otherwise has no knowledge of.
+## Orchestration: the loop, workflows, and agent teams (see B4, B10)
+One model call answers one prompt. Real tasks take many steps: look something up, decide, call a tool, check the result, try again. Orchestration is the layer that runs those steps.
+
+It comes in three shapes. A workflow follows fixed steps in a set order. An agent loop lets the model decide the next step itself, again and again, until the job is done. A team of agents splits the work between specialists.
+
+Think of a kitchen. The model is a talented cook. Orchestration is the system that turns orders into dishes: who does what, in which order, and what happens when something burns.
+
+Most of an AI application's own code lives here.
+?? What does the orchestration layer do?
++ Controls the sequence of model calls, tool calls and decisions that complete a task
+- Stores the model's weights
+- Sets the price per token
+- Draws the user interface
+= Orchestration manages multi-step work: the order of steps, loops, retries and handoffs.
+## Tools and integrations: how the system acts on the world
+Without tools, a model can only talk. Tools let it do things: search the web, read a calendar, query a database, send an email, create an invoice.
+
+A tool is a function the model can ask to have run. The model says "look up order 4812". Your system runs the lookup and hands back the result. The model never touches your systems directly.
+
+Think of a consultant who cannot leave the room but can pass notes to assistants: "fetch this file", "send this letter".
+
+This is the layer where AI stops being a writing aid and becomes part of operations. It is also where the real risk begins, because actions have consequences.
+?? What do tools add to an AI system?
++ The ability to fetch information and take actions in other systems
+- A larger vocabulary
+- A later knowledge cutoff by retraining
+- Lower electricity use
+= Tools connect the model to data and actions, such as searching, querying or sending messages.
+## Safety and quality: guardrails and evals (see B11, B12)
+Models make mistakes, and users sometimes try to misuse them. Two kinds of protection deal with that.
+
+Guardrails are checks that run while the system is working: screen what comes in, screen what goes out, and stop dangerous actions before they happen. They are the barriers at the edge of the road.
+
+Evals are tests you run to measure quality: a set of examples with known good answers that tells you how often the system gets it right. They are the MOT.
+
+Without guardrails, one bad output reaches a customer. Without evals, you cannot tell whether a change made things better or worse. You are just hoping.
+?? What is the difference between guardrails and evals?
++ Guardrails check inputs, outputs and actions while the system runs; evals measure quality with test examples
+- They are two words for the same thing
+- Guardrails are for images and evals are for text
+- Evals stop harmful actions and guardrails compute prices
+= Guardrails protect live operation. Evals are tests that measure how well the system performs.
+## Operations: deployment, cost, and monitoring (see B13, B14)
+A demo on your laptop is not a product. The operations layer is everything needed to run the system for real users, day after day.
+
+Deployment: getting it onto servers where people can reach it. Cost control: tracking what each request costs before the bill surprises you. Monitoring: recording what the system did, how long it took and when it failed, so problems can be found and fixed.
+
+It is the difference between cooking a nice dinner once and running a restaurant. The second needs suppliers, accounts and health inspections.
+
+This layer is unglamorous, and it is where many promising AI projects stall.
+?? Which of these belongs to the operations layer?
++ Monitoring what the system does and what it costs in real use
+- Choosing a temperature setting
+- Writing the first prompt
+- Picking a brand name
+= Operations covers deployment, cost tracking and monitoring of the running system.
+## Clean boundaries between layers let you swap one without rebuilding the rest
+The reason to think in layers is replaceability. If each layer talks to the next through a small, clear connection, you can change one without touching the others.
+
+A lamp and a wall socket show the idea. Any lamp fits any socket, because the plug is standard. Nobody rewires the house to change a lamp.
+
+In practice: your code calls "the model" through one function, so switching provider is a one-line change. Your prompts are kept in files, not buried in code. Your documents can be moved to another store.
+
+Without boundaries everything is welded together. When a better or cheaper model appears, which happens every few months, moving costs weeks instead of an hour.
+?? What is the main benefit of clean boundaries between the layers of an AI system?
++ One part, such as the model, can be replaced without rebuilding everything else
+- The system needs no testing
+- The model becomes more accurate
+- Users cannot see the interface
+= Well-defined connections isolate change, so swapping a layer does not ripple through the rest.
+
+@@ sll_AuyfykqRj857 | A6.1 The AI Stack in Layers > Tracking a Fast Market
+## Why it moves so fast: new models and price cuts arrive every few months
+~m
+In most industries the leading product changes every few years. In AI it changes every few months.
+
+Several forces push together. A handful of very well-funded labs race each other. Research is published openly, so a breakthrough at one lab is at the others within months. Chips keep improving. And each lab cuts prices to win developers.
+
+The result is striking: the price of a given level of capability has repeatedly fallen by something like ten times in a year.
+
+Think of phones in the 2000s, with every stage compressed into a season.
+
+The practical consequence: any fact about "the best model" or "the cheapest option" has a short shelf life, including the ones in this course.
+?? What is a practical consequence of how fast the AI market moves?
++ Claims about the best or cheapest model go out of date quickly
+- You only need to choose a model once
+- Prices always rise
+- Old models are supported forever
+= Rapid releases and price cuts mean any ranking or price is only valid for a short time.
+## Leaderboards and price-comparison sites (e.g., LMArena, Artificial Analysis)
+~m
+You do not have to track the market by reading every announcement. A few public sites do the collecting.
+
+Leaderboards rank models by quality. LMArena shows people two anonymous answers to the same question and asks which is better. Millions of such votes produce a ranking.
+
+Comparison sites such as Artificial Analysis put the practical numbers side by side: benchmark scores, price per million tokens, speed and context size.
+
+Think of them as comparison sites for energy or insurance. They are excellent for seeing the field and building a shortlist in ten minutes.
+
+They do not replace judgement. They tell you what is on the market, not what suits your job.
+?? What are leaderboards and comparison sites best used for?
++ Getting an overview of the market and building a shortlist
+- Making the final choice without any testing
+- Storing your own data
+- Training your own model
+= They summarise quality, price and speed across models, which is ideal for narrowing the field.
+## Benchmarks measure benchmarks: test on your own tasks
+A benchmark is a standard exam for models. The scores are real, and they do not mean quite what they seem to.
+
+There are three problems. Benchmark questions are often public, so they leak into training data and models get a head start. Labs tune for the famous benchmarks, because the scores are marketing. And the tasks are general puzzles, not your invoices written in your trade's jargon.
+
+It is the gap between a car's official fuel figure and what you get on your commute. Both are measurements. Only one is about you.
+
+So treat a benchmark as a rough filter. The only result you can lean on is from your own examples.
+?? Why can a model's benchmark score be a poor guide to how it will do on your work?
++ Benchmarks may be in the training data and do not resemble your specific tasks
+- Benchmark scores are invented
+- Benchmarks only test images
+- A high score means the model is slower
+= Leaked test items and tuning inflate scores, and general tasks differ from your own data and standards.
+## Release notes and provider changelogs
+Providers publish release notes, also called changelogs: a running record of new models, price changes, new features and, most important, retirements.
+
+That last one is a deadline. Providers retire old models on announced dates. After that date, any system still calling the old model simply stops working.
+
+Think of the notices a utility company sends. Most are dull. The one saying "your meter will be disconnected on the 1st" is one you must not miss.
+
+So for each provider you depend on, subscribe to the changelog or check it monthly. Look for three things: deprecation dates, price changes, and changes in behaviour of models you use.
+?? What is the most important thing to watch for in a provider's changelog?
++ Deprecation dates for models your system depends on
+- The colour of the new logo
+- Staff changes at the company
+- The number of pages in the notes
+= A retired model stops responding, so missing a deprecation notice can break a live system.
+## Re-check prices and rankings every quarter
+A decision made in January may be wrong by April. Not because it was a bad decision, but because the market moved.
+
+So put a recurring review in the calendar, about every three months. It takes an hour or two. Check whether there is a newer model in the tier you use, whether prices have dropped, and whether anything you rely on is being retired. Then run your test set on one or two promising candidates.
+
+It is like reviewing an energy tariff or a mortgage rate. Loyalty is not rewarded, and the saving from switching can be large.
+
+A year of not looking often means paying several times more than necessary for worse results.
+?? How often is it sensible to review your model choices and prices?
++ About every three months
+- Never, once a model is chosen
+- Every hour
+- Once every ten years
+= A quarterly review catches price drops, better models and upcoming retirements without consuming much time.
+## Keep a one-page market map and put a date on it
+Write down your current picture of the market on one page. Which models you use and why. The main alternatives in each tier. Rough prices. Which you tested and how they did. What is due for retirement.
+
+Then put the date at the top.
+
+The date is the important part. Without it, a note saying "Model X is the cheapest" is a trap for whoever reads it next year. With it, the reader knows how far to trust the page.
+
+Think of the "best before" on food. The contents may still be fine, but you want to know how old they are.
+
+One page updated quarterly beats a long report nobody maintains.
+?? Why put a date on your market map?
++ So readers know how current the information is
+- To make the page look official
+- Because the model needs it to run
+- Dates lower the price of tokens
+= In a fast-moving market, the date tells the reader how much the facts can still be trusted.
+
+@@ sll_tLg8Uyn708uQ | A6.2 Closed vs. Open-Weight Models > Closed Frontier Models
+## Claude, GPT, and Gemini: where each is strong
+~m
+Three closed families lead the market. They are far more alike than different, and each has a reputation that shifts with every release.
+
+GPT, from OpenAI, has the largest user base and a broad ecosystem. Claude, from Anthropic, is widely favoured for coding, long careful writing and agent work. Gemini, from Google, is known for very large context windows, strong handling of images and video, and its ties to Google's own products.
+
+Treat these as tendencies, not rankings. They are like three top car makers: all make good cars, and which is ahead depends on the model year.
+
+For an important task, try at least two. The differences that matter show up only on your own work.
+?? How should you treat the reputations of Claude, GPT and Gemini?
++ As general tendencies to verify on your own task, since they shift with each release
+- As permanent rankings
+- As proof that only one is usable
+- As irrelevant, since all three are identical
+= The leading closed models leapfrog each other, so reputations are a starting point, not a verdict.
+## Reached through paid APIs and apps; the weights are never shared
+A closed model lives on its maker's servers and stays there. You reach it in one of two ways.
+
+The app: a chat product for people, usually on a monthly subscription.
+
+The API: a connection for software, billed by the token.
+
+In both cases your text travels to the provider, is processed there, and the answer comes back. You never get the weights, so you cannot run it offline, inspect it or keep a copy.
+
+Think of a streaming service compared with owning the film. It is convenient, always the latest version and nothing to maintain. But what you can watch, and at what price, is up to the service.
+?? What does it mean that a closed model's weights are never shared?
++ You can only use it through the provider's servers, never run it yourself
+- The model has no parameters
+- The model is free
+- You may download it after one year
+= Closed models are accessed as a service. The model files stay with the provider.
+## Model tiers: large, small, and reasoning models
+~m
+Each closed provider offers a range, not one model. The naming differs but the pattern is the same.
+
+A flagship: the most capable and the most expensive. A small, fast model: a fraction of the price, fine for simple jobs. And reasoning capability, either as separate models or as a setting that makes a model think longer.
+
+Think of coffee sizes. Every chain has different names, but there is always a small, a large and something special.
+
+When reading a provider's list, ignore the names at first and sort each model into its tier. Then the price list makes sense.
+
+The common mistake is using the flagship for everything. Most steps in most systems run perfectly well on the small tier.
+?? What is a common and costly mistake with model tiers?
++ Using the most expensive flagship model for every task, including simple ones
+- Using a small model for simple tasks
+- Reading the price list
+- Testing more than one tier
+= Many steps are simple enough for a small model, so defaulting to the flagship wastes money and time.
+## Strengths: top quality, easy to start, and the vendor runs the hardware
+Closed models have three real advantages.
+
+Quality: the most capable models available are usually closed, though the gap changes over time.
+
+Ease: you can go from nothing to a working call in ten minutes. Get a key, send a request. There are no servers and no setup.
+
+Operations handled: the provider buys the chips, keeps the service running, scales for busy periods, applies fixes and ships improvements. You pay for what you use.
+
+It is eating at a restaurant instead of building a kitchen. For most teams, especially small ones just starting, that is plainly the right place to begin: you find out whether the idea works before investing in anything.
+?? Why are closed models usually the easiest starting point?
++ You need only an API key, and the provider runs all the infrastructure
+- They require buying your own GPUs
+- They cannot be used for business
+- They need months of setup
+= The vendor operates the hardware and service, so you can begin with a key and a few lines of code.
+## Risks: price changes, model retirement, and provider rules
+Renting means living by someone else's decisions. With closed models there are three to plan for.
+
+Price changes. Prices have mostly fallen, but the provider sets them, along with usage limits.
+
+Retirement. Models are withdrawn on a schedule. The replacement may behave differently, so your carefully tuned prompts need retesting whether you like it or not.
+
+Rules. The provider's usage policy decides what you may do, and it can change. An account can be limited or closed.
+
+There is also the quiet risk that a model's behaviour shifts between versions.
+
+None of this is a reason to avoid closed models. It is a reason to keep your prompts, tests and data portable.
+?? Which is a real risk of depending on a closed model?
++ The provider can retire it, forcing you to move and retest
+- You must maintain the GPUs yourself
+- The weights may be deleted from your laptop
+- It stops working when your computer is off
+= Closed models are withdrawn on the provider's schedule, and replacements can behave differently.
+
+@@ sll_onLprK2Ye_C_ | A6.2 Closed vs. Open-Weight Models > Open-Weight Models
+## Llama, DeepSeek, Mistral, and Qwen: what each is good at
+~m
+Several families lead the open-weight field, each released by a different organisation.
+
+Llama, from Meta, is the best known, with the widest ecosystem of tools and guides. Mistral, a French company, offers efficient models and a European base, which matters to some customers. DeepSeek, from China, drew attention for strong reasoning and coding at low cost. Qwen, from Alibaba, comes in many sizes and is strong across languages. Google's Gemma and Microsoft's Phi are small models worth knowing.
+
+The standings move even faster here than among closed models. So learn the families as a shortlist, and check a current comparison site before choosing.
+?? What is a sensible way to use your knowledge of open-weight model families?
++ As a shortlist to check against current comparisons before choosing
+- As a permanent ranking that never changes
+- As proof that open models are all the same
+- As a reason never to test
+= Open-weight rankings shift rapidly, so the families give you candidates, not a final answer.
+## Open weights vs. open source: always read the licence
+"Open" is used loosely, and the differences matter.
+
+Open weights means the trained model files are published and you can download and run them. That is all it means.
+
+Open source, in the proper sense, means you may use, change and share the thing for any purpose. Many open-weight models do not go that far. The training data and training code are usually not released, and the licence may carry conditions.
+
+Think of a restaurant that hands you the finished dish to take home, compared with one that gives you the recipe and lets you sell it.
+
+The only way to know what you have is the licence text. "It is on the internet" is not permission.
+?? What does "open weights" guarantee?
++ Only that the model files are available to download and run
+- That you may use it for any purpose without conditions
+- That the training data is public
+- That the model is free of errors
+= Open weights means the files are published. What you may do with them depends on the licence.
+## Licences can limit large companies or certain uses; check each one
+~m
+Model licences vary a great deal, and the conditions can bite.
+
+Some are fully permissive, such as Apache 2.0 and MIT: use them commercially, change them, no strings beyond giving credit.
+
+Others are custom "community" licences with conditions. Typical ones: limits above a certain number of users or amount of revenue, bans on particular uses, rules about naming, or "research only, no commercial use".
+
+The same family can use different licences for different versions and sizes, so last year's check does not cover this year's release.
+
+Read it like a rental agreement before moving in. For client or commercial work, record which model, which version and which licence you relied on.
+?? Why must you check the licence for each specific model version?
++ Terms differ between models and versions and may restrict commercial or certain uses
+- Licences are identical for all models
+- Licences only matter for images
+- A licence is only a marketing document
+= Conditions vary by model and release, so permission for one does not carry over to another.
+## Sizes: small models run on a laptop; the largest need data-centre hardware
+Open models come in sizes, counted in parameters, and size decides where they can run.
+
+Small, up to about 8 billion parameters: runs on a good laptop or even a phone. Quick, private and limited.
+
+Medium, tens of billions: needs a strong desktop with a serious graphics card, or a rented cloud machine.
+
+Large, hundreds of billions: needs several data-centre GPUs, each costing as much as a car.
+
+The thing to check is memory. The model has to fit in the graphics card's memory. A trick called quantisation shrinks a model by storing its numbers less precisely, like saving a photo as a smaller JPEG. You lose a little quality and it fits on cheaper hardware.
+?? What does quantisation do to a model?
++ Shrinks its memory needs by storing weights with less precision, at a small cost in quality
+- Makes it more accurate than the original
+- Converts it to a closed model
+- Adds more parameters
+= Lower-precision numbers make the model smaller and cheaper to run, with a modest quality loss.
+## Strengths: control, privacy, lower cost at volume, and fine-tuning
+Open-weight models earn their place in four situations.
+
+Control: the model does not change unless you change it. No surprise retirement and no silent update.
+
+Privacy: run it on your own machines and no data leaves the building. For some clients and regulators that settles the matter.
+
+Cost at volume: for steady, heavy workloads, running your own can beat paying per token. At low volume it is usually dearer.
+
+Fine-tuning: you can retrain the model freely on your own data.
+
+It is owning a van instead of using couriers. If you ship all day every day, it makes sense. For one parcel a week, it does not.
+?? When is running an open-weight model most likely to save money?
++ With steady, high-volume workloads
+- With a few requests a month
+- When you have no hardware and no staff time
+- Never, under any circumstances
+= Fixed hardware costs pay off only when usage is high and consistent enough to beat per-token pricing.
+## Weaknesses: you own the setup, updates, and safety
+With an open model, everything the provider used to do becomes your job.
+
+Setup: choosing hardware, installing the serving software, getting acceptable speed. Operations: keeping it running, handling busy periods, fixing it at night. Updates: nobody improves your copy, so better versions are yours to find, test and install. Safety: the filters and abuse monitoring a provider bundles in are yours to add.
+
+And for the hardest tasks, the best open model usually trails the best closed one.
+
+It is owning a house instead of renting. Nobody raises the rent, and when the boiler fails, you are the one who gets the call.
+
+The token price may be zero. The engineer's time is not.
+?? What is a hidden cost of running an open-weight model yourself?
++ The staff time for setup, operations, updates and safety measures
+- A fee per download
+- A higher price per token from the provider
+- A legal requirement to publish your data
+= Self-hosting moves operational and safety work to you, which costs time even when the model is free.
+
+@@ sll_FLKVXUxJ3RBT | A6.2 Closed vs. Open-Weight Models > The Host Decides Where Data Goes
+## The same open model can run on many hosts, including your own machine
+Because the weights are public, an open model is not tied to one company. The same model can run in several places at once.
+
+On your laptop, with a tool such as Ollama. On your company's servers. On a big cloud platform. On a specialist host that rents it by the token, like a closed API.
+
+The model is identical in each. What differs is everything round it: speed, price, reliability, and where your data goes.
+
+Think of a recipe that any kitchen can cook. The dish is the same. Whether you eat at home, at a restaurant or from a van changes the price, the wait and who sees your order.
+?? If the same open model runs on your laptop and on a cloud host, what differs?
++ Speed, price and where your data travels
+- The model's weights
+- The model's training data
+- Nothing at all
+= The model is identical, but the host decides performance, cost and data handling.
+## Check where a hosted model runs before client data goes in
+Before any client or sensitive data goes into a hosted model, find out where it will physically be processed.
+
+It matters for two reasons. The law: rules such as GDPR restrict sending personal data to some countries, and certain sectors require data to stay in a named region. Contracts: your client may have promised their own customers that data stays in the UK or the EU, and you inherit that promise.
+
+Most serious hosts let you choose a region and publish where their servers are.
+
+Think of posting confidential papers. You would want to know which countries the parcel passes through before you seal it.
+
+"Somewhere in the cloud" is not an answer you can give a client.
+?? Why find out which region a hosted model runs in before sending client data?
++ Laws and client contracts can restrict where data may be processed
+- Models are more accurate in some regions
+- Tokens are a different size in each country
+- It changes the model's knowledge cutoff
+= Data protection rules and contractual promises often require processing to stay in particular regions.
+## Where a model was built and where it runs are separate questions
+People often mix up two different things: who made the model, and who is running it.
+
+A model developed in one country can be downloaded and run in another, on your own hardware, with no connection to its maker. Your prompts go to whoever runs the computer, not to whoever trained the weights. A model file is just numbers. It does not phone home.
+
+The reverse also holds. Using a company's own app or API sends your data to that company's servers, wherever those are.
+
+A book printed abroad and read at your kitchen table tells the printer nothing. Reading it in the printer's own reading room is a different matter.
+
+So ask two questions: who built it, and who hosts it?
+?? You run an open model developed abroad on your own server. Where do your prompts go?
++ Nowhere beyond your own server
+- To the company that trained the model
+- To every user of the same model
+- To a public leaderboard
+= Data goes to whoever operates the hardware. A self-hosted model file does not send prompts to its maker.
+## Ask: who can see prompts, are they stored, and are they used for training?
+Three questions cut through every provider's privacy page.
+
+Who can see the prompts? Can staff read them, and if so when: for abuse checks, for support, never?
+
+Are they stored? For how long: not at all, 30 days, indefinitely? Can you ask for deletion, or for no storage?
+
+Are they used for training? Will your data be used to improve future models? If so, pieces of it could in principle show up in someone else's answers.
+
+It is like handing documents to an outside firm. Who reads them, how long are they kept, and will they be reused?
+
+If a provider cannot answer all three clearly, treat that as the answer.
+?? Which question matters when judging a provider's handling of your data?
++ Whether your prompts are used to train future models
+- What colour the dashboard is
+- How many employees the provider has
+- Which font the documentation uses
+= Use in training, along with who can see prompts and how long they are kept, determines the privacy risk.
+## Business and API plans usually treat data differently from consumer apps
+~m
+The same company often applies different data rules to different products.
+
+Consumer apps, especially free ones, may use your conversations to improve the models unless you opt out in the settings.
+
+Business plans and developer APIs usually promise the opposite by default: your data is not used for training, storage is limited, and there are administrator controls and a signed data agreement.
+
+It is the difference between a free email account and a paid business one with a contract.
+
+So "we use that chatbot at work" hides a real question: on which plan? An employee pasting client data into a personal free account is a very different situation from the same model on a business plan.
+
+Check the current terms. They change.
+?? Why does it matter which plan a team uses for the same AI model?
++ Consumer and business plans often have different rules on training and storage of your data
+- The model is a different size on each plan
+- Business plans have no usage limits of any kind
+- Consumer plans cannot be used in the evening
+= Providers commonly train on consumer conversations by default but exclude business and API data.
+## Get the answers in writing for client work
+For client work, a verbal assurance or a line on a marketing page is not enough. You need documents.
+
+The main one is a data processing agreement, or DPA: a contract stating what the provider does with data, where, for how long and with which safeguards. Add the provider's terms of service and its published list of subcontractors.
+
+Save copies with the date. Web pages change, and "the site said so last year" is hard to prove.
+
+It is like a builder's quote. A friendly promise is pleasant. The signed paper is what counts when something goes wrong.
+
+When a client asks "where does our data go?", you can then hand over an answer instead of an opinion.
+?? What is a data processing agreement (DPA)?
++ A contract setting out how a provider handles your data
+- A tool for counting tokens
+- A type of model licence for open weights
+- A marketing brochure
+= A DPA is the written, binding commitment about data handling that client work normally requires.
+
+@@ sll_-FzJZoj3nr8v | A6.3 Paid vs. Cheap > How AI Is Sold
+## Consumer apps vs. developer APIs vs. business plans
+The same model is sold three ways, for three kinds of buyer.
+
+Consumer apps are chat products for individuals, usually a flat monthly fee. You type and it answers. Nothing connects to your own software.
+
+Developer APIs are for building things. Your code sends requests and is billed for exactly what it uses, by the token.
+
+Business plans are the app for a whole team, with what companies need: central billing, administrator controls, stronger privacy terms and single sign-on.
+
+Think of water. You can buy a bottle, connect to the mains with a meter, or sign a commercial supply contract.
+
+"Should we buy the subscription?" has no answer until you know which of these you need.
+?? Which way of buying AI is meant for connecting a model to your own software?
++ A developer API
+- A consumer chat app
+- A printed manual
+- A gift card
+= APIs let code send requests to the model and are billed by usage.
+## Pay per token vs. flat subscription
+There are two pricing models, and they suit opposite situations.
+
+A flat subscription is a fixed monthly fee for use within limits. The cost is predictable. It suits a person using a chat app through the day.
+
+Pay per token charges for exactly what you use. Low use costs pennies. Heavy use scales without a ceiling. It suits software, where volume varies and every request can be counted.
+
+It is a phone contract against pay-as-you-go.
+
+The trap with metered billing is surprise. A bug that calls the model in a loop, or a feature that suddenly becomes popular, can produce a large bill overnight. Set a spending limit and an alert before you launch anything.
+?? What should you set up before launching anything on pay-per-token pricing?
++ Spending limits and alerts
+- A second subscription
+- A larger context window
+- A new company logo
+= Metered usage can spike from bugs or popularity, so caps and alerts prevent a surprise bill.
+## Price per million input and output tokens
+~m
+API prices are quoted per million tokens, with separate rates for input, what you send, and output, what the model writes.
+
+A million tokens is about 750,000 words, or eight to ten novels.
+
+A worked example. Suppose a model costs 3 dollars per million input tokens and 15 per million output tokens. A request with 2,000 tokens in and 500 out costs 0.006 plus 0.0075, about one and a third cents.
+
+That is tiny. A hundred thousand such requests a month is about 1,350 dollars.
+
+So the method is always the same: tokens per request, times requests, times price. Actual prices vary enormously between tiers and change often, so look up current figures.
+?? How do you estimate monthly API cost?
++ Tokens per request, times the number of requests, times the price per token
+- Count the users and guess
+- Multiply the context window by the temperature
+- Divide the model size by its age
+= Cost is usage multiplied by price, with input and output tokens priced separately.
+## Output tokens cost more than input tokens
+On almost every price list, output tokens cost several times more than input tokens. Three to five times is common.
+
+The reason is how the model works. It can read your whole input in a single parallel pass. Writing is different: each output token needs its own pass, one after another. Reading is cheap and writing is slow.
+
+Think of a consultant who skims your 50-page report in minutes and then bills for the hours spent writing the reply.
+
+This shapes design. Feeding in a long document is relatively cheap. Asking for a long answer is relatively expensive, and slow too. So ask for what you need: "reply with only the category name" costs far less than an essay.
+?? Why do output tokens usually cost more than input tokens?
++ Each output token must be generated one at a time, which takes more computation
+- Output tokens are longer words
+- Providers dislike long answers
+- Input tokens are not processed at all
+= Input is processed in parallel, while every output token needs its own sequential step.
+## Prompt caching and batch discounts lower the bill
+~m
+Providers offer two standard discounts that many teams never switch on.
+
+Prompt caching. If many requests begin with the same long text, such as the same instructions or the same reference document, the provider can remember that part after the first time. Later requests are charged a fraction for it, and they run faster.
+
+Batch processing. If you do not need answers at once, you can submit a large job to be done within about a day, commonly at around half price.
+
+It is the regular's discount and the off-peak fare.
+
+Both need a little setup: stable content at the start of the prompt for caching, and patience for batches. Check the current rules for your provider.
+?? When does prompt caching save money?
++ When many requests share the same long opening text
+- When every request is completely different
+- When no instructions are ever sent
+- Only when the model is offline
+= Caching discounts the repeated prefix, so shared instructions or documents are billed at a reduced rate.
+## Free tiers are for testing, not for production
+Most providers let you try their models free. It is the right way to experiment and the wrong thing to build a business on.
+
+Free tiers have low rate limits, a handful of requests per minute, so they fail once real users arrive. They carry no promise of availability. They can change or vanish without notice. And the data terms are often weaker: your inputs may be used for training.
+
+Think of the free samples at a supermarket. They are perfect for deciding what to buy and useless for catering a wedding.
+
+Use the free tier to learn and to prototype. Before real users or real client data are involved, move to a paid plan with proper terms.
+?? Why is a free tier unsuitable for a live business system?
++ Low limits, no reliability guarantee and often weaker data terms
+- Free models are always less accurate
+- Free tiers cannot process text
+- It is illegal to use free tiers
+= Free access is throttled and unguaranteed, and inputs may be used for training.
+
+@@ sll_jKYVQHW3pzUW | A6.3 Paid vs. Cheap > Getting Cost Down
+## Use a small model for easy steps
+The biggest saving in most AI systems comes from one habit: send each step to the cheapest model that can do it well.
+
+Many steps are easy. Is this email a complaint or a question? Pull the date out of this text. Is this reply polite? A small model handles those as well as the flagship, at a tenth of the price or less, and faster.
+
+Keep the expensive model for the hard part: the judgement call, the tricky draft.
+
+A hospital works this way. The receptionist books appointments, the nurse takes blood pressure, and the consultant sees you only for what needs a consultant.
+
+Systems built like this often cut their bills by more than half with no loss in quality.
+?? What is the principle behind using small models for easy steps?
++ Match each step to the cheapest model that does it well enough
+- Always use the largest model, to be safe
+- Use one model for everything, so it is simpler
+- Avoid testing the small model
+= Easy steps do not need expensive models, so routing by difficulty cuts cost without hurting quality.
+## Open-weight models on low-cost hosts for high-volume work
+~m
+You do not have to run an open model yourself to benefit from it. Many hosting companies run popular open models and sell access by the token, like any API.
+
+Because several hosts compete to serve the same model, prices are pushed low, often well below closed models of comparable ability.
+
+This suits work that is large in volume and moderate in difficulty: summarising thousands of reviews, tagging documents, pulling fields from forms.
+
+Think of generic medicines. The formula is the same, several makers compete, and the price drops.
+
+The trade-offs: quality may be a step below the best closed models, and you must check each host's data terms and reliability yourself. Test first.
+?? Why are open-weight models on hosted services often cheap?
++ Several hosts compete to serve the same model
+- They are always less accurate, so nobody wants them
+- Hosting them is illegal
+- They can only be used once
+= Any host can offer an open model, and that competition drives the price per token down.
+## Batch jobs that can wait
+Not everything needs an answer in two seconds. Sorting last month's support tickets, summarising a backlog of documents, producing product descriptions for a catalogue: tomorrow morning is fine for all of them.
+
+For that kind of work, use the provider's batch service. You hand over the whole job as a file. It is processed when the provider has spare capacity, and the results come back within about a day, commonly at around half price.
+
+It is economy post instead of a courier. The parcel is the same and it arrives a little later for far less.
+
+So for each use of a model, ask: does someone need this right now? If nobody is waiting on a screen, it is probably a batch job.
+?? Which task is a good candidate for batch processing?
++ Summarising 10,000 archived documents by tomorrow
+- A live chat with a waiting customer
+- Voice replies during a phone call
+- Autocomplete while someone types
+= Work with no one waiting can be delayed, which qualifies it for the cheaper batch rate.
+## Running open models locally with Ollama or LM Studio
+~m
+You can run an open model on your own computer with free tools that make it nearly as easy as installing an app.
+
+Ollama runs models from the command line and gives your own code a local API to call. LM Studio offers a desktop app with a chat window and a model browser. Both download a model and handle the setup.
+
+Once it is installed, the model works with no internet connection. Nothing you type leaves the machine.
+
+Think of a calculator in your drawer instead of one on a website.
+
+It is ideal for learning, for experiments and for private drafts. Be realistic about ability, though: a laptop model is noticeably weaker than the big hosted ones.
+?? What is a key benefit of running a model locally with a tool such as Ollama?
++ Your data stays on your own machine
+- It is more capable than the largest hosted models
+- It needs no hardware
+- It updates itself with today's news
+= A local model processes everything on your computer, so prompts never leave it.
+## Local costs hardware and time, not tokens
+"Running locally is free" is half true. There is no bill per token. There are other bills.
+
+Hardware: a machine with enough memory and a capable graphics card, from a good laptop to a workstation costing thousands. Electricity. And time, the largest item: installing, troubleshooting, updating and waiting on slower answers.
+
+It is growing your own vegetables. There is no price at the till, but there are seeds, tools, water and many evenings in the garden.
+
+For occasional private use, the machine you already own is fine. For anything bigger, do the sum honestly: hardware plus hours against what the same work would cost through an API. At low volume the API often wins comfortably.
+?? What is the largest hidden cost of running models locally?
++ The time spent on setup, maintenance and slower answers
+- The fee per token
+- The licence fee for electricity
+- The cost of internet data
+= Local use removes token charges but adds hardware and, above all, staff time.
+## Cheaper models need clearer prompts and tighter checks
+A cheaper model is less forgiving. It does not fill gaps or read between the lines as well as a top one.
+
+So moving down a tier is not only a setting change. It needs two supporting changes.
+
+Clearer prompts: spell out the steps, give examples of good output and state the format exactly. A hint is enough for a flagship. A small model needs it written down.
+
+Tighter checks: validate the output automatically. Is it valid JSON? Is the category one of the allowed five? If not, retry, or pass it up to a stronger model.
+
+Think of a junior employee. They do good work with a clear checklist and a quick review, and poor work from a vague instruction shouted across the room.
+?? What should accompany a move to a cheaper model?
++ More explicit prompts and automatic checks on the output
+- Vaguer instructions, to save tokens
+- Removing all validation
+- A higher temperature
+= Smaller models need precise instructions and verification to keep quality acceptable.
+
+@@ sll_FbNPu9FkXRp_ | A6.3 Paid vs. Cheap > Cost Reality Check
+## Cost per 1,000 completed tasks, not per token
+The price per token is the number on the provider's website. It is not the number that matters to your business.
+
+What matters is the cost of a finished task: a ticket resolved, an invoice processed, a report written.
+
+One task may take several model calls, long prompts and a retry or two. A model that is half the price per token and needs three times as many tokens to get there is more expensive.
+
+It is comparing cars by the price of fuel per litre while ignoring how far each goes on a litre.
+
+So measure this: run 1,000 real tasks, add up everything spent, and divide. Compare models on that figure.
+?? Which measure best compares the real cost of two models?
++ Cost per completed task
+- Price per token alone
+- The size of the context window
+- The number of parameters
+= A task can need many calls and retries, so only the total cost per finished task shows which is cheaper.
+## Count retries, failed runs, and human review time
+The token bill is only part of what an AI process costs. Three other items belong in the sum.
+
+Retries: when the output is malformed or wrong and the system tries again, you pay again.
+
+Failed runs: a task abandoned halfway still used tokens and produced nothing.
+
+Human review: the biggest item, and the one most often left out. If a person spends three minutes checking and correcting each output, that labour dwarfs the pennies of model cost.
+
+It is the true cost of a cheap printer once you count the ink and the paper jams.
+
+A model that costs twice as much and needs half the human correction is usually the bargain.
+?? Which cost is most often overlooked when pricing an AI workflow?
++ The time people spend reviewing and correcting outputs
+- The price of input tokens
+- The price of output tokens
+- The subscription to a leaderboard
+= Human review time usually costs far more than tokens and is frequently left out of the comparison.
+## The cheapest model that passes your evals wins
+Here is a clean rule for choosing a model, and it settles a lot of arguments.
+
+First decide what "good enough" means and turn it into a test: a set of real examples with a pass mark. That is your eval.
+
+Then run the candidates, starting with the cheapest. The first one that passes is your model.
+
+Notice what the rule leaves out. It does not ask which model is best, newest or most impressive. Past the pass mark, extra capability is money spent on nothing.
+
+It is hiring to a job description. You need someone who can do this job well, not the most decorated person on earth.
+
+And without an eval there is nothing to pass, which is why evals come first.
+?? According to this rule, which model should you choose?
++ The least expensive one that meets your quality bar on your own tests
+- The highest on a public leaderboard
+- The most expensive, to be safe
+- The one released most recently
+= Once a model meets the required quality on your eval, further capability adds cost without benefit.
+## Paying more is worth it only if the value rises with the cost
+A more expensive model is justified when the extra quality is worth more than the extra money. That depends entirely on the task.
+
+Drafting a legal clause where one error could cost thousands: pay for the best. A few extra pennies per request is nothing against the risk.
+
+Tagging a million product reviews as positive or negative, where 96% and 98% accuracy lead to the same business decision: the premium buys nothing.
+
+You insure a house and not a pencil.
+
+So ask: what does a mistake cost here, and what is a better answer worth? Stakes and value decide the tier, not habit and not the wish to have "the best".
+?? When is paying for a more expensive model justified?
++ When errors are costly or the better quality creates more value than it costs
+- Always
+- Never
+- Only when the provider recommends it
+= The premium makes sense when the stakes or the added value outweigh the extra spend.
+## Re-run the comparison whenever prices drop
+A cost decision is a snapshot. When prices change, and they change often, the snapshot is out of date.
+
+The model you rejected as too expensive six months ago may now cost half as much. A new small model may now pass a test that only a large one used to pass. Either can cut your bill sharply for the same quality.
+
+Rerunning is cheap if you kept your eval. Point the test set at the new model or the new price, and the answer is there in minutes.
+
+It is checking whether your energy deal is still the best available.
+
+Teams that never look again end up paying last year's price for last year's quality.
+?? What makes it quick to re-evaluate model choices after a price change?
++ Having a saved eval set you can rerun
+- Having no tests at all
+- Rewriting the whole application
+- Waiting for the provider to phone you
+= A reusable test set lets you compare new prices and models in minutes.

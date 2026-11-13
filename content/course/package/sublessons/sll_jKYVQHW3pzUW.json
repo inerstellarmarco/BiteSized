@@ -1,0 +1,253 @@
+{
+  "id": "sll_jKYVQHW3pzUW",
+  "title": "Getting Cost Down",
+  "bites": [
+    {
+      "id": "bit_EhbuifLRNArB",
+      "title": "Use a small model for easy steps",
+      "body": "The biggest saving in most AI systems comes from one habit: send each step to the cheapest model that can do it well.\n\nMany steps are easy. Is this email a complaint or a question? Pull the date out of this text. Is this reply polite? A small model handles those as well as the flagship, at a tenth of the price or less, and faster.\n\nKeep the expensive model for the hard part: the judgement call, the tricky draft.\n\nA hospital works this way. The receptionist books appointments, the nurse takes blood pressure, and the consultant sees you only for what needs a consultant.\n\nSystems built like this often cut their bills by more than half with no loss in quality.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_3hqdnxD7QosD",
+          "targetCode": "B9.1",
+          "label": "see B9.1",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_EhbuifLRNArB_1",
+          "type": "multiple_choice",
+          "prompt": "What is the principle behind using small models for easy steps?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Always use the largest model, to be safe"
+            },
+            {
+              "id": "b",
+              "text": "Match each step to the cheapest model that does it well enough"
+            },
+            {
+              "id": "c",
+              "text": "Use one model for everything, so it is simpler"
+            },
+            {
+              "id": "d",
+              "text": "Avoid testing the small model"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Easy steps do not need expensive models, so routing by difficulty cuts cost without hurting quality.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_v5UEuiH1hCnk",
+      "title": "Open-weight models on low-cost hosts for high-volume work",
+      "body": "You do not have to run an open model yourself to benefit from it. Many hosting companies run popular open models and sell access by the token, like any API.\n\nBecause several hosts compete to serve the same model, prices are pushed low, often well below closed models of comparable ability.\n\nThis suits work that is large in volume and moderate in difficulty: summarising thousands of reviews, tagging documents, pulling fields from forms.\n\nThink of generic medicines. The formula is the same, several makers compete, and the price drops.\n\nThe trade-offs: quality may be a step below the best closed models, and you must check each host's data terms and reliability yourself. Test first.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_v5UEuiH1hCnk_1",
+          "type": "multiple_choice",
+          "prompt": "Why are open-weight models on hosted services often cheap?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They are always less accurate, so nobody wants them"
+            },
+            {
+              "id": "b",
+              "text": "Several hosts compete to serve the same model"
+            },
+            {
+              "id": "c",
+              "text": "Hosting them is illegal"
+            },
+            {
+              "id": "d",
+              "text": "They can only be used once"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Any host can offer an open model, and that competition drives the price per token down.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_cGxhjv6oxh8U",
+      "title": "Batch jobs that can wait",
+      "body": "Not everything needs an answer in two seconds. Sorting last month's support tickets, summarising a backlog of documents, producing product descriptions for a catalogue: tomorrow morning is fine for all of them.\n\nFor that kind of work, use the provider's batch service. You hand over the whole job as a file. It is processed when the provider has spare capacity, and the results come back within about a day, commonly at around half price.\n\nIt is economy post instead of a courier. The parcel is the same and it arrives a little later for far less.\n\nSo for each use of a model, ask: does someone need this right now? If nobody is waiting on a screen, it is probably a batch job.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_cGxhjv6oxh8U_1",
+          "type": "multiple_choice",
+          "prompt": "Which task is a good candidate for batch processing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A live chat with a waiting customer"
+            },
+            {
+              "id": "b",
+              "text": "Voice replies during a phone call"
+            },
+            {
+              "id": "c",
+              "text": "Autocomplete while someone types"
+            },
+            {
+              "id": "d",
+              "text": "Summarising 10,000 archived documents by tomorrow"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Work with no one waiting can be delayed, which qualifies it for the cheaper batch rate.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_yfMjRYWwQ58S",
+      "title": "Running open models locally with Ollama or LM Studio",
+      "body": "You can run an open model on your own computer with free tools that make it nearly as easy as installing an app.\n\nOllama runs models from the command line and gives your own code a local API to call. LM Studio offers a desktop app with a chat window and a model browser. Both download a model and handle the setup.\n\nOnce it is installed, the model works with no internet connection. Nothing you type leaves the machine.\n\nThink of a calculator in your drawer instead of one on a website.\n\nIt is ideal for learning, for experiments and for private drafts. Be realistic about ability, though: a laptop model is noticeably weaker than the big hosted ones.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_yfMjRYWwQ58S_1",
+          "type": "multiple_choice",
+          "prompt": "What is a key benefit of running a model locally with a tool such as Ollama?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It is more capable than the largest hosted models"
+            },
+            {
+              "id": "b",
+              "text": "Your data stays on your own machine"
+            },
+            {
+              "id": "c",
+              "text": "It needs no hardware"
+            },
+            {
+              "id": "d",
+              "text": "It updates itself with today's news"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A local model processes everything on your computer, so prompts never leave it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_HC5orVJ17c1Z",
+      "title": "Local costs hardware and time, not tokens",
+      "body": "\"Running locally is free\" is half true. There is no bill per token. There are other bills.\n\nHardware: a machine with enough memory and a capable graphics card, from a good laptop to a workstation costing thousands. Electricity. And time, the largest item: installing, troubleshooting, updating and waiting on slower answers.\n\nIt is growing your own vegetables. There is no price at the till, but there are seeds, tools, water and many evenings in the garden.\n\nFor occasional private use, the machine you already own is fine. For anything bigger, do the sum honestly: hardware plus hours against what the same work would cost through an API. At low volume the API often wins comfortably.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_HC5orVJ17c1Z_1",
+          "type": "multiple_choice",
+          "prompt": "What is the largest hidden cost of running models locally?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The time spent on setup, maintenance and slower answers"
+            },
+            {
+              "id": "b",
+              "text": "The fee per token"
+            },
+            {
+              "id": "c",
+              "text": "The licence fee for electricity"
+            },
+            {
+              "id": "d",
+              "text": "The cost of internet data"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Local use removes token charges but adds hardware and, above all, staff time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_ouo5877KA24t",
+      "title": "Cheaper models need clearer prompts and tighter checks",
+      "body": "A cheaper model is less forgiving. It does not fill gaps or read between the lines as well as a top one.\n\nSo moving down a tier is not only a setting change. It needs two supporting changes.\n\nClearer prompts: spell out the steps, give examples of good output and state the format exactly. A hint is enough for a flagship. A small model needs it written down.\n\nTighter checks: validate the output automatically. Is it valid JSON? Is the category one of the allowed five? If not, retry, or pass it up to a stronger model.\n\nThink of a junior employee. They do good work with a clear checklist and a quick review, and poor work from a vague instruction shouted across the room.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_ouo5877KA24t_1",
+          "type": "multiple_choice",
+          "prompt": "What should accompany a move to a cheaper model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Vaguer instructions, to save tokens"
+            },
+            {
+              "id": "b",
+              "text": "More explicit prompts and automatic checks on the output"
+            },
+            {
+              "id": "c",
+              "text": "Removing all validation"
+            },
+            {
+              "id": "d",
+              "text": "A higher temperature"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Smaller models need precise instructions and verification to keep quality acceptable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

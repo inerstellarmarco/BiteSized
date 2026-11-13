@@ -1,0 +1,206 @@
+{
+  "id": "sll_Mz486evL94DB",
+  "title": "Embeddings",
+  "bites": [
+    {
+      "id": "bit_p8RVhU9OI7-A",
+      "title": "Words as vectors",
+      "body": "To a computer, the word \"cat\" is just an arbitrary label. Nothing about it says it is closer to \"kitten\" than to \"carburettor\".\n\nAn embedding fixes that by giving each word a vector, a list of numbers that works as coordinates on a map of meaning. \"Cat\" and \"kitten\" land near each other. \"Carburettor\" lands far away.\n\nThink of a map of cities. From the coordinates alone you can tell that Leeds and Bradford are close, and that both are far from Sydney.\n\nThese positions are learned from vast amounts of text, on a simple principle: words that appear in similar contexts get similar vectors. \"You shall know a word by the company it keeps.\"",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_p8RVhU9OI7-A_1",
+          "type": "multiple_choice",
+          "prompt": "What does a word embedding capture?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The word's meaning, as a position where similar words are nearby"
+            },
+            {
+              "id": "b",
+              "text": "The word's length in letters"
+            },
+            {
+              "id": "c",
+              "text": "The word's place in the alphabet"
+            },
+            {
+              "id": "d",
+              "text": "How often the word is misspelt"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Embeddings place words in a space so that those with related meanings sit close together.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_qePL05ELb2Qy",
+      "title": "Meaning in latent space",
+      "body": "An embedding space has far more than two dimensions. It often has hundreds or thousands, and each one captures some shade of meaning.\n\nYou cannot picture a thousand dimensions, but you can picture the idea. Describe a film with sliders: how funny, how scary, how long, how romantic. Twenty sliders already pin a film down quite well. Films with similar slider settings are similar films.\n\nAn embedding is a thousand such sliders. The difference is that the model invented them, and most have no neat human name.\n\nThis is where an LLM does its thinking. Text is converted into this space, worked on there, and converted back into words at the end.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_qePL05ELb2Qy_1",
+          "type": "multiple_choice",
+          "prompt": "Why do embeddings use hundreds or thousands of dimensions?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To make the files bigger"
+            },
+            {
+              "id": "b",
+              "text": "Because each dimension is one letter"
+            },
+            {
+              "id": "c",
+              "text": "To slow down competitors"
+            },
+            {
+              "id": "d",
+              "text": "To capture many different aspects of meaning at once"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Each dimension can encode some learned aspect of meaning, and many are needed to represent language richly.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_7FeuQLgiN6NI",
+      "title": "A separate model, trained for the job, produces embeddings",
+      "body": "When you need embeddings for search or retrieval, you do not use the chat model. You call an embedding model, a separate and smaller model built for one purpose: text in, vector out.\n\nIt writes no sentences. Its only output is the list of numbers.\n\nThese models are trained specifically so that texts with similar meaning get nearby vectors. They are much cheaper and faster than chat models, which matters when you need to embed a million documents.\n\nOne firm rule: vectors from different embedding models are not compatible. It is like mixing two map systems with different grids. Pick one model, and if you change it later, re-embed everything.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_7FeuQLgiN6NI_1",
+          "type": "multiple_choice",
+          "prompt": "Why can you not mix embeddings from two different embedding models in one search index?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It is against the law"
+            },
+            {
+              "id": "b",
+              "text": "The files have different names"
+            },
+            {
+              "id": "c",
+              "text": "Each model has its own space, so their vectors are not comparable"
+            },
+            {
+              "id": "d",
+              "text": "Embeddings expire after a day"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Positions only have meaning inside the space of the model that made them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_qkSnXGgoj4na",
+      "title": "Whole sentences and documents can be embedded, not only words",
+      "body": "Embeddings are not limited to single words. A sentence, a paragraph or a whole page can be turned into one vector that stands for its overall meaning.\n\n\"How do I get my money back?\" and \"What is your refund policy?\" share almost no words, and their vectors sit close together because they mean nearly the same thing.\n\nThat is what makes embeddings practical. You embed each chunk of your documents once and store the vectors. When a question comes in, you embed it and find the nearest chunks.\n\nOne limit: a single vector for a very long text is a blurry summary, like one photo of a whole city. That is why documents are split into chunks first.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_qkSnXGgoj4na_1",
+          "type": "multiple_choice",
+          "prompt": "Why are long documents split into chunks before embedding?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "One vector for a long text blurs its many topics together"
+            },
+            {
+              "id": "b",
+              "text": "Embedding models can only read one word"
+            },
+            {
+              "id": "c",
+              "text": "Chunks are cheaper to print"
+            },
+            {
+              "id": "d",
+              "text": "To make the document secret"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A single vector cannot represent many separate ideas well, so smaller chunks give sharper matches.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_pr9myX0WyHUs",
+      "title": "Directions in the space can capture relationships",
+      "body": "Nearness is not the only thing an embedding space encodes. Directions carry meaning too.\n\nThe famous example: take the vector for \"king\", subtract \"man\", add \"woman\", and you arrive close to \"queen\". The step from man to woman is roughly the same step as from king to queen. A direction in the space behaves like \"gender\".\n\nOther directions act like \"capital city of\" (France to Paris, Japan to Tokyo) or \"past tense\" (walk to walked).\n\nNobody programmed these in. They fell out of learning from text.\n\nA caution: the tidy examples are the well-behaved ones. Real spaces are messier, and they also pick up the biases of the text they learned from.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_pr9myX0WyHUs_1",
+          "type": "multiple_choice",
+          "prompt": "\"King minus man plus woman is close to queen\" shows that embedding spaces:",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Capture relationships as consistent directions"
+            },
+            {
+              "id": "b",
+              "text": "Can do arithmetic on royal families"
+            },
+            {
+              "id": "c",
+              "text": "Store a dictionary definition for each word"
+            },
+            {
+              "id": "d",
+              "text": "Only work for four words"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The offset between related words is similar across pairs, so relationships appear as directions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

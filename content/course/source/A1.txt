@@ -1,0 +1,1050 @@
+// A1 Python Concepts for AI-Assisted Development
+@@ sll_a1_1_1 | A1.1 Core Programming Concepts > Data Types & Structures
+-- Strings, numbers, and booleans
+-- Lists, dictionaries, sets, and tuples
+-- Mutability
+## Strings, numbers, booleans
+Every value in Python has a type, and the type decides what you can do with it. Think of containers in a kitchen: a jug holds liquid, a tin holds biscuits, and you would not pour soup into the biscuit tin.
+
+A string is text in quotes, like "hello". Numbers come as whole numbers (2) or decimals (2.5). A boolean is only True or False, with a capital letter and no quotes.
+
+The catch: "True" in quotes is text, not a boolean. When you read AI-written code, name the type of each value before you trust how it is used.
+?? Which of these is a boolean?
++ True
+- "True"
+- "yes"
+- 1.0
+= True and False, capitalised and without quotes, are the booleans. "True" in quotes is a string that only looks like one.
+## Lists, dictionaries, sets, tuples
+These are Python's four everyday ways to hold many values.
+
+A list is a numbered queue: ["red", "blue"]. Order matters and you can change it. A tuple is a list that is sealed after it is made: ("red", "blue"). A dictionary is a labelled filing cabinet: {"name": "Eric"}, where you look things up by key. A set is a bag of unique items: add "red" twice and it holds one.
+
+Choosing between them is a real decision. Code that uses a list to check "have I seen this before?" works, but gets slow as it grows. A set answers that question instantly.
+?? You need to look up a person's score by their name. Which structure fits best?
++ A dictionary
+- A set
+- A tuple
+- A single string
+= A dictionary stores a value under a key, so the name can point straight at the score.
+## Mutability (concept)
+Mutable means "can be changed in place". Lists, dictionaries and sets are mutable. Strings and tuples are not: any "change" quietly builds a new value.
+
+Here is why it matters. Picture a shared online document. If you send a friend the link, you both edit the same document. In Python, b = a on a list hands over the link, not a photocopy. Change b and a changes too.
+
+This is a classic surprise in generated code. When you truly need a separate copy, the code should say so with a.copy().
+?? a is a list and you write b = a, then add an item to b. What happens to a?
++ It gains the item too, because both names point at the same list
+- Nothing, because b is an independent copy
+- Python raises an error
+- a becomes a tuple
+= Assignment gives a second name to the same list. Only an explicit copy, such as a.copy(), makes a separate one.
+## Lists hold ordered items; dictionaries hold labelled data
+Most data you meet in AI work is built from just these two shapes.
+
+Use a list when the items are the same kind of thing and order matters: the messages in a chat, the rows in a file, the steps in a plan. You reach an item by its position, counting from 0.
+
+Use a dictionary when each piece has a name: {"role": "user", "content": "Hi"}. You reach a value by its label, not its position.
+
+They nest. A chat history is a list of dictionaries: an ordered run of messages, each with labelled parts. Spotting that shape makes API code far easier to read.
+?? A chat history sent to an LLM is usually shaped as:
++ A list of dictionaries, one per message
+- A single long string only
+- A set of numbers
+- A dictionary of tuples keyed by time
+= The messages are ordered (a list) and each one has labelled parts such as role and content (a dictionary).
+## JSON maps directly onto dictionaries and lists
+JSON is the text format most APIs speak. The good news: it has almost the same shapes as Python. A JSON object {} becomes a dictionary. A JSON array [] becomes a list. Strings and numbers carry straight over.
+
+So when an API replies with {"items": [{"id": 1}]}, Python sees a dictionary holding a list of dictionaries, and data["items"][0]["id"] walks down to the 1.
+
+Small differences to remember: JSON writes true, false and null in lowercase, and Python turns them into True, False and None. JSON also insists on double quotes.
+?? A JSON array, once loaded into Python, becomes a:
++ List
+- Dictionary
+- Set
+- String
+= JSON arrays map to Python lists, and JSON objects map to dictionaries.
+## None: the value that means "nothing here"
+None is Python's way to say "there is no value". It is not zero, not an empty string and not False. Think of a form: a box where someone wrote 0 is different from a box left blank. None is the blank box.
+
+You will see it constantly. A function with no return gives back None. A lookup that finds nothing often returns None.
+
+The classic crash is using None as if it were real data, such as asking for result["name"] when result is None. Careful code checks first: if result is None. Generated code often skips that check.
+?? A Python function has no return statement. What does calling it give back?
++ None
+- 0
+- An empty string
+- An error
+= A function that ends without returning anything hands back None automatically.
+## Why types matter: "5" is text, 5 is a number
+"5" and 5 look alike to a person, but Python treats them as different things. "5" + "5" glues text together and gives "55". 5 + 5 does arithmetic and gives 10. Mix them, "5" + 5, and Python stops with an error rather than guess.
+
+This matters because nearly everything arriving from outside starts life as text: what a user types, a spreadsheet cell, a web form. The code must convert it, int("5"), before doing maths.
+
+When totals in generated code look wildly wrong, check whether numbers are secretly strings.
+?? In Python, what is "5" + "5"?
++ "55"
+- 10
+- 25
+- An error
+= Both values are strings, so + joins them end to end instead of adding.
+
+@@ sll_a1_1_2 | A1.1 Core Programming Concepts > Control Flow
+## Conditionals
+A conditional lets code choose a path, like a fork in the road with a sign: "if raining, take the bus, otherwise walk".
+
+In Python that is if, elif (else if) and else. The conditions are checked from the top, the first one that is true runs, and the rest are skipped. Indentation, not brackets, shows which lines belong to each branch.
+
+Two details trip people up. Order matters: put the most specific check first, or a broader one will catch everything. And = assigns a value while == compares two values.
+?? In an if / elif / else chain, how many branches run?
++ Only the first one whose condition is true
+- Every branch whose condition is true
+- Always the else branch as well
+- None unless all conditions are true
+= Python checks from the top and runs the first matching branch, then skips the rest.
+## Loops and iteration
+A loop repeats work so you do not have to write it out many times. Python has two kinds.
+
+A for loop walks through a collection one item at a time, like dealing each card in a deck: for name in names. It ends when the items run out.
+
+A while loop keeps going as long as a condition stays true, like stirring until the sauce thickens. It ends only when the condition turns false.
+
+One counting quirk: range(3) gives 0, 1, 2. It starts at zero and stops before the number you gave. Off-by-one mistakes around this are everywhere.
+?? What values does range(3) produce?
++ 0, 1, 2
+- 1, 2, 3
+- 0, 1, 2, 3
+- 3, 2, 1
+= range starts at 0 and stops before the number given, so range(3) yields three values: 0, 1 and 2.
+## Looping over a list: do something for each item
+The most common loop in real code is "for each item in this list, do this".
+
+for email in emails: send(email) reads almost like English. Each time round, the name email holds the next item. The indented lines underneath are the work done per item.
+
+In AI code you will see it everywhere: for each document, summarise it. For each row, call the model. For each result, check it.
+
+A practical warning: if each pass makes a paid API call, a list of 10,000 items means 10,000 calls. Before running a loop, ask how long the list is.
+?? In "for doc in documents:", what does the name doc hold?
++ The next item from the list on each pass
+- The whole list every time
+- The position number only
+- The total number of items
+= The loop variable takes each item in turn, one per pass through the indented block.
+## Loops that never stop are a classic bug
+A while loop runs until its condition becomes false. If nothing inside the loop ever makes it false, it runs forever. Imagine "keep walking until you reach the door" when you are walking in a circle.
+
+The usual causes: forgetting to update the counter, or waiting for something that never arrives, such as a reply that never comes.
+
+With AI agents this is expensive, not just annoying, because every lap can be a paid model call. That is why sound loops carry a safety limit: a maximum number of attempts, or a timeout. If you see while True with no clear exit, ask where it stops.
+?? What is the most reliable guard against a loop that might never end?
++ A maximum number of attempts or a timeout
+- Using a faster computer
+- Writing the loop on a single line
+- Adding more print statements
+= A hard cap or timeout guarantees the loop exits even if the expected condition never happens.
+## Comprehensions: a compact loop you will see often in generated code
+A comprehension builds a new list from an old one in a single line.
+
+[n * 2 for n in numbers] means "give me n times 2, for every n in numbers". It does the same job as a three-line for loop that appends to an empty list.
+
+You can add a filter on the end: [n for n in numbers if n > 0] keeps only the positives.
+
+Read them from the middle outwards: first the "for" part (where items come from), then the "if" (which ones to keep), then the front (what to do with each). Assistants love them. If one is too dense to follow, ask for it as a plain loop.
+?? What does [n for n in numbers if n > 0] produce?
++ A new list holding only the numbers greater than zero
+- The count of positive numbers
+- True or False
+- The same list with negatives changed to zero
+= The if at the end is a filter, so only items passing the test are kept in the new list.
+
+@@ sll_a1_1_3 | A1.1 Core Programming Concepts > Functions
+## Inputs, outputs, and scope
+A function is a small machine: things go in, a job is done, something comes out. A vending machine takes coins and a button press (inputs) and hands back a drink (output).
+
+In def add(a, b): return a + b, the names a and b are the inputs and return hands back the result.
+
+Scope is the rule about where names live. A name created inside a function exists only inside it, like a notepad kept in that room. The rest of the program cannot see it unless the function returns it.
+
+When reading a function, look at the def line and the return first. They tell you the contract.
+?? A variable is created inside a function and not returned. Can code outside the function use it?
++ No, it only exists inside the function
+- Yes, every variable is visible everywhere
+- Only if its name is in capitals
+- Only after the function has run twice
+= Names made inside a function are local to it. Returning the value is how it gets out.
+## Reusable, single-purpose functions
+A good function does one job, and its name says what the job is. Think of kitchen tools: a peeler peels. A gadget that peels, boils and plates would be hard to use and harder to fix.
+
+total_of(prices) is easy to trust. process(data) could do anything.
+
+Small functions pay off three ways: you can test each one alone, reuse it elsewhere, and ask an AI to change it without disturbing the rest.
+
+A warning sign in generated code is one long function that loads a file, calls the network and formats a report. Each "and" in that description is a function waiting to be split out.
+?? Which function name suggests a single, clear job?
++ total_of(prices)
+- process(data)
+- do_everything(input)
+- handle(stuff)
+= A specific name signals one specific job. Vague names often hide functions that do too much.
+## Returning a value vs. printing it
+print shows a value on the screen for a human. return hands a value back to the code that called the function. They are easy to confuse and very different.
+
+Picture asking a colleague for a total. Printing is them shouting the number across the office: you hear it, but it is not written anywhere you can use. Returning is them handing you a slip of paper you can carry into the next step.
+
+So total = get_total() only works if get_total returns. If it only prints, total ends up as None, and the next line fails in a confusing way.
+?? A function prints its result but has no return. What is x after x = that_function()?
++ None
+- The printed text
+- The number that was printed
+- An error is raised straight away
+= Printing only displays the value. Without return, the function hands back None.
+## Default values and named arguments
+A function can give an input a fallback value: def greet(name, greeting="Hello"). Call greet("Ana") and greeting is "Hello". Call greet("Ana", greeting="Hi") to override it. It is like ordering coffee: say nothing and you get the regular size.
+
+Named arguments let you pass values by label instead of by position. create(model="small", temperature=0) is far clearer than create("small", 0).
+
+AI libraries lean on this heavily. A model call may accept twenty settings, and you name only the three you care about. When reading such a call, remember everything unnamed is running on its default, which may not be what you assumed.
+?? Given def greet(name, greeting="Hello"), what does greet("Ana") use for greeting?
++ "Hello", the default
+- None
+- "Ana"
+- It fails because greeting is missing
+= When an argument with a default is left out, the default value is used.
+## Type hints as documentation
+Type hints are labels that say what kind of value a function expects and returns: def total(prices: list[float]) -> float. Read it as "takes a list of decimals, gives back a decimal".
+
+They work like labels on a parcel: "fragile", "this way up". The courier can still drop it. In the same way Python does not enforce hints when the code runs. Pass a string where an int was promised and it will try anyway.
+
+Their value is to readers and tools. Editors and checkers use them to warn you early, and AI assistants write better code when hints are present. For you, they are the quickest way to understand a function.
+?? What happens at run time if you pass a string to a parameter hinted as int?
++ Python does not stop you, because hints are not enforced by default
+- Python always refuses to run the function
+- The string is converted to an int automatically
+- The hint is deleted from the code
+= Type hints are documentation for people and tools. Plain Python ignores them when running.
+## Docstrings: what a function promises to do
+A docstring is a short description in triple quotes on the first line inside a function. It says what the function does, what it needs and what it gives back. Think of the label on a medicine bottle: what it is for and how to use it, without the chemistry.
+
+Docstrings matter even more in AI work. When you hand a function to an LLM as a tool, the model often reads the docstring to decide when and how to call it. A vague docstring leads to wrong tool calls.
+
+One caution: a docstring is a promise, not proof. Generated code can describe one thing and do another.
+?? Why do docstrings matter extra when a function is given to an LLM as a tool?
++ The model reads the description to decide when and how to use the tool
+- They make the function run faster
+- They encrypt the function
+- Python refuses to run tools without them
+= Tool descriptions, often taken from docstrings, are what the model relies on to choose and call a tool correctly.
+
+@@ sll_a1_2_1 | A1.2 Organizing Code > Classes & Objects
+-- Data models
+## Classes, objects, and methods
+A class bundles data together with the actions that belong to that data. A method is one of those actions: a function that lives on the object.
+
+Take a bank account. It has data (a balance) and actions (deposit, withdraw). In code: account.deposit(50). The dot means "ask this particular object to do this".
+
+Inside a class you will see the word self everywhere. It simply means "this particular object", so the method knows whose balance to change.
+
+You also meet __init__, the setup routine that runs once when an object is created. It is where the starting data gets stored.
+?? In a Python class, what does self refer to?
++ The particular object the method is being called on
+- The class that all objects share
+- The file the code is saved in
+- The person running the program
+= self is the specific instance, which is how a method reaches that object's own data.
+## Data models (dataclasses, Pydantic)
+A data model is a class whose main job is to describe the shape of some data: which fields exist and what type each one is.
+
+Think of a paper form with labelled boxes: name, date of birth, email. A dataclass gives you that form with almost no code. You list the fields and Python writes the setup for you.
+
+Pydantic goes further and checks what is written in the boxes. If age should be a number and "abc" arrives, it refuses with a clear error.
+
+That is why AI projects use Pydantic so much: an LLM's reply is untrusted text, and a model class turns it into data you can rely on, or fails loudly.
+?? What does Pydantic add beyond a plain dataclass?
++ It validates that incoming data matches the declared types
+- It makes the program run in parallel
+- It stores the data in a database
+- It writes documentation pages
+= Pydantic checks and converts data against the declared fields, raising a clear error when it does not fit.
+## A class is a blueprint; an object is one instance of it
+A class is the plan. An object is a real thing built from the plan. One house blueprint can produce many houses, and painting one of them does not repaint the others.
+
+In code: class Customer is the blueprint. ana = Customer("Ana") and ben = Customer("Ben") are two separate objects. Each has its own name and its own data, but both follow the same design and share the same methods.
+
+The word instance just means "one object made from a class". When you read ana = Customer("Ana"), say to yourself: "build one Customer and call it ana".
+?? Two objects are made from the same class. If you change the data of one, the other:
++ Stays as it was, because each object holds its own data
+- Changes too, always
+- Is deleted
+- Becomes a class
+= Objects built from one class share the design but keep separate data.
+## AI frameworks use classes everywhere: agents, tools, and clients
+You rarely write classes from scratch in AI work, but you use them all the time. Libraries hand you ready-made blueprints and you build objects from them.
+
+A typical pattern: client = OpenAI() makes a client object that knows how to talk to the service. agent = Agent(model=..., tools=[...]) makes an agent with its own settings. Then you call methods: client.chat(...), agent.run("task").
+
+So reading framework code is mostly spotting two moves. First, create an object and configure it. Second, ask the object to do things with a dot. Once you see that rhythm, unfamiliar frameworks stop looking alien.
+?? In client = OpenAI() followed by client.chat(...), what is client?
++ An object created from the library's class
+- A plain text string
+- A Python keyword
+- A file on disk
+= Calling the class builds an object, and the dot then calls a method on that object.
+## Validation: catching bad data at the door
+Validation means checking data the moment it enters your program, before anything uses it. Think of airport security: problems are far cheaper to deal with at the entrance than at 30,000 feet.
+
+Without validation, a bad value travels deep into the program. It finally breaks something far from where it came in, and the error message points at the wrong place.
+
+With validation, the failure is immediate and specific: "price must be a number, got 'ten'".
+
+This is essential with LLMs, because a model can return text that is nearly right: a missing field, a number written as a word. Validate the reply, and retry or stop if it fails.
+?? Why validate data at the point where it enters a program?
++ Errors are caught early with a clear message, before they cause confusing failures later
+- It makes the data smaller
+- It removes the need for any testing
+- It guarantees the LLM never makes a mistake
+= Checking at the door turns a hidden problem into an immediate, specific error close to its cause.
+
+@@ sll_a1_2_2 | A1.2 Organizing Code > Modules & Packages
+## Imports and project structure
+A module is simply a Python file. A package is a folder of modules. import is how one file borrows code from another, like taking a tool from a labelled drawer rather than forging it again.
+
+import math brings the whole drawer. from pathlib import Path takes one tool out of it.
+
+A tidy project groups related files so imports read like directions: from billing.invoices import total.
+
+Two things to watch in generated code. Circular imports, where two files import each other, cause confusing startup errors. And an import of something that is not installed fails with ModuleNotFoundError, which usually means a missing dependency rather than a bug in your logic.
+?? What does "from pathlib import Path" do?
++ Brings one name, Path, in from the pathlib module
+- Copies the entire pathlib file into your file
+- Installs pathlib from the internet
+- Creates a new folder called Path
+= The from ... import form pulls a specific name out of a module so you can use it directly.
+## Reading library documentation
+Documentation is the manual for someone else's code. You do not read a car manual cover to cover. You look up the one thing you need.
+
+A workable routine: find the quickstart example, then the parameter list for the function you are calling (what is required, what is optional, what comes back), then the errors it can raise.
+
+Always check that the docs match the version you have installed. Libraries change, and AI assistants are trained on older text, so they often suggest a function that was renamed or removed.
+
+When the assistant and the official docs disagree, the docs for your version win.
+?? An AI assistant's code uses a library function that the official docs for your installed version do not list. What should you trust?
++ The official documentation for your installed version
+- The assistant, because it sounded confident
+- Whichever answer is longer
+- A blog post from several years ago
+= The library's own docs for your version describe what actually exists. Assistants can suggest outdated or invented functions.
+## Find the one example in the docs that matches your task
+The fastest way into a new library is not reading everything. It is finding a single working example close to what you want, running it unchanged, and then adjusting it.
+
+It is like cooking from a recipe for a similar dish: you swap the chicken for tofu rather than inventing dinner from first principles.
+
+Look for sections named Quickstart, Examples or Cookbook. Copy the smallest example, run it and confirm it works. Then change one thing at a time towards your goal.
+
+The same example makes excellent context for an AI assistant. "Adapt this official example to do X" gets far better results than a bare request.
+?? What is the most efficient first step with an unfamiliar library?
++ Run a small official example that is close to your task, then adapt it
+- Read the entire reference manual first
+- Ask the assistant to write everything from memory
+- Read the library's source code line by line
+= A working example gives you a known-good starting point that you can change one step at a time.
+## Check a package's maintenance and popularity before using it
+Anyone can publish a Python package. Before you depend on one, check it the way you would check a tradesperson before letting them into your house.
+
+Quick signals: when was the last release? Are issues being answered? How many people use it? Is there real documentation?
+
+A package untouched for three years may not work with current Python and will not receive security fixes. A brand-new package with a handful of downloads is a risk of a different kind.
+
+None of these signals is proof of quality. Together they tell you whether someone will still be fixing the thing next year, when you need them to.
+?? Which is the strongest warning sign about a package?
++ No releases or maintainer activity for several years
+- It has thorough documentation
+- Many well-known projects depend on it
+- It released an update last month
+= An abandoned package will not get bug or security fixes and may break with newer Python versions.
+## The standard library already covers much of what you need
+Python ships with a large toolbox called the standard library. It is there the moment Python is installed, with nothing extra to download.
+
+It reads JSON (json), handles dates (datetime), works with files and folders (pathlib), reads spreadsheets saved as CSV (csv), does maths (math) and much more.
+
+It is like checking the toolbox already in your garage before driving to the shop. Every extra package you install is something to update, something that can break, and something that could be malicious.
+
+When an assistant reaches for a third-party package for a simple job, ask: "Can this be done with the standard library?"
+?? Which of these comes built in with Python, with nothing to install?
++ The json module
+- Every package on the internet
+- A paid LLM subscription
+- A vector database
+= json is part of the standard library, which ships with Python itself.
+
+@@ sll_a1_2_3 | A1.2 Organizing Code > Environments & Dependencies
+-- Virtual environments
+-- Dependency files
+## Version control with Git and GitHub
+Git keeps a history of your project, like save points in a video game. You can try something risky, and if it goes wrong, jump back to the last good point.
+
+Each save point is called a commit: a snapshot of every file plus a short message saying what changed.
+
+Git runs on your own computer. GitHub is a website that stores a copy online, so the work is backed up and other people (or other machines) can get it.
+
+The two are often confused. Git is the tool that tracks history. GitHub is one place to keep and share that history.
+?? What is the difference between Git and GitHub?
++ Git tracks history on your computer; GitHub hosts a copy online for backup and sharing
+- They are two names for exactly the same thing
+- Git is for Python and GitHub is for JavaScript
+- GitHub tracks history and Git is the website
+= Git is the version-control tool. GitHub is a hosting service for Git projects.
+## Virtual environments (venv, uv)
+A virtual environment is a private folder of installed packages that belongs to one project. Think of each project having its own toolbox instead of everyone sharing one messy shed.
+
+Without it, every project on your computer shares the same packages, and installing something for project A can silently break project B.
+
+venv is the tool built into Python for creating these. uv is a newer, much faster tool that creates environments and installs packages in one go.
+
+Practical sign you need one: the code works on someone else's machine but fails on yours with import errors. The first question to ask is "which environment am I in?"
+?? What problem does a virtual environment solve?
++ It keeps each project's packages separate so they cannot clash
+- It makes Python code run faster
+- It backs up your code online
+- It hides your code from other people
+= An environment isolates one project's installed packages from every other project on the machine.
+## Dependency files (requirements, pyproject)
+A dependency file lists the packages a project needs, and often which versions. It is the ingredients list on a recipe: without it, nobody else can cook the dish.
+
+Two common forms: requirements.txt is a plain list, one package per line. pyproject.toml is the newer standard and also holds other project settings.
+
+With the file in place, one command rebuilds the same setup on another computer or on a server.
+
+The detail that matters is pinning: writing requests==2.32.0 instead of just requests. Unpinned, you get whatever is newest that day, and code that worked last month can break without you changing a line.
+?? Why pin package versions in a dependency file?
++ So everyone installs the same versions and the code behaves the same way
+- So the packages download faster
+- So the file is shorter
+- So the packages become free
+= Pinning fixes the exact versions, which stops a new release from silently changing how your project behaves.
+## Why environments: different projects need different versions
+Suppose last year's project needs version 1 of a library, and today's project needs version 2, which changed how things work. One computer, two incompatible needs.
+
+It is like two recipes that each need the oven at a different temperature at the same moment. One oven cannot serve both. Give each recipe its own oven and the problem disappears.
+
+A separate environment per project is that separate oven. Each project gets exactly the versions it was built with.
+
+This comes up quickly in AI work, because AI libraries change fast and tutorials from a year ago often need older versions than new code does.
+?? Two projects need different versions of the same library. What is the clean solution?
++ Give each project its own environment
+- Install both versions into the same shared place
+- Rewrite one project from scratch
+- Stop using libraries
+= Separate environments let each project keep its own versions without affecting the other.
+## Commits, branches, and pull requests in plain terms
+Three Git words cover most of daily life.
+
+A commit is a save point: a snapshot of the project with a message such as "Fix total on invoice page".
+
+A branch is a parallel copy where you can work without touching the main version, like drafting changes on a photocopy of a contract rather than on the signed original.
+
+A pull request, or PR, is a proposal to fold your branch back into the main version. It shows exactly what changed so someone can review it first.
+
+The flow is: branch off, commit your work, open a pull request, review, merge. Even working alone, it keeps the main version in a working state.
+?? What is a pull request?
++ A proposal to merge changes from a branch, shown so they can be reviewed first
+- A command that downloads the internet
+- A backup copy of the whole computer
+- A request to delete a branch
+= A pull request presents a branch's changes for review before they are merged into the main version.
+## Never commit secrets: use environment variables and .gitignore
+An API key is a password that can spend your money. If it is written inside a code file and that file goes to GitHub, treat the key as stolen. Automated bots scan public code for keys within minutes.
+
+The standard fix has two parts. Keep secrets in environment variables, usually in a file named .env, and have the code read them from there. Then list .env in a file called .gitignore, which tells Git "never track this".
+
+One hard truth: Git remembers. Deleting a key in a later commit does not remove it from history. If a key was ever committed, the only safe move is to revoke it and create a new one.
+?? You accidentally committed an API key and pushed it. What is the correct response?
++ Revoke the key and create a new one
+- Delete the line in a new commit and carry on
+- Rename the file that contains it
+- Wait and see if anyone uses it
+= The key remains in Git history even after deletion, so it must be treated as compromised and replaced.
+## Commit before letting an AI assistant change many files
+Before you ask an assistant for a large change, commit your current work. It costs ten seconds and gives you a clean save point.
+
+AI coding tools can edit many files in one go. Most of the time that is helpful. Sometimes the change goes wrong in ways that are hard to untangle by hand, and without a save point you cannot easily get back.
+
+It is the same instinct as saving a document before running "replace all".
+
+With a commit in place, a bad change is no drama: review what changed, keep the good parts, or discard everything and return to exactly where you were.
+?? Why commit before asking an AI assistant for a large multi-file change?
++ It gives you a clean point to compare against and return to if the change goes wrong
+- The assistant refuses to work otherwise
+- It makes the assistant write better code
+- Commits speed up the computer
+= A commit is a save point, so a bad batch of edits can be reviewed or undone completely.
+
+@@ sll_a1_3_1 | A1.3 Talking to the Outside World > Async Concepts
+-- Synchronous vs asynchronous code
+-- Concurrent API calls
+## Synchronous vs. asynchronous code
+Think of a cook making breakfast. A synchronous cook puts bread in the toaster and stands there until it pops, then starts the eggs. An asynchronous cook starts the toast, cracks the eggs while it browns, and comes back when it pops.
+
+Code works the same way. Synchronous code finishes each line before the next begins. Asynchronous code can start something slow, like a network call, and get on with other work while it waits.
+
+The catch: async only helps with waiting. It is still one cook. If the job is heavy chopping, such as a big calculation, async does not make it faster.
+?? When does asynchronous code help most?
++ When the program spends much of its time waiting, for example on network calls
+- When doing one very large calculation
+- When the program has only a single quick step
+- When the computer is switched off
+= Async lets the program do other work during waits. It does not speed up work that keeps the processor busy.
+## Concurrent API calls (concept)
+Concurrent means several tasks are in progress at the same time, their waiting periods overlapping.
+
+Say you need to summarise 20 documents and each model call takes 5 seconds. One after another, that is 100 seconds. Started together, the whole batch finishes in roughly the time of the slowest call, a little over 5 seconds.
+
+It is like posting 20 letters on the same day instead of waiting for each reply before sending the next.
+
+Nothing got faster individually. You simply stopped waiting in a queue of your own making. This one idea is behind most "we made the AI feature ten times faster" stories.
+?? Twenty API calls each take 5 seconds. Run concurrently, with no limits hit, the batch takes about:
++ A little over 5 seconds
+- 100 seconds
+- 20 seconds
+- Under one second
+= The waits overlap, so total time is close to the slowest single call rather than the sum of all of them.
+## async/await: how to read it without writing it
+You only need two words to read async Python.
+
+async def marks a function that is able to pause. await marks the exact spot where it pauses: "this will take a while, let others work, come back to me when it is done".
+
+So result = await fetch(url) reads as "start the fetch, step aside while it is in flight, then carry on with the result".
+
+One more to recognise: asyncio.gather(a, b, c) means "start all of these and wait for the lot".
+
+A common bug in generated code is a missing await. The call then returns a placeholder, called a coroutine, instead of the real result, and later lines break in odd ways.
+?? In Python, what does await mean?
++ Pause here until this slow operation finishes, letting other work run meanwhile
+- Run this line twice
+- Skip this line if it is slow
+- Convert the result to text
+= await marks a pause point where the function yields control until the awaited operation completes.
+## Async helps when many slow network calls overlap
+Async pays off under one condition: lots of waiting that can overlap.
+
+A waiter is the picture to keep. One waiter can serve ten tables, because most of the time each table is reading the menu or eating. The waiter moves on and returns when needed. That is async.
+
+AI applications fit this well. They wait on model APIs, databases and web pages, often many at once. A chat server handling 200 users is mostly waiting for 200 replies.
+
+Where it does not help: a single call on its own, or heavy number-crunching that keeps the processor busy. Async reorganises waiting. It does not add horsepower.
+?? Which workload benefits least from async?
++ One long calculation that keeps the processor busy the whole time
+- Fetching 50 web pages
+- Calling an LLM API for 100 different prompts
+- Serving many chat users who are each waiting for a reply
+= Async only makes use of waiting time. A busy calculation has no waiting to share.
+## Rate limits still apply when calls run at once
+A rate limit is a provider's cap on how much you may ask in a given time, for example 500 requests per minute. It works like a turnstile: only so many people get through per minute, however big the crowd.
+
+Concurrency makes it very easy to hit. Launch 1,000 calls at once and most will be refused with error 429, "too many requests".
+
+The fix is to limit how many run at the same time, say 10, using a tool such as a semaphore, and to retry refused calls after a short wait.
+
+So the true speed limit of a batch job is usually the provider's rate limit, not your code.
+?? You start 1,000 API calls at the same moment and many fail with status 429. What does that mean?
++ You exceeded the provider's rate limit
+- Your API key is wrong
+- The server has crashed permanently
+- The prompts were too short
+= 429 means too many requests in a given time. Limit how many run at once and retry after a pause.
+
+@@ sll_a1_3_2 | A1.3 Talking to the Outside World > APIs, HTTP & JSON
+## What an API is
+An API is an agreed way for one program to ask another for something. A restaurant menu is a good picture: it lists what you may order and how to ask. You never walk into the kitchen. You place an order, and the dish comes back.
+
+On the web, "placing an order" means sending a request to a URL and getting a reply.
+
+Using an LLM from code works exactly like this. Your program sends text to the provider's API, and the answer comes back as data.
+
+The key idea is the contract. You do not need to know how the kitchen works, only what you can ask for and what you will get.
+?? Which description best fits an API?
++ An agreed way for one program to request data or actions from another
+- A type of database
+- A programming language
+- A program that only runs on phones
+= An API is a contract: what you can ask for, how to ask, and what comes back.
+## HTTP requests and responses
+HTTP is the conversation format of the web: one side sends a request, the other sends a response. It works like posting a letter and getting a reply.
+
+A request has four parts. The method says what you want to do. The URL is the address. Headers are notes on the envelope, such as who you are. The body is the letter itself, the data you are sending.
+
+The response comes back with a status code (a three-digit verdict), its own headers, and usually a body containing the result.
+
+Every model call you ever make is one of these round trips. When something fails, checking these parts in order usually finds the cause.
+?? In an HTTP request, what is the body?
++ The data being sent, such as the prompt for a model
+- The address of the server
+- The three-digit result code
+- The name of the programming language
+= The body carries the content of the request. The URL is the address and the status code belongs to the response.
+## JSON data and API keys
+Two things appear in almost every API call.
+
+JSON is the format of the data: text arranged as labelled values and lists, such as {"model": "small", "messages": [...]}. Both sides can read it easily, which is why nearly every API uses it.
+
+An API key is a long secret string that identifies you. It is like a hotel key card: whoever holds it can open your room and charge things to it.
+
+That is why keys go in environment variables, never in code, never in a chat message and never in a screenshot. If a key leaks, cancel it and create a new one. Keys are cheap to replace.
+?? How should an API key be treated?
++ Like a password: kept out of code and replaced if it leaks
+- As public information that is safe to share
+- As something to put at the top of every code file
+- As something that is only needed once, ever
+= A key identifies you and is billed to you, so it must be kept secret and rotated if exposed.
+## Methods: GET reads, POST sends, PUT or PATCH changes, DELETE removes
+The method is the verb of a request. It tells the server what kind of action you want.
+
+GET asks for information and should change nothing, like reading a notice board. POST sends new data, like handing in a form. PUT replaces something that exists, and PATCH changes part of it. DELETE removes it.
+
+A useful surprise: calls to LLMs are POST requests, even though it feels like you are "getting" an answer. That is because you are sending data, your prompt, for the server to work on.
+
+When an API call fails oddly, check the method. Using GET where the docs say POST is a common slip.
+?? Which HTTP method is normally used to send a prompt to an LLM API?
++ POST
+- GET
+- DELETE
+- PATCH
+= You are sending data (the prompt) for processing, which is what POST is for.
+## Status codes: 200 worked, 401 not allowed, 429 slow down, 500 server problem
+Every HTTP response carries a three-digit status code. The first digit tells most of the story.
+
+2xx means success. 200 is "it worked".
+
+4xx means the problem is on your side. 400 is a malformed request. 401 means your key is missing or wrong. 404 means the address does not exist. 429 means you are sending too much, too fast.
+
+5xx means the problem is on their side. 500 is a server error.
+
+That split tells you what to do. For 4xx, fix your request, because retrying the same thing will fail again. The exception is 429: wait, then retry. For 5xx, waiting and retrying is reasonable.
+?? An API call returns status 401. What is the most likely cause?
++ The API key is missing or invalid
+- The server is overloaded
+- You sent too many requests
+- The request succeeded
+= 401 means the server could not authenticate you, which usually points at the key.
+## Headers and authentication
+Headers are small labelled notes sent along with a request, separate from the main content. Think of the outside of an envelope: who it is from, what is inside, how to handle it.
+
+Two matter most. Content-Type says what format the body is in, usually application/json. Authorization proves who you are, typically by carrying your API key: Authorization: Bearer followed by the key.
+
+Authentication just means proving identity. The server checks the header before it does any work, like a doorman checking a pass.
+
+If you get a 401, look here first. The key is missing, mistyped, expired, or placed in the wrong header.
+?? Where is an API key normally placed in a request?
++ In a header, typically Authorization
+- In the status code
+- In the name of the method
+- In the response body
+= Keys travel in a request header so the server can identify the caller before processing the body.
+## Reading API documentation and trying a call before coding it
+Before writing a program around an API, make one call by hand and look at what comes back. It is the test drive before buying the car.
+
+The docs tell you four things: the URL (the endpoint), the method, what you must send, and what the reply looks like. Most include an example you can copy.
+
+You can try it with curl in a terminal, with a tool such as Postman, or with a five-line script.
+
+Ten minutes here saves hours later. You see the real shape of the reply, the real error messages and whether your key works, before any of that is tangled up with your own code.
+?? What is the main benefit of making one manual API call before building code around it?
++ You see the real request and response shapes and confirm your access works
+- It makes later calls free
+- It removes the need to read any documentation
+- It permanently raises your rate limit
+= A manual call shows exactly what the API expects and returns, so problems surface before they are mixed with your own code.
+## Webhooks: the other system calls you when something happens
+Normally your code calls an API and asks. A webhook turns that around: you give the other system a URL, and it calls you when something happens.
+
+Compare two ways to wait for a parcel. You can phone the depot every ten minutes to ask "is it here yet?" That is called polling. Or the courier can ring your doorbell. That is a webhook.
+
+Examples: a payment service tells you a customer has paid. A form tool tells you about a new submission. That event can then start an AI workflow.
+
+Because anyone could send a request to your URL, good webhooks are signed, and your code should check the signature before trusting them.
+?? How does a webhook differ from a normal API call?
++ The other system calls your URL when an event happens, instead of you repeatedly asking
+- It is always slower than asking repeatedly
+- It works without any internet connection
+- It can only send images
+= With a webhook the provider pushes the event to you, so you do not need to keep polling.
+
+@@ sll_a1_3_3 | A1.3 Talking to the Outside World > Error Handling
+-- Retries and timeouts
+## Exceptions and error messages
+An exception is Python's way of saying "I cannot continue with this". The program stops what it was doing and reports what went wrong, like a smoke alarm: unpleasant, but far better than a silent fire.
+
+The message has a type and a detail. KeyError: 'name' means you asked a dictionary for a label it does not have. TypeError means the wrong kind of value was used. FileNotFoundError means what it says.
+
+Code can catch exceptions with try and except to respond sensibly: try the risky step, and if it fails in an expected way, do something else.
+
+Read error messages properly. They are usually the fastest route to the fix.
+?? What does KeyError: 'name' tell you?
++ The code asked a dictionary for the key 'name' and it was not there
+- The file called name is missing
+- The internet connection dropped
+- The program ran out of memory
+= A KeyError names the dictionary key that was requested but does not exist.
+## Retries and timeouts (concept)
+Networks fail in small, temporary ways all the time. Two tools deal with that.
+
+A timeout is a limit on waiting: "if there is no answer in 30 seconds, give up". Without one, a program can hang forever, like staying on hold with no intention of ever putting the phone down.
+
+A retry is trying again after a failure. Good retries wait a little longer each time (1 second, 2, 4), which is called exponential backoff. That gives a struggling service room to recover instead of piling on.
+
+And retries need a cap. Three to five attempts is typical. After that, stop and report the failure.
+?? What is exponential backoff?
++ Waiting longer between each retry, for example 1, 2, then 4 seconds
+- Retrying instantly as fast as possible
+- Never retrying at all
+- Halving the timeout on every attempt
+= Backoff increases the pause between attempts so a struggling service is not flooded with retries.
+## Retry timeouts and rate limits; do not retry bad input
+Not every failure deserves a second try. The question is: would the same request succeed if I simply sent it again later?
+
+Yes, for temporary problems: a timeout, a 429 rate limit, a 500 server error. The request was fine and the moment was bad.
+
+No, for a bad request: a 400 for malformed input, a 401 for a wrong key, a 404 for a wrong address. Sending it again will fail the same way, however many times you try.
+
+It is like a locked shop door. If the shop is closed for lunch, come back later. If you have the wrong address, coming back later will not help.
+?? Which error is worth retrying after a short wait?
++ 429 Too Many Requests
+- 401 Unauthorized
+- 400 Bad Request
+- 404 Not Found
+= A 429 is temporary and clears with time. The others mean the request itself is wrong and will keep failing.
+## Log errors with enough context to find the cause
+A log is a written record of what a program did. When something fails at 3 a.m. and nobody is watching, the log is the only witness.
+
+A useless entry says "Error occurred". A useful one says what was being attempted, with which input, when, and the full error: "Failed to summarise document 4812 for user 77: timeout after 30s".
+
+Think of a doctor's notes. "Patient unwell" helps nobody. Symptoms, time and what was tried lets the next person carry on.
+
+One firm limit: never log secrets or private data. API keys, passwords and personal details do not belong in log files.
+?? Which log entry is most useful for finding a problem later?
++ "Failed to summarise document 4812: timeout after 30s"
+- "Error"
+- "Something went wrong"
+- "Oops, try again"
+= A good entry says what was being done, to which item, and exactly how it failed.
+## Failing clearly beats failing silently
+The worst bug is not the crash. It is the code that hits a problem, hides it, and carries on with wrong data.
+
+The usual culprit in generated code looks like this: try: ... except: pass. It means "if anything at all goes wrong, say nothing". The program looks healthy while quietly producing rubbish.
+
+Compare a car with a broken fuel gauge that always shows half full. You would much rather have the warning light.
+
+A clear failure stops and says what went wrong and where. That is something you can fix. So when you review AI-written code, treat an empty except block as a red flag and ask what should really happen there.
+?? Why is "except: pass" dangerous?
++ It hides every error, so the program continues with missing or wrong data
+- It makes the program run slowly
+- It deletes the program's files
+- It is not valid Python
+= Swallowing all exceptions removes the signal that something failed, so bad results spread unnoticed.
+
+@@ sll_a1_4_1 | A1.4 Working with AI-Generated Code > Reading & Understanding Code
+## Reading code top-down
+Do not read code like a novel, from the first line to the last. Read it like a map: get the overall layout first, then zoom in.
+
+Start at the entry point, the function that runs first. This is often called main, or sits under the line if __name__ == "__main__". Note which functions it calls, and in what order. That sequence is the story of the program.
+
+Then open each function and read only its name, its inputs and what it returns. Skip the middle for now.
+
+After five minutes you know what the program does and who is in charge of each part. Only then dive into the details that matter.
+?? Where should you start when reading an unfamiliar program?
++ At the entry point, to see which functions are called and in what order
+- At the last line, reading upwards
+- At the longest function
+- At the list of imports only
+= The entry point shows the overall flow, which gives every other part its context.
+## Tracing inputs and outputs
+Tracing means pretending to be the computer. Pick a tiny input and walk through the code one line at a time, writing down what each name holds as you go.
+
+Take a function that averages a list. Feed it [2, 4] by hand: the total becomes 6, the count is 2, the result is 3. Good.
+
+Now try an awkward input: an empty list. The total is 0, the count is 0, and dividing by zero crashes. You have found a bug without running anything.
+
+Generated code is usually right for the ordinary case and wrong at the edges. Empty, zero, missing and very large inputs are where to look.
+?? Which input is most likely to reveal a hidden bug in generated code?
++ An edge case such as an empty list
+- A typical, ordinary input
+- The same input the assistant used in its example
+- No input at all, without running anything
+= Generated code tends to handle the normal case and fail on empty, zero or missing values.
+## Spotting red flags in generated code
+A red flag is not proof of a bug. It is a reason to slow down and read that part twice, the way a mechanic listens for a noise that should not be there.
+
+Assistants write code that looks finished. It is tidy, commented and confident, and that polish says nothing about whether it is correct.
+
+Useful habits: be suspicious of anything that seems too convenient, such as a library function that does exactly what you asked for. Check that comments match what the code really does. Notice what is missing, not just what is there: what happens if the file is absent, the list is empty, or the network is down?
+?? Generated code is neatly formatted and well commented. What does that tell you about its correctness?
++ Nothing: polish and correctness are separate things
+- It is almost certainly correct
+- It has definitely been tested
+- It was written by a person
+= Assistants always produce tidy-looking code. Whether it works can only be established by reading and testing.
+## Red flags: hard-coded secrets, no error handling, invented library functions
+Three specific warning signs are worth memorising.
+
+Hard-coded secrets: an API key or password typed straight into the code, such as api_key = "sk-...". It should be read from an environment variable.
+
+No error handling: network calls and file reads with nothing around them, as though nothing could fail. In real use, something always does.
+
+Invented functions: the assistant calls something that sounds right but does not exist, like a street on a hand-drawn map that was never built. This is a hallucination. You find out with an AttributeError or ImportError, or by checking the docs.
+
+None of these takes expertise to spot. They take the habit of looking.
+?? An assistant's code calls a library function that does not exist. What is this called?
++ A hallucination
+- A virtual environment
+- A rate limit
+- A docstring
+= Models can produce plausible but invented names. Checking the library's docs or running the code exposes them.
+## Ask the assistant to explain each part, then test the explanation
+When you do not understand a piece of code, ask the assistant to walk through it line by line in plain language. It is good at this, and it is the fastest tutor available.
+
+But treat the explanation as a claim, not a fact. A model can explain wrong code with complete confidence, describing what the code was meant to do rather than what it does.
+
+So test it. If the explanation says "this skips empty rows", feed it an empty row and watch. A sat-nav that says "you have arrived" is worth a glance out of the window.
+
+Explanation plus a quick experiment is how you actually learn the code, rather than just feeling reassured.
+?? The assistant explains that a function "ignores blank lines". What is the best next step?
++ Run it with a blank line and see whether that is true
+- Accept it, since explanations are always accurate
+- Delete the function
+- Ask for the same explanation again in different words
+= An explanation is a claim about behaviour. A small test confirms whether the code really behaves that way.
+## Small functions are easier to review than long scripts
+You can only hold so much in your head at once. A 15-line function with a clear name can be checked in a minute. A 300-line script where everything touches everything cannot really be checked at all.
+
+It is the difference between proofreading one paragraph and proofreading a whole book in one sitting. Errors slip through when attention runs out.
+
+So when you direct an assistant, ask for small pieces: "one function that loads the file, one that cleans the rows, one that writes the report". Each can be read, tested and replaced on its own.
+
+Small pieces also make the assistant better, because it has less to keep track of at once.
+?? Why ask an assistant for several small functions instead of one long script?
++ Each piece can be read, tested and fixed on its own
+- Long scripts are not allowed in Python
+- Small functions use no memory
+- It guarantees the code has no bugs
+= Small, focused units fit in your head, which makes review and testing realistic.
+
+@@ sll_a1_4_2 | A1.4 Working with AI-Generated Code > Debugging
+-- Print, logs, and breakpoints
+-- Testing concepts
+## Reading stack traces
+When Python crashes it prints a stack trace, also called a traceback: the list of function calls that were in progress at the moment things went wrong.
+
+Think of retracing your steps after losing your keys: "I was in the kitchen, having come from the hall, having come in from the car". The trace is that trail, with a file name and line number at every step.
+
+It looks intimidating mainly because it is long. Most of it is just the route. You do not have to read every line.
+
+The useful parts are the lines that mention your own files, and the final line, which names the error itself.
+?? What does a stack trace show?
++ The chain of function calls that led to the error, with files and line numbers
+- A list of every file on the computer
+- The history of your Git commits
+- The amount of memory installed
+= A traceback records the path the program took to reach the failure.
+## Print/log debugging and breakpoints
+Debugging is finding out what the code is really doing, as opposed to what you believe it is doing. There are two basic tools.
+
+Print debugging: add print(value) at key points and run again. It is crude and it works. It is like dropping dye into a pipe to see where the water goes. Logging is the grown-up version that you can leave in place and switch on when needed.
+
+A breakpoint is a pause button. You mark a line, the program stops there, and you can inspect every value and step forward one line at a time.
+
+Use prints for a quick look. Use breakpoints when you need to poke around in a complicated state.
+?? What does a breakpoint do?
++ Pauses the program at a chosen line so you can inspect values
+- Deletes the line that has the bug
+- Speeds up the program
+- Sends the error to the AI provider
+= A breakpoint stops execution at a marked line, letting you look at the program's state and step through it.
+## Testing concepts (pytest)
+A test is a small piece of code that checks another piece of code: "given this input, I expect that output". If the result is different, the test fails and tells you.
+
+assert total([2, 3]) == 5 is a complete test. pytest is the most common Python tool for running them. It finds every function whose name starts with test_, runs them all and reports what passed.
+
+Tests are like the smoke detectors in a house. You fit them once, and they keep watch every time something changes.
+
+That matters with AI assistants. When the assistant rewrites a function, the tests tell you in seconds whether the old behaviour survived.
+?? What does a test do?
++ Checks that code gives the expected result for a given input
+- Makes code run faster
+- Writes the code for you
+- Removes the need to read the code
+= A test states an expected outcome and fails loudly if the code no longer produces it.
+## The bottom of a stack trace usually points to the failing line
+A Python traceback is ordered from the oldest call at the top to the most recent at the bottom. So start reading from the bottom.
+
+The last line names the error and gives its message: ZeroDivisionError: division by zero. The lines just above show where it happened.
+
+One refinement. Sometimes the very bottom is inside a library you did not write. In that case, scan upwards for the last line that mentions one of your own files. That is where your code handed the library something it could not handle, and that is almost always where the fix belongs.
+?? Where should you look first in a Python traceback?
++ At the bottom, where the error type and message are
+- At the top line only
+- In the exact middle
+- Nowhere, tracebacks are not meant to be read
+= Python lists the most recent call last, so the error and its location are at the bottom.
+## Reproduce first: make the bug happen on demand
+Before fixing a bug, find a way to make it happen every time. A bug you can trigger on demand is half solved. A bug that appears "sometimes" cannot be confirmed as fixed.
+
+A mechanic does the same: "show me the noise". If the car will not make the noise in the workshop, any repair is a guess.
+
+Write down the exact steps and the exact input: this file, this row, this prompt. Then shrink it to the smallest case that still fails.
+
+With that in hand, a fix can be judged properly. The steps failed before, and now they pass. Without it, you are changing code and hoping.
+?? Why reproduce a bug before trying to fix it?
++ So you can confirm that the fix really worked
+- Because it makes the bug less serious
+- Because bugs fix themselves once they are seen
+- So that you can skip testing
+= A reliable way to trigger the bug gives you a before-and-after check for any fix.
+## Write a test that captures the bug, then fix it
+Once you can reproduce a bug, turn the reproduction into a test. Write a test that fails because of the bug. Then change the code until the test passes.
+
+This gives you two things. The first is proof: the test failed before, it passes now, so the fix is real. The second is protection: the test stays in the project, so the bug cannot return unnoticed.
+
+It is like fitting a guard rail at the spot where someone fell.
+
+It is also a superb way to direct an assistant: "Here is a failing test. Make it pass without changing the test." A clear target gets a far better result than a vague description.
+?? What is the advantage of writing a failing test before fixing a bug?
++ It proves the fix works and guards against the bug coming back
+- It makes the bug vanish without any code change
+- It lowers your API bill
+- It replaces the need for version control
+= The test fails before the fix and passes after, and it stays in place to catch the same bug in future.
+## Give the assistant the full error and the relevant code
+An assistant can only work with what you give it. "It doesn't work" forces it to guess, and its guesses will sound confident.
+
+Give it three things: the complete error message with the whole traceback, not a summary. The code involved. And what you expected to happen compared with what did happen.
+
+Think of visiting a doctor. "I feel bad" gets you questions. "Sharp pain here, since Tuesday, worse after eating" gets you a diagnosis.
+
+Do not paraphrase errors. The exact wording, line numbers included, is often the clue. Copy and paste beats describing every time.
+?? What is the most useful thing to give an assistant when asking it to fix an error?
++ The full error message and traceback, plus the relevant code
+- A short note saying it does not work
+- Only the first word of the error
+- A screenshot of your desktop wallpaper
+= Exact error text and the code involved let the assistant reason about the real cause instead of guessing.
+
+@@ sll_a1_4_3 | A1.4 Working with AI-Generated Code > AI Coding Assistants
+## Cursor, Copilot, and chat assistants
+~m
+AI coding tools come in three broad styles.
+
+Autocomplete tools, such as GitHub Copilot, suggest the next few lines as you type, like predictive text for code.
+
+AI editors and coding agents, such as Cursor and Claude Code, can read your whole project, make changes across many files, run commands and fix what breaks.
+
+Chat assistants, such as ChatGPT or Claude in a browser, are best for explaining, planning and writing small pieces, but they only see what you paste in.
+
+The more a tool can see and do on its own, the more it can get done, and the more carefully you need to review what it did.
+?? What mainly separates a coding agent from a browser chat assistant?
++ The agent can read your project, edit files and run commands itself
+- The agent can never make mistakes
+- The chat assistant cannot write code
+- The agent works without any AI model
+= Agents act directly on your files and tools, while a browser chat only knows what you paste into it.
+## Writing clear coding prompts and specs
+An assistant builds what you describe, not what you meant. A vague request gets a plausible guess.
+
+Compare telling a builder "make me a nice kitchen" with handing over a plan showing where the sink goes.
+
+A good request states four things. The goal: what the code is for. The inputs and outputs: what goes in and what should come out, ideally with an example. The constraints: which language, which libraries, what must not change. And what "done" means: how you will check it.
+
+A few sentences covering those four beats a long ramble. If you cannot write them down, the idea is not yet clear enough to build.
+?? Which request is most likely to produce the code you actually want?
++ One that states the goal, the inputs and outputs, the constraints and how success is checked
+- "Make it better"
+- "Write some code"
+- A single word naming the topic
+= Specific goals, examples and constraints remove the guesswork that leads to plausible but wrong code.
+## Reviewing and verifying AI output
+Treat AI output as a draft from a fast, capable junior colleague who has never seen it run. It may be excellent. It still needs checking.
+
+A workable routine has three steps. Read the diff, meaning the exact lines that changed, not just the summary the assistant gives you. Run it, and run the tests. Then try one awkward case of your own.
+
+Watch for changes you did not ask for. Assistants sometimes "tidy" unrelated code along the way.
+
+The size of the review should match the risk. A colour change needs a glance. Anything touching money, passwords, personal data or deletion needs a slow, careful read.
+?? What should you read to know what an AI assistant actually changed?
++ The diff, showing the exact lines added and removed
+- Only the assistant's summary message
+- The name of the file
+- Nothing, if the assistant says it is finished
+= The diff is the ground truth of what changed. Summaries can leave things out or be wrong.
+## Plan first, then build, then test
+The most reliable way to work with an assistant has three stages.
+
+Plan: ask it to describe the approach before writing any code. Which files, which steps, which risks. A wrong plan costs one minute to fix. Wrong code costs an hour.
+
+Build: let it carry out the agreed plan.
+
+Test: run the result and check it against what you asked for.
+
+It is how a builder works: drawings, then construction, then inspection. Nobody pours concrete and then discusses where the walls should go.
+
+Skipping the plan is the most common mistake, because the assistant will happily start typing straight away.
+?? Why ask an assistant for a plan before any code?
++ Mistakes in the approach are much cheaper to catch before code is written
+- Plans make the model run faster
+- Code cannot be written without a plan file
+- It removes the need to test afterwards
+= Reviewing a short plan catches a wrong direction early, before time is spent on code built on it.
+## Work in small steps and commit each one
+Ask for one small change, check that it works, commit, and repeat. Do not ask for the whole application in a single request.
+
+Climbers do this with rope anchors. Each one they fix limits how far they can fall.
+
+Small steps help in three ways. A small change is easy to review. When something breaks, you know which step caused it. And a commit after every working step means the worst case is losing a few minutes, not an afternoon.
+
+Large requests fail in a tangled way: fifteen files changed, something is wrong, and nobody can say where. Small steps keep you in control.
+?? What is the main benefit of committing after each small working step?
++ If the next change goes wrong you lose little and know exactly where the problem began
+- It makes the AI model smarter
+- It uses less disk space
+- It is required by Python
+= Frequent commits create nearby save points, so a bad step is easy to identify and undo.
+## Context files that tell the assistant your project's rules (e.g., AGENTS.md, CLAUDE.md)
+A coding assistant starts every session knowing nothing about your project. A context file fixes that. It is a plain text file in the project that the assistant reads automatically at the start.
+
+It works like the briefing sheet you would hand a new contractor: how to run the tests, which folders hold what, the conventions to follow, and the things never to touch.
+
+Common names are AGENTS.md and CLAUDE.md. Different tools look for different file names.
+
+Keep it short and specific. "Run npm test before every commit" is useful. A ten-page essay gets skimmed. Whenever you find yourself correcting the assistant twice about the same thing, that correction belongs in the file.
+?? What is a context file such as AGENTS.md for?
++ Giving the assistant standing instructions about your project at the start of each session
+- Storing your API keys
+- Listing which packages to install
+- Recording Git history
+= The assistant reads the file automatically, so project rules do not need repeating in every request.
+## Assistants can invent packages that do not exist: check before installing
+Sometimes an assistant tells you to install a package that sounds perfect and does not exist. The name is a plausible invention.
+
+That is more than an inconvenience. Attackers watch for commonly invented names and publish malicious packages under them, so the install "works" and runs their code on your machine. The trick is sometimes called slopsquatting.
+
+It is like dialling a phone number someone confidently made up. You may reach nobody, or you may reach a scammer.
+
+So before installing anything unfamiliar, look it up on the official package index. Check that it exists, that it is the project you expected, and that it has a real history and real users.
+?? Why is it risky to install a package name an assistant suggested without checking it?
++ The name may be invented, and attackers publish malware under such names
+- Packages suggested by AI always cost money
+- Installing packages deletes your code
+- Python allows only ten packages per project
+= Invented names can be registered by attackers, so an unchecked install may run malicious code.
+## You stay responsible for security and correctness
+The assistant writes the code. You answer for it. If it leaks customer data or miscalculates an invoice, "the AI wrote it" is not a defence, any more than a builder can blame the drill.
+
+In practice that means a few steady habits. Understand what the code does before it goes live. Check where secrets are kept. Be most careful with anything that touches money, personal data, logins or deletion.
+
+It also means knowing your limits. If you cannot judge whether something is safe, get a second opinion before shipping.
+
+The assistant gives you speed. Judgement and accountability stay with you.
+?? Who is accountable for problems caused by AI-generated code that you put into use?
++ You, the person who chose to use it
+- The AI model
+- Nobody
+- The programming language
+= Tools do not carry responsibility. The person who ships the code must understand and verify it.

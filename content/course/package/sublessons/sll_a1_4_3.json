@@ -1,0 +1,333 @@
+{
+  "id": "sll_a1_4_3",
+  "title": "AI Coding Assistants",
+  "bites": [
+    {
+      "id": "bit_a1_tools",
+      "title": "Cursor, Copilot, and chat assistants",
+      "body": "AI coding tools come in three broad styles.\n\nAutocomplete tools, such as GitHub Copilot, suggest the next few lines as you type, like predictive text for code.\n\nAI editors and coding agents, such as Cursor and Claude Code, can read your whole project, make changes across many files, run commands and fix what breaks.\n\nChat assistants, such as ChatGPT or Claude in a browser, are best for explaining, planning and writing small pieces, but they only see what you paste in.\n\nThe more a tool can see and do on its own, the more it can get done, and the more carefully you need to review what it did.",
+      "sourceNote": "Product behavior of coding assistants, as a practice note · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_tools_1",
+          "type": "multiple_choice",
+          "prompt": "What mainly separates a coding agent from a browser chat assistant?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The agent can never make mistakes"
+            },
+            {
+              "id": "b",
+              "text": "The chat assistant cannot write code"
+            },
+            {
+              "id": "c",
+              "text": "The agent works without any AI model"
+            },
+            {
+              "id": "d",
+              "text": "The agent can read your project, edit files and run commands itself"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Agents act directly on your files and tools, while a browser chat only knows what you paste into it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_specs",
+      "title": "Writing clear coding prompts and specs",
+      "body": "An assistant builds what you describe, not what you meant. A vague request gets a plausible guess.\n\nCompare telling a builder \"make me a nice kitchen\" with handing over a plan showing where the sink goes.\n\nA good request states four things. The goal: what the code is for. The inputs and outputs: what goes in and what should come out, ideally with an example. The constraints: which language, which libraries, what must not change. And what \"done\" means: how you will check it.\n\nA few sentences covering those four beats a long ramble. If you cannot write them down, the idea is not yet clear enough to build.",
+      "sourceNote": "Spec-writing practice for coding assistants · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_specs_1",
+          "type": "multiple_choice",
+          "prompt": "Which request is most likely to produce the code you actually want?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "One that states the goal, the inputs and outputs, the constraints and how success is checked"
+            },
+            {
+              "id": "b",
+              "text": "\"Make it better\""
+            },
+            {
+              "id": "c",
+              "text": "\"Write some code\""
+            },
+            {
+              "id": "d",
+              "text": "A single word naming the topic"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Specific goals, examples and constraints remove the guesswork that leads to plausible but wrong code.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_review",
+      "title": "Reviewing and verifying AI output",
+      "body": "Treat AI output as a draft from a fast, capable junior colleague who has never seen it run. It may be excellent. It still needs checking.\n\nA workable routine has three steps. Read the diff, meaning the exact lines that changed, not just the summary the assistant gives you. Run it, and run the tests. Then try one awkward case of your own.\n\nWatch for changes you did not ask for. Assistants sometimes \"tidy\" unrelated code along the way.\n\nThe size of the review should match the risk. A colour change needs a glance. Anything touching money, passwords, personal data or deletion needs a slow, careful read.",
+      "sourceNote": "Review checklist for this module's learning outcomes · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_review_1",
+          "type": "multiple_choice",
+          "prompt": "What should you read to know what an AI assistant actually changed?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The diff, showing the exact lines added and removed"
+            },
+            {
+              "id": "b",
+              "text": "Only the assistant's summary message"
+            },
+            {
+              "id": "c",
+              "text": "The name of the file"
+            },
+            {
+              "id": "d",
+              "text": "Nothing, if the assistant says it is finished"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The diff is the ground truth of what changed. Summaries can leave things out or be wrong.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit__8q1_6SchEW6",
+      "title": "Plan first, then build, then test",
+      "body": "The most reliable way to work with an assistant has three stages.\n\nPlan: ask it to describe the approach before writing any code. Which files, which steps, which risks. A wrong plan costs one minute to fix. Wrong code costs an hour.\n\nBuild: let it carry out the agreed plan.\n\nTest: run the result and check it against what you asked for.\n\nIt is how a builder works: drawings, then construction, then inspection. Nobody pours concrete and then discusses where the walls should go.\n\nSkipping the plan is the most common mistake, because the assistant will happily start typing straight away.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_75Q26D4CGlEE",
+          "targetCode": "B16.1",
+          "label": "see B16.1",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q__8q1_6SchEW6_1",
+          "type": "multiple_choice",
+          "prompt": "Why ask an assistant for a plan before any code?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Plans make the model run faster"
+            },
+            {
+              "id": "b",
+              "text": "Mistakes in the approach are much cheaper to catch before code is written"
+            },
+            {
+              "id": "c",
+              "text": "Code cannot be written without a plan file"
+            },
+            {
+              "id": "d",
+              "text": "It removes the need to test afterwards"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Reviewing a short plan catches a wrong direction early, before time is spent on code built on it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_mI18B537hgIJ",
+      "title": "Work in small steps and commit each one",
+      "body": "Ask for one small change, check that it works, commit, and repeat. Do not ask for the whole application in a single request.\n\nClimbers do this with rope anchors. Each one they fix limits how far they can fall.\n\nSmall steps help in three ways. A small change is easy to review. When something breaks, you know which step caused it. And a commit after every working step means the worst case is losing a few minutes, not an afternoon.\n\nLarge requests fail in a tangled way: fifteen files changed, something is wrong, and nobody can say where. Small steps keep you in control.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_mI18B537hgIJ_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main benefit of committing after each small working step?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the AI model smarter"
+            },
+            {
+              "id": "b",
+              "text": "It uses less disk space"
+            },
+            {
+              "id": "c",
+              "text": "It is required by Python"
+            },
+            {
+              "id": "d",
+              "text": "If the next change goes wrong you lose little and know exactly where the problem began"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Frequent commits create nearby save points, so a bad step is easy to identify and undo.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_tvzT9bb5cJdX",
+      "title": "Context files that tell the assistant your project's rules (e.g., AGENTS.md, CLAUDE.md)",
+      "body": "A coding assistant starts every session knowing nothing about your project. A context file fixes that. It is a plain text file in the project that the assistant reads automatically at the start.\n\nIt works like the briefing sheet you would hand a new contractor: how to run the tests, which folders hold what, the conventions to follow, and the things never to touch.\n\nCommon names are AGENTS.md and CLAUDE.md. Different tools look for different file names.\n\nKeep it short and specific. \"Run npm test before every commit\" is useful. A ten-page essay gets skimmed. Whenever you find yourself correcting the assistant twice about the same thing, that correction belongs in the file.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_tvzT9bb5cJdX_1",
+          "type": "multiple_choice",
+          "prompt": "What is a context file such as AGENTS.md for?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Storing your API keys"
+            },
+            {
+              "id": "b",
+              "text": "Listing which packages to install"
+            },
+            {
+              "id": "c",
+              "text": "Giving the assistant standing instructions about your project at the start of each session"
+            },
+            {
+              "id": "d",
+              "text": "Recording Git history"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The assistant reads the file automatically, so project rules do not need repeating in every request.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_hhAzgwdhb_9_",
+      "title": "Assistants can invent packages that do not exist: check before installing",
+      "body": "Sometimes an assistant tells you to install a package that sounds perfect and does not exist. The name is a plausible invention.\n\nThat is more than an inconvenience. Attackers watch for commonly invented names and publish malicious packages under them, so the install \"works\" and runs their code on your machine. The trick is sometimes called slopsquatting.\n\nIt is like dialling a phone number someone confidently made up. You may reach nobody, or you may reach a scammer.\n\nSo before installing anything unfamiliar, look it up on the official package index. Check that it exists, that it is the project you expected, and that it has a real history and real users.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_hhAzgwdhb_9__1",
+          "type": "multiple_choice",
+          "prompt": "Why is it risky to install a package name an assistant suggested without checking it?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Packages suggested by AI always cost money"
+            },
+            {
+              "id": "b",
+              "text": "Installing packages deletes your code"
+            },
+            {
+              "id": "c",
+              "text": "Python allows only ten packages per project"
+            },
+            {
+              "id": "d",
+              "text": "The name may be invented, and attackers publish malware under such names"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Invented names can be registered by attackers, so an unchecked install may run malicious code.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_oi7L-Ql0Kbhj",
+      "title": "You stay responsible for security and correctness",
+      "body": "The assistant writes the code. You answer for it. If it leaks customer data or miscalculates an invoice, \"the AI wrote it\" is not a defence, any more than a builder can blame the drill.\n\nIn practice that means a few steady habits. Understand what the code does before it goes live. Check where secrets are kept. Be most careful with anything that touches money, personal data, logins or deletion.\n\nIt also means knowing your limits. If you cannot judge whether something is safe, get a second opinion before shipping.\n\nThe assistant gives you speed. Judgement and accountability stay with you.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a7",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_oi7L-Ql0Kbhj_1",
+          "type": "multiple_choice",
+          "prompt": "Who is accountable for problems caused by AI-generated code that you put into use?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The AI model"
+            },
+            {
+              "id": "b",
+              "text": "Nobody"
+            },
+            {
+              "id": "c",
+              "text": "The programming language"
+            },
+            {
+              "id": "d",
+              "text": "You, the person who chose to use it"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Tools do not carry responsibility. The person who ships the code must understand and verify it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

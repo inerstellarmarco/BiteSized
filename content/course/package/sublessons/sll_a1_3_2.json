@@ -1,0 +1,333 @@
+{
+  "id": "sll_a1_3_2",
+  "title": "APIs, HTTP & JSON",
+  "bites": [
+    {
+      "id": "bit_a1_api",
+      "title": "What an API is",
+      "body": "An API is an agreed way for one program to ask another for something. A restaurant menu is a good picture: it lists what you may order and how to ask. You never walk into the kitchen. You place an order, and the dish comes back.\n\nOn the web, \"placing an order\" means sending a request to a URL and getting a reply.\n\nUsing an LLM from code works exactly like this. Your program sends text to the provider's API, and the answer comes back as data.\n\nThe key idea is the contract. You do not need to know how the kitchen works, only what you can ask for and what you will get.",
+      "sourceNote": "HTTP APIs, conceptual · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_api_1",
+          "type": "multiple_choice",
+          "prompt": "Which description best fits an API?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "An agreed way for one program to request data or actions from another"
+            },
+            {
+              "id": "b",
+              "text": "A type of database"
+            },
+            {
+              "id": "c",
+              "text": "A programming language"
+            },
+            {
+              "id": "d",
+              "text": "A program that only runs on phones"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "An API is a contract: what you can ask for, how to ask, and what comes back.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_http",
+      "title": "HTTP requests and responses",
+      "body": "HTTP is the conversation format of the web: one side sends a request, the other sends a response. It works like posting a letter and getting a reply.\n\nA request has four parts. The method says what you want to do. The URL is the address. Headers are notes on the envelope, such as who you are. The body is the letter itself, the data you are sending.\n\nThe response comes back with a status code (a three-digit verdict), its own headers, and usually a body containing the result.\n\nEvery model call you ever make is one of these round trips. When something fails, checking these parts in order usually finds the cause.",
+      "sourceNote": "HTTP semantics, common status codes · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": "sequenceDiagram\n  participant App\n  participant API\n  App->>API: Send an HTTP request\n  API-->>App: Send a status code and a body",
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_http_1",
+          "type": "multiple_choice",
+          "prompt": "In an HTTP request, what is the body?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The data being sent, such as the prompt for a model"
+            },
+            {
+              "id": "b",
+              "text": "The address of the server"
+            },
+            {
+              "id": "c",
+              "text": "The three-digit result code"
+            },
+            {
+              "id": "d",
+              "text": "The name of the programming language"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The body carries the content of the request. The URL is the address and the status code belongs to the response.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_json",
+      "title": "JSON data and API keys",
+      "body": "Two things appear in almost every API call.\n\nJSON is the format of the data: text arranged as labelled values and lists, such as {\"model\": \"small\", \"messages\": [...]}. Both sides can read it easily, which is why nearly every API uses it.\n\nAn API key is a long secret string that identifies you. It is like a hotel key card: whoever holds it can open your room and charge things to it.\n\nThat is why keys go in environment variables, never in code, never in a chat message and never in a screenshot. If a key leaks, cancel it and create a new one. Keys are cheap to replace.",
+      "sourceNote": "JSON specification and common API-key practice · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [
+        {
+          "id": "lnk_bit_a1_json_A1_1",
+          "targetCode": "A1.1",
+          "label": "see A1.1",
+          "position": "a0"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q_a1_json_1",
+          "type": "multiple_choice",
+          "prompt": "How should an API key be treated?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "As public information that is safe to share"
+            },
+            {
+              "id": "b",
+              "text": "As something to put at the top of every code file"
+            },
+            {
+              "id": "c",
+              "text": "Like a password: kept out of code and replaced if it leaks"
+            },
+            {
+              "id": "d",
+              "text": "As something that is only needed once, ever"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A key identifies you and is billed to you, so it must be kept secret and rotated if exposed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_8JUGQtncFxUd",
+      "title": "Methods: GET reads, POST sends, PUT or PATCH changes, DELETE removes",
+      "body": "The method is the verb of a request. It tells the server what kind of action you want.\n\nGET asks for information and should change nothing, like reading a notice board. POST sends new data, like handing in a form. PUT replaces something that exists, and PATCH changes part of it. DELETE removes it.\n\nA useful surprise: calls to LLMs are POST requests, even though it feels like you are \"getting\" an answer. That is because you are sending data, your prompt, for the server to work on.\n\nWhen an API call fails oddly, check the method. Using GET where the docs say POST is a common slip.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_8JUGQtncFxUd_1",
+          "type": "multiple_choice",
+          "prompt": "Which HTTP method is normally used to send a prompt to an LLM API?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "GET"
+            },
+            {
+              "id": "b",
+              "text": "DELETE"
+            },
+            {
+              "id": "c",
+              "text": "POST"
+            },
+            {
+              "id": "d",
+              "text": "PATCH"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "You are sending data (the prompt) for processing, which is what POST is for.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_On44sMkiLIAY",
+      "title": "Status codes: 200 worked, 401 not allowed, 429 slow down, 500 server problem",
+      "body": "Every HTTP response carries a three-digit status code. The first digit tells most of the story.\n\n2xx means success. 200 is \"it worked\".\n\n4xx means the problem is on your side. 400 is a malformed request. 401 means your key is missing or wrong. 404 means the address does not exist. 429 means you are sending too much, too fast.\n\n5xx means the problem is on their side. 500 is a server error.\n\nThat split tells you what to do. For 4xx, fix your request, because retrying the same thing will fail again. The exception is 429: wait, then retry. For 5xx, waiting and retrying is reasonable.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_On44sMkiLIAY_1",
+          "type": "multiple_choice",
+          "prompt": "An API call returns status 401. What is the most likely cause?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The server is overloaded"
+            },
+            {
+              "id": "b",
+              "text": "The API key is missing or invalid"
+            },
+            {
+              "id": "c",
+              "text": "You sent too many requests"
+            },
+            {
+              "id": "d",
+              "text": "The request succeeded"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "401 means the server could not authenticate you, which usually points at the key.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_9W5xAnzoyRW9",
+      "title": "Headers and authentication",
+      "body": "Headers are small labelled notes sent along with a request, separate from the main content. Think of the outside of an envelope: who it is from, what is inside, how to handle it.\n\nTwo matter most. Content-Type says what format the body is in, usually application/json. Authorization proves who you are, typically by carrying your API key: Authorization: Bearer followed by the key.\n\nAuthentication just means proving identity. The server checks the header before it does any work, like a doorman checking a pass.\n\nIf you get a 401, look here first. The key is missing, mistyped, expired, or placed in the wrong header.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a5",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_9W5xAnzoyRW9_1",
+          "type": "multiple_choice",
+          "prompt": "Where is an API key normally placed in a request?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "In the status code"
+            },
+            {
+              "id": "b",
+              "text": "In the name of the method"
+            },
+            {
+              "id": "c",
+              "text": "In the response body"
+            },
+            {
+              "id": "d",
+              "text": "In a header, typically Authorization"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Keys travel in a request header so the server can identify the caller before processing the body.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_nbf1kqktZfhS",
+      "title": "Reading API documentation and trying a call before coding it",
+      "body": "Before writing a program around an API, make one call by hand and look at what comes back. It is the test drive before buying the car.\n\nThe docs tell you four things: the URL (the endpoint), the method, what you must send, and what the reply looks like. Most include an example you can copy.\n\nYou can try it with curl in a terminal, with a tool such as Postman, or with a five-line script.\n\nTen minutes here saves hours later. You see the real shape of the reply, the real error messages and whether your key works, before any of that is tangled up with your own code.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a6",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_nbf1kqktZfhS_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main benefit of making one manual API call before building code around it?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes later calls free"
+            },
+            {
+              "id": "b",
+              "text": "It removes the need to read any documentation"
+            },
+            {
+              "id": "c",
+              "text": "You see the real request and response shapes and confirm your access works"
+            },
+            {
+              "id": "d",
+              "text": "It permanently raises your rate limit"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A manual call shows exactly what the API expects and returns, so problems surface before they are mixed with your own code.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_gRdLFaas937B",
+      "title": "Webhooks: the other system calls you when something happens",
+      "body": "Normally your code calls an API and asks. A webhook turns that around: you give the other system a URL, and it calls you when something happens.\n\nCompare two ways to wait for a parcel. You can phone the depot every ten minutes to ask \"is it here yet?\" That is called polling. Or the courier can ring your doorbell. That is a webhook.\n\nExamples: a payment service tells you a customer has paid. A form tool tells you about a new submission. That event can then start an AI workflow.\n\nBecause anyone could send a request to your URL, good webhooks are signed, and your code should check the signature before trusting them.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a7",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_gRdLFaas937B_1",
+          "type": "multiple_choice",
+          "prompt": "How does a webhook differ from a normal API call?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The other system calls your URL when an event happens, instead of you repeatedly asking"
+            },
+            {
+              "id": "b",
+              "text": "It is always slower than asking repeatedly"
+            },
+            {
+              "id": "c",
+              "text": "It works without any internet connection"
+            },
+            {
+              "id": "d",
+              "text": "It can only send images"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "With a webhook the provider pushes the event to you, so you do not need to keep polling.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}

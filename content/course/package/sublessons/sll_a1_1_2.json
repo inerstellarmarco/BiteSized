@@ -1,0 +1,206 @@
+{
+  "id": "sll_a1_1_2",
+  "title": "Control Flow",
+  "bites": [
+    {
+      "id": "bit_a1_conditionals",
+      "title": "Conditionals",
+      "body": "A conditional lets code choose a path, like a fork in the road with a sign: \"if raining, take the bus, otherwise walk\".\n\nIn Python that is if, elif (else if) and else. The conditions are checked from the top, the first one that is true runs, and the rest are skipped. Indentation, not brackets, shows which lines belong to each branch.\n\nTwo details trip people up. Order matters: put the most specific check first, or a broader one will catch everything. And = assigns a value while == compares two values.",
+      "sourceNote": "Python tutorial, if statements · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": "flowchart TD\n  A[\"Look at the condition\"] --> B{\"Is it true?\"}\n  B -->|Yes| C[\"Run the if branch\"]\n  B -->|No| D[\"Run the else branch\"]\n  C --> E[\"Continue\"]\n  D --> E",
+      "position": "a0",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_conditionals_1",
+          "type": "multiple_choice",
+          "prompt": "In an if / elif / else chain, how many branches run?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every branch whose condition is true"
+            },
+            {
+              "id": "b",
+              "text": "Only the first one whose condition is true"
+            },
+            {
+              "id": "c",
+              "text": "Always the else branch as well"
+            },
+            {
+              "id": "d",
+              "text": "None unless all conditions are true"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Python checks from the top and runs the first matching branch, then skips the rest.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_a1_loops",
+      "title": "Loops and iteration",
+      "body": "A loop repeats work so you do not have to write it out many times. Python has two kinds.\n\nA for loop walks through a collection one item at a time, like dealing each card in a deck: for name in names. It ends when the items run out.\n\nA while loop keeps going as long as a condition stays true, like stirring until the sauce thickens. It ends only when the condition turns false.\n\nOne counting quirk: range(3) gives 0, 1, 2. It starts at zero and stops before the number you gave. Off-by-one mistakes around this are everywhere.",
+      "sourceNote": "Python tutorial, for and while · confidence: high",
+      "lastReviewedOn": "2026-11-12",
+      "diagram": null,
+      "position": "a1",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_a1_loops_1",
+          "type": "multiple_choice",
+          "prompt": "What values does range(3) produce?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "1, 2, 3"
+            },
+            {
+              "id": "b",
+              "text": "0, 1, 2, 3"
+            },
+            {
+              "id": "c",
+              "text": "3, 2, 1"
+            },
+            {
+              "id": "d",
+              "text": "0, 1, 2"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "range starts at 0 and stops before the number given, so range(3) yields three values: 0, 1 and 2.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_ZY5E4pNytWYW",
+      "title": "Looping over a list: do something for each item",
+      "body": "The most common loop in real code is \"for each item in this list, do this\".\n\nfor email in emails: send(email) reads almost like English. Each time round, the name email holds the next item. The indented lines underneath are the work done per item.\n\nIn AI code you will see it everywhere: for each document, summarise it. For each row, call the model. For each result, check it.\n\nA practical warning: if each pass makes a paid API call, a list of 10,000 items means 10,000 calls. Before running a loop, ask how long the list is.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a2",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_ZY5E4pNytWYW_1",
+          "type": "multiple_choice",
+          "prompt": "In \"for doc in documents:\", what does the name doc hold?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The whole list every time"
+            },
+            {
+              "id": "b",
+              "text": "The position number only"
+            },
+            {
+              "id": "c",
+              "text": "The next item from the list on each pass"
+            },
+            {
+              "id": "d",
+              "text": "The total number of items"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The loop variable takes each item in turn, one per pass through the indented block.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_4_JsiSnaQKHl",
+      "title": "Loops that never stop are a classic bug",
+      "body": "A while loop runs until its condition becomes false. If nothing inside the loop ever makes it false, it runs forever. Imagine \"keep walking until you reach the door\" when you are walking in a circle.\n\nThe usual causes: forgetting to update the counter, or waiting for something that never arrives, such as a reply that never comes.\n\nWith AI agents this is expensive, not just annoying, because every lap can be a paid model call. That is why sound loops carry a safety limit: a maximum number of attempts, or a timeout. If you see while True with no clear exit, ask where it stops.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a3",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_4_JsiSnaQKHl_1",
+          "type": "multiple_choice",
+          "prompt": "What is the most reliable guard against a loop that might never end?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Using a faster computer"
+            },
+            {
+              "id": "b",
+              "text": "Writing the loop on a single line"
+            },
+            {
+              "id": "c",
+              "text": "A maximum number of attempts or a timeout"
+            },
+            {
+              "id": "d",
+              "text": "Adding more print statements"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A hard cap or timeout guarantees the loop exits even if the expected condition never happens.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    },
+    {
+      "id": "bit_mzfC9-QvR2NX",
+      "title": "Comprehensions: a compact loop you will see often in generated code",
+      "body": "A comprehension builds a new list from an old one in a single line.\n\n[n * 2 for n in numbers] means \"give me n times 2, for every n in numbers\". It does the same job as a three-line for loop that appends to an empty list.\n\nYou can add a filter on the end: [n for n in numbers if n > 0] keeps only the positives.\n\nRead them from the middle outwards: first the \"for\" part (where items come from), then the \"if\" (which ones to keep), then the front (what to do with each). Assistants love them. If one is too dense to follow, ask for it as a plain loop.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
+      "lastReviewedOn": null,
+      "diagram": null,
+      "position": "a4",
+      "archivedAt": null,
+      "crossLinks": [],
+      "questions": [
+        {
+          "id": "q_mzfC9-QvR2NX_1",
+          "type": "multiple_choice",
+          "prompt": "What does [n for n in numbers if n > 0] produce?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The count of positive numbers"
+            },
+            {
+              "id": "b",
+              "text": "True or False"
+            },
+            {
+              "id": "c",
+              "text": "A new list holding only the numbers greater than zero"
+            },
+            {
+              "id": "d",
+              "text": "The same list with negatives changed to zero"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The if at the end is a filter, so only items passing the test are kept in the new list.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
+    }
+  ]
+}
