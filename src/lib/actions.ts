@@ -21,6 +21,7 @@ import { profiles } from "@/lib/db/schema";
 import { explainChoice, saveQuizAttempt } from "@/lib/quiz/attempts";
 import type { FontSize, ThemePreference } from "@/lib/types";
 import { importPackageFiles, unzipPackage } from "@/lib/packages/io";
+import { looksLikeOutlineFile, outlineFileMessage } from "@/lib/packages/outline-hint";
 
 export type SignInState = { error: string } | null;
 
@@ -189,6 +190,7 @@ export async function importCourseAction(_prev: { error?: string; ok?: boolean }
   if (!admin) return { error: "Only an admin can import a course." };
   const file = formData.get("package");
   if (!(file instanceof File)) return { error: "Choose a package zip." };
+  if (looksLikeOutlineFile(file.name)) return { error: outlineFileMessage(file.name) };
   if (file.size > 5_000_000) return { error: "That package is larger than 5 MB." };
   const bytes = new Uint8Array(await file.arrayBuffer());
   try {

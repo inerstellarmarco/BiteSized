@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   addProfileAction,
@@ -10,6 +11,12 @@ import {
   restoreProfileAction,
   setAdminAction,
 } from "@/lib/actions";
+import {
+  IMPORT_OUTLINE_PATH,
+  IMPORT_OUTLINE_TITLE,
+  looksLikeOutlineFile,
+  outlineFileMessage,
+} from "@/lib/packages/outline-hint";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -33,6 +40,7 @@ export function AdminPanel({
 }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [outlinePick, setOutlinePick] = useState<string | null>(null);
   const [addState, addAction, addPending] = useActionState(addProfileAction, null);
   const [importState, importAction, importPending] = useActionState(importCourseAction, null);
   const active = profiles.filter((profile) => !profile.archived);
@@ -144,23 +152,60 @@ export function AdminPanel({
       <section>
         <h2 className="font-display text-2xl">Course package</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Download the live course, or import a package. Import updates content and leaves family progress in place. A full backup, including progress, is the server backup script.
+          Download the live course, or import a package ZIP. Import updates content and leaves family progress in place. A full backup, including progress, is the server backup script.
+        </p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          For a Word outline or Google Doc, use{" "}
+          <Link
+            href={IMPORT_OUTLINE_PATH}
+            data-testid="course-package-outline-link"
+            className="font-medium text-foreground underline decoration-primary/50 underline-offset-4"
+          >
+            {IMPORT_OUTLINE_TITLE}
+          </Link>
+          .
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <Button asChild variant="outline">
             <a href="/api/admin/export">Download course package</a>
           </Button>
           <form action={importAction} className="flex flex-wrap items-center gap-2">
-            <Input name="package" type="file" accept="application/zip,.zip" required className="max-w-xs" />
+            <Input
+              name="package"
+              type="file"
+              accept="application/zip,.zip"
+              required
+              className="max-w-xs"
+              aria-label="Course package ZIP"
+              onChange={(event) => {
+                const file = event.target.files?.[0];
+                setOutlinePick(file && looksLikeOutlineFile(file.name) ? file.name : null);
+              }}
+            />
             <Button type="submit" disabled={importPending}>
-              {importPending ? "Importing…" : "Import"}
+              {importPending ? "Importing…" : "Import package"}
             </Button>
           </form>
         </div>
-        {importState?.error ? <p className="mt-2 text-sm text-destructive">{importState.error}</p> : null}
+        {outlinePick && !importState?.error ? <PackageNotice message={outlineFileMessage(outlinePick)} /> : null}
+        {importState?.error ? <PackageNotice message={importState.error} /> : null}
         {importState?.ok ? <p className="mt-2 text-sm text-success">Course imported.</p> : null}
       </section>
     </div>
+  );
+}
+
+function PackageNotice({ message }: { message: string }) {
+  const at = message.indexOf(IMPORT_OUTLINE_TITLE);
+  if (at < 0) return <p className="mt-2 text-sm text-destructive">{message}</p>;
+  return (
+    <p className="mt-2 text-sm text-destructive" role="alert" data-testid="package-import-error">
+      {message.slice(0, at)}
+      <Link href={IMPORT_OUTLINE_PATH} className="underline decoration-primary/50 underline-offset-4">
+        {IMPORT_OUTLINE_TITLE}
+      </Link>
+      {message.slice(at + IMPORT_OUTLINE_TITLE.length)}
+    </p>
   );
 }
 

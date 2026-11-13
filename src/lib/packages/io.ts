@@ -28,6 +28,7 @@ import {
 } from "@/lib/db/schema";
 import type { AppDatabase } from "@/lib/db/types";
 import { toIso } from "@/lib/dates";
+import { notACoursePackageMessage } from "@/lib/packages/outline-hint";
 import { PACKAGE_FORMAT, PACKAGE_VERSION, QUESTION_TYPES, type Choice, type QuestionType, type Toolkit } from "@/lib/types";
 
 export type PackageOptions = {
@@ -744,9 +745,7 @@ async function applyPackage(db: AppDatabase, files: Record<string, string>, opti
 
 export async function importPackageFiles(db: AppDatabase, files: Record<string, string>, options: ImportOptions = {}) {
   if (!files["index.json"]) {
-    throw new Error(
-      "This is not a course package (no index.json inside). Packages are the ZIP files this app exports. To bring in a Word or Google Doc outline, use Admin → Import instead.",
-    );
+    throw new Error(notACoursePackageMessage());
   }
   await db.transaction(async (tx) => {
     const database = tx as unknown as AppDatabase;

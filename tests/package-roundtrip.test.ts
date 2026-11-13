@@ -19,7 +19,8 @@ import {
   subLessons,
   contentRevisions,
 } from "@/lib/db/schema";
-import { importPackageFromDir, SAMPLE_PACKAGE_DIR, wipeDatabase, exportPackageToDir } from "@/lib/packages/io";
+import { importPackageFiles, importPackageFromDir, SAMPLE_PACKAGE_DIR, wipeDatabase, exportPackageToDir } from "@/lib/packages/io";
+import { looksLikeOutlineFile, notACoursePackageMessage, outlineFileMessage } from "@/lib/packages/outline-hint";
 import { saveQuizAttempt } from "@/lib/quiz/attempts";
 
 const expectedSubLessons = [
@@ -36,6 +37,32 @@ const expectedSubLessons = [
   "Debugging",
   "AI Coding Assistants",
 ];
+
+describe("course package mistaken for an outline", () => {
+  it("names the Import a Google Doc page when the zip has no index.json", async () => {
+    const opened = await openMemoryDatabase();
+    try {
+      const message = notACoursePackageMessage();
+      expect(message).toContain("Import a Google Doc");
+      expect(message).toContain("/admin/import");
+      await expect(importPackageFiles(opened.db, {})).rejects.toThrow(message);
+      await expect(importPackageFiles(opened.db, { "notes.txt": "hello" })).rejects.toThrow(message);
+    } finally {
+      await opened.close();
+    }
+  });
+
+  it("recognizes a Word, HTML, or text file picked for the package box", () => {
+    expect(looksLikeOutlineFile("Week 1 outline.docx")).toBe(true);
+    expect(looksLikeOutlineFile("export.HTML")).toBe(true);
+    expect(looksLikeOutlineFile("notes.htm")).toBe(true);
+    expect(looksLikeOutlineFile("outline.txt")).toBe(true);
+    expect(looksLikeOutlineFile("course.zip")).toBe(false);
+    expect(looksLikeOutlineFile("notes.docx.zip")).toBe(false);
+    expect(outlineFileMessage("Week 1 outline.docx")).toContain("Import a Google Doc");
+    expect(outlineFileMessage("Week 1 outline.docx")).toContain("/admin/import");
+  });
+});
 
 describe("course package round trip", () => {
   it("exports, wipes, and imports content plus learner progress", async () => {
