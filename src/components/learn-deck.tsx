@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { Check, Heart, MoreHorizontal } from "lucide-react";
 import { formatReviewed } from "@/lib/utils";
 import { cardEnterClass, classifySwipe } from "@/lib/swipe";
+import { biteActions, bodyParagraphs, type BiteActionId } from "@/lib/bite-actions";
 
 export type LearnBite = {
   id: string;
@@ -202,6 +203,7 @@ export function LearnDeck({
           <BiteTools
             bite={{ ...bite, hearted: heartOverrides[bite.id] ?? bite.hearted }}
             isAdmin={isAdmin}
+            desktop={desktop}
             menuOpen={menuOpen}
             busy={busy}
             note={note}
@@ -294,6 +296,7 @@ export function LearnDeck({
 function BiteTools({
   bite,
   isAdmin,
+  desktop,
   menuOpen,
   busy,
   note,
@@ -310,6 +313,7 @@ function BiteTools({
 }: {
   bite: LearnBite;
   isAdmin: boolean;
+  desktop: boolean;
   menuOpen: boolean;
   busy: boolean;
   note: string | null;
@@ -330,34 +334,39 @@ function BiteTools({
   const title = draft?.title ?? (showPersonal ? personal?.title : bite.title);
   const body = draft?.body ?? (showPersonal ? personal?.body : bite.body);
   const diagram = draft ? draft.diagram : showPersonal ? personal?.diagram ?? null : bite.diagram;
-  function pick(action: () => void) {
+  const actions = biteActions(isAdmin);
+  function run(id: BiteActionId) {
     setToolsOpen(false);
-    action();
+    if (id === "regenerate") onMenu();
+    else if (id === "example") onExample();
+    else onFlag(id);
   }
   return (
     <>
       <div className="absolute right-3 top-3 flex items-center gap-1" onClick={(event) => event.stopPropagation()}>
-        <div className="relative">
-          <button
-            type="button"
-            data-testid="bite-tools"
-            aria-haspopup="menu"
-            aria-expanded={toolsOpen}
-            aria-label="More actions for this bite"
-            title="More actions"
-            onClick={() => setToolsOpen((open) => !open)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            <MoreHorizontal className="h-5 w-5" aria-hidden />
-          </button>
-          <PopMenu open={toolsOpen} onClose={() => setToolsOpen(false)} testId="bite-tools-menu">
-            <PopMenuItem testId="regenerate-menu" onClick={() => pick(onMenu)}>Regenerate…</PopMenuItem>
-            <PopMenuItem onClick={() => pick(() => onFlag("revisit"))}>Revisit later</PopMenuItem>
-            <PopMenuItem testId="flag-rework" onClick={() => pick(() => onFlag("rework"))}>Flag for rework</PopMenuItem>
-            <PopMenuItem onClick={() => pick(() => onFlag("error"))}>Report an error</PopMenuItem>
-            {isAdmin ? <PopMenuItem testId="style-example" onClick={() => pick(onExample)}>Use as style example</PopMenuItem> : null}
-          </PopMenu>
-        </div>
+        {desktop ? null : (
+          <div className="relative">
+            <button
+              type="button"
+              data-testid="bite-tools"
+              aria-haspopup="menu"
+              aria-expanded={toolsOpen}
+              aria-label="More actions for this bite"
+              title="More actions"
+              onClick={() => setToolsOpen((open) => !open)}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <MoreHorizontal className="h-5 w-5" aria-hidden />
+            </button>
+            <PopMenu open={toolsOpen} onClose={() => setToolsOpen(false)} testId="bite-tools-menu">
+              {actions.map((action) => (
+                <PopMenuItem key={action.id} testId={action.testId} onClick={() => run(action.id)}>
+                  {action.label}
+                </PopMenuItem>
+              ))}
+            </PopMenu>
+          </div>
+        )}
         <button
           type="button"
           data-testid="heart"
@@ -385,10 +394,23 @@ function BiteTools({
       <h2 className="pr-20 font-display text-2xl leading-tight md:text-3xl" data-testid="learn-title">
         {title}
       </h2>
-      <p className="mt-4 max-w-2xl text-[1.05em] leading-relaxed">{body}</p>
+      <div className="mt-4 max-w-2xl space-y-3 text-[1.05em] leading-relaxed" data-testid="learn-body">
+        {bodyParagraphs(body ?? "").map((paragraph, paragraphIndex) => (
+          <p key={paragraphIndex}>{paragraph}</p>
+        ))}
+      </div>
       {diagram ? (
         <div className="mt-5">
           <Diagram source={diagram} />
+        </div>
+      ) : null}
+      {desktop ? (
+        <div className="mt-6 flex flex-wrap gap-2 border-t border-border pt-4" data-testid="bite-actions" onClick={(event) => event.stopPropagation()}>
+          {actions.map((action) => (
+            <Button key={action.id} type="button" size="sm" variant="outline" data-testid={action.testId} onClick={() => run(action.id)}>
+              {action.label}
+            </Button>
+          ))}
         </div>
       ) : null}
       {menuOpen ? (
