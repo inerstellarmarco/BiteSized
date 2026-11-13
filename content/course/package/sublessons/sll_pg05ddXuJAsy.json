@@ -5,20 +5,48 @@
     {
       "id": "bit_J89B_nLzHkPb",
       "title": "What an agent is",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent is an AI system that works towards a goal by taking actions, deciding its own next step as it goes.\n\nYou give a chatbot a question and it gives you text. You give an agent a goal, such as \"find three suppliers for this part and draft an email to each\", and it works out the steps, uses tools to carry them out, checks what happened and continues until it is finished.\n\nThe defining feature is that the model directs the process. Nobody scripted \"first search, then compare, then write\". The agent chose that.\n\nIt is the difference between asking someone a question and giving someone a job.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_J89B_nLzHkPb_1",
+          "type": "multiple_choice",
+          "prompt": "What most clearly distinguishes an agent from a chatbot?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It decides its own steps and takes actions to reach a goal"
+            },
+            {
+              "id": "b",
+              "text": "It writes longer answers"
+            },
+            {
+              "id": "c",
+              "text": "It uses a larger font"
+            },
+            {
+              "id": "d",
+              "text": "It never makes mistakes"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "An agent directs its own process and uses tools, instead of only replying with text.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_LCb5OixcGUH1",
       "title": "LLM as the brain",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In an agent, the language model is the part that thinks. It reads the goal and the situation so far, and decides what to do next.\n\nIt does not do the work itself. It cannot send an email or query a database. It decides that an email should be sent and what it should say. Other parts of the system carry that out.\n\nThink of a ship's captain. The captain reads the charts and gives the orders. The engine and the crew move the ship.\n\nTwo things follow. A stronger model makes better decisions, and that matters more in agents than in chat, because decisions pile up. And a brain with no hands, meaning no tools, can only talk.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,43 +59,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_LCb5OixcGUH1_1",
+          "type": "multiple_choice",
+          "prompt": "What does the LLM do inside an agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Physically sends emails by itself"
+            },
+            {
+              "id": "b",
+              "text": "Stores all the company data"
+            },
+            {
+              "id": "c",
+              "text": "Replaces the need for tools"
+            },
+            {
+              "id": "d",
+              "text": "Decides what to do next based on the goal and what has happened so far"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The model is the decision-maker. Tools and the surrounding code carry out the actions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_a8pCVIYsXfin",
       "title": "Chatbot vs. active worker",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A chatbot and an agent can run on the same model. What differs is what surrounds it.\n\nA chatbot responds. One message in, one message out. If you want research done, it tells you how to do it.\n\nAn agent acts. Given the same request, it runs the searches, reads the pages, compares what it finds and brings you the result.\n\nThink of a travel guidebook and a travel agent. One tells you what you could book. The other books it.\n\nThe shift matters because of responsibility. A chatbot's worst mistake is a wrong sentence, which you can ignore. An agent's worst mistake is a wrong action: an email sent, a record changed, money spent.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_a8pCVIYsXfin_1",
+          "type": "multiple_choice",
+          "prompt": "Why does moving from a chatbot to an agent raise the stakes?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Agents use more colours"
+            },
+            {
+              "id": "b",
+              "text": "An agent's mistakes are actions with real consequences, not just wrong text"
+            },
+            {
+              "id": "c",
+              "text": "Chatbots are illegal"
+            },
+            {
+              "id": "d",
+              "text": "Agents cannot be turned off"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Acting in the world means errors can send, change or spend things, which is riskier than a wrong sentence.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_KLi2ycd9nUjC",
       "title": "The loop: decide, act, look at the result, repeat",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every agent runs the same simple cycle.\n\nDecide: the model looks at the goal and everything so far and picks the next action.\n\nAct: the system carries out that action, such as a search, a calculation or a file read.\n\nLook: the result is fed back to the model.\n\nRepeat, until the model judges the goal is met or a limit is reached.\n\nIt is how you cook without a recipe. Taste, decide it needs salt, add some, taste again.\n\nThe power is in the feedback. Each decision is made with knowledge of what the last action actually produced, so the agent can adapt, recover from a failed step and change its plan.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KLi2ycd9nUjC_1",
+          "type": "multiple_choice",
+          "prompt": "What makes the agent loop powerful?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Each decision is informed by the real result of the previous action"
+            },
+            {
+              "id": "b",
+              "text": "It runs only once"
+            },
+            {
+              "id": "c",
+              "text": "It never looks at results"
+            },
+            {
+              "id": "d",
+              "text": "It always follows a fixed script"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Feeding results back lets the agent adapt its next step to what actually happened.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_zuw6AQIQfg3h",
       "title": "Agent = model + tools + instructions + loop",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Strip away the jargon and an agent has four parts.\n\nThe model: makes the decisions.\n\nThe tools: the actions it can take, each described so the model knows when to use it.\n\nThe instructions: the system prompt that states the goal, the rules and the boundaries.\n\nThe loop: the code that keeps calling the model, runs the tool it chose, feeds back the result and stops when done.\n\nThat is all. There is no extra magic ingredient. A basic agent is a few dozen lines of code.\n\nWhen an agent misbehaves, the fault is in one of the four. The model is too weak, a tool is missing or badly described, the instructions are unclear, or the loop has no sensible stopping rule.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_zuw6AQIQfg3h_1",
+          "type": "multiple_choice",
+          "prompt": "Which four parts make up an agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Screen, keyboard, mouse and printer"
+            },
+            {
+              "id": "b",
+              "text": "Model, tools, instructions and loop"
+            },
+            {
+              "id": "c",
+              "text": "Input, output, storage and network"
+            },
+            {
+              "id": "d",
+              "text": "Price, speed, size and colour"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "An agent is a model choosing among tools under instructions, run repeatedly by a loop.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

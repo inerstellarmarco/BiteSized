@@ -5,44 +5,128 @@
     {
       "id": "bit_t062vJi8BxPm",
       "title": "Model routers (OpenRouter) and cloud platforms (AWS Bedrock, Azure AI Foundry, Google Vertex AI)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Besides going to each model maker directly, there are two kinds of one-stop shop.\n\nModel routers, such as OpenRouter, give you one account, one key and one bill for hundreds of models from many makers. Changing model means changing one word in your code. They are handy for experiments and comparisons.\n\nCloud platforms, such as AWS Bedrock, Azure AI Foundry and Google Vertex AI, offer a curated set of models inside the cloud a company already uses, with its security and contracts.\n\nA router is a travel comparison site. A cloud platform is your company's approved travel agent.\n\nBoth add a middleman, so check the price, the model list and the data terms.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_t062vJi8BxPm_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main appeal of a model router?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It trains a custom model for you"
+            },
+            {
+              "id": "b",
+              "text": "One account and one key give access to many models from different makers"
+            },
+            {
+              "id": "c",
+              "text": "It removes all costs"
+            },
+            {
+              "id": "d",
+              "text": "It guarantees the best answer"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A router sits in front of many providers, so you can switch models with a small code change.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_FtD1H2L1bF6O",
       "title": "Fast inference providers (Groq, Together AI, Fireworks)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "\"Inference\" means running a model to get an answer. Some companies specialise in doing that for open models, as fast or as cheaply as possible.\n\nGroq builds its own chips aimed at speed and can produce text many times faster than typical services. Together AI and Fireworks run large catalogues of open models on tuned infrastructure, at competitive prices.\n\nSpeed matters when someone is waiting. In a voice assistant, half a second of delay feels natural and three seconds feels broken.\n\nThink of courier firms competing to deliver the same parcel.\n\nWhich provider is fastest or cheapest changes often, and the model list on each is limited, so check current comparisons.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FtD1H2L1bF6O_1",
+          "type": "multiple_choice",
+          "prompt": "When does choosing a fast inference provider matter most?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "For overnight batch jobs"
+            },
+            {
+              "id": "b",
+              "text": "When no model is being used"
+            },
+            {
+              "id": "c",
+              "text": "When a user is waiting for a real-time response, as in voice or chat"
+            },
+            {
+              "id": "d",
+              "text": "When data never changes"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Latency is most visible in live interactions, where delays make the product feel broken.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5PJyPs3bptVk",
       "title": "Cloud platforms bring one bill, enterprise controls, and a choice of region",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Large companies often get their models through a cloud platform instead of going to the model maker. The reasons are practical, not technical.\n\nOne bill: the usage appears on the cloud invoice that finance already pays, under a contract legal already signed. No new supplier to approve.\n\nEnterprise controls: the same logins, permissions, audit logs and network rules as the rest of the company's systems.\n\nRegion choice: you pick where the model runs, such as London or Frankfurt, which settles many data-location questions.\n\nIt is buying through the company's approved supplier list. The price may be no lower, and new models sometimes arrive later, but the paperwork is already done.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5PJyPs3bptVk_1",
+          "type": "multiple_choice",
+          "prompt": "Why do large organisations often access models through their existing cloud platform?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The models are more intelligent there"
+            },
+            {
+              "id": "b",
+              "text": "It is the only legal way to use AI"
+            },
+            {
+              "id": "c",
+              "text": "Billing, security controls and data location fit what they already have in place"
+            },
+            {
+              "id": "d",
+              "text": "Cloud platforms have no usage limits"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Using the existing cloud avoids new contracts and reuses established security and region controls.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__qHLWgR5EGbp",
       "title": "Gateways like LiteLLM give one interface to many models",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every provider's API is slightly different: different names for settings, different response shapes, different errors. Code written for one will not run against another.\n\nA gateway fixes that. Your code speaks one standard format to the gateway, and the gateway translates for whichever provider is behind it. LiteLLM is a popular open-source example that you can run yourself.\n\nThink of a universal travel adaptor: one plug of yours, many kinds of socket.\n\nBecause all traffic passes through one point, a gateway is also the natural place for shared features: tracking spend per team, setting budgets, logging requests, and falling back to a second provider if the first is down.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,19 +139,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__qHLWgR5EGbp_1",
+          "type": "multiple_choice",
+          "prompt": "Besides translating between providers, what can a gateway do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Track spending, enforce budgets and fall back to another provider on failure"
+            },
+            {
+              "id": "b",
+              "text": "Train the models"
+            },
+            {
+              "id": "c",
+              "text": "Write your prompts"
+            },
+            {
+              "id": "d",
+              "text": "Increase a model's context window"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A single entry point for all model traffic is a natural place for logging, budgets and failover.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_fptSvuGGPDK4",
       "title": "Vector databases and observability tools (see B2.3, B14.3)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Two kinds of supporting tool turn up in almost every serious AI system.\n\nVector databases store embeddings and find the nearest ones quickly. They are the memory behind \"search my documents by meaning\". Examples include Pinecone, Chroma, Qdrant, and pgvector, which adds the feature to the ordinary Postgres database.\n\nObservability tools record what your system actually did: every prompt, response, tool call, cost and delay. When an answer is wrong, you can replay the exact steps and see why. Examples include LangSmith and Langfuse.\n\nThink of a warehouse and a flight recorder.\n\nBoth get full treatment later. For now, know they are separate layers you can choose independently of the model.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_fptSvuGGPDK4_1",
+          "type": "multiple_choice",
+          "prompt": "What is an observability tool for?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Storing embeddings for search"
+            },
+            {
+              "id": "b",
+              "text": "Generating images"
+            },
+            {
+              "id": "c",
+              "text": "Recording prompts, responses, costs and timings so problems can be traced"
+            },
+            {
+              "id": "d",
+              "text": "Compressing the model"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Observability captures what happened inside the system, which makes debugging and cost tracking possible.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

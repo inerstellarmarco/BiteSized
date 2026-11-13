@@ -5,8 +5,8 @@
     {
       "id": "bit_FJtCdCQIpsIU",
       "title": "Retries with exponential backoff",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Many tool failures are temporary: a network blip, a busy server, a rate limit. Often the cure is to try again.\n\nBut not straight away, and not at a fixed rhythm. If a server is overloaded, a thousand clients all retrying every second make it worse.\n\nExponential backoff means waiting longer after each failure: one second, then two, then four, then eight. A small random delay, called jitter, is added so that clients do not all retry at the same instant.\n\nIt is redialling an engaged phone number. You wait a bit, then a bit longer.\n\nCap the attempts, at three to five, then give up and report the failure.\n\nOnly retry errors that might pass. \"Server busy\" can clear. \"Invalid order ID\" will fail the same way every time.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,49 +19,161 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FJtCdCQIpsIU_1",
+          "type": "multiple_choice",
+          "prompt": "What does exponential backoff do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Waits longer after each failed attempt before retrying"
+            },
+            {
+              "id": "b",
+              "text": "Retries instantly forever"
+            },
+            {
+              "id": "c",
+              "text": "Never retries"
+            },
+            {
+              "id": "d",
+              "text": "Waits the same time every attempt"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Increasing delays give a struggling service time to recover and avoid a flood of retries.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wfdfVcWlQALb",
       "title": "Fallbacks and error messages",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When retries run out, a good system has a second plan.\n\nA fallback is an alternative route to the same goal. If the main search service is down, use a second one. If the best model times out, try another. If live data cannot be reached, use the last saved copy and say that it may be out of date.\n\nIt is a diversion sign when the main road is closed.\n\nWhen there is no fallback, fail clearly. Tell the user plainly: \"I could not reach the order system just now. Please try again in a few minutes.\" Never let the agent invent an answer to cover the gap, which models will do if left to it.\n\nA clear \"I could not do this\" is far better than a confident wrong answer.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wfdfVcWlQALb_1",
+          "type": "multiple_choice",
+          "prompt": "What should happen when a tool fails and there is no fallback?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The agent invents a plausible answer"
+            },
+            {
+              "id": "b",
+              "text": "The failure is hidden"
+            },
+            {
+              "id": "c",
+              "text": "The user is told clearly that it could not be done"
+            },
+            {
+              "id": "d",
+              "text": "The agent retries forever"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "An honest failure message preserves trust, while a fabricated answer can cause real harm.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_WK0j9iV8QT3r",
       "title": "Tools fail: networks, limits, and bad inputs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Any tool that reaches outside your own code will fail sometimes. Plan for it from the start.\n\nThe failures come in three kinds.\n\nNetwork and service problems: timeouts, outages, slow responses. They are temporary, so retry.\n\nLimits: rate limits, quotas, a spending cap reached. Wait, then retry, or stop.\n\nBad inputs: a wrong ID, a missing field, a permission the agent lacks. Retrying will not help. The call itself must change.\n\nIt is a delivery van. Traffic is a delay. A closed depot means waiting. A wrong address means no amount of driving will help.\n\nTelling these apart is the basis of good error handling, because each needs a different response.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WK0j9iV8QT3r_1",
+          "type": "multiple_choice",
+          "prompt": "Which kind of tool failure will not be fixed by simply retrying?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A brief network timeout"
+            },
+            {
+              "id": "b",
+              "text": "A bad input, such as a wrong ID"
+            },
+            {
+              "id": "c",
+              "text": "A temporarily busy server"
+            },
+            {
+              "id": "d",
+              "text": "A short rate limit"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "An invalid input fails the same way every time, so the call must be changed, not repeated.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ss2jUsNQdyai",
       "title": "Showing the error to the agent so it can adapt",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a tool fails because of how it was called, do not crash and do not hide it. Return the error to the model as the tool's result.\n\nThe agent reads \"no customer found with that email\" and can react. It might try a different spelling, search by name, or ask the user to confirm the address.\n\nThat is a real strength of agents over fixed scripts. A script stops at the first surprise. An agent can read what went wrong and find another way.\n\nIt is telling a colleague \"that file is not in the shared drive\" so they look elsewhere, where staying silent would leave them waiting.\n\nTwo cautions. Keep the message short and useful. And never include secrets or internal details in an error the model will see.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ss2jUsNQdyai_1",
+          "type": "multiple_choice",
+          "prompt": "Why return a tool error to the agent instead of crashing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Errors make the agent faster"
+            },
+            {
+              "id": "b",
+              "text": "It hides the problem from everyone"
+            },
+            {
+              "id": "c",
+              "text": "Agents cannot read errors"
+            },
+            {
+              "id": "d",
+              "text": "The agent can read it and try a different approach"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Seeing what failed lets the agent adapt, which is a key advantage over a fixed script.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_yhpYT0w3lVjn",
       "title": "Knowing when to stop and ask a human",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent that keeps trying forever is not persistent. It is stuck, and it is spending money.\n\nBuild in the rules for stopping.\n\nAfter repeated failures: if the same step has failed three times, stop.\n\nWhen information is missing: if only the user knows the answer, ask them. Do not guess.\n\nWhen the request is ambiguous and a wrong guess would be costly.\n\nWhen the action is high-risk and needs approval.\n\nWhen a step or spending limit is reached.\n\nWhen it stops, it should hand over well: what it was trying to do, what it tried, what went wrong and what it needs.\n\nA good employee does the same. They do not struggle in silence for a week. They come and say, \"I am blocked, and here is why\".",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -74,7 +186,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_yhpYT0w3lVjn_1",
+          "type": "multiple_choice",
+          "prompt": "What should an agent do after the same step has failed several times?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Keep retrying indefinitely"
+            },
+            {
+              "id": "b",
+              "text": "Invent a result"
+            },
+            {
+              "id": "c",
+              "text": "Delete its logs"
+            },
+            {
+              "id": "d",
+              "text": "Stop and hand over to a person with a clear summary"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Stopping with a useful handover avoids wasted cost and gives a human what they need to help.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

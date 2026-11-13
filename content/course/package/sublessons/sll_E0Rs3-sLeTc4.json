@@ -5,8 +5,8 @@
     {
       "id": "bit_9yLj9CBZ4Wk6",
       "title": "Gateways that let you swap models",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Lock-in means being so tied to one supplier that leaving is too painful to consider. The simplest technical defence is a layer between your code and the model.\n\nThat layer can be a gateway product, or just one small function of your own that every model call goes through. Your application says \"ask the model\". The layer knows which provider and which model that currently means.\n\nSwitching then means changing the layer and nothing else.\n\nIt is the electrical socket again. Appliances do not care which power station is on the other end.\n\nThe alternative, provider-specific calls scattered through a hundred files, turns a one-hour switch into a month's project.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,37 +19,121 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9yLj9CBZ4Wk6_1",
+          "type": "multiple_choice",
+          "prompt": "What is the simplest structural defence against model lock-in?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Use every provider at the same time in every file"
+            },
+            {
+              "id": "b",
+              "text": "Route all model calls through one layer that can be pointed at a different provider"
+            },
+            {
+              "id": "c",
+              "text": "Never update the code"
+            },
+            {
+              "id": "d",
+              "text": "Sign a longer contract"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A single access layer isolates the provider choice, so changing it does not touch the rest of the application.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_3FmE4CZrfjx9",
       "title": "Keeping prompts, evals, and data portable",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The model is rented. Three things should be yours, kept in a form you can take anywhere.\n\nPrompts: stored as plain text files under version control, not typed into a vendor's dashboard where they are hard to export.\n\nEvals: your test examples and expected answers, in a simple format such as a spreadsheet or JSON. This is what lets you judge any future model in minutes.\n\nData: your documents, embeddings and conversation logs, stored where you control them and can export them.\n\nThink of furniture in a rented flat. You do not own the walls, but everything you would need to set up again elsewhere should fit on the van.\n\nThese three are the real investment. The model is replaceable.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3FmE4CZrfjx9_1",
+          "type": "multiple_choice",
+          "prompt": "Which assets should you keep portable so that you can change model providers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Your prompts, your evals and your data"
+            },
+            {
+              "id": "b",
+              "text": "The provider's model weights"
+            },
+            {
+              "id": "c",
+              "text": "The provider's data centre"
+            },
+            {
+              "id": "d",
+              "text": "The provider's logo"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Prompts, test sets and data are your own lasting investment and let you rebuild on any model.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_IwmI6fmtTeKa",
       "title": "Use features only one vendor offers only when the gain is large",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Providers compete by offering things nobody else has: a special tool, a unique mode, a proprietary format. These are often genuinely good. They are also what holds you in place.\n\nSo apply a test. If the feature saves a little effort, pass, or wrap it so it can be replaced later. If it makes the product markedly better or cheaper, in a way you can measure, use it, and write down that you now depend on it.\n\nThink of a special offer that comes with a contract. Sometimes it is worth signing. You should know you are signing.\n\nThe aim is not zero dependence, which is impossible. It is that every dependence was chosen on purpose.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IwmI6fmtTeKa_1",
+          "type": "multiple_choice",
+          "prompt": "When is it reasonable to use a feature only one vendor offers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whenever it exists"
+            },
+            {
+              "id": "b",
+              "text": "When it brings a large, measurable benefit and you accept the dependence knowingly"
+            },
+            {
+              "id": "c",
+              "text": "Never, under any circumstances"
+            },
+            {
+              "id": "d",
+              "text": "Only if it is free"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Vendor-specific features increase lock-in, so they should be adopted deliberately and for real gain.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_i44YBDtbe-nr",
       "title": "Plan for model retirement",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every hosted model has an end date. Providers announce retirements months in advance, and after that date the model stops answering.\n\nThe replacement is usually better overall, and it is different. Prompts tuned for the old one may give subtly different results on the new one. Tone shifts. Formats change. An edge case that worked now fails.\n\nSo treat retirement as scheduled maintenance, not as an emergency. Know which models you use and when each is due to go. Watch the provider's notices. When a successor appears, run your evals on it early, fix what differs and move over on your own timetable.\n\nIt is like an operating system reaching end of support. The date is published. Only the unprepared are surprised.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -62,19 +146,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_i44YBDtbe-nr_1",
+          "type": "multiple_choice",
+          "prompt": "What should you do when a provider announces that a model you use will be retired?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Ignore it until the model stops working"
+            },
+            {
+              "id": "b",
+              "text": "Test the successor on your evals early and migrate before the deadline"
+            },
+            {
+              "id": "c",
+              "text": "Ask the provider to keep it running for you forever"
+            },
+            {
+              "id": "d",
+              "text": "Delete your prompts"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Early testing shows what behaves differently, so you can adjust and move over without an emergency.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_97zyjG0oLxs-",
       "title": "Write the switching plan before you need it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The worst moment to work out how to change providers is during an outage, a sudden price rise or an account suspension.\n\nA switching plan is one page, written calmly in advance. It lists which backup model you would move to. What would need changing: the access layer, any prompts, any special features. How you would check it works: run the evals. Who decides, and roughly how long it would take.\n\nThen test it once. Actually point the system at the backup and see what breaks.\n\nIt is a fire drill. You hope never to need it. The practice is what turns a possible disaster into a tedious afternoon.\n\nA plan that has never been tried is only a hope.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_97zyjG0oLxs-_1",
+          "type": "multiple_choice",
+          "prompt": "What makes a switching plan trustworthy?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It is very long"
+            },
+            {
+              "id": "b",
+              "text": "It is kept secret from the team"
+            },
+            {
+              "id": "c",
+              "text": "It has actually been tried at least once"
+            },
+            {
+              "id": "d",
+              "text": "It is written during the emergency"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Rehearsing the switch reveals hidden problems while there is still time to fix them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

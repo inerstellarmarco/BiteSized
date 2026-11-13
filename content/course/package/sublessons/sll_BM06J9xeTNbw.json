@@ -5,44 +5,128 @@
     {
       "id": "bit_-sY-MRPV3Bh1",
       "title": "Implementing ReAct in plain Python",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The whole ReAct loop fits in a few lines. In outline:\n\nStart a list of messages with the system prompt and the user's request.\n\nRepeat, up to a maximum number of steps: send the messages and the tool definitions to the model. If the reply contains no tool call, it is the final answer, so stop. Otherwise, run each tool that was requested, append the model's reply and the tool results to the messages, and go round again.\n\nThat is all. A \"while\" loop, one API call and one \"if\".\n\nWriting it once yourself is worth an afternoon. Afterwards no framework seems mysterious. You can see that each one is this same loop with conveniences added.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-sY-MRPV3Bh1_1",
+          "type": "multiple_choice",
+          "prompt": "In a plain ReAct loop, what signals that the agent has finished?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model replies without requesting a tool"
+            },
+            {
+              "id": "b",
+              "text": "The computer restarts"
+            },
+            {
+              "id": "c",
+              "text": "The first tool returns anything"
+            },
+            {
+              "id": "d",
+              "text": "The user closes the window"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A reply with no tool call is the model's final answer, which ends the loop.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_0u-qVPElUvIa",
       "title": "Logging thoughts and actions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A log is a record, written as the agent runs, of everything it did.\n\nFor each step, capture: what the model was sent, its reasoning, which tool it called and with what inputs, what the tool returned, how long it took and what it cost.\n\nWithout that, a failed run is a mystery. You know the answer was wrong and have no idea where it went off course.\n\nIt is an aircraft's flight recorder. Nobody looks at it when things go well. After an incident it is what everyone needs.\n\nAdd logging from the first day, not after the first failure.\n\nOne caution: logs hold whatever passed through the agent, including personal data. Protect them accordingly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0u-qVPElUvIa_1",
+          "type": "multiple_choice",
+          "prompt": "Why log every step of an agent's run?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To make the agent slower"
+            },
+            {
+              "id": "b",
+              "text": "To increase the token cost"
+            },
+            {
+              "id": "c",
+              "text": "So you can see where and why a run went wrong"
+            },
+            {
+              "id": "d",
+              "text": "Logs are required by the model"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A step-by-step record turns a mysterious failure into something you can trace and fix.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_iOUN29FzbPva",
       "title": "The loop itself is short; the work is in tools and prompts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "If the loop is twenty lines, why is building a good agent hard?\n\nBecause the loop is the easy part. It is the same in nearly every agent. What differs, and what decides quality, is everything round it.\n\nThe tools: are they the right ones, well named and described, returning clean results and helpful errors?\n\nThe prompt: is the goal clear, with the rules stated and a definition of done?\n\nThe context: does the model see what it needs, without a mass of clutter?\n\nThe safeguards: limits, approvals and checks.\n\nThe evals: do you know whether it works?\n\nA car's engine cycle is simple and the same everywhere. The difference between cars lies in all the rest.\n\nSo spend your effort there, not on choosing a cleverer loop.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_iOUN29FzbPva_1",
+          "type": "multiple_choice",
+          "prompt": "Where does most of the effort in building a good agent go?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Tools, prompts, context and safeguards"
+            },
+            {
+              "id": "b",
+              "text": "Writing the loop itself"
+            },
+            {
+              "id": "c",
+              "text": "Choosing a logo"
+            },
+            {
+              "id": "d",
+              "text": "Typing speed"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The loop is generic and short, while quality depends on what surrounds it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BELmi3PEhULp",
       "title": "Reading the log to see why the agent did what it did",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When an agent misbehaves, do not start by rewording the prompt. Start by reading the trace, step by step.\n\nFind the first place it went wrong. Not the final bad answer, but the step where things first turned.\n\nThen ask why, with what it could see at that moment. Did a tool return something misleading? Was the description ambiguous? Was a needed fact missing from the context? Did the instructions conflict?\n\nNearly always the agent's choice was reasonable given what it saw. The fault is in what it was shown.\n\nA doctor reads the patient's chart before prescribing.\n\nMost fixes found this way are small and specific: a clearer tool description, a trimmed result, one added sentence. That is far better than guessing.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,7 +139,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BELmi3PEhULp_1",
+          "type": "multiple_choice",
+          "prompt": "When debugging an agent, what should you look for in the log?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only the final answer"
+            },
+            {
+              "id": "b",
+              "text": "The longest message"
+            },
+            {
+              "id": "c",
+              "text": "The total number of tokens"
+            },
+            {
+              "id": "d",
+              "text": "The first step where things went wrong, and what the agent could see then"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The earliest wrong turn, viewed with the context available at that point, reveals the real cause.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

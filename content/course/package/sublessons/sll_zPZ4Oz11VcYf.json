@@ -5,8 +5,8 @@
     {
       "id": "bit_qJMyJ5_BAz-K",
       "title": "n8n, Zapier, and Make for automation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Automation platforms let you connect apps and AI by drawing a flow instead of writing code. You drag boxes and join them: \"when a form is submitted, send the text to an LLM, then add a row to the spreadsheet and email the customer\".\n\nZapier is the simplest and has the most app connections. Make offers more visual control for complex flows. n8n is open source, can run on your own server, and is popular with technical teams building AI workflows.\n\nThink of Lego for business processes. The bricks are ready-made connections to thousands of services.\n\nFor many small businesses this is the fastest way to get real value from AI, with no programmer needed.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,25 +19,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qJMyJ5_BAz-K_1",
+          "type": "multiple_choice",
+          "prompt": "What do platforms like n8n, Zapier and Make let you do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Train your own large language model"
+            },
+            {
+              "id": "b",
+              "text": "Manufacture computer chips"
+            },
+            {
+              "id": "c",
+              "text": "Replace your internet provider"
+            },
+            {
+              "id": "d",
+              "text": "Connect apps and AI steps into automated flows with little or no code"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "They provide visual builders with ready-made connectors, so workflows can be assembled without programming.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_7ib7bOmnO2h-",
       "title": "Low-code is enough for simple triggers and handoffs; it strains on complex logic",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Low-code tools are excellent within their range and painful outside it.\n\nThe sweet spot is a straight line: something happens, do three or four steps, finish. New email, then classify it, then file it, then notify someone.\n\nThe strain shows as logic grows. Many branches, loops, retries with conditions and careful error handling turn the canvas into a tangle of boxes and arrows. It gets hard to test, hard to track changes in, and hard for anyone else to understand. Costs per run can climb with volume too.\n\nIt is like a spreadsheet. It is wonderful until someone tries to run the whole company on one.\n\nWhen the diagram no longer fits on a screen, it is time for code.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7ib7bOmnO2h-_1",
+          "type": "multiple_choice",
+          "prompt": "What is a sign that a workflow has outgrown a low-code tool?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Many branches, loops and error cases make the flow hard to follow and test"
+            },
+            {
+              "id": "b",
+              "text": "It has three steps in a row"
+            },
+            {
+              "id": "c",
+              "text": "It runs once a day"
+            },
+            {
+              "id": "d",
+              "text": "It sends one email"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Complex logic becomes tangled on a visual canvas, where code is easier to test and maintain.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_M2a2DXb0kl2v",
       "title": "Claude Code, Cursor, and GitHub Copilot for building software",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Coding agents are AI tools that write and change software, and they have altered who can build things.\n\nGitHub Copilot began as autocomplete inside the editor and has grown an agent mode. Cursor is a code editor rebuilt round AI, where you can ask for changes across a whole project. Claude Code works from the terminal: you describe a task and it reads files, edits them, runs commands and fixes what breaks.\n\nThe common thread is working at the level of the project, not the line.\n\nThink of moving from a spell-checker to a capable assistant who can draft the whole document.\n\nSomeone who can describe what they want clearly, and check the result, can now build working tools.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,31 +106,115 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_M2a2DXb0kl2v_1",
+          "type": "multiple_choice",
+          "prompt": "What can a coding agent do beyond simple autocomplete?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Read a project, edit several files, run commands and fix errors"
+            },
+            {
+              "id": "b",
+              "text": "Guarantee bug-free software"
+            },
+            {
+              "id": "c",
+              "text": "Replace the need to describe what you want"
+            },
+            {
+              "id": "d",
+              "text": "Work without any model behind it"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Agents act across the whole project and carry out multi-step changes, not just next-line suggestions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_MbN1mLy1gQdU",
       "title": "Coding agents speed you up, but you still review and test",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A coding agent can produce in five minutes what would take a day by hand. It cannot take responsibility for it.\n\nAgents make particular kinds of mistake. They write code that looks right and fails on an unusual input. They solve a slightly different problem from the one you had. They make a test pass by weakening the test. They add changes you never asked for.\n\nSo the job moves from typing to checking. Read what changed. Run it. Try the awkward cases. Keep changes small enough to review properly.\n\nIt is a fast contractor. The work goes up quickly, and you still walk round with the checklist before you sign it off.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_MbN1mLy1gQdU_1",
+          "type": "multiple_choice",
+          "prompt": "When working with a coding agent, what does your role shift towards?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Typing every line yourself"
+            },
+            {
+              "id": "b",
+              "text": "Trusting the summary without reading the changes"
+            },
+            {
+              "id": "c",
+              "text": "Avoiding tests so it runs faster"
+            },
+            {
+              "id": "d",
+              "text": "Reviewing and testing what it produced"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The agent supplies speed. Checking that the result is correct and safe remains with you.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_zZLujKzzIX6u",
       "title": "Keep secrets and client data out of tools you have not vetted",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every AI tool you paste something into is a place that data now lives. Before using a new tool with anything sensitive, vet it.\n\nThe risky items are passwords and API keys, client documents, personal details, and unreleased plans or figures.\n\nThe questions are the ones from earlier. Who can see what I enter? Is it stored? Is it used for training? Where is it processed?\n\nA browser extension or a free online \"PDF summariser\" can be a data leak with a friendly interface.\n\nThink of handing documents to a stranger who offered to photocopy them.\n\nA workable rule: sensitive material goes only into tools your organisation has approved. Everything else gets sample data.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_zZLujKzzIX6u_1",
+          "type": "multiple_choice",
+          "prompt": "What should you do before pasting client documents into a new AI tool?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Nothing, if the tool is free"
+            },
+            {
+              "id": "b",
+              "text": "Check how it stores and uses data, or use only approved tools"
+            },
+            {
+              "id": "c",
+              "text": "Paste it and delete the chat afterwards"
+            },
+            {
+              "id": "d",
+              "text": "Ask the tool whether it is safe"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Unvetted tools may store or reuse what you enter, so data handling must be checked first.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

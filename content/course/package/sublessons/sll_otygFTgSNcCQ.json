@@ -5,8 +5,8 @@
     {
       "id": "bit_8hK0yToWyP6d",
       "title": "JSON Schema and Pydantic tool definitions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Each tool is described to the model with a schema: its name, what it does, and exactly which inputs it takes.\n\nJSON Schema is the standard format. It says, for example, that \"city\" is text and required, and \"units\" is optional and must be \"celsius\" or \"fahrenheit\".\n\nIn Python, most people do not write that by hand. They define a Pydantic model, a small class listing the fields and their types, and the schema is generated from it. The same class then checks the model's inputs when a call arrives.\n\nThink of the schema as the blank form, and Pydantic as both the form designer and the clerk who rejects forms filled in wrongly.\n\nOne definition gives you both the description for the model and the validation in your code.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,55 +19,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8hK0yToWyP6d_1",
+          "type": "multiple_choice",
+          "prompt": "What is a benefit of defining tool inputs with Pydantic?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the model larger"
+            },
+            {
+              "id": "b",
+              "text": "It removes the need for a description"
+            },
+            {
+              "id": "c",
+              "text": "One definition produces the schema and validates the inputs"
+            },
+            {
+              "id": "d",
+              "text": "It encrypts the conversation"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A Pydantic model generates the JSON Schema and also checks incoming tool calls against it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_OUaLiBz3RGcS",
       "title": "Clear names, descriptions, and required fields",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The model chooses tools by reading their names and descriptions, so write them as you would for a new colleague.\n\nNames: say what the tool does. \"search_customer_orders\" beats \"query2\" or \"handler\".\n\nDescriptions: one or two plain sentences on what it does and what it returns.\n\nField names and descriptions: \"order_id: the 8-digit order number, e.g. 10482233\" is far better than \"id\".\n\nRequired fields: mark what must be supplied. If a field is optional, say what happens when it is left out.\n\nIt is labelling the drawers in a workshop. With clear labels, anyone finds the right tool. With \"misc 1\" and \"misc 2\", everyone guesses.\n\nA surprising share of agent errors are fixed by renaming a tool or rewriting two sentences.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OUaLiBz3RGcS_1",
+          "type": "multiple_choice",
+          "prompt": "Which is the better tool name?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "query2"
+            },
+            {
+              "id": "b",
+              "text": "search_customer_orders"
+            },
+            {
+              "id": "c",
+              "text": "handler"
+            },
+            {
+              "id": "d",
+              "text": "do_thing"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A descriptive name tells the model what the tool does, which improves tool selection.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_bLkgz1v9BqXO",
       "title": "The description is a prompt: say when to use the tool and when not to",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A tool description is not documentation for developers. It is part of the prompt, and the model reads it every time.\n\nSo say more than what the tool does. Say when to use it and when not to.\n\n\"Search the product knowledge base. Use this for questions about features, setup and troubleshooting. Do not use it for order status or billing; use get_order for those.\"\n\nThe \"when not to\" matters most where two tools sound alike. Without it, the model guesses between them.\n\nAlso state limits: \"returns at most ten results\", \"data is updated nightly, so it may be a day old\".\n\nIt is briefing a temp: here is the filing cabinet, here is what belongs in it, and here is what goes to accounts instead.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_bLkgz1v9BqXO_1",
+          "type": "multiple_choice",
+          "prompt": "What should a good tool description include besides what the tool does?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The developer's home address"
+            },
+            {
+              "id": "b",
+              "text": "When to use it and when not to"
+            },
+            {
+              "id": "c",
+              "text": "A long history of the company"
+            },
+            {
+              "id": "d",
+              "text": "Nothing else"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Guidance on when to use and avoid a tool helps the model choose correctly between similar ones.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6ZtWVijI7otD",
       "title": "Limiting inputs to fixed choices",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Where an input has only a few valid values, list them in the schema instead of accepting free text.\n\nThis is called an enum. A \"priority\" field allowed to be \"low\", \"medium\" or \"high\" can never arrive as \"urgent-ish\" or \"HIGH!!\".\n\nIt is a drop-down menu in place of a blank box.\n\nThe benefits are large for so small a change. The model sees the options and picks one. Invalid values are rejected automatically. And your code only has to handle the cases you listed.\n\nThe same idea applies to numbers, with a minimum and maximum, and to formats, such as a date that must be written YYYY-MM-DD.\n\nEach constraint removes a way for the model to be wrong. Tight schemas are among the cheapest reliability gains available.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6ZtWVijI7otD_1",
+          "type": "multiple_choice",
+          "prompt": "What is the advantage of an enum for a tool input?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It allows any text at all"
+            },
+            {
+              "id": "b",
+              "text": "It makes the tool slower"
+            },
+            {
+              "id": "c",
+              "text": "The model can only choose from valid values"
+            },
+            {
+              "id": "d",
+              "text": "It hides the tool from the model"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Listing the allowed values prevents invalid inputs and simplifies the code that handles them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_pl97DiEEsN5f",
       "title": "Examples of good calls in the description",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A description says what a tool is for. An example shows how to use it. Models learn quickly from examples.\n\nFor a search tool, add one or two:\n\n\"Example: to find a refund policy, call search_kb with query = 'refund policy returns' and max_results = 3.\"\n\nExamples settle the questions that descriptions leave open. Should the query be a full sentence or keywords? What does a valid ID look like? Which optional fields are worth filling in?\n\nIt is the worked example at the top of a tax form.\n\nKeep them few and typical. Models copy examples closely, so an odd example produces odd calls. And if the example uses a particular date or name, expect to see it turn up where it should not.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_pl97DiEEsN5f_1",
+          "type": "multiple_choice",
+          "prompt": "Why add an example call to a tool description?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the description longer for its own sake"
+            },
+            {
+              "id": "b",
+              "text": "It replaces the schema"
+            },
+            {
+              "id": "c",
+              "text": "It shows the model the expected form of the inputs"
+            },
+            {
+              "id": "d",
+              "text": "It stops the tool from being used"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A worked example resolves ambiguities about format and style that a description alone leaves open.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,8 +5,8 @@
     {
       "id": "bit_GWhah6Qm6v5S",
       "title": "Vectors and latent space",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An embedding turns a piece of text into a vector: a long list of numbers that marks a position in a space of meaning.\n\nThink of a huge map where every sentence ever written has a location. Sentences about cooking gather in one region, tax law in another. Within cooking, baking sits apart from grilling.\n\nThe embedding model built that map during training. When you send it your text, it tells you where the text belongs.\n\nThe space is \"latent\", meaning hidden. It has hundreds or thousands of dimensions, and no person labelled them. You never read the numbers themselves. You only ever compare them: how far is this text from that one?",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GWhah6Qm6v5S_1",
+          "type": "multiple_choice",
+          "prompt": "What does an embedding give you for a piece of text?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A vector marking its position in a space of meaning"
+            },
+            {
+              "id": "b",
+              "text": "A summary in fewer words"
+            },
+            {
+              "id": "c",
+              "text": "A translation"
+            },
+            {
+              "id": "d",
+              "text": "A list of its keywords"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "An embedding is a numerical position, useful for comparing texts by how close they are.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ND4TYfZnbhqS",
       "title": "Cosine similarity and distance metrics",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "To use embeddings you need a way to score how close two vectors are. There are three common measures.\n\nCosine similarity compares direction, the angle between the vectors, and ignores length. A score of 1 means the same direction. It is the usual choice for text.\n\nDot product is like cosine but also rewards longer vectors.\n\nEuclidean distance is the straight-line distance between the two points. Here smaller means more alike.\n\nFor most modern embedding models the vectors are normalised, all scaled to the same length. In that case the three measures rank results identically.\n\nThe practical rule is short: use the measure the embedding model's documentation recommends, and configure your vector database to match. A mismatch gives quietly poor search results.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,31 +66,115 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ND4TYfZnbhqS_1",
+          "type": "multiple_choice",
+          "prompt": "Which similarity measure should you configure in your vector database?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whichever sounds most advanced"
+            },
+            {
+              "id": "b",
+              "text": "A different one for every query"
+            },
+            {
+              "id": "c",
+              "text": "The one recommended for your embedding model"
+            },
+            {
+              "id": "d",
+              "text": "None; no measure is needed"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Embedding models are trained with a particular measure in mind, and a mismatch degrades results.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_bIw11aBkWQEu",
       "title": "Similar meaning, nearby vectors",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The one property that makes embeddings useful is this: texts that mean similar things get vectors that are close together.\n\n\"How do I cancel my subscription?\" lands beside \"I want to stop my membership\", and far from \"What are your opening hours?\"\n\nNo words need to match. The model was trained on enormous numbers of text pairs known to be related, such as questions with their answers and sentences with their paraphrases, and it learned to pull those together and push unrelated ones apart.\n\nThat turns a hard problem, understanding what someone means, into an easy one: measuring the distance between two points.\n\nIt is how a good librarian works. They do not match your exact words. They know what sits near what.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_bIw11aBkWQEu_1",
+          "type": "multiple_choice",
+          "prompt": "Why do two differently worded questions with the same meaning get nearby embeddings?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They share the same number of letters"
+            },
+            {
+              "id": "b",
+              "text": "The database sorts them alphabetically"
+            },
+            {
+              "id": "c",
+              "text": "They were written on the same day"
+            },
+            {
+              "id": "d",
+              "text": "The embedding model was trained to place related texts close together"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Training on related pairs teaches the model to map similar meanings to nearby points.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_UmCgosFUyn3w",
       "title": "What embeddings miss: exact names, numbers, and codes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Embeddings capture what a text is about. They are weak at exact details.\n\nSearch for \"error E-4012\" and you may get passages about errors in general, including E-4021. To the embedding, the two codes are almost the same thing.\n\nThe same goes for product numbers, invoice ids, people's names, dates and amounts. \"Invoice for £500\" and \"invoice for £5,000\" sit very close together.\n\nNegation is another blind spot. \"Includes VAT\" and \"does not include VAT\" are near neighbours.\n\nIt is like someone who is excellent at the gist and vague on the specifics: \"It was about an invoice. I do not recall the number.\"\n\nThat is why serious search systems pair embeddings with keyword search, which is exact in just the places where embeddings are fuzzy.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_UmCgosFUyn3w_1",
+          "type": "multiple_choice",
+          "prompt": "Which search is embedding similarity least reliable for?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Finding passages about a general topic"
+            },
+            {
+              "id": "b",
+              "text": "Matching a question to its paraphrase"
+            },
+            {
+              "id": "c",
+              "text": "Finding text on a similar theme"
+            },
+            {
+              "id": "d",
+              "text": "Finding the document with an exact product code"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Embeddings blur exact strings such as codes and numbers, which keyword search handles better.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

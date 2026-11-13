@@ -5,20 +5,48 @@
     {
       "id": "bit_-6WOeoOxLpvN",
       "title": "Structured outputs and JSON mode",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Left alone, a model replies in prose. Software needs data in a fixed shape. Two features close that gap.\n\nJSON mode guarantees the reply is valid JSON, properly formed and with no chatter round it. It does not guarantee the right fields.\n\nStructured outputs go further. You supply a schema, a precise description of the fields and their types, and the provider constrains the model so that its reply always matches. The model is literally prevented from producing anything else.\n\nIt is the difference between \"please write neatly\" and handing someone a printed form with boxes.\n\nFor anything a program will read, use structured outputs if your provider offers them. It removes a whole class of failure.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-6WOeoOxLpvN_1",
+          "type": "multiple_choice",
+          "prompt": "What do structured outputs guarantee beyond plain JSON mode?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "That the content is factually correct"
+            },
+            {
+              "id": "b",
+              "text": "That the reply is in English"
+            },
+            {
+              "id": "c",
+              "text": "That the call is free"
+            },
+            {
+              "id": "d",
+              "text": "That the reply matches a schema you supplied, with the right fields and types"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "JSON mode ensures valid JSON. Structured outputs also enforce your specific schema.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NAAxtRhzmMEE",
       "title": "Schema validation with Pydantic",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Pydantic is a Python library that lets you describe the shape of data as a small class, and then checks real data against it.\n\nYou write: an Invoice has a supplier (text), a total (a decimal number) and a due_date (a date). When the model's reply arrives, Pydantic tries to load it into that class.\n\nIf it fits, you have a proper object with real types, a real date and not a string. If it does not, you get a precise error: \"total: expected a number, got 'twelve'\".\n\nIt is a customs officer checking every arrival against the paperwork.\n\nIt does double duty. Most SDKs can turn the same Pydantic class into the schema they send to the model. One definition both instructs the model and checks the reply.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,43 +59,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NAAxtRhzmMEE_1",
+          "type": "multiple_choice",
+          "prompt": "What does Pydantic do with a model's reply?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Translates it into another language"
+            },
+            {
+              "id": "b",
+              "text": "Checks it against a declared shape and reports exactly what does not fit"
+            },
+            {
+              "id": "c",
+              "text": "Makes it shorter"
+            },
+            {
+              "id": "d",
+              "text": "Stores it in a database"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Pydantic validates data against a defined model and gives specific errors when fields are wrong.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_RDyGzxmOZAKX",
       "title": "Why software needs structure, not prose",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A person can read \"The invoice from Acme, dated the third of March, comes to about twelve hundred pounds\" and act on it. A program cannot do so reliably.\n\nCode needs to know exactly where each piece is: the supplier in one field, the date in another, the amount as a number it can add up.\n\nProse varies. The model might say \"roughly £1,200\" one time and \"twelve hundred GBP\" the next. Code written to find the amount in the first breaks on the second.\n\nIt is the difference between a letter and a form. A letter is for a reader. A form is for processing.\n\nSo wherever a model's output feeds another system, such as a database, an email or a next step, ask for fields, not sentences.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RDyGzxmOZAKX_1",
+          "type": "multiple_choice",
+          "prompt": "Why is free-form prose a problem when a program has to use a model's output?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Prose uses too much electricity"
+            },
+            {
+              "id": "b",
+              "text": "Programs cannot store text"
+            },
+            {
+              "id": "c",
+              "text": "Prose is always wrong"
+            },
+            {
+              "id": "d",
+              "text": "The wording varies, so code cannot reliably find each piece of information"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Software needs values in predictable places, which only a fixed structure provides.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wjVcXCcWJ-bI",
       "title": "Schemas: naming the fields, types, and allowed values",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A schema is the blueprint of the output you want. It sets out three things.\n\nFields: what pieces exist. customer_name, sentiment, order_id.\n\nTypes: what kind of value each one holds. Text, a number, true or false, a date, a list.\n\nAllowed values: where only certain answers make sense, list them. sentiment must be one of \"positive\", \"neutral\" or \"negative\". This is called an enum.\n\nEnums are the most valuable part. Without one, the model may answer \"mostly positive\", \"Positive!\" or \"good\", and your code has to cope with every variation.\n\nYou can also mark fields as required or optional.\n\nIt is designing a paper form: which boxes, what goes in each, and where it is tick-one-only.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wjVcXCcWJ-bI_1",
+          "type": "multiple_choice",
+          "prompt": "What is the benefit of restricting a field to a fixed list of allowed values?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model can only answer with one of the options your code expects"
+            },
+            {
+              "id": "b",
+              "text": "The model writes longer answers"
+            },
+            {
+              "id": "c",
+              "text": "The field can hold any text"
+            },
+            {
+              "id": "d",
+              "text": "It removes the need for a schema"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "An enum prevents unexpected variations, so downstream code handles a known set of values.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TADwcX--jZIZ",
       "title": "Field descriptions as mini-prompts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Each field in a schema can carry a description, and the model reads it. That makes every description a small prompt for that field.\n\nCompare a bare field called \"date\" with one described as: \"The date the invoice is due for payment, in YYYY-MM-DD format. If no due date is given, use null. Do not use the issue date.\"\n\nThe second settles three ambiguities before they turn into bugs.\n\nField names matter as well. \"due_date\" tells the model more than \"d2\".\n\nIt is the small grey help text beside a box on a form: \"as it appears on your passport\".\n\nWhen a field keeps coming back wrong, improve that field's description first. It is the most precisely aimed fix there is.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TADwcX--jZIZ_1",
+          "type": "multiple_choice",
+          "prompt": "A schema field keeps getting the wrong kind of value. What should you try first?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Delete the schema"
+            },
+            {
+              "id": "b",
+              "text": "Write a clearer description for that field"
+            },
+            {
+              "id": "c",
+              "text": "Switch programming language"
+            },
+            {
+              "id": "d",
+              "text": "Raise the temperature"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Field descriptions guide the model for that specific value, so sharpening one is the most direct fix.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

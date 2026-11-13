@@ -5,56 +5,168 @@
     {
       "id": "bit_RItZB9PChYR-",
       "title": "LangChain, LangGraph, CrewAI, Agents SDK, n8n",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "These five names come up constantly, and each sits in a different place.\n\nLangChain: a broad toolkit of connectors and building blocks. LangGraph: from the same team, for agents built as explicit graphs of steps with saved state. CrewAI: for teams of agents with roles. Agents SDKs: the model providers' own lean toolkits, from OpenAI, Anthropic, Google and others. n8n: a visual, low-code automation tool with AI steps.\n\nA rough guide: n8n when you want to draw the flow. A provider SDK when you want a simple agent on one vendor's models. LangGraph when you need fine control and long-running state. CrewAI when the work divides into roles.\n\nThey overlap heavily and change quickly. Module B10 goes through them properly.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RItZB9PChYR-_1",
+          "type": "multiple_choice",
+          "prompt": "Which of these is a visual, low-code automation tool?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "n8n"
+            },
+            {
+              "id": "b",
+              "text": "LangGraph"
+            },
+            {
+              "id": "c",
+              "text": "CrewAI"
+            },
+            {
+              "id": "d",
+              "text": "A provider's Agents SDK"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "n8n lets you build flows by connecting boxes, while the others are code libraries.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__NOhDai_reAP",
       "title": "Framework vs. plain Python",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "You can build an agent with a framework or with ordinary code that calls the model's API directly.\n\nPlain Python: you write the loop yourself. It is about fifty lines. You see every step, nothing is hidden, and debugging is straightforward. It is the best way to learn, and it is enough for many real agents.\n\nA framework: you use someone else's loop and components. You get features you would otherwise build, but you must learn its concepts, and when something goes wrong the cause may be buried inside the library.\n\nIt is baking from scratch against using a cake mix. From scratch teaches you what each ingredient does.\n\nAdvice many experienced builders give: write your first agent in plain code. You will then know what a framework is doing for you, and whether you need it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__NOhDai_reAP_1",
+          "type": "multiple_choice",
+          "prompt": "What is an advantage of building a first agent in plain code?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "You see and understand every step of the loop"
+            },
+            {
+              "id": "b",
+              "text": "It adds many features automatically"
+            },
+            {
+              "id": "c",
+              "text": "It hides the details from you"
+            },
+            {
+              "id": "d",
+              "text": "It requires no model"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Writing the loop yourself reveals how agents work, which makes later framework choices better informed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_a3uRwiAZBRN_",
       "title": "What a framework gives you: loop, state, tools, and tracing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Frameworks are worth understanding by what they actually supply. There are four things.\n\nThe loop: the cycle of calling the model, running tools and feeding back results, with retries and stopping rules.\n\nState: a record of where the task has got to, often saved so that a long job can pause, survive a crash and resume.\n\nTools: ready-made connections to common services, and a standard way to define your own.\n\nTracing: a step-by-step record of what the agent did, so you can see why it went wrong.\n\nThe first you can write in an afternoon. Durable state and good tracing are real work to build well.\n\nSo the honest test for adopting a framework is: do I need its state handling or its tracing? If yes, it earns its place.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_a3uRwiAZBRN__1",
+          "type": "multiple_choice",
+          "prompt": "Which framework features are the hardest to build well yourself?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The basic loop"
+            },
+            {
+              "id": "b",
+              "text": "A single model call"
+            },
+            {
+              "id": "c",
+              "text": "Durable saved state and tracing"
+            },
+            {
+              "id": "d",
+              "text": "Printing text to the screen"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The loop is simple, but reliable persistence and detailed tracing take real engineering effort.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wAkwTlVa1YE0",
       "title": "Learn the pattern first, then the framework",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Frameworks come and go. The patterns underneath them stay.\n\nThe patterns are few: the loop, tool definitions, state, routing, handoffs between agents, human approval, and evaluation. Every framework is a set of opinions about how to package those.\n\nIf you learn the patterns, a new framework takes a day, because you recognise each piece: \"this is how it does state, this is how it does handoffs\".\n\nIf you learn only a framework's commands, you are stuck when it changes its API, which they do, or when the project needs a different one.\n\nIt is learning music theory against memorising where to put your fingers for one song.\n\nThat is why this course explains the idea before it names any product.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wAkwTlVa1YE0_1",
+          "type": "multiple_choice",
+          "prompt": "Why learn agent patterns before a specific framework?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Frameworks cannot be learned"
+            },
+            {
+              "id": "b",
+              "text": "Patterns transfer to any framework, while framework details keep changing"
+            },
+            {
+              "id": "c",
+              "text": "Patterns are only used in exams"
+            },
+            {
+              "id": "d",
+              "text": "Frameworks never change"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The underlying ideas are stable, so knowing them makes any particular tool quick to pick up.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_V2IC2VZeRDhj",
       "title": "The wider product map",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Frameworks are one layer. Round them sits a wider set of products you will meet.\n\nModels and their providers. Access layers: routers, gateways and cloud platforms. Data tools: vector databases, document parsers and search services. Tool connectors, increasingly through the Model Context Protocol, MCP. Evaluation and observability platforms for testing and tracing. Guardrail products for filtering inputs and outputs. And finished agent products: coding agents, support agents, research assistants.\n\nIt helps to place any new product on this map: which layer is it, and what does it replace?\n\nMost announcements that sound revolutionary are a new option in one familiar layer.\n\nModule A6 covered the map as a market. The rest of Track B goes through the layers one at a time.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -67,7 +179,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_V2IC2VZeRDhj_1",
+          "type": "multiple_choice",
+          "prompt": "What is a useful first question about any new AI product?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Which layer of the stack does it belong to, and what would it replace?"
+            },
+            {
+              "id": "b",
+              "text": "How large is its logo?"
+            },
+            {
+              "id": "c",
+              "text": "How many people follow it online?"
+            },
+            {
+              "id": "d",
+              "text": "Is its name memorable?"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Placing a product on the stack map shows what it actually does and whether you need it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

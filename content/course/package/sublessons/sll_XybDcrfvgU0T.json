@@ -5,50 +5,162 @@
     {
       "id": "bit_67ObwTzAT11K",
       "title": "Provider prompt caching",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Prompt caching is a feature offered by the model providers. It is a different thing from the semantic cache you have just read about.\n\nMany requests begin with the same long text: the system prompt, the tool definitions, a reference document. Normally the model processes all of it afresh on every call.\n\nWith prompt caching, the provider keeps its processed form of that opening section for a short time, typically minutes. Later requests that begin identically reuse it.\n\nThe model still writes a fresh answer every time. Only the reading of the repeated beginning is skipped.\n\nIt is a teacher who has already read the textbook. For each new question from a student, they read only the question.\n\nSome providers apply it automatically, and others need you to mark what to cache.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_67ObwTzAT11K_1",
+          "type": "multiple_choice",
+          "prompt": "What does provider prompt caching reuse?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model's previous answer, word for word"
+            },
+            {
+              "id": "b",
+              "text": "The user's password"
+            },
+            {
+              "id": "c",
+              "text": "The processing of a repeated opening section of the prompt"
+            },
+            {
+              "id": "d",
+              "text": "Another customer's prompt"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The provider stores its work on the identical start of the prompt, while still generating a fresh answer.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_X5lbBon4ep0D",
       "title": "Cost and latency savings",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Prompt caching saves on both of the things you care about.\n\nCost: cached input tokens are billed at a steep discount, commonly around a tenth of the normal input price. Some providers charge a little extra the first time, when the cache is written.\n\nSpeed: the model does not reprocess the cached part, so the first words of the answer arrive sooner. With long prompts the difference is easy to see.\n\nAgents benefit most. An agent re-sends its system prompt, its tools and a growing history on every step. Over a fifty-step task, nearly all the input is repeated text. Caching can cut the input bill by most of its size.\n\nExact discounts and cache lifetimes differ by provider and change over time, so check the current pricing page.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_X5lbBon4ep0D_1",
+          "type": "multiple_choice",
+          "prompt": "Why do agents benefit especially from prompt caching?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They resend the same long prefix on every step"
+            },
+            {
+              "id": "b",
+              "text": "They never send prompts"
+            },
+            {
+              "id": "c",
+              "text": "They only ever make one call"
+            },
+            {
+              "id": "d",
+              "text": "Caching makes them use more tokens"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Each step repeats the system prompt, tools and history, so most input can be served from cache.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_c0vmt8GOsDjH",
       "title": "Stable content first, changing content last",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Prompt caching works on prefixes. The provider can reuse the cache only up to the first point where the new request differs from the old one.\n\nSo order matters a great deal.\n\nPut what never changes at the very start: the system prompt, tool definitions, fixed reference documents and examples.\n\nPut what changes at the end: the user's question, today's date, retrieved passages.\n\nThink of a form letter. The standard paragraphs come first and are printed once. The personal details are added at the bottom.\n\nA common mistake is putting the current time or the user's name at the top of the system prompt. That one changing line means nothing after it can be cached.\n\nArrange the prompt from most stable to least stable.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_c0vmt8GOsDjH_1",
+          "type": "multiple_choice",
+          "prompt": "Where should content that changes with every request go?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "At the end of the prompt"
+            },
+            {
+              "id": "b",
+              "text": "At the very start"
+            },
+            {
+              "id": "c",
+              "text": "In the middle of the system prompt"
+            },
+            {
+              "id": "d",
+              "text": "It does not matter"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Caching reuses an identical prefix, so changing content must come after the stable part.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gnIGvbGG1sE0",
       "title": "What breaks the cache: editing the start of the prompt",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A cache hit needs the start of the prompt to be exactly the same, character for character. Small changes break it.\n\nCommon causes:\n\nA timestamp or random ID near the top.\n\nEditing the system prompt, even to fix a typo.\n\nAdding, removing or reordering tools.\n\nChanging or deleting an early message in the history, where a simple append would have kept it.\n\nTool definitions serialised in a different order each time.\n\nSwitching model.\n\nWhen the cache breaks, everything after the change is processed at full price again.\n\nIt is a stack of plates. Change one near the bottom and everything above has to come off.\n\nTwo habits help. Treat the prompt's opening as frozen during a session, and only append. And watch the provider's cache-hit figures, so that a sudden drop gets noticed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gnIGvbGG1sE0_1",
+          "type": "multiple_choice",
+          "prompt": "Which change would break a prompt cache?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Appending a new user message at the end"
+            },
+            {
+              "id": "b",
+              "text": "Receiving a new answer from the model"
+            },
+            {
+              "id": "c",
+              "text": "Reading the usage report"
+            },
+            {
+              "id": "d",
+              "text": "Adding the current time to the top of the system prompt"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Any change near the start alters the prefix, so nothing after it can be reused.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

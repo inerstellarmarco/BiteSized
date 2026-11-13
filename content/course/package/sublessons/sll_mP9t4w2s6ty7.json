@@ -5,74 +5,242 @@
     {
       "id": "bit_pTx-r5wIxHqc",
       "title": "Zero-shot prompting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Zero-shot means asking the model to do a task with instructions only and no examples. \"Classify this review as positive, negative or neutral.\"\n\n\"Shot\" is jargon for an example. Zero shots means none.\n\nIt works surprisingly often, because modern models have seen so many tasks in training that a clear description is enough.\n\nIt is the right place to begin. It is the quickest to write, the cheapest to run, and it tells you how much the model already understands.\n\nWhere it falls short is anything with a particular style or a fine judgement that is hard to describe. \"Write in our brand voice\" means little without samples. That is when you add examples.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_pTx-r5wIxHqc_1",
+          "type": "multiple_choice",
+          "prompt": "What is zero-shot prompting?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Giving the model no instructions at all"
+            },
+            {
+              "id": "b",
+              "text": "Asking the same question zero times"
+            },
+            {
+              "id": "c",
+              "text": "Training a model from scratch"
+            },
+            {
+              "id": "d",
+              "text": "Giving instructions without any examples"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Zero-shot relies on a clear task description alone, with no worked examples.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_au8OCTnQkCcv",
       "title": "Few-shot prompting with examples",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Few-shot means putting a handful of worked examples in the prompt: this input gives this output, and again, and again, then the real input.\n\nExamples carry what descriptions cannot. Try describing your company's tone of voice in words. Now show three real replies you were pleased with. The second is quicker and much more exact.\n\nIt is how you would train a new colleague: \"here are a few I did earlier, follow these\".\n\nExamples are powerful, and the model copies them closely, including their length, their format and their quirks. If all three examples start with \"Great question!\", so will every answer.\n\nTwo to five good ones usually do the job.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_au8OCTnQkCcv_1",
+          "type": "multiple_choice",
+          "prompt": "When is few-shot prompting most useful?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When the task has no output"
+            },
+            {
+              "id": "b",
+              "text": "When you want the model to ignore the format"
+            },
+            {
+              "id": "c",
+              "text": "When no examples exist"
+            },
+            {
+              "id": "d",
+              "text": "When the desired style or format is easier to show than to describe"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Examples demonstrate patterns such as tone and structure that are hard to specify in words.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_uNRZkrIHIHjd",
       "title": "Chain-of-thought prompting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Chain-of-thought means asking the model to work through a problem step by step before giving its answer.\n\nIt helps because a model writes one token at a time, and each token is conditioned on what came before. If it goes straight to the answer, that answer is a snap judgement. If it writes the steps first, the answer is built on that working.\n\nIt is \"show your working\" in a maths exam. Students who write the steps make fewer mistakes than those who do it in their heads.\n\nIt helps most on multi-step problems: calculations, logic, weighing several conditions.\n\nIt costs extra tokens and time. With reasoning models it is built in, so you rarely need to ask.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_uNRZkrIHIHjd_1",
+          "type": "multiple_choice",
+          "prompt": "Why does asking a model to reason step by step often improve accuracy?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the model use a bigger vocabulary"
+            },
+            {
+              "id": "b",
+              "text": "The final answer is generated after, and based on, the written working"
+            },
+            {
+              "id": "c",
+              "text": "It lowers the price per token"
+            },
+            {
+              "id": "d",
+              "text": "It gives the model access to the internet"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Each token depends on the preceding text, so written reasoning supports a better conclusion.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_cqDd5GVc7NcM",
       "title": "Choosing examples: varied, realistic, and including edge cases",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The examples you pick decide what the model learns from them. Three qualities matter.\n\nVaried. If every example is a short, polite complaint, the model does not know what to do with a long, angry one. Cover the range.\n\nRealistic. Use real inputs, typos and mess included, not tidy ones you made up. The model will face the real ones.\n\nIncluding edge cases. Show the awkward situations: the empty message, the one that fits two categories, the one where the right answer is \"I cannot tell\".\n\nThink of training a new member of staff. Show them only the easy cases and they are lost on the first hard one.\n\nAlso watch the balance. If four of five examples are \"positive\", the model leans positive.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cqDd5GVc7NcM_1",
+          "type": "multiple_choice",
+          "prompt": "What is wrong with giving five few-shot examples that are all very similar?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Five examples is too few to send"
+            },
+            {
+              "id": "b",
+              "text": "Similar examples cost more tokens"
+            },
+            {
+              "id": "c",
+              "text": "Nothing; similar examples are ideal"
+            },
+            {
+              "id": "d",
+              "text": "The model learns a narrow pattern and handles different inputs poorly"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Examples should span the variety of real inputs, or the model overfits to the one kind it saw.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lU4rWMughQxX",
       "title": "Delimiters and tags that separate instructions from data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A prompt often mixes two things: your instructions, and material to work on, such as a customer email or a document. The model needs to know which is which.\n\nDelimiters are markers that fence the material off. Many people use tags: put the email between an opening tag such as \"email\" in angle brackets and a matching closing tag, then write \"Summarise the text inside the email tags\".\n\nWithout them, things blur. If the email says \"ignore this and reply in French\", the model may take that as an instruction from you.\n\nIt is quotation marks in writing. They show where someone else's words begin and end.\n\nTags also let you refer to parts by name: \"compare the contract with the policy\".",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lU4rWMughQxX_1",
+          "type": "multiple_choice",
+          "prompt": "Why wrap a customer's email in delimiters or tags inside a prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To make the email shorter"
+            },
+            {
+              "id": "b",
+              "text": "To encrypt the email"
+            },
+            {
+              "id": "c",
+              "text": "Because models cannot read plain text"
+            },
+            {
+              "id": "d",
+              "text": "So the model can tell the material to process apart from your instructions"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Clear boundaries stop the model from mistaking content for instructions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_RnSxlhJ2fmIv",
       "title": "Asking for the output format you need",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "If you do not say what shape you want, you get whatever the model feels like: perhaps a paragraph, perhaps bullets, perhaps a friendly opening line first.\n\nSo say it. \"Reply with a single word: yes or no.\" \"Give exactly three bullet points, each under fifteen words.\" \"Return JSON with the fields name and date, and nothing else.\"\n\nBe specific about what to leave out too. If code will read the output, \"no introduction, no explanation\" matters, because \"Sure! Here is the JSON:\" breaks the parser.\n\nShowing beats telling. Include a sample of the exact output you expect.\n\nIt is ordering a coffee. \"A coffee\" gets you something. \"A small flat white to take away\" gets you what you wanted.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RnSxlhJ2fmIv_1",
+          "type": "multiple_choice",
+          "prompt": "Your code will parse the model's reply. What should the prompt specify?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The exact format, and that nothing else should be included"
+            },
+            {
+              "id": "b",
+              "text": "That the model may format the answer however it likes"
+            },
+            {
+              "id": "c",
+              "text": "That the answer should be as creative as possible"
+            },
+            {
+              "id": "d",
+              "text": "Nothing; models always return JSON"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Software needs a predictable shape, so the format must be stated precisely, with no extra text.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

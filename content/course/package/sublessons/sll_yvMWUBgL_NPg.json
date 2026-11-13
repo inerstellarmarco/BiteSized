@@ -5,50 +5,162 @@
     {
       "id": "bit_vokcuO5IU-Tc",
       "title": "Community summaries and graph-based retrieval",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Graph RAG uses a knowledge graph to improve retrieval. One influential version works like this.\n\nFirst, build the graph from your documents. Second, find communities: clusters of entities that are densely linked to each other, such as everything to do with one project or one supplier network. Third, have an LLM write a summary of each community, in advance.\n\nAt question time, the system can draw on those summaries as well as on individual chunks.\n\nThink of a large organisation. You could read every email, or you could read a briefing from each department.\n\nThe summaries give the system a bird's-eye view that no single chunk has. That is what plain vector search lacks.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vokcuO5IU-Tc_1",
+          "type": "multiple_choice",
+          "prompt": "In Graph RAG, what is a community summary?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A list of the users of the system"
+            },
+            {
+              "id": "b",
+              "text": "A pre-written summary of a cluster of closely connected entities"
+            },
+            {
+              "id": "c",
+              "text": "A social media post"
+            },
+            {
+              "id": "d",
+              "text": "The system prompt"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Related entities are grouped, and each group is summarised ahead of time to support broad questions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_IlPVQinq7G8R",
       "title": "When Graph RAG beats vector RAG",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Vector RAG is good at \"find the passage that answers this\". Graph RAG does better in three situations.\n\nQuestions about connections: \"how is this supplier linked to that customer?\" The answer is a path, not a passage.\n\nQuestions that span many documents, where the relevant facts are scattered and no one chunk holds enough.\n\nQuestions about the whole collection: \"what are the main risks raised across all these reports?\"\n\nFor plain lookups, such as \"what is the notice period in this contract?\", Graph RAG adds cost and no benefit.\n\nA specialist detective is wonderful for a tangled case and overkill for finding your keys.\n\nSo it is an addition for particular kinds of question, not a replacement. Many systems use both and route each question to the right one.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IlPVQinq7G8R_1",
+          "type": "multiple_choice",
+          "prompt": "Which question is plain vector RAG usually enough for?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "\"How are these two companies connected through shared directors?\""
+            },
+            {
+              "id": "b",
+              "text": "\"What is the notice period in this contract?\""
+            },
+            {
+              "id": "c",
+              "text": "\"What themes run through all 500 reports?\""
+            },
+            {
+              "id": "d",
+              "text": "\"Which products are affected if this part fails?\""
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A specific fact found in one passage is exactly what vector search is good at.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_s3lmZgsCShwk",
       "title": "Whole-collection questions, such as the main themes across all documents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Ask a normal RAG system \"what are the main themes in our customer feedback this year?\" and it does something subtly wrong. It retrieves the five chunks most similar to the question and summarises those: five comments out of ten thousand.\n\nThe answer sounds fine and represents almost nothing.\n\nThe problem is structural. Top-k retrieval fetches a few relevant pieces. A question about the whole collection needs all of it, condensed.\n\nGraph RAG's pre-built community summaries provide that. The system combines summaries that together cover everything, instead of sampling a handful of chunks.\n\nIt is the difference between interviewing five people and reading the census.\n\nWatch for this kind of question in your own system. \"Overall\", \"main themes\", \"across all\" and \"in general\" are the warning words.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_s3lmZgsCShwk_1",
+          "type": "multiple_choice",
+          "prompt": "Why does ordinary top-k RAG handle \"what are the main themes across all documents?\" badly?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It only retrieves a few chunks, which cannot represent the whole collection"
+            },
+            {
+              "id": "b",
+              "text": "It retrieves too many documents"
+            },
+            {
+              "id": "c",
+              "text": "It cannot read questions with the word \"themes\""
+            },
+            {
+              "id": "d",
+              "text": "It always refuses such questions"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A global question needs coverage of everything, while top-k returns only a small sample.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_R7uU8MWcgbNI",
       "title": "The cost: building and maintaining the graph",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Graph RAG's benefits come with a real bill, and it should be weighed honestly.\n\nBuilding: every chunk goes through an LLM for extraction, and then more calls write the summaries. For a large collection that can cost many times more than simply embedding it, and take hours or days.\n\nMaintaining: new and changed documents mean re-extracting, re-resolving entities and regenerating the affected summaries.\n\nComplexity: more moving parts. A schema, extraction prompts, resolution rules and a graph database, each of which can go wrong.\n\nIt is the difference between putting books on shelves and employing a librarian to cross-reference every one.\n\nThe question to ask first: do my users really ask connection or whole-collection questions often enough to justify this? If not, well-tuned vector RAG wins.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_R7uU8MWcgbNI_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main drawback of Graph RAG?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It cannot answer any questions"
+            },
+            {
+              "id": "b",
+              "text": "The cost and complexity of building and maintaining the graph"
+            },
+            {
+              "id": "c",
+              "text": "It only works in one language"
+            },
+            {
+              "id": "d",
+              "text": "It needs no documents"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Extraction, entity resolution and summary generation require many model calls and ongoing upkeep.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

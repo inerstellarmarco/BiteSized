@@ -1,0 +1,510 @@
+// B7 Single-Agent Architectures
+@@ sll_zQ2_c3GJhuVN | B7.1 The ReAct Loop > Reason, Act, Observe
+## ReAct loop
+ReAct stands for Reason and Act. It is the standard pattern for a single agent.
+
+The agent repeats three steps.
+
+Reason: think about the situation. "The user wants last month's sales. I need the sales database."
+
+Act: call a tool. Run the query.
+
+Observe: read what came back. "It returned 412 orders totalling £38,000."
+
+Then reason again with that new knowledge, and so on until the task is done.
+
+A detective works like this. Form a theory, check a lead, see what it shows, revise the theory.
+
+The reasoning step is what distinguishes it from blindly firing tools. Thinking before each action makes the choices better, and it leaves a record of why the agent did what it did.
+?? What are the three repeating steps of the ReAct loop?
++ Reason, act, observe
+- Read, write, delete
+- Start, pause, stop
+- Plan, pay, publish
+= ReAct alternates thinking, taking an action and reading the result.
+## Stopping conditions and max-step limits
+A loop needs a way to end. An agent has two kinds.
+
+The natural stop: the model decides that the task is finished and gives a final answer in place of another tool call.
+
+The forced stop: a limit in your code ends the run whatever the model thinks. The most basic is a maximum number of steps, such as 25. Others are a time limit, a cost limit and repeated errors.
+
+You need both. Models sometimes fail to stop. They get stuck retrying, or keep "improving" a finished answer.
+
+It is a parking meter. Most people return in time. The meter is for when they do not.
+
+When a forced stop triggers, do not fail silently. Report what was achieved and what was not.
+?? Why does an agent need a maximum-step limit?
++ The model may not stop by itself
+- Models can only count to ten
+- It makes each step cheaper
+- Users enjoy limits
+= A hard cap ends runs that get stuck or wander, which the model cannot be relied on to do.
+## Each observation shapes the next decision
+What makes the loop more than a script is that every result feeds into the next choice.
+
+A script says: do A, then B, then C. If A returns something unexpected, B runs anyway.
+
+An agent does A, reads the result, and only then decides. If the search found nothing, it rewords the query. If the file was missing, it looks elsewhere. If the answer was already there, it skips ahead.
+
+A chess player does not plan ten moves and play them regardless. They watch the opponent's reply and reconsider.
+
+That is the source of an agent's adaptability. It is also why good tool outputs matter so much: the observation is the only information the next decision has.
+?? What makes an agent loop more adaptable than a fixed script?
++ Each result is read before the next step is chosen
+- It runs the same steps regardless of results
+- It never uses tools
+- It has no stopping point
+= Deciding after each observation lets the agent respond to what actually happened.
+## How the agent knows it is done
+"Done" is a judgement the model has to make, and it can get it wrong in both directions.
+
+Stopping too early: declaring success after doing half the job, or after a step that failed without it noticing.
+
+Stopping too late: checking and rechecking, or adding things nobody asked for.
+
+You can help it judge.
+
+State what "finished" looks like in the instructions: "you are done when the report has all five sections and the totals have been checked against the ledger".
+
+Have it verify before finishing. Run the tests, reread the output against the request.
+
+Keep a checklist that it has to complete.
+
+A builder is given a snagging list for the same reason. "Looks finished to me" is unreliable. A list of conditions is not.
+?? How can you help an agent judge correctly when it is finished?
++ State clear completion criteria and have it verify against them
+- Tell it never to stop
+- Remove the goal from the prompt
+- Give it no way to check its work
+= Explicit criteria and a verification step replace a vague sense of "done".
+## Budgets: steps, time, and money
+A budget is a ceiling on what one task may consume. Agents need three.
+
+Steps: the number of loop turns. It guards against going round in circles.
+
+Time: how long the run may last. It guards against hangs, and against users who are left waiting.
+
+Money: the token cost. It guards against one task quietly burning through £50.
+
+They catch different failures. An agent can use few steps but huge contexts, which costs a lot. Or many quick, cheap steps.
+
+Size the budgets to the job. A quick lookup might get five steps and ten pence. A deep research task might get a hundred steps and five pounds.
+
+It is giving a contractor a quote limit: do the work, but call me before going over £500.
+?? Which three budgets should an agent run have?
++ Steps, time and money
+- Colour, font and size
+- Morning, noon and night
+- Small, medium and large
+= Each cap catches a different kind of runaway: loops, hangs and excessive cost.
+
+@@ sll_BM06J9xeTNbw | B7.1 The ReAct Loop > Building the Loop
+## Implementing ReAct in plain Python
+The whole ReAct loop fits in a few lines. In outline:
+
+Start a list of messages with the system prompt and the user's request.
+
+Repeat, up to a maximum number of steps: send the messages and the tool definitions to the model. If the reply contains no tool call, it is the final answer, so stop. Otherwise, run each tool that was requested, append the model's reply and the tool results to the messages, and go round again.
+
+That is all. A "while" loop, one API call and one "if".
+
+Writing it once yourself is worth an afternoon. Afterwards no framework seems mysterious. You can see that each one is this same loop with conveniences added.
+?? In a plain ReAct loop, what signals that the agent has finished?
++ The model replies without requesting a tool
+- The computer restarts
+- The first tool returns anything
+- The user closes the window
+= A reply with no tool call is the model's final answer, which ends the loop.
+## Logging thoughts and actions
+A log is a record, written as the agent runs, of everything it did.
+
+For each step, capture: what the model was sent, its reasoning, which tool it called and with what inputs, what the tool returned, how long it took and what it cost.
+
+Without that, a failed run is a mystery. You know the answer was wrong and have no idea where it went off course.
+
+It is an aircraft's flight recorder. Nobody looks at it when things go well. After an incident it is what everyone needs.
+
+Add logging from the first day, not after the first failure.
+
+One caution: logs hold whatever passed through the agent, including personal data. Protect them accordingly.
+?? Why log every step of an agent's run?
++ So you can see where and why a run went wrong
+- To make the agent slower
+- To increase the token cost
+- Logs are required by the model
+= A step-by-step record turns a mysterious failure into something you can trace and fix.
+## The loop itself is short; the work is in tools and prompts
+If the loop is twenty lines, why is building a good agent hard?
+
+Because the loop is the easy part. It is the same in nearly every agent. What differs, and what decides quality, is everything round it.
+
+The tools: are they the right ones, well named and described, returning clean results and helpful errors?
+
+The prompt: is the goal clear, with the rules stated and a definition of done?
+
+The context: does the model see what it needs, without a mass of clutter?
+
+The safeguards: limits, approvals and checks.
+
+The evals: do you know whether it works?
+
+A car's engine cycle is simple and the same everywhere. The difference between cars lies in all the rest.
+
+So spend your effort there, not on choosing a cleverer loop.
+?? Where does most of the effort in building a good agent go?
++ Tools, prompts, context and safeguards
+- Writing the loop itself
+- Choosing a logo
+- Typing speed
+= The loop is generic and short, while quality depends on what surrounds it.
+## Reading the log to see why the agent did what it did
+When an agent misbehaves, do not start by rewording the prompt. Start by reading the trace, step by step.
+
+Find the first place it went wrong. Not the final bad answer, but the step where things first turned.
+
+Then ask why, with what it could see at that moment. Did a tool return something misleading? Was the description ambiguous? Was a needed fact missing from the context? Did the instructions conflict?
+
+Nearly always the agent's choice was reasonable given what it saw. The fault is in what it was shown.
+
+A doctor reads the patient's chart before prescribing.
+
+Most fixes found this way are small and specific: a clearer tool description, a trimmed result, one added sentence. That is far better than guessing.
+?? When debugging an agent, what should you look for in the log?
++ The first step where things went wrong, and what the agent could see then
+- Only the final answer
+- The longest message
+- The total number of tokens
+= The earliest wrong turn, viewed with the context available at that point, reveals the real cause.
+
+@@ sll_EVT6vAtUnhrz | B7.2 State Management > Agent State
+## What state to store
+State is everything you would need in order to continue a task after stopping.
+
+For most agents that means:
+
+The goal and any instructions specific to this task.
+
+The message history, or a summary of it.
+
+Progress: which steps are done and which are next.
+
+Results gathered so far, including key facts and IDs.
+
+Pending items, such as approvals awaited.
+
+Bookkeeping: the step count, cost so far, timestamps and any errors.
+
+A good test: if the power failed now and a different computer picked this up tomorrow, what would it need to carry on correctly?
+
+Store that. Leave out what can be recomputed cheaply, and take care with what is sensitive.
+
+It is a handover note good enough that a stranger could finish the job.
+?? What is a good test of whether you are storing the right state?
++ Could another machine continue the task from it after a failure?
+- Is it as large as possible?
+- Does it include the model's weights?
+- Is it written in capital letters?
+= State should contain what is needed to resume the task correctly from where it stopped.
+## State machines for agents
+A state machine is a way of describing a process as a set of named stages, with rules about which stage can follow which.
+
+A support request might move through: new, gathering information, awaiting customer, resolving, awaiting approval, closed. From "awaiting approval" it can go to "resolving" or "closed", and nowhere else.
+
+It is a board game. Your piece is always on one square, and the rules say where it may move.
+
+For agents, this adds structure round the model's freedom. Inside a stage, the agent reasons flexibly. Between stages, your code enforces the rules. A refund cannot reach "sent" without passing through "approved".
+
+It also makes the system easy to inspect. At any moment you can say exactly which stage every task is in.
+?? What does a state machine add to an agent?
++ Enforced rules about which stage may follow which
+- Unlimited freedom at every step
+- A larger context window
+- A new language
+= Named stages with allowed transitions keep the overall process controlled while the agent reasons within a stage.
+## State vs. context: the record vs. what the model sees
+These two words are easy to confuse. They mean different things.
+
+State is the full record of the task, held by your system. It can be as large as you like, and it persists.
+
+Context is what you choose to show the model on one particular call. It is limited, and it is assembled afresh each time.
+
+Think of a filing cabinet and a desk. The cabinet holds everything about the case. For each piece of work, you take out the few papers you need and put them on the desk.
+
+Context is built from state. Before each model call, your code selects from the state: the goal, recent steps and the relevant facts.
+
+Keeping them separate is the basis of context engineering. You can store everything and show only what helps.
+?? What is the relationship between state and context?
++ Context is the selection from state that the model is shown on a given call
+- They are the same thing
+- State is always smaller than context
+- Context is stored permanently and state is not
+= State is the complete persistent record, and context is the limited view built from it for each call.
+## Keeping state in a database, not only in memory
+A program's working memory vanishes the moment the program stops. If an agent's state lives only there, a crash, a restart or a new software release wipes every task in progress.
+
+So write the state to a database as you go.
+
+That brings several things. Tasks survive failures. A user can close the browser and come back tomorrow. You can run several copies of the service, and any of them can pick up any task. And you have a record to inspect when something goes wrong.
+
+It is saving a document to disk, as opposed to leaving it unsaved on screen and hoping the power stays on.
+
+For a quick prototype, in-memory state is fine. For anything a client relies on, it needs to be durable.
+?? Why store agent state in a database?
++ So tasks survive crashes and restarts
+- To make the model more creative
+- To avoid using tools
+- Because databases are free
+= State held only in a program's memory is lost when the program stops.
+
+@@ sll_A2lKQT8vY-Xg | B7.2 State Management > Crash Recovery
+## Checkpointing progress
+A checkpoint is a saved snapshot of an agent's state at a particular moment.
+
+The common practice is to save one after every step: the model replied, the tool ran, save. If something fails on step 31, you still have the state as it was after step 30.
+
+Video games work this way. When you fail, you return to the last save point, not to the very beginning.
+
+Without checkpoints, an hour-long task that breaks at minute 58 starts again from nothing. That wastes the time and money, and anything it already did, such as emails sent, may be repeated.
+
+Checkpoints are useful for more than crashes. You can go back to an earlier point to see what the agent knew, or to try a different path from there.
+?? What does checkpointing allow after a failure?
++ Resuming from the last saved step, not from the beginning
+- Deleting the task
+- Running twice as fast
+- Skipping all remaining steps
+= A saved snapshot after each step means only the failed step needs to be redone.
+## Durable execution
+Durable execution is a guarantee: once a task has started, it will reach an end, even if machines crash, networks fail or the service restarts along the way.
+
+The system records every step as it happens. If the process dies, another one reads the record and continues exactly from where things stood. The task itself has no idea that anything happened.
+
+It is a relay race where the baton keeps moving forward, whichever runner drops out.
+
+Tools that provide this include Temporal and the persistence layers of frameworks such as LangGraph.
+
+It matters most for long tasks and for ones with real consequences, such as a multi-day onboarding process, or anything involving payments, where half-finished is the worst outcome.
+?? What does durable execution guarantee?
++ A started task will continue to completion despite crashes
+- A task will never take long
+- No tools will ever fail
+- The model will never be wrong
+= Recording each step lets another process carry on after a failure, so tasks are not abandoned midway.
+## Resumable long-running tasks
+Some agent tasks take hours or days. Research across hundreds of documents, a large migration, a process that waits on other people.
+
+Nothing runs uninterrupted for that long. Servers are restarted, connections drop, rate limits are reached.
+
+So long tasks have to be built to be resumable: able to stop at any point and continue later with nothing lost.
+
+That takes three things you have now met. State in durable storage. Checkpoints after each step. And work divided into steps small enough that redoing one is cheap.
+
+It is reading a long book with a bookmark. You do not need one unbroken sitting, and you do not start again each time.
+
+A design question worth asking early: if this stopped right now, what would it take to carry on?
+?? What makes a long-running task resumable?
++ Durable state, checkpoints and small steps
+- Running on the fastest computer
+- Never saving anything
+- Completing in one unbroken run
+= Saved progress and small units of work let a task stop and continue without loss.
+## Resuming without repeating finished steps
+Resuming has a trap. When the agent picks up again, it must not redo what was already done.
+
+Re-running a search is harmless. Re-sending an email, re-charging a card or re-creating an order is not.
+
+There are two protections.
+
+Record completion. Mark each step finished only once it truly is, and on resuming, skip everything marked.
+
+Make actions idempotent, as module B5 described. Even if a step does run twice, the second time has no further effect.
+
+The awkward case is a crash in the middle of a step. The email went out, but the "done" mark was never saved. That is precisely where idempotency keys earn their place.
+
+It is the tick list on a shared chore board. Without it, the bins get put out twice or not at all.
+?? Why are idempotent actions important when resuming a task?
++ A step that accidentally runs twice then causes no extra effect
+- They make the task run faster
+- They remove the need to save state
+- They stop the agent from resuming
+= If a crash hides whether a step completed, idempotency makes a repeat harmless.
+## Pausing for a human and picking up later
+Many tasks reach a point where a person has to weigh in: approve a refund, choose between options, supply a missing fact.
+
+People are slow, in computer terms. The reply may come in a minute or on Monday.
+
+So the agent should not sit waiting with a process running. It saves its state, records what it is waiting for, and stops. When the person responds, the task is loaded and continues from exactly that point.
+
+It is sending a document off for signature. You do not stand at the recipient's desk. You go on with other things, and take it up again when it returns.
+
+This needs durable state. It is also what makes human approval practical at scale, since a thousand tasks can be waiting without costing anything.
+?? What should an agent do while waiting for a human's approval?
++ Save its state and stop, resuming when the answer arrives
+- Keep a process running for days
+- Guess the answer and continue
+- Delete the task
+= Pausing with saved state costs nothing while waiting and lets the task continue from the same point.
+
+@@ sll_vXuIa0xXuKRc | B7.3 Autonomous Loops > Long-Running Agents
+## Trigger-based and scheduled agents
+Not every agent waits for someone to type. Many are started by the system itself, in one of two ways.
+
+Scheduled: at set times. Every weekday at seven, summarise the overnight support tickets. On the first of the month, prepare the invoices.
+
+Trigger-based: in response to an event. A new email arrives, a form is submitted, a file lands in a folder.
+
+Think of an alarm clock and a doorbell. One goes off by the clock, the other when something happens.
+
+These agents do a lot of the practical work in a business, since they act without anyone remembering to ask.
+
+They also run without anyone watching. That raises the importance of everything in this lesson: monitoring, alerts and ownership.
+?? What starts a trigger-based agent?
++ An event, such as a new email arriving
+- A person typing in a chat window
+- The time on the clock only
+- Nothing; it never starts
+= Trigger-based agents respond to events, while scheduled ones run at set times.
+## Monitoring and kill switches
+An agent that runs unattended needs two things: a way to see what it is doing, and a way to stop it.
+
+Monitoring: a view of what is running, what each agent has done, how much it has cost, and whether it is succeeding or failing.
+
+A kill switch: a control that halts an agent at once. Ideally there are several levels. Stop this one run. Pause this agent altogether. Pause everything.
+
+The switch has to work instantly, with no engineer writing code first, and the people on call have to know where it is.
+
+Every factory machine has a red emergency stop button within reach.
+
+Build both before launch. The moment you need a kill switch is the worst time to discover that you do not have one.
+?? What is a kill switch?
++ A control that stops an agent immediately
+- A tool that deletes the model
+- A faster kind of loop
+- A discount on tokens
+= A kill switch halts a misbehaving agent at once, without needing new code.
+## Triggers: a new email, a new order, or a webhook
+A trigger is the event that wakes an agent. It helps to know how one actually arrives.
+
+The usual mechanism is a webhook. One system sends a message to a web address the moment something happens: "a new order was just placed, and here are the details". Your agent service is listening at that address and starts work.
+
+It is a doorbell. You do not keep opening the door to check. The bell tells you.
+
+The alternative is polling: asking every few minutes whether there is anything new. It is simpler, but slower and wasteful.
+
+Two practical cautions. Events can arrive twice, so handle duplicates. And anyone can send a message to a web address, so check that it truly came from the system it claims to be from.
+?? What is a webhook?
++ A message one system sends to another the moment an event happens
+- A way of checking every few minutes
+- A type of language model
+- A storage device
+= A webhook pushes a notification at the time of the event, so no repeated checking is needed.
+## Alerts when an agent goes quiet or goes over budget
+Monitoring only helps if someone is looking. Alerts make the system call for attention.
+
+The obvious ones: an agent failed, error rates jumped, a run hit its spending limit.
+
+The one people forget is silence. A scheduled agent that should run every morning and did not. A trigger agent that normally handles two hundred emails a day and has handled none since Tuesday. Nothing failed loudly. It just stopped.
+
+It is a smoke alarm with a flat battery: quiet, and no use.
+
+So alert on absence as well: "expected a run by 07:15 and none happened".
+
+Send alerts where people will actually see them, and keep them few. A channel that pings fifty times a day gets muted, and then the real alert is missed.
+?? Which alert is most often forgotten?
++ One that fires when an agent stops running at all
+- One for errors
+- One for a spending limit being reached
+- One for a crashed run
+= Silent stoppage produces no error, so only an alert on absence will catch it.
+## A named human owner for every running agent
+Every agent in production should have one named person who is responsible for it.
+
+Not a team, and not "IT". A person, with a deputy.
+
+The owner knows what the agent is for and what it has access to. They get its alerts. They decide on changes. They review its performance from time to time. And they retire it when it is no longer needed.
+
+Without that, agents become orphans. Someone built one eighteen months ago and has since left. It still runs every night with access to the customer database, and nobody is sure what it does or whether it can be switched off.
+
+It is the name plate on a piece of site machinery: "responsible: J. Okafor".
+
+Keep a register of every agent, with its owner, purpose, access and date of last review.
+?? Why should every running agent have a named owner?
++ So someone is accountable for its behaviour, alerts and retirement
+- So it runs faster
+- So it needs no monitoring
+- So it can have more tools
+= A specific responsible person prevents forgotten agents running unchecked with live access.
+
+@@ sll_JoqmE6cD1Oiz | B7.3 Autonomous Loops > Managing Degradation
+## Detecting loops and drift
+Two failures creep up on long-running agents.
+
+A loop: the agent repeats the same action or small set of actions with no progress. Search, find nothing, search the same thing again.
+
+Drift: the agent keeps moving, but away from the task.
+
+Both can be detected by code watching the run.
+
+For loops: has the same tool been called with the same inputs three times? Has the same error come back repeatedly? Have the last several steps changed nothing?
+
+For drift: at intervals, have a cheap model compare the current activity with the original goal.
+
+It is a sat nav noticing that you have driven round the same block three times.
+
+On detection, step in. Tell the agent what you have noticed, reset it, or stop and hand over to a person.
+?? What is a simple sign that an agent is stuck in a loop?
++ The same tool is called with the same inputs several times
+- It finishes quickly
+- It uses different tools each step
+- It asks the user a question
+= Identical repeated calls with no new result show the agent is making no progress.
+## Periodic resets and re-grounding
+Do not wait for an agent to degrade. Refresh it on a schedule.
+
+A periodic reset means clearing the cluttered context at planned points, say every thirty steps or at the end of each stage, and continuing from a clean summary.
+
+Re-grounding means reminding the agent of the basics: the original goal restated, the key rules, the current state of progress. This is often done by placing that reminder at the end of the context, where it is freshest.
+
+A long walk works the same way. Every hour you stop, take out the map, and check where you are and where you are heading.
+
+Agents that do this stay on task far longer than ones left to run on a single ever-growing conversation.
+?? What does re-grounding an agent involve?
++ Restating the original goal, key rules and current progress
+- Deleting its goal
+- Giving it a new unrelated task
+- Removing all its tools
+= Reminding the agent of the basics refocuses it during long runs.
+## Goal drift: slowly solving a different problem
+Goal drift is when an agent ends up working hard on something that is not what was asked.
+
+It happens by small steps, each one sensible in isolation. Asked to fix a bug in the login page, the agent notices some untidy code nearby and tidies it. That breaks a test, so it rewrites the test. Two hours later it has restructured half the application and the original bug is still there.
+
+Or a research agent follows an interesting tangent and delivers a fine report on the wrong question.
+
+It is going to the shop for milk and coming back with a new jacket and no milk.
+
+Defences: keep the original goal permanently in view. State the scope, including what is out of scope. Check progress against the goal at intervals. Require the final answer to address the original request directly.
+?? What is goal drift?
++ Gradually working on a different problem from the one requested
+- An agent running out of memory
+- A tool returning an error
+- The model becoming faster over time
+= A series of small, individually reasonable steps can carry the agent away from the original task.
+## Starting fresh with a summary of progress
+When a session has become long and muddled, the best move is often to end it and begin another.
+
+The procedure is a handover. Ask the agent, or a separate model, to write a summary: the goal, what is finished, what is left, key facts and decisions, what was tried and failed, and where files and notes are kept.
+
+Then start a new session with a clean context, containing only the instructions and that summary.
+
+The new session works with a clear head. It has the conclusions, with none of the clutter.
+
+It is a shift change, where a fresh colleague takes over with a good briefing.
+
+The quality of the summary is everything. A handover that omits a key constraint will see that constraint broken. Check it, and keep important details in files that the new session can read in full.
+?? What must a handover summary include for a fresh session to succeed?
++ The goal, progress, remaining work and key facts and decisions
+- Only the agent's name
+- Every raw tool result in full
+- Nothing; the new session should guess
+= A complete, concise briefing gives the new session the conclusions without the clutter.

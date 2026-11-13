@@ -5,68 +5,208 @@
     {
       "id": "bit_jfaK-92wHWvY",
       "title": "Prompt chaining",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Prompt chaining means splitting a job into several prompts, where the output of one becomes the input of the next.\n\nInstead of \"read this report and write an executive summary with recommendations\", you run a chain. One: extract the key findings. Two: given those findings, draft recommendations. Three: given both, write the summary.\n\nEach step is simple, so each gets the model's full attention. You can also look at the results in between and see exactly where things went wrong.\n\nIt is an assembly line. Each station does one thing well.\n\nThe costs are more calls and more delay. And a mistake at step one carries through unless you check between steps.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_jfaK-92wHWvY_1",
+          "type": "multiple_choice",
+          "prompt": "What is prompt chaining?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Breaking a task into steps where each prompt's output feeds the next"
+            },
+            {
+              "id": "b",
+              "text": "Sending the same prompt many times"
+            },
+            {
+              "id": "c",
+              "text": "Writing one extremely long prompt"
+            },
+            {
+              "id": "d",
+              "text": "Connecting two different providers"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A chain passes results from one focused prompt to the next, making each step simpler and easier to inspect.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Pal90jdpzS-d",
       "title": "Self-critique and rubric-based prompting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Models are better at spotting faults in a draft than at avoiding them in the first place. Two patterns use that.\n\nSelf-critique: have the model write a draft, then, in a separate step, ask it to review that draft for errors and weaknesses, then revise.\n\nRubric-based: give it the marking scheme. \"A good answer cites the policy, is under 100 words, and tells the customer the next step. Check your draft against each point.\"\n\nA rubric turns \"make it better\" into something that can be checked.\n\nIt is editing your own work the next morning with a checklist in hand.\n\nA caution: a model reviewing its own work shares its own blind spots. For important checks, use a fresh call, or a different model.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Pal90jdpzS-d_1",
+          "type": "multiple_choice",
+          "prompt": "What does a rubric add to a self-review step?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "More creative freedom"
+            },
+            {
+              "id": "b",
+              "text": "Specific criteria to check the draft against"
+            },
+            {
+              "id": "c",
+              "text": "A lower token cost"
+            },
+            {
+              "id": "d",
+              "text": "A guarantee the answer is correct"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Explicit criteria turn a vague instruction to improve into concrete checks.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_F9F4yR34dTCz",
       "title": "Meta-prompting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Meta-prompting is using a model to write or improve prompts.\n\nYou describe what you want: \"I need a prompt that turns messy meeting notes into action items with owners and dates.\" The model drafts a detailed prompt. You test it, show the model where it failed, and ask for a revision.\n\nIt works because models have seen an enormous number of prompts and know what clear instructions look like. They are also patient about spelling out detail that people skip.\n\nIt is asking an experienced manager to help you write a job brief.\n\nThe limit is that the model does not know your particular context or what you consider good. Its draft is a starting point. Only tests on your own examples show whether the prompt works.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_F9F4yR34dTCz_1",
+          "type": "multiple_choice",
+          "prompt": "What is meta-prompting?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Sending prompts with no text"
+            },
+            {
+              "id": "b",
+              "text": "Writing prompts in a secret code"
+            },
+            {
+              "id": "c",
+              "text": "Prompting without a model"
+            },
+            {
+              "id": "d",
+              "text": "Using a model to draft or improve prompts"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A model can generate and refine prompt wording, which you then test on real examples.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_URN1_zCTD7Mk",
       "title": "One prompt, one job: splitting a hard task into steps",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a prompt gives poor results, the cause is often that it asks for too much at once.\n\n\"Read these reviews, find the themes, count them, pick the top three, write a summary, and suggest fixes, in JSON.\" That is six jobs. The model spreads its effort and does each one moderately.\n\nSplit it. One prompt finds the themes. Code does the counting, more reliably than the model would. One prompt writes the summary.\n\nA useful test: describe what the prompt does in one sentence. If the sentence needs \"and\" three times, it is three prompts.\n\nIt is the same advice as for functions in code: each should do one thing.\n\nSplitting also lets you use a cheaper model for the easy steps.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_URN1_zCTD7Mk_1",
+          "type": "multiple_choice",
+          "prompt": "A prompt asks for six different things and the results are mediocre. What is the likely fix?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Split it into several prompts, each with one job"
+            },
+            {
+              "id": "b",
+              "text": "Add more capital letters"
+            },
+            {
+              "id": "c",
+              "text": "Raise the temperature"
+            },
+            {
+              "id": "d",
+              "text": "Make the single prompt even longer"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Focused prompts get better results, and intermediate outputs can be checked or handled by code.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gOTsmxg_p1x_",
       "title": "Letting the model say it does not know",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "By default a model tries to answer whatever it is asked. If it lacks the information, it will often produce something plausible anyway. You can change that with one sentence.\n\n\"If the answer is not in the documents provided, say 'I could not find that in the documents'. Do not guess.\"\n\nThat gives the model an approved way out. Without it, saying \"I do not know\" feels to the model like failing the task.\n\nDesign the fallback properly. What should it say? Should it suggest who to ask? Should your code route that case to a person?\n\nIt is telling a new employee: \"If you are not sure, ask. Do not make something up for the customer.\" Most people need to hear it said.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gOTsmxg_p1x__1",
+          "type": "multiple_choice",
+          "prompt": "What is the effect of telling a model it may say \"I don't know\"?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the model refuse everything"
+            },
+            {
+              "id": "b",
+              "text": "It increases the cost of each call"
+            },
+            {
+              "id": "c",
+              "text": "It has no effect"
+            },
+            {
+              "id": "d",
+              "text": "It reduces invented answers when information is missing"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "An explicit, permitted fallback removes the pressure to produce an answer at any cost.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5Whc0CnSUgvT",
       "title": "Iterating: change one thing, then re-test",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Nobody writes a good prompt first time. Good prompts are grown: write, test, find the failures, adjust, test again.\n\nThe discipline is to change one thing at a time. If you rewrite the role, add three rules and swap the examples together, and the results improve, you do not know which change helped. One of them may have made things worse.\n\nThen run the whole test set again, not just the case you were fixing. Prompts are slippery. Fixing one failure often breaks something that used to work.\n\nIt is a scientist changing one variable per experiment.\n\nKeep a short log of each version and its score. Without it you will go round in circles.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -79,7 +219,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5Whc0CnSUgvT_1",
+          "type": "multiple_choice",
+          "prompt": "Why change only one thing in a prompt between tests?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So you know which change caused the difference in results"
+            },
+            {
+              "id": "b",
+              "text": "Because models can only read one change"
+            },
+            {
+              "id": "c",
+              "text": "To use fewer tokens"
+            },
+            {
+              "id": "d",
+              "text": "Because prompts cannot hold two rules"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Isolating a single change makes its effect measurable, like changing one variable in an experiment.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

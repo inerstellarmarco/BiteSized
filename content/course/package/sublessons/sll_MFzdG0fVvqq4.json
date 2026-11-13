@@ -5,50 +5,162 @@
     {
       "id": "bit_YjJbdaDDPQkw",
       "title": "Search vs. answer-from-memory decisions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In basic RAG, every question triggers a search, whether or not one is needed. In agentic RAG, search is a tool the model may choose to use.\n\nSo the model first decides: do I need to look this up?\n\n\"Hello, can you help me?\" needs no search. \"What is 15 per cent of 240?\" needs no search. \"What is our refund policy for opened items?\" needs one.\n\nThat saves time and money on easy turns and avoids stuffing the context with irrelevant chunks.\n\nThe danger is overconfidence. The model may decide it \"knows\" your refund policy and answer from general knowledge. So the instructions must be firm: anything about the company's own facts, policies, prices or data must be looked up, never recalled.\n\nIt is a professional who knows when to check the manual.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YjJbdaDDPQkw_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main risk of letting a model decide whether to search?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It may answer company-specific questions from memory instead of looking them up"
+            },
+            {
+              "id": "b",
+              "text": "It will search for every single word"
+            },
+            {
+              "id": "c",
+              "text": "It cannot use tools at all"
+            },
+            {
+              "id": "d",
+              "text": "It will delete the index"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Models can be overconfident, so they need clear rules about what must always be retrieved.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wK3JXDlAf4VN",
       "title": "Iterative retrieval and self-checking",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent does not have to settle for its first search. It can look at what came back and decide what to do next.\n\nThe loop goes: search. Read the results. Ask \"do I have enough to answer?\" If not, work out what is missing, search again with a better query, and repeat.\n\nPerhaps the first search found the general policy but not the exception for sale items. The agent notices the gap and searches specifically for that.\n\nIt is how a person researches. Nobody types one query and stops. You read, realise what you still need, and refine.\n\nBefore answering, the agent can check itself too: is every claim in my draft supported by something I retrieved?\n\nIt is more thorough than one-shot RAG, and slower and dearer, because each round is another search and another model call.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wK3JXDlAf4VN_1",
+          "type": "multiple_choice",
+          "prompt": "What does iterative retrieval let an agent do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Answer without any documents"
+            },
+            {
+              "id": "b",
+              "text": "Skip reading the results"
+            },
+            {
+              "id": "c",
+              "text": "Use only one search, ever"
+            },
+            {
+              "id": "d",
+              "text": "Search again with a better query when the first results are not enough"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The agent evaluates what it found and can run further, refined searches to fill gaps.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TJPUVN7Oawn-",
       "title": "The agent writes its own search queries",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In basic RAG, the user's message is the search query, word for word. In agentic RAG, the model composes the query itself, and that is a big improvement.\n\nUsers write loosely: \"the thing about holidays we talked about, does it count for part-timers?\" That is a poor search string.\n\nThe agent turns it into a good one: \"holiday entitlement part-time employees\". It can also split a question into several searches, add filters such as \"documents from 2025\", try synonyms when the first attempt finds nothing, and choose which source to search.\n\nIt is the difference between shouting your question into a library and having a research assistant who knows how to use the catalogue.\n\nThe quality of these queries depends on the search tool's description, which should explain what is in the index and what makes a good query.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TJPUVN7Oawn-_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it helpful for an agent to write its own search queries?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the user's question longer"
+            },
+            {
+              "id": "b",
+              "text": "It removes the need for an index"
+            },
+            {
+              "id": "c",
+              "text": "It guarantees every search succeeds"
+            },
+            {
+              "id": "d",
+              "text": "It can turn a vague or conversational message into precise, effective searches"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The agent reformulates loose requests into focused queries and can run several of them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_vUup51g_MlNt",
       "title": "Knowing when to stop searching",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent that can search again needs a reason to stop. Without one, two things go wrong.\n\nIt stops too early, answering after one thin result. Or it never stops, rephrasing the same query a dozen times and burning time and money while the user waits.\n\nGood stopping rules: stop when you have enough evidence to answer every part of the question. Stop when further searches return nothing new. And stop at a hard limit, such as five searches, whatever happens.\n\nOn hitting the limit, the right behaviour is honesty: \"I searched for X and Y and could not find a clear answer\", not a guess.\n\nIt is looking for your keys. Check the likely places properly, and at some point accept they are not in the house.\n\nThe hard cap belongs in your code, not only in the prompt.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vUup51g_MlNt_1",
+          "type": "multiple_choice",
+          "prompt": "What should an agent do when it reaches its search limit without finding the answer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Make up a plausible answer"
+            },
+            {
+              "id": "b",
+              "text": "Keep searching indefinitely"
+            },
+            {
+              "id": "c",
+              "text": "Say what it looked for and that it could not find a clear answer"
+            },
+            {
+              "id": "d",
+              "text": "Return an empty reply"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A hard cap prevents endless loops, and an honest report is better than a guess.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

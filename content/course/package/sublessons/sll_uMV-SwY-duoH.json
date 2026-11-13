@@ -5,8 +5,8 @@
     {
       "id": "bit_RHjBaUqrsr-8",
       "title": "Semantic search",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Semantic search finds content by meaning. Embed the query, find the stored chunks with the nearest vectors, and return them.\n\nIts strength is tolerance. People describe things in their own words, with synonyms, loose phrasing and typos, and it still finds the relevant passage. \"My parcel never turned up\" finds the section headed \"Non-delivery claims\".\n\nIt also handles concepts. \"Ways to cut costs\" finds a passage about renegotiating supplier contracts that never uses the word \"cost\".\n\nIt is describing a film you half remember, \"the one where the ship sinks and the band keeps playing\", and a friend naming it.\n\nIts weakness is the mirror image. It is vague about exact terms, so a search for a particular code or name can return things that are merely about the same sort of subject.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,61 +19,201 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RHjBaUqrsr-8_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main strength of semantic search?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It matches exact codes perfectly"
+            },
+            {
+              "id": "b",
+              "text": "It needs no embeddings"
+            },
+            {
+              "id": "c",
+              "text": "It finds relevant content even when the wording differs from the query"
+            },
+            {
+              "id": "d",
+              "text": "It only returns documents containing the same words"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Matching by meaning tolerates synonyms and paraphrase, which keyword matching cannot.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gJGFLncb0uMS",
       "title": "Hybrid search (BM25 + vector)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Hybrid search runs two searches and combines them: semantic search by vectors, and keyword search, usually an algorithm called BM25.\n\nEach covers the other's blind spot. Vectors catch meaning when the words differ. Keywords catch exact terms that vectors blur: product codes, names, abbreviations, rare jargon.\n\nThe two result lists are then merged into one ranking. A common method, reciprocal rank fusion, rewards chunks that come high on either list, and especially on both.\n\nThink of asking two assistants, one who understands what you mean and one with a perfect memory for exact words, and taking the best of both.\n\nIn practice, hybrid is the strongest default for business documents, which are full of both concepts and codes. Most vector databases support it directly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gJGFLncb0uMS_1",
+          "type": "multiple_choice",
+          "prompt": "Why combine keyword search with vector search?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To double the storage cost"
+            },
+            {
+              "id": "b",
+              "text": "Keyword search catches exact terms that vectors blur, and vectors catch meaning that keywords miss"
+            },
+            {
+              "id": "c",
+              "text": "Because vector search cannot return results by itself"
+            },
+            {
+              "id": "d",
+              "text": "To avoid using embeddings"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The two methods have complementary weaknesses, so merging their results improves coverage.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_c8Pc0ucobZxA",
       "title": "Metadata filtering",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Metadata filtering narrows the search to chunks that meet hard conditions, alongside the similarity search.\n\n\"Find passages about leave entitlement\" becomes \"find passages about leave entitlement, where country is UK and document type is policy and status is current\".\n\nSimilarity alone cannot do that. A German policy about leave is extremely similar in meaning to the UK one, and for a UK employee it is simply the wrong answer.\n\nThink of online shopping. You type what you are after, then tick the boxes: in stock, size 9, under £50. The search handles the fuzzy part and the filters handle the facts.\n\nFilters are exact where embeddings are approximate. Use them for anything that is a yes-or-no fact about a document: date, region, department, product, language.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_c8Pc0ucobZxA_1",
+          "type": "multiple_choice",
+          "prompt": "When is a metadata filter better than relying on similarity alone?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When the query is vague"
+            },
+            {
+              "id": "b",
+              "text": "When a hard condition such as country or date must be met"
+            },
+            {
+              "id": "c",
+              "text": "When there is no metadata"
+            },
+            {
+              "id": "d",
+              "text": "When you want more irrelevant results"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Filters enforce exact constraints that semantic similarity cannot distinguish.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_CTJijzqpVNV6",
       "title": "Keyword search (BM25): exact words, names, and codes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "BM25 is the classic keyword ranking method, the kind of search engines used before embeddings. It scores a document by how well its words match the query's words.\n\nTwo ideas make it smart. Rare words count for more: matching \"E-4012\" matters far more than matching \"the\". And repetition helps, with diminishing returns, adjusted for the document's length.\n\nIt is exact. Search for \"E-4012\" and you get documents containing \"E-4012\", not ones about errors in general.\n\nIt is also fast, cheap and needs no model at all.\n\nIts limit is literal-mindedness. Search \"car\" and it will not find \"vehicle\".\n\nIt is the index at the back of a book: perfect if you know the term, useless if you only know the idea.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_CTJijzqpVNV6_1",
+          "type": "multiple_choice",
+          "prompt": "What kind of query is BM25 keyword search especially good at?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Vague conceptual questions"
+            },
+            {
+              "id": "b",
+              "text": "Queries in a different language from the documents"
+            },
+            {
+              "id": "c",
+              "text": "Queries containing exact terms such as codes, names or rare words"
+            },
+            {
+              "id": "d",
+              "text": "Queries with no words"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "BM25 matches literal terms and weights rare ones heavily, which suits precise identifiers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_pxWVf9mtUyzb",
       "title": "Top-k: how many results to fetch",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Top-k is the number of chunks the search returns: the k best matches. It is a small setting with large effects.\n\nToo few, say k of 1 or 2. If the right chunk came third, the model never sees it. Questions that need information from several places cannot be answered.\n\nToo many, say k of 50. The right chunk is there, buried in forty-nine others. Cost rises, and the noise distracts the model.\n\nA common pattern gets both benefits. Retrieve generously, perhaps 20 to 50, then use a re-ranker to pick the best 3 to 8 to send to the model.\n\nIt is a shortlist for a job. Too short and you may miss the best person. Too long and you cannot interview properly.\n\nTune k against your test questions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_pxWVf9mtUyzb_1",
+          "type": "multiple_choice",
+          "prompt": "What is the risk of setting top-k too low?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The prompt becomes too long"
+            },
+            {
+              "id": "b",
+              "text": "Costs rise sharply"
+            },
+            {
+              "id": "c",
+              "text": "The chunk containing the answer may not be retrieved at all"
+            },
+            {
+              "id": "d",
+              "text": "The model is distracted by noise"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "With too few results, a correct chunk ranked just below the cut-off never reaches the model.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_SXVrw03MR2jz",
       "title": "Access control: users only retrieve what they may see",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A RAG system that indexes company documents has just put everything into one searchable pile. Without access control, any user can ask about anything, including salary reviews, board minutes and other clients' files.\n\nThe rule is that retrieval must respect the same permissions as the original documents.\n\nIn practice: store who may see each chunk as metadata, and filter every search by the identity of the person asking. The filter has to happen at retrieval, before anything reaches the model.\n\nTelling the model \"do not reveal confidential information\" is not security. If it is in the context, it can leak.\n\nIt is a filing room where every drawer has its own lock, not a sign on the door asking people to behave.\n\nDesign this in from the beginning. It is very hard to add afterwards.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -86,7 +226,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_SXVrw03MR2jz_1",
+          "type": "multiple_choice",
+          "prompt": "Where must access control be enforced in a RAG system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only in the wording of the prompt"
+            },
+            {
+              "id": "b",
+              "text": "At retrieval, so restricted chunks never reach the model"
+            },
+            {
+              "id": "c",
+              "text": "After the answer has been shown to the user"
+            },
+            {
+              "id": "d",
+              "text": "Nowhere; the model handles it"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Anything placed in the context can be revealed, so filtering must happen before the model sees it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

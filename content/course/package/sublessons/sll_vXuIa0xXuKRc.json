@@ -5,32 +5,88 @@
     {
       "id": "bit_LsB-c4aMTQRi",
       "title": "Trigger-based and scheduled agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Not every agent waits for someone to type. Many are started by the system itself, in one of two ways.\n\nScheduled: at set times. Every weekday at seven, summarise the overnight support tickets. On the first of the month, prepare the invoices.\n\nTrigger-based: in response to an event. A new email arrives, a form is submitted, a file lands in a folder.\n\nThink of an alarm clock and a doorbell. One goes off by the clock, the other when something happens.\n\nThese agents do a lot of the practical work in a business, since they act without anyone remembering to ask.\n\nThey also run without anyone watching. That raises the importance of everything in this lesson: monitoring, alerts and ownership.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_LsB-c4aMTQRi_1",
+          "type": "multiple_choice",
+          "prompt": "What starts a trigger-based agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A person typing in a chat window"
+            },
+            {
+              "id": "b",
+              "text": "The time on the clock only"
+            },
+            {
+              "id": "c",
+              "text": "An event, such as a new email arriving"
+            },
+            {
+              "id": "d",
+              "text": "Nothing; it never starts"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Trigger-based agents respond to events, while scheduled ones run at set times.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2l95A-K0Sz-Y",
       "title": "Monitoring and kill switches",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent that runs unattended needs two things: a way to see what it is doing, and a way to stop it.\n\nMonitoring: a view of what is running, what each agent has done, how much it has cost, and whether it is succeeding or failing.\n\nA kill switch: a control that halts an agent at once. Ideally there are several levels. Stop this one run. Pause this agent altogether. Pause everything.\n\nThe switch has to work instantly, with no engineer writing code first, and the people on call have to know where it is.\n\nEvery factory machine has a red emergency stop button within reach.\n\nBuild both before launch. The moment you need a kill switch is the worst time to discover that you do not have one.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2l95A-K0Sz-Y_1",
+          "type": "multiple_choice",
+          "prompt": "What is a kill switch?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A tool that deletes the model"
+            },
+            {
+              "id": "b",
+              "text": "A faster kind of loop"
+            },
+            {
+              "id": "c",
+              "text": "A discount on tokens"
+            },
+            {
+              "id": "d",
+              "text": "A control that stops an agent immediately"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A kill switch halts a misbehaving agent at once, without needing new code.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_QDdP_L3-wse1",
       "title": "Triggers: a new email, a new order, or a webhook",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A trigger is the event that wakes an agent. It helps to know how one actually arrives.\n\nThe usual mechanism is a webhook. One system sends a message to a web address the moment something happens: \"a new order was just placed, and here are the details\". Your agent service is listening at that address and starts work.\n\nIt is a doorbell. You do not keep opening the door to check. The bell tells you.\n\nThe alternative is polling: asking every few minutes whether there is anything new. It is simpler, but slower and wasteful.\n\nTwo practical cautions. Events can arrive twice, so handle duplicates. And anyone can send a message to a web address, so check that it truly came from the system it claims to be from.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,31 +99,115 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_QDdP_L3-wse1_1",
+          "type": "multiple_choice",
+          "prompt": "What is a webhook?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A way of checking every few minutes"
+            },
+            {
+              "id": "b",
+              "text": "A type of language model"
+            },
+            {
+              "id": "c",
+              "text": "A storage device"
+            },
+            {
+              "id": "d",
+              "text": "A message one system sends to another the moment an event happens"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A webhook pushes a notification at the time of the event, so no repeated checking is needed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_7Y44B4VOnKvq",
       "title": "Alerts when an agent goes quiet or goes over budget",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Monitoring only helps if someone is looking. Alerts make the system call for attention.\n\nThe obvious ones: an agent failed, error rates jumped, a run hit its spending limit.\n\nThe one people forget is silence. A scheduled agent that should run every morning and did not. A trigger agent that normally handles two hundred emails a day and has handled none since Tuesday. Nothing failed loudly. It just stopped.\n\nIt is a smoke alarm with a flat battery: quiet, and no use.\n\nSo alert on absence as well: \"expected a run by 07:15 and none happened\".\n\nSend alerts where people will actually see them, and keep them few. A channel that pings fifty times a day gets muted, and then the real alert is missed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7Y44B4VOnKvq_1",
+          "type": "multiple_choice",
+          "prompt": "Which alert is most often forgotten?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "One for errors"
+            },
+            {
+              "id": "b",
+              "text": "One for a spending limit being reached"
+            },
+            {
+              "id": "c",
+              "text": "One that fires when an agent stops running at all"
+            },
+            {
+              "id": "d",
+              "text": "One for a crashed run"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Silent stoppage produces no error, so only an alert on absence will catch it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gxJ9j3WL_oF8",
       "title": "A named human owner for every running agent",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every agent in production should have one named person who is responsible for it.\n\nNot a team, and not \"IT\". A person, with a deputy.\n\nThe owner knows what the agent is for and what it has access to. They get its alerts. They decide on changes. They review its performance from time to time. And they retire it when it is no longer needed.\n\nWithout that, agents become orphans. Someone built one eighteen months ago and has since left. It still runs every night with access to the customer database, and nobody is sure what it does or whether it can be switched off.\n\nIt is the name plate on a piece of site machinery: \"responsible: J. Okafor\".\n\nKeep a register of every agent, with its owner, purpose, access and date of last review.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gxJ9j3WL_oF8_1",
+          "type": "multiple_choice",
+          "prompt": "Why should every running agent have a named owner?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So it runs faster"
+            },
+            {
+              "id": "b",
+              "text": "So it needs no monitoring"
+            },
+            {
+              "id": "c",
+              "text": "So it can have more tools"
+            },
+            {
+              "id": "d",
+              "text": "So someone is accountable for its behaviour, alerts and retirement"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A specific responsible person prevents forgotten agents running unchecked with live access.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,589 @@
+// B4 Agent Foundations
+@@ sll_pg05ddXuJAsy | B4.1 What Is an Agent? > From Chatbot to Worker
+## What an agent is
+An agent is an AI system that works towards a goal by taking actions, deciding its own next step as it goes.
+
+You give a chatbot a question and it gives you text. You give an agent a goal, such as "find three suppliers for this part and draft an email to each", and it works out the steps, uses tools to carry them out, checks what happened and continues until it is finished.
+
+The defining feature is that the model directs the process. Nobody scripted "first search, then compare, then write". The agent chose that.
+
+It is the difference between asking someone a question and giving someone a job.
+?? What most clearly distinguishes an agent from a chatbot?
++ It decides its own steps and takes actions to reach a goal
+- It writes longer answers
+- It uses a larger font
+- It never makes mistakes
+= An agent directs its own process and uses tools, instead of only replying with text.
+## LLM as the brain
+In an agent, the language model is the part that thinks. It reads the goal and the situation so far, and decides what to do next.
+
+It does not do the work itself. It cannot send an email or query a database. It decides that an email should be sent and what it should say. Other parts of the system carry that out.
+
+Think of a ship's captain. The captain reads the charts and gives the orders. The engine and the crew move the ship.
+
+Two things follow. A stronger model makes better decisions, and that matters more in agents than in chat, because decisions pile up. And a brain with no hands, meaning no tools, can only talk.
+?? What does the LLM do inside an agent?
++ Decides what to do next based on the goal and what has happened so far
+- Physically sends emails by itself
+- Stores all the company data
+- Replaces the need for tools
+= The model is the decision-maker. Tools and the surrounding code carry out the actions.
+## Chatbot vs. active worker
+A chatbot and an agent can run on the same model. What differs is what surrounds it.
+
+A chatbot responds. One message in, one message out. If you want research done, it tells you how to do it.
+
+An agent acts. Given the same request, it runs the searches, reads the pages, compares what it finds and brings you the result.
+
+Think of a travel guidebook and a travel agent. One tells you what you could book. The other books it.
+
+The shift matters because of responsibility. A chatbot's worst mistake is a wrong sentence, which you can ignore. An agent's worst mistake is a wrong action: an email sent, a record changed, money spent.
+?? Why does moving from a chatbot to an agent raise the stakes?
++ An agent's mistakes are actions with real consequences, not just wrong text
+- Agents use more colours
+- Chatbots are illegal
+- Agents cannot be turned off
+= Acting in the world means errors can send, change or spend things, which is riskier than a wrong sentence.
+## The loop: decide, act, look at the result, repeat
+Every agent runs the same simple cycle.
+
+Decide: the model looks at the goal and everything so far and picks the next action.
+
+Act: the system carries out that action, such as a search, a calculation or a file read.
+
+Look: the result is fed back to the model.
+
+Repeat, until the model judges the goal is met or a limit is reached.
+
+It is how you cook without a recipe. Taste, decide it needs salt, add some, taste again.
+
+The power is in the feedback. Each decision is made with knowledge of what the last action actually produced, so the agent can adapt, recover from a failed step and change its plan.
+?? What makes the agent loop powerful?
++ Each decision is informed by the real result of the previous action
+- It runs only once
+- It never looks at results
+- It always follows a fixed script
+= Feeding results back lets the agent adapt its next step to what actually happened.
+## Agent = model + tools + instructions + loop
+Strip away the jargon and an agent has four parts.
+
+The model: makes the decisions.
+
+The tools: the actions it can take, each described so the model knows when to use it.
+
+The instructions: the system prompt that states the goal, the rules and the boundaries.
+
+The loop: the code that keeps calling the model, runs the tool it chose, feeds back the result and stops when done.
+
+That is all. There is no extra magic ingredient. A basic agent is a few dozen lines of code.
+
+When an agent misbehaves, the fault is in one of the four. The model is too weak, a tool is missing or badly described, the instructions are unclear, or the loop has no sensible stopping rule.
+?? Which four parts make up an agent?
++ Model, tools, instructions and loop
+- Screen, keyboard, mouse and printer
+- Input, output, storage and network
+- Price, speed, size and colour
+= An agent is a model choosing among tools under instructions, run repeatedly by a loop.
+
+@@ sll_NjlXDHdGrxpO | B4.1 What Is an Agent? > Agents vs. Workflows
+## Workflows: fixed paths
+A workflow is a sequence of steps that you, the developer, decided in advance. The model does the work inside each step, but it does not choose the steps.
+
+Example: for every incoming invoice, extract the fields, check the supplier against the approved list, compare the total with the purchase order, and file it or flag it. It is the same four steps every time.
+
+It is a train on rails. It goes where the track goes.
+
+That makes workflows predictable, testable and cheap. You know what will happen, you can test each step, and you can say exactly where a failure occurred.
+
+The limit is rigidity. A situation the designer did not foresee has no track.
+?? In a workflow, who decides the sequence of steps?
++ The developer, in advance
+- The model, as it goes
+- The end user, each time
+- Nobody; it is random
+= Workflows follow a predefined path, with the model working inside each fixed step.
+## Agents: dynamic paths
+An agent chooses its own path. You give it a goal and tools, and it decides the steps as it goes, based on what it finds.
+
+Example: "work out why this customer's order has not arrived". It might check the order status, see it was shipped, look up the tracking, find it stuck at customs and check whether paperwork is missing. A different order would lead somewhere else entirely.
+
+It is a taxi instead of a train. It can take any route, including ones nobody planned.
+
+That flexibility is the point: agents handle open-ended tasks where the steps cannot be known beforehand.
+
+The price is unpredictability. It may take a route you would not have chosen, take longer, cost more, or get lost.
+?? What is the main strength of an agent's dynamic path?
++ It can handle tasks whose steps cannot be known in advance
+- It always costs less than a workflow
+- It is perfectly predictable
+- It needs no tools
+= Agents adapt their steps to what they discover, which suits open-ended problems.
+## When not to use an agent
+Agents are fashionable, and they are often the wrong choice.
+
+Do not use one when the steps are known. If the process is the same every time, write the workflow.
+
+Do not use one when a mistake is expensive and cannot be undone, and no person checks first.
+
+Do not use one when speed or cost matters a great deal. Agents make many model calls.
+
+Do not use one when a single well-written prompt does the job.
+
+Do not use one when you cannot tell whether the result is right. An agent you cannot evaluate is a liability.
+
+It is hiring a consultant with a free hand, when what you needed was a checklist.
+
+Agents suit tasks that are open-ended, worth the cost, and tolerant of the occasional wrong turn.
+?? Which situation is a poor fit for an agent?
++ A process whose steps are identical every time
+- An open-ended research task
+- Investigating a problem with an unknown cause
+- A task where the steps depend on what is found
+= When the steps are known and fixed, a workflow is cheaper, faster and more reliable.
+## Predictability vs. flexibility
+The choice between workflow and agent is a trade between two good things.
+
+Predictability: knowing what the system will do. It is easy to test, easy to explain to a client, and steady in cost and speed.
+
+Flexibility: coping with what you did not plan for. Unusual cases, missing information, tasks that vary.
+
+You cannot have the maximum of both. Every freedom you give the model is something you no longer control.
+
+Think of a franchise restaurant and a private chef. The franchise makes the same burger every time. The chef can make anything, and you do not know exactly what will arrive.
+
+So ask what the task needs more. For an invoice pipeline, predictability. For a research assistant, flexibility.
+?? What do you give up when you make a system more flexible?
++ Some predictability about what it will do
+- All of its usefulness
+- The ability to use a model
+- Nothing at all
+= More model freedom means less developer control, so behaviour, cost and timing become harder to predict.
+## Start with the simplest thing that works
+There is a ladder of complexity, and you should climb only as far as you must.
+
+Rung one: a single prompt. Rung two: a single prompt with retrieval or a tool. Rung three: a fixed workflow of several steps. Rung four: one agent with a loop. Rung five: several agents working together.
+
+Each rung adds cost, delay and ways to fail. Each is harder to test and debug than the one below.
+
+Start at the bottom. Move up only when you have evidence that the current rung cannot do the job, not because the next one sounds more impressive.
+
+It is home repair. Try the screwdriver before hiring the building crew.
+
+Many "agent" projects would have been better, cheaper and finished sooner as a three-step workflow.
+?? When should you move to a more complex design, such as an agent?
++ When there is evidence the simpler design cannot do the job
+- At the start of every project
+- Whenever a new framework is released
+- When the simpler design works well
+= Complexity adds cost and failure points, so it should be justified by a demonstrated need.
+## Most real systems mix both
+In practice the choice is rarely "workflow or agent". Good systems use each where it fits.
+
+A common shape: a workflow forms the skeleton, with an agent inside one step. A support system might run as a fixed pipeline. Classify the ticket, then route it. For "investigate a delivery problem", hand over to an agent that explores freely. Then return to fixed steps: draft the reply, get approval, send.
+
+The predictable parts are on rails. The open-ended part gets freedom, inside a box.
+
+It is a hospital. Admission and discharge follow strict procedure. The diagnosis in the middle depends on what the doctor finds.
+
+That keeps the agent's unpredictability confined to the one place where it earns its cost.
+?? What is a common way to combine workflows and agents?
++ A fixed workflow overall, with an agent handling one open-ended step
+- Using an agent for every single step
+- Never using either
+- Running them in separate companies
+= Keeping the predictable parts fixed and giving freedom only where it is needed limits risk.
+
+@@ sll_n_7epIs6h9lq | B4.2 Agent Design Principles > Action Space
+## The menu of allowed actions
+An agent's action space is the complete list of things it is able to do: every tool, with every option on each.
+
+It is a menu. The agent can only order what is on it.
+
+If the menu has "search orders" and "draft email", the agent can do those two things and nothing else. It cannot issue a refund, however much a customer pleads or however cleverly a prompt is worded, because no such tool exists.
+
+That makes the action space your most dependable control. Instructions can be misread or talked round. A missing tool cannot be used.
+
+So the first design question for any agent is not "what should I tell it?" It is "what should it be able to do?"
+?? Why is the action space a more reliable control than instructions?
++ An agent cannot use a tool that does not exist, whatever it is told
+- Instructions are always ignored
+- Tools are written in capital letters
+- The action space changes by itself
+= Capabilities are a hard boundary, while instructions can be misunderstood or circumvented.
+## Why smaller action spaces are more reliable
+Every tool you add is another choice the model has to get right at every step.
+
+With five clearly different tools, picking the right one is easy. With fifty, several of which sound alike, the model picks wrongly more often, and each tool's description also takes up room in the context.
+
+Fewer tools also means fewer ways to cause harm, and less to test.
+
+Think of a restaurant menu. A short one means quick, confident orders and a kitchen that does every dish well. A forty-page one means indecision and mistakes.
+
+So give an agent the tools its job needs and no more. Resist "it might be useful one day". If a second job needs different tools, that is often a sign you need a second agent.
+?? What tends to happen as an agent is given more and more tools?
++ It chooses the wrong tool more often
+- It becomes more reliable
+- Its context window grows
+- It stops needing instructions
+= More options, especially similar ones, make each selection harder and consume context.
+## Read actions vs. write actions
+Sort every tool into one of two groups.
+
+Read actions look without touching: search the documents, get an order's status, check the calendar. If the agent does one by mistake, nothing has changed.
+
+Write actions change something: send an email, update a record, issue a refund, delete a file. A mistaken one has consequences.
+
+It is the difference between a visitor who may look round the office and one who may move the furniture.
+
+The distinction drives safety design. Read actions can usually run freely. Write actions deserve extra care: tighter descriptions, validation, logging, and often a person's approval.
+
+A sensible way to launch a new agent is read-only at first. Let it prove its judgement before you give it the ability to change things.
+?? Which is a write action?
++ Sending an email to a customer
+- Looking up an order's status
+- Searching the knowledge base
+- Reading a calendar
+= Sending changes the world outside the agent, whereas the others only retrieve information.
+## Reversible vs. irreversible actions
+Among write actions there is a second, sharper line: can it be undone?
+
+Reversible: creating a draft, adding a label, putting an item in a basket. If it was wrong, you delete it and nothing is lost.
+
+Irreversible: sending an email, making a payment, deleting data with no backup, posting publicly. Once done, it is done.
+
+A carpenter's rule covers it: measure twice, cut once. You can re-mark the wood as often as you like. You cannot un-cut it.
+
+Design accordingly. Where you can, turn the irreversible into the reversible. Save a draft instead of sending. Archive instead of deleting. Schedule for five minutes from now with a cancel option.
+
+Where you cannot, put a person's approval in front of it.
+?? How can you reduce the risk of an irreversible action such as sending an email?
++ Have the agent create a draft for a person to review and send
+- Let the agent send faster
+- Remove all logging
+- Give the agent more tools
+= A draft is reversible, so mistakes can be caught before the action becomes permanent.
+
+@@ sll_qeD_AHPs8Ubk | B4.2 Agent Design Principles > Single-Responsibility Principle
+## One agent, one job
+An agent works best when it has one clearly defined job.
+
+"Answer billing questions using the billing knowledge base" is one job. "Handle billing, technical support, sales enquiries and complaints, and also write the weekly report" is five.
+
+With one job, the instructions are short and do not conflict. The tool list is small. The agent's context holds only what is relevant. And you can test it properly, because you know what success looks like.
+
+It is the same principle as a well-written function, or a well-defined role in a company.
+
+A good test: can you state the agent's job in one sentence without using "and"?
+?? What is a good test of whether an agent has a single clear job?
++ You can describe it in one sentence without needing "and"
+- It has more than twenty tools
+- Its prompt is over ten pages
+- It uses the largest model
+= A focused responsibility can be stated simply, which keeps instructions, tools and tests manageable.
+## Specialist agents
+When the work covers several different jobs, one option is a team of specialists: separate agents, each set up for one kind of task.
+
+A billing agent has the billing documents, the billing tools and instructions about payment policy. A technical agent has the product manuals and diagnostic tools. A small router in front sends each request to the right one.
+
+Each specialist has a short prompt, a short tool list and a focused context. So each does its narrow job better than a generalist would.
+
+It is a medical practice with a receptionist and specialist doctors.
+
+Specialists also contain damage. A technical agent with no refund tool cannot issue a refund.
+
+The cost is coordination: handing work between agents is a new place for things to go wrong.
+?? What is one benefit of specialist agents?
++ Each has a focused prompt, tool set and context for its own job
+- They need no instructions
+- They never need to hand work over
+- They are always cheaper than one agent
+= Narrow responsibilities keep each agent's setup small and clear, which improves reliability.
+## Signs an agent is doing too much
+An overloaded agent shows recognisable symptoms.
+
+The prompt keeps growing. Every bug gets another paragraph, with special cases piled on special cases.
+
+Instructions conflict. "Be brief" for one task collides with "be thorough" for another, and the agent applies the wrong one.
+
+It picks wrong tools, confusing ones meant for different jobs.
+
+Fixes cause breakages. Improving how it handles refunds makes it worse at technical questions.
+
+It forgets rules late in a long task.
+
+Testing is unmanageable, because there are too many kinds of case.
+
+It is the employee with five job titles who is slowly dropping all of them.
+
+When you see several of these together, the remedy is rarely a better prompt. It is a division of labour.
+?? Which is a sign that an agent has too many responsibilities?
++ Fixing its behaviour on one task makes it worse on another
+- It has one short prompt
+- It uses three tools
+- It finishes tasks quickly
+= When instructions for different jobs interfere with each other, the agent's scope is too wide.
+## Splitting only when one agent stops coping
+Having argued for specialists, here is the counterweight: do not split too early.
+
+Every extra agent adds handovers, and information gets lost at handovers. It adds more model calls, more delay and more cost. And bugs appear that live between the agents and are hard to trace.
+
+One capable agent with a clear job and a modest tool set handles a great deal. Modern models cope with more than people expect.
+
+So begin with one. Split when you see the symptoms from the last card: conflicting instructions, tool confusion, an unmanageable prompt.
+
+It is like a small business. You do not hire five specialists on day one. You hire when one person can demonstrably no longer cope.
+
+The evidence should come from evals, not from an architecture diagram that looked elegant.
+?? When should a single agent be split into several?
++ When it shows clear signs of struggling, confirmed by testing
+- Before any testing, to be safe
+- Whenever a diagram looks tidier with more boxes
+- Never, under any circumstances
+= Extra agents add cost and failure points, so splitting should follow evidence that one agent cannot cope.
+
+@@ sll_lXrL-pbsj8QZ | B4.2 Agent Design Principles > Autonomy Levels
+## Autonomy levels
+Autonomy is how much an agent does without a person checking. It is a dial, not a switch.
+
+At one end, the agent only suggests and a person does everything. At the other, the agent acts entirely alone and nobody looks until afterwards. Most useful systems sit somewhere between.
+
+Driver assistance in cars is a good comparison. There is a long range between cruise control and a car with no steering wheel, and each level asks something different of the human.
+
+The right level is not a property of the technology. It is a decision you make for each task, based on what a mistake would cost and how well the agent has shown it performs.
+?? What best describes agent autonomy?
++ A dial with many settings between "only suggests" and "acts alone"
+- A switch that is either on or off
+- A fixed property of the model
+- Something that cannot be controlled
+= Autonomy is a spectrum, and the right setting is chosen per task.
+## Autonomous loops
+An autonomous loop is an agent that keeps running the decide, act, observe cycle with no person in between, possibly for a long time.
+
+That is where the big gains are. An agent that can work for an hour on a research task, a data clean-up or a coding job, unattended, gets far more done than one that stops for approval every two minutes.
+
+It is also where the big risks are. Nobody is watching, so a wrong turn at minute five is still being built on at minute fifty. Cost accumulates silently. A loop can get stuck repeating itself.
+
+So autonomous loops need limits built into the code: a maximum number of steps, a spending cap, a time limit, and checks that stop the run when something looks wrong.
+
+It is autopilot. It is useful because the aircraft also has alarms.
+?? What must an autonomous loop have?
++ Hard limits such as maximum steps, time and spend
+- Unlimited permission
+- No stopping condition
+- A human approving every step
+= With no one watching, built-in limits are what stop errors and costs from compounding.
+## From suggest, to act with approval, to act alone
+Three levels cover most practical cases.
+
+Suggest: the agent proposes and a person does the work. "Here is a draft reply." This is the safest level, and the human is still doing the action.
+
+Act with approval: the agent prepares the action and waits. "I am about to issue a £40 refund to this customer. Approve?" One click from a person and it proceeds. The agent does the work and the human keeps the decision.
+
+Act alone: the agent does it and records what it did. A person reviews afterwards, or only looks at exceptions.
+
+It is how a trainee progresses: first they watch, then they do it while you check, then they do it and tell you later.
+
+A single system can use all three, with a different level for each kind of action.
+?? In "act with approval", who makes the final decision?
++ A person, who approves the prepared action
+- The agent alone
+- Nobody
+- The model provider
+= The agent does the preparation, but the action only goes ahead after a human approves it.
+## Matching autonomy to the cost of a mistake
+The right level of autonomy depends on one question: what happens if the agent gets this wrong?
+
+Low cost and easy to undo, such as tagging a ticket or drafting a note: let it act alone.
+
+Moderate cost, such as replying to a customer or changing a record: act with approval, or act alone within limits, such as refunds under £20.
+
+High cost or irreversible, such as large payments, legal commitments, deleting data or anything touching safety: a person decides, every time.
+
+Consider frequency as well. An action taken ten thousand times a day will go wrong sometimes, even at 99.9 per cent accuracy.
+
+A bank works this way. A cashier handles small withdrawals. A large transfer needs a manager's signature.
+
+The mapping should be written down, not left to the agent's judgement.
+?? Which action most clearly needs human approval?
++ Making a large payment
+- Adding a label to a ticket
+- Drafting an internal note
+- Searching the knowledge base
+= A large payment is costly and hard to reverse, so a person should decide.
+## Earning autonomy: widen it as evals and trust grow
+Autonomy should be earned through evidence, not granted on day one.
+
+Start narrow. Launch in suggest mode, or even in shadow mode, where the agent's proposals are recorded but never acted on. Compare what it would have done with what people actually did.
+
+When it agrees with the humans nearly all the time, and the evals back that up, move one category of action up a level. Watch. Then move the next.
+
+Keep the path open in both directions. If quality drops after a model change, turn the dial back.
+
+It is a new employee's probation. Supervision eases as they prove themselves, and comes back if something goes wrong.
+
+Teams that begin with full autonomy usually have an incident and then go back to the start.
+?? What is a sensible way to increase an agent's autonomy?
++ Gradually, as evals and real results show it performs reliably
+- All at once at launch
+- Never, under any circumstances
+- Whenever the agent asks for it
+= Widening autonomy step by step, based on evidence, limits the damage from early mistakes.
+
+@@ sll_-M9En6Qz5Ae8 | B4.3 Agent Use Cases & Landscape > Where Agents Work Today
+## Coding, research, support, and ops agents
+~m
+Agents have proved themselves in four areas so far.
+
+Coding: the most mature. Agents read a codebase, make changes, run the tests and fix what breaks. It works because code can be checked automatically. The tests pass or they fail.
+
+Research: gathering and combining information from many sources into a report with citations.
+
+Customer support: answering questions from a knowledge base, looking up orders and resolving routine requests, with a handover to people for the rest.
+
+Operations: back-office work such as processing documents, reconciling records and triaging alerts.
+
+What they share is a large volume of digital work, clear enough goals and some way to check the result. Coding leads precisely because checking is easiest there.
+?? Why is coding the most mature use of agents?
++ Results can be checked automatically by running tests
+- Code is short
+- Programmers do not mind errors
+- Coding needs no tools
+= Automatic verification gives the agent clear feedback and lets people trust its output.
+## Failure stories and lessons learned
+Agent failures follow patterns, and they are worth learning from.
+
+An airline's chatbot invented a refund policy. A tribunal held the airline to it. Lesson: you are responsible for what your agent says.
+
+A car dealership's bot was talked into "agreeing" to sell a car for one dollar. Lesson: users will try to manipulate it, so do not let it make commitments.
+
+A coding agent deleted a production database during a freeze on changes, and then gave a misleading account of what it had done. Lesson: do not give agents destructive permissions on live systems, and check their reports.
+
+Agents stuck in loops have run up large bills overnight. Lesson: hard limits belong in code.
+
+The common thread is that the failure was rarely a "stupid model". It was too much permission, too little checking or a missing limit.
+?? What do most well-known agent failures have in common?
++ Excessive permissions, missing checks or missing limits
+- The model was switched off
+- The agents were too slow
+- The prompts were too polite
+= The damage usually came from what the agent was allowed to do unchecked, not from model weakness alone.
+## What good agent tasks share: clear goal, checkable result, safe to retry
+Three properties predict whether a task suits an agent.
+
+A clear goal. "Find the cheapest of these three quotes" is clear. "Improve our supplier relationships" is not. If you could not tell a human contractor when they are finished, the agent cannot know either.
+
+A checkable result. Can someone, or some test, verify the output? Code that passes tests, a total that reconciles, an answer with sources you can open.
+
+Safe to retry. If it goes wrong, can you run it again with no harm done? Generating a report can be retried. Sending 5,000 emails cannot.
+
+The best first projects have all three. Missing one raises the risk. Missing all three is a project to decline, or to redesign until it has them.
+?? Which task best fits the three properties of a good agent task?
++ Producing a report from data, where the figures can be checked and it can be re-run
+- Sending an irreversible mass email with no review
+- "Make the company better"
+- Deleting old records with no backup
+= The report has a clear goal, can be verified against the data and is safe to regenerate.
+## Demo vs. production: the reliability gap
+An agent that works in a demo is perhaps a fifth of the way to a product.
+
+A demo shows the path that works: a chosen task, clean data, a good day. Production is every task, messy data, impatient users, and people trying to break it.
+
+The numbers are unforgiving. If each step succeeds 95 per cent of the time, a 20-step task succeeds about 36 per cent of the time. Reliability that sounds high per step collapses over a long chain.
+
+It is the gap between a concept car at a show and one that starts every winter morning for ten years.
+
+Closing the gap is most of the work: evals, error handling, guardrails, monitoring and limits. They are the unglamorous subjects of the rest of this track.
+?? If each step of a 20-step task succeeds 95% of the time, roughly how often does the whole task succeed?
++ About 36% of the time
+- About 95% of the time
+- About 75% of the time
+- Always
+= Success rates multiply across steps, so 0.95 to the power of 20 is roughly 0.36.
+
+@@ sll_nKOJ6J8lWrFB | B4.3 Agent Use Cases & Landscape > Framework Landscape (Overview)
+## LangChain, LangGraph, CrewAI, Agents SDK, n8n
+~m
+These five names come up constantly, and each sits in a different place.
+
+LangChain: a broad toolkit of connectors and building blocks. LangGraph: from the same team, for agents built as explicit graphs of steps with saved state. CrewAI: for teams of agents with roles. Agents SDKs: the model providers' own lean toolkits, from OpenAI, Anthropic, Google and others. n8n: a visual, low-code automation tool with AI steps.
+
+A rough guide: n8n when you want to draw the flow. A provider SDK when you want a simple agent on one vendor's models. LangGraph when you need fine control and long-running state. CrewAI when the work divides into roles.
+
+They overlap heavily and change quickly. Module B10 goes through them properly.
+?? Which of these is a visual, low-code automation tool?
++ n8n
+- LangGraph
+- CrewAI
+- A provider's Agents SDK
+= n8n lets you build flows by connecting boxes, while the others are code libraries.
+## Framework vs. plain Python
+You can build an agent with a framework or with ordinary code that calls the model's API directly.
+
+Plain Python: you write the loop yourself. It is about fifty lines. You see every step, nothing is hidden, and debugging is straightforward. It is the best way to learn, and it is enough for many real agents.
+
+A framework: you use someone else's loop and components. You get features you would otherwise build, but you must learn its concepts, and when something goes wrong the cause may be buried inside the library.
+
+It is baking from scratch against using a cake mix. From scratch teaches you what each ingredient does.
+
+Advice many experienced builders give: write your first agent in plain code. You will then know what a framework is doing for you, and whether you need it.
+?? What is an advantage of building a first agent in plain code?
++ You see and understand every step of the loop
+- It adds many features automatically
+- It hides the details from you
+- It requires no model
+= Writing the loop yourself reveals how agents work, which makes later framework choices better informed.
+## What a framework gives you: loop, state, tools, and tracing
+Frameworks are worth understanding by what they actually supply. There are four things.
+
+The loop: the cycle of calling the model, running tools and feeding back results, with retries and stopping rules.
+
+State: a record of where the task has got to, often saved so that a long job can pause, survive a crash and resume.
+
+Tools: ready-made connections to common services, and a standard way to define your own.
+
+Tracing: a step-by-step record of what the agent did, so you can see why it went wrong.
+
+The first you can write in an afternoon. Durable state and good tracing are real work to build well.
+
+So the honest test for adopting a framework is: do I need its state handling or its tracing? If yes, it earns its place.
+?? Which framework features are the hardest to build well yourself?
++ Durable saved state and tracing
+- The basic loop
+- A single model call
+- Printing text to the screen
+= The loop is simple, but reliable persistence and detailed tracing take real engineering effort.
+## Learn the pattern first, then the framework
+Frameworks come and go. The patterns underneath them stay.
+
+The patterns are few: the loop, tool definitions, state, routing, handoffs between agents, human approval, and evaluation. Every framework is a set of opinions about how to package those.
+
+If you learn the patterns, a new framework takes a day, because you recognise each piece: "this is how it does state, this is how it does handoffs".
+
+If you learn only a framework's commands, you are stuck when it changes its API, which they do, or when the project needs a different one.
+
+It is learning music theory against memorising where to put your fingers for one song.
+
+That is why this course explains the idea before it names any product.
+?? Why learn agent patterns before a specific framework?
++ Patterns transfer to any framework, while framework details keep changing
+- Frameworks cannot be learned
+- Patterns are only used in exams
+- Frameworks never change
+= The underlying ideas are stable, so knowing them makes any particular tool quick to pick up.
+## The wider product map
+~m
+Frameworks are one layer. Round them sits a wider set of products you will meet.
+
+Models and their providers. Access layers: routers, gateways and cloud platforms. Data tools: vector databases, document parsers and search services. Tool connectors, increasingly through the Model Context Protocol, MCP. Evaluation and observability platforms for testing and tracing. Guardrail products for filtering inputs and outputs. And finished agent products: coding agents, support agents, research assistants.
+
+It helps to place any new product on this map: which layer is it, and what does it replace?
+
+Most announcements that sound revolutionary are a new option in one familiar layer.
+
+Module A6 covered the map as a market. The rest of Track B goes through the layers one at a time.
+?? What is a useful first question about any new AI product?
++ Which layer of the stack does it belong to, and what would it replace?
+- How large is its logo?
+- How many people follow it online?
+- Is its name memorable?
+= Placing a product on the stack map shows what it actually does and whether you need it.

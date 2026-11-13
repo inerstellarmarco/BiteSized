@@ -5,44 +5,128 @@
     {
       "id": "bit_5QNG5SI0R4BJ",
       "title": "Chaining facts across documents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A multi-hop question needs several facts joined end to end, where each one leads to the next.\n\n\"Which country is the head office of our largest supplier's parent company in?\" That takes three hops. Who is our largest supplier? Who owns them? Where is that owner based?\n\nEach answer is in a different document. No one passage holds the whole chain.\n\nIt is a treasure hunt. Each clue only tells you where to find the next one.\n\nThe difficulty is that you cannot look for hop two until you know the answer to hop one. The question does not contain the words you need to search with. They only appear along the way.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5QNG5SI0R4BJ_1",
+          "type": "multiple_choice",
+          "prompt": "What makes a question \"multi-hop\"?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It contains more than ten words"
+            },
+            {
+              "id": "b",
+              "text": "It is asked twice"
+            },
+            {
+              "id": "c",
+              "text": "It needs an image"
+            },
+            {
+              "id": "d",
+              "text": "Its answer requires chaining several facts, each leading to the next"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Multi-hop questions cannot be answered from one passage, because each step depends on the result of the one before.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BLHQicwyhrKG",
       "title": "Query decomposition for multi-hop questions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Query decomposition means breaking one complex question into simpler ones that can each be answered by a single search.\n\n\"Which country is our largest supplier's parent company based in?\" becomes: 1. Who is our largest supplier? 2. Who is the parent company of that supplier? 3. Where is that parent company's head office?\n\nA model does the splitting. Then the system runs the steps in order, feeding each answer into the next question.\n\nSome questions split into independent parts instead: \"compare the warranty terms of product A and product B\" becomes two separate lookups that can run at the same time.\n\nIt is how you would tackle it yourself: turn a daunting question into a short to-do list.\n\nThe risk is a bad plan. If the model splits the question wrongly, every step faithfully answers the wrong thing.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BLHQicwyhrKG_1",
+          "type": "multiple_choice",
+          "prompt": "What does query decomposition do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Splits a complex question into simpler sub-questions that can each be searched"
+            },
+            {
+              "id": "b",
+              "text": "Shortens the documents"
+            },
+            {
+              "id": "c",
+              "text": "Merges several questions into one"
+            },
+            {
+              "id": "d",
+              "text": "Removes the question entirely"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Breaking the question down makes each step answerable by a single retrieval.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5EojMiWxKCV0",
       "title": "Why one search often fails on multi-hop questions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Take \"where is our largest supplier's parent company based?\" and run it as a single search.\n\nThe search looks for chunks similar to those words. It finds chunks mentioning \"largest supplier\" and perhaps \"parent company\". It will not find the chunk that says \"Halden Group is headquartered in Oslo\", because that chunk mentions neither suppliers nor parents. Nothing in the question points to it.\n\nThe decisive document is only reachable once you know the name Halden Group, and that comes from the earlier hops.\n\nIt is trying to look up a phone number when you do not yet know whose number you need.\n\nThis is the main reason plain RAG disappoints on complex questions. The fix is multiple searches, each informed by the last.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5EojMiWxKCV0_1",
+          "type": "multiple_choice",
+          "prompt": "Why does a single search usually fail on a multi-hop question?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Search engines refuse long questions"
+            },
+            {
+              "id": "b",
+              "text": "The documents are too short"
+            },
+            {
+              "id": "c",
+              "text": "Embeddings cannot represent companies"
+            },
+            {
+              "id": "d",
+              "text": "The final fact's passage shares no wording with the original question"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The words needed to find later facts only emerge from answering the earlier hops.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_zY10ookuk4QT",
       "title": "Checking each hop before moving on",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a chain, each step rests on the one before. So an early mistake does not stay small. It becomes the foundation for everything after it.\n\nIf hop one wrongly names the largest supplier, hops two and three will carefully find the parent company and the head office of the wrong firm. The final answer will be detailed, well sourced and wrong.\n\nSo check at each step. Did the search actually find an answer, or did the model guess? Is it supported by a source? Is it clear-cut, or were there two candidates? If a hop is shaky, search again or stop and say so.\n\nIt is navigating with a map. Confirm you are at the right junction before taking the next turn.\n\nAccuracy also compounds. Three hops at 90 per cent each give about 73 per cent overall.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,7 +139,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_zY10ookuk4QT_1",
+          "type": "multiple_choice",
+          "prompt": "Why verify each step in a multi-hop chain?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the answer longer"
+            },
+            {
+              "id": "b",
+              "text": "An early error carries through and corrupts every later step"
+            },
+            {
+              "id": "c",
+              "text": "It reduces the number of documents"
+            },
+            {
+              "id": "d",
+              "text": "It is required by the database"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Later hops build on earlier results, so a wrong intermediate answer leads to a confidently wrong conclusion.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

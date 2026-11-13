@@ -5,68 +5,208 @@
     {
       "id": "bit_Wrnv_IWlUNgH",
       "title": "Workflows: fixed paths",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A workflow is a sequence of steps that you, the developer, decided in advance. The model does the work inside each step, but it does not choose the steps.\n\nExample: for every incoming invoice, extract the fields, check the supplier against the approved list, compare the total with the purchase order, and file it or flag it. It is the same four steps every time.\n\nIt is a train on rails. It goes where the track goes.\n\nThat makes workflows predictable, testable and cheap. You know what will happen, you can test each step, and you can say exactly where a failure occurred.\n\nThe limit is rigidity. A situation the designer did not foresee has no track.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Wrnv_IWlUNgH_1",
+          "type": "multiple_choice",
+          "prompt": "In a workflow, who decides the sequence of steps?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model, as it goes"
+            },
+            {
+              "id": "b",
+              "text": "The end user, each time"
+            },
+            {
+              "id": "c",
+              "text": "Nobody; it is random"
+            },
+            {
+              "id": "d",
+              "text": "The developer, in advance"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Workflows follow a predefined path, with the model working inside each fixed step.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_agwzaETrHwbP",
       "title": "Agents: dynamic paths",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent chooses its own path. You give it a goal and tools, and it decides the steps as it goes, based on what it finds.\n\nExample: \"work out why this customer's order has not arrived\". It might check the order status, see it was shipped, look up the tracking, find it stuck at customs and check whether paperwork is missing. A different order would lead somewhere else entirely.\n\nIt is a taxi instead of a train. It can take any route, including ones nobody planned.\n\nThat flexibility is the point: agents handle open-ended tasks where the steps cannot be known beforehand.\n\nThe price is unpredictability. It may take a route you would not have chosen, take longer, cost more, or get lost.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_agwzaETrHwbP_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main strength of an agent's dynamic path?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It always costs less than a workflow"
+            },
+            {
+              "id": "b",
+              "text": "It is perfectly predictable"
+            },
+            {
+              "id": "c",
+              "text": "It needs no tools"
+            },
+            {
+              "id": "d",
+              "text": "It can handle tasks whose steps cannot be known in advance"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Agents adapt their steps to what they discover, which suits open-ended problems.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TKqkozzCD7Yn",
       "title": "When not to use an agent",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Agents are fashionable, and they are often the wrong choice.\n\nDo not use one when the steps are known. If the process is the same every time, write the workflow.\n\nDo not use one when a mistake is expensive and cannot be undone, and no person checks first.\n\nDo not use one when speed or cost matters a great deal. Agents make many model calls.\n\nDo not use one when a single well-written prompt does the job.\n\nDo not use one when you cannot tell whether the result is right. An agent you cannot evaluate is a liability.\n\nIt is hiring a consultant with a free hand, when what you needed was a checklist.\n\nAgents suit tasks that are open-ended, worth the cost, and tolerant of the occasional wrong turn.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TKqkozzCD7Yn_1",
+          "type": "multiple_choice",
+          "prompt": "Which situation is a poor fit for an agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A process whose steps are identical every time"
+            },
+            {
+              "id": "b",
+              "text": "An open-ended research task"
+            },
+            {
+              "id": "c",
+              "text": "Investigating a problem with an unknown cause"
+            },
+            {
+              "id": "d",
+              "text": "A task where the steps depend on what is found"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "When the steps are known and fixed, a workflow is cheaper, faster and more reliable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_GpV-nn_8WSsk",
       "title": "Predictability vs. flexibility",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The choice between workflow and agent is a trade between two good things.\n\nPredictability: knowing what the system will do. It is easy to test, easy to explain to a client, and steady in cost and speed.\n\nFlexibility: coping with what you did not plan for. Unusual cases, missing information, tasks that vary.\n\nYou cannot have the maximum of both. Every freedom you give the model is something you no longer control.\n\nThink of a franchise restaurant and a private chef. The franchise makes the same burger every time. The chef can make anything, and you do not know exactly what will arrive.\n\nSo ask what the task needs more. For an invoice pipeline, predictability. For a research assistant, flexibility.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GpV-nn_8WSsk_1",
+          "type": "multiple_choice",
+          "prompt": "What do you give up when you make a system more flexible?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Some predictability about what it will do"
+            },
+            {
+              "id": "b",
+              "text": "All of its usefulness"
+            },
+            {
+              "id": "c",
+              "text": "The ability to use a model"
+            },
+            {
+              "id": "d",
+              "text": "Nothing at all"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "More model freedom means less developer control, so behaviour, cost and timing become harder to predict.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_FB0VdwJf6EmN",
       "title": "Start with the simplest thing that works",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "There is a ladder of complexity, and you should climb only as far as you must.\n\nRung one: a single prompt. Rung two: a single prompt with retrieval or a tool. Rung three: a fixed workflow of several steps. Rung four: one agent with a loop. Rung five: several agents working together.\n\nEach rung adds cost, delay and ways to fail. Each is harder to test and debug than the one below.\n\nStart at the bottom. Move up only when you have evidence that the current rung cannot do the job, not because the next one sounds more impressive.\n\nIt is home repair. Try the screwdriver before hiring the building crew.\n\nMany \"agent\" projects would have been better, cheaper and finished sooner as a three-step workflow.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FB0VdwJf6EmN_1",
+          "type": "multiple_choice",
+          "prompt": "When should you move to a more complex design, such as an agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When there is evidence the simpler design cannot do the job"
+            },
+            {
+              "id": "b",
+              "text": "At the start of every project"
+            },
+            {
+              "id": "c",
+              "text": "Whenever a new framework is released"
+            },
+            {
+              "id": "d",
+              "text": "When the simpler design works well"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Complexity adds cost and failure points, so it should be justified by a demonstrated need.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_o4PeCIV4lkJ7",
       "title": "Most real systems mix both",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In practice the choice is rarely \"workflow or agent\". Good systems use each where it fits.\n\nA common shape: a workflow forms the skeleton, with an agent inside one step. A support system might run as a fixed pipeline. Classify the ticket, then route it. For \"investigate a delivery problem\", hand over to an agent that explores freely. Then return to fixed steps: draft the reply, get approval, send.\n\nThe predictable parts are on rails. The open-ended part gets freedom, inside a box.\n\nIt is a hospital. Admission and discharge follow strict procedure. The diagnosis in the middle depends on what the doctor finds.\n\nThat keeps the agent's unpredictability confined to the one place where it earns its cost.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -79,7 +219,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_o4PeCIV4lkJ7_1",
+          "type": "multiple_choice",
+          "prompt": "What is a common way to combine workflows and agents?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Using an agent for every single step"
+            },
+            {
+              "id": "b",
+              "text": "A fixed workflow overall, with an agent handling one open-ended step"
+            },
+            {
+              "id": "c",
+              "text": "Never using either"
+            },
+            {
+              "id": "d",
+              "text": "Running them in separate companies"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Keeping the predictable parts fixed and giving freedom only where it is needed limits risk.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

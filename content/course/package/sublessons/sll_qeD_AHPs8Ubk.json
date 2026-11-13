@@ -5,44 +5,128 @@
     {
       "id": "bit_16J2Nt81AVFK",
       "title": "One agent, one job",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent works best when it has one clearly defined job.\n\n\"Answer billing questions using the billing knowledge base\" is one job. \"Handle billing, technical support, sales enquiries and complaints, and also write the weekly report\" is five.\n\nWith one job, the instructions are short and do not conflict. The tool list is small. The agent's context holds only what is relevant. And you can test it properly, because you know what success looks like.\n\nIt is the same principle as a well-written function, or a well-defined role in a company.\n\nA good test: can you state the agent's job in one sentence without using \"and\"?",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_16J2Nt81AVFK_1",
+          "type": "multiple_choice",
+          "prompt": "What is a good test of whether an agent has a single clear job?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It has more than twenty tools"
+            },
+            {
+              "id": "b",
+              "text": "Its prompt is over ten pages"
+            },
+            {
+              "id": "c",
+              "text": "It uses the largest model"
+            },
+            {
+              "id": "d",
+              "text": "You can describe it in one sentence without needing \"and\""
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A focused responsibility can be stated simply, which keeps instructions, tools and tests manageable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_uwpUPUp3jNNX",
       "title": "Specialist agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When the work covers several different jobs, one option is a team of specialists: separate agents, each set up for one kind of task.\n\nA billing agent has the billing documents, the billing tools and instructions about payment policy. A technical agent has the product manuals and diagnostic tools. A small router in front sends each request to the right one.\n\nEach specialist has a short prompt, a short tool list and a focused context. So each does its narrow job better than a generalist would.\n\nIt is a medical practice with a receptionist and specialist doctors.\n\nSpecialists also contain damage. A technical agent with no refund tool cannot issue a refund.\n\nThe cost is coordination: handing work between agents is a new place for things to go wrong.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_uwpUPUp3jNNX_1",
+          "type": "multiple_choice",
+          "prompt": "What is one benefit of specialist agents?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They need no instructions"
+            },
+            {
+              "id": "b",
+              "text": "They never need to hand work over"
+            },
+            {
+              "id": "c",
+              "text": "Each has a focused prompt, tool set and context for its own job"
+            },
+            {
+              "id": "d",
+              "text": "They are always cheaper than one agent"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Narrow responsibilities keep each agent's setup small and clear, which improves reliability.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_i8tFwJx6ohDL",
       "title": "Signs an agent is doing too much",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An overloaded agent shows recognisable symptoms.\n\nThe prompt keeps growing. Every bug gets another paragraph, with special cases piled on special cases.\n\nInstructions conflict. \"Be brief\" for one task collides with \"be thorough\" for another, and the agent applies the wrong one.\n\nIt picks wrong tools, confusing ones meant for different jobs.\n\nFixes cause breakages. Improving how it handles refunds makes it worse at technical questions.\n\nIt forgets rules late in a long task.\n\nTesting is unmanageable, because there are too many kinds of case.\n\nIt is the employee with five job titles who is slowly dropping all of them.\n\nWhen you see several of these together, the remedy is rarely a better prompt. It is a division of labour.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_i8tFwJx6ohDL_1",
+          "type": "multiple_choice",
+          "prompt": "Which is a sign that an agent has too many responsibilities?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It has one short prompt"
+            },
+            {
+              "id": "b",
+              "text": "It uses three tools"
+            },
+            {
+              "id": "c",
+              "text": "Fixing its behaviour on one task makes it worse on another"
+            },
+            {
+              "id": "d",
+              "text": "It finishes tasks quickly"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "When instructions for different jobs interfere with each other, the agent's scope is too wide.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_cEJpOsUGiZGU",
       "title": "Splitting only when one agent stops coping",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Having argued for specialists, here is the counterweight: do not split too early.\n\nEvery extra agent adds handovers, and information gets lost at handovers. It adds more model calls, more delay and more cost. And bugs appear that live between the agents and are hard to trace.\n\nOne capable agent with a clear job and a modest tool set handles a great deal. Modern models cope with more than people expect.\n\nSo begin with one. Split when you see the symptoms from the last card: conflicting instructions, tool confusion, an unmanageable prompt.\n\nIt is like a small business. You do not hire five specialists on day one. You hire when one person can demonstrably no longer cope.\n\nThe evidence should come from evals, not from an architecture diagram that looked elegant.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,7 +139,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cEJpOsUGiZGU_1",
+          "type": "multiple_choice",
+          "prompt": "When should a single agent be split into several?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Before any testing, to be safe"
+            },
+            {
+              "id": "b",
+              "text": "Whenever a diagram looks tidier with more boxes"
+            },
+            {
+              "id": "c",
+              "text": "When it shows clear signs of struggling, confirmed by testing"
+            },
+            {
+              "id": "d",
+              "text": "Never, under any circumstances"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Extra agents add cost and failure points, so splitting should follow evidence that one agent cannot cope.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

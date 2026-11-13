@@ -5,50 +5,162 @@
     {
       "id": "bit_BoqmLQSj66sz",
       "title": "Message history and scratchpads",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A model remembers nothing between calls. The feeling that it remembers your conversation comes from the application sending the whole history back each time.\n\nThat history is the agent's short-term memory: every user message, every reply, every tool call and result so far.\n\nA scratchpad is a part of that memory set aside for working notes: the plan, findings so far, things still to do.\n\nThink of the history as the transcript of a meeting, and the scratchpad as the notes you jot in the margin.\n\nBoth live in the context window, so both are limited and both cost tokens on every call. When the conversation ends, they are gone unless you save them somewhere.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BoqmLQSj66sz_1",
+          "type": "multiple_choice",
+          "prompt": "How does a model appear to remember earlier turns of a conversation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model stores each chat permanently inside itself"
+            },
+            {
+              "id": "b",
+              "text": "It retrains after every message"
+            },
+            {
+              "id": "c",
+              "text": "It reads the user's mind"
+            },
+            {
+              "id": "d",
+              "text": "The application resends the conversation history with each call"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Models are stateless, so the history must be supplied again on every request.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_SjB5j3UtY3TB",
       "title": "Tracking the immediate conversation state",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "State is where things stand right now: what the user wants, what has been done, what is still open.\n\nIn a simple chat, the message history is the state. In an agent, it helps to track a few things explicitly, outside the stream of messages: the current goal, the step in progress, key facts gathered such as the customer's ID, and anything awaiting approval.\n\nCompare a waiter trying to remember an entire evening's conversation with one who has an order pad: table six, two mains, waiting on dessert.\n\nExplicit state is easier for your code to check and harder to lose. The agent does not have to dig the customer's ID out of message thirty-four. It is written in one known place.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_SjB5j3UtY3TB_1",
+          "type": "multiple_choice",
+          "prompt": "Why track key facts explicitly instead of leaving them in the message history?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model cannot read messages"
+            },
+            {
+              "id": "b",
+              "text": "They are easier to find and check, and harder to lose"
+            },
+            {
+              "id": "c",
+              "text": "It makes the conversation longer"
+            },
+            {
+              "id": "d",
+              "text": "Explicit state uses no storage"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A known, structured record is more reliable than fishing details out of a long transcript.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qVCwo0hRQVGo",
       "title": "Working notes the agent keeps for itself",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "On a long task, a good agent writes things down as it goes.\n\nIt keeps a to-do list and ticks items off. It records decisions and why it made them. It notes what it tried that failed, so that it does not try again.\n\nThe notes do two jobs. They keep the agent on track, because rereading the plan pulls its attention back to the goal. And they survive when older parts of the conversation are trimmed or summarised.\n\nA researcher keeps a lab notebook for the same reasons. Nobody trusts their memory across a long experiment.\n\nYou can prompt for this directly: \"keep a task list and update it after every step\". It is one of the simplest ways to make long-running agents more dependable.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qVCwo0hRQVGo_1",
+          "type": "multiple_choice",
+          "prompt": "What is one benefit of an agent keeping a to-do list?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Rereading it keeps the agent focused on the goal"
+            },
+            {
+              "id": "b",
+              "text": "It makes the model larger"
+            },
+            {
+              "id": "c",
+              "text": "It replaces all tools"
+            },
+            {
+              "id": "d",
+              "text": "It removes the need for a goal"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Written notes refocus the agent and persist when older conversation is trimmed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_OnAe4U6kT-1H",
       "title": "Tool results are often the biggest consumer of context",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In an agent, most of the context is usually not conversation. It is tool output.\n\nA user's question is twenty tokens. A web page the agent fetched is eight thousand. A database result is three thousand. A file is twelve thousand. After a dozen tool calls the window is mostly raw results, much of it no longer needed.\n\nIt is a desk where the letter you are answering is buried under every reference book you have opened.\n\nThis is where context management pays off most. Trim results at the tool, as module B5 said. Once a result has been used, replace it with a short note of what was learned. Store large outputs in a file and keep only a reference.\n\nManaging tool output well matters more than any trimming of chat messages.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OnAe4U6kT-1H_1",
+          "type": "multiple_choice",
+          "prompt": "What usually takes up most of an agent's context?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Tool results"
+            },
+            {
+              "id": "b",
+              "text": "The user's questions"
+            },
+            {
+              "id": "c",
+              "text": "The agent's name"
+            },
+            {
+              "id": "d",
+              "text": "Punctuation"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Fetched pages, files and query results are far larger than the conversational messages.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

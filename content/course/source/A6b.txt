@@ -1,0 +1,651 @@
+// A6 The AI Stack & Market Map (part 2: A6.4 to A6.6)
+@@ sll_Ng8rYyxCJZxu | A6.4 Building Blocks & Frameworks > Model Access & Supporting Tools
+## Model routers (OpenRouter) and cloud platforms (AWS Bedrock, Azure AI Foundry, Google Vertex AI)
+~m
+Besides going to each model maker directly, there are two kinds of one-stop shop.
+
+Model routers, such as OpenRouter, give you one account, one key and one bill for hundreds of models from many makers. Changing model means changing one word in your code. They are handy for experiments and comparisons.
+
+Cloud platforms, such as AWS Bedrock, Azure AI Foundry and Google Vertex AI, offer a curated set of models inside the cloud a company already uses, with its security and contracts.
+
+A router is a travel comparison site. A cloud platform is your company's approved travel agent.
+
+Both add a middleman, so check the price, the model list and the data terms.
+?? What is the main appeal of a model router?
++ One account and one key give access to many models from different makers
+- It trains a custom model for you
+- It removes all costs
+- It guarantees the best answer
+= A router sits in front of many providers, so you can switch models with a small code change.
+## Fast inference providers (Groq, Together AI, Fireworks)
+~m
+"Inference" means running a model to get an answer. Some companies specialise in doing that for open models, as fast or as cheaply as possible.
+
+Groq builds its own chips aimed at speed and can produce text many times faster than typical services. Together AI and Fireworks run large catalogues of open models on tuned infrastructure, at competitive prices.
+
+Speed matters when someone is waiting. In a voice assistant, half a second of delay feels natural and three seconds feels broken.
+
+Think of courier firms competing to deliver the same parcel.
+
+Which provider is fastest or cheapest changes often, and the model list on each is limited, so check current comparisons.
+?? When does choosing a fast inference provider matter most?
++ When a user is waiting for a real-time response, as in voice or chat
+- For overnight batch jobs
+- When no model is being used
+- When data never changes
+= Latency is most visible in live interactions, where delays make the product feel broken.
+## Cloud platforms bring one bill, enterprise controls, and a choice of region
+Large companies often get their models through a cloud platform instead of going to the model maker. The reasons are practical, not technical.
+
+One bill: the usage appears on the cloud invoice that finance already pays, under a contract legal already signed. No new supplier to approve.
+
+Enterprise controls: the same logins, permissions, audit logs and network rules as the rest of the company's systems.
+
+Region choice: you pick where the model runs, such as London or Frankfurt, which settles many data-location questions.
+
+It is buying through the company's approved supplier list. The price may be no lower, and new models sometimes arrive later, but the paperwork is already done.
+?? Why do large organisations often access models through their existing cloud platform?
++ Billing, security controls and data location fit what they already have in place
+- The models are more intelligent there
+- It is the only legal way to use AI
+- Cloud platforms have no usage limits
+= Using the existing cloud avoids new contracts and reuses established security and region controls.
+## Gateways like LiteLLM give one interface to many models
+Every provider's API is slightly different: different names for settings, different response shapes, different errors. Code written for one will not run against another.
+
+A gateway fixes that. Your code speaks one standard format to the gateway, and the gateway translates for whichever provider is behind it. LiteLLM is a popular open-source example that you can run yourself.
+
+Think of a universal travel adaptor: one plug of yours, many kinds of socket.
+
+Because all traffic passes through one point, a gateway is also the natural place for shared features: tracking spend per team, setting budgets, logging requests, and falling back to a second provider if the first is down.
+?? Besides translating between providers, what can a gateway do?
++ Track spending, enforce budgets and fall back to another provider on failure
+- Train the models
+- Write your prompts
+- Increase a model's context window
+= A single entry point for all model traffic is a natural place for logging, budgets and failover.
+## Vector databases and observability tools (see B2.3, B14.3)
+Two kinds of supporting tool turn up in almost every serious AI system.
+
+Vector databases store embeddings and find the nearest ones quickly. They are the memory behind "search my documents by meaning". Examples include Pinecone, Chroma, Qdrant, and pgvector, which adds the feature to the ordinary Postgres database.
+
+Observability tools record what your system actually did: every prompt, response, tool call, cost and delay. When an answer is wrong, you can replay the exact steps and see why. Examples include LangSmith and Langfuse.
+
+Think of a warehouse and a flight recorder.
+
+Both get full treatment later. For now, know they are separate layers you can choose independently of the model.
+?? What is an observability tool for?
++ Recording prompts, responses, costs and timings so problems can be traced
+- Storing embeddings for search
+- Generating images
+- Compressing the model
+= Observability captures what happened inside the system, which makes debugging and cost tracking possible.
+
+@@ sll_85Us7QobgKea | A6.4 Building Blocks & Frameworks > Agent Frameworks
+## LangChain and LangGraph, LlamaIndex, CrewAI
+~m
+An agent framework is a library of ready-made parts for building AI applications, so you do not write every loop yourself. Three independent ones are widely used.
+
+LangChain is the oldest and broadest: a huge set of connectors to models, tools and data sources. LangGraph, from the same team, is for building agents as a graph of steps with saved state.
+
+LlamaIndex centres on data: loading documents, indexing them and retrieving from them.
+
+CrewAI centres on teams: you define agents with roles, such as researcher and writer, and they work together.
+
+Think of kitchen appliance brands. They overlap, each has a speciality, and none is needed to make dinner.
+?? Which framework is best known for focusing on documents, indexing and retrieval?
++ LlamaIndex
+- CrewAI
+- A spreadsheet
+- None of them handles data
+= LlamaIndex is built around connecting models to your data. CrewAI focuses on role-based teams.
+## Claude Agent SDK, OpenAI Agents SDK, Google ADK, Microsoft Agent Framework
+~m
+The model makers now publish their own agent toolkits, usually called SDKs, software development kits.
+
+Anthropic has the Claude Agent SDK, built from the same foundations as its coding agent. OpenAI has the Agents SDK. Google has the Agent Development Kit, ADK. Microsoft has the Microsoft Agent Framework.
+
+Each gives you the provider's recommended way to build: the loop, tool use, handoffs between agents, and tracing.
+
+The advantage is fit. The SDK is made by the people who know the model best, and gets new features first.
+
+The cost is attachment. It is the car maker's own accessories: they fit perfectly, and they are designed for that car.
+?? What is the main advantage of a model provider's own agent SDK?
++ It is designed to fit that provider's models and gets new features early
+- It works identically with every provider
+- It is the only way to call a model
+- It needs no code
+= Provider SDKs are tuned for their own models, at the cost of closer ties to that vendor.
+## What each is built around: stateful graphs, role-based crews, data and retrieval, or a provider SDK (see B10, B2)
+~m
+Frameworks are easier to compare once you see the central idea each one is built round.
+
+Stateful graphs (LangGraph): you draw the work as boxes and arrows, with a saved record of progress. Good for complex flows that need precise control and the ability to resume.
+
+Role-based crews (CrewAI): you describe a team and its members' jobs. Good for work that splits naturally between specialists.
+
+Data and retrieval (LlamaIndex): everything starts from your documents.
+
+Provider SDK: a lean loop round one vendor's model.
+
+So do not ask "which is best?" Ask "what shape is my problem?" A flowchart problem, a teamwork problem and a document problem lead to different tools.
+?? Your task is a complex multi-step process that must pause, resume and follow exact branching rules. Which central idea fits best?
++ A stateful graph
+- A role-based crew
+- An image generator
+- A spreadsheet macro
+= Graph-based frameworks give explicit control over steps, branching and saved state.
+## Frameworks merge and retire: Microsoft Agent Framework replaced AutoGen and Semantic Kernel (now in maintenance mode)
+~m
+Frameworks have lifespans, and they can be short.
+
+Microsoft had two well-known agent projects: AutoGen, from its research arm, and Semantic Kernel, aimed at business developers. It then merged the ideas into one successor, the Microsoft Agent Framework, and moved the two originals into maintenance mode: fixes only, no new features.
+
+Teams that had built on AutoGen now face a migration they did not plan.
+
+This is normal for a young field. Tools are launched, renamed, merged and abandoned within a couple of years.
+
+It is like building on a phone platform that gets discontinued. The lesson is not to avoid frameworks. It is to check how alive one is before committing, and to keep your own logic separable from it.
+?? What does it mean when a framework enters "maintenance mode"?
++ It gets fixes but no new features, and users are expected to move on eventually
+- It becomes faster
+- It is now the recommended choice
+- It has doubled in price
+= Maintenance mode signals the end of active development, so new projects should look elsewhere.
+## Framework or plain Python: use the criteria in B10.4
+You do not always need a framework. A basic agent is a loop of about fifty lines: call the model, run the tool it asked for, feed back the result, repeat.
+
+Plain code has real advantages. You can see everything, nothing is hidden, and there is no third-party library to break when it updates.
+
+Frameworks earn their place when you need what they have already built: saving and resuming long tasks, many agents working together, human approval steps, tracing.
+
+It is cooking from scratch against a meal kit. From scratch is simpler for a simple dish. The kit saves time on a complicated one.
+
+A sound habit: build the first version plainly, and adopt a framework when you feel a specific pain it removes.
+?? When does an agent framework earn its place?
++ When you need features it already provides, such as saved state or multi-agent coordination
+- Always, for every project
+- Never
+- Only when the model is small
+= Frameworks save effort on complex needs, while simple agents are often clearer in plain code.
+## Frameworks change fast: learn the pattern, not the product
+The names in this lesson will date. The ideas underneath will not.
+
+Every framework is a different packaging of the same few patterns: a loop where the model picks an action. Tools with clear descriptions. State that records progress. Handoffs between specialists. Checks before risky steps.
+
+Learn those and you can pick up any framework in a day, because you will recognise what each part is for. Learn only one framework's commands and you start again when it changes.
+
+It is learning to drive, not learning one car's dashboard.
+
+That is why this course teaches patterns first and names products only as examples.
+?? Why focus on patterns more than on any particular framework?
++ Patterns carry over when frameworks change or are replaced
+- Frameworks never change
+- Patterns are harder, so they look impressive
+- Frameworks are illegal in some countries
+= The underlying ideas are stable across tools, so understanding them outlasts any single product.
+## Provider SDKs tie you closer to one vendor; check portability
+A provider's SDK is convenient, and convenience has a price: the more of it you use, the harder it is to leave.
+
+Before committing, ask a few portability questions. Can it call other providers' models, or only its own? Are your tools defined in a standard way, such as MCP, or in a format only this SDK understands? Is your conversation history in a form you can export? How much of your logic is your own code, and how much is the SDK's special features?
+
+Think of a phone ecosystem. Each purchase inside it is sensible, and each one makes switching a little more painful.
+
+Tying yourself in can be the right choice. It should be a decision, not an accident.
+?? Which question helps you judge how portable an agent SDK is?
++ Can it work with models from other providers?
+- Does it have a nice logo?
+- Is its name short?
+- How many colours does its website use?
+= Support for other providers' models is a direct measure of how easily you could switch.
+
+@@ sll_zPZ4Oz11VcYf | A6.4 Building Blocks & Frameworks > Low-Code & Coding Agents
+## n8n, Zapier, and Make for automation
+~m
+Automation platforms let you connect apps and AI by drawing a flow instead of writing code. You drag boxes and join them: "when a form is submitted, send the text to an LLM, then add a row to the spreadsheet and email the customer".
+
+Zapier is the simplest and has the most app connections. Make offers more visual control for complex flows. n8n is open source, can run on your own server, and is popular with technical teams building AI workflows.
+
+Think of Lego for business processes. The bricks are ready-made connections to thousands of services.
+
+For many small businesses this is the fastest way to get real value from AI, with no programmer needed.
+?? What do platforms like n8n, Zapier and Make let you do?
++ Connect apps and AI steps into automated flows with little or no code
+- Train your own large language model
+- Manufacture computer chips
+- Replace your internet provider
+= They provide visual builders with ready-made connectors, so workflows can be assembled without programming.
+## Low-code is enough for simple triggers and handoffs; it strains on complex logic
+Low-code tools are excellent within their range and painful outside it.
+
+The sweet spot is a straight line: something happens, do three or four steps, finish. New email, then classify it, then file it, then notify someone.
+
+The strain shows as logic grows. Many branches, loops, retries with conditions and careful error handling turn the canvas into a tangle of boxes and arrows. It gets hard to test, hard to track changes in, and hard for anyone else to understand. Costs per run can climb with volume too.
+
+It is like a spreadsheet. It is wonderful until someone tries to run the whole company on one.
+
+When the diagram no longer fits on a screen, it is time for code.
+?? What is a sign that a workflow has outgrown a low-code tool?
++ Many branches, loops and error cases make the flow hard to follow and test
+- It has three steps in a row
+- It runs once a day
+- It sends one email
+= Complex logic becomes tangled on a visual canvas, where code is easier to test and maintain.
+## Claude Code, Cursor, and GitHub Copilot for building software
+~m
+Coding agents are AI tools that write and change software, and they have altered who can build things.
+
+GitHub Copilot began as autocomplete inside the editor and has grown an agent mode. Cursor is a code editor rebuilt round AI, where you can ask for changes across a whole project. Claude Code works from the terminal: you describe a task and it reads files, edits them, runs commands and fixes what breaks.
+
+The common thread is working at the level of the project, not the line.
+
+Think of moving from a spell-checker to a capable assistant who can draft the whole document.
+
+Someone who can describe what they want clearly, and check the result, can now build working tools.
+?? What can a coding agent do beyond simple autocomplete?
++ Read a project, edit several files, run commands and fix errors
+- Guarantee bug-free software
+- Replace the need to describe what you want
+- Work without any model behind it
+= Agents act across the whole project and carry out multi-step changes, not just next-line suggestions.
+## Coding agents speed you up, but you still review and test
+A coding agent can produce in five minutes what would take a day by hand. It cannot take responsibility for it.
+
+Agents make particular kinds of mistake. They write code that looks right and fails on an unusual input. They solve a slightly different problem from the one you had. They make a test pass by weakening the test. They add changes you never asked for.
+
+So the job moves from typing to checking. Read what changed. Run it. Try the awkward cases. Keep changes small enough to review properly.
+
+It is a fast contractor. The work goes up quickly, and you still walk round with the checklist before you sign it off.
+?? When working with a coding agent, what does your role shift towards?
++ Reviewing and testing what it produced
+- Typing every line yourself
+- Trusting the summary without reading the changes
+- Avoiding tests so it runs faster
+= The agent supplies speed. Checking that the result is correct and safe remains with you.
+## Keep secrets and client data out of tools you have not vetted
+Every AI tool you paste something into is a place that data now lives. Before using a new tool with anything sensitive, vet it.
+
+The risky items are passwords and API keys, client documents, personal details, and unreleased plans or figures.
+
+The questions are the ones from earlier. Who can see what I enter? Is it stored? Is it used for training? Where is it processed?
+
+A browser extension or a free online "PDF summariser" can be a data leak with a friendly interface.
+
+Think of handing documents to a stranger who offered to photocopy them.
+
+A workable rule: sensitive material goes only into tools your organisation has approved. Everything else gets sample data.
+?? What should you do before pasting client documents into a new AI tool?
++ Check how it stores and uses data, or use only approved tools
+- Nothing, if the tool is free
+- Paste it and delete the chat afterwards
+- Ask the tool whether it is safe
+= Unvetted tools may store or reuse what you enter, so data handling must be checked first.
+
+@@ sll_xdiCq6KQfo0x | A6.5 Image, Video & Voice Models > Generative Media
+## Image generation (e.g., GPT Image, Imagen, Midjourney, Flux)
+~m
+Image models turn a written description into a picture. Type "a watercolour of a lighthouse at dawn" and you have one in seconds.
+
+The main names: OpenAI's GPT Image models, Google's Imagen, Midjourney, known for a polished artistic look, and Flux, a family that includes open versions.
+
+Many work by diffusion. The model starts from random noise and removes it step by step, guided by your words, like a sculptor finding the figure in a block of stone.
+
+They can also edit: change a background, extend a photo, restyle an image.
+
+Typical uses are concept art, illustrations, mock-ups and marketing drafts. As with text, you get a plausible picture, not a guaranteed accurate one.
+?? How does a diffusion image model produce a picture?
++ It starts from random noise and refines it step by step, guided by the prompt
+- It searches the web for a matching photo
+- It stitches together stored clip-art
+- It photographs a real scene
+= Diffusion models learn to remove noise, gradually shaping it into an image that matches the description.
+## Video and voice (e.g., Veo, Runway, ElevenLabs)
+~m
+Generation now extends to moving pictures and sound.
+
+Video models, such as Google's Veo, OpenAI's Sora and Runway, create short clips from a text description or a starting image, some with matching sound. Quality has risen fast, though clips are short and keeping things consistent over time is still hard.
+
+Voice models, such as ElevenLabs, turn text into speech that sounds natural, in many voices and languages. Some can copy a specific voice from a short sample.
+
+Practical uses are product demos, training videos, narration, dubbing into other languages and voice assistants.
+
+The same ability makes convincing fakes easy to produce, which is why consent and disclosure come up in the next lesson.
+?? What is a current limitation of AI video generation?
++ Clips are short and consistency over time is difficult
+- It cannot produce any motion
+- It only works in black and white
+- It requires a film crew
+= Video models produce impressive short clips but still struggle to keep characters and scenes consistent for long.
+## Weak spots: text inside images and consistent characters across images
+~m
+Image models have two well-known weaknesses, improving but not gone.
+
+Text inside the image. Ask for a shop sign reading "Fresh Bread Daily" and you may get "Frsh Braed Dialy". The model paints letter-like shapes without truly spelling. Recent models handle short text much better, but long or small text still fails.
+
+Consistency. Generate a character once, then ask for the same character in a different scene, and you often get a cousin: different face, different clothes. That makes picture books and brand mascots hard.
+
+Hands and fine detail are a third classic.
+
+The practical answer: check every image closely, and add important text afterwards in a design tool.
+?? What is a reliable way to get correct wording on an AI-generated poster?
++ Add the text afterwards in a design tool
+- Ask the model to spell carefully
+- Make the image larger
+- Generate it at night
+= Image models can misspell text, so adding lettering in a design tool guarantees it is correct.
+## Speech-to-text and text-to-speech as building blocks for voice agents
+A voice assistant is usually three models in a chain.
+
+Speech-to-text, also called transcription, turns what the caller said into text. OpenAI's Whisper is a well-known example.
+
+An LLM reads that text and decides what to say.
+
+Text-to-speech turns the reply into audio.
+
+It is an interpreter standing between you and an expert who only reads and writes.
+
+Each link adds delay, and people notice a pause of more than about a second. So speed counts for more in voice than anywhere else. Errors also pass down the line: if the first step hears "fifteen" as "fifty", everything after it is wrong.
+
+Newer speech-to-speech models merge the steps, which cuts the delay.
+?? In a typical voice agent, what are the three stages?
++ Speech-to-text, then an LLM, then text-to-speech
+- Image generation, then OCR, then translation
+- Training, then fine-tuning, then deployment
+- Search, then sort, then print
+= The spoken input is transcribed, an LLM produces the reply, and the reply is turned back into speech.
+## Open image models exist for self-hosting
+~m
+Open-weight models are not limited to text. Image models such as Stable Diffusion and the open versions of Flux can be downloaded and run on your own hardware.
+
+The reasons mirror those for text models. Privacy: unreleased product photos never leave your machines. Control: no provider filters or policy changes. Cost at volume: thousands of images a day can be cheaper on your own GPU. Customisation: you can fine-tune on your own style, product or character, which also helps with consistency.
+
+The costs mirror them too. You need a capable graphics card and someone to run it, and safety filtering becomes your responsibility.
+
+As ever, check the licence. Some open image models are free for research and need a paid licence for commercial work.
+?? What is one reason to self-host an open image model?
++ To keep unreleased images private and under your own control
+- Because hosted models cannot make images
+- Because it needs no hardware
+- Because licences never apply to images
+= Self-hosting keeps the images on your own machines and removes dependence on a provider.
+## Cost is per image or per minute, not per token
+~m
+Media models are priced in their own units.
+
+Images are charged per image, with the price rising with resolution and quality: from under a penny to several pence each.
+
+Video is charged per second of footage generated, and it is the expensive one. A short clip can cost as much as thousands of text requests.
+
+Speech is charged per minute of audio transcribed, or per character of text spoken.
+
+So budgeting follows a different pattern. With text you estimate tokens. With media you count outputs, and you count the rejects too. If you generate ten images to get one worth using, the real cost per usable image is ten times the list price.
+?? When budgeting for generated images, what is often forgotten?
++ The cost of the rejected attempts needed to get one usable result
+- The cost of input tokens
+- The size of the context window
+- The knowledge cutoff
+= Several generations are usually needed for one keeper, so the real cost per usable image is higher.
+
+@@ sll_UKk4D3mW_Ae4 | A6.5 Image, Video & Voice Models > Using Media Commercially
+## Commercial-use rights and licence terms for generated media
+Being able to generate an image does not settle whether you may use it in your business. The tool's terms decide that.
+
+The things to check: does the plan allow commercial use? Some free tiers do not. Who owns the output? Does the provider keep rights to reuse or display what you made? Are some uses banned, such as images of real people or political content? And does the provider offer indemnity, a promise to stand behind you if someone claims the output infringes their rights?
+
+Think of stock photography. Having downloaded the picture is not the same as holding the licence.
+
+For anything a client will publish, note the tool, the plan and the date you checked the terms.
+?? Where do you find out whether AI-generated images may be used commercially?
++ In the terms of the tool and plan you used
+- In the image's file name
+- Nowhere; all AI images are free for any use
+- In the prompt you typed
+= Commercial rights are set by the provider's licence terms, and they differ between tools and plans.
+## Copyright on AI-generated work is unsettled in many places
+~m
+The law on AI-generated work is still being written, and it differs between countries.
+
+There are two separate questions. Can you own it? In some places, including the United States, work produced without meaningful human creative input cannot be copyrighted. That means a competitor might be free to copy your purely AI-generated logo. Human selection, editing and arrangement can change the answer.
+
+Does it infringe someone else's work? Models learned from existing material, and court cases over that are under way. Output that closely resembles a known character or a named artist's style carries real risk.
+
+Nothing here is legal advice. The point is that the matter is not settled, so for a valuable asset such as a brand identity, involve a human designer and a lawyer.
+?? Why might a logo generated entirely by AI be risky as a brand asset?
++ In some countries it may not qualify for copyright, so others could copy it
+- AI logos are always ugly
+- AI cannot produce square images
+- Logos must be drawn on paper by law
+= Where copyright needs human authorship, purely machine-made work may have little protection.
+## Brand safety and human review before publishing
+Generated media can embarrass you in ways that a quick look does not catch.
+
+The usual problems: a hand with six fingers. Garbled text on a sign in the background. Something close to a competitor's logo. A real-looking face that resembles a real person. A cultural detail that is wrong or offensive. A product shown with features it does not have.
+
+Once it is published, a screenshot lasts forever.
+
+So nothing generated goes out without a person looking at it properly: zoomed in, corners and background included, with the brand guidelines beside them.
+
+It is proofreading for pictures. The speed you gained in production is what pays for the few minutes of checking.
+?? What should always happen before AI-generated media is published?
++ A person reviews it closely for errors and brand problems
+- It is posted immediately to save time
+- It is made larger
+- The prompt is deleted
+= Generated media can contain subtle flaws, so human review is needed before it reaches the public.
+## Disclose AI-generated content where required or expected
+~m
+More and more, you need to say when content was made by AI. Sometimes the law requires it, sometimes a platform does, and sometimes your audience simply expects it.
+
+Regulations such as the EU AI Act require labelling of realistic synthetic media, often called deepfakes. Major social platforms and advertising rules ask for labels on realistic AI content. Some tools embed invisible marks or metadata that record an image's origin.
+
+Then there is trust. A customer who finds out that the "photo of our team" or the "customer testimonial" was generated will wonder what else is not real.
+
+The rule of thumb: if a reasonable person would feel misled on learning it was AI, tell them. A stylised illustration rarely needs a label. A realistic scene that never happened does.
+?? When is it most important to disclose that media is AI-generated?
++ When it realistically depicts people or events and could mislead
+- Never
+- Only for abstract patterns
+- Only when the image is small
+= Realistic synthetic content can deceive, which is why laws, platforms and audiences expect disclosure.
+## Likeness and voice cloning need consent
+A person's face and voice belong to them. Technology that can copy either from a few seconds of material does not change that.
+
+Using someone's likeness or voice without permission can break privacy law, publicity rights and, in a growing number of places, laws aimed specifically at deepfakes. That covers celebrities, employees, customers and people who have died.
+
+Consent should be explicit, in writing, and specific about what it covers: which uses, for how long, and whether it can be withdrawn.
+
+Think of a model release form in photography. The idea is the same and the stakes are higher.
+
+Voice cloning is also a fraud tool. Scammers copy a relative's or a manager's voice to ask for money. A family or team code word is a simple defence.
+?? What do you need before cloning a real person's voice for a project?
++ Their explicit, written consent covering the intended use
+- Only a clear recording
+- Nothing, if they are an employee
+- A fast computer
+= A voice is personal. Consent that is explicit and specific is the ethical and often legal requirement.
+
+@@ sll_QVIjoEAi6CFL | A6.6 Choosing a Product > Decision Criteria
+## Start from the task and its risks, not from the brand
+The wrong way to choose is to start with a name: "we should use X, everyone is talking about it". The right way starts with the job.
+
+What exactly must be done? How often? With what data? What happens if the answer is wrong: a small embarrassment, a lost customer, a legal problem? Who is affected?
+
+Those answers set the requirements, and the requirements pick the product.
+
+It is choosing a vehicle. You do not start with the badge. You start with "I need to move six people" or "I need to carry bricks down a muddy track".
+
+A low-risk drafting task and a high-risk customer-facing one may end up on different products from the same shelf.
+?? What should come first when choosing an AI product?
++ A clear description of the task and what happens when it goes wrong
+- The most talked-about brand
+- The most expensive option
+- The newest release
+= Requirements come from the task and its risks, and those requirements determine which product fits.
+## Quality on your task, not benchmark rank
+The only quality that matters is quality on the work you actually have.
+
+A model can lead the public rankings and still mishandle your trade's abbreviations, your document layout or your tone of voice. A lower-ranked one may suit them well.
+
+So the central piece of evidence in any choice is a test on your own examples. Gather 20 to 50 real cases with the answers you would accept. Run each candidate. Read the results yourself.
+
+It is an audition. A CV tells you who to invite. It does not tell you who gets the part.
+
+Rankings are for the shortlist. The decision comes from the audition.
+?? What is the strongest evidence when comparing AI products for a job?
++ Results on a set of your own real examples
+- Position on a public leaderboard
+- The size of the marketing budget
+- The number of social media followers
+= Performance on your own data reflects your real needs, which general rankings cannot.
+## Cost per task, licence, data residency, lock-in, and support
+Quality gets the attention. Five quieter criteria decide whether a choice survives contact with reality.
+
+Cost per task: the full cost of one finished job at your volume, not the price per token.
+
+Licence: are you allowed to use it this way, commercially, for this purpose?
+
+Data residency: where is the data processed and stored, and does that meet your obligations?
+
+Lock-in: how hard would it be to leave?
+
+Support: when it breaks on a Friday afternoon, is there someone to call, or only a forum?
+
+It is renting an office. The rooms matter, and so do the lease, the location, the notice period and the landlord. Any one of these can rule out an option that otherwise looks best.
+?? Which of these is a decision criterion alongside quality?
++ Data residency: where the data is processed and stored
+- The colour of the logo
+- The length of the product name
+- How many awards the founder has
+= Where data lives, along with cost, licence, lock-in and support, can decide whether a product is usable at all.
+## Speed and reliability: uptime history and rate limits
+A brilliant model that is slow or often unavailable makes a poor product.
+
+Speed has two parts. Time to first token: how long before anything appears. Tokens per second: how fast the rest arrives. For chat and voice, the first matters most.
+
+Reliability is about staying up. Providers publish a status page with their record of incidents. Read back a few months before you depend on one.
+
+Rate limits cap how many requests or tokens you may send per minute. New accounts start low. A limit that is fine in testing can throttle you on launch day.
+
+Think of a supplier. Quality counts, and so does delivering on time, every time, in the quantity you ordered.
+?? Where can you check how often a provider's service has had outages?
++ On its public status page and incident history
+- On a benchmark leaderboard
+- In its model card
+- In its logo
+= Status pages record past incidents, which is the direct evidence of reliability.
+## Features you need: tool use, long context, vision, structured output
+Models differ in what they can do, not only in how well. Before comparing quality, check that the candidate has the features your task needs.
+
+Tool use: can it reliably call functions to fetch data and take actions? This is essential for agents.
+
+Long context: can it take your largest documents in one request?
+
+Vision: can it read images, scans and screenshots?
+
+Structured output: can it be made to return exactly the format, such as JSON, that your software expects?
+
+Others include audio, prompt caching, batch pricing and fine-tuning.
+
+It is a pre-flight checklist. If one must-have is missing, the option is out, whatever its score. Write the must-haves down before you start looking.
+?? Which feature is essential for a model that will power an agent?
++ Reliable tool use
+- The longest product name
+- Image generation
+- The lowest possible price
+= Agents work by calling tools, so dependable function calling is a must-have for that role.
+## Score two or three finalists on the same test set
+The end of the selection is a fair contest. Take two or three finalists and run each one on exactly the same examples, with the same instructions.
+
+Then record the same measures for each: how many answers were acceptable, the cost per task, the time taken, and the kinds of mistake made.
+
+Put the results in a simple table. The decision usually becomes obvious, and it is now documented.
+
+It is a blind tasting. Same glasses, same conditions, and the labels are hidden until the scores are written down.
+
+Two warnings. Do not test one model on easy cases and another on hard ones. And do not judge on a single run, because outputs vary. Run each case several times.
+?? What makes a comparison between finalist models fair?
++ Running each on the same examples with the same instructions and measures
+- Giving each model a different set of questions
+- Testing each once on one easy case
+- Choosing in advance and testing only that one
+= Identical test conditions isolate the difference between the models from the difference between the tests.
+
+@@ sll_E0Rs3-sLeTc4 | A6.6 Choosing a Product > Avoiding Lock-In
+## Gateways that let you swap models
+Lock-in means being so tied to one supplier that leaving is too painful to consider. The simplest technical defence is a layer between your code and the model.
+
+That layer can be a gateway product, or just one small function of your own that every model call goes through. Your application says "ask the model". The layer knows which provider and which model that currently means.
+
+Switching then means changing the layer and nothing else.
+
+It is the electrical socket again. Appliances do not care which power station is on the other end.
+
+The alternative, provider-specific calls scattered through a hundred files, turns a one-hour switch into a month's project.
+?? What is the simplest structural defence against model lock-in?
++ Route all model calls through one layer that can be pointed at a different provider
+- Use every provider at the same time in every file
+- Never update the code
+- Sign a longer contract
+= A single access layer isolates the provider choice, so changing it does not touch the rest of the application.
+## Keeping prompts, evals, and data portable
+The model is rented. Three things should be yours, kept in a form you can take anywhere.
+
+Prompts: stored as plain text files under version control, not typed into a vendor's dashboard where they are hard to export.
+
+Evals: your test examples and expected answers, in a simple format such as a spreadsheet or JSON. This is what lets you judge any future model in minutes.
+
+Data: your documents, embeddings and conversation logs, stored where you control them and can export them.
+
+Think of furniture in a rented flat. You do not own the walls, but everything you would need to set up again elsewhere should fit on the van.
+
+These three are the real investment. The model is replaceable.
+?? Which assets should you keep portable so that you can change model providers?
++ Your prompts, your evals and your data
+- The provider's model weights
+- The provider's data centre
+- The provider's logo
+= Prompts, test sets and data are your own lasting investment and let you rebuild on any model.
+## Use features only one vendor offers only when the gain is large
+Providers compete by offering things nobody else has: a special tool, a unique mode, a proprietary format. These are often genuinely good. They are also what holds you in place.
+
+So apply a test. If the feature saves a little effort, pass, or wrap it so it can be replaced later. If it makes the product markedly better or cheaper, in a way you can measure, use it, and write down that you now depend on it.
+
+Think of a special offer that comes with a contract. Sometimes it is worth signing. You should know you are signing.
+
+The aim is not zero dependence, which is impossible. It is that every dependence was chosen on purpose.
+?? When is it reasonable to use a feature only one vendor offers?
++ When it brings a large, measurable benefit and you accept the dependence knowingly
+- Whenever it exists
+- Never, under any circumstances
+- Only if it is free
+= Vendor-specific features increase lock-in, so they should be adopted deliberately and for real gain.
+## Plan for model retirement
+Every hosted model has an end date. Providers announce retirements months in advance, and after that date the model stops answering.
+
+The replacement is usually better overall, and it is different. Prompts tuned for the old one may give subtly different results on the new one. Tone shifts. Formats change. An edge case that worked now fails.
+
+So treat retirement as scheduled maintenance, not as an emergency. Know which models you use and when each is due to go. Watch the provider's notices. When a successor appears, run your evals on it early, fix what differs and move over on your own timetable.
+
+It is like an operating system reaching end of support. The date is published. Only the unprepared are surprised.
+?? What should you do when a provider announces that a model you use will be retired?
++ Test the successor on your evals early and migrate before the deadline
+- Ignore it until the model stops working
+- Ask the provider to keep it running for you forever
+- Delete your prompts
+= Early testing shows what behaves differently, so you can adjust and move over without an emergency.
+## Write the switching plan before you need it
+The worst moment to work out how to change providers is during an outage, a sudden price rise or an account suspension.
+
+A switching plan is one page, written calmly in advance. It lists which backup model you would move to. What would need changing: the access layer, any prompts, any special features. How you would check it works: run the evals. Who decides, and roughly how long it would take.
+
+Then test it once. Actually point the system at the backup and see what breaks.
+
+It is a fire drill. You hope never to need it. The practice is what turns a possible disaster into a tedious afternoon.
+
+A plan that has never been tried is only a hope.
+?? What makes a switching plan trustworthy?
++ It has actually been tried at least once
+- It is very long
+- It is kept secret from the team
+- It is written during the emergency
+= Rehearsing the switch reveals hidden problems while there is still time to fix them.

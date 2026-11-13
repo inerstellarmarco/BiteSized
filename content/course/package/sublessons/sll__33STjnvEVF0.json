@@ -5,32 +5,88 @@
     {
       "id": "bit_OA-IVbZqXEUr",
       "title": "Idempotency",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An operation is idempotent if doing it twice has the same effect as doing it once.\n\nSetting a thermostat to 20 degrees is idempotent. Do it five times and it is still 20. Turning it up by two degrees is not. Five times makes it ten degrees hotter.\n\nA lift button is another example. Pressing it again does not call a second lift.\n\nIn software: \"set order status to shipped\" is idempotent. \"Add £50 to the account balance\" is not.\n\nIt matters to agents because calls get repeated: after a timeout, a crash or a moment of model confusion. An idempotent tool makes repetition harmless.\n\nA common technique is an idempotency key: a unique ID sent with the request, so the service recognises a repeat and ignores it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OA-IVbZqXEUr_1",
+          "type": "multiple_choice",
+          "prompt": "Which operation is idempotent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Adding £50 to a balance"
+            },
+            {
+              "id": "b",
+              "text": "Sending another copy of an email"
+            },
+            {
+              "id": "c",
+              "text": "Setting an order's status to \"shipped\""
+            },
+            {
+              "id": "d",
+              "text": "Increasing a counter by one"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Setting a value gives the same end state however many times it runs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_YpVCPZCkve3L",
       "title": "Rate limiting and spend limits",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent can make calls far faster than a person, and it does not get tired or notice the bill. Limits are how you contain that.\n\nA rate limit caps how often something can happen: no more than ten emails a minute, sixty searches an hour.\n\nA spend limit caps cost: no more than £5 of model usage per task, £200 a day in total.\n\nThey are a card's daily withdrawal limit. A mistake or a theft can only go so far.\n\nPut them in code, not in the prompt. \"Please do not send too many emails\" is a request. A counter that refuses the eleventh email is a guarantee.\n\nSet them per task, per user and overall. And raise an alert when a limit is hit, because that usually means something has gone wrong.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YpVCPZCkve3L_1",
+          "type": "multiple_choice",
+          "prompt": "Where should rate and spend limits be enforced?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only in the prompt, as a polite request"
+            },
+            {
+              "id": "b",
+              "text": "In code, as hard limits"
+            },
+            {
+              "id": "c",
+              "text": "Nowhere"
+            },
+            {
+              "id": "d",
+              "text": "In the user's memory"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Code-level limits cannot be ignored or talked round, unlike an instruction to the model.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rzofUPoQ4Sgx",
       "title": "Timeouts and sandboxed execution",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Two protections for when tools misbehave.\n\nA timeout is a deadline. If a tool has not answered in, say, thirty seconds, stop waiting and report a failure. Without one, a single hung call can freeze the whole agent indefinitely.\n\nA sandbox is a sealed environment for running code or commands. Inside it, the program has no access to your real files, your network or your secrets. If the code is wrong or malicious, the damage stays in the box, and the box is thrown away afterwards.\n\nIt is a child's sandpit, or a test kitchen away from the restaurant.\n\nAnything that runs code written by a model needs a sandbox. You are executing instructions from a source that can be mistaken or manipulated.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,49 +99,161 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rzofUPoQ4Sgx_1",
+          "type": "multiple_choice",
+          "prompt": "What is the purpose of a sandbox?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To make code run faster"
+            },
+            {
+              "id": "b",
+              "text": "To store passwords"
+            },
+            {
+              "id": "c",
+              "text": "To extend the context window"
+            },
+            {
+              "id": "d",
+              "text": "To contain code so that it cannot harm real systems or data"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A sandbox isolates execution, so mistakes or malicious code cannot reach anything that matters.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1QbsNHB0Smw2",
       "title": "Why it matters: a retry must not pay or send twice",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Here is the scenario that makes idempotency practical.\n\nAn agent calls \"charge_customer\" for £500. The payment succeeds, but the confirmation is lost to a network timeout. The agent sees a failure. The sensible response to a timeout is to retry. The customer is charged £1,000.\n\nThe same happens with emails sent twice, orders placed twice, records created twice.\n\nThe agent did nothing foolish. It could not tell the difference between \"did not happen\" and \"happened, but I did not hear back\".\n\nThe fix is in the tool. Send an idempotency key with each action, so the payment service says \"I have already done this one\". Or check first whether the action already happened.\n\nAny tool that moves money or sends messages needs this.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1QbsNHB0Smw2_1",
+          "type": "multiple_choice",
+          "prompt": "Why can a retry after a timeout cause a double payment?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Timeouts always double the amount"
+            },
+            {
+              "id": "b",
+              "text": "The first attempt may have succeeded even though no confirmation arrived"
+            },
+            {
+              "id": "c",
+              "text": "Agents enjoy retrying"
+            },
+            {
+              "id": "d",
+              "text": "Payment services are always wrong"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A timeout hides whether the action happened, so a blind retry can repeat a completed charge.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_I5ZgLQBDXbYt",
       "title": "Secrets and API keys: never in prompts, code, or shared files",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An API key is a password for a service. Whoever holds it can act as you and spend your money.\n\nThree places it must never be.\n\nIn a prompt. Anything the model sees can end up in its output, in logs, or in the hands of someone who manipulates it.\n\nIn code. Code gets shared, committed and pushed to GitHub. Automated scanners find exposed keys within minutes.\n\nIn shared files or chat. Screenshots, documents and messages get forwarded.\n\nKeys belong in environment variables or a secrets manager, and are read by your code at the moment of the call. The model asks for \"send_email\". Your code attaches the key. The model never sees it.\n\nIt is the house rule about not writing the alarm code on the front door.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_I5ZgLQBDXbYt_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an API key never be placed in a prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Models cannot read keys"
+            },
+            {
+              "id": "b",
+              "text": "It makes the prompt too short"
+            },
+            {
+              "id": "c",
+              "text": "The model could reveal it in output or logs"
+            },
+            {
+              "id": "d",
+              "text": "Keys only work in prompts"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Anything in the model's context can leak, so secrets must be attached by code outside the model's view.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_OartTqdKIUVi",
       "title": "Dry-run mode: show what would happen first",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A dry run performs every step of an action except the last, irreversible one. It reports what would happen.\n\n\"Dry run: this would send 312 emails to customers in the Ontario segment, with the subject 'Your renewal'. No emails were sent.\"\n\nThen a person, or a check, looks at the report. 312 is plausible. 31,200 is not.\n\nIt is print preview, or a dress rehearsal.\n\nBuilding it is simple: a flag on the tool that makes it describe instead of do.\n\nIt is useful at three moments. During development, so you can test without consequences. Before large or risky operations in production. And when building trust with a client, who can watch what the agent would do for a week before it is allowed to do it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OartTqdKIUVi_1",
+          "type": "multiple_choice",
+          "prompt": "What does a dry-run mode do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Runs the action twice"
+            },
+            {
+              "id": "b",
+              "text": "Deletes the action"
+            },
+            {
+              "id": "c",
+              "text": "Reports what an action would do without carrying it out"
+            },
+            {
+              "id": "d",
+              "text": "Hides the action from the user"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A dry run previews the effect so that mistakes can be caught before anything changes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_07BN-KAL_Dv-",
       "title": "Confirm before destructive actions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "For actions that delete, overwrite, pay or send to many people, put a confirmation step between the agent's request and the execution.\n\nThe agent prepares the action. Your code pauses and shows a person exactly what is about to happen: what, to whom, how much. Only an explicit yes lets it proceed.\n\nIt is the \"are you sure you want to permanently delete 400 files?\" dialog.\n\nThree details make it work.\n\nThe confirmation must be enforced in code. An instruction telling the model to ask first is not enough, because a model can skip it.\n\nShow specifics, not \"proceed?\". People approve vague prompts without reading.\n\nDo not ask too often. If every small step needs approval, people start clicking yes automatically, and the check becomes worthless.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
@@ -98,7 +266,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_07BN-KAL_Dv-_1",
+          "type": "multiple_choice",
+          "prompt": "Why must confirmation be enforced in code and not only in the prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Prompts cannot contain the word \"confirm\""
+            },
+            {
+              "id": "b",
+              "text": "Code is slower"
+            },
+            {
+              "id": "c",
+              "text": "Users prefer prompts"
+            },
+            {
+              "id": "d",
+              "text": "A model can skip an instruction, but cannot bypass a hard pause"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Only a code-level gate guarantees the action waits for an explicit human yes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

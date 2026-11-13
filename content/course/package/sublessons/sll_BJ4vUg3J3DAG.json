@@ -5,50 +5,162 @@
     {
       "id": "bit_oHoB-YwvcTkW",
       "title": "Retry on invalid output",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Even with good prompts, a reply will sometimes fail validation: a field missing, a value outside the allowed list, the output cut off.\n\nThe standard response is a loop. Call the model. Validate the reply. If it passes, carry on. If it fails, try again, up to a small limit such as two or three attempts.\n\nBecause output varies from run to run, a second attempt often simply works.\n\nAfter the limit, stop and take a defined fallback: pass the item to a stronger model, queue it for a person, or record a clear failure. Never let unvalidated output through because \"it is probably fine\".\n\nIt is quality control on a production line. Check each item, rework the rejects, and scrap what cannot be fixed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oHoB-YwvcTkW_1",
+          "type": "multiple_choice",
+          "prompt": "What should happen when a model's output still fails validation after the retry limit?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Accept it anyway"
+            },
+            {
+              "id": "b",
+              "text": "Take a defined fallback, such as escalation or flagging for a person"
+            },
+            {
+              "id": "c",
+              "text": "Retry forever"
+            },
+            {
+              "id": "d",
+              "text": "Delete the validation step"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Bounded retries followed by a clear fallback prevent both endless loops and bad data slipping through.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TKfondZ_k0Vz",
       "title": "Bridge to tool calling",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Structured output and tool calling are the same skill used for two purposes.\n\nWhen a model \"calls a tool\", it does not run anything. It produces a structured message: the name of a tool and the arguments to pass, matching a schema you gave it. For example: get_weather, with city set to \"Leeds\". Your code reads that and runs the real function.\n\nSo a tool call is structured output where the structure means \"please do this\" instead of \"here is the data\".\n\nIt is filling in a request form. The form does not do the work. It tells someone exactly what work to do.\n\nEverything from this lesson carries over: schemas, field descriptions, validation and retries.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TKfondZ_k0Vz_1",
+          "type": "multiple_choice",
+          "prompt": "When a model \"calls a tool\", what does it actually produce?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The result of running the tool itself"
+            },
+            {
+              "id": "b",
+              "text": "A structured message naming the tool and its arguments"
+            },
+            {
+              "id": "c",
+              "text": "A new model"
+            },
+            {
+              "id": "d",
+              "text": "A web page"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The model outputs a structured request. Your code is what executes the function.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_V0mIvV9Bsn_t",
       "title": "Feeding the error back so the model can fix it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A blind retry hopes the next attempt is luckier. A better retry tells the model what went wrong.\n\nAdd the failed reply and the exact validation error to the conversation: \"Your last response failed validation. Error: field 'total' expected a number, got 'twelve hundred'. Please return the corrected JSON.\"\n\nNow the model has something specific to fix, and it usually does so first time.\n\nIt is a teacher who marks the mistake instead of only writing \"wrong, try again\".\n\nThat is why precise error messages from tools like Pydantic are valuable. They are written for developers, and they turn out to be just what a model needs too.\n\nKeep the attempt limit. A model that fails twice with clear feedback will probably fail a third time.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_V0mIvV9Bsn_t_1",
+          "type": "multiple_choice",
+          "prompt": "What makes a retry more likely to succeed?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Including the specific validation error so the model knows what to correct"
+            },
+            {
+              "id": "b",
+              "text": "Sending exactly the same request again"
+            },
+            {
+              "id": "c",
+              "text": "Removing the schema"
+            },
+            {
+              "id": "d",
+              "text": "Shortening the timeout"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Concrete feedback lets the model target the fault instead of guessing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4rgGK06X-H5W",
       "title": "A valid format is not the same as correct content",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Passing validation means the output has the right shape. It says nothing about whether the content is right.\n\nA reply can be perfect JSON, every field present with the right type, and state that the invoice total is 1,200 when the document says 2,100. The form is filled in neatly, with the wrong numbers.\n\nThink of a cheque. It can be completed flawlessly and be for the wrong amount.\n\nSo there are two layers of checking. Format: automatic, cheap, done every time. Content: harder. Compare against the source, apply sanity rules such as \"the total should equal the sum of the line items\", sample outputs for human review, and measure accuracy with evals.\n\nTeams that stop at the first layer ship errors that look convincing.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4rgGK06X-H5W_1",
+          "type": "multiple_choice",
+          "prompt": "A model returns valid JSON matching your schema. What does that tell you?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every value is factually correct"
+            },
+            {
+              "id": "b",
+              "text": "The format is right, but the values may still be wrong"
+            },
+            {
+              "id": "c",
+              "text": "The model did not hallucinate"
+            },
+            {
+              "id": "d",
+              "text": "No further checks are needed"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Schema validation checks structure only. Content accuracy needs separate verification.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

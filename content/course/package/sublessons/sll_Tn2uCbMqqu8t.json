@@ -5,62 +5,202 @@
     {
       "id": "bit_YjrbJkxM1jm9",
       "title": "Retrieve, augment, generate",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "RAG, retrieval-augmented generation, is three steps, and the name lists them.\n\nRetrieve: take the user's question and search your document index for the most relevant chunks.\n\nAugment: build a prompt containing those chunks along with the question and instructions. \"Augment\" just means the prompt has been enriched with the retrieved material.\n\nGenerate: send that prompt to the model, which writes an answer based on what it was given.\n\nIt is an open-book exam. Look up the relevant pages, lay them next to the question, then write the answer.\n\nThe model itself is unchanged. All the \"knowledge\" arrived through the prompt. That is why RAG is far cheaper and quicker to set up than retraining anything.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YjrbJkxM1jm9_1",
+          "type": "multiple_choice",
+          "prompt": "In RAG, what does the \"augment\" step do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Retrains the model on new data"
+            },
+            {
+              "id": "b",
+              "text": "Makes the model larger"
+            },
+            {
+              "id": "c",
+              "text": "Searches the web for images"
+            },
+            {
+              "id": "d",
+              "text": "Adds the retrieved chunks to the prompt alongside the question"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Augmentation means enriching the prompt with retrieved passages before the model generates its answer.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_v53gURnAV14-",
       "title": "Grounding answers with citations",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A grounded answer points to where each claim came from: \"Returns are accepted within 30 days [Returns Policy, section 2].\"\n\nTo do it, number or label the chunks in the prompt and instruct the model to cite the label for every factual statement.\n\nCitations do three jobs. The user can click through and check. The model is disciplined, because it is harder to invent a claim when a source has to be named for it. And you can debug: when an answer is wrong, you can see at once whether the source was wrong or the model misread it.\n\nIt is footnotes in a serious book.\n\nOne caution. A model can attach a real citation to a claim the source does not actually support. So verify citations by sampling, or automatically.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_v53gURnAV14-_1",
+          "type": "multiple_choice",
+          "prompt": "What is one benefit of requiring citations in RAG answers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The answers become shorter"
+            },
+            {
+              "id": "b",
+              "text": "Retrieval is no longer needed"
+            },
+            {
+              "id": "c",
+              "text": "Users and developers can verify each claim against its source"
+            },
+            {
+              "id": "d",
+              "text": "The model stops needing instructions"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Citations make answers checkable and discourage unsupported claims.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_7OhVrzyeC6Ks",
       "title": "Why RAG: fresh and private knowledge without retraining",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "RAG fixes the two things a model cannot know.\n\nFresh knowledge. A model's training ended at its cutoff. RAG reads from a store you update whenever you like. Change the price list this morning and this afternoon's answers use it.\n\nPrivate knowledge. The model was never shown your contracts, your procedures or your customer history. RAG supplies them at the moment of the question, and the model itself is never changed.\n\nThat second point matters. Your data is not baked into anyone's model. Remove a document from the index and it is gone from the answers.\n\nIt is hiring a brilliant generalist and giving them access to the company's files, instead of trying to make them memorise the filing cabinet.\n\nIt also costs a tiny fraction of fine-tuning.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7OhVrzyeC6Ks_1",
+          "type": "multiple_choice",
+          "prompt": "How does RAG keep answers up to date?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It reads from a document store that you can update at any time"
+            },
+            {
+              "id": "b",
+              "text": "It retrains the model every night"
+            },
+            {
+              "id": "c",
+              "text": "It extends the model's knowledge cutoff"
+            },
+            {
+              "id": "d",
+              "text": "It browses random websites"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because knowledge comes from the index at query time, updating the documents updates the answers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gckrBxqjbY5x",
       "title": "Telling the model to answer only from the sources",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Retrieved chunks alone do not guarantee a grounded answer. The model still has its own memory, and it will happily mix that in unless told otherwise.\n\nSo the instruction must be explicit: \"Answer using only the information in the sources below. Do not use any other knowledge.\"\n\nWithout it, you get a blend: partly your policy, partly what return policies in general tend to say. The blended part sounds just as authoritative and may be wrong for your business.\n\nIt is a witness told to \"stick to what is in the documents\" and not to speculate.\n\nThe instruction is strong but not perfect. Models sometimes still add outside knowledge, especially when the sources are thin. That is one reason citations and evals matter.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gckrBxqjbY5x_1",
+          "type": "multiple_choice",
+          "prompt": "Why tell a RAG model to answer only from the provided sources?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To make the answers longer"
+            },
+            {
+              "id": "b",
+              "text": "Because models cannot read sources without it"
+            },
+            {
+              "id": "c",
+              "text": "To raise the temperature"
+            },
+            {
+              "id": "d",
+              "text": "Otherwise it may blend in general knowledge that is wrong for your case"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The model's own memory can leak into answers unless it is explicitly restricted to the supplied text.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1JGmQ3AmzzHM",
       "title": "Not found in the documents: a valid answer",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sometimes the retrieved chunks simply do not contain the answer. The question is outside your documents, or retrieval missed.\n\nWhat the system does next is a design decision, and the right one is to say so: \"I could not find that in the available documents.\"\n\nThe wrong outcome is the model filling the gap with a plausible guess, delivered in the same confident tone as a grounded answer. Users cannot tell the two apart.\n\nSo put the fallback in the prompt: \"If the sources do not contain the answer, say so and do not guess.\" Then make it useful by suggesting who to contact or what to try.\n\nA librarian who says \"we do not hold that\" is doing the job properly.\n\nIn your tests, include questions that should produce \"not found\".",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1JGmQ3AmzzHM_1",
+          "type": "multiple_choice",
+          "prompt": "What should a RAG system do when the retrieved sources do not contain the answer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Guess from general knowledge without saying so"
+            },
+            {
+              "id": "b",
+              "text": "Repeat the question back"
+            },
+            {
+              "id": "c",
+              "text": "Return a random chunk"
+            },
+            {
+              "id": "d",
+              "text": "Say that it could not find the answer in the documents"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "An honest \"not found\" is far safer than a confident guess that looks like a grounded answer.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

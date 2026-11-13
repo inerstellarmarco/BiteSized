@@ -5,44 +5,128 @@
     {
       "id": "bit_ikEyXQq-RQ6D",
       "title": "Prompting vs. RAG vs. fine-tuning (preview)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "There are three main ways to adapt a model to your needs. They solve different problems.\n\nPrompting: change the instructions. The model already knows enough and needs direction.\n\nRAG, retrieval-augmented generation: look up relevant documents and put them in the prompt. The model lacks knowledge, such as your policies or yesterday's data.\n\nFine-tuning: retrain the model on examples. The model has the knowledge but does not behave the way you need, consistently.\n\nThink of an employee. Prompting is giving clearer instructions. RAG is handing them the manual. Fine-tuning is sending them on a training course.\n\nThey are not rivals. Real systems often combine them. But there is a sensible order to try them in, which the next cards cover.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ikEyXQq-RQ6D_1",
+          "type": "multiple_choice",
+          "prompt": "Which approach supplies a model with knowledge it does not have, such as company documents?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Fine-tuning"
+            },
+            {
+              "id": "b",
+              "text": "RAG"
+            },
+            {
+              "id": "c",
+              "text": "Raising the temperature"
+            },
+            {
+              "id": "d",
+              "text": "Shortening the prompt"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Retrieval puts the relevant information into the prompt at the moment it is needed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_sWS7VOjsAjKJ",
       "title": "When to escalate to Track C",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Track C of this course covers changing the model itself: fine-tuning and related techniques. It is powerful and costly, and most projects never need it.\n\nGo there only after you have honestly worked through the cheaper options. You wrote clear, specific prompts and iterated on them. You added good examples. You gave the model the knowledge it lacked through retrieval. You tried a stronger model. And you have evals showing the result still falls short.\n\nReal reasons to go further: a very particular style or format that prompts cannot hold steady, a need for much lower cost or delay at high volume, or a narrow specialist task.\n\nIt is surgery. It is sometimes the right answer, and never the first thing you try.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_sWS7VOjsAjKJ_1",
+          "type": "multiple_choice",
+          "prompt": "When should you consider fine-tuning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "As the first step in every project"
+            },
+            {
+              "id": "b",
+              "text": "Whenever a new model is released"
+            },
+            {
+              "id": "c",
+              "text": "Before writing any prompts"
+            },
+            {
+              "id": "d",
+              "text": "After prompting, examples and retrieval have been tried and evals still show a gap"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Fine-tuning is costly, so it is justified only when the cheaper approaches have measurably fallen short.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_0Slg0q3KCZAT",
       "title": "Prompting first: cheapest and fastest to change",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Always start with prompting. The reasons are practical.\n\nIt is the cheapest: no new infrastructure and no training bill. It is the fastest to change: edit some text, run the test, see the result in a minute. And it is fully reversible: if the change is worse, undo it.\n\nCompare the alternatives. A retrieval system takes days or weeks to build well. A fine-tune takes prepared data, a training run and an evaluation, and you repeat all of it when the base model changes.\n\nMost problems that look as if they need something heavier turn out to be a vague prompt.\n\nIt is checking that the appliance is plugged in before calling the engineer.\n\nPush prompting until you have clear evidence it has run out.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0Slg0q3KCZAT_1",
+          "type": "multiple_choice",
+          "prompt": "Why is prompting the first approach to try?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It is the cheapest and fastest to change and test"
+            },
+            {
+              "id": "b",
+              "text": "It always gives the best possible quality"
+            },
+            {
+              "id": "c",
+              "text": "It needs a training run"
+            },
+            {
+              "id": "d",
+              "text": "It works without a model"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Prompt changes cost almost nothing and can be evaluated in minutes, so they should be exhausted first.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_v-_VjaUnZjZZ",
       "title": "RAG when the model lacks your knowledge",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Turn to retrieval when the problem is missing information.\n\nThe signs: the model gives general answers where you need your specifics. It does not know your products, prices or policies. It is out of date. It invents details about your business. The material is too large to paste into every prompt.\n\nNo instruction can fix those. You cannot prompt a model into knowing a document it has never seen.\n\nRAG supplies the knowledge at the moment of the question, from a store you keep up to date. Change a document and the next answer reflects it, with no retraining.\n\nIt is giving a clever temp the company handbook, opened at the right page.\n\nThe diagnostic question: would a smart outsider fail at this for lack of information?",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,19 +139,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_v-_VjaUnZjZZ_1",
+          "type": "multiple_choice",
+          "prompt": "Which symptom suggests you need retrieval rather than a better prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model's tone is slightly too formal"
+            },
+            {
+              "id": "b",
+              "text": "The model uses bullet points when you wanted prose"
+            },
+            {
+              "id": "c",
+              "text": "The model's replies are a little long"
+            },
+            {
+              "id": "d",
+              "text": "The model does not know your company's own facts"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Missing knowledge cannot be fixed by instructions. It has to be supplied, which is what retrieval does.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_8vPBqo41Ts5R",
       "title": "Fine-tuning when behaviour, not knowledge, is the problem",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Fine-tuning changes how a model behaves. It is a poor way to teach it facts.\n\nGood uses: a house style that must be exact on every reply. A specialised output format that prompts cannot keep stable. A narrow classification task with thousands of labelled examples. Making a small, cheap model perform like a large one on one specific job.\n\nPoor use: \"teach it our product catalogue\". Facts change, fine-tuned facts are recalled unreliably, and updating them means training again. That is a job for retrieval.\n\nThink of the difference between someone's manner and their notes. Training shapes how a person works. For the details of today's order, they still look it up.\n\nThe rule: knowledge gap, use RAG. Behaviour gap, consider fine-tuning.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8vPBqo41Ts5R_1",
+          "type": "multiple_choice",
+          "prompt": "Which problem is fine-tuning best suited to?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Getting a consistent style or specialised behaviour that prompting cannot hold"
+            },
+            {
+              "id": "b",
+              "text": "Teaching the model a price list that changes weekly"
+            },
+            {
+              "id": "c",
+              "text": "Giving the model today's news"
+            },
+            {
+              "id": "d",
+              "text": "Fixing a typo in the prompt"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Fine-tuning shapes behaviour. Changing facts are better supplied through retrieval.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

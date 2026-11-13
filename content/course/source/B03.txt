@@ -1,0 +1,522 @@
+// B3 Advanced RAG, Knowledge Graphs & Agentic RAG
+@@ sll_BHgORrEVr2TN | B3.1 Knowledge Graphs > Graph Fundamentals
+## Entities and relationships
+A knowledge graph stores information as things and the links between them.
+
+The things are entities: a person, a company, a product, a contract. The links are relationships: Ana works for Acme. Acme supplies Bolt Ltd. Contract 17 covers Product X.
+
+Each fact is a small triple: entity, relationship, entity. Many of them joined up make a web.
+
+Think of the wall in a detective drama, with photos pinned up and string running between them. The photos are entities. The string is the relationships.
+
+A document tells you about things in paragraphs. A graph makes the connections explicit, so they can be followed step by step.
+?? In a knowledge graph, what is "Ana works for Acme" made of?
++ Two entities joined by a relationship
+- Three unrelated documents
+- A single embedding
+- A table with one column
+= Ana and Acme are entities, and "works for" is the relationship that links them.
+## Graph databases (Neo4j, Cypher)
+A graph database is built to store entities and relationships directly and to follow links quickly. Neo4j is the best known. Its query language is called Cypher.
+
+Cypher draws the pattern you are looking for. A query might read, roughly: find a person, linked by WORKS_FOR, to a company named Acme. The arrows in the query look like the arrows in the graph.
+
+Why not use ordinary tables? You can, but "friends of friends of friends" needs join after join, and gets slow and awkward. A graph database hops from one node to the next directly.
+
+It is the difference between tracing a route on a map and cross-referencing three separate lists of roads.
+
+As with SQL, an LLM can write Cypher for you. Your job is to check it.
+?? What are graph databases especially good at?
++ Following chains of connections between entities quickly
+- Storing large video files
+- Running spreadsheets
+- Generating embeddings
+= Graph databases are designed for traversing relationships, which is slow and awkward with table joins.
+## Why graphs: questions about connections, not only content
+Vector search finds passages that are about something. Some questions are not about any one passage. They are about how things connect.
+
+"Which of our suppliers also supply our competitors?" "Who approved contracts with companies that this director sits on the board of?" "What is affected if this component is recalled?"
+
+No single paragraph contains those answers. The answer is a path through several facts, possibly from different documents.
+
+Think of the question "how am I related to her?" No one birth certificate says. You need the family tree.
+
+That is when a graph earns its keep: when the value is in the relationships, and the question means following them.
+?? Which question is a natural fit for a knowledge graph?
++ "Which suppliers do we share with our competitor?"
+- "What does our returns policy say?"
+- "Summarise this one email"
+- "Translate this paragraph"
+= The answer depends on following connections between entities, not on finding one relevant passage.
+## Schema first: deciding which entities and links matter
+Before building a graph, decide what goes in it. That plan is the schema: the types of entity you will track, and the types of relationship allowed between them.
+
+For a supplier graph: entities are Company, Person, Contract and Product. Relationships are SUPPLIES, EMPLOYS, SIGNED and COVERS.
+
+Skip this step and extraction runs wild. One document gives "works at", another "employed by", another "is on staff of", and the graph cannot connect them. You get a tangle instead of a map.
+
+The schema should come from the questions you need answered. If nobody will ever ask about office locations, do not model them.
+
+It is deciding the columns before starting a spreadsheet. Start small. A graph with five well-chosen relationship types beats one with two hundred.
+?? What should drive the design of a knowledge graph's schema?
++ The questions the graph needs to answer
+- Every noun found in the documents
+- The longest document
+- Whatever the extraction model happens to output
+= A schema limited to the entities and links relevant to real questions keeps the graph consistent and useful.
+
+@@ sll_85It_H-t7yKe | B3.1 Knowledge Graphs > Building Knowledge Graphs
+## LLM-based entity and relation extraction
+Building a graph used to mean people reading documents and entering facts by hand. LLMs made it practical to automate.
+
+You give the model a passage and the schema, and ask for the facts as structured output. From "Acme signed a three-year supply deal with Bolt Ltd in March", it returns: Acme, a Company. Bolt Ltd, a Company. Acme SUPPLIES Bolt Ltd, starting in March.
+
+Run that over every chunk of every document and the facts accumulate into a graph.
+
+It is having a tireless assistant read the whole archive and fill in index cards.
+
+It reuses skills you already have: structured output, schemas with allowed values, and validation. It also costs a model call per chunk, so a large archive is a real expense.
+?? How do LLMs help build knowledge graphs?
++ They read text and output entities and relationships in a structured form
+- They draw the graph by hand
+- They replace the need for documents
+- They store the graph in their weights
+= Given a passage and a schema, a model can extract facts as structured triples for the graph.
+## Linking graphs with documents
+A graph of bare facts has a weakness: it has lost the wording, the nuance and the evidence. The remedy is to keep every fact tied to where it came from.
+
+Each relationship stores a pointer to its source: this document, this chunk, this page. Each chunk can point the other way, to the entities it mentions.
+
+That gives you both kinds of search working together. Follow the graph to find which entities are connected. Then pull the original passages for the detail and for citation.
+
+It is a book's index and the book itself. The index tells you where things connect. The pages tell you what was actually said.
+
+It also makes checking possible. For any fact in the graph, someone can open the source and confirm it.
+?? Why should each fact in a knowledge graph keep a link to its source passage?
++ So the original wording can be retrieved, cited and checked
+- To make the graph larger
+- Because graphs cannot store names
+- To hide where facts came from
+= Source links keep the evidence and detail that a bare fact loses, and let people verify it.
+## Entity resolution: one company, many spellings
+Real documents name the same thing in many ways. "IBM", "I.B.M.", "International Business Machines" and "Big Blue" are one company. Left alone, the graph has four separate nodes, each with a quarter of the connections.
+
+Entity resolution is merging those into one.
+
+The opposite mistake is just as bad. Two different people called John Smith must not become one node, or a stranger inherits someone else's contracts.
+
+Methods include normalising names, matching on identifiers such as a company registration number, comparing embeddings, and asking an LLM "are these the same?" with the surrounding context.
+
+It is tidying a contact list where the same friend appears three times.
+
+This step is unglamorous and decisive. A graph with poor resolution gives confidently incomplete answers.
+?? What is entity resolution?
++ Recognising that different names refer to the same real-world thing and merging them
+- Increasing the resolution of images
+- Deleting entities with long names
+- Translating entity names
+= Without merging variants, one entity is split across several nodes and its connections are fragmented.
+## Extraction errors and human spot checks
+Automatic extraction makes mistakes, and in a graph a mistake becomes a "fact".
+
+Typical errors: a relationship pointing the wrong way, so that A acquired B becomes B acquired A. Something that was only proposed is recorded as having happened. A negation is missed, so "did not renew" becomes "renewed". Or a link is invented between two names that merely appeared in the same sentence.
+
+One wrong link can poison every answer that passes through it.
+
+So build in checking. Sample extracted facts regularly and compare them with the source. Measure the error rate. For high-stakes relationships, such as ownership, have a person confirm before the fact goes in.
+
+It is an editor fact-checking a reporter. Not every line, but enough to know how far to trust the work.
+?? Why are extraction errors especially harmful in a knowledge graph?
++ A wrong link is treated as fact and affects every answer that uses it
+- They make the graph slower to draw
+- They only affect formatting
+- Graphs correct themselves automatically
+= Errors become stored facts that propagate through any reasoning path passing over them.
+## Keeping the graph up to date
+A graph describes the world at the time it was built, and the world moves. People change jobs. Contracts end. Companies merge.
+
+Unlike a vector index, where you can simply replace a document's chunks, a graph's facts are woven together. So updating needs care.
+
+Give each fact a source and a date. When a document changes or is removed, find the facts that came from it and update or retire them. Many graphs keep "valid from" and "valid to" on relationships, so that "Ana worked for Acme until 2024" stays true as history without being presented as current.
+
+It is an organisation chart on the office wall. If nobody maintains it, it is confidently wrong within a year.
+
+Count this maintenance into the cost before deciding to build a graph.
+?? What helps a knowledge graph stay accurate as facts change?
++ Recording the source and dates for each fact so it can be updated or retired
+- Never changing the graph once built
+- Deleting the whole graph every day
+- Removing all dates
+= Source and validity dates let outdated facts be found and marked, while keeping history.
+
+@@ sll_yvMWUBgL_NPg | B3.2 Graph RAG & Multi-Hop Reasoning > Graph RAG
+## Community summaries and graph-based retrieval
+Graph RAG uses a knowledge graph to improve retrieval. One influential version works like this.
+
+First, build the graph from your documents. Second, find communities: clusters of entities that are densely linked to each other, such as everything to do with one project or one supplier network. Third, have an LLM write a summary of each community, in advance.
+
+At question time, the system can draw on those summaries as well as on individual chunks.
+
+Think of a large organisation. You could read every email, or you could read a briefing from each department.
+
+The summaries give the system a bird's-eye view that no single chunk has. That is what plain vector search lacks.
+?? In Graph RAG, what is a community summary?
++ A pre-written summary of a cluster of closely connected entities
+- A list of the users of the system
+- A social media post
+- The system prompt
+= Related entities are grouped, and each group is summarised ahead of time to support broad questions.
+## When Graph RAG beats vector RAG
+Vector RAG is good at "find the passage that answers this". Graph RAG does better in three situations.
+
+Questions about connections: "how is this supplier linked to that customer?" The answer is a path, not a passage.
+
+Questions that span many documents, where the relevant facts are scattered and no one chunk holds enough.
+
+Questions about the whole collection: "what are the main risks raised across all these reports?"
+
+For plain lookups, such as "what is the notice period in this contract?", Graph RAG adds cost and no benefit.
+
+A specialist detective is wonderful for a tangled case and overkill for finding your keys.
+
+So it is an addition for particular kinds of question, not a replacement. Many systems use both and route each question to the right one.
+?? Which question is plain vector RAG usually enough for?
++ "What is the notice period in this contract?"
+- "How are these two companies connected through shared directors?"
+- "What themes run through all 500 reports?"
+- "Which products are affected if this part fails?"
+= A specific fact found in one passage is exactly what vector search is good at.
+## Whole-collection questions, such as the main themes across all documents
+Ask a normal RAG system "what are the main themes in our customer feedback this year?" and it does something subtly wrong. It retrieves the five chunks most similar to the question and summarises those: five comments out of ten thousand.
+
+The answer sounds fine and represents almost nothing.
+
+The problem is structural. Top-k retrieval fetches a few relevant pieces. A question about the whole collection needs all of it, condensed.
+
+Graph RAG's pre-built community summaries provide that. The system combines summaries that together cover everything, instead of sampling a handful of chunks.
+
+It is the difference between interviewing five people and reading the census.
+
+Watch for this kind of question in your own system. "Overall", "main themes", "across all" and "in general" are the warning words.
+?? Why does ordinary top-k RAG handle "what are the main themes across all documents?" badly?
++ It only retrieves a few chunks, which cannot represent the whole collection
+- It retrieves too many documents
+- It cannot read questions with the word "themes"
+- It always refuses such questions
+= A global question needs coverage of everything, while top-k returns only a small sample.
+## The cost: building and maintaining the graph
+Graph RAG's benefits come with a real bill, and it should be weighed honestly.
+
+Building: every chunk goes through an LLM for extraction, and then more calls write the summaries. For a large collection that can cost many times more than simply embedding it, and take hours or days.
+
+Maintaining: new and changed documents mean re-extracting, re-resolving entities and regenerating the affected summaries.
+
+Complexity: more moving parts. A schema, extraction prompts, resolution rules and a graph database, each of which can go wrong.
+
+It is the difference between putting books on shelves and employing a librarian to cross-reference every one.
+
+The question to ask first: do my users really ask connection or whole-collection questions often enough to justify this? If not, well-tuned vector RAG wins.
+?? What is the main drawback of Graph RAG?
++ The cost and complexity of building and maintaining the graph
+- It cannot answer any questions
+- It only works in one language
+- It needs no documents
+= Extraction, entity resolution and summary generation require many model calls and ongoing upkeep.
+
+@@ sll_SvAja3ynxx8Z | B3.2 Graph RAG & Multi-Hop Reasoning > Multi-Hop Reasoning
+## Chaining facts across documents
+A multi-hop question needs several facts joined end to end, where each one leads to the next.
+
+"Which country is the head office of our largest supplier's parent company in?" That takes three hops. Who is our largest supplier? Who owns them? Where is that owner based?
+
+Each answer is in a different document. No one passage holds the whole chain.
+
+It is a treasure hunt. Each clue only tells you where to find the next one.
+
+The difficulty is that you cannot look for hop two until you know the answer to hop one. The question does not contain the words you need to search with. They only appear along the way.
+?? What makes a question "multi-hop"?
++ Its answer requires chaining several facts, each leading to the next
+- It contains more than ten words
+- It is asked twice
+- It needs an image
+= Multi-hop questions cannot be answered from one passage, because each step depends on the result of the one before.
+## Query decomposition for multi-hop questions
+Query decomposition means breaking one complex question into simpler ones that can each be answered by a single search.
+
+"Which country is our largest supplier's parent company based in?" becomes: 1. Who is our largest supplier? 2. Who is the parent company of that supplier? 3. Where is that parent company's head office?
+
+A model does the splitting. Then the system runs the steps in order, feeding each answer into the next question.
+
+Some questions split into independent parts instead: "compare the warranty terms of product A and product B" becomes two separate lookups that can run at the same time.
+
+It is how you would tackle it yourself: turn a daunting question into a short to-do list.
+
+The risk is a bad plan. If the model splits the question wrongly, every step faithfully answers the wrong thing.
+?? What does query decomposition do?
++ Splits a complex question into simpler sub-questions that can each be searched
+- Shortens the documents
+- Merges several questions into one
+- Removes the question entirely
+= Breaking the question down makes each step answerable by a single retrieval.
+## Why one search often fails on multi-hop questions
+Take "where is our largest supplier's parent company based?" and run it as a single search.
+
+The search looks for chunks similar to those words. It finds chunks mentioning "largest supplier" and perhaps "parent company". It will not find the chunk that says "Halden Group is headquartered in Oslo", because that chunk mentions neither suppliers nor parents. Nothing in the question points to it.
+
+The decisive document is only reachable once you know the name Halden Group, and that comes from the earlier hops.
+
+It is trying to look up a phone number when you do not yet know whose number you need.
+
+This is the main reason plain RAG disappoints on complex questions. The fix is multiple searches, each informed by the last.
+?? Why does a single search usually fail on a multi-hop question?
++ The final fact's passage shares no wording with the original question
+- Search engines refuse long questions
+- The documents are too short
+- Embeddings cannot represent companies
+= The words needed to find later facts only emerge from answering the earlier hops.
+## Checking each hop before moving on
+In a chain, each step rests on the one before. So an early mistake does not stay small. It becomes the foundation for everything after it.
+
+If hop one wrongly names the largest supplier, hops two and three will carefully find the parent company and the head office of the wrong firm. The final answer will be detailed, well sourced and wrong.
+
+So check at each step. Did the search actually find an answer, or did the model guess? Is it supported by a source? Is it clear-cut, or were there two candidates? If a hop is shaky, search again or stop and say so.
+
+It is navigating with a map. Confirm you are at the right junction before taking the next turn.
+
+Accuracy also compounds. Three hops at 90 per cent each give about 73 per cent overall.
+?? Why verify each step in a multi-hop chain?
++ An early error carries through and corrupts every later step
+- It makes the answer longer
+- It reduces the number of documents
+- It is required by the database
+= Later hops build on earlier results, so a wrong intermediate answer leads to a confidently wrong conclusion.
+
+@@ sll_MFzdG0fVvqq4 | B3.3 Agentic RAG > Retrieval as a Tool
+## Search vs. answer-from-memory decisions
+In basic RAG, every question triggers a search, whether or not one is needed. In agentic RAG, search is a tool the model may choose to use.
+
+So the model first decides: do I need to look this up?
+
+"Hello, can you help me?" needs no search. "What is 15 per cent of 240?" needs no search. "What is our refund policy for opened items?" needs one.
+
+That saves time and money on easy turns and avoids stuffing the context with irrelevant chunks.
+
+The danger is overconfidence. The model may decide it "knows" your refund policy and answer from general knowledge. So the instructions must be firm: anything about the company's own facts, policies, prices or data must be looked up, never recalled.
+
+It is a professional who knows when to check the manual.
+?? What is the main risk of letting a model decide whether to search?
++ It may answer company-specific questions from memory instead of looking them up
+- It will search for every single word
+- It cannot use tools at all
+- It will delete the index
+= Models can be overconfident, so they need clear rules about what must always be retrieved.
+## Iterative retrieval and self-checking
+An agent does not have to settle for its first search. It can look at what came back and decide what to do next.
+
+The loop goes: search. Read the results. Ask "do I have enough to answer?" If not, work out what is missing, search again with a better query, and repeat.
+
+Perhaps the first search found the general policy but not the exception for sale items. The agent notices the gap and searches specifically for that.
+
+It is how a person researches. Nobody types one query and stops. You read, realise what you still need, and refine.
+
+Before answering, the agent can check itself too: is every claim in my draft supported by something I retrieved?
+
+It is more thorough than one-shot RAG, and slower and dearer, because each round is another search and another model call.
+?? What does iterative retrieval let an agent do?
++ Search again with a better query when the first results are not enough
+- Answer without any documents
+- Skip reading the results
+- Use only one search, ever
+= The agent evaluates what it found and can run further, refined searches to fill gaps.
+## The agent writes its own search queries
+In basic RAG, the user's message is the search query, word for word. In agentic RAG, the model composes the query itself, and that is a big improvement.
+
+Users write loosely: "the thing about holidays we talked about, does it count for part-timers?" That is a poor search string.
+
+The agent turns it into a good one: "holiday entitlement part-time employees". It can also split a question into several searches, add filters such as "documents from 2025", try synonyms when the first attempt finds nothing, and choose which source to search.
+
+It is the difference between shouting your question into a library and having a research assistant who knows how to use the catalogue.
+
+The quality of these queries depends on the search tool's description, which should explain what is in the index and what makes a good query.
+?? Why is it helpful for an agent to write its own search queries?
++ It can turn a vague or conversational message into precise, effective searches
+- It makes the user's question longer
+- It removes the need for an index
+- It guarantees every search succeeds
+= The agent reformulates loose requests into focused queries and can run several of them.
+## Knowing when to stop searching
+An agent that can search again needs a reason to stop. Without one, two things go wrong.
+
+It stops too early, answering after one thin result. Or it never stops, rephrasing the same query a dozen times and burning time and money while the user waits.
+
+Good stopping rules: stop when you have enough evidence to answer every part of the question. Stop when further searches return nothing new. And stop at a hard limit, such as five searches, whatever happens.
+
+On hitting the limit, the right behaviour is honesty: "I searched for X and Y and could not find a clear answer", not a guess.
+
+It is looking for your keys. Check the likely places properly, and at some point accept they are not in the house.
+
+The hard cap belongs in your code, not only in the prompt.
+?? What should an agent do when it reaches its search limit without finding the answer?
++ Say what it looked for and that it could not find a clear answer
+- Make up a plausible answer
+- Keep searching indefinitely
+- Return an empty reply
+= A hard cap prevents endless loops, and an honest report is better than a guess.
+
+@@ sll_WsAzCnrhLkF2 | B3.3 Agentic RAG > Corrective & Adaptive RAG
+## Grading retrieved context and re-querying
+Corrective RAG adds a quality check between retrieving and answering.
+
+After the search, a model grades each chunk that came back: is this actually relevant to the question? It can be a quick yes or no from a small, cheap model.
+
+Then the system acts on the grades. Keep the relevant chunks and discard the rest, so that noise never reaches the answering step. If too few survive, rewrite the query and search again. If nothing works, take a fallback.
+
+Basic RAG has no such check. Whatever the search returns goes to the model, relevant or not, and a poor retrieval quietly becomes a poor answer.
+
+It is a chef inspecting the delivery before cooking, instead of using whatever is in the box.
+
+The price is extra model calls on every question.
+?? What does Corrective RAG add to a basic RAG pipeline?
++ A step that grades retrieved chunks and re-queries if they are not good enough
+- A larger context window
+- A second vector database for images
+- A way to skip retrieval
+= Grading filters out irrelevant chunks and triggers another search when retrieval was weak.
+## Routing between data sources
+Real organisations do not keep their knowledge in one place. There are policy documents, a product database, a ticket history, a CRM, and the public web.
+
+Routing means deciding, for each question, where to look.
+
+"What is our parental leave policy?" goes to the HR documents. "How many units of item 4471 are in stock?" goes to the inventory database. "What did this customer complain about last month?" goes to the ticket system.
+
+A model makes the choice, usually by picking from a list of sources, each with a short description of what it contains.
+
+It is a hospital reception desk sending you to the right department.
+
+The descriptions matter a great deal. If two sources sound alike, the router will mix them up. A wrong route means searching perfectly in the wrong place.
+?? What does routing do in a RAG system with several data sources?
++ Chooses the most suitable source for each question
+- Merges all sources into one file
+- Deletes unused sources
+- Sends every question to every source always
+= A router directs each query to the source most likely to hold the answer.
+## Falling back to web search or a human when sources are weak
+Sometimes your own documents do not have the answer. A well-designed system has a plan for that moment.
+
+There are two common fallbacks. Web search: for general or current questions, look outside. Mark the answer clearly as coming from the web and not from company sources, because it carries a different level of trust.
+
+A person: for anything specific to the business that the documents do not cover, hand over. "I could not find this in our documentation. I have passed your question to the support team."
+
+The choice depends on the stakes. A web answer is fine for "what does this error code usually mean?" It is not fine for "am I covered under my contract?"
+
+A good shop assistant says "let me get my manager" instead of inventing a policy.
+?? When internal documents lack an answer to a contract-specific question, what is the right fallback?
++ Hand the question to a person
+- Guess from general knowledge
+- Use a random web page and present it as company policy
+- Ignore the question
+= Business-specific questions with real consequences should go to a human when sources are insufficient.
+## Simple questions take the fast path; hard ones get more steps
+Adaptive RAG matches the effort to the question.
+
+First a quick classification: how hard is this? Then: no retrieval for greetings and general chat. A single search for a simple factual lookup. The full treatment, with decomposition, several searches and checking, for a complex multi-part question.
+
+Without this you are stuck with one pipeline for everything. Either the simple one, which fails on hard questions, or the thorough one, which makes "what are your opening hours?" take eight seconds and cost twenty times more than it should.
+
+It is triage in an emergency department. A sprained wrist and a heart attack do not get the same pathway.
+
+Most questions are simple. Sending them down the fast path is what makes a thorough path affordable for the few that need it.
+?? What is the idea behind Adaptive RAG?
++ Choose how much retrieval effort to spend based on the question's difficulty
+- Use the most expensive pipeline for every question
+- Never retrieve anything
+- Adapt the documents to the model
+= Classifying questions lets simple ones be answered quickly and cheaply while complex ones get more steps.
+
+@@ sll_Ld5lNqj9BPXV | B3.3 Agentic RAG > Querying Structured Data
+## Text-to-SQL: plain-language questions in, database queries out
+Much business knowledge is in databases, not documents: sales, orders, stock, customers. Text-to-SQL lets people ask about it in plain language.
+
+The user asks: "What were total sales by region last quarter?" The model writes the SQL query. Your system runs it against the database. The model then explains the result in words.
+
+That opens the data to people who cannot write SQL, without waiting for an analyst.
+
+It is a translator standing between you and a clerk who only speaks database.
+
+Models are good at this for simple questions. The errors come with complicated joins, unclear column names and vague requests. Does "last quarter" mean the calendar quarter or the financial one? The query runs either way, and one of them is the wrong answer.
+?? What does a text-to-SQL system do?
++ Turns a plain-language question into a database query and runs it
+- Converts a database into a PDF
+- Translates SQL into French
+- Stores documents as vectors
+= The model writes SQL from the user's question, and the system executes it to get the data.
+## Describing tables and columns so the model writes correct queries
+A model cannot write a correct query against a database it does not understand. It needs the schema, and real schemas are cryptic.
+
+A column called "amt_2" could be anything. A status of 3 means something only your team knows. Is "revenue" before or after refunds?
+
+So give the model a description: each table and what one row represents. Each column, in plain words, with units. What coded values mean. How tables join together. And the business definitions: "an active customer is one with an order in the last 90 days".
+
+A few example questions with their correct queries help a great deal.
+
+It is the handover note you would write for a new analyst.
+
+Most text-to-SQL errors are not SQL mistakes. They are misunderstandings about what the data means.
+?? What is the most common root cause of wrong text-to-SQL answers?
++ The model misunderstands what the tables and columns mean
+- SQL is too old a language
+- Databases are too fast
+- The question was typed in lowercase
+= Without clear descriptions and definitions, the model guesses at meaning and writes a plausible but wrong query.
+## Read-only database roles and query checks
+A model that writes SQL can write any SQL, including DELETE and DROP TABLE. Whether through a mistake or a manipulated prompt, that must not be able to do damage.
+
+The primary defence is at the database: connect with a read-only account. Then destructive commands fail whatever the model writes. This is a lock, not a request.
+
+Add further layers. Give access only to the tables needed, not the payroll table. Check each query before running it: is it a single SELECT? Limit rows returned and set a time limit, so a clumsy query cannot bring the database down. Ideally, query a copy, not the live system.
+
+It is a visitor's pass that opens the reading room and nothing else.
+
+A prompt saying "only write SELECT statements" is a wish, not a control.
+?? What is the strongest protection against a model running destructive SQL?
++ Connecting with a database account that only has read permission
+- Asking the model politely in the prompt
+- Using a bigger model
+- Running queries at night
+= Permissions enforced by the database cannot be bypassed by anything the model generates.
+## Numbers come from the query result, never from the model's memory
+When a user asks for a figure, such as revenue, a count or an average, that figure must come from running a query and nowhere else.
+
+Models are bad at exact numbers. They half-remember and they round. Asked to add up forty rows themselves, they make arithmetic slips.
+
+So the rule is strict. The database does the calculating: sums, counts and averages are computed in SQL. The model's job is to write the query and then report the result exactly as returned.
+
+Instruct it plainly: "Use only the figures in the query result. Do not calculate or estimate."
+
+Show your work as well. Display the query and the raw result next to the explanation, so a person can check.
+
+It is an accountant quoting from the ledger, not from memory.
+?? Where should the totals in a data answer be calculated?
++ In the database query
+- In the model's head
+- In the prompt
+- Nowhere; estimates are fine
+= Databases compute exactly, whereas models can misremember or miscalculate figures.
+## Documents or database: choosing the right source for each question
+Two kinds of source suit two kinds of question.
+
+Documents, searched by meaning, are for explanations and policies. "What is our returns process?" "Why did we change supplier?" The answer is prose that someone wrote.
+
+Databases, queried with SQL, are for facts and figures. "How many returns did we have in May?" "Which product has the highest return rate?" The answer is computed from rows.
+
+Send a counting question to document search and you get a paragraph that mentions returns, not a count. Send a "why" question to the database and you get nothing.
+
+Think of reading the handbook against checking the ledger.
+
+Many real questions need both: "Returns rose in May. Does our policy explain why?" A good system routes each part to the right place.
+?? "How many orders were returned in May?" Which source should answer this?
++ The database, through a query
+- A semantic search over policy documents
+- The model's general knowledge
+- An image search
+= Counting is a computation over structured records, which is what a database query provides.

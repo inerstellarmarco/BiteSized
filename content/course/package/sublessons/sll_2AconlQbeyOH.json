@@ -5,62 +5,202 @@
     {
       "id": "bit_eG-YAgSUSbzY",
       "title": "Search, code, database, and API tools",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Most agent tools fall into four families.\n\nSearch: find information. Web search, a company knowledge base, a document store. It is how the agent learns what it does not know.\n\nCode: run a program. For calculation, data analysis and file conversion.\n\nDatabase: query structured records. Customers, orders, stock.\n\nAPI: act in another service. Send a message, create a ticket, book a slot.\n\nA rough way to remember them: search to find out, database to look up, code to work out, API to act.\n\nA typical business agent has a couple from each family. Notice that the first three mostly read, while API tools often write. That is where the care from the last module applies.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_eG-YAgSUSbzY_1",
+          "type": "multiple_choice",
+          "prompt": "Which tool family is mainly used to take actions in other services?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Search tools"
+            },
+            {
+              "id": "b",
+              "text": "Code execution used for arithmetic"
+            },
+            {
+              "id": "c",
+              "text": "Read-only database queries"
+            },
+            {
+              "id": "d",
+              "text": "API tools"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "API tools call other services to send, create or change things.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_GVbdvTii_JBg",
       "title": "Computer use and browser tools",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Some tools let an agent operate software the way a person does: looking at the screen, moving the pointer, clicking and typing.\n\nComputer use covers a whole desktop. Browser tools cover a web browser. The agent is sent a screenshot, decides on an action such as \"click the Submit button\", and receives a new screenshot.\n\nThe appeal is reach. It works with any software, including old systems that have no API.\n\nThe drawbacks are real. It is slow, since every click is a model call. It is fragile, because a moved button or a pop-up can throw it. It costs more. And a web page can contain text that tries to hijack the agent.\n\nIt is improving quickly, but for now it is the tool of last resort, not first.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GVbdvTii_JBg_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main advantage of computer-use tools?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They work with software that has no API"
+            },
+            {
+              "id": "b",
+              "text": "They are the fastest option"
+            },
+            {
+              "id": "c",
+              "text": "They never make mistakes"
+            },
+            {
+              "id": "d",
+              "text": "They cost nothing"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Operating the screen like a person lets an agent reach systems that offer no programmatic access.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_AQ9MQb5qKAyN",
       "title": "Code execution for maths and data work",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Language models are poor at exact arithmetic and at handling large tables. They predict likely text, and a likely-looking number is not necessarily the right one.\n\nThe fix is a code execution tool. The model does not work out the answer. It writes a short program, the tool runs it, and the true result comes back.\n\nAsked for the average order value across 40,000 rows, the model writes a few lines of Python. The computer does the sum.\n\nIt is a person reaching for a calculator or a spreadsheet, not doing long division in their head.\n\nThat makes agents dependable for analysis: totals, percentages, charts, cleaning data, converting files.\n\nThe code must run in a sandbox, a sealed environment, since you are executing something a model wrote.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AQ9MQb5qKAyN_1",
+          "type": "multiple_choice",
+          "prompt": "Why give an agent a code execution tool for calculations?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Models cannot write code"
+            },
+            {
+              "id": "b",
+              "text": "It makes the answer longer"
+            },
+            {
+              "id": "c",
+              "text": "Arithmetic is not allowed in prompts"
+            },
+            {
+              "id": "d",
+              "text": "Code computes exact results, while the model alone may get numbers wrong"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Running code gives a real computed answer where a model would only be predicting digits.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_KH1U1iBlgESz",
       "title": "File tools: read, write, and edit",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Much real work lives in files: reports, spreadsheets, code, notes. File tools let an agent work with them.\n\nRead: open a file and see its contents, often a section at a time so that a huge file does not flood the context.\n\nWrite: create a new file.\n\nEdit: change part of an existing file, usually by saying \"replace this exact text with that text\". That is safer and cheaper than rewriting the whole thing.\n\nFiles also serve as an agent's notebook. On a long task it can write its plan and findings to a file and read them back later, which gets round the limits of its context.\n\nNote the risk level. Reading is harmless. Writing and editing can overwrite work, so limit which folders the agent may touch.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KH1U1iBlgESz_1",
+          "type": "multiple_choice",
+          "prompt": "Why is an edit tool usually better than rewriting a whole file?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It deletes the file first"
+            },
+            {
+              "id": "b",
+              "text": "It changes only the intended part, which is safer and cheaper"
+            },
+            {
+              "id": "c",
+              "text": "It needs no instructions"
+            },
+            {
+              "id": "d",
+              "text": "It always rewrites everything"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Targeted edits avoid accidental changes elsewhere and use far fewer tokens.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_grE24ePwYad8",
       "title": "Prefer an API over clicking through a screen",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a system offers both an API and a screen, give the agent the API.\n\nAn API call is one step, with a precise input and a structured answer. It takes a fraction of a second and behaves the same way every time.\n\nClicking through the screen to do the same thing might take ten steps, each needing a screenshot and a model call. Any one can fail because a page loaded slowly or a button moved.\n\nIt is online banking against queuing at the branch. Both get the transfer made. One is quicker and has fewer things to go wrong.\n\nSo the order of preference is: a proper API, then an existing connector such as an MCP server, and screen control only when nothing else exists.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_grE24ePwYad8_1",
+          "type": "multiple_choice",
+          "prompt": "When should an agent use screen clicking over an API?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Always, because it is more reliable"
+            },
+            {
+              "id": "b",
+              "text": "Whenever speed matters"
+            },
+            {
+              "id": "c",
+              "text": "Whenever the task is simple"
+            },
+            {
+              "id": "d",
+              "text": "Only when no API or connector is available"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "APIs are faster and more reliable, so screen control is the fallback for systems that have none.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

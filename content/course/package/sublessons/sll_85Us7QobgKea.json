@@ -5,86 +5,282 @@
     {
       "id": "bit_xbrWN_EEpnha",
       "title": "LangChain and LangGraph, LlamaIndex, CrewAI",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent framework is a library of ready-made parts for building AI applications, so you do not write every loop yourself. Three independent ones are widely used.\n\nLangChain is the oldest and broadest: a huge set of connectors to models, tools and data sources. LangGraph, from the same team, is for building agents as a graph of steps with saved state.\n\nLlamaIndex centres on data: loading documents, indexing them and retrieving from them.\n\nCrewAI centres on teams: you define agents with roles, such as researcher and writer, and they work together.\n\nThink of kitchen appliance brands. They overlap, each has a speciality, and none is needed to make dinner.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xbrWN_EEpnha_1",
+          "type": "multiple_choice",
+          "prompt": "Which framework is best known for focusing on documents, indexing and retrieval?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "LlamaIndex"
+            },
+            {
+              "id": "b",
+              "text": "CrewAI"
+            },
+            {
+              "id": "c",
+              "text": "A spreadsheet"
+            },
+            {
+              "id": "d",
+              "text": "None of them handles data"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "LlamaIndex is built around connecting models to your data. CrewAI focuses on role-based teams.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_C6FXc7Ir8Cly",
       "title": "Claude Agent SDK, OpenAI Agents SDK, Google ADK, Microsoft Agent Framework",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The model makers now publish their own agent toolkits, usually called SDKs, software development kits.\n\nAnthropic has the Claude Agent SDK, built from the same foundations as its coding agent. OpenAI has the Agents SDK. Google has the Agent Development Kit, ADK. Microsoft has the Microsoft Agent Framework.\n\nEach gives you the provider's recommended way to build: the loop, tool use, handoffs between agents, and tracing.\n\nThe advantage is fit. The SDK is made by the people who know the model best, and gets new features first.\n\nThe cost is attachment. It is the car maker's own accessories: they fit perfectly, and they are designed for that car.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_C6FXc7Ir8Cly_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main advantage of a model provider's own agent SDK?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It works identically with every provider"
+            },
+            {
+              "id": "b",
+              "text": "It is designed to fit that provider's models and gets new features early"
+            },
+            {
+              "id": "c",
+              "text": "It is the only way to call a model"
+            },
+            {
+              "id": "d",
+              "text": "It needs no code"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Provider SDKs are tuned for their own models, at the cost of closer ties to that vendor.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_g4JUFRcWvfnN",
       "title": "What each is built around: stateful graphs, role-based crews, data and retrieval, or a provider SDK (see B10, B2)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Frameworks are easier to compare once you see the central idea each one is built round.\n\nStateful graphs (LangGraph): you draw the work as boxes and arrows, with a saved record of progress. Good for complex flows that need precise control and the ability to resume.\n\nRole-based crews (CrewAI): you describe a team and its members' jobs. Good for work that splits naturally between specialists.\n\nData and retrieval (LlamaIndex): everything starts from your documents.\n\nProvider SDK: a lean loop round one vendor's model.\n\nSo do not ask \"which is best?\" Ask \"what shape is my problem?\" A flowchart problem, a teamwork problem and a document problem lead to different tools.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_g4JUFRcWvfnN_1",
+          "type": "multiple_choice",
+          "prompt": "Your task is a complex multi-step process that must pause, resume and follow exact branching rules. Which central idea fits best?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A role-based crew"
+            },
+            {
+              "id": "b",
+              "text": "A stateful graph"
+            },
+            {
+              "id": "c",
+              "text": "An image generator"
+            },
+            {
+              "id": "d",
+              "text": "A spreadsheet macro"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Graph-based frameworks give explicit control over steps, branching and saved state.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_L4NKrqqvmb79",
       "title": "Frameworks merge and retire: Microsoft Agent Framework replaced AutoGen and Semantic Kernel (now in maintenance mode)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Frameworks have lifespans, and they can be short.\n\nMicrosoft had two well-known agent projects: AutoGen, from its research arm, and Semantic Kernel, aimed at business developers. It then merged the ideas into one successor, the Microsoft Agent Framework, and moved the two originals into maintenance mode: fixes only, no new features.\n\nTeams that had built on AutoGen now face a migration they did not plan.\n\nThis is normal for a young field. Tools are launched, renamed, merged and abandoned within a couple of years.\n\nIt is like building on a phone platform that gets discontinued. The lesson is not to avoid frameworks. It is to check how alive one is before committing, and to keep your own logic separable from it.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_L4NKrqqvmb79_1",
+          "type": "multiple_choice",
+          "prompt": "What does it mean when a framework enters \"maintenance mode\"?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It becomes faster"
+            },
+            {
+              "id": "b",
+              "text": "It is now the recommended choice"
+            },
+            {
+              "id": "c",
+              "text": "It has doubled in price"
+            },
+            {
+              "id": "d",
+              "text": "It gets fixes but no new features, and users are expected to move on eventually"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Maintenance mode signals the end of active development, so new projects should look elsewhere.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lDcf-fmXcM-0",
       "title": "Framework or plain Python: use the criteria in B10.4",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "You do not always need a framework. A basic agent is a loop of about fifty lines: call the model, run the tool it asked for, feed back the result, repeat.\n\nPlain code has real advantages. You can see everything, nothing is hidden, and there is no third-party library to break when it updates.\n\nFrameworks earn their place when you need what they have already built: saving and resuming long tasks, many agents working together, human approval steps, tracing.\n\nIt is cooking from scratch against a meal kit. From scratch is simpler for a simple dish. The kit saves time on a complicated one.\n\nA sound habit: build the first version plainly, and adopt a framework when you feel a specific pain it removes.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lDcf-fmXcM-0_1",
+          "type": "multiple_choice",
+          "prompt": "When does an agent framework earn its place?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Always, for every project"
+            },
+            {
+              "id": "b",
+              "text": "Never"
+            },
+            {
+              "id": "c",
+              "text": "Only when the model is small"
+            },
+            {
+              "id": "d",
+              "text": "When you need features it already provides, such as saved state or multi-agent coordination"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Frameworks save effort on complex needs, while simple agents are often clearer in plain code.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_WxxrF2p8B-3b",
       "title": "Frameworks change fast: learn the pattern, not the product",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The names in this lesson will date. The ideas underneath will not.\n\nEvery framework is a different packaging of the same few patterns: a loop where the model picks an action. Tools with clear descriptions. State that records progress. Handoffs between specialists. Checks before risky steps.\n\nLearn those and you can pick up any framework in a day, because you will recognise what each part is for. Learn only one framework's commands and you start again when it changes.\n\nIt is learning to drive, not learning one car's dashboard.\n\nThat is why this course teaches patterns first and names products only as examples.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WxxrF2p8B-3b_1",
+          "type": "multiple_choice",
+          "prompt": "Why focus on patterns more than on any particular framework?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Patterns carry over when frameworks change or are replaced"
+            },
+            {
+              "id": "b",
+              "text": "Frameworks never change"
+            },
+            {
+              "id": "c",
+              "text": "Patterns are harder, so they look impressive"
+            },
+            {
+              "id": "d",
+              "text": "Frameworks are illegal in some countries"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The underlying ideas are stable across tools, so understanding them outlasts any single product.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_f890BAwkVJsl",
       "title": "Provider SDKs tie you closer to one vendor; check portability",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A provider's SDK is convenient, and convenience has a price: the more of it you use, the harder it is to leave.\n\nBefore committing, ask a few portability questions. Can it call other providers' models, or only its own? Are your tools defined in a standard way, such as MCP, or in a format only this SDK understands? Is your conversation history in a form you can export? How much of your logic is your own code, and how much is the SDK's special features?\n\nThink of a phone ecosystem. Each purchase inside it is sensible, and each one makes switching a little more painful.\n\nTying yourself in can be the right choice. It should be a decision, not an accident.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_f890BAwkVJsl_1",
+          "type": "multiple_choice",
+          "prompt": "Which question helps you judge how portable an agent SDK is?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Does it have a nice logo?"
+            },
+            {
+              "id": "b",
+              "text": "Is its name short?"
+            },
+            {
+              "id": "c",
+              "text": "Can it work with models from other providers?"
+            },
+            {
+              "id": "d",
+              "text": "How many colours does its website use?"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Support for other providers' models is a direct measure of how easily you could switch.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

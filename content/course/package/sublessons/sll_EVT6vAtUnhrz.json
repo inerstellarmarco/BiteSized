@@ -5,50 +5,162 @@
     {
       "id": "bit_Lkx-5aNLfoPK",
       "title": "What state to store",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "State is everything you would need in order to continue a task after stopping.\n\nFor most agents that means:\n\nThe goal and any instructions specific to this task.\n\nThe message history, or a summary of it.\n\nProgress: which steps are done and which are next.\n\nResults gathered so far, including key facts and IDs.\n\nPending items, such as approvals awaited.\n\nBookkeeping: the step count, cost so far, timestamps and any errors.\n\nA good test: if the power failed now and a different computer picked this up tomorrow, what would it need to carry on correctly?\n\nStore that. Leave out what can be recomputed cheaply, and take care with what is sensitive.\n\nIt is a handover note good enough that a stranger could finish the job.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Lkx-5aNLfoPK_1",
+          "type": "multiple_choice",
+          "prompt": "What is a good test of whether you are storing the right state?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Is it as large as possible?"
+            },
+            {
+              "id": "b",
+              "text": "Could another machine continue the task from it after a failure?"
+            },
+            {
+              "id": "c",
+              "text": "Does it include the model's weights?"
+            },
+            {
+              "id": "d",
+              "text": "Is it written in capital letters?"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "State should contain what is needed to resume the task correctly from where it stopped.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_FcAy3TNnMCWn",
       "title": "State machines for agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A state machine is a way of describing a process as a set of named stages, with rules about which stage can follow which.\n\nA support request might move through: new, gathering information, awaiting customer, resolving, awaiting approval, closed. From \"awaiting approval\" it can go to \"resolving\" or \"closed\", and nowhere else.\n\nIt is a board game. Your piece is always on one square, and the rules say where it may move.\n\nFor agents, this adds structure round the model's freedom. Inside a stage, the agent reasons flexibly. Between stages, your code enforces the rules. A refund cannot reach \"sent\" without passing through \"approved\".\n\nIt also makes the system easy to inspect. At any moment you can say exactly which stage every task is in.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FcAy3TNnMCWn_1",
+          "type": "multiple_choice",
+          "prompt": "What does a state machine add to an agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Unlimited freedom at every step"
+            },
+            {
+              "id": "b",
+              "text": "A larger context window"
+            },
+            {
+              "id": "c",
+              "text": "Enforced rules about which stage may follow which"
+            },
+            {
+              "id": "d",
+              "text": "A new language"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Named stages with allowed transitions keep the overall process controlled while the agent reasons within a stage.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_aHMUIkiYa9PC",
       "title": "State vs. context: the record vs. what the model sees",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "These two words are easy to confuse. They mean different things.\n\nState is the full record of the task, held by your system. It can be as large as you like, and it persists.\n\nContext is what you choose to show the model on one particular call. It is limited, and it is assembled afresh each time.\n\nThink of a filing cabinet and a desk. The cabinet holds everything about the case. For each piece of work, you take out the few papers you need and put them on the desk.\n\nContext is built from state. Before each model call, your code selects from the state: the goal, recent steps and the relevant facts.\n\nKeeping them separate is the basis of context engineering. You can store everything and show only what helps.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_aHMUIkiYa9PC_1",
+          "type": "multiple_choice",
+          "prompt": "What is the relationship between state and context?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They are the same thing"
+            },
+            {
+              "id": "b",
+              "text": "State is always smaller than context"
+            },
+            {
+              "id": "c",
+              "text": "Context is stored permanently and state is not"
+            },
+            {
+              "id": "d",
+              "text": "Context is the selection from state that the model is shown on a given call"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "State is the complete persistent record, and context is the limited view built from it for each call.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_fRJgaG-Jy5za",
       "title": "Keeping state in a database, not only in memory",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A program's working memory vanishes the moment the program stops. If an agent's state lives only there, a crash, a restart or a new software release wipes every task in progress.\n\nSo write the state to a database as you go.\n\nThat brings several things. Tasks survive failures. A user can close the browser and come back tomorrow. You can run several copies of the service, and any of them can pick up any task. And you have a record to inspect when something goes wrong.\n\nIt is saving a document to disk, as opposed to leaving it unsaved on screen and hoping the power stays on.\n\nFor a quick prototype, in-memory state is fine. For anything a client relies on, it needs to be durable.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_fRJgaG-Jy5za_1",
+          "type": "multiple_choice",
+          "prompt": "Why store agent state in a database?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To make the model more creative"
+            },
+            {
+              "id": "b",
+              "text": "To avoid using tools"
+            },
+            {
+              "id": "c",
+              "text": "So tasks survive crashes and restarts"
+            },
+            {
+              "id": "d",
+              "text": "Because databases are free"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "State held only in a program's memory is lost when the program stops.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

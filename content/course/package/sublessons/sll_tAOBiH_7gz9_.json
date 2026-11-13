@@ -5,62 +5,202 @@
     {
       "id": "bit_byc0twjJ1tbT",
       "title": "Skill libraries loaded only when needed",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A skill is a packaged set of instructions for one kind of task, kept on file and loaded only when relevant.\n\nAn agent might have fifty skills: producing a branded slide deck, filling in a particular tax form, following the company's code review checklist. Loading all fifty sets of instructions into every conversation would swamp the context.\n\nSo at the start the agent sees only a one-line summary of each. When a task matches, it opens that skill's full instructions.\n\nIt is a reference library. You know the titles on the shelf. You take down one book when you need it.\n\nThis is called progressive disclosure: showing detail in stages, as needed. It lets an agent have a great deal of specialised knowledge without paying for it on every turn.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_byc0twjJ1tbT_1",
+          "type": "multiple_choice",
+          "prompt": "What is progressive disclosure in the context of skills?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Loading every instruction at the start"
+            },
+            {
+              "id": "b",
+              "text": "Showing short summaries first and loading full details only when needed"
+            },
+            {
+              "id": "c",
+              "text": "Hiding all skills from the agent"
+            },
+            {
+              "id": "d",
+              "text": "Deleting skills after use"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Loading detail on demand keeps the context small while keeping specialised knowledge available.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_bBJv3H7JA9DY",
       "title": "Keeping context small with tool discovery",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The same idea applies to tools. An agent connected to many MCP servers might have hundreds available. Listing every definition in every request can use tens of thousands of tokens before the user has said anything.\n\nTool discovery fixes that. The agent starts with a small core set plus one special tool: \"search for tools\". When it needs something, it searches, such as \"send a calendar invite\", and only the matching definitions are loaded.\n\nIt is a hardware shop's catalogue. You do not carry every item round with you. You look up what you need.\n\nThe benefits are lower cost, faster responses and better choices, because the model is choosing among five relevant tools, not five hundred.\n\nThe risk is that a badly described tool is never found. Names and descriptions matter even more.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_bBJv3H7JA9DY_1",
+          "type": "multiple_choice",
+          "prompt": "What is the benefit of tool discovery?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "All tools are loaded at once"
+            },
+            {
+              "id": "b",
+              "text": "The agent no longer needs tools"
+            },
+            {
+              "id": "c",
+              "text": "Only relevant tool definitions are loaded, keeping context small"
+            },
+            {
+              "id": "d",
+              "text": "It removes the need for descriptions"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Searching for tools on demand avoids filling the context with hundreds of unused definitions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_VyFQ-ZJGEVnL",
       "title": "What a skill is: instructions and files for one kind of task",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In concrete terms, a skill is a folder.\n\nInside is a main instruction file. At the top are a name and a short description, which is what the agent sees at first. Below that are the full instructions: the steps, the standards and the pitfalls.\n\nThe folder may also hold supporting material: templates, reference documents, example outputs, and scripts the agent can run.\n\nA skill for a client's monthly report might contain the house style rules, the report template and a script that builds the charts.\n\nIt is the binder a company hands a new starter for one procedure.\n\nSkills capture how to do something, written in plain language. That makes them easy for a non-programmer to write and review, and easy to share across a team.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_VyFQ-ZJGEVnL_1",
+          "type": "multiple_choice",
+          "prompt": "What does a skill typically contain?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Instructions for one task, plus supporting files such as templates or scripts"
+            },
+            {
+              "id": "b",
+              "text": "A new language model"
+            },
+            {
+              "id": "c",
+              "text": "Only a single word"
+            },
+            {
+              "id": "d",
+              "text": "The user's passwords"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A skill is a folder of instructions and resources for carrying out one kind of task.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_fGDZM0NLoRC1",
       "title": "Too many tools at once confuse the model",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Giving a model more tools does not steadily make it more capable. Past a point it makes it worse.\n\nThere are three effects. The model picks the wrong tool more often, especially among similar ones. The definitions use up context, leaving less attention for the task. And with more text to read, instructions get followed less reliably.\n\nTry choosing a television channel from a guide with nine hundred entries.\n\nThere is no exact threshold, since it depends on the model and how distinct the tools are. As a rough guide, a few dozen well-separated tools is comfortable, and hundreds loaded at once is asking for trouble.\n\nThe cures you have now met: fewer tools, specialist agents, and discovery that loads tools on demand.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_fGDZM0NLoRC1_1",
+          "type": "multiple_choice",
+          "prompt": "What happens when a model is given hundreds of tools at once?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It becomes perfectly accurate"
+            },
+            {
+              "id": "b",
+              "text": "It runs for free"
+            },
+            {
+              "id": "c",
+              "text": "It chooses wrongly more often and has less context for the task"
+            },
+            {
+              "id": "d",
+              "text": "It no longer needs instructions"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Many similar tools make selection harder and crowd the context window.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gySked02zZHJ",
       "title": "Skill vs. tool vs. sub-agent: which to use",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Three ways to extend an agent, each for a different need.\n\nA tool gives it an ability: something it could not do at all, such as querying the database or sending an email.\n\nA skill gives it know-how: how to do a kind of task well, using the abilities it already has. The company's way of writing a proposal.\n\nA sub-agent gives it a helper: a separate agent with its own context, to which a whole piece of work is handed. \"Research these ten competitors and give me a summary.\"\n\nAsk what is missing. An action it cannot perform? A tool. A procedure it does not know? A skill. Work so large or separate that it would clutter the main context? A sub-agent.\n\nIt is equipment, a manual, or a colleague.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gySked02zZHJ_1",
+          "type": "multiple_choice",
+          "prompt": "An agent can already create documents but does not know your company's proposal format. What does it need?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A new tool"
+            },
+            {
+              "id": "b",
+              "text": "A sub-agent"
+            },
+            {
+              "id": "c",
+              "text": "A skill"
+            },
+            {
+              "id": "d",
+              "text": "A larger context window"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The ability exists already, so what is missing is know-how, which is what a skill provides.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

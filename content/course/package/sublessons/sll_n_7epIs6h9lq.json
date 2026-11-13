@@ -5,44 +5,128 @@
     {
       "id": "bit_31FwS9ZHKJC2",
       "title": "The menu of allowed actions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent's action space is the complete list of things it is able to do: every tool, with every option on each.\n\nIt is a menu. The agent can only order what is on it.\n\nIf the menu has \"search orders\" and \"draft email\", the agent can do those two things and nothing else. It cannot issue a refund, however much a customer pleads or however cleverly a prompt is worded, because no such tool exists.\n\nThat makes the action space your most dependable control. Instructions can be misread or talked round. A missing tool cannot be used.\n\nSo the first design question for any agent is not \"what should I tell it?\" It is \"what should it be able to do?\"",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_31FwS9ZHKJC2_1",
+          "type": "multiple_choice",
+          "prompt": "Why is the action space a more reliable control than instructions?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "An agent cannot use a tool that does not exist, whatever it is told"
+            },
+            {
+              "id": "b",
+              "text": "Instructions are always ignored"
+            },
+            {
+              "id": "c",
+              "text": "Tools are written in capital letters"
+            },
+            {
+              "id": "d",
+              "text": "The action space changes by itself"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Capabilities are a hard boundary, while instructions can be misunderstood or circumvented.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_OWfZRJvdwobk",
       "title": "Why smaller action spaces are more reliable",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every tool you add is another choice the model has to get right at every step.\n\nWith five clearly different tools, picking the right one is easy. With fifty, several of which sound alike, the model picks wrongly more often, and each tool's description also takes up room in the context.\n\nFewer tools also means fewer ways to cause harm, and less to test.\n\nThink of a restaurant menu. A short one means quick, confident orders and a kitchen that does every dish well. A forty-page one means indecision and mistakes.\n\nSo give an agent the tools its job needs and no more. Resist \"it might be useful one day\". If a second job needs different tools, that is often a sign you need a second agent.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OWfZRJvdwobk_1",
+          "type": "multiple_choice",
+          "prompt": "What tends to happen as an agent is given more and more tools?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It chooses the wrong tool more often"
+            },
+            {
+              "id": "b",
+              "text": "It becomes more reliable"
+            },
+            {
+              "id": "c",
+              "text": "Its context window grows"
+            },
+            {
+              "id": "d",
+              "text": "It stops needing instructions"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "More options, especially similar ones, make each selection harder and consume context.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_k7a75VmtWo3R",
       "title": "Read actions vs. write actions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sort every tool into one of two groups.\n\nRead actions look without touching: search the documents, get an order's status, check the calendar. If the agent does one by mistake, nothing has changed.\n\nWrite actions change something: send an email, update a record, issue a refund, delete a file. A mistaken one has consequences.\n\nIt is the difference between a visitor who may look round the office and one who may move the furniture.\n\nThe distinction drives safety design. Read actions can usually run freely. Write actions deserve extra care: tighter descriptions, validation, logging, and often a person's approval.\n\nA sensible way to launch a new agent is read-only at first. Let it prove its judgement before you give it the ability to change things.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_k7a75VmtWo3R_1",
+          "type": "multiple_choice",
+          "prompt": "Which is a write action?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Looking up an order's status"
+            },
+            {
+              "id": "b",
+              "text": "Searching the knowledge base"
+            },
+            {
+              "id": "c",
+              "text": "Sending an email to a customer"
+            },
+            {
+              "id": "d",
+              "text": "Reading a calendar"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Sending changes the world outside the agent, whereas the others only retrieve information.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lnuBzGTDFiXs",
       "title": "Reversible vs. irreversible actions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Among write actions there is a second, sharper line: can it be undone?\n\nReversible: creating a draft, adding a label, putting an item in a basket. If it was wrong, you delete it and nothing is lost.\n\nIrreversible: sending an email, making a payment, deleting data with no backup, posting publicly. Once done, it is done.\n\nA carpenter's rule covers it: measure twice, cut once. You can re-mark the wood as often as you like. You cannot un-cut it.\n\nDesign accordingly. Where you can, turn the irreversible into the reversible. Save a draft instead of sending. Archive instead of deleting. Schedule for five minutes from now with a cancel option.\n\nWhere you cannot, put a person's approval in front of it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,7 +139,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lnuBzGTDFiXs_1",
+          "type": "multiple_choice",
+          "prompt": "How can you reduce the risk of an irreversible action such as sending an email?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Let the agent send faster"
+            },
+            {
+              "id": "b",
+              "text": "Remove all logging"
+            },
+            {
+              "id": "c",
+              "text": "Give the agent more tools"
+            },
+            {
+              "id": "d",
+              "text": "Have the agent create a draft for a person to review and send"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A draft is reversible, so mistakes can be caught before the action becomes permanent.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

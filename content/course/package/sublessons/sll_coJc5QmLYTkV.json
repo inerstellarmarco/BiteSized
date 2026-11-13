@@ -5,32 +5,88 @@
     {
       "id": "bit_DMHsCEnrtEWS",
       "title": "What to include, compress, or drop",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "For every piece of information that could go into the prompt, you have three choices.\n\nInclude it in full, if the model needs it word for word: the current question, the relevant policy clause, the last few turns.\n\nCompress it, if only the gist matters: a long earlier conversation becomes three lines of summary.\n\nDrop it, if it does not help this particular request: an unrelated document, a tool result that has already been used.\n\nIt is packing for a trip. Some things go in, some are replaced by a travel-size version, and some stay at home.\n\nThe skill is asking, for each item, \"does the model need this to answer this question?\" The default instinct, to include everything just in case, is usually wrong.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DMHsCEnrtEWS_1",
+          "type": "multiple_choice",
+          "prompt": "What question decides whether something belongs in the context?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Is this the longest document available?"
+            },
+            {
+              "id": "b",
+              "text": "Was this created most recently?"
+            },
+            {
+              "id": "c",
+              "text": "Does the model need this to handle the current request?"
+            },
+            {
+              "id": "d",
+              "text": "Does this make the prompt look thorough?"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Context should be selected for relevance to the task in hand, not included by default.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_i5fiq8QuLov4",
       "title": "Context window pruning and summarization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Two techniques keep a growing context under control.\n\nPruning removes things. Drop the oldest turns of a long conversation. Clear out bulky tool results once they have been used. Remove documents that turned out to be irrelevant.\n\nSummarisation shrinks things. Replace twenty turns of conversation with a short note: \"The customer wants a refund for order 4812. They have already tried resetting the device. They prefer email.\"\n\nBoth lose detail, so choose what is safe to lose. A common mix is to keep the latest turns word for word, summarise the older ones, and always keep the key facts and decisions.\n\nIt is clearing a desk in the middle of a project: file what is finished, and keep the current papers in front of you.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_i5fiq8QuLov4_1",
+          "type": "multiple_choice",
+          "prompt": "What is the difference between pruning and summarising context?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They are the same thing"
+            },
+            {
+              "id": "b",
+              "text": "Pruning adds content; summarising deletes the model"
+            },
+            {
+              "id": "c",
+              "text": "Pruning removes content; summarising replaces it with a shorter version"
+            },
+            {
+              "id": "d",
+              "text": "Pruning is for images only"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Pruning discards material, while summarisation condenses it to keep the gist.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_GkYS-nu25sIx",
       "title": "Grounding prompts in provided sources",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Grounding means the model answers from material you put in the prompt, not from its own memory.\n\nThe pattern has three parts. Supply the source: the policy, the contract, the product sheet. Instruct: \"Answer using only the information in the document.\" Require evidence: \"Quote the sentence that supports your answer.\"\n\nThis turns a recall task, where models hallucinate, into a reading task, where they are strong.\n\nThe quotation is the clever part. It gives you something to check. And if the model cannot find a supporting sentence, that tells you something too.\n\nIt is a journalist's rule: no claim without a source you can point to.\n\nThe answer can only be as good as the source. Ground the model in an out-of-date document and you get a confident, well-quoted, out-of-date answer.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,43 +99,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GkYS-nu25sIx_1",
+          "type": "multiple_choice",
+          "prompt": "Why ask a model to quote the passage that supports its answer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the answer longer and therefore better"
+            },
+            {
+              "id": "b",
+              "text": "It hides the source from the user"
+            },
+            {
+              "id": "c",
+              "text": "It ties the answer to the source and gives you something to verify"
+            },
+            {
+              "id": "d",
+              "text": "It lowers the temperature"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A required quotation anchors the claim in the supplied text and makes checking straightforward.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_axgm2YSOXvKO",
       "title": "Context is everything the model sees on this call",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "\"Context\" is wider than \"the prompt\". It is the full bundle of text the model receives in one request.\n\nThat includes the system instructions. The definitions of any tools it may use. Documents you retrieved. The conversation history. Results from earlier tool calls. Examples. And the user's latest message.\n\nThe model's answer is a function of that whole bundle and nothing else.\n\nContext engineering is the craft of assembling it: deciding what goes in, in what order and in what form, for each individual call.\n\nThink of a chef's mise en place. Before cooking starts, everything needed is laid out and nothing else is on the counter.\n\nWhen an AI system gives a bad answer, the first question is: what was in its context?",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_axgm2YSOXvKO_1",
+          "type": "multiple_choice",
+          "prompt": "What is \"context\" in context engineering?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only the user's last message"
+            },
+            {
+              "id": "b",
+              "text": "The model's training data"
+            },
+            {
+              "id": "c",
+              "text": "The provider's terms of service"
+            },
+            {
+              "id": "d",
+              "text": "Everything the model receives on a call: instructions, tools, documents, history and the question"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Context is the complete input for a request, and the model's output depends on all of it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_uRKfJFyFEtKy",
       "title": "Order matters: key instructions at the start or the end",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Where something sits in the context affects how much weight the model gives it. The beginning and the end get the most attention. The middle gets the least.\n\nSo use position deliberately. Put the role and the standing rules at the start. Put long reference material, such as documents, in the middle. Put the actual question and the most critical instruction at the end, after the documents, so they are the last thing the model reads before it answers.\n\nA common fix for a rule that keeps being ignored is to repeat it briefly at the end.\n\nIt is a well-run meeting. State the purpose at the start, discuss in the middle, and repeat the actions at the close.\n\nThere is a cost reason too: stable content at the start is what prompt caching can reuse.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_uRKfJFyFEtKy_1",
+          "type": "multiple_choice",
+          "prompt": "With a long document in the prompt, where should the question usually go?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Buried in the middle of the document"
+            },
+            {
+              "id": "b",
+              "text": "After the document, near the end"
+            },
+            {
+              "id": "c",
+              "text": "It does not matter"
+            },
+            {
+              "id": "d",
+              "text": "In a separate file that is never sent"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Models attend best to the start and end, so placing the question last keeps it in focus.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_GUUUJcf8vGPS",
       "title": "More context is not always better: noise lowers quality",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "It feels safe to give the model more. It often makes the answers worse.\n\nEvery irrelevant passage is something the model might latch onto. Give it ten documents when one holds the answer, and it may blend in details from the other nine, or miss the key sentence entirely.\n\nContradictions are worse still. Put an old policy and a new policy in the same context and the model may quote either.\n\nResearchers have measured this. Accuracy tends to fall as the context fills up, well before the hard limit is reached.\n\nIt is a conversation in a noisy room. The more voices, the harder it is to follow the one that matters.\n\nThe goal is the smallest context that contains what is needed. Relevance beats volume.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GUUUJcf8vGPS_1",
+          "type": "multiple_choice",
+          "prompt": "What tends to happen when many irrelevant documents are added to a prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Answer quality drops, because the model is distracted by the noise"
+            },
+            {
+              "id": "b",
+              "text": "Answer quality always improves"
+            },
+            {
+              "id": "c",
+              "text": "The model ignores them at no cost"
+            },
+            {
+              "id": "d",
+              "text": "The context window grows to fit"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Irrelevant or conflicting content competes for attention and dilutes the information that matters.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

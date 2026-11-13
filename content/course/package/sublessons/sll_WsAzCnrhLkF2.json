@@ -5,50 +5,162 @@
     {
       "id": "bit_uGONHHvOnfSM",
       "title": "Grading retrieved context and re-querying",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Corrective RAG adds a quality check between retrieving and answering.\n\nAfter the search, a model grades each chunk that came back: is this actually relevant to the question? It can be a quick yes or no from a small, cheap model.\n\nThen the system acts on the grades. Keep the relevant chunks and discard the rest, so that noise never reaches the answering step. If too few survive, rewrite the query and search again. If nothing works, take a fallback.\n\nBasic RAG has no such check. Whatever the search returns goes to the model, relevant or not, and a poor retrieval quietly becomes a poor answer.\n\nIt is a chef inspecting the delivery before cooking, instead of using whatever is in the box.\n\nThe price is extra model calls on every question.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_uGONHHvOnfSM_1",
+          "type": "multiple_choice",
+          "prompt": "What does Corrective RAG add to a basic RAG pipeline?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A larger context window"
+            },
+            {
+              "id": "b",
+              "text": "A second vector database for images"
+            },
+            {
+              "id": "c",
+              "text": "A way to skip retrieval"
+            },
+            {
+              "id": "d",
+              "text": "A step that grades retrieved chunks and re-queries if they are not good enough"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Grading filters out irrelevant chunks and triggers another search when retrieval was weak.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__RwxaVsCYp7e",
       "title": "Routing between data sources",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Real organisations do not keep their knowledge in one place. There are policy documents, a product database, a ticket history, a CRM, and the public web.\n\nRouting means deciding, for each question, where to look.\n\n\"What is our parental leave policy?\" goes to the HR documents. \"How many units of item 4471 are in stock?\" goes to the inventory database. \"What did this customer complain about last month?\" goes to the ticket system.\n\nA model makes the choice, usually by picking from a list of sources, each with a short description of what it contains.\n\nIt is a hospital reception desk sending you to the right department.\n\nThe descriptions matter a great deal. If two sources sound alike, the router will mix them up. A wrong route means searching perfectly in the wrong place.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__RwxaVsCYp7e_1",
+          "type": "multiple_choice",
+          "prompt": "What does routing do in a RAG system with several data sources?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Merges all sources into one file"
+            },
+            {
+              "id": "b",
+              "text": "Deletes unused sources"
+            },
+            {
+              "id": "c",
+              "text": "Sends every question to every source always"
+            },
+            {
+              "id": "d",
+              "text": "Chooses the most suitable source for each question"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A router directs each query to the source most likely to hold the answer.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BzuqC-jR28nm",
       "title": "Falling back to web search or a human when sources are weak",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sometimes your own documents do not have the answer. A well-designed system has a plan for that moment.\n\nThere are two common fallbacks. Web search: for general or current questions, look outside. Mark the answer clearly as coming from the web and not from company sources, because it carries a different level of trust.\n\nA person: for anything specific to the business that the documents do not cover, hand over. \"I could not find this in our documentation. I have passed your question to the support team.\"\n\nThe choice depends on the stakes. A web answer is fine for \"what does this error code usually mean?\" It is not fine for \"am I covered under my contract?\"\n\nA good shop assistant says \"let me get my manager\" instead of inventing a policy.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BzuqC-jR28nm_1",
+          "type": "multiple_choice",
+          "prompt": "When internal documents lack an answer to a contract-specific question, what is the right fallback?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Hand the question to a person"
+            },
+            {
+              "id": "b",
+              "text": "Guess from general knowledge"
+            },
+            {
+              "id": "c",
+              "text": "Use a random web page and present it as company policy"
+            },
+            {
+              "id": "d",
+              "text": "Ignore the question"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Business-specific questions with real consequences should go to a human when sources are insufficient.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_By4A3MyG8Fo5",
       "title": "Simple questions take the fast path; hard ones get more steps",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Adaptive RAG matches the effort to the question.\n\nFirst a quick classification: how hard is this? Then: no retrieval for greetings and general chat. A single search for a simple factual lookup. The full treatment, with decomposition, several searches and checking, for a complex multi-part question.\n\nWithout this you are stuck with one pipeline for everything. Either the simple one, which fails on hard questions, or the thorough one, which makes \"what are your opening hours?\" take eight seconds and cost twenty times more than it should.\n\nIt is triage in an emergency department. A sprained wrist and a heart attack do not get the same pathway.\n\nMost questions are simple. Sending them down the fast path is what makes a thorough path affordable for the few that need it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_By4A3MyG8Fo5_1",
+          "type": "multiple_choice",
+          "prompt": "What is the idea behind Adaptive RAG?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Use the most expensive pipeline for every question"
+            },
+            {
+              "id": "b",
+              "text": "Choose how much retrieval effort to spend based on the question's difficulty"
+            },
+            {
+              "id": "c",
+              "text": "Never retrieve anything"
+            },
+            {
+              "id": "d",
+              "text": "Adapt the documents to the model"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Classifying questions lets simple ones be answered quickly and cheaply while complex ones get more steps.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

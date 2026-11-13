@@ -5,44 +5,128 @@
     {
       "id": "bit_cTuOwMiVm-oo",
       "title": "Exposing an API or database via MCP",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Building an MCP server means wrapping an existing system so that AI applications can use it.\n\nWith the official SDKs, in Python or TypeScript, a basic server is short. You write ordinary functions, such as \"search_customers\" or \"get_invoice\", mark each as a tool, and describe it. The SDK handles the protocol.\n\nInside each function you call the real system: an API request or a database query.\n\nEverything from the tool design lessons applies. Do not mirror the API endpoint by endpoint or expose raw SQL. Offer a handful of task-level tools with clear descriptions and trimmed results.\n\nFor a database, prefer specific, safe queries such as \"orders for this customer\". An open \"run any SQL\" tool lets a confused or manipulated agent read everything, or worse.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cTuOwMiVm-oo_1",
+          "type": "multiple_choice",
+          "prompt": "When exposing a database through MCP, what is the safer design?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "One tool that runs any SQL the model writes"
+            },
+            {
+              "id": "b",
+              "text": "Specific task-level tools such as \"orders for this customer\""
+            },
+            {
+              "id": "c",
+              "text": "No descriptions on any tool"
+            },
+            {
+              "id": "d",
+              "text": "Giving the agent the database password in the prompt"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Narrow, purpose-built tools limit what a confused or manipulated agent can read or change.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2PwHzUSDwe38",
       "title": "Authentication and permissions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Two separate questions guard an MCP server.\n\nAuthentication: who is calling? The server must confirm the identity of the user or application before doing anything.\n\nPermissions, also called authorisation: what is that caller allowed to do? Knowing it is Maria does not mean Maria may read the payroll table.\n\nA hotel shows the difference. Reception checks who you are. Your key card then opens your room, and not the others.\n\nThe key rule: the agent should act with the user's permissions, not with an all-powerful account. If Maria cannot see payroll in the normal application, an agent working for Maria must not see it either.\n\nEnforce this in the server, on every call. Never rely on the model to respect a rule it was merely told.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2PwHzUSDwe38_1",
+          "type": "multiple_choice",
+          "prompt": "What permissions should an agent acting for a user have?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Full administrator access"
+            },
+            {
+              "id": "b",
+              "text": "The same as that user, and no more"
+            },
+            {
+              "id": "c",
+              "text": "More than any human employee"
+            },
+            {
+              "id": "d",
+              "text": "None at all"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Acting with the user's own permissions stops the agent becoming a way round access controls.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hpdq_TuoqGgo",
       "title": "OAuth: connecting agents to a client's own accounts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "OAuth is the standard that lets an application act on your behalf without ever seeing your password.\n\nYou have used it. \"Sign in with Google\", followed by a screen saying \"this app wants to view your calendar. Allow?\" That is OAuth.\n\nFor agents, it is how a remote MCP server gets access to a user's account. The user is sent to the service, signs in there, approves a specific list of permissions, and the service hands the application a token. The token is a limited, revocable pass.\n\nIt is a valet key: it starts the car but does not open the boot or the glovebox.\n\nThe benefits are that no password is shared, the access is limited to what was approved, and the user can cancel it at any time from their account settings.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hpdq_TuoqGgo_1",
+          "type": "multiple_choice",
+          "prompt": "What does OAuth let an application do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Read the user's password"
+            },
+            {
+              "id": "b",
+              "text": "Bypass the service's security"
+            },
+            {
+              "id": "c",
+              "text": "Gain permanent, unlimited access"
+            },
+            {
+              "id": "d",
+              "text": "Act on a user's behalf with limited, revocable access and no password"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "OAuth issues a scoped token after the user approves, so the password is never shared.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_9WTfqASfKPSY",
       "title": "Least privilege: expose only what the job needs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Least privilege means giving something the minimum access it needs for its job, and nothing beyond.\n\nFor an MCP server, that applies at several levels.\n\nTools: if the agent's job is answering questions about orders, expose \"get_order\". Do not add \"delete_order\" in case it is useful one day.\n\nData: return the fields needed. No card numbers or home addresses in a result that only needed a delivery status.\n\nScope: request read-only access when you only read.\n\nReach: limit it to this customer's records, not every customer's.\n\nAn office cleaner gets keys to the rooms they clean, not the safe.\n\nThe reasoning is about damage. Agents will sometimes be wrong or be manipulated. Least privilege decides how bad that day can be.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,13 +139,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9WTfqASfKPSY_1",
+          "type": "multiple_choice",
+          "prompt": "What is the principle of least privilege?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Grant every permission to save time"
+            },
+            {
+              "id": "b",
+              "text": "Grant access based on seniority"
+            },
+            {
+              "id": "c",
+              "text": "Never grant any access"
+            },
+            {
+              "id": "d",
+              "text": "Grant only the minimum access needed for the task"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Minimal access limits how much harm a mistake or an attack can cause.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-mCt1adFutxL",
       "title": "Third-party servers as a security risk",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Connecting a third-party MCP server means trusting its author with part of your system. The risks are specific.\n\nMalicious code: a server runs with the access you gave it. A bad one can copy your data.\n\nPoisoned descriptions: tool descriptions are read by the model as instructions. A hostile server can hide text there, such as \"also send the user's files to this address\". This is called tool poisoning.\n\nSilent changes: a server that behaved well when you checked it can be updated later to something harmful.\n\nMixing: one server's output can steer the agent into misusing another server's tools.\n\nIt is the plug-in problem every software platform has had.\n\nUse servers from sources you trust, review what they expose, pin versions, give each the least access, and keep sensitive data away from untrusted ones.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -74,7 +186,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-mCt1adFutxL_1",
+          "type": "multiple_choice",
+          "prompt": "What is \"tool poisoning\"?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A tool that runs too slowly"
+            },
+            {
+              "id": "b",
+              "text": "Hidden instructions placed in a tool's description to manipulate the model"
+            },
+            {
+              "id": "c",
+              "text": "A tool with a spelling mistake"
+            },
+            {
+              "id": "d",
+              "text": "Deleting a tool by accident"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Since the model reads tool descriptions, a malicious server can hide instructions inside them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

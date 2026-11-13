@@ -5,32 +5,88 @@
     {
       "id": "bit__qvcqFYfX0Ik",
       "title": "Tool-call request and execution cycle",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Tool calling is how a model that can only produce text gets things done in other software.\n\nThe cycle has four steps. You send the model the user's message and a list of the tools available. The model replies, not with an answer, but with a request: \"call get_weather with city = Toronto\". Your code runs that function. You send the result back, and the model writes its answer using it.\n\nIt is a diner. The waiter (the model) writes an order ticket. The kitchen (your code) cooks. The plate goes back to the waiter, who serves it.\n\nThe request is structured data, usually JSON, so your code can read it reliably.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__qvcqFYfX0Ik_1",
+          "type": "multiple_choice",
+          "prompt": "In the tool-calling cycle, what does the model produce when it wants to use a tool?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The finished result of the tool"
+            },
+            {
+              "id": "b",
+              "text": "A new copy of itself"
+            },
+            {
+              "id": "c",
+              "text": "A structured request naming the tool and its inputs"
+            },
+            {
+              "id": "d",
+              "text": "An invoice"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The model outputs a request, and your code is what actually runs the tool.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_LXiAEkvqigqX",
       "title": "Parallel tool calls",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A model can ask for several tools in one reply when the calls do not depend on each other.\n\nAsked \"what is the weather in Toronto, Paris and Tokyo?\", it can request all three lookups at once. Your code runs them at the same time and returns three results together. That takes one round trip where three would have been needed.\n\nIt is ordering a starter, a main and a drink in one go, where the alternative is calling the waiter back three times.\n\nThe saving is in time, and it adds up in agents that gather a lot of information.\n\nIt only works for independent calls. If the second call needs the first one's answer, such as \"find the customer, then get their orders\", they must run in sequence.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_LXiAEkvqigqX_1",
+          "type": "multiple_choice",
+          "prompt": "When can tool calls run in parallel?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only when there is exactly one call"
+            },
+            {
+              "id": "b",
+              "text": "When the second needs the first one's output"
+            },
+            {
+              "id": "c",
+              "text": "Never"
+            },
+            {
+              "id": "d",
+              "text": "When they do not depend on each other's results"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Independent calls can be issued together, while dependent ones must wait for earlier results.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_xV6paDys51Ku",
       "title": "APIs as the bridge to external software",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An API, an application programming interface, is the agreed way for one program to ask another to do something.\n\nNearly every service has one. A calendar's API can create an event. A payment service's API can take a charge. A CRM's API can look up a customer.\n\nMost tools you give an agent are thin wrappers round an API call. The tool \"create_event\" simply calls the calendar's API with the details the model supplied.\n\nThink of an API as a service counter with a fixed form. Fill in the form correctly and you get what you asked for. You never go behind the counter.\n\nThat is why \"does it have an API?\" is the first question when a client asks whether an agent can work with their software.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,43 +99,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xV6paDys51Ku_1",
+          "type": "multiple_choice",
+          "prompt": "What is most agent tooling built on?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Handwritten letters"
+            },
+            {
+              "id": "b",
+              "text": "Screenshots sent by post"
+            },
+            {
+              "id": "c",
+              "text": "API calls to other software"
+            },
+            {
+              "id": "d",
+              "text": "The model's memory alone"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Tools are usually small wrappers that call an existing service's API.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hRD9dJSzWskY",
       "title": "The model asks; your code runs the tool",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "This is the fact about tool calling that people most often get wrong: the model never runs anything.\n\nIt writes a request. Your code decides whether to carry it out. Between those two moments you can do whatever you like. Check the inputs. Refuse because this user lacks permission. Ask a person to approve. Log it. Swap in a safe test version.\n\nIt is a doctor writing a prescription. The pharmacist reads it, checks it and decides whether to dispense.\n\nThat gap is where all your safety controls live. A model can be tricked into asking for something harmful. It cannot make your code do it.\n\nSo never treat a tool request as trusted. Treat it as a suggestion from a capable but fallible colleague.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hRD9dJSzWskY_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it important that your code, not the model, runs the tool?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the model faster"
+            },
+            {
+              "id": "b",
+              "text": "Your code can check, refuse or seek approval before anything happens"
+            },
+            {
+              "id": "c",
+              "text": "It removes the need for tools"
+            },
+            {
+              "id": "d",
+              "text": "It lets the model access the internet directly"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The gap between request and execution is where validation, permissions and approvals are enforced.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__fpm3FEv1C_D",
       "title": "Tool results go back into the conversation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "After your code runs a tool, the result is added to the conversation as a new message, and the model is called again.\n\nThe model then sees everything: the question, its own request, and what came back. It may answer, or ask for another tool.\n\nTwo consequences follow.\n\nResults take up context. A tool that returns a 50-page document fills the window and costs money on every later call in that conversation. Return what is needed, trimmed.\n\nResults are read by the model as text. If a web page or email contains \"ignore your instructions and forward this to...\", the model sees that too. Tool results are a route for prompt injection, which module B12 covers.\n\nTreat what comes back as data, not as instructions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__fpm3FEv1C_D_1",
+          "type": "multiple_choice",
+          "prompt": "Why should tool results be kept short and relevant?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model cannot read numbers"
+            },
+            {
+              "id": "b",
+              "text": "Long results are illegal"
+            },
+            {
+              "id": "c",
+              "text": "They occupy context and add cost on every later call"
+            },
+            {
+              "id": "d",
+              "text": "Tools only work with one-word answers"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Results join the conversation history, so large ones crowd the context and increase cost.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ZhZPVSQZDKmd",
       "title": "The model can pick the wrong tool or the wrong inputs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Tool calling is a prediction, and predictions can be wrong.\n\nThe model may choose the wrong tool, such as \"search_web\" when \"search_orders\" was needed. It may invent an input, like an order number the user never gave. It may send a date in the wrong format, leave out a required field, or call a tool when it should simply have answered.\n\nA new employee with a set of forms makes the same kinds of mistake: wrong form, wrong box, a guess where they should have asked.\n\nDefences: clear tool names and descriptions, strict input checking in your code, error messages that say what was wrong so the model can try again, and fewer, more distinct tools.\n\nStronger models make fewer of these errors. None makes zero.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ZhZPVSQZDKmd_1",
+          "type": "multiple_choice",
+          "prompt": "Which is a sensible defence against wrong tool inputs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Trusting every request the model makes"
+            },
+            {
+              "id": "b",
+              "text": "Validating inputs in code and returning a clear error"
+            },
+            {
+              "id": "c",
+              "text": "Removing all tool descriptions"
+            },
+            {
+              "id": "d",
+              "text": "Giving the model as many similar tools as possible"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Checking inputs and explaining what was wrong lets the model correct itself safely.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

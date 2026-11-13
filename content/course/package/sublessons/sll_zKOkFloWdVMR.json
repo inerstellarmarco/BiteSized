@@ -5,74 +5,242 @@
     {
       "id": "bit_TNnbC5cTn297",
       "title": "ACI vs. UI",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A user interface, UI, is designed for people: buttons, menus, colour, layout.\n\nAn agent-computer interface, ACI, is designed for a model: tool names, descriptions, input formats and the text that comes back.\n\nThe two users have different strengths. A person sees a screen at a glance but dislikes typing long commands. A model reads text quickly and exactly, but cannot glance, has a limited context, and forgets anything it is not shown.\n\nSo good ACI design has its own rules: clear wording, compact outputs, helpful errors, nothing that relies on visual layout.\n\nTeams put months into UI design and minutes into tool design. Yet the tools are the only way the agent experiences your system. The same care belongs there.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TNnbC5cTn297_1",
+          "type": "multiple_choice",
+          "prompt": "What is an agent-computer interface (ACI)?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The tools, descriptions and outputs a model uses to work with software"
+            },
+            {
+              "id": "b",
+              "text": "A screen with buttons for people"
+            },
+            {
+              "id": "c",
+              "text": "A type of keyboard"
+            },
+            {
+              "id": "d",
+              "text": "A brand of monitor"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "ACI is the model-facing equivalent of a user interface, made of tools and their text.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_sJaD4-wl1AxZ",
       "title": "Small, composable, well-documented tools",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Good tools resemble good kitchen utensils. Each does one thing well, and they combine.\n\nSmall: \"get_customer\", \"list_orders\", \"create_refund\". Not one \"customer_manager\" with a mode switch and fifteen optional inputs.\n\nComposable: the output of one is usable as the input of another. \"get_customer\" returns an ID that \"list_orders\" accepts.\n\nWell documented: each has a clear description, as the last lesson covered.\n\nWith such a set, the agent can assemble solutions to tasks you never anticipated, the way a few Lego shapes build many models.\n\nThere is a balance. Tools that are too tiny force ten calls where one would do. Aim for the size of a meaningful step in the task.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_sJaD4-wl1AxZ_1",
+          "type": "multiple_choice",
+          "prompt": "What makes tools composable?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They all have the same name"
+            },
+            {
+              "id": "b",
+              "text": "One tool's output can be used as another's input"
+            },
+            {
+              "id": "c",
+              "text": "Each does everything"
+            },
+            {
+              "id": "d",
+              "text": "They cannot be combined"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Composable tools fit together, so the agent can chain them to handle varied tasks.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_0abnoi--8ULR",
       "title": "Design for the task, not as a copy of the API",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "It is tempting to turn every API endpoint into a tool. That usually produces bad tools.\n\nAPIs are built for programmers. Booking a meeting might take four calls: look up each person's ID, fetch their calendars, find a common slot, create the event. As four tools, the agent has four chances to slip.\n\nDesign for the job instead. One tool, \"schedule_meeting\", takes names and a time range. Your code does the four calls behind it.\n\nIt is a restaurant where you order a meal, not one where you instruct the kitchen step by step.\n\nAsk what the agent is trying to accomplish, and give it a tool at that level. The fiddly, deterministic parts belong in code, where they run correctly every time.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0abnoi--8ULR_1",
+          "type": "multiple_choice",
+          "prompt": "Why not simply expose every API endpoint as a tool?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "APIs cannot be called from code"
+            },
+            {
+              "id": "b",
+              "text": "Tasks then need many fragile steps the agent can get wrong"
+            },
+            {
+              "id": "c",
+              "text": "It makes tools too easy to use"
+            },
+            {
+              "id": "d",
+              "text": "Agents prefer more tools"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Task-level tools hide deterministic multi-step work in code, leaving the agent fewer chances to fail.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_pnwGDvumtlRh",
       "title": "Return only what the agent needs, in text it can read",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Whatever a tool returns goes into the model's context. So return little, and make it readable.\n\nA raw API response might have eighty fields per customer: internal codes, timestamps, nested settings. The agent needed the name, the plan and the renewal date.\n\nFilter in your code. Return those three, labelled plainly.\n\nPrefer meaningful values to opaque ones. \"Plan: Professional\" is better than \"plan_id: 7\". Readable names beat long ID strings.\n\nFor long lists, return the first few with a count: \"showing 10 of 243; narrow the search to see others\".\n\nIt is asking a colleague for a customer's renewal date and getting the date, not the whole filing cabinet.\n\nLeaner outputs make agents cheaper, faster and more accurate, all at once.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_pnwGDvumtlRh_1",
+          "type": "multiple_choice",
+          "prompt": "What should a well-designed tool return?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every field the API offers"
+            },
+            {
+              "id": "b",
+              "text": "Unlabelled internal codes"
+            },
+            {
+              "id": "c",
+              "text": "As much data as possible"
+            },
+            {
+              "id": "d",
+              "text": "Only the relevant fields, in clearly labelled readable text"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Compact, readable results save context and help the model use the information correctly.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_cCZs6LGth0JI",
       "title": "Error messages that tell the agent how to recover",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a tool fails, the error message is the agent's only clue to what to do next. Write it for that purpose.\n\nUnhelpful: \"Error 400\". The agent can only guess, and will often retry the same call.\n\nHelpful: \"No order found with ID 1048. Order IDs are 8 digits. Use search_orders with the customer's email to find the right one.\"\n\nThat message says what went wrong, why, and what to try instead. The agent usually recovers on the next step.\n\nIt is the difference between a sat nav saying \"route error\" and saying \"road closed ahead, turn left in 200 metres\".\n\nA good pattern: what happened, the likely cause, the suggested next action. It costs a few minutes per tool and prevents a great many stuck agents.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cCZs6LGth0JI_1",
+          "type": "multiple_choice",
+          "prompt": "What makes a tool error message useful to an agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It says what went wrong and what to try next"
+            },
+            {
+              "id": "b",
+              "text": "It is only a number"
+            },
+            {
+              "id": "c",
+              "text": "It is as short as possible"
+            },
+            {
+              "id": "d",
+              "text": "It blames the user"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Explaining the cause and suggesting an action lets the agent correct course instead of repeating the mistake.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_kwuyrYrHxmPZ",
       "title": "Test tools by watching where the agent gets confused",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "You cannot tell whether a tool is well designed by reading it. You find out by watching an agent use it.\n\nGive the agent realistic tasks and read the traces. Look for places where it picks the wrong tool, fills an input wrongly, calls the same tool repeatedly, or ignores a tool that would have helped.\n\nEach of those is a design flaw, not a model flaw. A wrong pick means two descriptions overlap. A bad input means the field is unclear. Repeated calls mean the output did not contain what it needed.\n\nIt is usability testing: you watch real people use the product and note where they hesitate.\n\nThen change the tool and run it again. Tool design is iterative, and the traces tell you what to fix.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kwuyrYrHxmPZ_1",
+          "type": "multiple_choice",
+          "prompt": "How do you find out whether a tool is well designed?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Count the lines of code"
+            },
+            {
+              "id": "b",
+              "text": "Ask the tool"
+            },
+            {
+              "id": "c",
+              "text": "Check its file size"
+            },
+            {
+              "id": "d",
+              "text": "Watch an agent use it on realistic tasks and see where it goes wrong"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Traces of real use reveal confusion that reading the definition alone will not.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

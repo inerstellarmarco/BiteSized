@@ -5,62 +5,202 @@
     {
       "id": "bit_OP7E6kRviBZs",
       "title": "LLM-based entity and relation extraction",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Building a graph used to mean people reading documents and entering facts by hand. LLMs made it practical to automate.\n\nYou give the model a passage and the schema, and ask for the facts as structured output. From \"Acme signed a three-year supply deal with Bolt Ltd in March\", it returns: Acme, a Company. Bolt Ltd, a Company. Acme SUPPLIES Bolt Ltd, starting in March.\n\nRun that over every chunk of every document and the facts accumulate into a graph.\n\nIt is having a tireless assistant read the whole archive and fill in index cards.\n\nIt reuses skills you already have: structured output, schemas with allowed values, and validation. It also costs a model call per chunk, so a large archive is a real expense.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OP7E6kRviBZs_1",
+          "type": "multiple_choice",
+          "prompt": "How do LLMs help build knowledge graphs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They draw the graph by hand"
+            },
+            {
+              "id": "b",
+              "text": "They read text and output entities and relationships in a structured form"
+            },
+            {
+              "id": "c",
+              "text": "They replace the need for documents"
+            },
+            {
+              "id": "d",
+              "text": "They store the graph in their weights"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Given a passage and a schema, a model can extract facts as structured triples for the graph.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_sGoqNET2_-6Z",
       "title": "Linking graphs with documents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A graph of bare facts has a weakness: it has lost the wording, the nuance and the evidence. The remedy is to keep every fact tied to where it came from.\n\nEach relationship stores a pointer to its source: this document, this chunk, this page. Each chunk can point the other way, to the entities it mentions.\n\nThat gives you both kinds of search working together. Follow the graph to find which entities are connected. Then pull the original passages for the detail and for citation.\n\nIt is a book's index and the book itself. The index tells you where things connect. The pages tell you what was actually said.\n\nIt also makes checking possible. For any fact in the graph, someone can open the source and confirm it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_sGoqNET2_-6Z_1",
+          "type": "multiple_choice",
+          "prompt": "Why should each fact in a knowledge graph keep a link to its source passage?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So the original wording can be retrieved, cited and checked"
+            },
+            {
+              "id": "b",
+              "text": "To make the graph larger"
+            },
+            {
+              "id": "c",
+              "text": "Because graphs cannot store names"
+            },
+            {
+              "id": "d",
+              "text": "To hide where facts came from"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Source links keep the evidence and detail that a bare fact loses, and let people verify it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ReKVDeOu9Yw1",
       "title": "Entity resolution: one company, many spellings",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Real documents name the same thing in many ways. \"IBM\", \"I.B.M.\", \"International Business Machines\" and \"Big Blue\" are one company. Left alone, the graph has four separate nodes, each with a quarter of the connections.\n\nEntity resolution is merging those into one.\n\nThe opposite mistake is just as bad. Two different people called John Smith must not become one node, or a stranger inherits someone else's contracts.\n\nMethods include normalising names, matching on identifiers such as a company registration number, comparing embeddings, and asking an LLM \"are these the same?\" with the surrounding context.\n\nIt is tidying a contact list where the same friend appears three times.\n\nThis step is unglamorous and decisive. A graph with poor resolution gives confidently incomplete answers.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ReKVDeOu9Yw1_1",
+          "type": "multiple_choice",
+          "prompt": "What is entity resolution?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Recognising that different names refer to the same real-world thing and merging them"
+            },
+            {
+              "id": "b",
+              "text": "Increasing the resolution of images"
+            },
+            {
+              "id": "c",
+              "text": "Deleting entities with long names"
+            },
+            {
+              "id": "d",
+              "text": "Translating entity names"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Without merging variants, one entity is split across several nodes and its connections are fragmented.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_dxt40WJ-oi8b",
       "title": "Extraction errors and human spot checks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Automatic extraction makes mistakes, and in a graph a mistake becomes a \"fact\".\n\nTypical errors: a relationship pointing the wrong way, so that A acquired B becomes B acquired A. Something that was only proposed is recorded as having happened. A negation is missed, so \"did not renew\" becomes \"renewed\". Or a link is invented between two names that merely appeared in the same sentence.\n\nOne wrong link can poison every answer that passes through it.\n\nSo build in checking. Sample extracted facts regularly and compare them with the source. Measure the error rate. For high-stakes relationships, such as ownership, have a person confirm before the fact goes in.\n\nIt is an editor fact-checking a reporter. Not every line, but enough to know how far to trust the work.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_dxt40WJ-oi8b_1",
+          "type": "multiple_choice",
+          "prompt": "Why are extraction errors especially harmful in a knowledge graph?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They make the graph slower to draw"
+            },
+            {
+              "id": "b",
+              "text": "They only affect formatting"
+            },
+            {
+              "id": "c",
+              "text": "Graphs correct themselves automatically"
+            },
+            {
+              "id": "d",
+              "text": "A wrong link is treated as fact and affects every answer that uses it"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Errors become stored facts that propagate through any reasoning path passing over them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_JWsdskz4q0uh",
       "title": "Keeping the graph up to date",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A graph describes the world at the time it was built, and the world moves. People change jobs. Contracts end. Companies merge.\n\nUnlike a vector index, where you can simply replace a document's chunks, a graph's facts are woven together. So updating needs care.\n\nGive each fact a source and a date. When a document changes or is removed, find the facts that came from it and update or retire them. Many graphs keep \"valid from\" and \"valid to\" on relationships, so that \"Ana worked for Acme until 2024\" stays true as history without being presented as current.\n\nIt is an organisation chart on the office wall. If nobody maintains it, it is confidently wrong within a year.\n\nCount this maintenance into the cost before deciding to build a graph.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_JWsdskz4q0uh_1",
+          "type": "multiple_choice",
+          "prompt": "What helps a knowledge graph stay accurate as facts change?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Never changing the graph once built"
+            },
+            {
+              "id": "b",
+              "text": "Recording the source and dates for each fact so it can be updated or retired"
+            },
+            {
+              "id": "c",
+              "text": "Deleting the whole graph every day"
+            },
+            {
+              "id": "d",
+              "text": "Removing all dates"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Source and validity dates let outdated facts be found and marked, while keeping history.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

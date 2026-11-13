@@ -5,56 +5,168 @@
     {
       "id": "bit_0cmMAe-M-8HJ",
       "title": "Re-ranking with cross-encoders",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The first search is fast and rough. A re-ranker is a second, slower and more careful pass that puts the candidates in a better order.\n\nThe difference is in how they compare. The first stage embeds the question and each chunk separately, then measures the distance between them. A re-ranker, often a model type called a cross-encoder, reads the question and one chunk together and judges how well that chunk answers that question.\n\nReading them together is much more accurate, and much too slow to run on a million chunks. So you use it on the 20 to 50 that the first stage returned.\n\nIt is recruitment. A quick sift of CVs gives a longlist, then proper interviews rank the shortlist.\n\nAdding a re-ranker is often the largest single improvement to a basic RAG system.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0cmMAe-M-8HJ_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a re-ranker used only on a shortlist of candidates?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It can only read five words"
+            },
+            {
+              "id": "b",
+              "text": "It is accurate but too slow to run across the whole index"
+            },
+            {
+              "id": "c",
+              "text": "It deletes the chunks it reads"
+            },
+            {
+              "id": "d",
+              "text": "It works without the question"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Cross-encoders compare the query with each chunk in depth, which is affordable only for a small set.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_H-NTlsMvN52n",
       "title": "Query rewriting and HyDE",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sometimes retrieval fails because of the question, not the documents.\n\nQuery rewriting uses a model to improve the question before searching. A follow-up such as \"and what about for part-timers?\" is meaningless alone. Rewritten using the conversation, it becomes \"What is the holiday entitlement for part-time employees?\" Vague queries can also be expanded, or split into several searches.\n\nHyDE, hypothetical document embeddings, is a neat trick. Ask the model to write a made-up answer to the question, then search using that. A fake answer looks more like the real documents than a short question does, so it often retrieves better. The fake answer is thrown away afterwards.\n\nIt is like describing roughly what the page you want would say, instead of giving the librarian three keywords.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_H-NTlsMvN52n_1",
+          "type": "multiple_choice",
+          "prompt": "What does query rewriting do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Rewrites the documents in the index"
+            },
+            {
+              "id": "b",
+              "text": "Translates the answer"
+            },
+            {
+              "id": "c",
+              "text": "Deletes the conversation history"
+            },
+            {
+              "id": "d",
+              "text": "Reformulates the user's question into a clearer, self-contained search query"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Rewriting resolves references and vagueness so the search has a complete query to work with.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4oxTN7v-woQe",
       "title": "Retrieval metrics (recall@k, MRR)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "To improve retrieval you have to measure it, separately from the final answer. Two numbers do most of the work.\n\nRecall@k asks: for what share of test questions did the correct chunk appear in the top k results? If recall@5 is 80 per cent, then for one question in five the model never saw the right material and could not have answered properly.\n\nMRR, mean reciprocal rank, asks how high the correct chunk came. First place scores 1, second scores a half, third scores a third. The average over all questions tells you whether right answers are landing at the top or scraping in at the bottom.\n\nRecall says whether you found it. MRR says how near the top.\n\nBoth need a test set where you know which chunk is correct for each question.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4oxTN7v-woQe_1",
+          "type": "multiple_choice",
+          "prompt": "What does recall@5 measure?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "How long the search takes"
+            },
+            {
+              "id": "b",
+              "text": "How many tokens were used"
+            },
+            {
+              "id": "c",
+              "text": "How often the correct chunk appears among the top five results"
+            },
+            {
+              "id": "d",
+              "text": "How fluent the answer is"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Recall@k is the share of queries for which a relevant chunk is within the first k retrieved.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_VtO6Fat5OY5t",
       "title": "Finding the fault: retrieval problem or generation problem?",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A wrong RAG answer has two possible culprits, and the fixes are completely different. So diagnose before you change anything.\n\nLook at the chunks that were retrieved for the failed question.\n\nWas the right information in them? If not, it is a retrieval problem. The model never had a chance. Look at parsing, chunking, the embedding model, hybrid search, top-k, re-ranking.\n\nIf it was there and the answer was still wrong, it is a generation problem. The model ignored or misread good material. Look at the prompt, the ordering, the amount of noise, or the model itself.\n\nIt is a wrong dish in a restaurant. Did the waiter take down the wrong order, or did the kitchen cook the right order badly?\n\nTeams that skip this step spend weeks tuning the wrong half.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_VtO6Fat5OY5t_1",
+          "type": "multiple_choice",
+          "prompt": "The correct passage was retrieved, but the answer is still wrong. Where is the fault?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "In the embedding model"
+            },
+            {
+              "id": "b",
+              "text": "In generation: the prompt or the model's use of the context"
+            },
+            {
+              "id": "c",
+              "text": "In the chunking"
+            },
+            {
+              "id": "d",
+              "text": "In the vector index"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "If the right material reached the model, retrieval did its job and the problem lies in how the answer was produced.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_JPEFuTHxBkOI",
       "title": "A small test set of questions and their correct sources",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "All of the above depends on one asset: a test set.\n\nIt is a list of real questions, each paired with the document or chunk that contains the answer, and ideally with the ideal answer too. Thirty to fifty is enough to begin with.\n\nGather them from reality: questions that users, staff or customers actually ask. Include easy ones, hard ones, ones needing two sources, and ones whose correct answer is \"not in the documents\".\n\nWith that list, every change becomes measurable. New chunk size? Run the set and compare recall. New embedding model? Run the set.\n\nWithout it you are tuning by feel, and each fix for one question quietly breaks two others.\n\nIt is the ruler. An afternoon spent building it is repaid for the life of the project.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -67,7 +179,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_JPEFuTHxBkOI_1",
+          "type": "multiple_choice",
+          "prompt": "What should each entry in a RAG test set contain?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only a list of documents"
+            },
+            {
+              "id": "b",
+              "text": "A random number"
+            },
+            {
+              "id": "c",
+              "text": "A real question and the source that correctly answers it"
+            },
+            {
+              "id": "d",
+              "text": "The model's name"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Knowing the correct source for each question is what lets retrieval quality be measured.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

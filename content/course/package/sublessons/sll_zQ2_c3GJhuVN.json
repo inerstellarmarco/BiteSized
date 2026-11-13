@@ -5,62 +5,202 @@
     {
       "id": "bit_qpQ1AJr7wLbP",
       "title": "ReAct loop",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "ReAct stands for Reason and Act. It is the standard pattern for a single agent.\n\nThe agent repeats three steps.\n\nReason: think about the situation. \"The user wants last month's sales. I need the sales database.\"\n\nAct: call a tool. Run the query.\n\nObserve: read what came back. \"It returned 412 orders totalling £38,000.\"\n\nThen reason again with that new knowledge, and so on until the task is done.\n\nA detective works like this. Form a theory, check a lead, see what it shows, revise the theory.\n\nThe reasoning step is what distinguishes it from blindly firing tools. Thinking before each action makes the choices better, and it leaves a record of why the agent did what it did.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qpQ1AJr7wLbP_1",
+          "type": "multiple_choice",
+          "prompt": "What are the three repeating steps of the ReAct loop?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Read, write, delete"
+            },
+            {
+              "id": "b",
+              "text": "Start, pause, stop"
+            },
+            {
+              "id": "c",
+              "text": "Plan, pay, publish"
+            },
+            {
+              "id": "d",
+              "text": "Reason, act, observe"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "ReAct alternates thinking, taking an action and reading the result.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_WTDioAFy639x",
       "title": "Stopping conditions and max-step limits",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A loop needs a way to end. An agent has two kinds.\n\nThe natural stop: the model decides that the task is finished and gives a final answer in place of another tool call.\n\nThe forced stop: a limit in your code ends the run whatever the model thinks. The most basic is a maximum number of steps, such as 25. Others are a time limit, a cost limit and repeated errors.\n\nYou need both. Models sometimes fail to stop. They get stuck retrying, or keep \"improving\" a finished answer.\n\nIt is a parking meter. Most people return in time. The meter is for when they do not.\n\nWhen a forced stop triggers, do not fail silently. Report what was achieved and what was not.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WTDioAFy639x_1",
+          "type": "multiple_choice",
+          "prompt": "Why does an agent need a maximum-step limit?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Models can only count to ten"
+            },
+            {
+              "id": "b",
+              "text": "It makes each step cheaper"
+            },
+            {
+              "id": "c",
+              "text": "The model may not stop by itself"
+            },
+            {
+              "id": "d",
+              "text": "Users enjoy limits"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A hard cap ends runs that get stuck or wander, which the model cannot be relied on to do.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_z_8Nw5JGPyNO",
       "title": "Each observation shapes the next decision",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "What makes the loop more than a script is that every result feeds into the next choice.\n\nA script says: do A, then B, then C. If A returns something unexpected, B runs anyway.\n\nAn agent does A, reads the result, and only then decides. If the search found nothing, it rewords the query. If the file was missing, it looks elsewhere. If the answer was already there, it skips ahead.\n\nA chess player does not plan ten moves and play them regardless. They watch the opponent's reply and reconsider.\n\nThat is the source of an agent's adaptability. It is also why good tool outputs matter so much: the observation is the only information the next decision has.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_z_8Nw5JGPyNO_1",
+          "type": "multiple_choice",
+          "prompt": "What makes an agent loop more adaptable than a fixed script?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It runs the same steps regardless of results"
+            },
+            {
+              "id": "b",
+              "text": "It never uses tools"
+            },
+            {
+              "id": "c",
+              "text": "It has no stopping point"
+            },
+            {
+              "id": "d",
+              "text": "Each result is read before the next step is chosen"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Deciding after each observation lets the agent respond to what actually happened.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4VIQvoNOUCYY",
       "title": "How the agent knows it is done",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "\"Done\" is a judgement the model has to make, and it can get it wrong in both directions.\n\nStopping too early: declaring success after doing half the job, or after a step that failed without it noticing.\n\nStopping too late: checking and rechecking, or adding things nobody asked for.\n\nYou can help it judge.\n\nState what \"finished\" looks like in the instructions: \"you are done when the report has all five sections and the totals have been checked against the ledger\".\n\nHave it verify before finishing. Run the tests, reread the output against the request.\n\nKeep a checklist that it has to complete.\n\nA builder is given a snagging list for the same reason. \"Looks finished to me\" is unreliable. A list of conditions is not.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4VIQvoNOUCYY_1",
+          "type": "multiple_choice",
+          "prompt": "How can you help an agent judge correctly when it is finished?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Tell it never to stop"
+            },
+            {
+              "id": "b",
+              "text": "Remove the goal from the prompt"
+            },
+            {
+              "id": "c",
+              "text": "Give it no way to check its work"
+            },
+            {
+              "id": "d",
+              "text": "State clear completion criteria and have it verify against them"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Explicit criteria and a verification step replace a vague sense of \"done\".",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1jifT-RO4YH5",
       "title": "Budgets: steps, time, and money",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A budget is a ceiling on what one task may consume. Agents need three.\n\nSteps: the number of loop turns. It guards against going round in circles.\n\nTime: how long the run may last. It guards against hangs, and against users who are left waiting.\n\nMoney: the token cost. It guards against one task quietly burning through £50.\n\nThey catch different failures. An agent can use few steps but huge contexts, which costs a lot. Or many quick, cheap steps.\n\nSize the budgets to the job. A quick lookup might get five steps and ten pence. A deep research task might get a hundred steps and five pounds.\n\nIt is giving a contractor a quote limit: do the work, but call me before going over £500.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1jifT-RO4YH5_1",
+          "type": "multiple_choice",
+          "prompt": "Which three budgets should an agent run have?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Colour, font and size"
+            },
+            {
+              "id": "b",
+              "text": "Steps, time and money"
+            },
+            {
+              "id": "c",
+              "text": "Morning, noon and night"
+            },
+            {
+              "id": "d",
+              "text": "Small, medium and large"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Each cap catches a different kind of runaway: loops, hangs and excessive cost.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

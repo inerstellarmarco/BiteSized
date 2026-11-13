@@ -5,50 +5,162 @@
     {
       "id": "bit_bo7VDh-Uq6dg",
       "title": "Reusing answers to similar questions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A cache stores the result of work so that it need not be done again.\n\nAn ordinary cache needs an exact match. \"What are your opening hours?\" and \"When are you open?\" are different text, so it misses.\n\nA semantic cache matches on meaning. It embeds each incoming question and looks for a stored question that is close enough. If one is found, it returns the saved answer with no model call.\n\nA receptionist does this. They do not think afresh each time someone asks where the toilets are, however it is phrased.\n\nFor high-volume systems where people ask the same things, such as support or FAQs, this can cut cost and response time sharply.\n\nIt is useless where every question is unique.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_bo7VDh-Uq6dg_1",
+          "type": "multiple_choice",
+          "prompt": "How does a semantic cache differ from an ordinary cache?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It only works on identical text"
+            },
+            {
+              "id": "b",
+              "text": "It stores nothing"
+            },
+            {
+              "id": "c",
+              "text": "It makes every answer slower"
+            },
+            {
+              "id": "d",
+              "text": "It matches questions by meaning, not exact wording"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Semantic caching uses embeddings to recognise questions that mean the same thing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_G5Jx8yvwSstS",
       "title": "Cache invalidation and freshness",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A cached answer is a snapshot of a past moment. The world moves on.\n\nIf the opening hours change on Monday and the cache still says the old hours on Tuesday, the system is confidently wrong, and quickly so.\n\nInvalidation means removing or refreshing cached answers that may no longer be true. There are three usual approaches.\n\nTime limits: each entry expires after a set period. Minutes for stock levels. Days for a policy.\n\nEvent-based: when the source document changes, clear the answers built on it.\n\nManual: a way to flush the cache when something important changes.\n\nIt is the use-by date on food.\n\nChoose the lifetime by how quickly the underlying facts change, and by how much a stale answer would cost.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_G5Jx8yvwSstS_1",
+          "type": "multiple_choice",
+          "prompt": "What decides how long a cached answer should be kept?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "How fast the underlying facts change and the cost of a stale answer"
+            },
+            {
+              "id": "b",
+              "text": "The length of the question"
+            },
+            {
+              "id": "c",
+              "text": "The user's name"
+            },
+            {
+              "id": "d",
+              "text": "The time of day only"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Fast-changing or high-stakes information needs short lifetimes, while stable facts can be cached longer.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hIbcbYI7Y6CD",
       "title": "The risk: a similar question with a different right answer",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Semantic caching has a built-in danger: similar wording does not mean the same answer.\n\n\"How do I cancel my order?\" and \"How do I cancel my subscription?\" are close as embeddings. The right answers are quite different.\n\n\"What is the refund policy in Canada?\" and \"...in the UK?\" differ by one word, and that word is everything.\n\nA cache that is too keen serves the wrong answer, and does so instantly and confidently.\n\nProtections: set the similarity threshold high, and accept fewer cache hits. Include key details such as country, product and date in the matching. Do not cache at all where a mistake is costly. Check a sample of cache hits regularly.\n\nIt is the hazard of a colleague who half-listens and answers the question they expected.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hIbcbYI7Y6CD_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main risk of semantic caching?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Returning a stored answer to a question that only looks similar"
+            },
+            {
+              "id": "b",
+              "text": "Using too much electricity"
+            },
+            {
+              "id": "c",
+              "text": "Making the model forget its training"
+            },
+            {
+              "id": "d",
+              "text": "Questions becoming longer"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Close wording can hide an important difference, so a loose match can give a wrong answer.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_21viGc8yHsd3",
       "title": "Never share cached answers across users or clients",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A cache that mixes users is a data leak.\n\nSuppose one user asks \"what is my account balance?\" and the answer is cached. The next user asks the same thing and receives the first user's balance.\n\nThe same applies between clients. One company's answer, drawn from its private documents, must never be served to another company.\n\nThe rule: the cache key must include who is asking. That means the user ID, the client or tenant ID, and their permission level, wherever the answer depends on them.\n\nOnly truly public answers, such as general product information that is identical for everyone, can sit in a shared cache.\n\nIt is a post room. A shared noticeboard is fine for public notices. Personal post goes in named pigeonholes.\n\nWhen unsure, do not share.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_21viGc8yHsd3_1",
+          "type": "multiple_choice",
+          "prompt": "What must a cache key include for personalised answers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The identity of the user or client asking"
+            },
+            {
+              "id": "b",
+              "text": "Only the time of day"
+            },
+            {
+              "id": "c",
+              "text": "The model's version number alone"
+            },
+            {
+              "id": "d",
+              "text": "Nothing beyond the question text"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Tying cached answers to the asker prevents one person's data being served to another.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

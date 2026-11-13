@@ -1,0 +1,708 @@
+// B2 Embeddings, Vector Search & RAG
+@@ sll_JE3G6tn01p0X | B2.1 Embeddings > What Embeddings Are
+## Vectors and latent space
+An embedding turns a piece of text into a vector: a long list of numbers that marks a position in a space of meaning.
+
+Think of a huge map where every sentence ever written has a location. Sentences about cooking gather in one region, tax law in another. Within cooking, baking sits apart from grilling.
+
+The embedding model built that map during training. When you send it your text, it tells you where the text belongs.
+
+The space is "latent", meaning hidden. It has hundreds or thousands of dimensions, and no person labelled them. You never read the numbers themselves. You only ever compare them: how far is this text from that one?
+?? What does an embedding give you for a piece of text?
++ A vector marking its position in a space of meaning
+- A summary in fewer words
+- A translation
+- A list of its keywords
+= An embedding is a numerical position, useful for comparing texts by how close they are.
+## Cosine similarity and distance metrics
+To use embeddings you need a way to score how close two vectors are. There are three common measures.
+
+Cosine similarity compares direction, the angle between the vectors, and ignores length. A score of 1 means the same direction. It is the usual choice for text.
+
+Dot product is like cosine but also rewards longer vectors.
+
+Euclidean distance is the straight-line distance between the two points. Here smaller means more alike.
+
+For most modern embedding models the vectors are normalised, all scaled to the same length. In that case the three measures rank results identically.
+
+The practical rule is short: use the measure the embedding model's documentation recommends, and configure your vector database to match. A mismatch gives quietly poor search results.
+?? Which similarity measure should you configure in your vector database?
++ The one recommended for your embedding model
+- Whichever sounds most advanced
+- A different one for every query
+- None; no measure is needed
+= Embedding models are trained with a particular measure in mind, and a mismatch degrades results.
+## Similar meaning, nearby vectors
+The one property that makes embeddings useful is this: texts that mean similar things get vectors that are close together.
+
+"How do I cancel my subscription?" lands beside "I want to stop my membership", and far from "What are your opening hours?"
+
+No words need to match. The model was trained on enormous numbers of text pairs known to be related, such as questions with their answers and sentences with their paraphrases, and it learned to pull those together and push unrelated ones apart.
+
+That turns a hard problem, understanding what someone means, into an easy one: measuring the distance between two points.
+
+It is how a good librarian works. They do not match your exact words. They know what sits near what.
+?? Why do two differently worded questions with the same meaning get nearby embeddings?
++ The embedding model was trained to place related texts close together
+- They share the same number of letters
+- The database sorts them alphabetically
+- They were written on the same day
+= Training on related pairs teaches the model to map similar meanings to nearby points.
+## What embeddings miss: exact names, numbers, and codes
+Embeddings capture what a text is about. They are weak at exact details.
+
+Search for "error E-4012" and you may get passages about errors in general, including E-4021. To the embedding, the two codes are almost the same thing.
+
+The same goes for product numbers, invoice ids, people's names, dates and amounts. "Invoice for £500" and "invoice for £5,000" sit very close together.
+
+Negation is another blind spot. "Includes VAT" and "does not include VAT" are near neighbours.
+
+It is like someone who is excellent at the gist and vague on the specifics: "It was about an invoice. I do not recall the number."
+
+That is why serious search systems pair embeddings with keyword search, which is exact in just the places where embeddings are fuzzy.
+?? Which search is embedding similarity least reliable for?
++ Finding the document with an exact product code
+- Finding passages about a general topic
+- Matching a question to its paraphrase
+- Finding text on a similar theme
+= Embeddings blur exact strings such as codes and numbers, which keyword search handles better.
+
+@@ sll_-m07Fr7PJGL7 | B2.1 Embeddings > Choosing Embedding Models
+## General vs. domain-specific embeddings
+Most embedding models are generalists, trained on a broad mix of web text. They work well for everyday language: support questions, articles, company documents.
+
+In specialist fields they can struggle. In medicine, law, chemistry or finance, words have precise meanings that the general web uses loosely. A general model may not know that two differently named drugs are the same compound, or that "consideration" in a contract is not about being thoughtful.
+
+Domain-specific models are trained on text from one field and capture those distinctions.
+
+Think of a general translator and a legal translator.
+
+Start with a good general model. Move to a specialist one only if your tests show that retrieval misses things an expert would consider obvious.
+?? When might a domain-specific embedding model be worth using?
++ When a general model demonstrably misses specialist terminology in your field
+- Always, for every project
+- When your documents are short
+- When you have no documents
+= General models suit most text. Specialist ones help only where field-specific meaning is being lost.
+## Benchmarks like MTEB
+~m
+MTEB, the Massive Text Embedding Benchmark, is the standard public league table for embedding models. It scores each model on many tasks, including search, classification and clustering, across many datasets and languages.
+
+It is the natural first stop when choosing a model. You can filter by language, by model size and by whether the model is open or commercial.
+
+Read it with the usual caution. The average score hides the detail, so look at the retrieval column if search is what you are building. Top positions are often separated by tiny margins that mean nothing in practice. And models can be tuned towards the benchmark.
+
+It is the league table for schools: useful for a shortlist, and no substitute for a visit. Test the finalists on your own documents and questions.
+?? If you are building document search, which part of an embedding benchmark matters most?
++ The retrieval scores
+- The overall average only
+- The model's release date
+- The length of the model's name
+= Benchmarks cover several task types, and retrieval performance is the relevant one for search.
+## Dimensions, cost, and speed trade-offs
+Every embedding model produces vectors of a fixed length, called its dimensions: commonly somewhere between 384 and 3,072 numbers.
+
+More dimensions can capture finer shades of meaning. They also cost more everywhere. Each stored vector takes more space, each search does more arithmetic, and memory bills go up. With ten million chunks, the gap between 384 and 3,072 dimensions is the gap between a small server and a large one.
+
+Larger embedding models are also slower and dearer per text.
+
+Think of photo resolution. Higher is sharper, takes more space, and beyond a certain point nobody can see the difference.
+
+Some models let you shorten their vectors with little loss of quality. Choose the smallest setup that passes your retrieval tests.
+?? What is a cost of using embeddings with more dimensions?
++ More storage and slower, costlier search
+- Lower accuracy in every case
+- Shorter documents
+- Fewer languages supported
+= Longer vectors need more space and more computation per comparison, which matters at scale.
+## Multilingual needs
+If your documents or your users work in more than one language, the embedding model has to as well.
+
+An English-only model handles other languages badly or not at all.
+
+A multilingual model maps many languages into the same space. That gives cross-lingual search: a question in Spanish can find the right passage in an English manual, because both land in the same region of the map.
+
+That is very useful for international businesses, where the documents are in one language and the customers write in another.
+
+Things to check: quality differs between languages, and less common ones are served less well. So test in each language you care about, not only in English.
+
+Getting this wrong fails silently. The search runs and simply finds nothing useful.
+?? What does a multilingual embedding model make possible?
++ A question in one language can retrieve relevant text written in another
+- Automatic translation of every document
+- Smaller vectors
+- Search without any embeddings
+= Mapping languages into one shared space lets meaning match across them.
+## Changing the embedding model means re-indexing everything
+Vectors from different embedding models live in different spaces. A position that means "refund policy" in one model's map means something unrelated in another's.
+
+So you cannot mix them. If you change embedding model, or even move to a new version of the same one, every stored vector has to be created again from the original text. That is re-indexing.
+
+With a few thousand documents it takes minutes. With tens of millions it means days of computation and a real bill, and you must run old and new side by side while you switch over.
+
+It is changing the grid system on every map you own.
+
+Two consequences. Choose your embedding model with care, because it is one of the stickier decisions. And always keep the original text, so that rebuilding is possible.
+?? What must happen if you switch to a different embedding model?
++ All stored documents must be embedded again
+- Nothing; old and new vectors can be mixed
+- Only new documents need embedding
+- The documents must be rewritten
+= Each model has its own space, so vectors from the old model cannot be compared with those from the new one.
+
+@@ sll_V2zHXtf_OL7K | B2.2 Data Ingestion > Loading Sources
+## Parsing PDFs, tables, and figures
+Ingestion starts by turning files into clean text, and PDFs are the hardest common case.
+
+A PDF stores where letters sit on a page, not what they mean. Simple extraction gives you the letters in an order that may be wrong. Two columns get read straight across as one. A table comes out as a soup of numbers with no rows or columns. Charts and diagrams are lost altogether.
+
+Better tools analyse the layout. They detect columns, headings and tables, and output structured text such as Markdown. Some use vision models to read the page as an image, which also handles figures.
+
+Think of reading a newspaper aloud by going straight across the whole page, column boundaries ignored.
+
+Always look at what your parser actually produced for a handful of real documents.
+?? What often goes wrong when a table is extracted from a PDF with a simple tool?
++ The rows and columns are lost, leaving a jumble of values
+- The table is translated
+- The numbers are rounded
+- The PDF is deleted
+= PDFs record positions, not structure, so naive extraction scrambles tables.
+## Scraping websites and reading databases
+Not all knowledge sits in files. Two other common sources need their own handling.
+
+Websites: a page is mostly not content. Menus, cookie banners, footers, adverts and scripts surround the article. Ingestion has to pull out the main text and throw the rest away, or every chunk will be polluted with "Home | About | Contact". Many modern pages also build their content with JavaScript, so a simple download gets an empty shell.
+
+Databases: rows are structured facts, not prose. Turning each row into a readable sentence can work for small, descriptive tables. For questions that need counting or filtering, it is usually better to let the model query the database directly, which is covered later.
+
+Match the method to the source.
+?? Why must web pages be cleaned before indexing?
++ Menus, banners and footers would otherwise pollute the content
+- Web pages contain no text
+- Websites are always written in code only
+- Cleaning makes the pages load faster for visitors
+= Most of a page's markup is navigation and boilerplate, which adds noise to every chunk if left in.
+## OCR for scanned invoices, purchase orders, and forms
+A scanned document is a picture. Before any AI can use what it says, optical character recognition, OCR, has to turn the picture into text.
+
+For business paperwork, reading the letters is only half the job. An invoice is not prose. It is labelled values arranged in space: "Total" on the left, "£1,240.00" on the right. Good document tools keep that layout, and return fields and table rows as well as words.
+
+Quality depends on the scan. A crooked photo, a faint fax, a stamp across the figures or handwriting will all cause misreads. Classic confusions are 0 with O, 1 with l, and 5 with S.
+
+Modern vision models read documents well, but they can also misread a number with confidence. For anything financial, add checks: do the line items add up to the total?
+?? What is a sensible check on values extracted from a scanned invoice?
++ Confirm the line items add up to the stated total
+- Assume the OCR is always right
+- Delete the original scan
+- Raise the temperature
+= OCR can misread digits, so arithmetic consistency checks catch many errors.
+## Cleaning: removing headers, footers, and duplicates
+Raw extracted text is full of things that are not content, and they quietly damage search.
+
+Repeated headers and footers. "Acme Ltd — Confidential — Page 7 of 42" on every page ends up in every chunk and makes unrelated chunks look alike.
+
+Boilerplate. Legal disclaimers, email signatures and navigation text, repeated hundreds of times.
+
+Duplicates. The same document saved in five folders, or version 3 alongside versions 1 and 2. Search then returns five copies of one passage, or the outdated one.
+
+Broken text. Words split by hyphens at line ends, stray symbols, scrambled characters.
+
+It is washing and trimming vegetables before cooking. Skip it and the grit is in every dish.
+
+Cleaning is dull, mostly rule-based work, and it has a large effect on quality.
+?? Why is having several versions of the same document in the index a problem?
++ Search may return outdated or repeated passages
+- It makes embeddings longer
+- It prevents the model from reading text
+- It reduces storage use
+= Duplicates crowd the results and old versions can supply out-of-date answers.
+## Bad parsing is a leading cause of bad answers
+When a RAG system gives a wrong answer, people tend to blame the model. Very often the fault is much earlier: the text that went into the index was already broken.
+
+If a table was scrambled during extraction, no model can read the right figure from it. If the key paragraph was dropped, the perfect retriever cannot find it. If two columns were merged, the "passage" is nonsense.
+
+Garbage in, garbage out. The model works faithfully with what it was given.
+
+So debug from the start of the pipeline. Take a question that failed. Find the source document. Look at the parsed text and the chunks made from it. Is the answer there, intact and readable?
+
+Half an hour spent reading your own chunks is the most valuable diagnosis in RAG.
+?? A RAG system keeps giving a wrong figure from a report. What should you check first?
++ Whether the parsed text and chunks actually contain the correct figure intact
+- Whether the model's name is fashionable
+- Whether the temperature is high enough
+- Whether the user typed politely
+= If extraction mangled the source, nothing later in the pipeline can recover the right answer.
+
+@@ sll_csIkGsx3E0_t | B2.2 Data Ingestion > Chunking Strategies
+## Fixed, recursive, and semantic chunking
+Chunking is splitting documents into pieces for indexing. There are three common methods.
+
+Fixed-size: cut every N characters or tokens. It is simple and predictable, and it happily slices through the middle of a sentence or a table.
+
+Recursive: try to split at natural boundaries first. Sections, then paragraphs, then sentences, going finer only when a piece is still too big. It is the sensible default.
+
+Semantic: use embeddings to find where the topic changes and cut there. Each chunk covers one idea. It is more expensive, and sometimes better.
+
+Think of cutting a cake: with a ruler every five centimetres, along the layers that are already there, or by flavour.
+
+Start with recursive. Change only if your tests show that the chunk boundaries are causing failures.
+?? Which chunking method is the usual sensible default?
++ Recursive splitting at natural boundaries such as paragraphs
+- Cutting at random points
+- One chunk per letter
+- Never splitting at all
+= Recursive chunking respects document structure while keeping chunks within a size limit.
+## Chunk size, overlap, and metadata
+Three settings shape every chunking setup.
+
+Size: how long each chunk is. A few hundred tokens is a common starting point, roughly a paragraph or three.
+
+Overlap: how much each chunk shares with the one before, typically 10 to 20 per cent. If an important sentence falls on a boundary, overlap means it appears whole in at least one chunk.
+
+Metadata: information stored with the chunk but not part of its text. Which document it came from, the section heading, the page, the date.
+
+Think of film frames that overlap slightly so no moment is lost, each stamped with the reel and scene number.
+
+There are no universally right numbers. They depend on your documents and your questions, so treat them as dials to tune against your tests.
+?? What is chunk overlap for?
++ Making sure content that falls on a boundary appears complete in at least one chunk
+- Reducing storage
+- Making chunks identical
+- Hiding the source document
+= Overlapping neighbouring chunks prevents a sentence or idea from being split across the cut.
+## Why documents are split into chunks
+Why not embed each document whole? There are three reasons.
+
+Precision of matching. One vector for a 50-page handbook is an average of everything in it. A question about parental leave matches it weakly, because leave is 2 per cent of the content. A chunk only about parental leave matches strongly.
+
+Precision of context. When you retrieve, you want to hand the model the relevant paragraph, not all 50 pages. That is cheaper, faster and less distracting.
+
+Limits. Embedding models have a maximum input length.
+
+It is the index of a textbook pointing you to page 212, instead of telling you "the answer is in this book".
+
+Chunks are the unit of retrieval. What the model sees is decided chunk by chunk.
+?? Why is one embedding for an entire long document a poor basis for search?
++ It averages many topics, so specific questions match it only weakly
+- Long documents cannot be stored
+- Embeddings only work on single words
+- It makes the document unreadable
+= A single vector blurs all the content together, so focused chunks give sharper matches.
+## Too small loses context; too large adds noise
+Chunk size is a balance with a failure on each side.
+
+Too small: a chunk reads "It must be submitted within 30 days." What must? Submitted to whom? The sentence that explained it is in a different chunk. The match may be good, and the content is useless without its surroundings.
+
+Too large: a chunk covers three pages about returns, shipping and warranties. Its embedding is a blend, so it matches specific questions weakly. And when it is retrieved, the model has to dig the answer out of a lot of unrelated text.
+
+Think of quoting someone. One word is meaningless. The whole speech buries the point. You want the sentence, with enough around it to be understood.
+
+Read a sample of your chunks. Does each one make sense alone?
+?? What is the problem with very small chunks?
++ They lose the surrounding context needed to understand them
+- They cost too much to store
+- They cannot be embedded
+- They contain too many topics
+= A fragment may match a query but be meaningless without the sentences around it.
+## Keeping tables and sections whole
+Some content only makes sense as a unit. Cutting through it destroys the meaning.
+
+A table split in half leaves the bottom rows with no column headings: a list of numbers that could be anything. A numbered procedure split after step 3 leaves steps 4 to 7 with no idea what they belong to. A question-and-answer pair split apart is two useless halves.
+
+Structure-aware chunking respects these units. Keep a table in one chunk, or repeat its header row in each part. Keep a list with the sentence that introduces it. Split at headings where you can.
+
+A helpful trick: add the section title to the start of each chunk, so that "Returns policy > Faulty items" travels with the text.
+
+It is not tearing a page in the middle of a table.
+?? How should a table be handled during chunking?
++ Kept whole, or split with its header row repeated in each part
+- Cut wherever the size limit falls
+- Deleted from the document
+- Converted to a single number
+= Rows without their headers lose their meaning, so tables need to stay intact or carry headers with them.
+## Metadata: source, date, and owner for filtering and citations
+Metadata is the label attached to each chunk: where it came from, when it was written or updated, who owns it, what type of document it is, who is allowed to see it.
+
+It makes four things possible that plain text cannot.
+
+Filtering: search only documents from this year, or only HR policies.
+
+Citations: tell the user "from the Returns Policy, page 3, updated in March".
+
+Freshness: prefer the newer of two conflicting documents.
+
+Access control: do not retrieve what this user is not permitted to read.
+
+It is the label on a filing folder. Without it, you have a pile of loose pages.
+
+Capture metadata at ingestion time. Adding it later means reprocessing everything.
+?? Which capability depends on storing metadata with each chunk?
++ Citing the source document and filtering by date or type
+- Embedding the text
+- Counting tokens
+- Choosing a temperature
+= Source, date and ownership labels let the system filter results and tell users where an answer came from.
+
+@@ sll_bPmNZq7H1_2B | B2.3 Vector Databases & Search > Vector Databases
+## Indexing (HNSW, IVF) and ANN search
+Finding the nearest vectors by comparing a query with every stored one works for thousands of items. With millions, it is too slow. An index is the structure that makes it fast.
+
+There are two common kinds. HNSW builds a network of links between nearby vectors, in layers. Search hops through the network, taking long jumps first and then short ones, like using motorways and then local roads.
+
+IVF sorts vectors into clusters. Search checks only the few clusters nearest the query, like looking in the right aisle of a supermarket instead of the whole shop.
+
+Both are forms of ANN, approximate nearest neighbour search: very fast, and nearly always right.
+
+You rarely build these yourself. The database does. Knowing the names helps you read its settings.
+?? What is the purpose of a vector index such as HNSW?
++ To find near neighbours quickly without comparing against every vector
+- To compress documents into summaries
+- To translate queries
+- To generate embeddings
+= An index organises vectors so search can skip most of them and still find close matches.
+## Chroma, Pinecone, pgvector compared
+~m
+Three popular options show the range of choice.
+
+Chroma is open source and runs inside your own program or on a small server. It is the easiest way to start and is ideal for prototypes and modest projects.
+
+Pinecone is a fully managed cloud service. You send vectors and it handles scaling and operations. It costs more and needs the least work at large scale.
+
+pgvector is an extension that adds vector search to PostgreSQL, the widely used relational database. If your application already runs on Postgres, your vectors can live beside your ordinary data, with one system to back up and secure.
+
+Think of a camping stove, a restaurant kitchen you rent, and adding a hob to the kitchen you already own.
+
+There are many others, such as Qdrant, Weaviate and Milvus. For most small projects, the simplest one that works is right.
+?? What is the main appeal of pgvector?
++ Vectors can live in the PostgreSQL database you already use
+- It needs no database at all
+- It is a fully managed cloud-only service
+- It generates the embeddings for you
+= As a Postgres extension, it keeps vectors beside your existing data and under the same operations.
+## What a vector database stores: vectors, text, and metadata
+Each record in a vector database has three parts that work together.
+
+The vector: the embedding, used for the similarity search.
+
+The text: the original chunk. The vector cannot be turned back into words, so the text has to be kept, or at least a pointer to it. This is what you actually hand to the model.
+
+The metadata: source, date, section, permissions. It is used to filter results and to cite them.
+
+Plus an id, so the record can be updated or deleted.
+
+Think of a library catalogue card. The shelf code finds the book, the card says what it is, and the book itself is what you read.
+
+A database holding only vectors would give you a list of numbers that are "close" and nothing you could show anyone.
+?? Why must the original text be stored alongside each vector?
++ The vector cannot be converted back into words, and the model needs the text
+- Vectors are illegal to store alone
+- Text makes search faster
+- The database cannot index numbers
+= Similarity search finds the record, but it is the chunk's text that goes into the prompt.
+## Approximate search: trading a little accuracy for speed
+Exact nearest-neighbour search guarantees the true closest matches by checking everything. Approximate search checks a clever subset and returns matches that are almost certainly the closest.
+
+The trade is very good. It typically finds 95 to 99 per cent of the true top results in a fraction of the time: milliseconds instead of seconds.
+
+How much it misses is called recall, and it can be tuned. Spend more effort per search and recall goes up while speed goes down.
+
+It is asking three well-informed locals for the best restaurant, instead of surveying the whole town. You will very likely get a great answer, though perhaps not the single best.
+
+For RAG that is fine. The fifth-best chunk in place of the fourth rarely changes the answer.
+?? What does approximate nearest-neighbour search give up?
++ A small amount of accuracy, in exchange for much faster search
+- All accuracy
+- The ability to store text
+- The need for embeddings
+= ANN occasionally misses a true nearest neighbour but returns results far more quickly.
+## Keeping the index fresh as documents change
+An index is a snapshot of your documents from the moment it was built. Documents keep changing, and a stale index gives stale answers.
+
+There are three cases to handle. New documents: parse, chunk, embed and add them. Changed documents: remove the old chunks and add the new ones. If you only add, both versions are in there and the model may quote the old price. Deleted documents: remove their chunks, or the system will keep citing a policy that no longer exists.
+
+That needs a link from each chunk back to its source document and version. It is metadata again.
+
+Decide how fresh you need to be: an hourly sync, a nightly one, or an update the moment a file changes.
+
+It is a shop keeping its price tags up to date.
+?? A policy document is updated but its old chunks stay in the index. What can happen?
++ The system may answer from the outdated version
+- The index automatically ignores old chunks
+- The model refuses to answer
+- Search becomes faster
+= Without removing superseded chunks, old and new content both remain retrievable.
+
+@@ sll_uMV-SwY-duoH | B2.3 Vector Databases & Search > Search Methods
+## Semantic search
+Semantic search finds content by meaning. Embed the query, find the stored chunks with the nearest vectors, and return them.
+
+Its strength is tolerance. People describe things in their own words, with synonyms, loose phrasing and typos, and it still finds the relevant passage. "My parcel never turned up" finds the section headed "Non-delivery claims".
+
+It also handles concepts. "Ways to cut costs" finds a passage about renegotiating supplier contracts that never uses the word "cost".
+
+It is describing a film you half remember, "the one where the ship sinks and the band keeps playing", and a friend naming it.
+
+Its weakness is the mirror image. It is vague about exact terms, so a search for a particular code or name can return things that are merely about the same sort of subject.
+?? What is the main strength of semantic search?
++ It finds relevant content even when the wording differs from the query
+- It matches exact codes perfectly
+- It needs no embeddings
+- It only returns documents containing the same words
+= Matching by meaning tolerates synonyms and paraphrase, which keyword matching cannot.
+## Hybrid search (BM25 + vector)
+Hybrid search runs two searches and combines them: semantic search by vectors, and keyword search, usually an algorithm called BM25.
+
+Each covers the other's blind spot. Vectors catch meaning when the words differ. Keywords catch exact terms that vectors blur: product codes, names, abbreviations, rare jargon.
+
+The two result lists are then merged into one ranking. A common method, reciprocal rank fusion, rewards chunks that come high on either list, and especially on both.
+
+Think of asking two assistants, one who understands what you mean and one with a perfect memory for exact words, and taking the best of both.
+
+In practice, hybrid is the strongest default for business documents, which are full of both concepts and codes. Most vector databases support it directly.
+?? Why combine keyword search with vector search?
++ Keyword search catches exact terms that vectors blur, and vectors catch meaning that keywords miss
+- To double the storage cost
+- Because vector search cannot return results by itself
+- To avoid using embeddings
+= The two methods have complementary weaknesses, so merging their results improves coverage.
+## Metadata filtering
+Metadata filtering narrows the search to chunks that meet hard conditions, alongside the similarity search.
+
+"Find passages about leave entitlement" becomes "find passages about leave entitlement, where country is UK and document type is policy and status is current".
+
+Similarity alone cannot do that. A German policy about leave is extremely similar in meaning to the UK one, and for a UK employee it is simply the wrong answer.
+
+Think of online shopping. You type what you are after, then tick the boxes: in stock, size 9, under £50. The search handles the fuzzy part and the filters handle the facts.
+
+Filters are exact where embeddings are approximate. Use them for anything that is a yes-or-no fact about a document: date, region, department, product, language.
+?? When is a metadata filter better than relying on similarity alone?
++ When a hard condition such as country or date must be met
+- When the query is vague
+- When there is no metadata
+- When you want more irrelevant results
+= Filters enforce exact constraints that semantic similarity cannot distinguish.
+## Keyword search (BM25): exact words, names, and codes
+BM25 is the classic keyword ranking method, the kind of search engines used before embeddings. It scores a document by how well its words match the query's words.
+
+Two ideas make it smart. Rare words count for more: matching "E-4012" matters far more than matching "the". And repetition helps, with diminishing returns, adjusted for the document's length.
+
+It is exact. Search for "E-4012" and you get documents containing "E-4012", not ones about errors in general.
+
+It is also fast, cheap and needs no model at all.
+
+Its limit is literal-mindedness. Search "car" and it will not find "vehicle".
+
+It is the index at the back of a book: perfect if you know the term, useless if you only know the idea.
+?? What kind of query is BM25 keyword search especially good at?
++ Queries containing exact terms such as codes, names or rare words
+- Vague conceptual questions
+- Queries in a different language from the documents
+- Queries with no words
+= BM25 matches literal terms and weights rare ones heavily, which suits precise identifiers.
+## Top-k: how many results to fetch
+Top-k is the number of chunks the search returns: the k best matches. It is a small setting with large effects.
+
+Too few, say k of 1 or 2. If the right chunk came third, the model never sees it. Questions that need information from several places cannot be answered.
+
+Too many, say k of 50. The right chunk is there, buried in forty-nine others. Cost rises, and the noise distracts the model.
+
+A common pattern gets both benefits. Retrieve generously, perhaps 20 to 50, then use a re-ranker to pick the best 3 to 8 to send to the model.
+
+It is a shortlist for a job. Too short and you may miss the best person. Too long and you cannot interview properly.
+
+Tune k against your test questions.
+?? What is the risk of setting top-k too low?
++ The chunk containing the answer may not be retrieved at all
+- The prompt becomes too long
+- Costs rise sharply
+- The model is distracted by noise
+= With too few results, a correct chunk ranked just below the cut-off never reaches the model.
+## Access control: users only retrieve what they may see
+A RAG system that indexes company documents has just put everything into one searchable pile. Without access control, any user can ask about anything, including salary reviews, board minutes and other clients' files.
+
+The rule is that retrieval must respect the same permissions as the original documents.
+
+In practice: store who may see each chunk as metadata, and filter every search by the identity of the person asking. The filter has to happen at retrieval, before anything reaches the model.
+
+Telling the model "do not reveal confidential information" is not security. If it is in the context, it can leak.
+
+It is a filing room where every drawer has its own lock, not a sign on the door asking people to behave.
+
+Design this in from the beginning. It is very hard to add afterwards.
+?? Where must access control be enforced in a RAG system?
++ At retrieval, so restricted chunks never reach the model
+- Only in the wording of the prompt
+- After the answer has been shown to the user
+- Nowhere; the model handles it
+= Anything placed in the context can be revealed, so filtering must happen before the model sees it.
+
+@@ sll_Tn2uCbMqqu8t | B2.4 Retrieval-Augmented Generation > Basic RAG Pipeline
+## Retrieve, augment, generate
+RAG, retrieval-augmented generation, is three steps, and the name lists them.
+
+Retrieve: take the user's question and search your document index for the most relevant chunks.
+
+Augment: build a prompt containing those chunks along with the question and instructions. "Augment" just means the prompt has been enriched with the retrieved material.
+
+Generate: send that prompt to the model, which writes an answer based on what it was given.
+
+It is an open-book exam. Look up the relevant pages, lay them next to the question, then write the answer.
+
+The model itself is unchanged. All the "knowledge" arrived through the prompt. That is why RAG is far cheaper and quicker to set up than retraining anything.
+?? In RAG, what does the "augment" step do?
++ Adds the retrieved chunks to the prompt alongside the question
+- Retrains the model on new data
+- Makes the model larger
+- Searches the web for images
+= Augmentation means enriching the prompt with retrieved passages before the model generates its answer.
+## Grounding answers with citations
+A grounded answer points to where each claim came from: "Returns are accepted within 30 days [Returns Policy, section 2]."
+
+To do it, number or label the chunks in the prompt and instruct the model to cite the label for every factual statement.
+
+Citations do three jobs. The user can click through and check. The model is disciplined, because it is harder to invent a claim when a source has to be named for it. And you can debug: when an answer is wrong, you can see at once whether the source was wrong or the model misread it.
+
+It is footnotes in a serious book.
+
+One caution. A model can attach a real citation to a claim the source does not actually support. So verify citations by sampling, or automatically.
+?? What is one benefit of requiring citations in RAG answers?
++ Users and developers can verify each claim against its source
+- The answers become shorter
+- Retrieval is no longer needed
+- The model stops needing instructions
+= Citations make answers checkable and discourage unsupported claims.
+## Why RAG: fresh and private knowledge without retraining
+RAG fixes the two things a model cannot know.
+
+Fresh knowledge. A model's training ended at its cutoff. RAG reads from a store you update whenever you like. Change the price list this morning and this afternoon's answers use it.
+
+Private knowledge. The model was never shown your contracts, your procedures or your customer history. RAG supplies them at the moment of the question, and the model itself is never changed.
+
+That second point matters. Your data is not baked into anyone's model. Remove a document from the index and it is gone from the answers.
+
+It is hiring a brilliant generalist and giving them access to the company's files, instead of trying to make them memorise the filing cabinet.
+
+It also costs a tiny fraction of fine-tuning.
+?? How does RAG keep answers up to date?
++ It reads from a document store that you can update at any time
+- It retrains the model every night
+- It extends the model's knowledge cutoff
+- It browses random websites
+= Because knowledge comes from the index at query time, updating the documents updates the answers.
+## Telling the model to answer only from the sources
+Retrieved chunks alone do not guarantee a grounded answer. The model still has its own memory, and it will happily mix that in unless told otherwise.
+
+So the instruction must be explicit: "Answer using only the information in the sources below. Do not use any other knowledge."
+
+Without it, you get a blend: partly your policy, partly what return policies in general tend to say. The blended part sounds just as authoritative and may be wrong for your business.
+
+It is a witness told to "stick to what is in the documents" and not to speculate.
+
+The instruction is strong but not perfect. Models sometimes still add outside knowledge, especially when the sources are thin. That is one reason citations and evals matter.
+?? Why tell a RAG model to answer only from the provided sources?
++ Otherwise it may blend in general knowledge that is wrong for your case
+- To make the answers longer
+- Because models cannot read sources without it
+- To raise the temperature
+= The model's own memory can leak into answers unless it is explicitly restricted to the supplied text.
+## Not found in the documents: a valid answer
+Sometimes the retrieved chunks simply do not contain the answer. The question is outside your documents, or retrieval missed.
+
+What the system does next is a design decision, and the right one is to say so: "I could not find that in the available documents."
+
+The wrong outcome is the model filling the gap with a plausible guess, delivered in the same confident tone as a grounded answer. Users cannot tell the two apart.
+
+So put the fallback in the prompt: "If the sources do not contain the answer, say so and do not guess." Then make it useful by suggesting who to contact or what to try.
+
+A librarian who says "we do not hold that" is doing the job properly.
+
+In your tests, include questions that should produce "not found".
+?? What should a RAG system do when the retrieved sources do not contain the answer?
++ Say that it could not find the answer in the documents
+- Guess from general knowledge without saying so
+- Repeat the question back
+- Return a random chunk
+= An honest "not found" is far safer than a confident guess that looks like a grounded answer.
+
+@@ sll_NKjn-9Wh5tyh | B2.4 Retrieval-Augmented Generation > Improving Retrieval
+## Re-ranking with cross-encoders
+The first search is fast and rough. A re-ranker is a second, slower and more careful pass that puts the candidates in a better order.
+
+The difference is in how they compare. The first stage embeds the question and each chunk separately, then measures the distance between them. A re-ranker, often a model type called a cross-encoder, reads the question and one chunk together and judges how well that chunk answers that question.
+
+Reading them together is much more accurate, and much too slow to run on a million chunks. So you use it on the 20 to 50 that the first stage returned.
+
+It is recruitment. A quick sift of CVs gives a longlist, then proper interviews rank the shortlist.
+
+Adding a re-ranker is often the largest single improvement to a basic RAG system.
+?? Why is a re-ranker used only on a shortlist of candidates?
++ It is accurate but too slow to run across the whole index
+- It can only read five words
+- It deletes the chunks it reads
+- It works without the question
+= Cross-encoders compare the query with each chunk in depth, which is affordable only for a small set.
+## Query rewriting and HyDE
+Sometimes retrieval fails because of the question, not the documents.
+
+Query rewriting uses a model to improve the question before searching. A follow-up such as "and what about for part-timers?" is meaningless alone. Rewritten using the conversation, it becomes "What is the holiday entitlement for part-time employees?" Vague queries can also be expanded, or split into several searches.
+
+HyDE, hypothetical document embeddings, is a neat trick. Ask the model to write a made-up answer to the question, then search using that. A fake answer looks more like the real documents than a short question does, so it often retrieves better. The fake answer is thrown away afterwards.
+
+It is like describing roughly what the page you want would say, instead of giving the librarian three keywords.
+?? What does query rewriting do?
++ Reformulates the user's question into a clearer, self-contained search query
+- Rewrites the documents in the index
+- Translates the answer
+- Deletes the conversation history
+= Rewriting resolves references and vagueness so the search has a complete query to work with.
+## Retrieval metrics (recall@k, MRR)
+To improve retrieval you have to measure it, separately from the final answer. Two numbers do most of the work.
+
+Recall@k asks: for what share of test questions did the correct chunk appear in the top k results? If recall@5 is 80 per cent, then for one question in five the model never saw the right material and could not have answered properly.
+
+MRR, mean reciprocal rank, asks how high the correct chunk came. First place scores 1, second scores a half, third scores a third. The average over all questions tells you whether right answers are landing at the top or scraping in at the bottom.
+
+Recall says whether you found it. MRR says how near the top.
+
+Both need a test set where you know which chunk is correct for each question.
+?? What does recall@5 measure?
++ How often the correct chunk appears among the top five results
+- How long the search takes
+- How many tokens were used
+- How fluent the answer is
+= Recall@k is the share of queries for which a relevant chunk is within the first k retrieved.
+## Finding the fault: retrieval problem or generation problem?
+A wrong RAG answer has two possible culprits, and the fixes are completely different. So diagnose before you change anything.
+
+Look at the chunks that were retrieved for the failed question.
+
+Was the right information in them? If not, it is a retrieval problem. The model never had a chance. Look at parsing, chunking, the embedding model, hybrid search, top-k, re-ranking.
+
+If it was there and the answer was still wrong, it is a generation problem. The model ignored or misread good material. Look at the prompt, the ordering, the amount of noise, or the model itself.
+
+It is a wrong dish in a restaurant. Did the waiter take down the wrong order, or did the kitchen cook the right order badly?
+
+Teams that skip this step spend weeks tuning the wrong half.
+?? The correct passage was retrieved, but the answer is still wrong. Where is the fault?
++ In generation: the prompt or the model's use of the context
+- In the embedding model
+- In the chunking
+- In the vector index
+= If the right material reached the model, retrieval did its job and the problem lies in how the answer was produced.
+## A small test set of questions and their correct sources
+All of the above depends on one asset: a test set.
+
+It is a list of real questions, each paired with the document or chunk that contains the answer, and ideally with the ideal answer too. Thirty to fifty is enough to begin with.
+
+Gather them from reality: questions that users, staff or customers actually ask. Include easy ones, hard ones, ones needing two sources, and ones whose correct answer is "not in the documents".
+
+With that list, every change becomes measurable. New chunk size? Run the set and compare recall. New embedding model? Run the set.
+
+Without it you are tuning by feel, and each fix for one question quietly breaks two others.
+
+It is the ruler. An afternoon spent building it is repaid for the life of the project.
+?? What should each entry in a RAG test set contain?
++ A real question and the source that correctly answers it
+- Only a list of documents
+- A random number
+- The model's name
+= Knowing the correct source for each question is what lets retrieval quality be measured.

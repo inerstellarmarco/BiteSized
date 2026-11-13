@@ -5,74 +5,242 @@
     {
       "id": "bit_JOP_Kj-IrQuM",
       "title": "Hosts, clients, and servers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The Model Context Protocol, MCP, is a standard way to connect AI applications to tools and data. It has three roles.\n\nThe host is the AI application the person uses: a chat app, a coding assistant, your own agent.\n\nThe server is a small program that offers capabilities from one system, such as a calendar, a database or a file store.\n\nThe client is the connector inside the host that speaks to one server. A host runs one client for each server it is connected to.\n\nPicture a laptop (the host) with several USB ports (clients), each plugged into a device (a server): a printer, a camera, a drive.\n\nThe servers do not know about each other. The host brings them together and decides what the model may use.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_JOP_Kj-IrQuM_1",
+          "type": "multiple_choice",
+          "prompt": "In MCP, what is a server?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The application the user chats with"
+            },
+            {
+              "id": "b",
+              "text": "The language model itself"
+            },
+            {
+              "id": "c",
+              "text": "A physical computer room"
+            },
+            {
+              "id": "d",
+              "text": "A program that offers tools or data from one system"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "An MCP server exposes a system's capabilities, and the host application connects to it through a client.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_OTWmYeR4TE3x",
       "title": "Tools, resources, and prompts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An MCP server can offer three kinds of thing.\n\nTools are actions the model can call: \"create_event\", \"search_tickets\". These are the function calls you already know, and by far the most used.\n\nResources are data the application can read and place in context: a file, a database record, a document. They are for reading, with no side effects.\n\nPrompts are ready-made templates the user can pick, like \"summarise this ticket\" or \"review this pull request\". They are a server's suggested ways of using it.\n\nA rough guide to who is in charge: the model decides when to call tools, the application decides which resources to load, and the user chooses prompts.\n\nIn practice many servers offer only tools, and that is fine.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OTWmYeR4TE3x_1",
+          "type": "multiple_choice",
+          "prompt": "Which MCP capability lets the model take actions?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Resources"
+            },
+            {
+              "id": "b",
+              "text": "Prompts"
+            },
+            {
+              "id": "c",
+              "text": "Tools"
+            },
+            {
+              "id": "d",
+              "text": "None of them"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Tools are callable actions, while resources supply data and prompts are reusable templates.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_KC7REFRVCjvH",
       "title": "What MCP solves: build a connector once, use it in many apps",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before MCP, every AI application needed its own custom connection to every service. Ten apps and twenty services meant up to two hundred separate integrations, each built and maintained by someone.\n\nMCP turns that into ten plus twenty. A service publishes one MCP server. Any application that speaks MCP can use it.\n\nIt is USB. Before it, every device had its own plug. After it, one port took everything.\n\nFor you as a builder, there are two gains. You can plug existing servers into your agent and skip writing the connectors. And a connector you build for a client works in their chat app, their coding tool and your agent alike.\n\nMCP does not make a model cleverer. It removes plumbing work.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KC7REFRVCjvH_1",
+          "type": "multiple_choice",
+          "prompt": "What problem does MCP mainly solve?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Models being too small"
+            },
+            {
+              "id": "b",
+              "text": "Slow internet connections"
+            },
+            {
+              "id": "c",
+              "text": "Having to build a separate custom integration for every app and service pair"
+            },
+            {
+              "id": "d",
+              "text": "The cost of electricity"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A shared standard lets one connector work across many AI applications.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Ir9kmswDUbwW",
       "title": "MCP is an open standard, now hosted by the Linux Foundation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "MCP was created by Anthropic and published as an open standard in late 2024. Other major providers, including OpenAI, Google and Microsoft, adopted it during 2025.\n\nIn December 2025 Anthropic donated it to the Agentic AI Foundation, a body set up under the Linux Foundation, which also looks after projects such as Linux and Kubernetes.\n\nThat matters for a practical reason. A standard controlled by one company is a risk to everyone else who builds on it. One held by a neutral foundation, with several rival companies taking part, is safer to rely on.\n\nIt is like the web's standards, which no single browser maker owns.\n\nFor a consultant, it means MCP is a reasonable long-term choice, not one vendor's product.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Ir9kmswDUbwW_1",
+          "type": "multiple_choice",
+          "prompt": "Why does it matter that MCP is held by a neutral foundation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "No single company controls it, so it is safer to build on"
+            },
+            {
+              "id": "b",
+              "text": "It makes it more expensive"
+            },
+            {
+              "id": "c",
+              "text": "It means only one company can use it"
+            },
+            {
+              "id": "d",
+              "text": "It stops it being updated"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Neutral governance reduces the risk that one vendor changes or restricts the standard.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_P0Q63GCegvHx",
       "title": "Local vs. remote servers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "MCP servers run in one of two places.\n\nA local server runs on your own machine, started by the host application. It can reach things on that computer: files, a local database, installed programs. Nothing needs to travel over the internet. Installation is the awkward part, since each user has to set it up.\n\nA remote server runs on the internet and is reached by a web address. Nothing is installed. You connect and sign in. One server serves many users, and the provider keeps it up to date.\n\nIt is software installed on your computer against a website you log in to.\n\nRemote servers are becoming the norm for business services, because they are easier to roll out and to secure centrally. Local ones remain right for anything that must touch your own machine.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_P0Q63GCegvHx_1",
+          "type": "multiple_choice",
+          "prompt": "What is an advantage of a remote MCP server?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It can only read your local files"
+            },
+            {
+              "id": "b",
+              "text": "Nothing to install; users connect and sign in"
+            },
+            {
+              "id": "c",
+              "text": "It works without the internet"
+            },
+            {
+              "id": "d",
+              "text": "It needs every user to configure their own copy"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Remote servers are hosted centrally, so they are simpler to roll out and maintain.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_mchZ30Q8rT73",
       "title": "Finding and vetting existing MCP servers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Thousands of MCP servers exist, so check before you build. Look in the official MCP registry, the service's own documentation, and the connector directories inside the AI applications.\n\nThen vet it, because installing a server means running someone else's code with access to your data.\n\nWho made it? A server from the service's own company is far safer than an anonymous one.\n\nWhat can it do? Read the list of tools. Does a \"read your notes\" server also include tools that delete?\n\nWhat access does it ask for? More than its job needs is a warning sign.\n\nIs it maintained? Check for recent updates and how problems are handled.\n\nIs the code open to inspection?\n\nIt is the care you would take before installing a browser extension that can read every page you visit.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_mchZ30Q8rT73_1",
+          "type": "multiple_choice",
+          "prompt": "What is the safest source for an MCP server?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "An anonymous download with no history"
+            },
+            {
+              "id": "b",
+              "text": "The company that runs the service it connects to"
+            },
+            {
+              "id": "c",
+              "text": "Whichever appears first in a search"
+            },
+            {
+              "id": "d",
+              "text": "One that asks for the most permissions"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "An official server from the service's own provider carries much less risk than an unknown one.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

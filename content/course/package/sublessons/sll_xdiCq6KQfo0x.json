@@ -5,74 +5,242 @@
     {
       "id": "bit_7B9qM1uTmErl",
       "title": "Image generation (e.g., GPT Image, Imagen, Midjourney, Flux)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Image models turn a written description into a picture. Type \"a watercolour of a lighthouse at dawn\" and you have one in seconds.\n\nThe main names: OpenAI's GPT Image models, Google's Imagen, Midjourney, known for a polished artistic look, and Flux, a family that includes open versions.\n\nMany work by diffusion. The model starts from random noise and removes it step by step, guided by your words, like a sculptor finding the figure in a block of stone.\n\nThey can also edit: change a background, extend a photo, restyle an image.\n\nTypical uses are concept art, illustrations, mock-ups and marketing drafts. As with text, you get a plausible picture, not a guaranteed accurate one.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7B9qM1uTmErl_1",
+          "type": "multiple_choice",
+          "prompt": "How does a diffusion image model produce a picture?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It searches the web for a matching photo"
+            },
+            {
+              "id": "b",
+              "text": "It starts from random noise and refines it step by step, guided by the prompt"
+            },
+            {
+              "id": "c",
+              "text": "It stitches together stored clip-art"
+            },
+            {
+              "id": "d",
+              "text": "It photographs a real scene"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Diffusion models learn to remove noise, gradually shaping it into an image that matches the description.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__HKYL6Qm3Ax8",
       "title": "Video and voice (e.g., Veo, Runway, ElevenLabs)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Generation now extends to moving pictures and sound.\n\nVideo models, such as Google's Veo, OpenAI's Sora and Runway, create short clips from a text description or a starting image, some with matching sound. Quality has risen fast, though clips are short and keeping things consistent over time is still hard.\n\nVoice models, such as ElevenLabs, turn text into speech that sounds natural, in many voices and languages. Some can copy a specific voice from a short sample.\n\nPractical uses are product demos, training videos, narration, dubbing into other languages and voice assistants.\n\nThe same ability makes convincing fakes easy to produce, which is why consent and disclosure come up in the next lesson.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__HKYL6Qm3Ax8_1",
+          "type": "multiple_choice",
+          "prompt": "What is a current limitation of AI video generation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It cannot produce any motion"
+            },
+            {
+              "id": "b",
+              "text": "It only works in black and white"
+            },
+            {
+              "id": "c",
+              "text": "Clips are short and consistency over time is difficult"
+            },
+            {
+              "id": "d",
+              "text": "It requires a film crew"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Video models produce impressive short clips but still struggle to keep characters and scenes consistent for long.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Npu_lnPMKKVb",
       "title": "Weak spots: text inside images and consistent characters across images",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Image models have two well-known weaknesses, improving but not gone.\n\nText inside the image. Ask for a shop sign reading \"Fresh Bread Daily\" and you may get \"Frsh Braed Dialy\". The model paints letter-like shapes without truly spelling. Recent models handle short text much better, but long or small text still fails.\n\nConsistency. Generate a character once, then ask for the same character in a different scene, and you often get a cousin: different face, different clothes. That makes picture books and brand mascots hard.\n\nHands and fine detail are a third classic.\n\nThe practical answer: check every image closely, and add important text afterwards in a design tool.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Npu_lnPMKKVb_1",
+          "type": "multiple_choice",
+          "prompt": "What is a reliable way to get correct wording on an AI-generated poster?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Add the text afterwards in a design tool"
+            },
+            {
+              "id": "b",
+              "text": "Ask the model to spell carefully"
+            },
+            {
+              "id": "c",
+              "text": "Make the image larger"
+            },
+            {
+              "id": "d",
+              "text": "Generate it at night"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Image models can misspell text, so adding lettering in a design tool guarantees it is correct.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_FydIG_PbvuNC",
       "title": "Speech-to-text and text-to-speech as building blocks for voice agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A voice assistant is usually three models in a chain.\n\nSpeech-to-text, also called transcription, turns what the caller said into text. OpenAI's Whisper is a well-known example.\n\nAn LLM reads that text and decides what to say.\n\nText-to-speech turns the reply into audio.\n\nIt is an interpreter standing between you and an expert who only reads and writes.\n\nEach link adds delay, and people notice a pause of more than about a second. So speed counts for more in voice than anywhere else. Errors also pass down the line: if the first step hears \"fifteen\" as \"fifty\", everything after it is wrong.\n\nNewer speech-to-speech models merge the steps, which cuts the delay.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FydIG_PbvuNC_1",
+          "type": "multiple_choice",
+          "prompt": "In a typical voice agent, what are the three stages?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Image generation, then OCR, then translation"
+            },
+            {
+              "id": "b",
+              "text": "Speech-to-text, then an LLM, then text-to-speech"
+            },
+            {
+              "id": "c",
+              "text": "Training, then fine-tuning, then deployment"
+            },
+            {
+              "id": "d",
+              "text": "Search, then sort, then print"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The spoken input is transcribed, an LLM produces the reply, and the reply is turned back into speech.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_yD2BF7p9qZLE",
       "title": "Open image models exist for self-hosting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Open-weight models are not limited to text. Image models such as Stable Diffusion and the open versions of Flux can be downloaded and run on your own hardware.\n\nThe reasons mirror those for text models. Privacy: unreleased product photos never leave your machines. Control: no provider filters or policy changes. Cost at volume: thousands of images a day can be cheaper on your own GPU. Customisation: you can fine-tune on your own style, product or character, which also helps with consistency.\n\nThe costs mirror them too. You need a capable graphics card and someone to run it, and safety filtering becomes your responsibility.\n\nAs ever, check the licence. Some open image models are free for research and need a paid licence for commercial work.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_yD2BF7p9qZLE_1",
+          "type": "multiple_choice",
+          "prompt": "What is one reason to self-host an open image model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To keep unreleased images private and under your own control"
+            },
+            {
+              "id": "b",
+              "text": "Because hosted models cannot make images"
+            },
+            {
+              "id": "c",
+              "text": "Because it needs no hardware"
+            },
+            {
+              "id": "d",
+              "text": "Because licences never apply to images"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Self-hosting keeps the images on your own machines and removes dependence on a provider.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_0lzZ1tKODlyr",
       "title": "Cost is per image or per minute, not per token",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Media models are priced in their own units.\n\nImages are charged per image, with the price rising with resolution and quality: from under a penny to several pence each.\n\nVideo is charged per second of footage generated, and it is the expensive one. A short clip can cost as much as thousands of text requests.\n\nSpeech is charged per minute of audio transcribed, or per character of text spoken.\n\nSo budgeting follows a different pattern. With text you estimate tokens. With media you count outputs, and you count the rejects too. If you generate ten images to get one worth using, the real cost per usable image is ten times the list price.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0lzZ1tKODlyr_1",
+          "type": "multiple_choice",
+          "prompt": "When budgeting for generated images, what is often forgotten?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The cost of input tokens"
+            },
+            {
+              "id": "b",
+              "text": "The cost of the rejected attempts needed to get one usable result"
+            },
+            {
+              "id": "c",
+              "text": "The size of the context window"
+            },
+            {
+              "id": "d",
+              "text": "The knowledge cutoff"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Several generations are usually needed for one keeper, so the real cost per usable image is higher.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

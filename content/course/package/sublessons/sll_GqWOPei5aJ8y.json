@@ -5,62 +5,202 @@
     {
       "id": "bit_DFCSjq9NNCz-",
       "title": "System prompts and personas",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The system prompt is the standing brief that shapes every reply. It is the main control you have over a model's behaviour.\n\nA persona is the role you give it: \"You are a patient support agent for a bicycle shop.\"\n\nA role does real work. It sets vocabulary, tone and what the model treats as relevant. The same question about gears gets a different and better answer from \"a bike mechanic talking to a beginner\" than from a generic assistant.\n\nBut a persona is not a magic spell. \"You are a world-class expert\" adds little. What helps is the concrete part: who the audience is, what the job is and what good looks like.\n\nIt is casting an actor. The costume matters less than the direction.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DFCSjq9NNCz-_1",
+          "type": "multiple_choice",
+          "prompt": "What makes a persona in a system prompt useful?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Calling the model a \"world-class expert\""
+            },
+            {
+              "id": "b",
+              "text": "Concrete detail about the role, the audience and the task"
+            },
+            {
+              "id": "c",
+              "text": "Making the prompt as short as possible"
+            },
+            {
+              "id": "d",
+              "text": "Writing it in capital letters"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Specific context shapes tone and relevance, while empty praise changes little.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_AkcPWZXISysp",
       "title": "Prompt engineering as programming",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A prompt is a program written in ordinary language. It deserves the same care as code.\n\nIt is precise. Vague instructions give vague results, just as vague code would.\n\nIt is tested. You run it on many inputs, not one, and look at where it fails.\n\nIt is versioned. You keep old versions, so that when a change makes things worse you can see what changed and go back.\n\nIt is debugged. When the output is wrong, you find which instruction was missing, unclear or contradicted by another.\n\nThe difference from code is that the \"computer\" interprets instead of obeying literally, and does not behave identically twice. That makes testing more important, not less.\n\n\"I tried it once and it looked fine\" is not engineering.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AkcPWZXISysp_1",
+          "type": "multiple_choice",
+          "prompt": "In what way is writing a prompt like programming?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It must be written in Python"
+            },
+            {
+              "id": "b",
+              "text": "It always gives identical output"
+            },
+            {
+              "id": "c",
+              "text": "It cannot be changed once written"
+            },
+            {
+              "id": "d",
+              "text": "It needs precision, testing on many inputs and version tracking"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Prompts are instructions that must be specified, tested and maintained like code.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_X7mWGfCTggMB",
       "title": "What belongs in a system prompt: role, task, rules, and format",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A solid system prompt covers four things.\n\nRole: who the model is, and who it is talking to. \"You are a support assistant for Acme's small-business customers.\"\n\nTask: what it is there to do, and what success looks like.\n\nRules: the boundaries. What it must always do, what it must never do, and what to do when unsure, such as handing over to a person.\n\nFormat: what the output should look like. Length, structure, tone, language.\n\nAdd any background it needs: product facts, policies, definitions.\n\nIt is a job description. A good one says what the role is, what you will do, what the rules are and how the work is handed in. Leave one out, and the model fills the gap with a guess.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_X7mWGfCTggMB_1",
+          "type": "multiple_choice",
+          "prompt": "Which four elements does a good system prompt cover?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Name, age, address and phone number"
+            },
+            {
+              "id": "b",
+              "text": "Price, speed, size and colour"
+            },
+            {
+              "id": "c",
+              "text": "Input, loop, output and error"
+            },
+            {
+              "id": "d",
+              "text": "Role, task, rules and format"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Stating who the model is, what to do, the boundaries and the output shape leaves little to guesswork.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_x9masX6nbWPb",
       "title": "Explaining why a rule exists, not only the rule",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A bare rule gets followed literally. A rule with a reason gets followed intelligently.\n\nCompare these. \"Never use ellipses.\" And: \"Your reply will be read aloud by a text-to-speech system, which cannot pronounce ellipses, so do not use them.\"\n\nWith the second, the model understands the real aim. It will also avoid other things a speech engine would stumble on, such as emoji and odd symbols, even though you never listed them.\n\nIt is the same with people. Tell a new employee \"do not prop the fire door open\" and they obey until it is inconvenient. Tell them why, and they also will not block it with a box.\n\nReasons cost one extra sentence and cover the cases you did not think of.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_x9masX6nbWPb_1",
+          "type": "multiple_choice",
+          "prompt": "Why include the reason behind a rule in a prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the prompt longer, which is always better"
+            },
+            {
+              "id": "b",
+              "text": "Models ignore rules that have no reasons"
+            },
+            {
+              "id": "c",
+              "text": "The model can apply the intent to cases the rule did not spell out"
+            },
+            {
+              "id": "d",
+              "text": "It lowers the temperature"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Knowing the purpose lets the model generalise sensibly beyond the literal wording.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5kcbyXJz2C7I",
       "title": "Write for a smart newcomer who has no context",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The most useful picture of the model is a brilliant new colleague on their first day. They are capable and willing, and they know nothing about your company, your customers, your project or what you discussed yesterday.\n\nWhat would that person need? The background. Who it is for. What good looks like. Where the traps are. What the terms mean.\n\nMost weak prompts fail this test. \"Summarise the report for the board\" assumes the model knows which board, what they care about, how long and in what tone.\n\nA practical check: hand your prompt to a person outside the project. If they would have to ask questions before starting, the model needs those answers too. Put them in.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5kcbyXJz2C7I_1",
+          "type": "multiple_choice",
+          "prompt": "What is a good test of whether a prompt has enough context?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whether it fits on one line"
+            },
+            {
+              "id": "b",
+              "text": "Whether it uses technical jargon"
+            },
+            {
+              "id": "c",
+              "text": "Whether an intelligent person outside the project could act on it without asking questions"
+            },
+            {
+              "id": "d",
+              "text": "Whether it contains the word \"please\""
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "If an outsider would need clarification, the model lacks the same information.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

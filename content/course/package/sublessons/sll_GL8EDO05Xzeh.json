@@ -5,8 +5,8 @@
     {
       "id": "bit_oINzmzNq-P9c",
       "title": "Counting tokens and estimating cost",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before building, do the arithmetic. It takes ten minutes.\n\nFor one typical request, count the input tokens: system prompt, any documents, history and the question. Estimate the output tokens. Multiply each by its price.\n\nThen scale it up. Times requests per user per day, times users, times thirty days.\n\nFor example: 3,000 tokens in and 400 out per request, 20 requests a day, 500 users. That is 300,000 requests a month. At a mid-range price the bill is a few thousand dollars. On a small model it is a few hundred.\n\nAfter launch, stop estimating. Every response reports its exact token usage. Log it, add it up and compare it with the plan each week.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,37 +19,121 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oINzmzNq-P9c_1",
+          "type": "multiple_choice",
+          "prompt": "Once a system is live, what is the best source for its token costs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A rough guess based on page counts"
+            },
+            {
+              "id": "b",
+              "text": "The provider's marketing page"
+            },
+            {
+              "id": "c",
+              "text": "The usage figures returned with every API response"
+            },
+            {
+              "id": "d",
+              "text": "The size of the model"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Each response reports the exact tokens used, so logging those gives the true cost.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_WOUMTnKzJB54",
       "title": "Choosing max tokens and model tiers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Two settings on every call drive cost and behaviour.\n\nMax tokens is a ceiling on the length of the reply. It is a safety limit, not a target. The model does not try to fill it. Set it too low and answers are cut off in the middle of a sentence. Set it sensibly high and it only matters if something goes wrong and the model rambles.\n\nTo get a short answer, ask for one in the prompt: \"reply in one sentence\". The ceiling just chops.\n\nThe model tier is the bigger lever. Choosing a small, medium or large model can change the price by ten times or more.\n\nThink of a taxi. Max tokens is the furthest you are willing to be driven. The tier is whether you ordered a hatchback or a limousine.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WOUMTnKzJB54_1",
+          "type": "multiple_choice",
+          "prompt": "What does the max tokens setting do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Tells the model how long the answer should be"
+            },
+            {
+              "id": "b",
+              "text": "Sets the number of input tokens allowed"
+            },
+            {
+              "id": "c",
+              "text": "Improves the accuracy of the answer"
+            },
+            {
+              "id": "d",
+              "text": "Sets an upper limit on the length of the response"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "It is a hard cap that truncates output. Desired length should be requested in the prompt itself.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2HdsnBz4gj60",
       "title": "Input vs. output tokens: output costs more",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Output tokens usually cost three to five times as much as input tokens, and they are slower to produce. That shapes good design.\n\nReading is cheap. Giving the model a long document to consult costs relatively little.\n\nWriting is expensive. Asking it to rewrite the whole document with one change costs a lot and takes a long time.\n\nSo design for short outputs. Ask for only the changed paragraph, not the full text. Ask for a category label, not an explanation, when the label is all you need. Ask for a list of edits instead of a rewritten file.\n\nIt is like a lawyer who charges little to read your papers and a lot to draft new ones.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2HdsnBz4gj60_1",
+          "type": "multiple_choice",
+          "prompt": "Which request is cheapest for the same input document?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "\"Rewrite the entire document with improvements\""
+            },
+            {
+              "id": "b",
+              "text": "\"Write a detailed essay about the document\""
+            },
+            {
+              "id": "c",
+              "text": "\"Repeat the document back twice\""
+            },
+            {
+              "id": "d",
+              "text": "\"Reply with only the category name\""
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Short outputs cost least, because output tokens are the expensive part of a call.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_akEXov1szKYD",
       "title": "Start with the best model, then step down while evals still pass",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When you build something new, begin with the most capable model, even if you expect to end up on a cheaper one.\n\nThe reason is to separate two questions. First: can this task be done at all, with my prompt and my data? The best model answers that. If it fails, the trouble is in your approach, and a cheaper model would not have helped.\n\nOnce it works, write the tests that define \"works\". Then try the next tier down. Still passing? Go down again. Stop at the cheapest model that passes.\n\nIt is how you tune a recipe. Get it right with the best ingredients, then see where a cheaper substitute makes no difference.\n\nStart cheap, and you never know whether a failure is the model or you.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -62,19 +146,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_akEXov1szKYD_1",
+          "type": "multiple_choice",
+          "prompt": "Why begin development with the most capable model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because it is always the cheapest"
+            },
+            {
+              "id": "b",
+              "text": "Because small models cannot be used through an API"
+            },
+            {
+              "id": "c",
+              "text": "To avoid writing any tests"
+            },
+            {
+              "id": "d",
+              "text": "To find out whether the task is achievable before optimising for cost"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "If the best model cannot do it, the approach is at fault. Once it works, you can step down safely.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NwzVrPi8qo_0",
       "title": "Long conversations cost more on every turn",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Because the whole history is sent again each time, a conversation's cost does not grow in a straight line. It accelerates.\n\nTurn 1 sends one message. Turn 10 sends ten turns of history. Turn 50 sends fifty. The fiftieth message costs far more than the first, even if it is only \"thanks\".\n\nAdd it all up and a 50-turn chat costs something like twenty-five times a 10-turn one, not five times.\n\nIt is a snowball rolling downhill.\n\nThe remedies, covered later: summarise old turns into a short note, drop turns that no longer matter, cache the stable beginning of the prompt, or start a fresh conversation when the topic changes.\n\nQuality suffers too. Very long histories make models slower and more forgetful.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NwzVrPi8qo_0_1",
+          "type": "multiple_choice",
+          "prompt": "Why does each turn of a long chat cost more than the one before?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The provider raises its price during the chat"
+            },
+            {
+              "id": "b",
+              "text": "Later answers are always longer"
+            },
+            {
+              "id": "c",
+              "text": "The whole growing history is resent as input every time"
+            },
+            {
+              "id": "d",
+              "text": "The model retrains after each turn"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Every call includes all previous turns, so input tokens rise with each exchange.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

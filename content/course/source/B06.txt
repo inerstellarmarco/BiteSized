@@ -1,0 +1,562 @@
+// B6 Memory & Context Engineering
+@@ sll_KigR3WAnaS3m | B6.1 Short-Term Memory > Conversation State
+## Message history and scratchpads
+A model remembers nothing between calls. The feeling that it remembers your conversation comes from the application sending the whole history back each time.
+
+That history is the agent's short-term memory: every user message, every reply, every tool call and result so far.
+
+A scratchpad is a part of that memory set aside for working notes: the plan, findings so far, things still to do.
+
+Think of the history as the transcript of a meeting, and the scratchpad as the notes you jot in the margin.
+
+Both live in the context window, so both are limited and both cost tokens on every call. When the conversation ends, they are gone unless you save them somewhere.
+?? How does a model appear to remember earlier turns of a conversation?
++ The application resends the conversation history with each call
+- The model stores each chat permanently inside itself
+- It retrains after every message
+- It reads the user's mind
+= Models are stateless, so the history must be supplied again on every request.
+## Tracking the immediate conversation state
+State is where things stand right now: what the user wants, what has been done, what is still open.
+
+In a simple chat, the message history is the state. In an agent, it helps to track a few things explicitly, outside the stream of messages: the current goal, the step in progress, key facts gathered such as the customer's ID, and anything awaiting approval.
+
+Compare a waiter trying to remember an entire evening's conversation with one who has an order pad: table six, two mains, waiting on dessert.
+
+Explicit state is easier for your code to check and harder to lose. The agent does not have to dig the customer's ID out of message thirty-four. It is written in one known place.
+?? Why track key facts explicitly instead of leaving them in the message history?
++ They are easier to find and check, and harder to lose
+- The model cannot read messages
+- It makes the conversation longer
+- Explicit state uses no storage
+= A known, structured record is more reliable than fishing details out of a long transcript.
+## Working notes the agent keeps for itself
+On a long task, a good agent writes things down as it goes.
+
+It keeps a to-do list and ticks items off. It records decisions and why it made them. It notes what it tried that failed, so that it does not try again.
+
+The notes do two jobs. They keep the agent on track, because rereading the plan pulls its attention back to the goal. And they survive when older parts of the conversation are trimmed or summarised.
+
+A researcher keeps a lab notebook for the same reasons. Nobody trusts their memory across a long experiment.
+
+You can prompt for this directly: "keep a task list and update it after every step". It is one of the simplest ways to make long-running agents more dependable.
+?? What is one benefit of an agent keeping a to-do list?
++ Rereading it keeps the agent focused on the goal
+- It makes the model larger
+- It replaces all tools
+- It removes the need for a goal
+= Written notes refocus the agent and persist when older conversation is trimmed.
+## Tool results are often the biggest consumer of context
+In an agent, most of the context is usually not conversation. It is tool output.
+
+A user's question is twenty tokens. A web page the agent fetched is eight thousand. A database result is three thousand. A file is twelve thousand. After a dozen tool calls the window is mostly raw results, much of it no longer needed.
+
+It is a desk where the letter you are answering is buried under every reference book you have opened.
+
+This is where context management pays off most. Trim results at the tool, as module B5 said. Once a result has been used, replace it with a short note of what was learned. Store large outputs in a file and keep only a reference.
+
+Managing tool output well matters more than any trimming of chat messages.
+?? What usually takes up most of an agent's context?
++ Tool results
+- The user's questions
+- The agent's name
+- Punctuation
+= Fetched pages, files and query results are far larger than the conversational messages.
+
+@@ sll_bcHmQZxWULM5 | B6.1 Short-Term Memory > Context Window Management
+## Context window pruning
+Pruning means removing things from the context that are no longer needed.
+
+The simplest form drops the oldest messages once the window passes a set size. Smarter forms are selective: keep the system prompt, the original goal and the most recent turns, and remove old tool results, which are bulky and usually finished with.
+
+A gardener prunes the same way, cutting what no longer serves the plant so that the rest grows well.
+
+Pruning is cheap and fast, because nothing has to be computed. Its weakness is that it is blunt. Whatever is cut is gone, including the occasional detail that turns out to matter twenty steps later.
+
+So prune the safe things first, such as tool outputs already acted on, and protect what defines the task.
+?? What is usually safest to prune first?
++ Old tool results that have already been used
+- The system prompt
+- The original goal
+- The most recent messages
+= Used tool outputs are bulky and rarely needed again, while the goal and instructions must stay.
+## Summarization and compaction
+Compaction replaces a long stretch of conversation with a short summary of it.
+
+When the context nears its limit, the system asks a model to summarise what has happened: the goal, the decisions, what is done, what is left. The detailed history is removed and the summary takes its place. The agent carries on with a much smaller context.
+
+It is the handover note at a hospital shift change. The new nurse gets one page per patient, not the full record of the last twelve hours.
+
+Compaction lets an agent work far beyond what one window could hold.
+
+It has a cost. A summary is lossy. Detail is dropped, and the summariser decides what matters, not always correctly.
+?? What does compaction do?
++ Replaces detailed history with a shorter summary
+- Deletes the goal
+- Doubles the size of the context window
+- Retrains the model
+= Summarising older history frees context so that the agent can keep working.
+## Agent degradation and resets
+Agents tend to get worse the longer they run.
+
+After many steps the context is long and cluttered. The agent starts forgetting earlier instructions, repeating things it has already done, contradicting itself or wandering from the goal. Early mistakes sit in the history and get built on.
+
+It is someone at the end of a fourteen-hour shift. They are just as capable, but their performance has slipped.
+
+The remedy is often not a cleverer prompt. It is a reset: start a fresh session with a clean context, and give it a short summary of where things stand.
+
+Design long tasks with this in mind. Break them into stages with a clean start for each, so that no single run has to stay sharp for hours.
+?? What is an effective remedy when a long-running agent starts to degrade?
++ Start a fresh session with a summary of progress
+- Add more text to the same context
+- Remove all its tools
+- Let it continue indefinitely
+= A clean context with a concise summary restores focus better than piling on more history.
+## Context rot: quality drops as the window fills
+A large context window does not mean a model uses all of it equally well.
+
+As more is put in, quality declines. The model gets worse at finding a particular fact, follows instructions less reliably and is more easily distracted by irrelevant material. This is called context rot. It sets in gradually, well before the window is full.
+
+Think of a meeting with one clear agenda item, then of one with two hundred items and a foot-high stack of papers. People in the second are no less intelligent. Their attention is spread too thin.
+
+The lesson is that more context is not better context. A window with 20,000 well-chosen tokens often beats one with 200,000 that holds the same facts buried in noise.
+?? What is context rot?
++ Model quality declining as the context window fills up
+- A virus that deletes files
+- The model getting older each year
+- A type of hardware failure
+= More context spreads the model's attention, so accuracy and instruction-following slip.
+## What compaction loses, and how to protect key facts
+A summary keeps the gist and drops the detail. In agent work the detail is often what matters.
+
+Things that tend to vanish: exact figures, names and IDs, a user's stated preference from early on, the reason an approach was rejected, a subtle constraint.
+
+After compaction, the agent may redo failed work or break a rule it was given two hours earlier.
+
+Protect what matters.
+
+Keep certain items outside the summary, restated in full every time: the original goal, hard rules, key identifiers.
+
+Tell the summariser what to preserve: "keep all file names, figures and decisions with their reasons".
+
+Write important facts to a file or state record before compacting.
+
+It is minutes of a meeting: the chat can be condensed, but the decisions and action items are recorded word for word.
+?? Which kind of information is most likely to be lost in compaction?
++ Exact details such as figures, IDs and specific constraints
+- The general topic of the conversation
+- The fact that a conversation happened
+- The name of the model
+= Summaries keep the gist, so precise details need to be preserved separately.
+## Notes in files: memory outside the context window
+A context window is limited. A file system, for practical purposes, is not.
+
+So let the agent write to files. Progress notes, findings, a plan, a large tool result it may need later. Then only a short pointer stays in context: "research notes are in notes.md".
+
+When it needs the detail, it reads the file, or just the relevant part.
+
+You work the same way. You do not hold a whole project in your head. You hold the knowledge of where things are written down.
+
+File notes also survive compaction, resets and even crashes. A fresh session can open the notes and pick up where the last one stopped.
+
+For long-running agents, this is one of the most effective techniques there is.
+?? Why have an agent write notes to files?
++ They persist outside the limited context and survive resets
+- Files are read faster than context
+- It makes the model forget on purpose
+- Files cost more tokens than context
+= External notes are not bound by the window size and remain available to later sessions.
+## Sub-agents that keep the main context clean
+Some subtasks generate a great deal of material and a small result. Research is the classic case: read twenty pages to produce one paragraph.
+
+If the main agent does that itself, its context fills with twenty pages it no longer needs.
+
+So it delegates. A sub-agent starts with a fresh, empty context, does the reading, and returns only the paragraph. Its messy working context is thrown away.
+
+It is a manager asking an analyst for a briefing. The manager gets one page, not the analyst's whole week.
+
+The main agent stays focused on the overall task, with a context made of conclusions, not raw material.
+
+The cost is extra model calls, and the sub-agent knows only what it was told. The briefing you give it has to be complete.
+?? How does a sub-agent help the main agent's context?
++ It does bulky work in its own context and returns only the result
+- It copies everything into the main context
+- It deletes the main agent's goal
+- It makes the context window larger
+= The sub-agent absorbs the raw material, so the main context receives only the conclusion.
+
+@@ sll_jDIt0AQWKaJw | B6.2 Long-Term Memory > Memory Types
+## Episodic memory
+Episodic memory is a record of specific past events: what happened, and when.
+
+For an agent, that means past conversations and tasks. "On 3 March this user asked for a refund on order 1048, and it was approved." "Last week the report script failed because a column was missing."
+
+It is your memory of last Tuesday's meeting, as opposed to your general knowledge of how meetings run.
+
+It is useful for continuity, so that a user does not have to explain everything again, and for learning from experience: last time this approach failed, so try another.
+
+It is usually stored as summaries of past sessions, retrieved by searching for ones relevant to the present task.
+?? What does episodic memory store?
++ Specific past events and interactions
+- General facts about the world
+- Step-by-step procedures
+- The model's weights
+= Episodic memory is the record of what happened on particular occasions.
+## Semantic memory
+Semantic memory holds facts, with no attachment to the event where they were learned.
+
+"This client's fiscal year ends in June." "Maria prefers summaries in bullet points." "The company has offices in Toronto and Lisbon."
+
+It is knowing that Paris is the capital of France, with no memory of the day you learned it.
+
+In an agent, semantic memory is often built from episodic memory. After several conversations the system extracts lasting facts, such as "the user is vegetarian", and stores them as plain statements.
+
+A knowledge base reached through RAG is also a form of semantic memory: facts the system can look up.
+
+It is what makes an assistant feel as though it knows you and your business.
+?? Which is an example of semantic memory?
++ "This client's fiscal year ends in June"
+- "On Tuesday the user asked about invoices"
+- "First open the file, then check the header"
+- A recording of yesterday's call
+= Semantic memory holds standing facts, independent of when they were learned.
+## Procedural memory
+Procedural memory is knowing how to do something.
+
+For a person, it is riding a bicycle or the routine for closing the month's accounts. For an agent, it is the learned way to carry out tasks: "when preparing this client's report, pull the data first, then check totals against the ledger, then use the blue template".
+
+It lives in several places: the system prompt, skills as described in module B5, saved workflows, and examples of tasks done well.
+
+Some systems let agents update it. After working out a better way to do something, the agent saves the improved procedure for next time.
+
+That is how an agent gets better at a job over weeks, with no retraining of the model.
+?? Where does an agent's procedural memory commonly live?
++ In the system prompt, skills and saved workflows
+- Only in the model's weights
+- In the user's browser history
+- In the electricity supply
+= Procedures are stored as instructions and skills the agent loads when doing a task.
+## In plain terms: what happened, what is true, and how to do things
+The three memory types have academic names, taken from psychology. The idea is simple.
+
+Episodic: what happened. A diary.
+
+Semantic: what is true. An encyclopaedia, or a contacts book.
+
+Procedural: how to do things. A recipe book.
+
+A good personal assistant uses all three. They remember that you rang the supplier last Thursday (what happened). They know the supplier's account number (what is true). They know how you like purchase orders prepared (how to do it).
+
+When designing memory for an agent, ask which of the three the job needs. A support agent benefits most from what happened with this customer. A specialist assistant needs facts and procedures. Not every agent needs all of them.
+?? Which memory type is like a recipe book?
++ Procedural
+- Episodic
+- Semantic
+- None of them
+= Procedural memory is about how to do things, as a recipe book is.
+## User, team, and organization memory
+Memory also has a scope: whose is it?
+
+User memory belongs to one person. Their preferences, their projects, their past conversations.
+
+Team memory is shared by a group: the team's conventions, current priorities, decisions made together.
+
+Organisation memory applies to everyone: company policies, product facts, the house style.
+
+An office works the same way. You have your own notebook, your team has a shared folder, and the company has a handbook.
+
+The scope decides who can read a memory and who can change it. Mixing the levels up causes real problems. A personal note that leaks into shared memory is a privacy breach. One person's preference applied to the whole company is a nuisance.
+
+Each stored memory should be labelled with its scope.
+?? Why does the scope of a memory matter?
++ It decides who may read and change it
+- It changes the model's size
+- It affects the screen colour
+- It has no practical effect
+= Scope controls access, and confusing personal with shared memory causes privacy problems.
+
+@@ sll_Roz6UzNL_xlX | B6.2 Long-Term Memory > Memory Storage
+## Vector and graph memory stores (see B2.3, B3.1)
+Long-term memories have to be kept somewhere they can be searched. There are two common choices, both met earlier.
+
+A vector store keeps each memory as an embedding and finds memories by meaning. Ask about "the client's holiday plans" and it surfaces a note saying "Maria is away in August". Good for loose, fuzzy recall.
+
+A graph store keeps memories as connected facts: Maria works at Acme, Acme uses Product X, Product X renews in June. Good for questions that follow connections, such as "which of my contacts are affected by the June renewal?"
+
+Think of a pile of notes you can search by topic, against a map of who and what is related.
+
+Many memory systems use both: vectors to find, a graph to connect.
+?? What is a graph memory store particularly good at?
++ Answering questions that follow connections between facts
+- Storing images only
+- Making the model faster
+- Finding text by exact spelling only
+= A graph holds relationships, so it can link facts across several steps.
+## Write, retrieve, and forget policies
+A memory system needs three rules.
+
+Write: what gets saved, and when? Everything? Only what the user asks to be remembered? Facts extracted at the end of each session?
+
+Retrieve: what gets brought back, and when? The five memories most relevant to the current message? Always the user's core profile?
+
+Forget: what gets removed? Memories older than a year? Ones contradicted by newer information? Anything the user asks to delete?
+
+Without the first, memory fills with rubbish. Without the second, good memories are never used, or irrelevant ones crowd the context. Without the third, it goes stale and grows without end.
+
+A filing clerk needs the same three rules: what to file, how to find it, and when to shred.
+?? What does a "forget" policy decide?
++ Which memories are removed and when
+- Which model to use
+- How fast the agent types
+- The colour of the interface
+= Forgetting rules keep memory current and stop it growing without limit.
+## Plain files and databases as simple memory
+You do not need a specialised memory product to give an agent memory.
+
+A plain text file works well. A file of notes that the agent reads at the start of each session and adds to at the end. Coding agents commonly use exactly this: a project notes file kept alongside the code.
+
+An ordinary database table works too: user ID, fact, date. "User 42 | prefers metric units | 2026-03-01."
+
+The advantages are real. A person can open the file, read exactly what the agent "knows", and correct it. Nothing is hidden. There is nothing new to learn or pay for.
+
+It is a notebook on the desk, not a card index system.
+
+Start there. Move to vector or graph storage when the notes outgrow what can sensibly be read in full.
+?? What is an advantage of using a plain file as agent memory?
++ A person can read and correct exactly what is stored
+- It can never be changed
+- It searches by meaning automatically
+- It requires a specialised product
+= Plain files are transparent and editable, which makes them a strong simple starting point.
+## What deserves to be remembered
+Remembering everything is not good memory. It is hoarding.
+
+A memory earns its place if it will change what the agent does in future and will stay true for a while.
+
+Worth keeping: stable preferences ("always in Canadian dollars"), lasting facts ("the client's accountant is Dev"), corrections ("do not use the old logo"), and decisions with their reasons.
+
+Not worth keeping: small talk, one-off details ("the weather is bad today"), anything quickly out of date, and things the agent can look up anyway.
+
+Take care with sensitive information, such as health or finances. Save it only with good reason, and ideally with the user's knowledge.
+
+A good assistant remembers how you take your coffee, not every word you said last Thursday.
+?? Which is most worth storing in long-term memory?
++ A lasting preference, such as "always use Canadian dollars"
+- A comment about today's weather
+- A greeting
+- A detail that will be out of date tomorrow
+= Durable facts that change future behaviour are worth keeping, and passing details are not.
+## Wrong or stale memories and how to correct them
+Memories go wrong in two ways.
+
+Wrong from the start: the agent misunderstood, or saved a guess as a fact.
+
+Stale: true once, but no longer. The client changed accountants. The price went up.
+
+A bad memory is worse than none, because the agent acts on it with confidence, every time, until someone notices.
+
+Defences:
+
+Date every memory, and note where it came from.
+
+When new information contradicts an old memory, replace it. Do not keep both.
+
+Let users see what is remembered about them, and edit or delete it.
+
+Review or expire memories after a period.
+
+Have the agent treat memory as a helpful hint, and verify it when the stakes are high.
+
+It is an address book. It is useful only if someone keeps it up to date.
+?? Why can a wrong memory be worse than no memory?
++ The agent keeps acting on it confidently until someone notices
+- It uses less storage
+- It makes the agent slower
+- Wrong memories delete themselves
+= A stored error is repeated in every later task, with no signal that anything is amiss.
+## Privacy: whose memory it is and who can see it
+Stored memory is stored personal data, and the obligations that come with that apply.
+
+Ownership: memories about a person should be visible to that person and deletable by them.
+
+Separation: one user's memories must never surface in another user's session. One client's must never reach another client. This has to be enforced in the storage layer, by user or client ID, and not left to the model.
+
+Consent and transparency: people should know that the system remembers, and what.
+
+Minimisation: do not keep what you do not need, particularly sensitive details.
+
+Law: rules such as GDPR, and PIPEDA in Canada, give people rights of access and deletion.
+
+Think of a doctor's notes. They are valuable for your care, and precisely for that reason they are tightly controlled.
+?? How should one user's memories be kept from another user?
++ By enforcing separation in the storage layer, using user or client IDs
+- By asking the model nicely to keep them apart
+- By storing everything in one shared pool
+- By hoping it does not happen
+= Hard separation in storage is a guarantee, while a model instruction is not.
+
+@@ sll_7X-OfuKXmd9- | B6.3 Caching & Efficiency > Semantic Caching
+## Reusing answers to similar questions
+A cache stores the result of work so that it need not be done again.
+
+An ordinary cache needs an exact match. "What are your opening hours?" and "When are you open?" are different text, so it misses.
+
+A semantic cache matches on meaning. It embeds each incoming question and looks for a stored question that is close enough. If one is found, it returns the saved answer with no model call.
+
+A receptionist does this. They do not think afresh each time someone asks where the toilets are, however it is phrased.
+
+For high-volume systems where people ask the same things, such as support or FAQs, this can cut cost and response time sharply.
+
+It is useless where every question is unique.
+?? How does a semantic cache differ from an ordinary cache?
++ It matches questions by meaning, not exact wording
+- It only works on identical text
+- It stores nothing
+- It makes every answer slower
+= Semantic caching uses embeddings to recognise questions that mean the same thing.
+## Cache invalidation and freshness
+A cached answer is a snapshot of a past moment. The world moves on.
+
+If the opening hours change on Monday and the cache still says the old hours on Tuesday, the system is confidently wrong, and quickly so.
+
+Invalidation means removing or refreshing cached answers that may no longer be true. There are three usual approaches.
+
+Time limits: each entry expires after a set period. Minutes for stock levels. Days for a policy.
+
+Event-based: when the source document changes, clear the answers built on it.
+
+Manual: a way to flush the cache when something important changes.
+
+It is the use-by date on food.
+
+Choose the lifetime by how quickly the underlying facts change, and by how much a stale answer would cost.
+?? What decides how long a cached answer should be kept?
++ How fast the underlying facts change and the cost of a stale answer
+- The length of the question
+- The user's name
+- The time of day only
+= Fast-changing or high-stakes information needs short lifetimes, while stable facts can be cached longer.
+## The risk: a similar question with a different right answer
+Semantic caching has a built-in danger: similar wording does not mean the same answer.
+
+"How do I cancel my order?" and "How do I cancel my subscription?" are close as embeddings. The right answers are quite different.
+
+"What is the refund policy in Canada?" and "...in the UK?" differ by one word, and that word is everything.
+
+A cache that is too keen serves the wrong answer, and does so instantly and confidently.
+
+Protections: set the similarity threshold high, and accept fewer cache hits. Include key details such as country, product and date in the matching. Do not cache at all where a mistake is costly. Check a sample of cache hits regularly.
+
+It is the hazard of a colleague who half-listens and answers the question they expected.
+?? What is the main risk of semantic caching?
++ Returning a stored answer to a question that only looks similar
+- Using too much electricity
+- Making the model forget its training
+- Questions becoming longer
+= Close wording can hide an important difference, so a loose match can give a wrong answer.
+## Never share cached answers across users or clients
+A cache that mixes users is a data leak.
+
+Suppose one user asks "what is my account balance?" and the answer is cached. The next user asks the same thing and receives the first user's balance.
+
+The same applies between clients. One company's answer, drawn from its private documents, must never be served to another company.
+
+The rule: the cache key must include who is asking. That means the user ID, the client or tenant ID, and their permission level, wherever the answer depends on them.
+
+Only truly public answers, such as general product information that is identical for everyone, can sit in a shared cache.
+
+It is a post room. A shared noticeboard is fine for public notices. Personal post goes in named pigeonholes.
+
+When unsure, do not share.
+?? What must a cache key include for personalised answers?
++ The identity of the user or client asking
+- Only the time of day
+- The model's version number alone
+- Nothing beyond the question text
+= Tying cached answers to the asker prevents one person's data being served to another.
+
+@@ sll_XybDcrfvgU0T | B6.3 Caching & Efficiency > Prompt Caching
+## Provider prompt caching
+~m
+Prompt caching is a feature offered by the model providers. It is a different thing from the semantic cache you have just read about.
+
+Many requests begin with the same long text: the system prompt, the tool definitions, a reference document. Normally the model processes all of it afresh on every call.
+
+With prompt caching, the provider keeps its processed form of that opening section for a short time, typically minutes. Later requests that begin identically reuse it.
+
+The model still writes a fresh answer every time. Only the reading of the repeated beginning is skipped.
+
+It is a teacher who has already read the textbook. For each new question from a student, they read only the question.
+
+Some providers apply it automatically, and others need you to mark what to cache.
+?? What does provider prompt caching reuse?
++ The processing of a repeated opening section of the prompt
+- The model's previous answer, word for word
+- The user's password
+- Another customer's prompt
+= The provider stores its work on the identical start of the prompt, while still generating a fresh answer.
+## Cost and latency savings
+~m
+Prompt caching saves on both of the things you care about.
+
+Cost: cached input tokens are billed at a steep discount, commonly around a tenth of the normal input price. Some providers charge a little extra the first time, when the cache is written.
+
+Speed: the model does not reprocess the cached part, so the first words of the answer arrive sooner. With long prompts the difference is easy to see.
+
+Agents benefit most. An agent re-sends its system prompt, its tools and a growing history on every step. Over a fifty-step task, nearly all the input is repeated text. Caching can cut the input bill by most of its size.
+
+Exact discounts and cache lifetimes differ by provider and change over time, so check the current pricing page.
+?? Why do agents benefit especially from prompt caching?
++ They resend the same long prefix on every step
+- They never send prompts
+- They only ever make one call
+- Caching makes them use more tokens
+= Each step repeats the system prompt, tools and history, so most input can be served from cache.
+## Stable content first, changing content last
+Prompt caching works on prefixes. The provider can reuse the cache only up to the first point where the new request differs from the old one.
+
+So order matters a great deal.
+
+Put what never changes at the very start: the system prompt, tool definitions, fixed reference documents and examples.
+
+Put what changes at the end: the user's question, today's date, retrieved passages.
+
+Think of a form letter. The standard paragraphs come first and are printed once. The personal details are added at the bottom.
+
+A common mistake is putting the current time or the user's name at the top of the system prompt. That one changing line means nothing after it can be cached.
+
+Arrange the prompt from most stable to least stable.
+?? Where should content that changes with every request go?
++ At the end of the prompt
+- At the very start
+- In the middle of the system prompt
+- It does not matter
+= Caching reuses an identical prefix, so changing content must come after the stable part.
+## What breaks the cache: editing the start of the prompt
+A cache hit needs the start of the prompt to be exactly the same, character for character. Small changes break it.
+
+Common causes:
+
+A timestamp or random ID near the top.
+
+Editing the system prompt, even to fix a typo.
+
+Adding, removing or reordering tools.
+
+Changing or deleting an early message in the history, where a simple append would have kept it.
+
+Tool definitions serialised in a different order each time.
+
+Switching model.
+
+When the cache breaks, everything after the change is processed at full price again.
+
+It is a stack of plates. Change one near the bottom and everything above has to come off.
+
+Two habits help. Treat the prompt's opening as frozen during a session, and only append. And watch the provider's cache-hit figures, so that a sudden drop gets noticed.
+?? Which change would break a prompt cache?
++ Adding the current time to the top of the system prompt
+- Appending a new user message at the end
+- Receiving a new answer from the model
+- Reading the usage report
+= Any change near the start alters the prefix, so nothing after it can be reused.

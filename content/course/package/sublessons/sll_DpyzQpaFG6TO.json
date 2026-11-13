@@ -5,38 +5,122 @@
     {
       "id": "bit_GuUzTf3lh8qI",
       "title": "Agents writing, testing, and using new tools",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent with a code execution tool is not limited to the tools you gave it. It can write its own.\n\nFaced with a task no existing tool covers, such as converting an unusual file format, it writes a small program, runs it on a sample, reads any errors, fixes them and then uses it for the real job.\n\nSome systems let the agent save what it wrote as a new tool or skill for next time.\n\nIt is a machinist who lacks the right jig and makes one.\n\nThis makes agents far more adaptable, particularly for data work, where every job is a little different.\n\nIt also means code that no person has read is running in your system. The next two cards deal with that.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GuUzTf3lh8qI_1",
+          "type": "multiple_choice",
+          "prompt": "How can an agent create a new tool for itself?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By asking the model provider to retrain it"
+            },
+            {
+              "id": "b",
+              "text": "By writing code, testing it and then using it"
+            },
+            {
+              "id": "c",
+              "text": "By buying one online"
+            },
+            {
+              "id": "d",
+              "text": "It cannot under any circumstances"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "With code execution, an agent can write and test a small program that serves as a new tool.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_xpS_NsDq_I3f",
       "title": "Risks and controls for self-made tools",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A tool written by an agent has had no human review, so treat it as untrusted.\n\nThe risks: it may be subtly wrong and produce bad results that look fine. It may do more than intended, such as deleting files it was meant to move. If the agent was manipulated by hostile content, the tool may be deliberately harmful. And it may use up resources or run for ever.\n\nThe controls are the ones you know, applied strictly.\n\nSandbox: self-written code runs sealed off, with no route to real data, secrets or the open internet.\n\nLimits: on time, memory and cost.\n\nLeast privilege: the code gets only the access the task needs.\n\nLogging: keep the code and its output so that a person can inspect them.\n\nChecks: test results before they are trusted.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xpS_NsDq_I3f_1",
+          "type": "multiple_choice",
+          "prompt": "What is the most important control for code an agent writes itself?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Running it with administrator rights"
+            },
+            {
+              "id": "b",
+              "text": "Hiding it from all logs"
+            },
+            {
+              "id": "c",
+              "text": "Running it in a sandbox with limited access"
+            },
+            {
+              "id": "d",
+              "text": "Giving it the company's API keys"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Isolation ensures that mistaken or malicious self-written code cannot reach real systems.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_kPvKXwPjARAj",
       "title": "Review before a self-made tool is reused",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "There is a difference between a tool an agent writes for one task and one that becomes a permanent part of the system.\n\nA one-off, used in a sandbox and thrown away, carries limited risk.\n\nA saved tool gets used again, in other tasks, by other users, perhaps with more access. A flaw in it now repeats, quietly. And if an attacker managed to get a harmful tool saved, they have a lasting foothold.\n\nSo put a gate at the point of saving. Before a self-made tool joins the permanent library, a person reviews the code, checks what it accesses, and tests it.\n\nIt is the gap between a quick fix on your own desk and a change to the company's procedures. The second goes through review.\n\nTreat it as you would code from an unknown contributor.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kPvKXwPjARAj_1",
+          "type": "multiple_choice",
+          "prompt": "When should a self-made tool be reviewed by a person?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Never"
+            },
+            {
+              "id": "b",
+              "text": "Only after it has caused a problem"
+            },
+            {
+              "id": "c",
+              "text": "Before it is saved for reuse"
+            },
+            {
+              "id": "d",
+              "text": "Only if the agent requests it"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A saved tool will be reused widely, so a flaw or planted behaviour would repeat unless caught first.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

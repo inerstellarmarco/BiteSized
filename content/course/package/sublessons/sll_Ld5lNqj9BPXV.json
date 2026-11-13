@@ -5,8 +5,8 @@
     {
       "id": "bit_oNEcFqGRnaQU",
       "title": "Text-to-SQL: plain-language questions in, database queries out",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Much business knowledge is in databases, not documents: sales, orders, stock, customers. Text-to-SQL lets people ask about it in plain language.\n\nThe user asks: \"What were total sales by region last quarter?\" The model writes the SQL query. Your system runs it against the database. The model then explains the result in words.\n\nThat opens the data to people who cannot write SQL, without waiting for an analyst.\n\nIt is a translator standing between you and a clerk who only speaks database.\n\nModels are good at this for simple questions. The errors come with complicated joins, unclear column names and vague requests. Does \"last quarter\" mean the calendar quarter or the financial one? The query runs either way, and one of them is the wrong answer.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,25 +19,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oNEcFqGRnaQU_1",
+          "type": "multiple_choice",
+          "prompt": "What does a text-to-SQL system do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Converts a database into a PDF"
+            },
+            {
+              "id": "b",
+              "text": "Translates SQL into French"
+            },
+            {
+              "id": "c",
+              "text": "Stores documents as vectors"
+            },
+            {
+              "id": "d",
+              "text": "Turns a plain-language question into a database query and runs it"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The model writes SQL from the user's question, and the system executes it to get the data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lxpXNRU4anh-",
       "title": "Describing tables and columns so the model writes correct queries",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A model cannot write a correct query against a database it does not understand. It needs the schema, and real schemas are cryptic.\n\nA column called \"amt_2\" could be anything. A status of 3 means something only your team knows. Is \"revenue\" before or after refunds?\n\nSo give the model a description: each table and what one row represents. Each column, in plain words, with units. What coded values mean. How tables join together. And the business definitions: \"an active customer is one with an order in the last 90 days\".\n\nA few example questions with their correct queries help a great deal.\n\nIt is the handover note you would write for a new analyst.\n\nMost text-to-SQL errors are not SQL mistakes. They are misunderstandings about what the data means.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lxpXNRU4anh-_1",
+          "type": "multiple_choice",
+          "prompt": "What is the most common root cause of wrong text-to-SQL answers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model misunderstands what the tables and columns mean"
+            },
+            {
+              "id": "b",
+              "text": "SQL is too old a language"
+            },
+            {
+              "id": "c",
+              "text": "Databases are too fast"
+            },
+            {
+              "id": "d",
+              "text": "The question was typed in lowercase"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Without clear descriptions and definitions, the model guesses at meaning and writes a plausible but wrong query.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__DGzftVYe2zu",
       "title": "Read-only database roles and query checks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A model that writes SQL can write any SQL, including DELETE and DROP TABLE. Whether through a mistake or a manipulated prompt, that must not be able to do damage.\n\nThe primary defence is at the database: connect with a read-only account. Then destructive commands fail whatever the model writes. This is a lock, not a request.\n\nAdd further layers. Give access only to the tables needed, not the payroll table. Check each query before running it: is it a single SELECT? Limit rows returned and set a time limit, so a clumsy query cannot bring the database down. Ideally, query a copy, not the live system.\n\nIt is a visitor's pass that opens the reading room and nothing else.\n\nA prompt saying \"only write SELECT statements\" is a wish, not a control.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,31 +106,115 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__DGzftVYe2zu_1",
+          "type": "multiple_choice",
+          "prompt": "What is the strongest protection against a model running destructive SQL?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Asking the model politely in the prompt"
+            },
+            {
+              "id": "b",
+              "text": "Using a bigger model"
+            },
+            {
+              "id": "c",
+              "text": "Connecting with a database account that only has read permission"
+            },
+            {
+              "id": "d",
+              "text": "Running queries at night"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Permissions enforced by the database cannot be bypassed by anything the model generates.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_HWfPEKKmvpLC",
       "title": "Numbers come from the query result, never from the model's memory",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a user asks for a figure, such as revenue, a count or an average, that figure must come from running a query and nowhere else.\n\nModels are bad at exact numbers. They half-remember and they round. Asked to add up forty rows themselves, they make arithmetic slips.\n\nSo the rule is strict. The database does the calculating: sums, counts and averages are computed in SQL. The model's job is to write the query and then report the result exactly as returned.\n\nInstruct it plainly: \"Use only the figures in the query result. Do not calculate or estimate.\"\n\nShow your work as well. Display the query and the raw result next to the explanation, so a person can check.\n\nIt is an accountant quoting from the ledger, not from memory.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_HWfPEKKmvpLC_1",
+          "type": "multiple_choice",
+          "prompt": "Where should the totals in a data answer be calculated?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "In the model's head"
+            },
+            {
+              "id": "b",
+              "text": "In the database query"
+            },
+            {
+              "id": "c",
+              "text": "In the prompt"
+            },
+            {
+              "id": "d",
+              "text": "Nowhere; estimates are fine"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Databases compute exactly, whereas models can misremember or miscalculate figures.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_C311KJ9fJFse",
       "title": "Documents or database: choosing the right source for each question",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Two kinds of source suit two kinds of question.\n\nDocuments, searched by meaning, are for explanations and policies. \"What is our returns process?\" \"Why did we change supplier?\" The answer is prose that someone wrote.\n\nDatabases, queried with SQL, are for facts and figures. \"How many returns did we have in May?\" \"Which product has the highest return rate?\" The answer is computed from rows.\n\nSend a counting question to document search and you get a paragraph that mentions returns, not a count. Send a \"why\" question to the database and you get nothing.\n\nThink of reading the handbook against checking the ledger.\n\nMany real questions need both: \"Returns rose in May. Does our policy explain why?\" A good system routes each part to the right place.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_C311KJ9fJFse_1",
+          "type": "multiple_choice",
+          "prompt": "\"How many orders were returned in May?\" Which source should answer this?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A semantic search over policy documents"
+            },
+            {
+              "id": "b",
+              "text": "The model's general knowledge"
+            },
+            {
+              "id": "c",
+              "text": "An image search"
+            },
+            {
+              "id": "d",
+              "text": "The database, through a query"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Counting is a computation over structured records, which is what a database query provides.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

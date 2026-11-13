@@ -5,56 +5,168 @@
     {
       "id": "bit_d00ZjCW2CI3C",
       "title": "Indexing (HNSW, IVF) and ANN search",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Finding the nearest vectors by comparing a query with every stored one works for thousands of items. With millions, it is too slow. An index is the structure that makes it fast.\n\nThere are two common kinds. HNSW builds a network of links between nearby vectors, in layers. Search hops through the network, taking long jumps first and then short ones, like using motorways and then local roads.\n\nIVF sorts vectors into clusters. Search checks only the few clusters nearest the query, like looking in the right aisle of a supermarket instead of the whole shop.\n\nBoth are forms of ANN, approximate nearest neighbour search: very fast, and nearly always right.\n\nYou rarely build these yourself. The database does. Knowing the names helps you read its settings.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_d00ZjCW2CI3C_1",
+          "type": "multiple_choice",
+          "prompt": "What is the purpose of a vector index such as HNSW?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To compress documents into summaries"
+            },
+            {
+              "id": "b",
+              "text": "To translate queries"
+            },
+            {
+              "id": "c",
+              "text": "To generate embeddings"
+            },
+            {
+              "id": "d",
+              "text": "To find near neighbours quickly without comparing against every vector"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "An index organises vectors so search can skip most of them and still find close matches.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-fIGQxLoFuUf",
       "title": "Chroma, Pinecone, pgvector compared",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Three popular options show the range of choice.\n\nChroma is open source and runs inside your own program or on a small server. It is the easiest way to start and is ideal for prototypes and modest projects.\n\nPinecone is a fully managed cloud service. You send vectors and it handles scaling and operations. It costs more and needs the least work at large scale.\n\npgvector is an extension that adds vector search to PostgreSQL, the widely used relational database. If your application already runs on Postgres, your vectors can live beside your ordinary data, with one system to back up and secure.\n\nThink of a camping stove, a restaurant kitchen you rent, and adding a hob to the kitchen you already own.\n\nThere are many others, such as Qdrant, Weaviate and Milvus. For most small projects, the simplest one that works is right.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-fIGQxLoFuUf_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main appeal of pgvector?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Vectors can live in the PostgreSQL database you already use"
+            },
+            {
+              "id": "b",
+              "text": "It needs no database at all"
+            },
+            {
+              "id": "c",
+              "text": "It is a fully managed cloud-only service"
+            },
+            {
+              "id": "d",
+              "text": "It generates the embeddings for you"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "As a Postgres extension, it keeps vectors beside your existing data and under the same operations.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_RLYk4hIN1pOE",
       "title": "What a vector database stores: vectors, text, and metadata",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Each record in a vector database has three parts that work together.\n\nThe vector: the embedding, used for the similarity search.\n\nThe text: the original chunk. The vector cannot be turned back into words, so the text has to be kept, or at least a pointer to it. This is what you actually hand to the model.\n\nThe metadata: source, date, section, permissions. It is used to filter results and to cite them.\n\nPlus an id, so the record can be updated or deleted.\n\nThink of a library catalogue card. The shelf code finds the book, the card says what it is, and the book itself is what you read.\n\nA database holding only vectors would give you a list of numbers that are \"close\" and nothing you could show anyone.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RLYk4hIN1pOE_1",
+          "type": "multiple_choice",
+          "prompt": "Why must the original text be stored alongside each vector?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Vectors are illegal to store alone"
+            },
+            {
+              "id": "b",
+              "text": "The vector cannot be converted back into words, and the model needs the text"
+            },
+            {
+              "id": "c",
+              "text": "Text makes search faster"
+            },
+            {
+              "id": "d",
+              "text": "The database cannot index numbers"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Similarity search finds the record, but it is the chunk's text that goes into the prompt.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-AciSrA5-hWg",
       "title": "Approximate search: trading a little accuracy for speed",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Exact nearest-neighbour search guarantees the true closest matches by checking everything. Approximate search checks a clever subset and returns matches that are almost certainly the closest.\n\nThe trade is very good. It typically finds 95 to 99 per cent of the true top results in a fraction of the time: milliseconds instead of seconds.\n\nHow much it misses is called recall, and it can be tuned. Spend more effort per search and recall goes up while speed goes down.\n\nIt is asking three well-informed locals for the best restaurant, instead of surveying the whole town. You will very likely get a great answer, though perhaps not the single best.\n\nFor RAG that is fine. The fifth-best chunk in place of the fourth rarely changes the answer.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-AciSrA5-hWg_1",
+          "type": "multiple_choice",
+          "prompt": "What does approximate nearest-neighbour search give up?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "All accuracy"
+            },
+            {
+              "id": "b",
+              "text": "The ability to store text"
+            },
+            {
+              "id": "c",
+              "text": "The need for embeddings"
+            },
+            {
+              "id": "d",
+              "text": "A small amount of accuracy, in exchange for much faster search"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "ANN occasionally misses a true nearest neighbour but returns results far more quickly.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__uEwYbShQX3Q",
       "title": "Keeping the index fresh as documents change",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An index is a snapshot of your documents from the moment it was built. Documents keep changing, and a stale index gives stale answers.\n\nThere are three cases to handle. New documents: parse, chunk, embed and add them. Changed documents: remove the old chunks and add the new ones. If you only add, both versions are in there and the model may quote the old price. Deleted documents: remove their chunks, or the system will keep citing a policy that no longer exists.\n\nThat needs a link from each chunk back to its source document and version. It is metadata again.\n\nDecide how fresh you need to be: an hourly sync, a nightly one, or an update the moment a file changes.\n\nIt is a shop keeping its price tags up to date.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -67,7 +179,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__uEwYbShQX3Q_1",
+          "type": "multiple_choice",
+          "prompt": "A policy document is updated but its old chunks stay in the index. What can happen?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The system may answer from the outdated version"
+            },
+            {
+              "id": "b",
+              "text": "The index automatically ignores old chunks"
+            },
+            {
+              "id": "c",
+              "text": "The model refuses to answer"
+            },
+            {
+              "id": "d",
+              "text": "Search becomes faster"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Without removing superseded chunks, old and new content both remain retrievable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

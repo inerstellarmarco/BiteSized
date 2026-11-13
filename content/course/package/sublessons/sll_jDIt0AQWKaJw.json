@@ -5,62 +5,202 @@
     {
       "id": "bit_cXKYjSdUa9lL",
       "title": "Episodic memory",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Episodic memory is a record of specific past events: what happened, and when.\n\nFor an agent, that means past conversations and tasks. \"On 3 March this user asked for a refund on order 1048, and it was approved.\" \"Last week the report script failed because a column was missing.\"\n\nIt is your memory of last Tuesday's meeting, as opposed to your general knowledge of how meetings run.\n\nIt is useful for continuity, so that a user does not have to explain everything again, and for learning from experience: last time this approach failed, so try another.\n\nIt is usually stored as summaries of past sessions, retrieved by searching for ones relevant to the present task.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cXKYjSdUa9lL_1",
+          "type": "multiple_choice",
+          "prompt": "What does episodic memory store?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Specific past events and interactions"
+            },
+            {
+              "id": "b",
+              "text": "General facts about the world"
+            },
+            {
+              "id": "c",
+              "text": "Step-by-step procedures"
+            },
+            {
+              "id": "d",
+              "text": "The model's weights"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Episodic memory is the record of what happened on particular occasions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_GPho1pi7MsU_",
       "title": "Semantic memory",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Semantic memory holds facts, with no attachment to the event where they were learned.\n\n\"This client's fiscal year ends in June.\" \"Maria prefers summaries in bullet points.\" \"The company has offices in Toronto and Lisbon.\"\n\nIt is knowing that Paris is the capital of France, with no memory of the day you learned it.\n\nIn an agent, semantic memory is often built from episodic memory. After several conversations the system extracts lasting facts, such as \"the user is vegetarian\", and stores them as plain statements.\n\nA knowledge base reached through RAG is also a form of semantic memory: facts the system can look up.\n\nIt is what makes an assistant feel as though it knows you and your business.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GPho1pi7MsU__1",
+          "type": "multiple_choice",
+          "prompt": "Which is an example of semantic memory?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "\"On Tuesday the user asked about invoices\""
+            },
+            {
+              "id": "b",
+              "text": "\"First open the file, then check the header\""
+            },
+            {
+              "id": "c",
+              "text": "\"This client's fiscal year ends in June\""
+            },
+            {
+              "id": "d",
+              "text": "A recording of yesterday's call"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Semantic memory holds standing facts, independent of when they were learned.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_GvlGFbQsrMD0",
       "title": "Procedural memory",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Procedural memory is knowing how to do something.\n\nFor a person, it is riding a bicycle or the routine for closing the month's accounts. For an agent, it is the learned way to carry out tasks: \"when preparing this client's report, pull the data first, then check totals against the ledger, then use the blue template\".\n\nIt lives in several places: the system prompt, skills as described in module B5, saved workflows, and examples of tasks done well.\n\nSome systems let agents update it. After working out a better way to do something, the agent saves the improved procedure for next time.\n\nThat is how an agent gets better at a job over weeks, with no retraining of the model.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GvlGFbQsrMD0_1",
+          "type": "multiple_choice",
+          "prompt": "Where does an agent's procedural memory commonly live?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "In the system prompt, skills and saved workflows"
+            },
+            {
+              "id": "b",
+              "text": "Only in the model's weights"
+            },
+            {
+              "id": "c",
+              "text": "In the user's browser history"
+            },
+            {
+              "id": "d",
+              "text": "In the electricity supply"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Procedures are stored as instructions and skills the agent loads when doing a task.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_8bWoV0m6UY_4",
       "title": "In plain terms: what happened, what is true, and how to do things",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The three memory types have academic names, taken from psychology. The idea is simple.\n\nEpisodic: what happened. A diary.\n\nSemantic: what is true. An encyclopaedia, or a contacts book.\n\nProcedural: how to do things. A recipe book.\n\nA good personal assistant uses all three. They remember that you rang the supplier last Thursday (what happened). They know the supplier's account number (what is true). They know how you like purchase orders prepared (how to do it).\n\nWhen designing memory for an agent, ask which of the three the job needs. A support agent benefits most from what happened with this customer. A specialist assistant needs facts and procedures. Not every agent needs all of them.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8bWoV0m6UY_4_1",
+          "type": "multiple_choice",
+          "prompt": "Which memory type is like a recipe book?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Episodic"
+            },
+            {
+              "id": "b",
+              "text": "Procedural"
+            },
+            {
+              "id": "c",
+              "text": "Semantic"
+            },
+            {
+              "id": "d",
+              "text": "None of them"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Procedural memory is about how to do things, as a recipe book is.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_3zMP_Gvcg29-",
       "title": "User, team, and organization memory",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Memory also has a scope: whose is it?\n\nUser memory belongs to one person. Their preferences, their projects, their past conversations.\n\nTeam memory is shared by a group: the team's conventions, current priorities, decisions made together.\n\nOrganisation memory applies to everyone: company policies, product facts, the house style.\n\nAn office works the same way. You have your own notebook, your team has a shared folder, and the company has a handbook.\n\nThe scope decides who can read a memory and who can change it. Mixing the levels up causes real problems. A personal note that leaks into shared memory is a privacy breach. One person's preference applied to the whole company is a nuisance.\n\nEach stored memory should be labelled with its scope.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3zMP_Gvcg29-_1",
+          "type": "multiple_choice",
+          "prompt": "Why does the scope of a memory matter?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It changes the model's size"
+            },
+            {
+              "id": "b",
+              "text": "It affects the screen colour"
+            },
+            {
+              "id": "c",
+              "text": "It has no practical effect"
+            },
+            {
+              "id": "d",
+              "text": "It decides who may read and change it"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Scope controls access, and confusing personal with shared memory causes privacy problems.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,44 +5,128 @@
     {
       "id": "bit_iVgYOVGvBWmb",
       "title": "Detecting loops and drift",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Two failures creep up on long-running agents.\n\nA loop: the agent repeats the same action or small set of actions with no progress. Search, find nothing, search the same thing again.\n\nDrift: the agent keeps moving, but away from the task.\n\nBoth can be detected by code watching the run.\n\nFor loops: has the same tool been called with the same inputs three times? Has the same error come back repeatedly? Have the last several steps changed nothing?\n\nFor drift: at intervals, have a cheap model compare the current activity with the original goal.\n\nIt is a sat nav noticing that you have driven round the same block three times.\n\nOn detection, step in. Tell the agent what you have noticed, reset it, or stop and hand over to a person.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_iVgYOVGvBWmb_1",
+          "type": "multiple_choice",
+          "prompt": "What is a simple sign that an agent is stuck in a loop?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It finishes quickly"
+            },
+            {
+              "id": "b",
+              "text": "It uses different tools each step"
+            },
+            {
+              "id": "c",
+              "text": "The same tool is called with the same inputs several times"
+            },
+            {
+              "id": "d",
+              "text": "It asks the user a question"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Identical repeated calls with no new result show the agent is making no progress.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_jCoiZo1eYCaX",
       "title": "Periodic resets and re-grounding",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Do not wait for an agent to degrade. Refresh it on a schedule.\n\nA periodic reset means clearing the cluttered context at planned points, say every thirty steps or at the end of each stage, and continuing from a clean summary.\n\nRe-grounding means reminding the agent of the basics: the original goal restated, the key rules, the current state of progress. This is often done by placing that reminder at the end of the context, where it is freshest.\n\nA long walk works the same way. Every hour you stop, take out the map, and check where you are and where you are heading.\n\nAgents that do this stay on task far longer than ones left to run on a single ever-growing conversation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_jCoiZo1eYCaX_1",
+          "type": "multiple_choice",
+          "prompt": "What does re-grounding an agent involve?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Deleting its goal"
+            },
+            {
+              "id": "b",
+              "text": "Giving it a new unrelated task"
+            },
+            {
+              "id": "c",
+              "text": "Restating the original goal, key rules and current progress"
+            },
+            {
+              "id": "d",
+              "text": "Removing all its tools"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Reminding the agent of the basics refocuses it during long runs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_EzhKJ30AuU9p",
       "title": "Goal drift: slowly solving a different problem",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Goal drift is when an agent ends up working hard on something that is not what was asked.\n\nIt happens by small steps, each one sensible in isolation. Asked to fix a bug in the login page, the agent notices some untidy code nearby and tidies it. That breaks a test, so it rewrites the test. Two hours later it has restructured half the application and the original bug is still there.\n\nOr a research agent follows an interesting tangent and delivers a fine report on the wrong question.\n\nIt is going to the shop for milk and coming back with a new jacket and no milk.\n\nDefences: keep the original goal permanently in view. State the scope, including what is out of scope. Check progress against the goal at intervals. Require the final answer to address the original request directly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_EzhKJ30AuU9p_1",
+          "type": "multiple_choice",
+          "prompt": "What is goal drift?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Gradually working on a different problem from the one requested"
+            },
+            {
+              "id": "b",
+              "text": "An agent running out of memory"
+            },
+            {
+              "id": "c",
+              "text": "A tool returning an error"
+            },
+            {
+              "id": "d",
+              "text": "The model becoming faster over time"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A series of small, individually reasonable steps can carry the agent away from the original task.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Xn9r2N0phMM3",
       "title": "Starting fresh with a summary of progress",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a session has become long and muddled, the best move is often to end it and begin another.\n\nThe procedure is a handover. Ask the agent, or a separate model, to write a summary: the goal, what is finished, what is left, key facts and decisions, what was tried and failed, and where files and notes are kept.\n\nThen start a new session with a clean context, containing only the instructions and that summary.\n\nThe new session works with a clear head. It has the conclusions, with none of the clutter.\n\nIt is a shift change, where a fresh colleague takes over with a good briefing.\n\nThe quality of the summary is everything. A handover that omits a key constraint will see that constraint broken. Check it, and keep important details in files that the new session can read in full.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,7 +139,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Xn9r2N0phMM3_1",
+          "type": "multiple_choice",
+          "prompt": "What must a handover summary include for a fresh session to succeed?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only the agent's name"
+            },
+            {
+              "id": "b",
+              "text": "Every raw tool result in full"
+            },
+            {
+              "id": "c",
+              "text": "Nothing; the new session should guess"
+            },
+            {
+              "id": "d",
+              "text": "The goal, progress, remaining work and key facts and decisions"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A complete, concise briefing gives the new session the conclusions without the clutter.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

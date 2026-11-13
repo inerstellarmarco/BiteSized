@@ -5,56 +5,168 @@
     {
       "id": "bit_a3vA-9uVVEBK",
       "title": "Autonomy levels",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Autonomy is how much an agent does without a person checking. It is a dial, not a switch.\n\nAt one end, the agent only suggests and a person does everything. At the other, the agent acts entirely alone and nobody looks until afterwards. Most useful systems sit somewhere between.\n\nDriver assistance in cars is a good comparison. There is a long range between cruise control and a car with no steering wheel, and each level asks something different of the human.\n\nThe right level is not a property of the technology. It is a decision you make for each task, based on what a mistake would cost and how well the agent has shown it performs.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_a3vA-9uVVEBK_1",
+          "type": "multiple_choice",
+          "prompt": "What best describes agent autonomy?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A switch that is either on or off"
+            },
+            {
+              "id": "b",
+              "text": "A fixed property of the model"
+            },
+            {
+              "id": "c",
+              "text": "Something that cannot be controlled"
+            },
+            {
+              "id": "d",
+              "text": "A dial with many settings between \"only suggests\" and \"acts alone\""
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Autonomy is a spectrum, and the right setting is chosen per task.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_oG_ayDYXqDo9",
       "title": "Autonomous loops",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An autonomous loop is an agent that keeps running the decide, act, observe cycle with no person in between, possibly for a long time.\n\nThat is where the big gains are. An agent that can work for an hour on a research task, a data clean-up or a coding job, unattended, gets far more done than one that stops for approval every two minutes.\n\nIt is also where the big risks are. Nobody is watching, so a wrong turn at minute five is still being built on at minute fifty. Cost accumulates silently. A loop can get stuck repeating itself.\n\nSo autonomous loops need limits built into the code: a maximum number of steps, a spending cap, a time limit, and checks that stop the run when something looks wrong.\n\nIt is autopilot. It is useful because the aircraft also has alarms.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oG_ayDYXqDo9_1",
+          "type": "multiple_choice",
+          "prompt": "What must an autonomous loop have?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Unlimited permission"
+            },
+            {
+              "id": "b",
+              "text": "No stopping condition"
+            },
+            {
+              "id": "c",
+              "text": "Hard limits such as maximum steps, time and spend"
+            },
+            {
+              "id": "d",
+              "text": "A human approving every step"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "With no one watching, built-in limits are what stop errors and costs from compounding.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_u9O4eOdl90Xu",
       "title": "From suggest, to act with approval, to act alone",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Three levels cover most practical cases.\n\nSuggest: the agent proposes and a person does the work. \"Here is a draft reply.\" This is the safest level, and the human is still doing the action.\n\nAct with approval: the agent prepares the action and waits. \"I am about to issue a £40 refund to this customer. Approve?\" One click from a person and it proceeds. The agent does the work and the human keeps the decision.\n\nAct alone: the agent does it and records what it did. A person reviews afterwards, or only looks at exceptions.\n\nIt is how a trainee progresses: first they watch, then they do it while you check, then they do it and tell you later.\n\nA single system can use all three, with a different level for each kind of action.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_u9O4eOdl90Xu_1",
+          "type": "multiple_choice",
+          "prompt": "In \"act with approval\", who makes the final decision?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The agent alone"
+            },
+            {
+              "id": "b",
+              "text": "Nobody"
+            },
+            {
+              "id": "c",
+              "text": "A person, who approves the prepared action"
+            },
+            {
+              "id": "d",
+              "text": "The model provider"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The agent does the preparation, but the action only goes ahead after a human approves it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6yDV6OUdveAe",
       "title": "Matching autonomy to the cost of a mistake",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The right level of autonomy depends on one question: what happens if the agent gets this wrong?\n\nLow cost and easy to undo, such as tagging a ticket or drafting a note: let it act alone.\n\nModerate cost, such as replying to a customer or changing a record: act with approval, or act alone within limits, such as refunds under £20.\n\nHigh cost or irreversible, such as large payments, legal commitments, deleting data or anything touching safety: a person decides, every time.\n\nConsider frequency as well. An action taken ten thousand times a day will go wrong sometimes, even at 99.9 per cent accuracy.\n\nA bank works this way. A cashier handles small withdrawals. A large transfer needs a manager's signature.\n\nThe mapping should be written down, not left to the agent's judgement.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6yDV6OUdveAe_1",
+          "type": "multiple_choice",
+          "prompt": "Which action most clearly needs human approval?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Adding a label to a ticket"
+            },
+            {
+              "id": "b",
+              "text": "Drafting an internal note"
+            },
+            {
+              "id": "c",
+              "text": "Searching the knowledge base"
+            },
+            {
+              "id": "d",
+              "text": "Making a large payment"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A large payment is costly and hard to reverse, so a person should decide.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_reDAr7XzWtyr",
       "title": "Earning autonomy: widen it as evals and trust grow",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Autonomy should be earned through evidence, not granted on day one.\n\nStart narrow. Launch in suggest mode, or even in shadow mode, where the agent's proposals are recorded but never acted on. Compare what it would have done with what people actually did.\n\nWhen it agrees with the humans nearly all the time, and the evals back that up, move one category of action up a level. Watch. Then move the next.\n\nKeep the path open in both directions. If quality drops after a model change, turn the dial back.\n\nIt is a new employee's probation. Supervision eases as they prove themselves, and comes back if something goes wrong.\n\nTeams that begin with full autonomy usually have an incident and then go back to the start.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -67,7 +179,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_reDAr7XzWtyr_1",
+          "type": "multiple_choice",
+          "prompt": "What is a sensible way to increase an agent's autonomy?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "All at once at launch"
+            },
+            {
+              "id": "b",
+              "text": "Never, under any circumstances"
+            },
+            {
+              "id": "c",
+              "text": "Gradually, as evals and real results show it performs reliably"
+            },
+            {
+              "id": "d",
+              "text": "Whenever the agent asks for it"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Widening autonomy step by step, based on evidence, limits the damage from early mistakes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

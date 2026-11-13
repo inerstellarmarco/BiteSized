@@ -5,68 +5,208 @@
     {
       "id": "bit_XJsD4uiLhTNP",
       "title": "Vector and graph memory stores (see B2.3, B3.1)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Long-term memories have to be kept somewhere they can be searched. There are two common choices, both met earlier.\n\nA vector store keeps each memory as an embedding and finds memories by meaning. Ask about \"the client's holiday plans\" and it surfaces a note saying \"Maria is away in August\". Good for loose, fuzzy recall.\n\nA graph store keeps memories as connected facts: Maria works at Acme, Acme uses Product X, Product X renews in June. Good for questions that follow connections, such as \"which of my contacts are affected by the June renewal?\"\n\nThink of a pile of notes you can search by topic, against a map of who and what is related.\n\nMany memory systems use both: vectors to find, a graph to connect.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XJsD4uiLhTNP_1",
+          "type": "multiple_choice",
+          "prompt": "What is a graph memory store particularly good at?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Answering questions that follow connections between facts"
+            },
+            {
+              "id": "b",
+              "text": "Storing images only"
+            },
+            {
+              "id": "c",
+              "text": "Making the model faster"
+            },
+            {
+              "id": "d",
+              "text": "Finding text by exact spelling only"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A graph holds relationships, so it can link facts across several steps.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ar8LfsIv0giB",
       "title": "Write, retrieve, and forget policies",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A memory system needs three rules.\n\nWrite: what gets saved, and when? Everything? Only what the user asks to be remembered? Facts extracted at the end of each session?\n\nRetrieve: what gets brought back, and when? The five memories most relevant to the current message? Always the user's core profile?\n\nForget: what gets removed? Memories older than a year? Ones contradicted by newer information? Anything the user asks to delete?\n\nWithout the first, memory fills with rubbish. Without the second, good memories are never used, or irrelevant ones crowd the context. Without the third, it goes stale and grows without end.\n\nA filing clerk needs the same three rules: what to file, how to find it, and when to shred.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ar8LfsIv0giB_1",
+          "type": "multiple_choice",
+          "prompt": "What does a \"forget\" policy decide?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Which memories are removed and when"
+            },
+            {
+              "id": "b",
+              "text": "Which model to use"
+            },
+            {
+              "id": "c",
+              "text": "How fast the agent types"
+            },
+            {
+              "id": "d",
+              "text": "The colour of the interface"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Forgetting rules keep memory current and stop it growing without limit.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_p-HMxlMz04ry",
       "title": "Plain files and databases as simple memory",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "You do not need a specialised memory product to give an agent memory.\n\nA plain text file works well. A file of notes that the agent reads at the start of each session and adds to at the end. Coding agents commonly use exactly this: a project notes file kept alongside the code.\n\nAn ordinary database table works too: user ID, fact, date. \"User 42 | prefers metric units | 2026-03-01.\"\n\nThe advantages are real. A person can open the file, read exactly what the agent \"knows\", and correct it. Nothing is hidden. There is nothing new to learn or pay for.\n\nIt is a notebook on the desk, not a card index system.\n\nStart there. Move to vector or graph storage when the notes outgrow what can sensibly be read in full.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_p-HMxlMz04ry_1",
+          "type": "multiple_choice",
+          "prompt": "What is an advantage of using a plain file as agent memory?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It can never be changed"
+            },
+            {
+              "id": "b",
+              "text": "It searches by meaning automatically"
+            },
+            {
+              "id": "c",
+              "text": "It requires a specialised product"
+            },
+            {
+              "id": "d",
+              "text": "A person can read and correct exactly what is stored"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Plain files are transparent and editable, which makes them a strong simple starting point.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_fo-p7vC9xkgU",
       "title": "What deserves to be remembered",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Remembering everything is not good memory. It is hoarding.\n\nA memory earns its place if it will change what the agent does in future and will stay true for a while.\n\nWorth keeping: stable preferences (\"always in Canadian dollars\"), lasting facts (\"the client's accountant is Dev\"), corrections (\"do not use the old logo\"), and decisions with their reasons.\n\nNot worth keeping: small talk, one-off details (\"the weather is bad today\"), anything quickly out of date, and things the agent can look up anyway.\n\nTake care with sensitive information, such as health or finances. Save it only with good reason, and ideally with the user's knowledge.\n\nA good assistant remembers how you take your coffee, not every word you said last Thursday.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_fo-p7vC9xkgU_1",
+          "type": "multiple_choice",
+          "prompt": "Which is most worth storing in long-term memory?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A comment about today's weather"
+            },
+            {
+              "id": "b",
+              "text": "A greeting"
+            },
+            {
+              "id": "c",
+              "text": "A detail that will be out of date tomorrow"
+            },
+            {
+              "id": "d",
+              "text": "A lasting preference, such as \"always use Canadian dollars\""
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Durable facts that change future behaviour are worth keeping, and passing details are not.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_vTGsH_V3o73S",
       "title": "Wrong or stale memories and how to correct them",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Memories go wrong in two ways.\n\nWrong from the start: the agent misunderstood, or saved a guess as a fact.\n\nStale: true once, but no longer. The client changed accountants. The price went up.\n\nA bad memory is worse than none, because the agent acts on it with confidence, every time, until someone notices.\n\nDefences:\n\nDate every memory, and note where it came from.\n\nWhen new information contradicts an old memory, replace it. Do not keep both.\n\nLet users see what is remembered about them, and edit or delete it.\n\nReview or expire memories after a period.\n\nHave the agent treat memory as a helpful hint, and verify it when the stakes are high.\n\nIt is an address book. It is useful only if someone keeps it up to date.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vTGsH_V3o73S_1",
+          "type": "multiple_choice",
+          "prompt": "Why can a wrong memory be worse than no memory?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It uses less storage"
+            },
+            {
+              "id": "b",
+              "text": "It makes the agent slower"
+            },
+            {
+              "id": "c",
+              "text": "Wrong memories delete themselves"
+            },
+            {
+              "id": "d",
+              "text": "The agent keeps acting on it confidently until someone notices"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A stored error is repeated in every later task, with no signal that anything is amiss.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NGLVHQBC2SsF",
       "title": "Privacy: whose memory it is and who can see it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Stored memory is stored personal data, and the obligations that come with that apply.\n\nOwnership: memories about a person should be visible to that person and deletable by them.\n\nSeparation: one user's memories must never surface in another user's session. One client's must never reach another client. This has to be enforced in the storage layer, by user or client ID, and not left to the model.\n\nConsent and transparency: people should know that the system remembers, and what.\n\nMinimisation: do not keep what you do not need, particularly sensitive details.\n\nLaw: rules such as GDPR, and PIPEDA in Canada, give people rights of access and deletion.\n\nThink of a doctor's notes. They are valuable for your care, and precisely for that reason they are tightly controlled.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -79,7 +219,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NGLVHQBC2SsF_1",
+          "type": "multiple_choice",
+          "prompt": "How should one user's memories be kept from another user?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By asking the model nicely to keep them apart"
+            },
+            {
+              "id": "b",
+              "text": "By storing everything in one shared pool"
+            },
+            {
+              "id": "c",
+              "text": "By enforcing separation in the storage layer, using user or client IDs"
+            },
+            {
+              "id": "d",
+              "text": "By hoping it does not happen"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Hard separation in storage is a guarantee, while a model instruction is not.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

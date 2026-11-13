@@ -1,0 +1,965 @@
+// B5 Tools, Function Calling & MCP
+@@ sll_x74DgglN77Ob | B5.1 Function Calling > How Tool Calling Works
+## Tool-call request and execution cycle
+Tool calling is how a model that can only produce text gets things done in other software.
+
+The cycle has four steps. You send the model the user's message and a list of the tools available. The model replies, not with an answer, but with a request: "call get_weather with city = Toronto". Your code runs that function. You send the result back, and the model writes its answer using it.
+
+It is a diner. The waiter (the model) writes an order ticket. The kitchen (your code) cooks. The plate goes back to the waiter, who serves it.
+
+The request is structured data, usually JSON, so your code can read it reliably.
+?? In the tool-calling cycle, what does the model produce when it wants to use a tool?
++ A structured request naming the tool and its inputs
+- The finished result of the tool
+- A new copy of itself
+- An invoice
+= The model outputs a request, and your code is what actually runs the tool.
+## Parallel tool calls
+A model can ask for several tools in one reply when the calls do not depend on each other.
+
+Asked "what is the weather in Toronto, Paris and Tokyo?", it can request all three lookups at once. Your code runs them at the same time and returns three results together. That takes one round trip where three would have been needed.
+
+It is ordering a starter, a main and a drink in one go, where the alternative is calling the waiter back three times.
+
+The saving is in time, and it adds up in agents that gather a lot of information.
+
+It only works for independent calls. If the second call needs the first one's answer, such as "find the customer, then get their orders", they must run in sequence.
+?? When can tool calls run in parallel?
++ When they do not depend on each other's results
+- Only when there is exactly one call
+- When the second needs the first one's output
+- Never
+= Independent calls can be issued together, while dependent ones must wait for earlier results.
+## APIs as the bridge to external software
+An API, an application programming interface, is the agreed way for one program to ask another to do something.
+
+Nearly every service has one. A calendar's API can create an event. A payment service's API can take a charge. A CRM's API can look up a customer.
+
+Most tools you give an agent are thin wrappers round an API call. The tool "create_event" simply calls the calendar's API with the details the model supplied.
+
+Think of an API as a service counter with a fixed form. Fill in the form correctly and you get what you asked for. You never go behind the counter.
+
+That is why "does it have an API?" is the first question when a client asks whether an agent can work with their software.
+?? What is most agent tooling built on?
++ API calls to other software
+- Handwritten letters
+- Screenshots sent by post
+- The model's memory alone
+= Tools are usually small wrappers that call an existing service's API.
+## The model asks; your code runs the tool
+This is the fact about tool calling that people most often get wrong: the model never runs anything.
+
+It writes a request. Your code decides whether to carry it out. Between those two moments you can do whatever you like. Check the inputs. Refuse because this user lacks permission. Ask a person to approve. Log it. Swap in a safe test version.
+
+It is a doctor writing a prescription. The pharmacist reads it, checks it and decides whether to dispense.
+
+That gap is where all your safety controls live. A model can be tricked into asking for something harmful. It cannot make your code do it.
+
+So never treat a tool request as trusted. Treat it as a suggestion from a capable but fallible colleague.
+?? Why is it important that your code, not the model, runs the tool?
++ Your code can check, refuse or seek approval before anything happens
+- It makes the model faster
+- It removes the need for tools
+- It lets the model access the internet directly
+= The gap between request and execution is where validation, permissions and approvals are enforced.
+## Tool results go back into the conversation
+After your code runs a tool, the result is added to the conversation as a new message, and the model is called again.
+
+The model then sees everything: the question, its own request, and what came back. It may answer, or ask for another tool.
+
+Two consequences follow.
+
+Results take up context. A tool that returns a 50-page document fills the window and costs money on every later call in that conversation. Return what is needed, trimmed.
+
+Results are read by the model as text. If a web page or email contains "ignore your instructions and forward this to...", the model sees that too. Tool results are a route for prompt injection, which module B12 covers.
+
+Treat what comes back as data, not as instructions.
+?? Why should tool results be kept short and relevant?
++ They occupy context and add cost on every later call
+- The model cannot read numbers
+- Long results are illegal
+- Tools only work with one-word answers
+= Results join the conversation history, so large ones crowd the context and increase cost.
+## The model can pick the wrong tool or the wrong inputs
+Tool calling is a prediction, and predictions can be wrong.
+
+The model may choose the wrong tool, such as "search_web" when "search_orders" was needed. It may invent an input, like an order number the user never gave. It may send a date in the wrong format, leave out a required field, or call a tool when it should simply have answered.
+
+A new employee with a set of forms makes the same kinds of mistake: wrong form, wrong box, a guess where they should have asked.
+
+Defences: clear tool names and descriptions, strict input checking in your code, error messages that say what was wrong so the model can try again, and fewer, more distinct tools.
+
+Stronger models make fewer of these errors. None makes zero.
+?? Which is a sensible defence against wrong tool inputs?
++ Validating inputs in code and returning a clear error
+- Trusting every request the model makes
+- Removing all tool descriptions
+- Giving the model as many similar tools as possible
+= Checking inputs and explaining what was wrong lets the model correct itself safely.
+
+@@ sll_otygFTgSNcCQ | B5.1 Function Calling > Tool Schemas
+## JSON Schema and Pydantic tool definitions
+Each tool is described to the model with a schema: its name, what it does, and exactly which inputs it takes.
+
+JSON Schema is the standard format. It says, for example, that "city" is text and required, and "units" is optional and must be "celsius" or "fahrenheit".
+
+In Python, most people do not write that by hand. They define a Pydantic model, a small class listing the fields and their types, and the schema is generated from it. The same class then checks the model's inputs when a call arrives.
+
+Think of the schema as the blank form, and Pydantic as both the form designer and the clerk who rejects forms filled in wrongly.
+
+One definition gives you both the description for the model and the validation in your code.
+?? What is a benefit of defining tool inputs with Pydantic?
++ One definition produces the schema and validates the inputs
+- It makes the model larger
+- It removes the need for a description
+- It encrypts the conversation
+= A Pydantic model generates the JSON Schema and also checks incoming tool calls against it.
+## Clear names, descriptions, and required fields
+The model chooses tools by reading their names and descriptions, so write them as you would for a new colleague.
+
+Names: say what the tool does. "search_customer_orders" beats "query2" or "handler".
+
+Descriptions: one or two plain sentences on what it does and what it returns.
+
+Field names and descriptions: "order_id: the 8-digit order number, e.g. 10482233" is far better than "id".
+
+Required fields: mark what must be supplied. If a field is optional, say what happens when it is left out.
+
+It is labelling the drawers in a workshop. With clear labels, anyone finds the right tool. With "misc 1" and "misc 2", everyone guesses.
+
+A surprising share of agent errors are fixed by renaming a tool or rewriting two sentences.
+?? Which is the better tool name?
++ search_customer_orders
+- query2
+- handler
+- do_thing
+= A descriptive name tells the model what the tool does, which improves tool selection.
+## The description is a prompt: say when to use the tool and when not to
+A tool description is not documentation for developers. It is part of the prompt, and the model reads it every time.
+
+So say more than what the tool does. Say when to use it and when not to.
+
+"Search the product knowledge base. Use this for questions about features, setup and troubleshooting. Do not use it for order status or billing; use get_order for those."
+
+The "when not to" matters most where two tools sound alike. Without it, the model guesses between them.
+
+Also state limits: "returns at most ten results", "data is updated nightly, so it may be a day old".
+
+It is briefing a temp: here is the filing cabinet, here is what belongs in it, and here is what goes to accounts instead.
+?? What should a good tool description include besides what the tool does?
++ When to use it and when not to
+- The developer's home address
+- A long history of the company
+- Nothing else
+= Guidance on when to use and avoid a tool helps the model choose correctly between similar ones.
+## Limiting inputs to fixed choices
+Where an input has only a few valid values, list them in the schema instead of accepting free text.
+
+This is called an enum. A "priority" field allowed to be "low", "medium" or "high" can never arrive as "urgent-ish" or "HIGH!!".
+
+It is a drop-down menu in place of a blank box.
+
+The benefits are large for so small a change. The model sees the options and picks one. Invalid values are rejected automatically. And your code only has to handle the cases you listed.
+
+The same idea applies to numbers, with a minimum and maximum, and to formats, such as a date that must be written YYYY-MM-DD.
+
+Each constraint removes a way for the model to be wrong. Tight schemas are among the cheapest reliability gains available.
+?? What is the advantage of an enum for a tool input?
++ The model can only choose from valid values
+- It allows any text at all
+- It makes the tool slower
+- It hides the tool from the model
+= Listing the allowed values prevents invalid inputs and simplifies the code that handles them.
+## Examples of good calls in the description
+A description says what a tool is for. An example shows how to use it. Models learn quickly from examples.
+
+For a search tool, add one or two:
+
+"Example: to find a refund policy, call search_kb with query = 'refund policy returns' and max_results = 3."
+
+Examples settle the questions that descriptions leave open. Should the query be a full sentence or keywords? What does a valid ID look like? Which optional fields are worth filling in?
+
+It is the worked example at the top of a tax form.
+
+Keep them few and typical. Models copy examples closely, so an odd example produces odd calls. And if the example uses a particular date or name, expect to see it turn up where it should not.
+?? Why add an example call to a tool description?
++ It shows the model the expected form of the inputs
+- It makes the description longer for its own sake
+- It replaces the schema
+- It stops the tool from being used
+= A worked example resolves ambiguities about format and style that a description alone leaves open.
+
+@@ sll_zKOkFloWdVMR | B5.2 Agent-Computer Interface (ACI) > Designing Tools for Agents
+## ACI vs. UI
+A user interface, UI, is designed for people: buttons, menus, colour, layout.
+
+An agent-computer interface, ACI, is designed for a model: tool names, descriptions, input formats and the text that comes back.
+
+The two users have different strengths. A person sees a screen at a glance but dislikes typing long commands. A model reads text quickly and exactly, but cannot glance, has a limited context, and forgets anything it is not shown.
+
+So good ACI design has its own rules: clear wording, compact outputs, helpful errors, nothing that relies on visual layout.
+
+Teams put months into UI design and minutes into tool design. Yet the tools are the only way the agent experiences your system. The same care belongs there.
+?? What is an agent-computer interface (ACI)?
++ The tools, descriptions and outputs a model uses to work with software
+- A screen with buttons for people
+- A type of keyboard
+- A brand of monitor
+= ACI is the model-facing equivalent of a user interface, made of tools and their text.
+## Small, composable, well-documented tools
+Good tools resemble good kitchen utensils. Each does one thing well, and they combine.
+
+Small: "get_customer", "list_orders", "create_refund". Not one "customer_manager" with a mode switch and fifteen optional inputs.
+
+Composable: the output of one is usable as the input of another. "get_customer" returns an ID that "list_orders" accepts.
+
+Well documented: each has a clear description, as the last lesson covered.
+
+With such a set, the agent can assemble solutions to tasks you never anticipated, the way a few Lego shapes build many models.
+
+There is a balance. Tools that are too tiny force ten calls where one would do. Aim for the size of a meaningful step in the task.
+?? What makes tools composable?
++ One tool's output can be used as another's input
+- They all have the same name
+- Each does everything
+- They cannot be combined
+= Composable tools fit together, so the agent can chain them to handle varied tasks.
+## Design for the task, not as a copy of the API
+It is tempting to turn every API endpoint into a tool. That usually produces bad tools.
+
+APIs are built for programmers. Booking a meeting might take four calls: look up each person's ID, fetch their calendars, find a common slot, create the event. As four tools, the agent has four chances to slip.
+
+Design for the job instead. One tool, "schedule_meeting", takes names and a time range. Your code does the four calls behind it.
+
+It is a restaurant where you order a meal, not one where you instruct the kitchen step by step.
+
+Ask what the agent is trying to accomplish, and give it a tool at that level. The fiddly, deterministic parts belong in code, where they run correctly every time.
+?? Why not simply expose every API endpoint as a tool?
++ Tasks then need many fragile steps the agent can get wrong
+- APIs cannot be called from code
+- It makes tools too easy to use
+- Agents prefer more tools
+= Task-level tools hide deterministic multi-step work in code, leaving the agent fewer chances to fail.
+## Return only what the agent needs, in text it can read
+Whatever a tool returns goes into the model's context. So return little, and make it readable.
+
+A raw API response might have eighty fields per customer: internal codes, timestamps, nested settings. The agent needed the name, the plan and the renewal date.
+
+Filter in your code. Return those three, labelled plainly.
+
+Prefer meaningful values to opaque ones. "Plan: Professional" is better than "plan_id: 7". Readable names beat long ID strings.
+
+For long lists, return the first few with a count: "showing 10 of 243; narrow the search to see others".
+
+It is asking a colleague for a customer's renewal date and getting the date, not the whole filing cabinet.
+
+Leaner outputs make agents cheaper, faster and more accurate, all at once.
+?? What should a well-designed tool return?
++ Only the relevant fields, in clearly labelled readable text
+- Every field the API offers
+- Unlabelled internal codes
+- As much data as possible
+= Compact, readable results save context and help the model use the information correctly.
+## Error messages that tell the agent how to recover
+When a tool fails, the error message is the agent's only clue to what to do next. Write it for that purpose.
+
+Unhelpful: "Error 400". The agent can only guess, and will often retry the same call.
+
+Helpful: "No order found with ID 1048. Order IDs are 8 digits. Use search_orders with the customer's email to find the right one."
+
+That message says what went wrong, why, and what to try instead. The agent usually recovers on the next step.
+
+It is the difference between a sat nav saying "route error" and saying "road closed ahead, turn left in 200 metres".
+
+A good pattern: what happened, the likely cause, the suggested next action. It costs a few minutes per tool and prevents a great many stuck agents.
+?? What makes a tool error message useful to an agent?
++ It says what went wrong and what to try next
+- It is only a number
+- It is as short as possible
+- It blames the user
+= Explaining the cause and suggesting an action lets the agent correct course instead of repeating the mistake.
+## Test tools by watching where the agent gets confused
+You cannot tell whether a tool is well designed by reading it. You find out by watching an agent use it.
+
+Give the agent realistic tasks and read the traces. Look for places where it picks the wrong tool, fills an input wrongly, calls the same tool repeatedly, or ignores a tool that would have helped.
+
+Each of those is a design flaw, not a model flaw. A wrong pick means two descriptions overlap. A bad input means the field is unclear. Repeated calls mean the output did not contain what it needed.
+
+It is usability testing: you watch real people use the product and note where they hesitate.
+
+Then change the tool and run it again. Tool design is iterative, and the traces tell you what to fix.
+?? How do you find out whether a tool is well designed?
++ Watch an agent use it on realistic tasks and see where it goes wrong
+- Count the lines of code
+- Ask the tool
+- Check its file size
+= Traces of real use reveal confusion that reading the definition alone will not.
+
+@@ sll_2AconlQbeyOH | B5.2 Agent-Computer Interface (ACI) > Common Tool Types
+## Search, code, database, and API tools
+Most agent tools fall into four families.
+
+Search: find information. Web search, a company knowledge base, a document store. It is how the agent learns what it does not know.
+
+Code: run a program. For calculation, data analysis and file conversion.
+
+Database: query structured records. Customers, orders, stock.
+
+API: act in another service. Send a message, create a ticket, book a slot.
+
+A rough way to remember them: search to find out, database to look up, code to work out, API to act.
+
+A typical business agent has a couple from each family. Notice that the first three mostly read, while API tools often write. That is where the care from the last module applies.
+?? Which tool family is mainly used to take actions in other services?
++ API tools
+- Search tools
+- Code execution used for arithmetic
+- Read-only database queries
+= API tools call other services to send, create or change things.
+## Computer use and browser tools
+~m
+Some tools let an agent operate software the way a person does: looking at the screen, moving the pointer, clicking and typing.
+
+Computer use covers a whole desktop. Browser tools cover a web browser. The agent is sent a screenshot, decides on an action such as "click the Submit button", and receives a new screenshot.
+
+The appeal is reach. It works with any software, including old systems that have no API.
+
+The drawbacks are real. It is slow, since every click is a model call. It is fragile, because a moved button or a pop-up can throw it. It costs more. And a web page can contain text that tries to hijack the agent.
+
+It is improving quickly, but for now it is the tool of last resort, not first.
+?? What is the main advantage of computer-use tools?
++ They work with software that has no API
+- They are the fastest option
+- They never make mistakes
+- They cost nothing
+= Operating the screen like a person lets an agent reach systems that offer no programmatic access.
+## Code execution for maths and data work
+Language models are poor at exact arithmetic and at handling large tables. They predict likely text, and a likely-looking number is not necessarily the right one.
+
+The fix is a code execution tool. The model does not work out the answer. It writes a short program, the tool runs it, and the true result comes back.
+
+Asked for the average order value across 40,000 rows, the model writes a few lines of Python. The computer does the sum.
+
+It is a person reaching for a calculator or a spreadsheet, not doing long division in their head.
+
+That makes agents dependable for analysis: totals, percentages, charts, cleaning data, converting files.
+
+The code must run in a sandbox, a sealed environment, since you are executing something a model wrote.
+?? Why give an agent a code execution tool for calculations?
++ Code computes exact results, while the model alone may get numbers wrong
+- Models cannot write code
+- It makes the answer longer
+- Arithmetic is not allowed in prompts
+= Running code gives a real computed answer where a model would only be predicting digits.
+## File tools: read, write, and edit
+Much real work lives in files: reports, spreadsheets, code, notes. File tools let an agent work with them.
+
+Read: open a file and see its contents, often a section at a time so that a huge file does not flood the context.
+
+Write: create a new file.
+
+Edit: change part of an existing file, usually by saying "replace this exact text with that text". That is safer and cheaper than rewriting the whole thing.
+
+Files also serve as an agent's notebook. On a long task it can write its plan and findings to a file and read them back later, which gets round the limits of its context.
+
+Note the risk level. Reading is harmless. Writing and editing can overwrite work, so limit which folders the agent may touch.
+?? Why is an edit tool usually better than rewriting a whole file?
++ It changes only the intended part, which is safer and cheaper
+- It deletes the file first
+- It needs no instructions
+- It always rewrites everything
+= Targeted edits avoid accidental changes elsewhere and use far fewer tokens.
+## Prefer an API over clicking through a screen
+When a system offers both an API and a screen, give the agent the API.
+
+An API call is one step, with a precise input and a structured answer. It takes a fraction of a second and behaves the same way every time.
+
+Clicking through the screen to do the same thing might take ten steps, each needing a screenshot and a model call. Any one can fail because a page loaded slowly or a button moved.
+
+It is online banking against queuing at the branch. Both get the transfer made. One is quicker and has fewer things to go wrong.
+
+So the order of preference is: a proper API, then an existing connector such as an MCP server, and screen control only when nothing else exists.
+?? When should an agent use screen clicking over an API?
++ Only when no API or connector is available
+- Always, because it is more reliable
+- Whenever speed matters
+- Whenever the task is simple
+= APIs are faster and more reliable, so screen control is the fallback for systems that have none.
+
+@@ sll_l_pGL1RL0c3B | B5.3 Robust Tool Execution > Handling Tool Errors
+## Retries with exponential backoff
+Many tool failures are temporary: a network blip, a busy server, a rate limit. Often the cure is to try again.
+
+But not straight away, and not at a fixed rhythm. If a server is overloaded, a thousand clients all retrying every second make it worse.
+
+Exponential backoff means waiting longer after each failure: one second, then two, then four, then eight. A small random delay, called jitter, is added so that clients do not all retry at the same instant.
+
+It is redialling an engaged phone number. You wait a bit, then a bit longer.
+
+Cap the attempts, at three to five, then give up and report the failure.
+
+Only retry errors that might pass. "Server busy" can clear. "Invalid order ID" will fail the same way every time.
+?? What does exponential backoff do?
++ Waits longer after each failed attempt before retrying
+- Retries instantly forever
+- Never retries
+- Waits the same time every attempt
+= Increasing delays give a struggling service time to recover and avoid a flood of retries.
+## Fallbacks and error messages
+When retries run out, a good system has a second plan.
+
+A fallback is an alternative route to the same goal. If the main search service is down, use a second one. If the best model times out, try another. If live data cannot be reached, use the last saved copy and say that it may be out of date.
+
+It is a diversion sign when the main road is closed.
+
+When there is no fallback, fail clearly. Tell the user plainly: "I could not reach the order system just now. Please try again in a few minutes." Never let the agent invent an answer to cover the gap, which models will do if left to it.
+
+A clear "I could not do this" is far better than a confident wrong answer.
+?? What should happen when a tool fails and there is no fallback?
++ The user is told clearly that it could not be done
+- The agent invents a plausible answer
+- The failure is hidden
+- The agent retries forever
+= An honest failure message preserves trust, while a fabricated answer can cause real harm.
+## Tools fail: networks, limits, and bad inputs
+Any tool that reaches outside your own code will fail sometimes. Plan for it from the start.
+
+The failures come in three kinds.
+
+Network and service problems: timeouts, outages, slow responses. They are temporary, so retry.
+
+Limits: rate limits, quotas, a spending cap reached. Wait, then retry, or stop.
+
+Bad inputs: a wrong ID, a missing field, a permission the agent lacks. Retrying will not help. The call itself must change.
+
+It is a delivery van. Traffic is a delay. A closed depot means waiting. A wrong address means no amount of driving will help.
+
+Telling these apart is the basis of good error handling, because each needs a different response.
+?? Which kind of tool failure will not be fixed by simply retrying?
++ A bad input, such as a wrong ID
+- A brief network timeout
+- A temporarily busy server
+- A short rate limit
+= An invalid input fails the same way every time, so the call must be changed, not repeated.
+## Showing the error to the agent so it can adapt
+When a tool fails because of how it was called, do not crash and do not hide it. Return the error to the model as the tool's result.
+
+The agent reads "no customer found with that email" and can react. It might try a different spelling, search by name, or ask the user to confirm the address.
+
+That is a real strength of agents over fixed scripts. A script stops at the first surprise. An agent can read what went wrong and find another way.
+
+It is telling a colleague "that file is not in the shared drive" so they look elsewhere, where staying silent would leave them waiting.
+
+Two cautions. Keep the message short and useful. And never include secrets or internal details in an error the model will see.
+?? Why return a tool error to the agent instead of crashing?
++ The agent can read it and try a different approach
+- Errors make the agent faster
+- It hides the problem from everyone
+- Agents cannot read errors
+= Seeing what failed lets the agent adapt, which is a key advantage over a fixed script.
+## Knowing when to stop and ask a human
+An agent that keeps trying forever is not persistent. It is stuck, and it is spending money.
+
+Build in the rules for stopping.
+
+After repeated failures: if the same step has failed three times, stop.
+
+When information is missing: if only the user knows the answer, ask them. Do not guess.
+
+When the request is ambiguous and a wrong guess would be costly.
+
+When the action is high-risk and needs approval.
+
+When a step or spending limit is reached.
+
+When it stops, it should hand over well: what it was trying to do, what it tried, what went wrong and what it needs.
+
+A good employee does the same. They do not struggle in silence for a week. They come and say, "I am blocked, and here is why".
+?? What should an agent do after the same step has failed several times?
++ Stop and hand over to a person with a clear summary
+- Keep retrying indefinitely
+- Invent a result
+- Delete its logs
+= Stopping with a useful handover avoids wasted cost and gives a human what they need to help.
+
+@@ sll__33STjnvEVF0 | B5.3 Robust Tool Execution > Safe Tool Design
+## Idempotency
+An operation is idempotent if doing it twice has the same effect as doing it once.
+
+Setting a thermostat to 20 degrees is idempotent. Do it five times and it is still 20. Turning it up by two degrees is not. Five times makes it ten degrees hotter.
+
+A lift button is another example. Pressing it again does not call a second lift.
+
+In software: "set order status to shipped" is idempotent. "Add £50 to the account balance" is not.
+
+It matters to agents because calls get repeated: after a timeout, a crash or a moment of model confusion. An idempotent tool makes repetition harmless.
+
+A common technique is an idempotency key: a unique ID sent with the request, so the service recognises a repeat and ignores it.
+?? Which operation is idempotent?
++ Setting an order's status to "shipped"
+- Adding £50 to a balance
+- Sending another copy of an email
+- Increasing a counter by one
+= Setting a value gives the same end state however many times it runs.
+## Rate limiting and spend limits
+An agent can make calls far faster than a person, and it does not get tired or notice the bill. Limits are how you contain that.
+
+A rate limit caps how often something can happen: no more than ten emails a minute, sixty searches an hour.
+
+A spend limit caps cost: no more than £5 of model usage per task, £200 a day in total.
+
+They are a card's daily withdrawal limit. A mistake or a theft can only go so far.
+
+Put them in code, not in the prompt. "Please do not send too many emails" is a request. A counter that refuses the eleventh email is a guarantee.
+
+Set them per task, per user and overall. And raise an alert when a limit is hit, because that usually means something has gone wrong.
+?? Where should rate and spend limits be enforced?
++ In code, as hard limits
+- Only in the prompt, as a polite request
+- Nowhere
+- In the user's memory
+= Code-level limits cannot be ignored or talked round, unlike an instruction to the model.
+## Timeouts and sandboxed execution
+Two protections for when tools misbehave.
+
+A timeout is a deadline. If a tool has not answered in, say, thirty seconds, stop waiting and report a failure. Without one, a single hung call can freeze the whole agent indefinitely.
+
+A sandbox is a sealed environment for running code or commands. Inside it, the program has no access to your real files, your network or your secrets. If the code is wrong or malicious, the damage stays in the box, and the box is thrown away afterwards.
+
+It is a child's sandpit, or a test kitchen away from the restaurant.
+
+Anything that runs code written by a model needs a sandbox. You are executing instructions from a source that can be mistaken or manipulated.
+?? What is the purpose of a sandbox?
++ To contain code so that it cannot harm real systems or data
+- To make code run faster
+- To store passwords
+- To extend the context window
+= A sandbox isolates execution, so mistakes or malicious code cannot reach anything that matters.
+## Why it matters: a retry must not pay or send twice
+Here is the scenario that makes idempotency practical.
+
+An agent calls "charge_customer" for £500. The payment succeeds, but the confirmation is lost to a network timeout. The agent sees a failure. The sensible response to a timeout is to retry. The customer is charged £1,000.
+
+The same happens with emails sent twice, orders placed twice, records created twice.
+
+The agent did nothing foolish. It could not tell the difference between "did not happen" and "happened, but I did not hear back".
+
+The fix is in the tool. Send an idempotency key with each action, so the payment service says "I have already done this one". Or check first whether the action already happened.
+
+Any tool that moves money or sends messages needs this.
+?? Why can a retry after a timeout cause a double payment?
++ The first attempt may have succeeded even though no confirmation arrived
+- Timeouts always double the amount
+- Agents enjoy retrying
+- Payment services are always wrong
+= A timeout hides whether the action happened, so a blind retry can repeat a completed charge.
+## Secrets and API keys: never in prompts, code, or shared files
+An API key is a password for a service. Whoever holds it can act as you and spend your money.
+
+Three places it must never be.
+
+In a prompt. Anything the model sees can end up in its output, in logs, or in the hands of someone who manipulates it.
+
+In code. Code gets shared, committed and pushed to GitHub. Automated scanners find exposed keys within minutes.
+
+In shared files or chat. Screenshots, documents and messages get forwarded.
+
+Keys belong in environment variables or a secrets manager, and are read by your code at the moment of the call. The model asks for "send_email". Your code attaches the key. The model never sees it.
+
+It is the house rule about not writing the alarm code on the front door.
+?? Why should an API key never be placed in a prompt?
++ The model could reveal it in output or logs
+- Models cannot read keys
+- It makes the prompt too short
+- Keys only work in prompts
+= Anything in the model's context can leak, so secrets must be attached by code outside the model's view.
+## Dry-run mode: show what would happen first
+A dry run performs every step of an action except the last, irreversible one. It reports what would happen.
+
+"Dry run: this would send 312 emails to customers in the Ontario segment, with the subject 'Your renewal'. No emails were sent."
+
+Then a person, or a check, looks at the report. 312 is plausible. 31,200 is not.
+
+It is print preview, or a dress rehearsal.
+
+Building it is simple: a flag on the tool that makes it describe instead of do.
+
+It is useful at three moments. During development, so you can test without consequences. Before large or risky operations in production. And when building trust with a client, who can watch what the agent would do for a week before it is allowed to do it.
+?? What does a dry-run mode do?
++ Reports what an action would do without carrying it out
+- Runs the action twice
+- Deletes the action
+- Hides the action from the user
+= A dry run previews the effect so that mistakes can be caught before anything changes.
+## Confirm before destructive actions
+For actions that delete, overwrite, pay or send to many people, put a confirmation step between the agent's request and the execution.
+
+The agent prepares the action. Your code pauses and shows a person exactly what is about to happen: what, to whom, how much. Only an explicit yes lets it proceed.
+
+It is the "are you sure you want to permanently delete 400 files?" dialog.
+
+Three details make it work.
+
+The confirmation must be enforced in code. An instruction telling the model to ask first is not enough, because a model can skip it.
+
+Show specifics, not "proceed?". People approve vague prompts without reading.
+
+Do not ask too often. If every small step needs approval, people start clicking yes automatically, and the check becomes worthless.
+?? Why must confirmation be enforced in code and not only in the prompt?
++ A model can skip an instruction, but cannot bypass a hard pause
+- Prompts cannot contain the word "confirm"
+- Code is slower
+- Users prefer prompts
+= Only a code-level gate guarantees the action waits for an explicit human yes.
+
+@@ sll_P6vJo9NIkZDr | B5.4 Model Context Protocol (MCP) > MCP Concepts
+## Hosts, clients, and servers
+The Model Context Protocol, MCP, is a standard way to connect AI applications to tools and data. It has three roles.
+
+The host is the AI application the person uses: a chat app, a coding assistant, your own agent.
+
+The server is a small program that offers capabilities from one system, such as a calendar, a database or a file store.
+
+The client is the connector inside the host that speaks to one server. A host runs one client for each server it is connected to.
+
+Picture a laptop (the host) with several USB ports (clients), each plugged into a device (a server): a printer, a camera, a drive.
+
+The servers do not know about each other. The host brings them together and decides what the model may use.
+?? In MCP, what is a server?
++ A program that offers tools or data from one system
+- The application the user chats with
+- The language model itself
+- A physical computer room
+= An MCP server exposes a system's capabilities, and the host application connects to it through a client.
+## Tools, resources, and prompts
+An MCP server can offer three kinds of thing.
+
+Tools are actions the model can call: "create_event", "search_tickets". These are the function calls you already know, and by far the most used.
+
+Resources are data the application can read and place in context: a file, a database record, a document. They are for reading, with no side effects.
+
+Prompts are ready-made templates the user can pick, like "summarise this ticket" or "review this pull request". They are a server's suggested ways of using it.
+
+A rough guide to who is in charge: the model decides when to call tools, the application decides which resources to load, and the user chooses prompts.
+
+In practice many servers offer only tools, and that is fine.
+?? Which MCP capability lets the model take actions?
++ Tools
+- Resources
+- Prompts
+- None of them
+= Tools are callable actions, while resources supply data and prompts are reusable templates.
+## What MCP solves: build a connector once, use it in many apps
+Before MCP, every AI application needed its own custom connection to every service. Ten apps and twenty services meant up to two hundred separate integrations, each built and maintained by someone.
+
+MCP turns that into ten plus twenty. A service publishes one MCP server. Any application that speaks MCP can use it.
+
+It is USB. Before it, every device had its own plug. After it, one port took everything.
+
+For you as a builder, there are two gains. You can plug existing servers into your agent and skip writing the connectors. And a connector you build for a client works in their chat app, their coding tool and your agent alike.
+
+MCP does not make a model cleverer. It removes plumbing work.
+?? What problem does MCP mainly solve?
++ Having to build a separate custom integration for every app and service pair
+- Models being too small
+- Slow internet connections
+- The cost of electricity
+= A shared standard lets one connector work across many AI applications.
+## MCP is an open standard, now hosted by the Linux Foundation
+~m
+MCP was created by Anthropic and published as an open standard in late 2024. Other major providers, including OpenAI, Google and Microsoft, adopted it during 2025.
+
+In December 2025 Anthropic donated it to the Agentic AI Foundation, a body set up under the Linux Foundation, which also looks after projects such as Linux and Kubernetes.
+
+That matters for a practical reason. A standard controlled by one company is a risk to everyone else who builds on it. One held by a neutral foundation, with several rival companies taking part, is safer to rely on.
+
+It is like the web's standards, which no single browser maker owns.
+
+For a consultant, it means MCP is a reasonable long-term choice, not one vendor's product.
+?? Why does it matter that MCP is held by a neutral foundation?
++ No single company controls it, so it is safer to build on
+- It makes it more expensive
+- It means only one company can use it
+- It stops it being updated
+= Neutral governance reduces the risk that one vendor changes or restricts the standard.
+## Local vs. remote servers
+MCP servers run in one of two places.
+
+A local server runs on your own machine, started by the host application. It can reach things on that computer: files, a local database, installed programs. Nothing needs to travel over the internet. Installation is the awkward part, since each user has to set it up.
+
+A remote server runs on the internet and is reached by a web address. Nothing is installed. You connect and sign in. One server serves many users, and the provider keeps it up to date.
+
+It is software installed on your computer against a website you log in to.
+
+Remote servers are becoming the norm for business services, because they are easier to roll out and to secure centrally. Local ones remain right for anything that must touch your own machine.
+?? What is an advantage of a remote MCP server?
++ Nothing to install; users connect and sign in
+- It can only read your local files
+- It works without the internet
+- It needs every user to configure their own copy
+= Remote servers are hosted centrally, so they are simpler to roll out and maintain.
+## Finding and vetting existing MCP servers
+~m
+Thousands of MCP servers exist, so check before you build. Look in the official MCP registry, the service's own documentation, and the connector directories inside the AI applications.
+
+Then vet it, because installing a server means running someone else's code with access to your data.
+
+Who made it? A server from the service's own company is far safer than an anonymous one.
+
+What can it do? Read the list of tools. Does a "read your notes" server also include tools that delete?
+
+What access does it ask for? More than its job needs is a warning sign.
+
+Is it maintained? Check for recent updates and how problems are handled.
+
+Is the code open to inspection?
+
+It is the care you would take before installing a browser extension that can read every page you visit.
+?? What is the safest source for an MCP server?
++ The company that runs the service it connects to
+- An anonymous download with no history
+- Whichever appears first in a search
+- One that asks for the most permissions
+= An official server from the service's own provider carries much less risk than an unknown one.
+
+@@ sll_LV85fIscKnhI | B5.4 Model Context Protocol (MCP) > Building MCP Servers
+## Exposing an API or database via MCP
+Building an MCP server means wrapping an existing system so that AI applications can use it.
+
+With the official SDKs, in Python or TypeScript, a basic server is short. You write ordinary functions, such as "search_customers" or "get_invoice", mark each as a tool, and describe it. The SDK handles the protocol.
+
+Inside each function you call the real system: an API request or a database query.
+
+Everything from the tool design lessons applies. Do not mirror the API endpoint by endpoint or expose raw SQL. Offer a handful of task-level tools with clear descriptions and trimmed results.
+
+For a database, prefer specific, safe queries such as "orders for this customer". An open "run any SQL" tool lets a confused or manipulated agent read everything, or worse.
+?? When exposing a database through MCP, what is the safer design?
++ Specific task-level tools such as "orders for this customer"
+- One tool that runs any SQL the model writes
+- No descriptions on any tool
+- Giving the agent the database password in the prompt
+= Narrow, purpose-built tools limit what a confused or manipulated agent can read or change.
+## Authentication and permissions
+Two separate questions guard an MCP server.
+
+Authentication: who is calling? The server must confirm the identity of the user or application before doing anything.
+
+Permissions, also called authorisation: what is that caller allowed to do? Knowing it is Maria does not mean Maria may read the payroll table.
+
+A hotel shows the difference. Reception checks who you are. Your key card then opens your room, and not the others.
+
+The key rule: the agent should act with the user's permissions, not with an all-powerful account. If Maria cannot see payroll in the normal application, an agent working for Maria must not see it either.
+
+Enforce this in the server, on every call. Never rely on the model to respect a rule it was merely told.
+?? What permissions should an agent acting for a user have?
++ The same as that user, and no more
+- Full administrator access
+- More than any human employee
+- None at all
+= Acting with the user's own permissions stops the agent becoming a way round access controls.
+## OAuth: connecting agents to a client's own accounts
+OAuth is the standard that lets an application act on your behalf without ever seeing your password.
+
+You have used it. "Sign in with Google", followed by a screen saying "this app wants to view your calendar. Allow?" That is OAuth.
+
+For agents, it is how a remote MCP server gets access to a user's account. The user is sent to the service, signs in there, approves a specific list of permissions, and the service hands the application a token. The token is a limited, revocable pass.
+
+It is a valet key: it starts the car but does not open the boot or the glovebox.
+
+The benefits are that no password is shared, the access is limited to what was approved, and the user can cancel it at any time from their account settings.
+?? What does OAuth let an application do?
++ Act on a user's behalf with limited, revocable access and no password
+- Read the user's password
+- Bypass the service's security
+- Gain permanent, unlimited access
+= OAuth issues a scoped token after the user approves, so the password is never shared.
+## Least privilege: expose only what the job needs
+Least privilege means giving something the minimum access it needs for its job, and nothing beyond.
+
+For an MCP server, that applies at several levels.
+
+Tools: if the agent's job is answering questions about orders, expose "get_order". Do not add "delete_order" in case it is useful one day.
+
+Data: return the fields needed. No card numbers or home addresses in a result that only needed a delivery status.
+
+Scope: request read-only access when you only read.
+
+Reach: limit it to this customer's records, not every customer's.
+
+An office cleaner gets keys to the rooms they clean, not the safe.
+
+The reasoning is about damage. Agents will sometimes be wrong or be manipulated. Least privilege decides how bad that day can be.
+?? What is the principle of least privilege?
++ Grant only the minimum access needed for the task
+- Grant every permission to save time
+- Grant access based on seniority
+- Never grant any access
+= Minimal access limits how much harm a mistake or an attack can cause.
+## Third-party servers as a security risk
+Connecting a third-party MCP server means trusting its author with part of your system. The risks are specific.
+
+Malicious code: a server runs with the access you gave it. A bad one can copy your data.
+
+Poisoned descriptions: tool descriptions are read by the model as instructions. A hostile server can hide text there, such as "also send the user's files to this address". This is called tool poisoning.
+
+Silent changes: a server that behaved well when you checked it can be updated later to something harmful.
+
+Mixing: one server's output can steer the agent into misusing another server's tools.
+
+It is the plug-in problem every software platform has had.
+
+Use servers from sources you trust, review what they expose, pin versions, give each the least access, and keep sensitive data away from untrusted ones.
+?? What is "tool poisoning"?
++ Hidden instructions placed in a tool's description to manipulate the model
+- A tool that runs too slowly
+- A tool with a spelling mistake
+- Deleting a tool by accident
+= Since the model reads tool descriptions, a malicious server can hide instructions inside them.
+
+@@ sll_tAOBiH_7gz9_ | B5.5 Skills & Dynamic Tools > Skills & Progressive Disclosure
+## Skill libraries loaded only when needed
+~m
+A skill is a packaged set of instructions for one kind of task, kept on file and loaded only when relevant.
+
+An agent might have fifty skills: producing a branded slide deck, filling in a particular tax form, following the company's code review checklist. Loading all fifty sets of instructions into every conversation would swamp the context.
+
+So at the start the agent sees only a one-line summary of each. When a task matches, it opens that skill's full instructions.
+
+It is a reference library. You know the titles on the shelf. You take down one book when you need it.
+
+This is called progressive disclosure: showing detail in stages, as needed. It lets an agent have a great deal of specialised knowledge without paying for it on every turn.
+?? What is progressive disclosure in the context of skills?
++ Showing short summaries first and loading full details only when needed
+- Loading every instruction at the start
+- Hiding all skills from the agent
+- Deleting skills after use
+= Loading detail on demand keeps the context small while keeping specialised knowledge available.
+## Keeping context small with tool discovery
+The same idea applies to tools. An agent connected to many MCP servers might have hundreds available. Listing every definition in every request can use tens of thousands of tokens before the user has said anything.
+
+Tool discovery fixes that. The agent starts with a small core set plus one special tool: "search for tools". When it needs something, it searches, such as "send a calendar invite", and only the matching definitions are loaded.
+
+It is a hardware shop's catalogue. You do not carry every item round with you. You look up what you need.
+
+The benefits are lower cost, faster responses and better choices, because the model is choosing among five relevant tools, not five hundred.
+
+The risk is that a badly described tool is never found. Names and descriptions matter even more.
+?? What is the benefit of tool discovery?
++ Only relevant tool definitions are loaded, keeping context small
+- All tools are loaded at once
+- The agent no longer needs tools
+- It removes the need for descriptions
+= Searching for tools on demand avoids filling the context with hundreds of unused definitions.
+## What a skill is: instructions and files for one kind of task
+~m
+In concrete terms, a skill is a folder.
+
+Inside is a main instruction file. At the top are a name and a short description, which is what the agent sees at first. Below that are the full instructions: the steps, the standards and the pitfalls.
+
+The folder may also hold supporting material: templates, reference documents, example outputs, and scripts the agent can run.
+
+A skill for a client's monthly report might contain the house style rules, the report template and a script that builds the charts.
+
+It is the binder a company hands a new starter for one procedure.
+
+Skills capture how to do something, written in plain language. That makes them easy for a non-programmer to write and review, and easy to share across a team.
+?? What does a skill typically contain?
++ Instructions for one task, plus supporting files such as templates or scripts
+- A new language model
+- Only a single word
+- The user's passwords
+= A skill is a folder of instructions and resources for carrying out one kind of task.
+## Too many tools at once confuse the model
+Giving a model more tools does not steadily make it more capable. Past a point it makes it worse.
+
+There are three effects. The model picks the wrong tool more often, especially among similar ones. The definitions use up context, leaving less attention for the task. And with more text to read, instructions get followed less reliably.
+
+Try choosing a television channel from a guide with nine hundred entries.
+
+There is no exact threshold, since it depends on the model and how distinct the tools are. As a rough guide, a few dozen well-separated tools is comfortable, and hundreds loaded at once is asking for trouble.
+
+The cures you have now met: fewer tools, specialist agents, and discovery that loads tools on demand.
+?? What happens when a model is given hundreds of tools at once?
++ It chooses wrongly more often and has less context for the task
+- It becomes perfectly accurate
+- It runs for free
+- It no longer needs instructions
+= Many similar tools make selection harder and crowd the context window.
+## Skill vs. tool vs. sub-agent: which to use
+Three ways to extend an agent, each for a different need.
+
+A tool gives it an ability: something it could not do at all, such as querying the database or sending an email.
+
+A skill gives it know-how: how to do a kind of task well, using the abilities it already has. The company's way of writing a proposal.
+
+A sub-agent gives it a helper: a separate agent with its own context, to which a whole piece of work is handed. "Research these ten competitors and give me a summary."
+
+Ask what is missing. An action it cannot perform? A tool. A procedure it does not know? A skill. Work so large or separate that it would clutter the main context? A sub-agent.
+
+It is equipment, a manual, or a colleague.
+?? An agent can already create documents but does not know your company's proposal format. What does it need?
++ A skill
+- A new tool
+- A sub-agent
+- A larger context window
+= The ability exists already, so what is missing is know-how, which is what a skill provides.
+
+@@ sll_DpyzQpaFG6TO | B5.5 Skills & Dynamic Tools > Dynamic Tool Creation
+## Agents writing, testing, and using new tools
+An agent with a code execution tool is not limited to the tools you gave it. It can write its own.
+
+Faced with a task no existing tool covers, such as converting an unusual file format, it writes a small program, runs it on a sample, reads any errors, fixes them and then uses it for the real job.
+
+Some systems let the agent save what it wrote as a new tool or skill for next time.
+
+It is a machinist who lacks the right jig and makes one.
+
+This makes agents far more adaptable, particularly for data work, where every job is a little different.
+
+It also means code that no person has read is running in your system. The next two cards deal with that.
+?? How can an agent create a new tool for itself?
++ By writing code, testing it and then using it
+- By asking the model provider to retrain it
+- By buying one online
+- It cannot under any circumstances
+= With code execution, an agent can write and test a small program that serves as a new tool.
+## Risks and controls for self-made tools
+A tool written by an agent has had no human review, so treat it as untrusted.
+
+The risks: it may be subtly wrong and produce bad results that look fine. It may do more than intended, such as deleting files it was meant to move. If the agent was manipulated by hostile content, the tool may be deliberately harmful. And it may use up resources or run for ever.
+
+The controls are the ones you know, applied strictly.
+
+Sandbox: self-written code runs sealed off, with no route to real data, secrets or the open internet.
+
+Limits: on time, memory and cost.
+
+Least privilege: the code gets only the access the task needs.
+
+Logging: keep the code and its output so that a person can inspect them.
+
+Checks: test results before they are trusted.
+?? What is the most important control for code an agent writes itself?
++ Running it in a sandbox with limited access
+- Running it with administrator rights
+- Hiding it from all logs
+- Giving it the company's API keys
+= Isolation ensures that mistaken or malicious self-written code cannot reach real systems.
+## Review before a self-made tool is reused
+There is a difference between a tool an agent writes for one task and one that becomes a permanent part of the system.
+
+A one-off, used in a sandbox and thrown away, carries limited risk.
+
+A saved tool gets used again, in other tasks, by other users, perhaps with more access. A flaw in it now repeats, quietly. And if an attacker managed to get a harmful tool saved, they have a lasting foothold.
+
+So put a gate at the point of saving. Before a self-made tool joins the permanent library, a person reviews the code, checks what it accesses, and tests it.
+
+It is the gap between a quick fix on your own desk and a change to the company's procedures. The second goes through review.
+
+Treat it as you would code from an unknown contributor.
+?? When should a self-made tool be reviewed by a person?
++ Before it is saved for reuse
+- Never
+- Only after it has caused a problem
+- Only if the agent requests it
+= A saved tool will be reused widely, so a flaw or planted behaviour would repeat unless caught first.

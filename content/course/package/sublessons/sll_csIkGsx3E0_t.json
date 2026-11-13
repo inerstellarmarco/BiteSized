@@ -5,74 +5,242 @@
     {
       "id": "bit_STgqqpWuWbkV",
       "title": "Fixed, recursive, and semantic chunking",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Chunking is splitting documents into pieces for indexing. There are three common methods.\n\nFixed-size: cut every N characters or tokens. It is simple and predictable, and it happily slices through the middle of a sentence or a table.\n\nRecursive: try to split at natural boundaries first. Sections, then paragraphs, then sentences, going finer only when a piece is still too big. It is the sensible default.\n\nSemantic: use embeddings to find where the topic changes and cut there. Each chunk covers one idea. It is more expensive, and sometimes better.\n\nThink of cutting a cake: with a ruler every five centimetres, along the layers that are already there, or by flavour.\n\nStart with recursive. Change only if your tests show that the chunk boundaries are causing failures.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_STgqqpWuWbkV_1",
+          "type": "multiple_choice",
+          "prompt": "Which chunking method is the usual sensible default?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Cutting at random points"
+            },
+            {
+              "id": "b",
+              "text": "One chunk per letter"
+            },
+            {
+              "id": "c",
+              "text": "Never splitting at all"
+            },
+            {
+              "id": "d",
+              "text": "Recursive splitting at natural boundaries such as paragraphs"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Recursive chunking respects document structure while keeping chunks within a size limit.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_xdEuQPaAcRYd",
       "title": "Chunk size, overlap, and metadata",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Three settings shape every chunking setup.\n\nSize: how long each chunk is. A few hundred tokens is a common starting point, roughly a paragraph or three.\n\nOverlap: how much each chunk shares with the one before, typically 10 to 20 per cent. If an important sentence falls on a boundary, overlap means it appears whole in at least one chunk.\n\nMetadata: information stored with the chunk but not part of its text. Which document it came from, the section heading, the page, the date.\n\nThink of film frames that overlap slightly so no moment is lost, each stamped with the reel and scene number.\n\nThere are no universally right numbers. They depend on your documents and your questions, so treat them as dials to tune against your tests.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xdEuQPaAcRYd_1",
+          "type": "multiple_choice",
+          "prompt": "What is chunk overlap for?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Making sure content that falls on a boundary appears complete in at least one chunk"
+            },
+            {
+              "id": "b",
+              "text": "Reducing storage"
+            },
+            {
+              "id": "c",
+              "text": "Making chunks identical"
+            },
+            {
+              "id": "d",
+              "text": "Hiding the source document"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Overlapping neighbouring chunks prevents a sentence or idea from being split across the cut.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_QFsmcruZipPD",
       "title": "Why documents are split into chunks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Why not embed each document whole? There are three reasons.\n\nPrecision of matching. One vector for a 50-page handbook is an average of everything in it. A question about parental leave matches it weakly, because leave is 2 per cent of the content. A chunk only about parental leave matches strongly.\n\nPrecision of context. When you retrieve, you want to hand the model the relevant paragraph, not all 50 pages. That is cheaper, faster and less distracting.\n\nLimits. Embedding models have a maximum input length.\n\nIt is the index of a textbook pointing you to page 212, instead of telling you \"the answer is in this book\".\n\nChunks are the unit of retrieval. What the model sees is decided chunk by chunk.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_QFsmcruZipPD_1",
+          "type": "multiple_choice",
+          "prompt": "Why is one embedding for an entire long document a poor basis for search?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Long documents cannot be stored"
+            },
+            {
+              "id": "b",
+              "text": "It averages many topics, so specific questions match it only weakly"
+            },
+            {
+              "id": "c",
+              "text": "Embeddings only work on single words"
+            },
+            {
+              "id": "d",
+              "text": "It makes the document unreadable"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A single vector blurs all the content together, so focused chunks give sharper matches.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6cARtuqcVJD7",
       "title": "Too small loses context; too large adds noise",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Chunk size is a balance with a failure on each side.\n\nToo small: a chunk reads \"It must be submitted within 30 days.\" What must? Submitted to whom? The sentence that explained it is in a different chunk. The match may be good, and the content is useless without its surroundings.\n\nToo large: a chunk covers three pages about returns, shipping and warranties. Its embedding is a blend, so it matches specific questions weakly. And when it is retrieved, the model has to dig the answer out of a lot of unrelated text.\n\nThink of quoting someone. One word is meaningless. The whole speech buries the point. You want the sentence, with enough around it to be understood.\n\nRead a sample of your chunks. Does each one make sense alone?",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6cARtuqcVJD7_1",
+          "type": "multiple_choice",
+          "prompt": "What is the problem with very small chunks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They cost too much to store"
+            },
+            {
+              "id": "b",
+              "text": "They cannot be embedded"
+            },
+            {
+              "id": "c",
+              "text": "They contain too many topics"
+            },
+            {
+              "id": "d",
+              "text": "They lose the surrounding context needed to understand them"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A fragment may match a query but be meaningless without the sentences around it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_AVZH-xMAZgjT",
       "title": "Keeping tables and sections whole",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Some content only makes sense as a unit. Cutting through it destroys the meaning.\n\nA table split in half leaves the bottom rows with no column headings: a list of numbers that could be anything. A numbered procedure split after step 3 leaves steps 4 to 7 with no idea what they belong to. A question-and-answer pair split apart is two useless halves.\n\nStructure-aware chunking respects these units. Keep a table in one chunk, or repeat its header row in each part. Keep a list with the sentence that introduces it. Split at headings where you can.\n\nA helpful trick: add the section title to the start of each chunk, so that \"Returns policy > Faulty items\" travels with the text.\n\nIt is not tearing a page in the middle of a table.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AVZH-xMAZgjT_1",
+          "type": "multiple_choice",
+          "prompt": "How should a table be handled during chunking?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Cut wherever the size limit falls"
+            },
+            {
+              "id": "b",
+              "text": "Deleted from the document"
+            },
+            {
+              "id": "c",
+              "text": "Kept whole, or split with its header row repeated in each part"
+            },
+            {
+              "id": "d",
+              "text": "Converted to a single number"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Rows without their headers lose their meaning, so tables need to stay intact or carry headers with them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_GG7zSnvn60dO",
       "title": "Metadata: source, date, and owner for filtering and citations",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Metadata is the label attached to each chunk: where it came from, when it was written or updated, who owns it, what type of document it is, who is allowed to see it.\n\nIt makes four things possible that plain text cannot.\n\nFiltering: search only documents from this year, or only HR policies.\n\nCitations: tell the user \"from the Returns Policy, page 3, updated in March\".\n\nFreshness: prefer the newer of two conflicting documents.\n\nAccess control: do not retrieve what this user is not permitted to read.\n\nIt is the label on a filing folder. Without it, you have a pile of loose pages.\n\nCapture metadata at ingestion time. Adding it later means reprocessing everything.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GG7zSnvn60dO_1",
+          "type": "multiple_choice",
+          "prompt": "Which capability depends on storing metadata with each chunk?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Citing the source document and filtering by date or type"
+            },
+            {
+              "id": "b",
+              "text": "Embedding the text"
+            },
+            {
+              "id": "c",
+              "text": "Counting tokens"
+            },
+            {
+              "id": "d",
+              "text": "Choosing a temperature"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Source, date and ownership labels let the system filter results and tell users where an answer came from.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

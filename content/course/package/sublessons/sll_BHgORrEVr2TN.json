@@ -5,20 +5,48 @@
     {
       "id": "bit__Gdta1G3xLGL",
       "title": "Entities and relationships",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A knowledge graph stores information as things and the links between them.\n\nThe things are entities: a person, a company, a product, a contract. The links are relationships: Ana works for Acme. Acme supplies Bolt Ltd. Contract 17 covers Product X.\n\nEach fact is a small triple: entity, relationship, entity. Many of them joined up make a web.\n\nThink of the wall in a detective drama, with photos pinned up and string running between them. The photos are entities. The string is the relationships.\n\nA document tells you about things in paragraphs. A graph makes the connections explicit, so they can be followed step by step.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__Gdta1G3xLGL_1",
+          "type": "multiple_choice",
+          "prompt": "In a knowledge graph, what is \"Ana works for Acme\" made of?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Two entities joined by a relationship"
+            },
+            {
+              "id": "b",
+              "text": "Three unrelated documents"
+            },
+            {
+              "id": "c",
+              "text": "A single embedding"
+            },
+            {
+              "id": "d",
+              "text": "A table with one column"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Ana and Acme are entities, and \"works for\" is the relationship that links them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_iAYdWiwrZXGY",
       "title": "Graph databases (Neo4j, Cypher)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A graph database is built to store entities and relationships directly and to follow links quickly. Neo4j is the best known. Its query language is called Cypher.\n\nCypher draws the pattern you are looking for. A query might read, roughly: find a person, linked by WORKS_FOR, to a company named Acme. The arrows in the query look like the arrows in the graph.\n\nWhy not use ordinary tables? You can, but \"friends of friends of friends\" needs join after join, and gets slow and awkward. A graph database hops from one node to the next directly.\n\nIt is the difference between tracing a route on a map and cross-referencing three separate lists of roads.\n\nAs with SQL, an LLM can write Cypher for you. Your job is to check it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,31 +59,115 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_iAYdWiwrZXGY_1",
+          "type": "multiple_choice",
+          "prompt": "What are graph databases especially good at?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Storing large video files"
+            },
+            {
+              "id": "b",
+              "text": "Following chains of connections between entities quickly"
+            },
+            {
+              "id": "c",
+              "text": "Running spreadsheets"
+            },
+            {
+              "id": "d",
+              "text": "Generating embeddings"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Graph databases are designed for traversing relationships, which is slow and awkward with table joins.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_D8wFWI-Fdtnp",
       "title": "Why graphs: questions about connections, not only content",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Vector search finds passages that are about something. Some questions are not about any one passage. They are about how things connect.\n\n\"Which of our suppliers also supply our competitors?\" \"Who approved contracts with companies that this director sits on the board of?\" \"What is affected if this component is recalled?\"\n\nNo single paragraph contains those answers. The answer is a path through several facts, possibly from different documents.\n\nThink of the question \"how am I related to her?\" No one birth certificate says. You need the family tree.\n\nThat is when a graph earns its keep: when the value is in the relationships, and the question means following them.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_D8wFWI-Fdtnp_1",
+          "type": "multiple_choice",
+          "prompt": "Which question is a natural fit for a knowledge graph?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "\"What does our returns policy say?\""
+            },
+            {
+              "id": "b",
+              "text": "\"Which suppliers do we share with our competitor?\""
+            },
+            {
+              "id": "c",
+              "text": "\"Summarise this one email\""
+            },
+            {
+              "id": "d",
+              "text": "\"Translate this paragraph\""
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The answer depends on following connections between entities, not on finding one relevant passage.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BkIeNmwhOfg4",
       "title": "Schema first: deciding which entities and links matter",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before building a graph, decide what goes in it. That plan is the schema: the types of entity you will track, and the types of relationship allowed between them.\n\nFor a supplier graph: entities are Company, Person, Contract and Product. Relationships are SUPPLIES, EMPLOYS, SIGNED and COVERS.\n\nSkip this step and extraction runs wild. One document gives \"works at\", another \"employed by\", another \"is on staff of\", and the graph cannot connect them. You get a tangle instead of a map.\n\nThe schema should come from the questions you need answered. If nobody will ever ask about office locations, do not model them.\n\nIt is deciding the columns before starting a spreadsheet. Start small. A graph with five well-chosen relationship types beats one with two hundred.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BkIeNmwhOfg4_1",
+          "type": "multiple_choice",
+          "prompt": "What should drive the design of a knowledge graph's schema?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The questions the graph needs to answer"
+            },
+            {
+              "id": "b",
+              "text": "Every noun found in the documents"
+            },
+            {
+              "id": "c",
+              "text": "The longest document"
+            },
+            {
+              "id": "d",
+              "text": "Whatever the extraction model happens to output"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A schema limited to the entities and links relevant to real questions keeps the graph consistent and useful.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

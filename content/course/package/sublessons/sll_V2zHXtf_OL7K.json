@@ -5,62 +5,202 @@
     {
       "id": "bit_QjgpjXP-rvuj",
       "title": "Parsing PDFs, tables, and figures",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Ingestion starts by turning files into clean text, and PDFs are the hardest common case.\n\nA PDF stores where letters sit on a page, not what they mean. Simple extraction gives you the letters in an order that may be wrong. Two columns get read straight across as one. A table comes out as a soup of numbers with no rows or columns. Charts and diagrams are lost altogether.\n\nBetter tools analyse the layout. They detect columns, headings and tables, and output structured text such as Markdown. Some use vision models to read the page as an image, which also handles figures.\n\nThink of reading a newspaper aloud by going straight across the whole page, column boundaries ignored.\n\nAlways look at what your parser actually produced for a handful of real documents.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_QjgpjXP-rvuj_1",
+          "type": "multiple_choice",
+          "prompt": "What often goes wrong when a table is extracted from a PDF with a simple tool?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The table is translated"
+            },
+            {
+              "id": "b",
+              "text": "The numbers are rounded"
+            },
+            {
+              "id": "c",
+              "text": "The PDF is deleted"
+            },
+            {
+              "id": "d",
+              "text": "The rows and columns are lost, leaving a jumble of values"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "PDFs record positions, not structure, so naive extraction scrambles tables.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_YUXTuEIPzFee",
       "title": "Scraping websites and reading databases",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Not all knowledge sits in files. Two other common sources need their own handling.\n\nWebsites: a page is mostly not content. Menus, cookie banners, footers, adverts and scripts surround the article. Ingestion has to pull out the main text and throw the rest away, or every chunk will be polluted with \"Home | About | Contact\". Many modern pages also build their content with JavaScript, so a simple download gets an empty shell.\n\nDatabases: rows are structured facts, not prose. Turning each row into a readable sentence can work for small, descriptive tables. For questions that need counting or filtering, it is usually better to let the model query the database directly, which is covered later.\n\nMatch the method to the source.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YUXTuEIPzFee_1",
+          "type": "multiple_choice",
+          "prompt": "Why must web pages be cleaned before indexing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Web pages contain no text"
+            },
+            {
+              "id": "b",
+              "text": "Websites are always written in code only"
+            },
+            {
+              "id": "c",
+              "text": "Menus, banners and footers would otherwise pollute the content"
+            },
+            {
+              "id": "d",
+              "text": "Cleaning makes the pages load faster for visitors"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Most of a page's markup is navigation and boilerplate, which adds noise to every chunk if left in.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Dx4ujJtuNLwd",
       "title": "OCR for scanned invoices, purchase orders, and forms",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A scanned document is a picture. Before any AI can use what it says, optical character recognition, OCR, has to turn the picture into text.\n\nFor business paperwork, reading the letters is only half the job. An invoice is not prose. It is labelled values arranged in space: \"Total\" on the left, \"£1,240.00\" on the right. Good document tools keep that layout, and return fields and table rows as well as words.\n\nQuality depends on the scan. A crooked photo, a faint fax, a stamp across the figures or handwriting will all cause misreads. Classic confusions are 0 with O, 1 with l, and 5 with S.\n\nModern vision models read documents well, but they can also misread a number with confidence. For anything financial, add checks: do the line items add up to the total?",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Dx4ujJtuNLwd_1",
+          "type": "multiple_choice",
+          "prompt": "What is a sensible check on values extracted from a scanned invoice?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Confirm the line items add up to the stated total"
+            },
+            {
+              "id": "b",
+              "text": "Assume the OCR is always right"
+            },
+            {
+              "id": "c",
+              "text": "Delete the original scan"
+            },
+            {
+              "id": "d",
+              "text": "Raise the temperature"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "OCR can misread digits, so arithmetic consistency checks catch many errors.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_cMKazFXXppAe",
       "title": "Cleaning: removing headers, footers, and duplicates",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Raw extracted text is full of things that are not content, and they quietly damage search.\n\nRepeated headers and footers. \"Acme Ltd — Confidential — Page 7 of 42\" on every page ends up in every chunk and makes unrelated chunks look alike.\n\nBoilerplate. Legal disclaimers, email signatures and navigation text, repeated hundreds of times.\n\nDuplicates. The same document saved in five folders, or version 3 alongside versions 1 and 2. Search then returns five copies of one passage, or the outdated one.\n\nBroken text. Words split by hyphens at line ends, stray symbols, scrambled characters.\n\nIt is washing and trimming vegetables before cooking. Skip it and the grit is in every dish.\n\nCleaning is dull, mostly rule-based work, and it has a large effect on quality.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cMKazFXXppAe_1",
+          "type": "multiple_choice",
+          "prompt": "Why is having several versions of the same document in the index a problem?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes embeddings longer"
+            },
+            {
+              "id": "b",
+              "text": "It prevents the model from reading text"
+            },
+            {
+              "id": "c",
+              "text": "It reduces storage use"
+            },
+            {
+              "id": "d",
+              "text": "Search may return outdated or repeated passages"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Duplicates crowd the results and old versions can supply out-of-date answers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_N90EKes_TlJS",
       "title": "Bad parsing is a leading cause of bad answers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a RAG system gives a wrong answer, people tend to blame the model. Very often the fault is much earlier: the text that went into the index was already broken.\n\nIf a table was scrambled during extraction, no model can read the right figure from it. If the key paragraph was dropped, the perfect retriever cannot find it. If two columns were merged, the \"passage\" is nonsense.\n\nGarbage in, garbage out. The model works faithfully with what it was given.\n\nSo debug from the start of the pipeline. Take a question that failed. Find the source document. Look at the parsed text and the chunks made from it. Is the answer there, intact and readable?\n\nHalf an hour spent reading your own chunks is the most valuable diagnosis in RAG.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_N90EKes_TlJS_1",
+          "type": "multiple_choice",
+          "prompt": "A RAG system keeps giving a wrong figure from a report. What should you check first?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whether the model's name is fashionable"
+            },
+            {
+              "id": "b",
+              "text": "Whether the temperature is high enough"
+            },
+            {
+              "id": "c",
+              "text": "Whether the parsed text and chunks actually contain the correct figure intact"
+            },
+            {
+              "id": "d",
+              "text": "Whether the user typed politely"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "If extraction mangled the source, nothing later in the pipeline can recover the right answer.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

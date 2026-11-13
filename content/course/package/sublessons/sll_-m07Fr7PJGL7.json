@@ -5,62 +5,202 @@
     {
       "id": "bit_AN6MO3Np05nl",
       "title": "General vs. domain-specific embeddings",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Most embedding models are generalists, trained on a broad mix of web text. They work well for everyday language: support questions, articles, company documents.\n\nIn specialist fields they can struggle. In medicine, law, chemistry or finance, words have precise meanings that the general web uses loosely. A general model may not know that two differently named drugs are the same compound, or that \"consideration\" in a contract is not about being thoughtful.\n\nDomain-specific models are trained on text from one field and capture those distinctions.\n\nThink of a general translator and a legal translator.\n\nStart with a good general model. Move to a specialist one only if your tests show that retrieval misses things an expert would consider obvious.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AN6MO3Np05nl_1",
+          "type": "multiple_choice",
+          "prompt": "When might a domain-specific embedding model be worth using?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Always, for every project"
+            },
+            {
+              "id": "b",
+              "text": "When your documents are short"
+            },
+            {
+              "id": "c",
+              "text": "When a general model demonstrably misses specialist terminology in your field"
+            },
+            {
+              "id": "d",
+              "text": "When you have no documents"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "General models suit most text. Specialist ones help only where field-specific meaning is being lost.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BaDB6rjbUqZI",
       "title": "Benchmarks like MTEB",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "MTEB, the Massive Text Embedding Benchmark, is the standard public league table for embedding models. It scores each model on many tasks, including search, classification and clustering, across many datasets and languages.\n\nIt is the natural first stop when choosing a model. You can filter by language, by model size and by whether the model is open or commercial.\n\nRead it with the usual caution. The average score hides the detail, so look at the retrieval column if search is what you are building. Top positions are often separated by tiny margins that mean nothing in practice. And models can be tuned towards the benchmark.\n\nIt is the league table for schools: useful for a shortlist, and no substitute for a visit. Test the finalists on your own documents and questions.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BaDB6rjbUqZI_1",
+          "type": "multiple_choice",
+          "prompt": "If you are building document search, which part of an embedding benchmark matters most?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The overall average only"
+            },
+            {
+              "id": "b",
+              "text": "The retrieval scores"
+            },
+            {
+              "id": "c",
+              "text": "The model's release date"
+            },
+            {
+              "id": "d",
+              "text": "The length of the model's name"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Benchmarks cover several task types, and retrieval performance is the relevant one for search.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_vCMOf-oYnBB3",
       "title": "Dimensions, cost, and speed trade-offs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every embedding model produces vectors of a fixed length, called its dimensions: commonly somewhere between 384 and 3,072 numbers.\n\nMore dimensions can capture finer shades of meaning. They also cost more everywhere. Each stored vector takes more space, each search does more arithmetic, and memory bills go up. With ten million chunks, the gap between 384 and 3,072 dimensions is the gap between a small server and a large one.\n\nLarger embedding models are also slower and dearer per text.\n\nThink of photo resolution. Higher is sharper, takes more space, and beyond a certain point nobody can see the difference.\n\nSome models let you shorten their vectors with little loss of quality. Choose the smallest setup that passes your retrieval tests.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vCMOf-oYnBB3_1",
+          "type": "multiple_choice",
+          "prompt": "What is a cost of using embeddings with more dimensions?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "More storage and slower, costlier search"
+            },
+            {
+              "id": "b",
+              "text": "Lower accuracy in every case"
+            },
+            {
+              "id": "c",
+              "text": "Shorter documents"
+            },
+            {
+              "id": "d",
+              "text": "Fewer languages supported"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Longer vectors need more space and more computation per comparison, which matters at scale.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_U89wNJT858ix",
       "title": "Multilingual needs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "If your documents or your users work in more than one language, the embedding model has to as well.\n\nAn English-only model handles other languages badly or not at all.\n\nA multilingual model maps many languages into the same space. That gives cross-lingual search: a question in Spanish can find the right passage in an English manual, because both land in the same region of the map.\n\nThat is very useful for international businesses, where the documents are in one language and the customers write in another.\n\nThings to check: quality differs between languages, and less common ones are served less well. So test in each language you care about, not only in English.\n\nGetting this wrong fails silently. The search runs and simply finds nothing useful.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_U89wNJT858ix_1",
+          "type": "multiple_choice",
+          "prompt": "What does a multilingual embedding model make possible?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A question in one language can retrieve relevant text written in another"
+            },
+            {
+              "id": "b",
+              "text": "Automatic translation of every document"
+            },
+            {
+              "id": "c",
+              "text": "Smaller vectors"
+            },
+            {
+              "id": "d",
+              "text": "Search without any embeddings"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Mapping languages into one shared space lets meaning match across them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_skCUd-kbIPnq",
       "title": "Changing the embedding model means re-indexing everything",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Vectors from different embedding models live in different spaces. A position that means \"refund policy\" in one model's map means something unrelated in another's.\n\nSo you cannot mix them. If you change embedding model, or even move to a new version of the same one, every stored vector has to be created again from the original text. That is re-indexing.\n\nWith a few thousand documents it takes minutes. With tens of millions it means days of computation and a real bill, and you must run old and new side by side while you switch over.\n\nIt is changing the grid system on every map you own.\n\nTwo consequences. Choose your embedding model with care, because it is one of the stickier decisions. And always keep the original text, so that rebuilding is possible.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_skCUd-kbIPnq_1",
+          "type": "multiple_choice",
+          "prompt": "What must happen if you switch to a different embedding model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Nothing; old and new vectors can be mixed"
+            },
+            {
+              "id": "b",
+              "text": "All stored documents must be embedded again"
+            },
+            {
+              "id": "c",
+              "text": "Only new documents need embedding"
+            },
+            {
+              "id": "d",
+              "text": "The documents must be rewritten"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Each model has its own space, so vectors from the old model cannot be compared with those from the new one.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

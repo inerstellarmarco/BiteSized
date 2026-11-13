@@ -5,20 +5,48 @@
     {
       "id": "bit_Wxlvj1KDCVYA",
       "title": "OpenAI and Anthropic SDKs, messages, and roles",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An SDK is a provider's official code library. It wraps the raw web requests so that calling a model takes a few lines.\n\nThe pattern is nearly identical across providers. Create a client using your API key. Call one function with a model name and a list of messages. Read the text from the reply.\n\nEach message has a role, saying who is speaking, and content, what they said.\n\nIt is like a phone with the number saved. You could dial every digit yourself. The SDK does it for you and handles the connection.\n\nLearn one SDK and the other takes an hour. The names differ and the shape does not.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Wxlvj1KDCVYA_1",
+          "type": "multiple_choice",
+          "prompt": "What does a provider's SDK do for you?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Trains a private model"
+            },
+            {
+              "id": "b",
+              "text": "Wraps the raw API so a model can be called with a few lines of code"
+            },
+            {
+              "id": "c",
+              "text": "Removes the need for an API key"
+            },
+            {
+              "id": "d",
+              "text": "Stores your documents"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "An SDK is a client library that handles the HTTP details of talking to the provider's API.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_cQufeTRDc4dH",
       "title": "Streaming responses and async calls",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "By default you wait for the whole answer and then receive it in one piece. For a long reply that is many seconds of staring at a blank screen.\n\nStreaming sends the answer in small pieces as it is generated. The words appear as if being typed. The total time is the same, but the wait feels far shorter, because something is on the screen within a second.\n\nAsync is a different tool for a different problem. It lets your program have many requests in flight at once instead of one after another.\n\nStreaming is a waiter bringing dishes as they are ready. Async is the kitchen cooking for ten tables at the same time.\n\nUse streaming for people, async for volume.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,13 +59,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cQufeTRDc4dH_1",
+          "type": "multiple_choice",
+          "prompt": "What does streaming improve?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The accuracy of the answer"
+            },
+            {
+              "id": "b",
+              "text": "The price per token"
+            },
+            {
+              "id": "c",
+              "text": "How quickly the user starts seeing the answer"
+            },
+            {
+              "id": "d",
+              "text": "The model's knowledge cutoff"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Streaming delivers tokens as they are produced, which cuts the perceived wait without changing total time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BBJ5LSIRv24T",
       "title": "Handling rate limits, retries, and API errors",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Calls to a model fail more often than calls to most services. The servers are busy, the requests are heavy, and limits are tight.\n\nThree kinds of failure need three responses. Rate limit, status 429: you are sending too fast. Wait, then retry, with the wait growing each time. Server trouble, status 500 or 529: their problem. Retry a few times. Bad request, status 400 or 401: your problem. Do not retry. Fix the request or the key.\n\nSDKs retry the temporary kinds automatically, but you should still set a timeout and a cap on attempts.\n\nThen plan for total failure. What does the user see: a clear message, a fallback model, a queue for later? \"It crashed\" is not a plan.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,55 +106,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BBJ5LSIRv24T_1",
+          "type": "multiple_choice",
+          "prompt": "Which failure should NOT be retried unchanged?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A 429 rate limit"
+            },
+            {
+              "id": "b",
+              "text": "A 500 server error"
+            },
+            {
+              "id": "c",
+              "text": "A 400 bad request"
+            },
+            {
+              "id": "d",
+              "text": "A timeout"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A malformed request fails the same way every time, so it must be fixed, not resent.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_7SPMeBm2cYU1",
       "title": "An API call: you send messages, the model sends one back",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Strip away the detail and every model call is the same simple exchange.\n\nYou send a model name, a list of messages and a few settings such as the maximum length of the reply.\n\nYou get back one new message from the assistant, plus some bookkeeping: how many tokens were used, and why the model stopped.\n\nThat is the whole interface. No session is kept on the other side. It is one request and one response, like posting a letter and getting one back.\n\nEverything else in this course, including retrieval, tools, agents and memory, is built by choosing carefully what goes into that list and what you do with what comes back.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7SPMeBm2cYU1_1",
+          "type": "multiple_choice",
+          "prompt": "What does a basic model API call return?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The whole conversation history stored by the provider"
+            },
+            {
+              "id": "b",
+              "text": "A trained model file"
+            },
+            {
+              "id": "c",
+              "text": "One new assistant message, plus usage and stop information"
+            },
+            {
+              "id": "d",
+              "text": "A list of web links"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Each call returns a single generated message together with token counts and the reason it stopped.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lNJq1-8S_-z9",
       "title": "Roles: system sets the rules, user asks, assistant answers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every message carries one of three roles.\n\nSystem: standing instructions from you, the developer. Who the model is, what it should do, the rules it follows. The end user normally never sees this.\n\nUser: what the person, or your program on their behalf, is asking.\n\nAssistant: what the model said. Earlier assistant messages are in the list so the model can see its own previous replies.\n\nThink of a play. The system message is the director's briefing before the curtain rises. The user and the assistant are the two characters speaking on stage.\n\nModels are trained to give system instructions more weight than user messages. That is why the rules go there.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lNJq1-8S_-z9_1",
+          "type": "multiple_choice",
+          "prompt": "Which role carries the developer's standing instructions to the model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "System"
+            },
+            {
+              "id": "b",
+              "text": "User"
+            },
+            {
+              "id": "c",
+              "text": "Assistant"
+            },
+            {
+              "id": "d",
+              "text": "Token"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The system message sets behaviour and rules for the conversation, usually out of the end user's sight.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Qtg6ttwsdV1n",
       "title": "The model remembers nothing: you resend the conversation on every call",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An LLM has no memory between calls. Each request arrives as if it were the first.\n\nSo how does a chatbot follow a conversation? Your program keeps the history and sends the whole thing again every time: turn one, the reply, turn two, the reply, and now turn three.\n\nIt is like the film about the man who cannot form new memories and reads his own notes every morning to find out where things stand.\n\nThree things follow. Memory is your code's job, not the model's. Long conversations get dearer with each turn, because you pay for the whole history again. And you control what the model \"remembers\". You can shorten the history, summarise it or edit it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Qtg6ttwsdV1n_1",
+          "type": "multiple_choice",
+          "prompt": "How does a chatbot appear to remember earlier turns?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model stores each user's chats in its weights"
+            },
+            {
+              "id": "b",
+              "text": "The provider links requests together automatically"
+            },
+            {
+              "id": "c",
+              "text": "The application resends the conversation history with every request"
+            },
+            {
+              "id": "d",
+              "text": "It does not; every turn is unrelated"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Models are stateless, so continuity comes from including previous messages in each new call.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6wZhGiKu8NzM",
       "title": "Stop reasons: finished, cut off, or asking for a tool",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every response says why the model stopped writing. It is a small field and worth checking every time.\n\nThere are three main cases. Finished: the model reached a natural end. This is the normal one. Cut off: it hit the maximum output length you set, and the answer is incomplete. If you asked for JSON, it is probably broken halfway through. Tool request: the model has paused because it wants a tool run and is waiting for the result.\n\nIt is how a phone call ends. Someone says goodbye, the line drops in the middle of a sentence, or you are put on hold.\n\nCode that ignores the stop reason will treat half an answer as a whole one.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6wZhGiKu8NzM_1",
+          "type": "multiple_choice",
+          "prompt": "The stop reason says the output limit was reached. What does that mean?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The answer is complete and correct"
+            },
+            {
+              "id": "b",
+              "text": "The model wants a tool to be run"
+            },
+            {
+              "id": "c",
+              "text": "The API key has expired"
+            },
+            {
+              "id": "d",
+              "text": "The answer was cut off and may be incomplete"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Hitting the maximum output length truncates the response, so it should not be treated as finished.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

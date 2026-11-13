@@ -5,44 +5,128 @@
     {
       "id": "bit_ijLHdF-dZcqV",
       "title": "Checkpointing progress",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A checkpoint is a saved snapshot of an agent's state at a particular moment.\n\nThe common practice is to save one after every step: the model replied, the tool ran, save. If something fails on step 31, you still have the state as it was after step 30.\n\nVideo games work this way. When you fail, you return to the last save point, not to the very beginning.\n\nWithout checkpoints, an hour-long task that breaks at minute 58 starts again from nothing. That wastes the time and money, and anything it already did, such as emails sent, may be repeated.\n\nCheckpoints are useful for more than crashes. You can go back to an earlier point to see what the agent knew, or to try a different path from there.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ijLHdF-dZcqV_1",
+          "type": "multiple_choice",
+          "prompt": "What does checkpointing allow after a failure?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Deleting the task"
+            },
+            {
+              "id": "b",
+              "text": "Resuming from the last saved step, not from the beginning"
+            },
+            {
+              "id": "c",
+              "text": "Running twice as fast"
+            },
+            {
+              "id": "d",
+              "text": "Skipping all remaining steps"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A saved snapshot after each step means only the failed step needs to be redone.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_RAqMqRbmufKA",
       "title": "Durable execution",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Durable execution is a guarantee: once a task has started, it will reach an end, even if machines crash, networks fail or the service restarts along the way.\n\nThe system records every step as it happens. If the process dies, another one reads the record and continues exactly from where things stood. The task itself has no idea that anything happened.\n\nIt is a relay race where the baton keeps moving forward, whichever runner drops out.\n\nTools that provide this include Temporal and the persistence layers of frameworks such as LangGraph.\n\nIt matters most for long tasks and for ones with real consequences, such as a multi-day onboarding process, or anything involving payments, where half-finished is the worst outcome.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RAqMqRbmufKA_1",
+          "type": "multiple_choice",
+          "prompt": "What does durable execution guarantee?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A task will never take long"
+            },
+            {
+              "id": "b",
+              "text": "No tools will ever fail"
+            },
+            {
+              "id": "c",
+              "text": "The model will never be wrong"
+            },
+            {
+              "id": "d",
+              "text": "A started task will continue to completion despite crashes"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Recording each step lets another process carry on after a failure, so tasks are not abandoned midway.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Tg9_wnk6EuNo",
       "title": "Resumable long-running tasks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Some agent tasks take hours or days. Research across hundreds of documents, a large migration, a process that waits on other people.\n\nNothing runs uninterrupted for that long. Servers are restarted, connections drop, rate limits are reached.\n\nSo long tasks have to be built to be resumable: able to stop at any point and continue later with nothing lost.\n\nThat takes three things you have now met. State in durable storage. Checkpoints after each step. And work divided into steps small enough that redoing one is cheap.\n\nIt is reading a long book with a bookmark. You do not need one unbroken sitting, and you do not start again each time.\n\nA design question worth asking early: if this stopped right now, what would it take to carry on?",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Tg9_wnk6EuNo_1",
+          "type": "multiple_choice",
+          "prompt": "What makes a long-running task resumable?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Running on the fastest computer"
+            },
+            {
+              "id": "b",
+              "text": "Durable state, checkpoints and small steps"
+            },
+            {
+              "id": "c",
+              "text": "Never saving anything"
+            },
+            {
+              "id": "d",
+              "text": "Completing in one unbroken run"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Saved progress and small units of work let a task stop and continue without loss.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_GckdmO6hfpm2",
       "title": "Resuming without repeating finished steps",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Resuming has a trap. When the agent picks up again, it must not redo what was already done.\n\nRe-running a search is harmless. Re-sending an email, re-charging a card or re-creating an order is not.\n\nThere are two protections.\n\nRecord completion. Mark each step finished only once it truly is, and on resuming, skip everything marked.\n\nMake actions idempotent, as module B5 described. Even if a step does run twice, the second time has no further effect.\n\nThe awkward case is a crash in the middle of a step. The email went out, but the \"done\" mark was never saved. That is precisely where idempotency keys earn their place.\n\nIt is the tick list on a shared chore board. Without it, the bins get put out twice or not at all.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,13 +139,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GckdmO6hfpm2_1",
+          "type": "multiple_choice",
+          "prompt": "Why are idempotent actions important when resuming a task?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They make the task run faster"
+            },
+            {
+              "id": "b",
+              "text": "They remove the need to save state"
+            },
+            {
+              "id": "c",
+              "text": "They stop the agent from resuming"
+            },
+            {
+              "id": "d",
+              "text": "A step that accidentally runs twice then causes no extra effect"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "If a crash hides whether a step completed, idempotency makes a repeat harmless.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_SnSSmeyol4lP",
       "title": "Pausing for a human and picking up later",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Many tasks reach a point where a person has to weigh in: approve a refund, choose between options, supply a missing fact.\n\nPeople are slow, in computer terms. The reply may come in a minute or on Monday.\n\nSo the agent should not sit waiting with a process running. It saves its state, records what it is waiting for, and stops. When the person responds, the task is loaded and continues from exactly that point.\n\nIt is sending a document off for signature. You do not stand at the recipient's desk. You go on with other things, and take it up again when it returns.\n\nThis needs durable state. It is also what makes human approval practical at scale, since a thousand tasks can be waiting without costing anything.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -74,7 +186,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_SnSSmeyol4lP_1",
+          "type": "multiple_choice",
+          "prompt": "What should an agent do while waiting for a human's approval?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Save its state and stop, resuming when the answer arrives"
+            },
+            {
+              "id": "b",
+              "text": "Keep a process running for days"
+            },
+            {
+              "id": "c",
+              "text": "Guess the answer and continue"
+            },
+            {
+              "id": "d",
+              "text": "Delete the task"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Pausing with saved state costs nothing while waiting and lets the task continue from the same point.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,8 +5,8 @@
     {
       "id": "bit_DBU0W8vVZiRu",
       "title": "Context window pruning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Pruning means removing things from the context that are no longer needed.\n\nThe simplest form drops the oldest messages once the window passes a set size. Smarter forms are selective: keep the system prompt, the original goal and the most recent turns, and remove old tool results, which are bulky and usually finished with.\n\nA gardener prunes the same way, cutting what no longer serves the plant so that the rest grows well.\n\nPruning is cheap and fast, because nothing has to be computed. Its weakness is that it is blunt. Whatever is cut is gone, including the occasional detail that turns out to matter twenty steps later.\n\nSo prune the safe things first, such as tool outputs already acted on, and protect what defines the task.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DBU0W8vVZiRu_1",
+          "type": "multiple_choice",
+          "prompt": "What is usually safest to prune first?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The system prompt"
+            },
+            {
+              "id": "b",
+              "text": "Old tool results that have already been used"
+            },
+            {
+              "id": "c",
+              "text": "The original goal"
+            },
+            {
+              "id": "d",
+              "text": "The most recent messages"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Used tool outputs are bulky and rarely needed again, while the goal and instructions must stay.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_R5TsC7US44nO",
       "title": "Summarization and compaction",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Compaction replaces a long stretch of conversation with a short summary of it.\n\nWhen the context nears its limit, the system asks a model to summarise what has happened: the goal, the decisions, what is done, what is left. The detailed history is removed and the summary takes its place. The agent carries on with a much smaller context.\n\nIt is the handover note at a hospital shift change. The new nurse gets one page per patient, not the full record of the last twelve hours.\n\nCompaction lets an agent work far beyond what one window could hold.\n\nIt has a cost. A summary is lossy. Detail is dropped, and the summariser decides what matters, not always correctly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,61 +66,201 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_R5TsC7US44nO_1",
+          "type": "multiple_choice",
+          "prompt": "What does compaction do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Replaces detailed history with a shorter summary"
+            },
+            {
+              "id": "b",
+              "text": "Deletes the goal"
+            },
+            {
+              "id": "c",
+              "text": "Doubles the size of the context window"
+            },
+            {
+              "id": "d",
+              "text": "Retrains the model"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Summarising older history frees context so that the agent can keep working.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_j4ukvN9l6lGc",
       "title": "Agent degradation and resets",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Agents tend to get worse the longer they run.\n\nAfter many steps the context is long and cluttered. The agent starts forgetting earlier instructions, repeating things it has already done, contradicting itself or wandering from the goal. Early mistakes sit in the history and get built on.\n\nIt is someone at the end of a fourteen-hour shift. They are just as capable, but their performance has slipped.\n\nThe remedy is often not a cleverer prompt. It is a reset: start a fresh session with a clean context, and give it a short summary of where things stand.\n\nDesign long tasks with this in mind. Break them into stages with a clean start for each, so that no single run has to stay sharp for hours.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_j4ukvN9l6lGc_1",
+          "type": "multiple_choice",
+          "prompt": "What is an effective remedy when a long-running agent starts to degrade?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Add more text to the same context"
+            },
+            {
+              "id": "b",
+              "text": "Remove all its tools"
+            },
+            {
+              "id": "c",
+              "text": "Start a fresh session with a summary of progress"
+            },
+            {
+              "id": "d",
+              "text": "Let it continue indefinitely"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A clean context with a concise summary restores focus better than piling on more history.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1dq5C1X85uAN",
       "title": "Context rot: quality drops as the window fills",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A large context window does not mean a model uses all of it equally well.\n\nAs more is put in, quality declines. The model gets worse at finding a particular fact, follows instructions less reliably and is more easily distracted by irrelevant material. This is called context rot. It sets in gradually, well before the window is full.\n\nThink of a meeting with one clear agenda item, then of one with two hundred items and a foot-high stack of papers. People in the second are no less intelligent. Their attention is spread too thin.\n\nThe lesson is that more context is not better context. A window with 20,000 well-chosen tokens often beats one with 200,000 that holds the same facts buried in noise.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1dq5C1X85uAN_1",
+          "type": "multiple_choice",
+          "prompt": "What is context rot?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A virus that deletes files"
+            },
+            {
+              "id": "b",
+              "text": "The model getting older each year"
+            },
+            {
+              "id": "c",
+              "text": "A type of hardware failure"
+            },
+            {
+              "id": "d",
+              "text": "Model quality declining as the context window fills up"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "More context spreads the model's attention, so accuracy and instruction-following slip.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6ScO_VS4UL0x",
       "title": "What compaction loses, and how to protect key facts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A summary keeps the gist and drops the detail. In agent work the detail is often what matters.\n\nThings that tend to vanish: exact figures, names and IDs, a user's stated preference from early on, the reason an approach was rejected, a subtle constraint.\n\nAfter compaction, the agent may redo failed work or break a rule it was given two hours earlier.\n\nProtect what matters.\n\nKeep certain items outside the summary, restated in full every time: the original goal, hard rules, key identifiers.\n\nTell the summariser what to preserve: \"keep all file names, figures and decisions with their reasons\".\n\nWrite important facts to a file or state record before compacting.\n\nIt is minutes of a meeting: the chat can be condensed, but the decisions and action items are recorded word for word.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6ScO_VS4UL0x_1",
+          "type": "multiple_choice",
+          "prompt": "Which kind of information is most likely to be lost in compaction?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The general topic of the conversation"
+            },
+            {
+              "id": "b",
+              "text": "The fact that a conversation happened"
+            },
+            {
+              "id": "c",
+              "text": "The name of the model"
+            },
+            {
+              "id": "d",
+              "text": "Exact details such as figures, IDs and specific constraints"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Summaries keep the gist, so precise details need to be preserved separately.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wUqiBtsVhT8g",
       "title": "Notes in files: memory outside the context window",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A context window is limited. A file system, for practical purposes, is not.\n\nSo let the agent write to files. Progress notes, findings, a plan, a large tool result it may need later. Then only a short pointer stays in context: \"research notes are in notes.md\".\n\nWhen it needs the detail, it reads the file, or just the relevant part.\n\nYou work the same way. You do not hold a whole project in your head. You hold the knowledge of where things are written down.\n\nFile notes also survive compaction, resets and even crashes. A fresh session can open the notes and pick up where the last one stopped.\n\nFor long-running agents, this is one of the most effective techniques there is.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wUqiBtsVhT8g_1",
+          "type": "multiple_choice",
+          "prompt": "Why have an agent write notes to files?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Files are read faster than context"
+            },
+            {
+              "id": "b",
+              "text": "They persist outside the limited context and survive resets"
+            },
+            {
+              "id": "c",
+              "text": "It makes the model forget on purpose"
+            },
+            {
+              "id": "d",
+              "text": "Files cost more tokens than context"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "External notes are not bound by the window size and remain available to later sessions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2G_RZtgVF_eY",
       "title": "Sub-agents that keep the main context clean",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Some subtasks generate a great deal of material and a small result. Research is the classic case: read twenty pages to produce one paragraph.\n\nIf the main agent does that itself, its context fills with twenty pages it no longer needs.\n\nSo it delegates. A sub-agent starts with a fresh, empty context, does the reading, and returns only the paragraph. Its messy working context is thrown away.\n\nIt is a manager asking an analyst for a briefing. The manager gets one page, not the analyst's whole week.\n\nThe main agent stays focused on the overall task, with a context made of conclusions, not raw material.\n\nThe cost is extra model calls, and the sub-agent knows only what it was told. The briefing you give it has to be complete.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
@@ -105,7 +273,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2G_RZtgVF_eY_1",
+          "type": "multiple_choice",
+          "prompt": "How does a sub-agent help the main agent's context?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It copies everything into the main context"
+            },
+            {
+              "id": "b",
+              "text": "It does bulky work in its own context and returns only the result"
+            },
+            {
+              "id": "c",
+              "text": "It deletes the main agent's goal"
+            },
+            {
+              "id": "d",
+              "text": "It makes the context window larger"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The sub-agent absorbs the raw material, so the main context receives only the conclusion.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }
