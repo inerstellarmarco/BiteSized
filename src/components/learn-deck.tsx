@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { PopMenu, PopMenuItem } from "@/components/ui/menu";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import { Heart, MoreHorizontal } from "lucide-react";
+import { Check, Heart, MoreHorizontal } from "lucide-react";
 import { formatReviewed } from "@/lib/utils";
 import { classifySwipe } from "@/lib/swipe";
 
@@ -37,7 +37,13 @@ export function LearnDeck({
   isAdmin = false,
   remaining = 0,
   limit = 100,
+  subLessonId,
+  nextHref = null,
+  nextTitle = null,
 }: {
+  subLessonId?: string;
+  nextHref?: string | null;
+  nextTitle?: string | null;
   lessonCode: string;
   lessonTitle: string;
   subLessonTitle: string;
@@ -144,17 +150,37 @@ export function LearnDeck({
       {bites.length === 0 ? (
         <p>This sub-lesson has no bites yet.</p>
       ) : done ? (
-        <div className="rounded-2xl border border-border bg-card p-6" data-testid="learn-done">
-          <h2 className="font-display text-2xl">That is the end of this sub-lesson.</h2>
-          <p className="mt-2 text-muted-foreground">Quiz is a separate choice. Nothing here starts it for you.</p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Button type="button" variant="outline" onClick={prev}>
-              Back
-            </Button>
-            <Button asChild>
-              <Link href="/course">Back to the course</Link>
-            </Button>
+        <div className="card-rise rounded-2xl border border-success/60 bg-success/10 p-6 text-center" data-testid="learn-done">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-success text-white">
+            <Check className="h-7 w-7" aria-hidden />
           </div>
+          <h2 className="mt-4 font-display text-2xl">That is the end of this sub-lesson.</h2>
+          <p className="mt-1 text-muted-foreground">
+            {bites.length} {bites.length === 1 ? "bite" : "bites"} read. Quiz is a separate choice. Nothing here starts it for you.
+          </p>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            {subLessonId ? (
+              <Button asChild size="lg">
+                <Link href={`/quiz/${subLessonId}`} data-testid="learn-take-quiz">
+                  Take the quiz
+                </Link>
+              </Button>
+            ) : null}
+            {nextHref && nextTitle ? (
+              <Button asChild variant="outline" size="lg">
+                <Link href={nextHref} data-testid="learn-next-sublesson">
+                  Next: {nextTitle}
+                </Link>
+              </Button>
+            ) : (
+              <Button asChild variant="outline" size="lg">
+                <Link href="/course">Back to the course</Link>
+              </Button>
+            )}
+          </div>
+          <button type="button" onClick={prev} className="mt-4 text-sm text-muted-foreground underline-offset-4 hover:underline">
+            Back to the last card
+          </button>
         </div>
       ) : (
         <article

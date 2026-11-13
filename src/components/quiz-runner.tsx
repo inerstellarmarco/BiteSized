@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button";
 import { PopMenu, PopMenuItem } from "@/components/ui/menu";
 import { Progress } from "@/components/ui/progress";
 import { choiceState } from "@/lib/quiz/choice-state";
+import { SCORE_HEADLINES, scoreTone } from "@/lib/quiz/score-tone";
 import { cn } from "@/lib/utils";
-import { Check, Heart, MoreHorizontal, X } from "lucide-react";
+import { Check, Heart, MoreHorizontal, Trophy, X } from "lucide-react";
 import type { Choice } from "@/lib/types";
 
 type Question = { id: string; prompt: string; choices: Choice[]; biteTitle: string };
@@ -97,25 +98,47 @@ export function QuizRunner({
   }
 
   if (result) {
-    const perfect = result.correct === result.answered && result.answered > 0;
+    const tone = scoreTone(result.correct, result.answered);
+    const percent = result.answered === 0 ? 0 : Math.round((result.correct / result.answered) * 100);
     return (
       <section data-testid="quiz-result" className="mx-auto max-w-xl">
-        <p className="text-sm text-muted-foreground">{lessonCode}</p>
-        <h1 className="font-display text-3xl md:text-4xl leading-tight">
-          <span data-testid="quiz-score">
-            {result.correct} of {result.answered}
-          </span>
-        </h1>
-        <p className="mt-2 text-lg">{perfect ? "Every answer you gave was right." : "Here is how this attempt landed."}</p>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <div
+          className={cn(
+            "card-rise rounded-2xl border p-6 text-center",
+            tone === "perfect" && "border-success bg-success/10",
+            tone === "strong" && "border-primary/50 bg-secondary",
+            (tone === "keep-going" || tone === "none") && "border-border bg-card",
+          )}
+        >
+          <p className="text-sm text-muted-foreground">
+            {lessonCode} · {title}
+          </p>
+          <div
+            className={cn(
+              "mx-auto mt-4 flex h-28 w-28 flex-col items-center justify-center rounded-full border-4",
+              tone === "perfect" ? "border-success text-success" : tone === "strong" ? "border-primary text-primary" : "border-border text-foreground",
+            )}
+          >
+            {tone === "perfect" ? <Trophy className="mb-1 h-5 w-5" aria-hidden /> : null}
+            <h1 className="font-display text-3xl leading-none">
+              <span data-testid="quiz-score">
+                {result.correct} of {result.answered}
+              </span>
+            </h1>
+            <p className="mt-1 text-xs text-muted-foreground">{percent}%</p>
+          </div>
+          <p className="mt-4 text-lg font-medium">{SCORE_HEADLINES[tone]}</p>
+        </div>
+        <p className="mt-4 text-sm text-muted-foreground">
           {result.stoppedEarly
             ? `You stopped early. ${result.total - result.answered} ${result.total - result.answered === 1 ? "question was" : "questions were"} left in this sub-lesson.`
             : `You answered every question in this sub-lesson (${result.total}).`}
         </p>
         {result.explanations.length > 0 ? (
           <ul className="mt-6 space-y-3">
+            <li className="text-sm font-medium">To look at again</li>
             {result.explanations.map((item) => (
-              <li key={item.id} className="rounded-xl border border-border bg-card p-4">
+              <li key={item.id} className="rounded-xl border border-l-4 border-border border-l-destructive bg-card p-4">
                 <p className="font-medium">{item.prompt}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{item.explanation}</p>
               </li>
@@ -124,18 +147,18 @@ export function QuizRunner({
         ) : null}
         <div className="mt-6 flex flex-wrap gap-3">
           {nextHref && nextTitle ? (
-            <Button asChild>
+            <Button asChild size="lg">
               <Link href={nextHref} data-testid="quiz-next-sublesson">
                 Next sub-lesson: {nextTitle}
               </Link>
             </Button>
           ) : (
-            <Button asChild>
+            <Button asChild size="lg">
               <Link href="/course">Back to the course</Link>
             </Button>
           )}
-          <Button asChild variant="outline">
-            <Link href="/course">Course tree</Link>
+          <Button asChild variant="outline" size="lg">
+            <Link href={`/learn/${subLessonId}`}>Review the cards</Link>
           </Button>
         </div>
       </section>

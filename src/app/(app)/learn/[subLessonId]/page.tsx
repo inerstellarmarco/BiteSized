@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireProfile } from "@/lib/auth/current";
-import { loadLearnCards } from "@/lib/content/catalog";
+import { loadCatalog, loadLearnCards, nextSubLesson } from "@/lib/content/catalog";
+import { nextSubLessonHref } from "@/lib/quiz/score-tone";
 import { learnerCursors } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { learnOverlay } from "@/lib/ai/view";
@@ -17,6 +18,8 @@ export default async function LearnPage({ params }: { params: Promise<{ subLesso
   const [cursor] = await db.select().from(learnerCursors).where(eq(learnerCursors.profileId, profile.id));
   const found = cursor?.subLessonId === subLessonId && cursor.biteId ? detail.bites.findIndex((bite) => bite.id === cursor.biteId) : -1;
   const overlay = await learnOverlay(db, profile.id, detail.bites.map((bite) => bite.id));
+  const catalog = await loadCatalog(db, profile.id);
+  const upcoming = catalog ? nextSubLesson(catalog, subLessonId) : null;
   return (
     <div>
       <p className="mb-3 text-sm">
@@ -25,6 +28,9 @@ export default async function LearnPage({ params }: { params: Promise<{ subLesso
         </Link>
       </p>
       <LearnDeck
+        subLessonId={subLessonId}
+        nextHref={nextSubLessonHref(upcoming)}
+        nextTitle={upcoming?.title ?? null}
         lessonCode={detail.lesson.code}
         lessonTitle={detail.lesson.title}
         subLessonTitle={detail.subLesson.title}

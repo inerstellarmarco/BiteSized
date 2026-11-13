@@ -4,6 +4,7 @@ import { requireProfile } from "@/lib/auth/current";
 import { flattenSubLessons, loadCatalog, nextSubLesson } from "@/lib/content/catalog";
 import { QuizRunner } from "@/components/quiz-runner";
 import { quizQuestions } from "@/lib/quiz/attempts";
+import { nextSubLessonHref } from "@/lib/quiz/score-tone";
 import { getDb } from "@/lib/db";
 
 export default async function QuizPage({ params }: { params: Promise<{ subLessonId: string }> }) {
@@ -28,7 +29,7 @@ export default async function QuizPage({ params }: { params: Promise<{ subLesson
         lessonCode={current.lessonCode}
         questions={quiz.questions}
         skipped={quiz.skipped}
-        nextHref={upcoming ? `/study/${upcoming.id}` : null}
+        nextHref={nextSubLessonHref(upcoming)}
         nextTitle={upcoming?.title ?? null}
         isAdmin={profile.isAdmin}
       />
