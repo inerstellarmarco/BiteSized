@@ -14,7 +14,7 @@ import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { Check, Heart, MoreHorizontal } from "lucide-react";
 import { formatReviewed } from "@/lib/utils";
-import { classifySwipe } from "@/lib/swipe";
+import { cardEnterClass, classifySwipe } from "@/lib/swipe";
 
 export type LearnBite = {
   id: string;
@@ -57,6 +57,7 @@ export function LearnDeck({
   const swipeStart = useRef<{ x: number; y: number } | null>(null);
   const cardRef = useRef<HTMLElement | null>(null);
   const [index, setIndex] = useState(initialIndex);
+  const [direction, setDirection] = useState<"next" | "prev">("next");
   const [desktop, setDesktop] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -88,10 +89,12 @@ export function LearnDeck({
       if ((event.key === " " || event.key === "Enter") && (tag === "BUTTON" || tag === "A")) return;
       if (["ArrowDown", "ArrowRight", "PageDown", " "].includes(event.key)) {
         event.preventDefault();
+        setDirection("next");
         setIndex((current) => Math.min(bites.length, current + 1));
       }
       if (["ArrowUp", "ArrowLeft", "PageUp"].includes(event.key)) {
         event.preventDefault();
+        setDirection("prev");
         setIndex((current) => Math.max(0, current - 1));
       }
     }
@@ -100,9 +103,11 @@ export function LearnDeck({
   }, [bites.length]);
 
   function next() {
+    setDirection("next");
     setIndex((current) => Math.min(bites.length, current + 1));
   }
   function prev() {
+    setDirection("prev");
     setIndex((current) => Math.max(0, current - 1));
   }
 
@@ -187,7 +192,7 @@ export function LearnDeck({
           key={bite.id}
           ref={cardRef}
           data-testid="learn-card"
-          className="card-rise relative min-h-0 flex-1 overflow-y-auto overscroll-y-contain rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8"
+          className={cn(cardEnterClass(direction), "relative min-h-0 flex-1 overflow-y-auto overscroll-y-contain rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8")}
           onClick={(event) => {
             if (!desktop) return;
             if ((event.target as HTMLElement).closest("a,button")) return;
@@ -362,7 +367,7 @@ function BiteTools({
           onClick={onHeart}
           className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <Heart className={cn("h-5 w-5", bite.hearted && "fill-red-500 text-red-500")} aria-hidden />
+          <Heart className={cn("h-5 w-5", bite.hearted && "heart-pop fill-red-500 text-red-500")} aria-hidden />
         </button>
       </div>
       {showPersonal ? (

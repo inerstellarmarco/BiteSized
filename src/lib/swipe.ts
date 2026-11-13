@@ -1,5 +1,11 @@
 export type SwipeDirection = "next" | "prev" | null;
 
+// The entrance animation for a card: a card reached by going forward rises
+// from below, a card reached by going back drops in from above.
+export function cardEnterClass(direction: "next" | "prev"): "card-rise" | "card-drop" {
+  return direction === "prev" ? "card-drop" : "card-rise";
+}
+
 export type CardScroll = { scrollTop: number; clientHeight: number; scrollHeight: number };
 
 const MIN_DISTANCE = 56;

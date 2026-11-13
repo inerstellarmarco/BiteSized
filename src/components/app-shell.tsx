@@ -26,7 +26,11 @@ export function AppShell({ name, children }: { name: string; children: React.Rea
               <Link
                 key={link.href}
                 href={link.href}
-                className={cn("hover:text-primary", pathname.startsWith(link.href) && "font-semibold text-primary")}
+                aria-current={pathname.startsWith(link.href) ? "page" : undefined}
+                className={cn(
+                  "rounded-full px-3 py-1.5 transition-colors hover:text-primary",
+                  pathname.startsWith(link.href) && "bg-secondary font-semibold text-primary",
+                )}
               >
                 {link.label}
               </Link>
@@ -44,7 +48,14 @@ export function AppShell({ name, children }: { name: string; children: React.Rea
             const active = pathname.startsWith(link.href);
             return (
               <li key={link.href}>
-                <Link href={link.href} className={cn("flex min-w-16 flex-col items-center gap-1 px-3 py-1 text-xs", active && "text-primary")}>
+                <Link
+                  href={link.href}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "flex min-w-16 flex-col items-center gap-1 rounded-2xl px-4 py-1.5 text-xs transition-colors",
+                    active ? "bg-secondary font-semibold text-primary" : "text-muted-foreground",
+                  )}
+                >
                   <Icon aria-hidden className="h-5 w-5" />
                   {link.label}
                 </Link>

@@ -236,7 +236,7 @@ export function QuizRunner({
             }}
             className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <Heart className={cn("h-5 w-5", hearted[question.id] && "fill-red-500 text-red-500")} aria-hidden />
+            <Heart className={cn("h-5 w-5", hearted[question.id] && "heart-pop fill-red-500 text-red-500")} aria-hidden />
           </button>
         </div>
       </div>

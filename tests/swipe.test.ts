@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { classifySwipe } from "@/lib/swipe";
+import { cardEnterClass, classifySwipe } from "@/lib/swipe";
+
+describe("cardEnterClass", () => {
+  it("rises when moving forward and drops when moving back", () => {
+    expect(cardEnterClass("next")).toBe("card-rise");
+    expect(cardEnterClass("prev")).toBe("card-drop");
+  });
+});
 
 const shortCard = { scrollTop: 0, clientHeight: 600, scrollHeight: 500 };
 const longCardTop = { scrollTop: 0, clientHeight: 400, scrollHeight: 1200 };
