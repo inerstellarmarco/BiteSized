@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BookOpen, House, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { RefreshOnReturn } from "@/components/refresh-on-return";
 
 const links = [
   { href: "/home", label: "Home", icon: House },
@@ -34,6 +35,7 @@ export function AppShell({ name, children }: { name: string; children: React.Rea
           <p className="text-sm text-muted-foreground">{name}</p>
         </div>
       </header>
+      <RefreshOnReturn />
       <main className="mx-auto w-full max-w-5xl px-4 py-6 pb-28 md:pb-12">{children}</main>
       <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 backdrop-blur md:hidden">
         <ul className="mx-auto flex max-w-lg justify-around px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
