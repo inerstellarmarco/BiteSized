@@ -5,50 +5,162 @@
     {
       "id": "bit_agHW3NYmOvGp",
       "title": "Manual and automated attacks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Red teaming combines manual human creativity with automated attack tools to find security and safety flaws in an AI system before real adversaries do. Manual red teamers probe business logic, multi-turn persuasion, and subtle domain edge cases, while automated red-teaming scripts fire thousands of mutated jailbreaks, injections, and fuzzing payloads at scale.\n\nIt is like testing a bank's security by hiring both a clever locksmith to study the vault design and a machine that rapidly tests ten thousand key combinations on the back door.\n\nRelying only on automated scanners misses context-specific flaws in a client's workflow, while relying only on manual testing is too slow to catch regressions across every software update.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_agHW3NYmOvGp_1",
+          "type": "multiple_choice",
+          "prompt": "How do manual and automated red-teaming methods complement each other?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Manual testing is used only for open-weight models, while automated testing works only on commercial APIs"
+            },
+            {
+              "id": "b",
+              "text": "Manual testing uncovers subtle multi-step and business-logic flaws, while automated tools test thousands of attack variations rapidly at scale"
+            },
+            {
+              "id": "c",
+              "text": "Manual testing checks model latency, while automated testing checks copyright compliance"
+            },
+            {
+              "id": "d",
+              "text": "Manual testing replaces the need for guardrails, while automated testing replaces human approval gates"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Human red teamers excel at creative, domain-specific scenarios and multi-turn manipulation, whereas automated tools provide broad, repeatable coverage across known attack patterns.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rbPhedmlx8s7",
       "title": "Attack libraries and threat scenarios",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Attack libraries and threat scenarios give red teams a structured starting point so they do not have to invent every test from scratch. An attack library provides collections of known jailbreak templates, encoding tricks, and injection payloads, while threat scenarios describe realistic end-to-end stories of how an attacker would target a specific business workflow.\n\nFor a wealth-management client, a generic attack library tests whether the bot can be tricked by base64-encoded prompts, whereas a custom threat scenario tests whether an attacker can impersonate a spouse to redirect a wire transfer.\n\nStandard libraries quickly go stale as model providers patch famous jailbreaks, so consultants must always pair them with custom scenarios tailored to the client's actual tools and assets.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rbPhedmlx8s7_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a generic open-source attack library insufficient on its own when red teaming a client's AI system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Open-source attack libraries are written in programming languages that cannot call modern REST APIs"
+            },
+            {
+              "id": "b",
+              "text": "Model providers block all requests that come from computers with attack libraries installed"
+            },
+            {
+              "id": "c",
+              "text": "Attack libraries only test image generation models and cannot evaluate text-based agents"
+            },
+            {
+              "id": "d",
+              "text": "It tests common text tricks but misses custom threat scenarios tied to the client's specific business logic, data, and tools"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "While libraries of known jailbreaks catch basic filter weaknesses, you need custom threat scenarios to test whether an attacker can exploit the specific tools and workflows of your client's business.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_IoHbMubcgxay",
       "title": "Thinking like an attacker: what is worth stealing or breaking?",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Thinking like an attacker starts by asking what valuable assets your AI system touches and what an adversary would gain by stealing, altering, or disrupting them. Before writing a single clever prompt, a consultant maps the crown jewels: private customer records, proprietary pricing formulas, financial transaction tools, brand credibility, and compute budgets.\n\nIt is like a home security surveyor walking around a house to see where the jewellery safe is kept and which ground-floor window is hidden from the street before choosing where to place alarms.\n\nIf an internal summariser only reads already-public press releases and has no tools, spending weeks defending it against nation-state exfiltration wastes the client's security budget.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IoHbMubcgxay_1",
+          "type": "multiple_choice",
+          "prompt": "What should be your very first step when adopting an attacker mindset for an AI security review?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Rewrite the application's system prompt in a different language to confuse users"
+            },
+            {
+              "id": "b",
+              "text": "Upgrade the application to the largest available frontier model regardless of cost"
+            },
+            {
+              "id": "c",
+              "text": "Delete all historical conversation logs from the development environment"
+            },
+            {
+              "id": "d",
+              "text": "Identify the valuable data, actions, brand reputation, or budgets the system touches that would be worth stealing or disrupting"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Effective security starts by identifying what assets have real value to an attacker and what business damage would occur if those assets were compromised.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Rhlzzc1hUdaf",
       "title": "Testing the whole system, not only the model",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Testing the whole system means evaluating the complete application pipeline including retrieval filters, tool permissions, memory stores, API gateways, and user interfaces rather than just chatting with the raw model in a playground. Many of the worst AI breaches happen in the glue code around the model, such as an agent rendering unsanitised Markdown links that silently send stolen data to an external server.\n\nIt is like crash-testing an entire car with its brakes, steering column, and airbags assembled together rather than just testing the engine block on a workbench.\n\nA model might pass every standalone safety benchmark yet still cause a critical breach if the surrounding application executes its tool calls without checking user permissions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Rhlzzc1hUdaf_1",
+          "type": "multiple_choice",
+          "prompt": "Why is testing the raw language model in isolation not enough to secure an AI application?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Language models behave identically in isolation and in production, so testing the model alone is redundant"
+            },
+            {
+              "id": "b",
+              "text": "Critical vulnerabilities often live in how surrounding components handle retrieval permissions, tool execution, memory, and UI rendering"
+            },
+            {
+              "id": "c",
+              "text": "Model playgrounds automatically disable all safety training during testing sessions"
+            },
+            {
+              "id": "d",
+              "text": "Isolated model tests consume ten times more tokens than full end-to-end system tests"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Real-world attacks exploit the interaction between the model and its surrounding architecture, such as over-privileged tools, leaky retrieval queries, or unsafe link rendering in the UI.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

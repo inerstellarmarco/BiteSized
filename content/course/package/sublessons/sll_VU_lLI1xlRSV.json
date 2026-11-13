@@ -5,8 +5,8 @@
     {
       "id": "bit_9en92Tr9an2x",
       "title": "Performance dashboards",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A production model performance dashboard gives engineers and product owners a live view of both system health and model behaviour in one place. It combines operational metrics like request volume, latency percentiles, error rates, and token cost with machine learning metrics like input drift, confidence scores, and accuracy where labels exist.\n\nIt is like the instrument cluster on an airliner flight deck that shows engine oil pressure and fuel burn right alongside altitude, airspeed, and heading.\n\nA single dashboard crowded with fifty obscure statistical charts often goes unread, so good consultants design clear views tailored separately for on-call engineers and business stakeholders.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9en92Tr9an2x_1",
+          "type": "multiple_choice",
+          "prompt": "Which two categories of metrics belong together on a complete production AI monitoring dashboard?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Operational system metrics such as latency, error rate, and cost alongside model quality metrics such as drift, output distributions, and accuracy"
+            },
+            {
+              "id": "b",
+              "text": "Only the office electricity bill and the number of lines of Python code in Git"
+            },
+            {
+              "id": "c",
+              "text": "Only the training loss curve from six months ago with no live traffic data"
+            },
+            {
+              "id": "d",
+              "text": "Employee holiday schedules and the colour palette of the company website"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Tracking infrastructure health alongside statistical and behavioural model signals lets teams spot both server outages and silent quality regressions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gusVSNNUJndT",
       "title": "Rollbacks and canary releases",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When deploying a new model version to production, a canary release routes a small slice of live traffic, such as five per cent, to the new model while ninety-five per cent stays on the trusted version. If the canary shows higher error rates, slow latency, or poor user feedback, a rollback switches one hundred per cent of traffic back to the previous model version within seconds.\n\nIt is like a supermarket testing a new recipe in just two local stores for a week before stocking it nationwide, ready to pull it off the shelves immediately if shoppers complain.\n\nFast rollbacks work smoothly only if the model registry and serving infrastructure keep the previous model version warm or instantly loadable and maintain backwards-compatible API schemas.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,37 +66,121 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gusVSNNUJndT_1",
+          "type": "multiple_choice",
+          "prompt": "How do canary releases and instant rollbacks reduce risk when updating a production AI model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A canary exposes only a small fraction of live users to the new model first, and a rollback immediately restores the previous model if problems appear"
+            },
+            {
+              "id": "b",
+              "text": "A canary release encrypts all user prompts so the model never has to process them"
+            },
+            {
+              "id": "c",
+              "text": "Rollbacks permanently delete the previous model version so no one can ever use it again"
+            },
+            {
+              "id": "d",
+              "text": "Canary releases require shutting down the entire company website for forty-eight hours"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Gradual traffic shifting limits the blast radius of any unforeseen bug, while one-click rollback restores service rapidly.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_SvplyfLQO1qE",
       "title": "Monitor inputs, outputs, and business results",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Effective monitoring watches three connected layers of a live AI system: the inputs entering the model, the outputs generated by the model, and the downstream business results. Watching inputs catches broken upstream feeds or prompt changes; watching outputs catches sudden spikes in refusals, empty JSON, or skewed classes; and watching business results verifies whether users actually accept recommendations or resolve tickets faster.\n\nIt is like running a bakery by checking the quality of incoming flour, inspecting the baked loaves coming out of the oven, and counting how many loaves customers actually buy and enjoy.\n\nA model can look statistically healthy on input and output distributions while still failing to improve the client's real commercial key performance indicator.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_SvplyfLQO1qE_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it important to monitor downstream business results alongside technical model inputs and outputs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Business metrics automatically fix broken JSON formatting inside the model's API responses"
+            },
+            {
+              "id": "b",
+              "text": "Monitoring inputs and outputs is illegal unless business revenue is printed in every log line"
+            },
+            {
+              "id": "c",
+              "text": "A model can have stable technical distributions while still failing to improve the real-world customer or commercial outcome the client cares about"
+            },
+            {
+              "id": "d",
+              "text": "Business results can be measured in microseconds without waiting for any user interaction"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Connecting technical model telemetry to business outcomes like ticket resolution or conversion proves whether the AI system is actually delivering commercial value.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ZDPv_f5_Gis9",
       "title": "Alert on missing data and sudden shifts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In real production systems, the fastest and most common way a model breaks is not gradual cultural drift over two years, but a sudden upstream change on a Tuesday morning. A renamed database column, an expired API key, or a changed mobile app form can flood the model with null values, zeros, or empty strings overnight.\n\nIt is like a factory assembly line suddenly receiving boxes of missing screws because a supplier changed their packing system without telling anyone.\n\nSetting automated alerts on null rates, schema violations, and sudden step-changes in prediction distributions catches these operational breakages within minutes before thousands of customers see bad answers.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ZDPv_f5_Gis9_1",
+          "type": "multiple_choice",
+          "prompt": "What is the most common cause of a sudden overnight spike in missing values or extreme predictions in a production model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "An upstream data pipeline breakage, schema change, or application bug feeding malformed inputs to the model"
+            },
+            {
+              "id": "b",
+              "text": "Sudden concept drift caused by the entire human population changing its language overnight"
+            },
+            {
+              "id": "c",
+              "text": "The model weights spontaneously rewriting themselves inside the model registry"
+            },
+            {
+              "id": "d",
+              "text": "A gradual one-per-cent seasonal change in summer weather temperatures"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Broken upstream data feeds, null columns, and unannounced schema changes cause sharp, immediate jumps in missing values and skewed outputs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_eeYsftsYQvcc",
       "title": "Shadow deployments before switching",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a shadow deployment, also called dark launching, live production requests are sent to the current production model to answer the user, while a duplicate copy of each request is sent asynchronously in the background to the new candidate model. The candidate's responses are logged and evaluated on real live traffic, but never shown to the customer.\n\nIt is like a trainee air-traffic controller listening to live pilot radio calls and writing down instructions on a notepad next to the senior controller without keying the microphone.\n\nShadow mode is one of the safest ways to test latency, load handling, and output quality on real production traffic, though it temporarily doubles inference compute costs while both models run side by side.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -81,7 +193,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_eeYsftsYQvcc_1",
+          "type": "multiple_choice",
+          "prompt": "How does a shadow deployment differ from a canary release when testing a new model on live production traffic?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "In a shadow deployment, the new model processes a copy of live requests in the background without its outputs ever being shown to users"
+            },
+            {
+              "id": "b",
+              "text": "In a shadow deployment, one hundred per cent of customers see the new model's answers immediately and the old model is deleted"
+            },
+            {
+              "id": "c",
+              "text": "Shadow deployments only run on synthetic toy data inside a developer's laptop with no live traffic"
+            },
+            {
+              "id": "d",
+              "text": "Shadow deployments reduce GPU compute costs by fifty per cent compared with running a single model"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Shadow mode evaluates the candidate model against real live inputs and load while keeping zero risk to the end user's experience.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

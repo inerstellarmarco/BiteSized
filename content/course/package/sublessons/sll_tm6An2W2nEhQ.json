@@ -5,62 +5,202 @@
     {
       "id": "bit_4EbzQR8XkRYj",
       "title": "Distillation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Knowledge distillation is a technique where a compact student model is trained to reproduce the behaviour of a much larger, more capable teacher model. The goal is to capture the teacher's skill inside a smaller network that is far cheaper and faster to run in production.\n\nIt is like an experienced master chef coaching an apprentice on how to season a single signature dish until the apprentice can cook it reliably during the dinner rush.\n\nA distilled student excels on the narrow tasks it was taught, but it loses the broad general world knowledge of the giant teacher.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4EbzQR8XkRYj_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main goal of knowledge distillation in machine learning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Increasing the parameter count of a small model until it matches a frontier model"
+            },
+            {
+              "id": "b",
+              "text": "Encrypting model weights so competitors cannot inspect the architecture"
+            },
+            {
+              "id": "c",
+              "text": "Converting text training data into high-resolution synthetic audio files"
+            },
+            {
+              "id": "d",
+              "text": "Transferring task capability from a large expensive model into a smaller, faster model"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Distillation trains a compact student network to mimic a strong teacher so deployment costs and latency drop sharply.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_drvuOOsUj33P",
       "title": "Distilling behaviour from large models",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When distilling behaviour from a frontier language model, you collect how the large model solves a specific class of business problems and use those demonstrations to fine-tune a smaller open-weight model. Instead of paying frontier API rates on every production call, you pay for the large model only during data preparation.\n\nIt is like hiring a specialist architect to draw standard blueprints once, then having a local building crew construct dozens of houses from those plans.\n\nIf the teacher has systematic blind spots or hallucinations on the domain, the student will faithfully learn and repeat those same mistakes.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_drvuOOsUj33P_1",
+          "type": "multiple_choice",
+          "prompt": "How does distilling a frontier model's behaviour change the cost structure of an AI application?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It shifts frontier model spending from ongoing production calls to a one-off training phase"
+            },
+            {
+              "id": "b",
+              "text": "It eliminates all compute costs during both training and production serving"
+            },
+            {
+              "id": "c",
+              "text": "It requires calling both the teacher and the student on every live user request"
+            },
+            {
+              "id": "d",
+              "text": "It forces the organisation to purchase custom silicon chips from the model vendor"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "You pay the expensive teacher once to generate training examples, then run the cheap student model for everyday traffic.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_pllbTDXZ1i5N",
       "title": "The student learns from the teacher's outputs, not only from labels",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In classical distillation, the student learns either from the teacher's full probability distribution over tokens or from the teacher's rich step-by-step explanations rather than bare one-word answers. These rich signals show the student which alternatives are plausible and how the answer was reached.\n\nIt is like learning far more from a maths tutor who writes out the full working on the whiteboard than from an answer key that only prints the final number.\n\nWhen using commercial APIs that hide internal token probabilities, practitioners rely on generating detailed reasoning traces and verified completions instead.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_pllbTDXZ1i5N_1",
+          "type": "multiple_choice",
+          "prompt": "Why do a teacher model's rich outputs or token probabilities help a student learn better than bare ground-truth labels alone?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They reveal the teacher's reasoning patterns and how closely related different candidate answers are"
+            },
+            {
+              "id": "b",
+              "text": "They reduce the vocabulary size of the student tokeniser to just ten words"
+            },
+            {
+              "id": "c",
+              "text": "They allow the student model to train without using any graphics cards"
+            },
+            {
+              "id": "d",
+              "text": "They automatically remove all copyright restrictions from the training corpus"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Soft probabilities and detailed outputs carry richer structural information about the task than a single hard label.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_AkK5Z39-Ax57",
       "title": "Synthetic data from a strong model to train a small one",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a client lacks enough labelled examples to train a small specialist model, you can prompt a strong teacher model to generate realistic synthetic inputs and high-quality target responses. Filtering and curating these synthetic pairs creates a tailored dataset at a fraction of the cost of human annotation.\n\nIt is like using a flight simulator to expose a trainee pilot to hundreds of rare weather scenarios before flying a real passenger plane.\n\nSynthetic data can suffer from low diversity and subtle factual errors, so you must validate a sample with human domain experts and automated quality checks.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AkK5Z39-Ax57_1",
+          "type": "multiple_choice",
+          "prompt": "What is a critical risk when training a small student model purely on unfiltered synthetic data from a teacher model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The synthetic text files will physically corrupt the server's solid-state drives"
+            },
+            {
+              "id": "b",
+              "text": "The student can inherit repetitive phrasing, narrow coverage, and factual hallucinations from the teacher"
+            },
+            {
+              "id": "c",
+              "text": "The student model will spontaneously grow more parameters than the teacher"
+            },
+            {
+              "id": "d",
+              "text": "Synthetic data cannot be tokenised by standard open-weight language models"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Without filtering and human validation, errors and stylistic blind spots in the teacher's synthetic outputs transfer directly into the student.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5NU3rNWJg0nR",
       "title": "Check licence terms before using model outputs for training",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Many commercial model providers include clauses in their terms of service that restrict using their model outputs to train, distil, or improve a competing or external model. Ignoring these contractual rules can expose a client to legal liability or account termination.\n\nIt is like buying a ticket to watch a cinema film, which allows you to enjoy the show but does not grant the right to record the screen and sell DVDs.\n\nBecause vendor policies and open-weight licences change frequently, an AI consultant must check the current details of the provider's terms before generating synthetic training data.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5NU3rNWJg0nR_1",
+          "type": "multiple_choice",
+          "prompt": "Why must an AI consultant review a model provider's terms of service before running a distillation project?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Many commercial providers restrict using their outputs to train or fine-tune other models"
+            },
+            {
+              "id": "b",
+              "text": "Terms of service specify the exact learning rate required for gradient descent"
+            },
+            {
+              "id": "c",
+              "text": "Licences determine how many gigabytes of GPU memory a model will consume"
+            },
+            {
+              "id": "d",
+              "text": "Providers require consultants to publish all client customer data on public websites"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Commercial API terms and model licences frequently prohibit or limit using generated outputs to train downstream models.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

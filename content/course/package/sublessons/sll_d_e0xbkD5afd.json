@@ -5,8 +5,8 @@
     {
       "id": "bit_Qc8OABEBVy7W",
       "title": "Scorecard for each bot: quality, cost, and speed",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Managing a bot workforce requires a simple scorecard for every bot tracking three things: output quality, cost per task, and processing speed. Looking at all three together stops you from celebrating a change that improves one metric by ruining another.\n\nFor an insurance claims triage bot, the scorecard might show 96 per cent routing accuracy, a cost of £0.02 per claim, and an average speed of four seconds.\n\nIf a prompt tweak pushes accuracy to 98 per cent but triples the cost and takes two minutes per claim, the trade-off is immediately obvious. Keep the metrics tied to completed tasks rather than raw token counts alone.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,25 +19,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Qc8OABEBVy7W_1",
+          "type": "multiple_choice",
+          "prompt": "Why should a bot's scorecard track quality, cost, and speed together?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because cloud providers require all three numbers before issuing a monthly invoice"
+            },
+            {
+              "id": "b",
+              "text": "To prove that the fastest bot is always the most accurate one in the team"
+            },
+            {
+              "id": "c",
+              "text": "So the consultant can ignore quality whenever token costs fall below one penny"
+            },
+            {
+              "id": "d",
+              "text": "So you can see the trade-offs when a change improves one metric at the expense of another"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Balancing quality, cost, and speed ensures that improvements in one area do not quietly break the economics or user experience.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_3KU9L8uu7fPV",
       "title": "Team-level goals and bot-level goals",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A bot system needs both a team-level goal that measures the overall business outcome and bot-level goals that measure each specialist's step. A bot can hit its narrow target and still hurt the team if the goals are poorly aligned.\n\nConsider a sales qualification team where the intake bot is judged solely on speed; it might rush half-empty records to the research bot, causing the whole team's conversion rate to fall.\n\nAlways anchor the team on the end-to-end result the client cares about, such as resolved tickets or verified invoices. Use individual bot metrics to diagnose bottlenecks, never as an excuse to ignore a failing overall process.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3KU9L8uu7fPV_1",
+          "type": "multiple_choice",
+          "prompt": "How can a bot meet its individual goal while still hurting the overall team's performance?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Optimising narrowly for one step, such as speed, can pass poor inputs that break downstream bots"
+            },
+            {
+              "id": "b",
+              "text": "Individual bots cannot be measured unless the rest of the team is turned off"
+            },
+            {
+              "id": "c",
+              "text": "Team-level goals only apply to human staff and never to automated workflows"
+            },
+            {
+              "id": "d",
+              "text": "A bot that hits its accuracy target automatically deletes the shared task board"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Every bot's local metric must support the end-to-end business outcome rather than shifting problems onto the next step in the chain.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__Xb4MCCOD36Q",
       "title": "Tracing which bot caused a failure",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a multi-bot workflow produces a bad final result, you need trace logs that link every step of that job under a single correlation ID. Tracing lets you inspect the exact input and output at each handoff to find where the mistake began.\n\nIf a customer receives a quote with the wrong delivery postcode, the trace shows whether the intake bot misread the email, the lookup bot fetched the wrong address, or the writer bot mistyped it.\n\nWithout step-by-step traces, consultants waste days tweaking the final bot in the chain when the real bug happened three steps earlier. Remember to protect sensitive personal data inside those trace logs.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,31 +106,115 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__Xb4MCCOD36Q_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a shared correlation ID across handoffs essential when debugging a bot team?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It stops any bot in the team from ever making a mistake in the first place"
+            },
+            {
+              "id": "b",
+              "text": "It combines all bots into a single prompt so there are no handoffs to check"
+            },
+            {
+              "id": "c",
+              "text": "It lets you trace a single job step by step to see which bot first introduced the error"
+            },
+            {
+              "id": "d",
+              "text": "It automatically refunds the client whenever an API call takes longer than five seconds"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "End-to-end tracing pinpoints whether an error started at intake, processing, or final drafting so you fix the right bot.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_IeH9TeXDmV4G",
       "title": "Regular review of sampled work",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Automated scores and reviewer bots never catch every subtle mistake, so a human must regularly inspect a small random sample of completed tasks. Sampling real production runs reveals gradual drift, changing customer habits, and awkward phrasing before they turn into a crisis.\n\nFor a recruitment client, spending thirty minutes every Friday reading twenty randomly chosen candidate summaries plus five escalated cases keeps quality grounded in reality.\n\nStratify your sample so you check both routine successes and borderline cases where the bot hesitated. When you find a recurring flaw during review, turn that example into a permanent test case for future evaluations.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IeH9TeXDmV4G_1",
+          "type": "multiple_choice",
+          "prompt": "Why must a human regularly review a sample of completed bot work even when automated checks pass?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Language models stop functioning after thirty days unless a human clicks their logs"
+            },
+            {
+              "id": "b",
+              "text": "Automated checks can miss subtle tone issues, shifting customer inputs, or shared blind spots"
+            },
+            {
+              "id": "c",
+              "text": "Sampling is the only way to calculate how many tokens the system used that week"
+            },
+            {
+              "id": "d",
+              "text": "Reviewing five tasks guarantees that the remaining ten thousand tasks had zero errors"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Human sampling catches real-world drift and blind spots that automated rules and reviewer bots overlook.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_a0RvGVSTOnUB",
       "title": "Compare against the human baseline",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "To judge whether a bot team is performing well, compare its quality, speed, and cost against the real baseline of how human staff performed the same job before. People are not hundred-per-cent accurate either, and comparing against an imaginary perfection sets an unfair trap.\n\nIf manual data entry clerks at a freight company previously had a four per cent error rate and took twenty minutes per manifest, a bot team at two per cent error in thirty seconds is a clear win.\n\nBe fair in the comparison, however. Human mistakes are often minor typos, whereas a bot mistake can occasionally be a bizarre fabrication, so weigh the severity of errors alongside their frequency.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_a0RvGVSTOnUB_1",
+          "type": "multiple_choice",
+          "prompt": "Why should a bot team be evaluated against the real human baseline rather than perfection?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Human processes also have errors and delays, though you must compare error severity as well as frequency"
+            },
+            {
+              "id": "b",
+              "text": "Because human staff get every single task wrong before automation is introduced"
+            },
+            {
+              "id": "c",
+              "text": "To justify deploying a broken bot team that makes worse mistakes than the client's staff"
+            },
+            {
+              "id": "d",
+              "text": "Because measuring baseline performance removes the need to test the bots before launch"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Comparing against real pre-automation performance gives an honest picture of gains, provided you also account for the different nature of bot errors.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,74 +5,242 @@
     {
       "id": "bit_LT6m1uxj_g9r",
       "title": "Items, bills of materials, suppliers, and stock levels",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Items, bills of materials, suppliers, and stock levels are the foundational master records that describe what a business makes, what parts it buys, who sells them, and how much sits on the shelf. Every planning calculation depends on these four records being accurate.\n\nThink of a professional kitchen that keeps a master ingredient list, recipe cards, approved food wholesalers, and a daily pantry count so the head chef knows exactly what can be cooked tonight.\n\nThe caveat is that messy master data cripples any AI assistant you build on top. Before connecting an agent, check whether your client has duplicate part numbers or outdated supplier records.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_LT6m1uxj_g9r_1",
+          "type": "multiple_choice",
+          "prompt": "Why are clean item, supplier, and stock records essential before adding AI to an operations system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Language models cannot read database tables unless part numbers are written in words"
+            },
+            {
+              "id": "b",
+              "text": "Every downstream planning calculation and agent action relies on those master records being accurate"
+            },
+            {
+              "id": "c",
+              "text": "Suppliers refuse to ship goods to companies that use automated inventory software"
+            },
+            {
+              "id": "d",
+              "text": "Clean master records remove the need to count physical stock in the warehouse"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Master records form the foundation of ERP and MRP systems, so duplicates or errors distort every plan and recommendation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_7kc5nbp5f_ks",
       "title": "Bill of materials: the parts list for a product, including sub-assemblies",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A bill of materials, or BOM, is the structured recipe that lists every raw material, component, sub-assembly, and quantity required to build one finished unit of a product. Multi-level bills of materials nest smaller assemblies inside larger ones.\n\nFor example, a bicycle manufacturer's BOM for a touring bike lists one frame assembly, two wheel assemblies, and one handlebar kit, where each wheel assembly has its own list of spokes, rims, and tyres.\n\nA common pitfall is when engineering updates a product design but forgets to update the BOM in the system. When that happens, purchasing buys the wrong parts no matter how clever your software is.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7kc5nbp5f_ks_1",
+          "type": "multiple_choice",
+          "prompt": "What does a multi-level bill of materials describe in a manufacturing business?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The marketing copy and product photographs used in the annual sales catalogue"
+            },
+            {
+              "id": "b",
+              "text": "The exact hierarchy of raw materials, components, and sub-assemblies needed to build one finished product"
+            },
+            {
+              "id": "c",
+              "text": "The list of customers who have overdue invoices from the previous quarter"
+            },
+            {
+              "id": "d",
+              "text": "The personal contact details and shift preferences of warehouse employees"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A bill of materials defines the exact parts and nested sub-assemblies required to produce a finished item.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_PYsP0WG2DIP6",
       "title": "Sales orders, work orders, and purchase orders",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sales orders, work orders, and purchase orders are the three core transaction documents that move goods through a business: customers place sales orders, the factory runs work orders to build items, and buyers send purchase orders to external suppliers.\n\nIt is like a bespoke tailor who writes down a customer's suit order, issues a cutting ticket to the workshop sewists, and sends a fabric order to the wool mill.\n\nKeep these three document types clearly separated when designing AI workflows. Confusing an internal work order with an external purchase order can cause an agent to email an internal production note to an outside vendor.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PYsP0WG2DIP6_1",
+          "type": "multiple_choice",
+          "prompt": "How do sales orders, work orders, and purchase orders differ in an ERP system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Sales orders record customer demand, work orders instruct internal production, and purchase orders buy from outside suppliers"
+            },
+            {
+              "id": "b",
+              "text": "All three documents are identical invoices sent to the tax authority at year end"
+            },
+            {
+              "id": "c",
+              "text": "Purchase orders are used inside the factory while work orders are sent to customers"
+            },
+            {
+              "id": "d",
+              "text": "Sales orders only track raw materials that have failed quality inspection"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Each order type governs a distinct stage: selling to customers, making goods internally, and buying inputs from suppliers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_jaMc2IWNkcae",
       "title": "Routings: the steps and work centres used to make a product",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A routing defines the step-by-step sequence of operations, machines, and work centres required to manufacture a product, along with the setup and run time expected at each stage. While the bill of materials says what goes into the product, the routing says how it is made.\n\nFor instance, making a metal bracket might route the steel sheet through laser cutting at Work Centre 1, bending at Work Centre 2, and powder coating at Work Centre 3.\n\nThe limit is that standard routing times on paper often drift from real shop-floor speeds. Consultants can add real value by analysing actual completion logs against routing estimates to spot hidden bottlenecks.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_jaMc2IWNkcae_1",
+          "type": "multiple_choice",
+          "prompt": "While a bill of materials lists the parts needed for a product, what does a routing specify?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The sequence of operations, work centres, and expected times required to manufacture the item"
+            },
+            {
+              "id": "b",
+              "text": "The delivery truck GPS route used by the courier after the item is sold"
+            },
+            {
+              "id": "c",
+              "text": "The bank account numbers used to pay international raw material brokers"
+            },
+            {
+              "id": "d",
+              "text": "The office seating chart for the company's human resources department"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Routings capture the manufacturing steps, work centres, and labour or machine hours needed to turn parts into finished goods.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_i-2E7uvrAvr9",
       "title": "Lead times: how long suppliers and production take",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Lead time is the total calendar time that passes from placing a purchase or work order until the items are received, inspected, and ready to use in stock. It dictates how far in advance a planner must act before stock runs out.\n\nIt is like ordering a custom wedding cake; if the bakery needs three weeks notice, ordering two days before the ceremony leaves you empty-handed regardless of your budget.\n\nNever assume supplier lead times are static constants. Shipping delays, seasonal peaks, and factory shutdowns make lead times vary, so static ERP fields often need periodic updating from actual delivery history.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_i-2E7uvrAvr9_1",
+          "type": "multiple_choice",
+          "prompt": "Why do inaccurate lead times in an ERP system cause serious inventory problems?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The system will trigger purchase and production orders either too late, causing stockouts, or far too early"
+            },
+            {
+              "id": "b",
+              "text": "Inaccurate lead times prevent the accounting software from adding sales tax to invoices"
+            },
+            {
+              "id": "c",
+              "text": "Suppliers automatically cancel contracts if a buyer's internal lead time field is wrong"
+            },
+            {
+              "id": "d",
+              "text": "Lead times only affect digital downloads that have no physical shipping steps"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Material planning relies on lead times to schedule orders at the right moment before stock is needed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_W5hnGRqHPEs9",
       "title": "Unit costs and how they roll up",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Unit cost roll-up is the calculation that adds the cost of raw materials, bought-in components, direct labour, and machine overhead through every level of the bill of materials to find the true cost of one finished product.\n\nThink of pricing a restaurant dish by summing the cost of beef, pastry, mushrooms, and prep kitchen labour to know whether selling the plate at £28 actually leaves a profit margin.\n\nThe caveat is that when raw material prices jump, top-level product margins quietly shrink unless costs are rolled up again. AI agents can help finance teams spot products whose rolled-up cost has crept too close to their selling price.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_W5hnGRqHPEs9_1",
+          "type": "multiple_choice",
+          "prompt": "What happens during a unit cost roll-up across a multi-level bill of materials?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Material, sub-assembly, labour, and overhead costs are summed up the hierarchy to calculate the finished item's cost"
+            },
+            {
+              "id": "b",
+              "text": "Every item in the warehouse is assigned the exact same average selling price"
+            },
+            {
+              "id": "c",
+              "text": "Supplier invoices are deleted once the goods pass incoming quality inspection"
+            },
+            {
+              "id": "d",
+              "text": "Customer shipping fees are subtracted from employee payroll taxes"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Rolling up costs aggregates every input and processing step so management knows the true cost of producing each unit.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

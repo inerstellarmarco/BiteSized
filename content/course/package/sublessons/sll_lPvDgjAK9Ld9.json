@@ -5,20 +5,48 @@
     {
       "id": "bit_nU3PpFK-sMKD",
       "title": "Before vs. after comparisons",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Whenever you compress a model through quantisation or replace a large teacher with a distilled student, you must run a structured before-and-after comparison. This means recording quality, latency, and cost metrics for the baseline model first, then measuring the compressed candidate under identical conditions.\n\nIt is like taking a patient's blood pressure both before and after prescribing a new medication to prove the treatment actually works.\n\nWithout a recorded baseline, teams often rely on casual spot-checks and miss gradual regressions that frustrate end users in production.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_nU3PpFK-sMKD_1",
+          "type": "multiple_choice",
+          "prompt": "What is the purpose of a structured before-and-after comparison when compressing or distilling a model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To increase the number of parameters in the original teacher model"
+            },
+            {
+              "id": "b",
+              "text": "To avoid having to collect any test prompts from the client's domain"
+            },
+            {
+              "id": "c",
+              "text": "To verify objectively how quality, latency, and cost changed relative to the original baseline"
+            },
+            {
+              "id": "d",
+              "text": "To ensure the new model uses the exact same file format as the old one"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A controlled comparison against a recorded baseline proves whether the compressed model meets business goals without hidden regressions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-r7igpLvImg2",
       "title": "Cost-quality tradeoffs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Model compression and distillation rarely give you something for nothing; instead, they trace a curve between inference cost and output quality. Cutting cost by eighty per cent might reduce task accuracy by only one per cent, or it might cause a steep drop depending on how hard the task is.\n\nIt is like choosing delivery shipping options where standard post is much cheaper and nearly as fast for routine letters, while urgent medical supplies still need a courier.\n\nA consultant's job is to map out several points along this tradeoff curve so the client can make an informed commercial decision.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,43 +59,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-r7igpLvImg2_1",
+          "type": "multiple_choice",
+          "prompt": "How should an AI consultant present the cost-quality tradeoff of model compression to a client?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By showing measured accuracy, latency, and unit cost across several candidate model sizes and precisions"
+            },
+            {
+              "id": "b",
+              "text": "By promising that the cheapest model will always achieve one hundred per cent accuracy"
+            },
+            {
+              "id": "c",
+              "text": "By recommending the largest possible frontier model regardless of the client's budget"
+            },
+            {
+              "id": "d",
+              "text": "By hiding accuracy metrics and only reporting the reduction in monthly server bills"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Plotting real performance and cost numbers across a few options lets stakeholders pick the right balance for their use case.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1O2ZVeWuQqoo",
       "title": "Use the same eval set before and after",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "For a comparison between a baseline model and a compressed model to be valid, both models must be tested on the exact same held-out evaluation dataset with the same scoring rules. Changing the test questions or grading criteria mid-experiment makes it impossible to tell whether the model or the test caused a score change.\n\nIt is like timing two sprinters on the exact same hundred-metre track rather than making one run uphill in the rain.\n\nYou must also keep this evaluation set strictly separate from any synthetic training or calibration data so the compressed model cannot cheat by memorising answers.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1O2ZVeWuQqoo_1",
+          "type": "multiple_choice",
+          "prompt": "Why must the evaluation dataset remain identical and separate from training data when comparing a baseline model and a distilled model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So any change in score reflects true model capability rather than a different test or memorised examples"
+            },
+            {
+              "id": "b",
+              "text": "Because evaluation scripts crash if they read the same JSON file more than once"
+            },
+            {
+              "id": "c",
+              "text": "So the teacher model can copy answers directly from the student during inference"
+            },
+            {
+              "id": "d",
+              "text": "Because smaller models can only read prompts that have fewer than ten words"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Using a fixed, uncontaminated test set ensures an honest apples-to-apples comparison between before and after.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_p44xDVoixIf3",
       "title": "Look at failures, not only averages",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An overall average score of ninety-two per cent can hide dangerous failure modes in the remaining eight per cent of cases. When benchmarking a quantised or distilled model, you must inspect the individual prompts where the compressed model failed while the baseline succeeded.\n\nIt is like a bridge inspection where an average safety score looks high, even though one critical support cable has rusted through completely.\n\nOften you will discover that the smaller model struggles with a specific pattern, such as negation or multi-currency tables, which you can then fix with targeted training data.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_p44xDVoixIf3_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you manually inspect individual failure cases rather than relying solely on average benchmark scores?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Inspecting failures automatically upgrades a 4-bit model back to 16-bit precision"
+            },
+            {
+              "id": "b",
+              "text": "Average scores are mathematically impossible to calculate for language models"
+            },
+            {
+              "id": "c",
+              "text": "Individual failures always prove that the evaluation dataset was corrupted"
+            },
+            {
+              "id": "d",
+              "text": "Averages can hide concentrated, high-risk failure patterns that affect specific types of user requests"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Reviewing actual errors reveals whether the compressed model fails gracefully or breaks down on critical business edge cases.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_jZtpma8hVhgh",
       "title": "Decide the minimum acceptable quality first",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before running compression experiments, agree with the client on the minimum acceptable quality threshold and the maximum latency or cost per request. Setting this bar upfront turns model selection into a clear engineering gate rather than an endless debate.\n\nIt is like agreeing on the safety load rating a warehouse floor must support before comparing quotes from different concrete suppliers.\n\nIf no compressed or distilled model meets that agreed threshold, you have clear evidence that the workflow still needs a larger model or a simpler task design.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_jZtpma8hVhgh_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it important to agree on a minimum acceptable quality threshold with the client before compressing a model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It allows the consultant to skip running any evaluation benchmarks afterward"
+            },
+            {
+              "id": "b",
+              "text": "It guarantees that a 4-bit model will run without needing a graphics card"
+            },
+            {
+              "id": "c",
+              "text": "It provides a clear pass-or-fail decision rule when trading off cost savings against small drops in accuracy"
+            },
+            {
+              "id": "d",
+              "text": "It prevents users from sending long prompts to the production API"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Defining the quality floor beforehand stops teams from shipping an overly degraded model just because it looks cheap.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

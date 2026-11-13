@@ -5,32 +5,88 @@
     {
       "id": "bit__1ZLMvnBcwlI",
       "title": "Reading papers and model release notes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Reading technical papers and official model release notes is how a professional AI consultant gets primary facts instead of relying on distorted social media threads. Model system cards and release notes tell you the exact context window, knowledge cutoff, pricing, tool-calling changes, safety evaluations, and known failure modes directly from the lab that built the model.\n\nIt is like a pharmacist reading the official clinical trial summary and prescribing sheet for a new medicine rather than trusting a thirty-second television advert.\n\nWhen skimming a paper or system card, focus first on the evaluation methodology, the baseline comparisons, and the limitations section to see where the technique actually breaks down.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__1ZLMvnBcwlI_1",
+          "type": "multiple_choice",
+          "prompt": "Where should an AI consultant look first inside a new model's official release notes or system card?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The graphic design credits and font choices on the cover page"
+            },
+            {
+              "id": "b",
+              "text": "The evaluation methodology, baseline comparisons, pricing/latency specs, and documented limitations or failure modes"
+            },
+            {
+              "id": "c",
+              "text": "Anonymous comments posted by social media influencers before trying the model"
+            },
+            {
+              "id": "d",
+              "text": "Only the single highest benchmark number highlighted in the marketing headline"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Primary technical documentation and limitation sections reveal how the model was actually tested, what changed from prior versions, and where it still struggles in real workflows.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_eoMzYRU5gEBQ",
       "title": "Building a personal research workflow",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Building a personal research workflow keeps you informed about real AI advances without drowning in daily noise or burning out. Instead of doom-scrolling news feeds all day, curate a small list of high-signal primary sources such as official lab blogs, key framework changelogs, and one or two trusted technical digests, and block a dedicated sixty-minute slot each week to test one new capability hands-on.\n\nIt is like a chef visiting the wholesale market once a week to taste seasonal ingredients in person rather than reading restaurant gossip columns every ten minutes while trying to cook service.\n\nHands-on experiments with your own small benchmark tasks teach you more in an hour than reading fifty opinion posts.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_eoMzYRU5gEBQ_1",
+          "type": "multiple_choice",
+          "prompt": "What is the most effective habit for an AI consultant to stay current without getting overwhelmed by daily announcements?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Read every single AI post on social media twenty-four hours a day and rewrite client code daily"
+            },
+            {
+              "id": "b",
+              "text": "Ignore all new model releases for five years at a time to avoid distraction"
+            },
+            {
+              "id": "c",
+              "text": "Follow a small set of primary technical sources and dedicate a regular weekly slot to hands-on testing with your own practical evaluation tasks"
+            },
+            {
+              "id": "d",
+              "text": "Adopt every new open-source library in client production systems the morning it is announced"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Combining curated primary sources with scheduled hands-on testing against your own benchmark tasks separates genuinely useful capabilities from daily noise.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ms5apvCuKz2S",
       "title": "Re-testing your system when a new model arrives",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Whenever a model provider releases a new frontier or fast model, or deprecates an older snapshot, you should run your project's automated evaluation and security regression suite against the new candidate before switching production traffic. A newer model frequently lets you simplify complex multi-step chains, drop brittle prompt workarounds, or cut token costs in half, but it can also change formatting habits or verbosity in ways that break downstream parsers.\n\nThink of a racing team bolting a newer engine onto their car: they always run telemetry laps on the test track first to tune the gearbox before entering Sunday's race.\n\nWith a good eval suite already in place, testing a brand-new model takes an afternoon rather than a month of guesswork.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,19 +99,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ms5apvCuKz2S_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you run your automated evaluation suite whenever a new model version is released, even if the new model tops public leaderboards?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because public leaderboards are written in encrypted code that nobody can read"
+            },
+            {
+              "id": "b",
+              "text": "Because new models always perform worse than three-year-old models on every task"
+            },
+            {
+              "id": "c",
+              "text": "Because cloud providers delete your database if you do not run an eval within one hour of a release"
+            },
+            {
+              "id": "d",
+              "text": "To verify that the new model improves cost, latency, or quality on your specific client tasks without breaking custom formatting, tool calls, or safety guardrails"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Even when a new model is stronger overall, subtle shifts in instruction following, verbosity, or tool-call formatting can either unlock simpler architectures or break assumptions in your existing pipeline.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_toDei1VmbHSf",
       "title": "Telling real progress from hype",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Telling real progress from hype is one of the highest-value skills an AI consultant brings to executive clients who are bombarded by vendor sales pitches every day. When evaluating a flashy demo or product claim, always ask to see performance on messy out-of-distribution data, end-to-end latency and cost per successful task, failure handling when tools error out, and independent benchmarks rather than cherry-picked examples.\n\nAnyone can record a slick two-minute video of an agent booking a flight on the tenth try after hiding the nine failed takes that booked the wrong airport.\n\nReal engineering progress shows up as higher reliability on your client's own evaluation dataset at a lower total cost of ownership.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_toDei1VmbHSf_1",
+          "type": "multiple_choice",
+          "prompt": "What is the best way to tell whether a vendor's flashy AI agent demo represents real production readiness or marketing hype?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Count how many views and likes the demo video received on social media"
+            },
+            {
+              "id": "b",
+              "text": "Check whether the vendor's website uses futuristic animations and buzzwords"
+            },
+            {
+              "id": "c",
+              "text": "Ask the salesperson whether their product is powered by artificial general intelligence"
+            },
+            {
+              "id": "d",
+              "text": "Test the system on your client's own messy edge-case data while measuring end-to-end success rate, failure recovery, latency, and cost per completed task"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Flashy demos often rely on cherry-picked inputs and hidden retries; testing against your own representative dataset and measuring reliability, latency, and cost exposes how the system actually performs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

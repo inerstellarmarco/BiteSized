@@ -5,74 +5,242 @@
     {
       "id": "bit_30gmxDfSRndy",
       "title": "Genetics- and omics-driven target discovery",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Target discovery is the process of finding a biological molecule, such as a protein or gene, whose modulation could treat a specific disease. Machine learning models analyse large genomic, transcriptomic, and proteomic datasets to spot patterns linking molecular changes to patient outcomes.\n\nIt is like a detective scanning thousands of phone records and financial logs to identify the key conspirator behind a crime before making an arrest.\n\nHowever, statistical association in omics data is not proof of causation. As an AI consultant, advise pharmaceutical clients that computational hits may simply reflect downstream effects of the disease rather than its root driver.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_30gmxDfSRndy_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary role of machine learning in omics-driven target discovery?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Replacing all wet-lab and clinical trials with purely computational simulations"
+            },
+            {
+              "id": "b",
+              "text": "Guaranteeing that every differentially expressed gene causes the disease"
+            },
+            {
+              "id": "c",
+              "text": "Identifying molecular patterns and associations that point to potential disease drivers"
+            },
+            {
+              "id": "d",
+              "text": "Manufacturing synthetic proteins directly inside patient cells"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Machine learning scans complex biological datasets to find candidate targets associated with disease, though lab work is still needed to prove causation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__oOVucZq6ZLj",
       "title": "Target validation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Target validation is the experimental phase that tests whether altering a candidate biological target actually produces the desired therapeutic effect safely. It moves beyond statistical correlation to establish a causal link between the target and disease progression.\n\nThink of a pharmaceutical programme investigating a new oncology target. Before spending £20 million on chemistry, the team uses gene editing and cell assays to confirm that blocking the protein truly stops tumour growth.\n\nComputational predictions alone cannot validate a target. Biological networks often have backup pathways that compensate when one protein is blocked, so physical experiments remain essential.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__oOVucZq6ZLj_1",
+          "type": "multiple_choice",
+          "prompt": "Why is target validation necessary after computational target discovery?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To compress the genomic sequencing files stored in the hospital database"
+            },
+            {
+              "id": "b",
+              "text": "To prove experimentally that modulating the candidate target causally alters the disease"
+            },
+            {
+              "id": "c",
+              "text": "To train a larger language model on unlabelled public abstracts"
+            },
+            {
+              "id": "d",
+              "text": "To bypass regulatory review by showing strong statistical correlations"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Target discovery finds correlations, whereas target validation uses biological experiments to confirm that changing the target actually affects the disease.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_DQVYxuWiwPo9",
       "title": "Human genetics evidence raises the odds that a target works",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Human genetics evidence uses naturally occurring DNA variations in human populations to link specific genes to disease risk or protection. When people born with a mutation in a particular gene are naturally protected from an illness, a drug mimicking that effect has a much higher chance of succeeding.\n\nIt acts like a lifelong clinical trial run by nature, showing in advance what happens when a biological pathway is dialled up or down in real people.\n\nEven so, genetic support does not guarantee clinical success. A gene that shapes biology from birth may not respond the same way when targeted by a medicine later in adulthood.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DQVYxuWiwPo9_1",
+          "type": "multiple_choice",
+          "prompt": "Why do drug discovery teams prize human genetic evidence when choosing a target?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Genetic data automatically generates the chemical formula for a safe pill"
+            },
+            {
+              "id": "b",
+              "text": "Targets with human genetic links do not require clinical safety trials"
+            },
+            {
+              "id": "c",
+              "text": "Human DNA sequences are completely identical across every patient population"
+            },
+            {
+              "id": "d",
+              "text": "Natural human variants demonstrate the real-world effect of altering that gene in people"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Naturally occurring genetic variations act as an experiment in humans, significantly increasing the likelihood that targeting that pathway will work clinically.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_LUK8wW6tF-HB",
       "title": "Multi-omics and literature evidence combined",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Combining multi-omics and literature evidence means integrating genomics, transcriptomics, and proteomics with structured knowledge mined from scientific papers and clinical reports. AI systems build knowledge graphs that connect experimental measurements to decades of published biological findings.\n\nFor a biotech client prioritising targets for liver fibrosis, an AI pipeline might merge single-cell RNA data with relationships extracted from millions of journal articles to rank the strongest candidates.\n\nThe caveat is that published literature carries heavy publication bias and occasional errors. Models trained on papers tend to over-recommend well-studied proteins whilst overlooking genuinely novel biology.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_LUK8wW6tF-HB_1",
+          "type": "multiple_choice",
+          "prompt": "What is a key limitation of combining literature mining with multi-omics data for target ranking?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Scientific papers cannot be read by natural language processing systems"
+            },
+            {
+              "id": "b",
+              "text": "Multi-omics measurements only work on bacterial cells rather than human tissue"
+            },
+            {
+              "id": "c",
+              "text": "Published literature is biased toward already famous genes and contains historical errors"
+            },
+            {
+              "id": "d",
+              "text": "Knowledge graphs erase all quantitative expression values from the database"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Literature-based models inherit the biases and errors of published research, often favouring heavily studied targets over novel ones.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-slM81ulka-5",
       "title": "Validation: cells, models, and eventually patients",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Target validation progresses through a hierarchy of biological systems, starting in cultured cells, moving to organoids or animal models, and finally reaching human patients. Each stage tests whether the therapeutic hypothesis holds up as biological complexity increases.\n\nIt is like testing a new aircraft design first in a computer wind tunnel, then with a remote-controlled scale model, and finally in a piloted test flight.\n\nEvery laboratory model is an imperfect proxy for human biology. Mice and cell lines often fail to replicate human immune responses or organ interactions, meaning true validation only finishes in clinical trials.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-slM81ulka-5_1",
+          "type": "multiple_choice",
+          "prompt": "Why must target validation progress from cell cultures to animal models and finally to human patients?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Cell cultures are much more expensive to maintain than human phase three trials"
+            },
+            {
+              "id": "b",
+              "text": "Regulatory agencies forbid testing compounds on cells before dosing patients"
+            },
+            {
+              "id": "c",
+              "text": "Simple lab models cannot fully capture the complex interactions of an intact human body"
+            },
+            {
+              "id": "d",
+              "text": "Animal models have identical metabolism and immune systems to human beings"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Each step adds biological realism, because cells in a dish and animal models only partially reflect how a human patient will respond.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wFNSCDfRiiRG",
       "title": "Many targets fail in the clinic, even after good preclinical data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Clinical attrition is the high rate at which candidate drugs fail during human trials despite promising results in laboratory cells and animals. A drug may engage its target as planned yet fail to improve patient symptoms or cause unexpected toxic side effects.\n\nConsider a neurology programme where an AI-selected target clears plaques in mouse brains cleanly, but the resulting £100 million human trial shows no cognitive benefit for patients.\n\nConsultants must remind stakeholders that AI can accelerate early discovery, but it cannot repeal human biology. Preclinical models simplify complex diseases, leaving substantial uncertainty until human dosing begins.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wFNSCDfRiiRG_1",
+          "type": "multiple_choice",
+          "prompt": "Why do many drug targets fail in human clinical trials even after strong preclinical results?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Clinical trial doctors intentionally alter the chemical structure of the drug"
+            },
+            {
+              "id": "b",
+              "text": "Preclinical laboratory models simplify human biology and can miss efficacy gaps or toxicities"
+            },
+            {
+              "id": "c",
+              "text": "Machine learning models stop working once a molecule enters a hospital"
+            },
+            {
+              "id": "d",
+              "text": "Preclinical assays only measure marketing potential rather than biological activity"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Laboratory and animal models are incomplete representations of human disease, so efficacy failures and unexpected toxicities frequently appear only in human trials.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

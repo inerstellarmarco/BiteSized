@@ -5,8 +5,8 @@
     {
       "id": "bit_uZv1NWT8lWYR",
       "title": "Token economics and pricing models",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Language model APIs are billed primarily per million tokens, split into two rates: **input tokens** (everything you send in the prompt: system instructions, conversation history, retrieved documents and tool definitions) and **output tokens** (everything the model writes back, including hidden reasoning tokens). Check the current details on each provider's pricing page.\n\nOutput tokens typically cost three to five times more per token than input tokens because generating tokens one by one on GPUs is much more compute-intensive than reading the prompt in parallel. Cached input tokens, on the other hand, are heavily discounted.\n\nIt is a printing press where setting up the page plate (input) is cheap, and each page printed on heavy paper (output) costs more.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,55 +19,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_uZv1NWT8lWYR_1",
+          "type": "multiple_choice",
+          "prompt": "Why do providers charge several times more per million output tokens than input tokens, and what counts as output?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Input tokens are always more expensive than output tokens"
+            },
+            {
+              "id": "b",
+              "text": "Hidden thinking tokens are never billed by any provider"
+            },
+            {
+              "id": "c",
+              "text": "Generating tokens one at a time takes much more GPU work than reading input in parallel, and both visible replies and hidden thinking tokens count as output"
+            },
+            {
+              "id": "d",
+              "text": "Tool definitions sent in the prompt are billed as output tokens"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Understanding the price gap between cached input, regular input and output (including thinking tokens) is the foundation of AI cost control.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ZNeoNm8QjiTO",
       "title": "Unit economics per user and per task",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A total monthly API bill of £1,200 means nothing on its own. Is that brilliant or terrible? You only know when you translate it into **unit economics**: the cost per completed business task and the cost per active user.\n\nIf your subscription product charges a user £20 a month and your agent costs £0.40 per task across 100 tasks a month (£40 per user), you lose £20 on every new customer you sign. If an internal invoice-processing agent costs £0.03 per invoice and saves four minutes of a £24/hour clerk's time (£1.60 of labour), the unit economics are overwhelmingly positive.\n\nIt is a café owner calculating the cost of beans, milk and cup per latte sold before setting the menu price.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ZNeoNm8QjiTO_1",
+          "type": "multiple_choice",
+          "prompt": "Why must an AI consultant calculate cost per completed task and cost per active user rather than looking only at total monthly API spend?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Total monthly spend always stays flat when user numbers multiply by ten"
+            },
+            {
+              "id": "b",
+              "text": "Providers only bill once every five years"
+            },
+            {
+              "id": "c",
+              "text": "Cost per task is impossible to measure from token logs"
+            },
+            {
+              "id": "d",
+              "text": "Unit economics show whether each task or user is profitable against the price charged or the time saved, and how costs will scale with growth"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Knowing the cost per task and per user tells you immediately whether your pricing model and margins work as adoption grows.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_CjQjSQZJnOu7",
       "title": "Agents multiply cost: many calls per task",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a simple single-turn Q&A tool, one user question equals one API call. In an autonomous agent, one user question can trigger ten loop steps, three sub-agent delegations, two retries and a final verifier check.\n\nCrucially, on every turn of an agent loop, the **entire conversation history and all tool outputs so far** are re-sent as input tokens. Step 1 sends 2,000 tokens; Step 2 sends 4,000; Step 10 sends 25,000. A ten-step run does not cost ten times a one-step run; because the context grows on every turn, it can easily cost thirty or forty times as much.\n\nIt is a snowball rolling downhill, getting heavier on every turn of the loop.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_CjQjSQZJnOu7_1",
+          "type": "multiple_choice",
+          "prompt": "Why can a ten-step agent loop cost thirty times more than a single call rather than just ten times more?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Each step in the loop re-sends the growing history of previous messages and tool outputs as input tokens on every call"
+            },
+            {
+              "id": "b",
+              "text": "Providers multiply the price per token by ten after step five"
+            },
+            {
+              "id": "c",
+              "text": "Tool calls are billed in gold bullion"
+            },
+            {
+              "id": "d",
+              "text": "The first step of an agent loop is always free"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because context accumulates across turns, multi-step agents have quadratic input-token growth unless context is trimmed or cached.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_pyZcPLBWZEz4",
       "title": "Where the money goes: finding the expensive steps",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a client asks you to cut their AI bill in half, do not guess. Break token spend down by **workflow step, tool and prompt section**.\n\nYou will almost always find a 80/20 pattern: one or two steps account for the bulk of the bill. Common culprits are twenty tool schemas sent on every turn when only two are needed, a retrieval step stuffing ten full-page documents into context when top-three snippets would do, a reasoning model with a huge thinking budget running on a trivial router step, or an uncapped retry loop on broken inputs.\n\nIt is reading an itemised electricity monitor room by room and discovering an old immersion heater in the loft is using 70% of the power.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_pyZcPLBWZEz4_1",
+          "type": "multiple_choice",
+          "prompt": "What is the right first step when optimising the cost of an existing AI workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Rewrite the entire application in assembly language before looking at any logs"
+            },
+            {
+              "id": "b",
+              "text": "Measure token spend per workflow step and prompt section so you target the one or two steps where most of the money actually goes"
+            },
+            {
+              "id": "c",
+              "text": "Delete half of the user's question at random"
+            },
+            {
+              "id": "d",
+              "text": "Switch every single step to the weakest model without testing"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Itemised telemetry per step reveals the exact bloated prompt, tool output or oversized model call driving the bill.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_h3hEPJCwT-8B",
       "title": "Cost against the value of the task done",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Cost optimisation is not a race to spend zero pence; it is matching the spend on each task to the business value and risk of that task.\n\nSpending £0.80 of frontier reasoning tokens to review a £250,000 commercial lease and catch a dangerous liability clause is an extraordinary bargain. Spending £0.80 to classify whether a newsletter signup email came from a personal or work address is absurd when a £0.0002 call or a two-line regex does the job.\n\nIt is sending a courier van for a signed property deed, and a second-class stamp for a postcard.\n\nTier your architecture so high-value decisions get frontier intelligence and routine plumbing costs fractions of a penny.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_h3hEPJCwT-8B_1",
+          "type": "multiple_choice",
+          "prompt": "How should you judge whether £0.50 per run is too expensive for an AI workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Any run over £0.01 is always too expensive regardless of the task"
+            },
+            {
+              "id": "b",
+              "text": "More expensive runs are always better even on trivial tasks"
+            },
+            {
+              "id": "c",
+              "text": "Compare the £0.50 cost against the business value of the task and whether a cheaper model or code step passes the same evaluation suite"
+            },
+            {
+              "id": "d",
+              "text": "Never compare AI cost to the human time or business risk involved"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The right spend is the lowest-cost setup that passes your quality and safety evals for the value of the job being done.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

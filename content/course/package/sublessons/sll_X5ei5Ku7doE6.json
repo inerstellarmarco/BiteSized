@@ -5,86 +5,282 @@
     {
       "id": "bit_kL_yKQF4YwBd",
       "title": "FASTA and FASTQ (quality scores)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "FASTA and FASTQ are the standard text-based file formats used across bioinformatics to represent nucleotide or protein sequences, with FASTQ adding per-base sequencing confidence scores. A FASTA record has a header line starting with `>` followed by sequence letters, whereas a FASTQ record uses four lines per read to pair every base with an ASCII-encoded quality character; check the current details for platform-specific header conventions.\n\nIt is like comparing a clean transcript of a courtroom witness statement against an annotated version where the stenographer marks a confidence rating underneath every single letter typed.\n\nBecause uncompressed FASTQ files consume massive storage, pipelines almost always store and stream them compressed as `.fastq.gz`.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kL_yKQF4YwBd_1",
+          "type": "multiple_choice",
+          "prompt": "How does a FASTQ file differ from a FASTA file?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "FASTA stores aligned binary reads, whereas FASTQ stores only three-dimensional protein structures"
+            },
+            {
+              "id": "b",
+              "text": "FASTQ files can only hold amino acid sequences and cannot represent DNA or RNA"
+            },
+            {
+              "id": "c",
+              "text": "FASTQ uses four lines per read to store both the nucleotide sequence and an ASCII-encoded quality score for every base, whereas FASTA stores only the header and sequence"
+            },
+            {
+              "id": "d",
+              "text": "FASTA files include chromosome mapping coordinates and variant call filters for every base"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "While FASTA contains only sequence identifiers and letter strings, FASTQ adds per-base Phred quality scores in a four-line-per-read structure.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__fEca8GhjNAV",
       "title": "SAM, BAM, CRAM",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "SAM, BAM, and CRAM are the three standard file formats maintained by the Global Alliance for Genomics and Health (GA4GH) for storing sequencing reads aligned to a reference genome. SAM is human-readable plain text, BAM is its lossless block-compressed binary equivalent, and CRAM achieves even tighter compression by storing only differences relative to a reference genome; check the current details on GA4GH specification updates.\n\nIt is like storing accounting ledgers as uncompressed CSV text (SAM), a zipped binary database (BAM), or a delta file that only records changes against a standard template (CRAM).\n\nA crucial operational caveat with CRAM is that losing the exact reference FASTA file used during compression makes the aligned reads unreadable.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__fEca8GhjNAV_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main risk of archiving sequencing alignments in CRAM format without also archiving or indexing the exact reference genome file used?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "CRAM files automatically delete themselves after thirty days on cloud object storage"
+            },
+            {
+              "id": "b",
+              "text": "CRAM compresses reads by storing differences against the reference genome, so without the exact matching reference FASTA the sequences cannot be reconstructed"
+            },
+            {
+              "id": "c",
+              "text": "CRAM files cannot store mapping quality scores or strand orientation"
+            },
+            {
+              "id": "d",
+              "text": "Standard bioinformatics tools like samtools cannot read binary formats of any kind"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Because CRAM uses reference-based delta compression, decoding the reads requires access to the exact same reference sequence used when the CRAM file was created.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_glGS_WB7pNj5",
       "title": "FASTA holds sequences; FASTQ adds a quality score for each base",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every sequencing workflow relies on the distinction between static reference sequences stored in FASTA format and raw instrument output stored in FASTQ format. Reference genomes, transcriptomes, and protein databases use FASTA because their consensus sequences are already established, whereas raw reads coming off a sequencer use FASTQ so downstream tools can weigh base-call uncertainty.\n\nIt is like keeping the master dictionary of a language in clean print while grading student dictation exercises with per-letter legibility marks.\n\nWhen scoping storage budgets for an AI genomics client, remember that raw FASTQ files are typically the largest intermediate artefacts before alignment and compression.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_glGS_WB7pNj5_1",
+          "type": "multiple_choice",
+          "prompt": "Why do sequencing instruments output raw reads in FASTQ format rather than FASTA format?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "FASTA files are limited by operating systems to a maximum of one hundred sequences per file"
+            },
+            {
+              "id": "b",
+              "text": "Sequencers cannot output the letters A, C, G, and T into a FASTA file"
+            },
+            {
+              "id": "c",
+              "text": "Downstream aligners and variant callers need the per-base quality scores in FASTQ to distinguish true genetic variants from low-confidence sequencing errors"
+            },
+            {
+              "id": "d",
+              "text": "FASTQ files automatically align reads to the human genome without needing an aligner"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Retaining per-base quality scores in FASTQ allows alignment and variant-calling algorithms to down-weight uncertain base calls that might otherwise look like mutations.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qrSEjm0Ocuu6",
       "title": "Phred scores: a higher score means more confidence in the base",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A Phred quality score ($Q$) is a logarithmic measure of base-call accuracy defined as $Q = -10 \\log_{10}(P)$, where $P$ is the estimated probability that the base call is wrong. Every ten-point increase reduces the error probability tenfold: Q10 means a 1 in 10 chance of error (90% accuracy), Q20 means 1 in 100 (99% accuracy), and Q30 means 1 in 1,000 (99.9% accuracy).\n\nIt is like a manufacturing defect rating where each step up the scale means ten times fewer faulty components per batch.\n\nOne caveat for AI engineers is that raw instrument Phred scores are often slightly miscalibrated until base quality score recalibration adjusts for systematic machine cycle biases.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qrSEjm0Ocuu6_1",
+          "type": "multiple_choice",
+          "prompt": "If a nucleotide base in a FASTQ file has a Phred quality score of Q30, what is its estimated probability of being an incorrect base call?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "30 in 100 (70.0% accuracy)"
+            },
+            {
+              "id": "b",
+              "text": "1 in 1,000 (99.9% accuracy)"
+            },
+            {
+              "id": "c",
+              "text": "1 in 30 (96.7% accuracy)"
+            },
+            {
+              "id": "d",
+              "text": "1 in 1,000,000 (99.9999% accuracy)"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Because $Q = -10 \\log_{10}(P)$, a score of Q30 corresponds to an error probability of $10^{-3}$, or 1 in 1,000 (99.9% accuracy).",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_S3y7M2pgmmgl",
       "title": "BAM is the compressed binary form of SAM; CRAM compresses further",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Converting human-readable SAM text into binary BAM or reference-compressed CRAM drastically reduces storage footprints and speeds up computer parsing across large patient cohorts. While a whole-genome SAM file can easily exceed several hundred gigabytes, its BAM equivalent shrinks to roughly a quarter of that size, and CRAM shrinks it even further for long-term cloud archival.\n\nIt is like converting raw verbose XML logs into indexed Parquet files for daily analytics and then into deduplicated cold archives for regulatory retention.\n\nFor cloud consulting engagements on biobank-scale cohorts, switching thousands of whole genomes from BAM to CRAM can save tens of thousands of pounds (`£`) per year in storage costs.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_S3y7M2pgmmgl_1",
+          "type": "multiple_choice",
+          "prompt": "Why do bioinformatics pipelines convert SAM output directly into BAM or CRAM rather than saving SAM files to disk?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "SAM is an uncompressed text format that consumes massive disk space and is slower for software tools to parse and index than binary BAM or CRAM"
+            },
+            {
+              "id": "b",
+              "text": "SAM files cannot represent reads from paired-end sequencing experiments"
+            },
+            {
+              "id": "c",
+              "text": "Converting to BAM automatically removes all sequencing errors and mutations from the reads"
+            },
+            {
+              "id": "d",
+              "text": "Operating systems block files larger than two gigabytes unless they use the `.bam` extension"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Binary BAM and CRAM files store the exact same alignment information as SAM in a fraction of the disk space while supporting fast random access via indexing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_edf_eRuXQK4P",
       "title": "Alignment records: position, strand, and mapping quality",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Each alignment record in a SAM, BAM, or CRAM file captures where a sequencing read maps on the reference genome, including the chromosome name, start coordinate, strand orientation, CIGAR alignment string, and mapping quality (MAPQ). The CIGAR string compactly describes matches, insertions, deletions, and soft-clipped ends, while the bitwise FLAG integer encodes whether the read is paired, reverse-complemented, or a duplicate.\n\nIt is like a courier delivery receipt that logs not only the street address, but also which side of the road the parcel was left on, whether the box was dented, and how confident the driver is that they found the right building.\n\nNever confuse base quality with mapping quality: a read can have pristine Q40 bases yet a MAPQ of zero if its sequence matches multiple repetitive regions equally well.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_edf_eRuXQK4P_1",
+          "type": "multiple_choice",
+          "prompt": "How can a sequencing read have very high per-base Phred quality scores but a mapping quality (MAPQ) of zero?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The aligner crashed halfway through writing the BAM file and zeroed out the quality column"
+            },
+            {
+              "id": "b",
+              "text": "The read was sequenced accurately, but its sequence matches an identical repetitive region in multiple places on the reference genome so its true origin is ambiguous"
+            },
+            {
+              "id": "c",
+              "text": "A mapping quality of zero indicates the highest possible confidence that a read mapped uniquely"
+            },
+            {
+              "id": "d",
+              "text": "High Phred scores always force the aligner to discard mapping coordinates"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Base quality reflects confidence in the nucleotide letters read by the instrument, whereas mapping quality reflects confidence that the read came from one unique genomic location.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_jIDPsFl6IIYt",
       "title": "Sorted and indexed BAMs are needed for most tools",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before variant callers, genome browsers, or coverage calculators can efficiently inspect an aligned BAM file, the reads must be sorted by genomic coordinate and accompanied by an index file (`.bai` or `.csi`). Without coordinate sorting and an index, a program asking for reads overlapping a single gene would have to scan sequentially through hundreds of millions of reads from the start of the file.\n\nIt is like alphabetising a multi-volume encyclopaedia and printing a back-of-book index so a reader can jump straight to a topic instead of reading every page from volume one.\n\nIn automated pipelines, forgetting to re-index a BAM file after filtering or modifying it causes downstream tools to fail or silently read stale file offsets.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_jIDPsFl6IIYt_1",
+          "type": "multiple_choice",
+          "prompt": "Why do most downstream bioinformatics tools require BAM files to be sorted by coordinate and accompanied by a `.bai` index file?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Coordinate sorting and indexing allow tools to jump directly to specific genomic regions without scanning the entire multi-gigabyte file from beginning to end"
+            },
+            {
+              "id": "b",
+              "text": "Unsorted BAM files are encrypted and require the `.bai` file as a decryption password"
+            },
+            {
+              "id": "c",
+              "text": "Sorting a BAM file automatically calls somatic variants and writes a VCF table"
+            },
+            {
+              "id": "d",
+              "text": "Genome browsers only display reads that are sorted alphabetically by their nucleotide sequence"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Sorting by chromosomal position and creating a `.bai` index enables fast random access to any genomic interval in large alignment files.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

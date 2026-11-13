@@ -5,74 +5,242 @@
     {
       "id": "bit_WDh2oTrh6KSq",
       "title": "Virtual screening and docking",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Virtual screening uses computers to search vast libraries of millions or billions of chemical structures to find compounds likely to bind a biological target. Molecular docking is a structure-based method within virtual screening that fits each small molecule into the target protein's three-dimensional binding pocket and estimates interaction strength.\n\nIt is like a digital locksmith testing millions of virtual keys in a 3D model of a lock before cutting any physical metal keys.\n\nHowever, proteins are flexible and constantly moving in water, whereas standard docking treats them as mostly rigid shapes. This simplification causes both false positives and missed hits.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WDh2oTrh6KSq_1",
+          "type": "multiple_choice",
+          "prompt": "How does structure-based molecular docking assist in hit discovery?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It physically synthesises millions of chemicals in robotic glassware overnight"
+            },
+            {
+              "id": "b",
+              "text": "It proves with certainty that a compound will be safe in human clinical trials"
+            },
+            {
+              "id": "c",
+              "text": "It computationally fits virtual compounds into a protein pocket to prioritise candidates for lab testing"
+            },
+            {
+              "id": "d",
+              "text": "It sequences the genome of patients who fail to respond to standard therapy"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Docking estimates how well candidate molecules fit and interact with a target binding site, helping teams select a manageable subset for wet-lab testing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_HwhQMD4LlRK_",
       "title": "Property prediction (ADMET)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Property prediction uses machine learning models to estimate a molecule's physical, chemical, and biological behaviour from its chemical structure before anyone synthesises it in the lab. In drug discovery, these models focus heavily on ADMET properties, which govern how a compound moves through and affects the body.\n\nFor a medicinal chemistry team, running an ADMET predictor is like checking a lorry's weight and height against bridge limits on a map before setting off on a delivery route.\n\nThese predictions are only statistical estimates with confidence intervals. When a client designs compounds outside the chemical families used to train the model, prediction accuracy drops sharply.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_HwhQMD4LlRK__1",
+          "type": "multiple_choice",
+          "prompt": "Why do discovery teams run machine learning property predictors early in hit-to-lead work?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To replace mandatory human toxicology studies required by medicines regulators"
+            },
+            {
+              "id": "b",
+              "text": "To determine the retail price a health service will pay for the finished tablet"
+            },
+            {
+              "id": "c",
+              "text": "To flag compounds with poor drug-like behaviour before spending money synthesising them"
+            },
+            {
+              "id": "d",
+              "text": "To increase the molecular weight of every candidate compound in the library"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Early property prediction filters out molecules likely to fail due to poor absorption, rapid breakdown, or toxicity before costly synthesis and testing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_aigdUzpwH7aT",
       "title": "Docking scores are rough filters, not proof of binding",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A docking score is a fast mathematical approximation of the interaction energy between a small molecule and a protein binding site. It is designed to rank millions of compounds quickly rather than calculate true physical binding affinity.\n\nIt works like a quick automated CV screen in recruitment: it helps weed out clearly unsuitable applicants, but it cannot tell you who will actually perform best on the job.\n\nBecause docking simplifies water molecules, protein motion, and entropy, top-scoring virtual hits frequently show zero activity in the lab. Consultants should position docking as an enrichment filter, never as proof of binding.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_aigdUzpwH7aT_1",
+          "type": "multiple_choice",
+          "prompt": "How should a drug discovery team interpret high scores from a molecular docking run?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "As an exact measurement of clinical efficacy in human patients"
+            },
+            {
+              "id": "b",
+              "text": "As definitive confirmation that the molecule is patentable and non-toxic"
+            },
+            {
+              "id": "c",
+              "text": "As a rough ranking filter to enrich candidate lists rather than proof of real binding"
+            },
+            {
+              "id": "d",
+              "text": "As proof that wet-lab biochemical binding assays are no longer needed"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Docking scores rely on rough physical approximations to run quickly, so they only enrich candidate sets and must be verified experimentally.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6J0iyCDDvN8b",
       "title": "ADMET: absorption, distribution, metabolism, excretion, and toxicity",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "ADMET stands for absorption, distribution, metabolism, excretion, and toxicity, the five criteria that determine whether a potent molecule can actually function as a safe medicine in the body. A compound must get into the bloodstream, reach the right tissue, survive long enough to act, exit safely, and avoid harming healthy organs.\n\nIt is like hiring a specialist repair engineer: they are useless if they cannot get through security, find the broken machine, finish the job before their shift ends, and leave without damaging the building.\n\nOptimising ADMET is difficult because improving one property, such as solubility, often worsens another, such as membrane permeability.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6J0iyCDDvN8b_1",
+          "type": "multiple_choice",
+          "prompt": "What does the ADMET profile of a drug candidate describe?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "How the body absorbs, distributes, breaks down, and removes the compound, plus its toxic risks"
+            },
+            {
+              "id": "b",
+              "text": "The five stages of venture capital financing required to launch a biotech startup"
+            },
+            {
+              "id": "c",
+              "text": "The sequence of amino acids that fold a target receptor inside the cell membrane"
+            },
+            {
+              "id": "d",
+              "text": "The software architecture used to store hospital electronic health records"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "ADMET covers absorption, distribution, metabolism, excretion, and toxicity, which together dictate whether a biologically active compound can work safely in a patient.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Jqg7iBjYkbmJ",
       "title": "Models predict from known chemistry; novel chemistry is riskier",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Quantitative structure-activity and property models learn statistical patterns from historical assays performed on previously synthesised molecules. They perform reliably when evaluating new compounds that resemble their training data, a concept known as staying within the model's domain of applicability.\n\nIt is like a house price estimator trained solely on flats in Manchester; ask it to value a remote Scottish castle, and its valuation will be wildly unreliable.\n\nIn drug discovery, teams specifically seek novel chemical structures to secure patents and hit difficult targets. As candidates move further into unexplored chemical space, model uncertainty rises and experimental surprises multiply.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Jqg7iBjYkbmJ_1",
+          "type": "multiple_choice",
+          "prompt": "What happens when a property prediction model evaluates a molecule far outside its training chemistry?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model automatically conducts a wet-lab experiment to gather new training data"
+            },
+            {
+              "id": "b",
+              "text": "Accuracy improves because novel molecules follow simpler physical rules"
+            },
+            {
+              "id": "c",
+              "text": "Prediction error rises sharply because the compound lies outside the model's domain of applicability"
+            },
+            {
+              "id": "d",
+              "text": "The software converts the unfamiliar chemical into a well-known generic drug"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Machine learning models interpolate within familiar chemical space, so predictions on structurally novel compounds carry high uncertainty and require careful lab verification.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_SvYia-9YkklC",
       "title": "Confirm the top picks in lab assays",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Wet-lab assay confirmation is the step where computational hits are physically acquired or synthesised and tested in biochemical or cellular experiments. These assays measure real binding affinity, functional activity, and early safety signals using physical instruments.\n\nThink of an AI screening project that narrows ten million virtual compounds down to two hundred candidates; a laboratory scientist then tests those two hundred on assay plates to find the ten that genuinely work.\n\nFeeding both the successes and the failures from those lab plates back into the model is what makes the next cycle smarter. Without experimental confirmation, computational pipelines simply accumulate unverified guesses.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_SvYia-9YkklC_1",
+          "type": "multiple_choice",
+          "prompt": "Why is testing top computational picks in wet-lab assays essential to an AI discovery workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It satisfies a legal requirement to spend at least half the budget on glassware"
+            },
+            {
+              "id": "b",
+              "text": "It verifies which virtual hits truly work and generates real data to retrain the models"
+            },
+            {
+              "id": "c",
+              "text": "It alters the fundamental laws of thermodynamics to match the computer docking score"
+            },
+            {
+              "id": "d",
+              "text": "It guarantees that every tested molecule will pass phase three clinical trials"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Physical assays separate real active compounds from computational false positives and provide ground-truth results to improve subsequent modelling rounds.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

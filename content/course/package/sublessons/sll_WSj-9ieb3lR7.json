@@ -5,8 +5,8 @@
     {
       "id": "bit_Bsq2tO50myJk",
       "title": "Tokenizer training (BPE, SentencePiece)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before a language model ever sees text, a tokeniser breaks raw strings into discrete subword units mapped to integer IDs, typically trained using algorithms like Byte-Pair Encoding (BPE) or Google's SentencePiece library; check the current details for the tokeniser vocabulary size of your chosen foundation model. Subword tokenisation strikes a balance between character-level models (which make sequences far too long) and word-level models (which fail on rare words, typos, or compound terms).\n\nIt is like packing a modular toolkit: common everyday tools stay as single one-piece items, while rare custom gadgets are assembled from standard nuts, bolts, and brackets that never go out of stock.\n\nA poorly matched tokeniser hurts client workloads directly: if a tokeniser splits a non-English language or domain code into tiny single-byte fragments, every prompt consumes two to three times as many tokens, inflating cost and shrinking effective context length.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Bsq2tO50myJk_1",
+          "type": "multiple_choice",
+          "prompt": "Why do modern large language models use subword tokenisers instead of pure word-level vocabularies?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Subwords keep common words as single tokens while composing rare or unseen words from smaller pieces without out-of-vocabulary failures"
+            },
+            {
+              "id": "b",
+              "text": "Subword tokenisers eliminate the need for an embedding table at the input of the transformer"
+            },
+            {
+              "id": "c",
+              "text": "Word-level vocabularies cannot represent spaces or punctuation marks in English text"
+            },
+            {
+              "id": "d",
+              "text": "Subword tokenisation guarantees that every language on Earth uses the exact same number of tokens per sentence"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Subword algorithms like BPE handle open vocabularies gracefully by keeping frequent words whole and breaking unfamiliar words into reusable morphemes or byte fallback units.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ngg8zANl67i0",
       "title": "Next-token prediction with cross-entropy loss",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Autoregressive language model pretraining uses a remarkably simple self-supervised objective: given a sequence of tokens $t_1, t_2, \\dots, t_k$, predict the probability distribution over the entire vocabulary for the very next token $t_{k+1}$, and score the prediction against the true next token using cross-entropy loss. At the output of the final transformer layer, a linear head projects each token's hidden state to a vector of logits matching the vocabulary size (often 32,000 to 256,000 entries).\n\nThink of an experienced touch-typist transcribing a dictation who anticipates the next word from the grammar, subject matter, and tone of the preceding paragraph.\n\nTo predict the next token accurately across trillions of examples of code, science, dialogue, and reasoning, the network is forced to compress syntax, world knowledge, and logical rules into its weights.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,67 +66,235 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ngg8zANl67i0_1",
+          "type": "multiple_choice",
+          "prompt": "In next-token pretraining, what is the shape of the probability distribution produced at each token position before calculating cross-entropy loss?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A vector with one probability for every token in the model's entire vocabulary"
+            },
+            {
+              "id": "b",
+              "text": "A single scalar value between zero and one indicating whether the sentence is grammatical"
+            },
+            {
+              "id": "c",
+              "text": "A square matrix matching the number of attention heads in the first layer"
+            },
+            {
+              "id": "d",
+              "text": "A three-element vector representing positive, neutral, and negative sentiment"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "At every position, the language modelling head projects the hidden vector across the full vocabulary size and applies softmax so cross-entropy can score the probability assigned to the actual next token.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_K8aXNEkiEyZn",
       "title": "Scaling laws and training data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Empirical scaling laws show that a language model's cross-entropy validation loss decreases as a smooth power-law function of three variables: model parameter count, dataset size in tokens, and total training compute budget, spanning more than seven orders of magnitude. Because this relationship forms a straight line on a log-log plot, engineering teams can run small, cheap pilot experiments and accurately extrapolate what loss a massive flagship training run will achieve before spending millions of pounds.\n\nIt is like wind-tunnel testing scale models of an aircraft wing to predict fuel burn on a full-size jet before bolting the real airframe together.\n\nHowever, smooth improvements in overall cross-entropy loss do not always translate linearly to every downstream business task; some multi-step skills appear to jump sharply only once the underlying loss crosses a critical threshold.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_K8aXNEkiEyZn_1",
+          "type": "multiple_choice",
+          "prompt": "What practical advantage do empirical scaling laws give AI labs before launching a massive pretraining run?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They allow teams to predict the final validation loss of a large run by extrapolating from much smaller, cheaper training experiments"
+            },
+            {
+              "id": "b",
+              "text": "They guarantee that a model trained on ten megabytes of text will match a trillion-token model"
+            },
+            {
+              "id": "c",
+              "text": "They remove the need to clean or deduplicate the pretraining corpus"
+            },
+            {
+              "id": "d",
+              "text": "They allow engineers to calculate the exact weights of the final model without running gradient descent"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Power-law scaling curves make pretraining predictable, letting researchers optimise architecture and hyperparameter choices at small scale before committing huge compute budgets.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Oj9WYbFv5YEl",
       "title": "Byte-pair encoding: merge frequent pairs into tokens",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Byte-Pair Encoding (BPE) builds a subword vocabulary from the bottom up: it starts with a base vocabulary of individual characters or raw UTF-8 bytes, counts every adjacent pair of symbols across a training corpus, and merges the single most frequent pair into a brand-new symbol. It repeats this count-and-merge loop tens of thousands of times until the vocabulary reaches the target size, recording the exact ordered list of merge rules.\n\nImagine noticing that you type the letters \"t\" and \"h\" together constantly, creating a single \"th\" key, then noticing \"th\" and \"e\" appear together most often and creating a single \"the\" key.\n\nIn byte-level BPE (used by most modern LLMs), starting from the 256 raw bytes means the tokeniser can encode any Unicode string, emoji, or symbol without ever emitting an unknown `<unk>` token.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Oj9WYbFv5YEl_1",
+          "type": "multiple_choice",
+          "prompt": "How does the Byte-Pair Encoding (BPE) algorithm build its vocabulary during tokeniser training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It starts with basic characters or bytes and iteratively merges the most frequent adjacent pair of tokens until reaching the target vocabulary size"
+            },
+            {
+              "id": "b",
+              "text": "It takes an Oxford dictionary and deletes the shortest five thousand words at random"
+            },
+            {
+              "id": "c",
+              "text": "It trains a deep convolutional neural network on images of printed text pages"
+            },
+            {
+              "id": "d",
+              "text": "It splits every English word into exact three-letter chunks regardless of frequency"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "BPE is a greedy bottom-up compression algorithm that repeatedly combines the most common co-occurring token pair into a single new vocabulary entry.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BMpfNhZglucW",
       "title": "Data quality, deduplication, and filtering",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Raw web crawls are mostly rubbish: boilerplate navigation menus, spam farms, SEO keyword stuffing, machine-generated gibberish, and thousands of verbatim copies of the same terms-of-service notices. Modern pretraining pipelines dedicate enormous engineering effort to heuristic filtering, MinHash fuzzy deduplication, classifier-based quality scoring, and synthetic rewriting before a single token reaches the GPU.\n\nIt is like refining crude oil or panning for gold: tipping raw river mud straight into a precision engine ruins the machinery, whereas filtering out the grit produces clean fuel.\n\nDeduplication is especially critical because repeated passages cause a model to memorise text verbatim, waste compute budget, and regurgitate copyrighted or private snippets at inference time. Moreover, teams must scrub evaluation benchmark questions from the training corpus to prevent data contamination from inflating test scores.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BMpfNhZglucW_1",
+          "type": "multiple_choice",
+          "prompt": "Why is deduplicating the training corpus a critical step in LLM pretraining?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It increases the total number of tokens in the dataset by a factor of ten"
+            },
+            {
+              "id": "b",
+              "text": "It allows the model to train without an attention mask or positional encodings"
+            },
+            {
+              "id": "c",
+              "text": "It prevents the model from wasting capacity memorising repeated passages and reduces verbatim regurgitation at inference time"
+            },
+            {
+              "id": "d",
+              "text": "It converts all non-English documents into ASCII numeric codes automatically"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Removing near-duplicate documents stops the optimiser from overfitting to repeated boilerplate and makes every training step count towards generalisable learning.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qJ5XCANNLCOr",
       "title": "Scaling laws: loss falls predictably with compute, data, and model size",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Power-law scaling curves reveal a crucial constraint: to keep validation loss falling along its ideal trajectory, you must scale model size and training data together rather than scaling only one while starving the other. If you make a model ten times larger but keep the dataset tiny, you quickly hit diminishing returns as the massive network becomes data-bottlenecked; conversely, training a tiny model on trillions of tokens eventually plateaus as the small network runs out of capacity.\n\nThink of expanding a factory: buying ten times as many machines achieves nothing if you do not also order ten times as much raw material to feed them.\n\nAs high-quality public human text on the web becomes fully utilised, labs increasingly supplement pretraining mixes with carefully verified synthetic text, code, and mathematical reasoning traces to sustain data scaling.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qJ5XCANNLCOr_1",
+          "type": "multiple_choice",
+          "prompt": "What happens according to scaling laws if you dramatically increase model parameter count while keeping the number of training tokens very small?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The validation loss drops to exact zero within the first hundred steps"
+            },
+            {
+              "id": "b",
+              "text": "The inference cost per token decreases proportionally to the parameter increase"
+            },
+            {
+              "id": "c",
+              "text": "The model automatically invents new vocabulary tokens without needing a tokeniser"
+            },
+            {
+              "id": "d",
+              "text": "Improvements quickly hit diminishing returns because the model becomes bottlenecked by insufficient training data"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Scaling laws show that parameter count and token count must grow in tandem; scaling one while holding the other fixed leads to severe sub-optimality.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_eeJ3ZfELcR4L",
       "title": "Compute-optimal training balances model size and data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In 2022, DeepMind's Chinchilla paper showed that compute-optimal pretraining scales model parameters and training tokens in roughly equal proportions (around 20 tokens per parameter). However, modern production models (such as Llama 3; check the current details for recent token-to-parameter ratios) intentionally train smaller models on far more tokens than the Chinchilla ratio, often 100 to 200+ tokens per parameter.\n\nIt is like spending extra money in the factory to build a compact, fuel-efficient van because it will drive millions of miles for customers.\n\nChinchilla optimises only training cost, whereas in production deployments a smaller 8B model trained on 15 trillion tokens is vastly cheaper and faster to serve than a 70B model.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_eeJ3ZfELcR4L_1",
+          "type": "multiple_choice",
+          "prompt": "Why do modern model builders often train smaller models on many more tokens than the strict Chinchilla compute-optimal training ratio suggests?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because a smaller, heavily trained model is much cheaper and faster to run at inference time across millions of user requests"
+            },
+            {
+              "id": "b",
+              "text": "Because GPU hardware cannot train models with more than ten billion parameters"
+            },
+            {
+              "id": "c",
+              "text": "Because training on more tokens shrinks the vocabulary size of the tokeniser"
+            },
+            {
+              "id": "d",
+              "text": "Because Chinchilla scaling laws only apply to convolutional image classifiers"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Optimising purely for training FLOPs ignores serving costs; spending extra pretraining compute to pack capability into fewer parameters pays back many times over during production inference.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

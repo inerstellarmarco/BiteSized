@@ -5,8 +5,8 @@
     {
       "id": "bit_vTYx2F4g0DwE",
       "title": "Computer-vision defect detection",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Computer-vision defect detection uses high-speed cameras and trained image models on the production line to spot scratches, cracks, missing components, or bad welds in milliseconds.\n\nIt is like an inspector with a magnifying glass who never blinks, never gets tired at three o'clock in the morning, and checks every single circuit board at full conveyor speed.\n\nVision systems excel at consistent, high-speed surface checks, though human quality engineers are still needed to investigate root causes and judge unusual borderline defects.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,67 +19,235 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vTYx2F4g0DwE_1",
+          "type": "multiple_choice",
+          "prompt": "Why are computer-vision systems particularly effective for inline factory quality control?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They can see inside solid lead blocks without using X-rays or sensors"
+            },
+            {
+              "id": "b",
+              "text": "They physically repair cracked metal castings using camera flashes"
+            },
+            {
+              "id": "c",
+              "text": "They require zero camera calibration or lighting setup"
+            },
+            {
+              "id": "d",
+              "text": "They inspect every item consistently at full line speed without suffering from human visual fatigue"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Automated vision provides tireless, consistent inspection across every unit rather than relying on tired human eyes or slow manual sampling.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_X3Wbq2081f4N",
       "title": "Digital twins",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A digital twin is a live virtual replica of a physical machine, production line, or warehouse that updates continuously from real-world sensor data so teams can monitor performance and simulate changes safely.\n\nIt is like a flight simulator hooked up to the live weather and fuel gauges of an aircraft in the sky, letting engineers test \"what if\" adjustments before touching the real controls.\n\nWarn clients not to buy a flashy 3D graphics model just for boardroom tours; a useful digital twin only needs enough fidelity to answer specific operational scheduling or bottleneck questions accurately.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_X3Wbq2081f4N_1",
+          "type": "multiple_choice",
+          "prompt": "What makes a digital twin genuinely useful to an operations director rather than just an expensive 3D animation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Having photorealistic grass and clouds rendered outside the virtual factory building"
+            },
+            {
+              "id": "b",
+              "text": "Disconnecting it completely from real machine speeds and inventory levels"
+            },
+            {
+              "id": "c",
+              "text": "Requiring virtual reality headsets to view basic daily output numbers"
+            },
+            {
+              "id": "d",
+              "text": "Live connection to real operational data and the ability to test process or schedule changes safely before altering the physical plant"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A digital twin earns its keep by mirroring real plant state and letting engineers stress-test layout or schedule changes without halting production.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_DJrOmR__IJ8K",
       "title": "Cameras plus models to spot defects",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An industrial vision cell combines two equally important halves: the optical hardware (cameras, lenses, and triggers) that captures a crisp image, and the vision model that classifies or segments defects.\n\nIt is like medical diagnosis: even the smartest radiologist cannot spot a hairline fracture if the X-ray machine is out of focus or the patient moved during the scan.\n\nFor standard parts on a fixed conveyor, compact specialised vision models running on local edge hardware at the line are usually faster, cheaper, and more reliable than calling a giant cloud model.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DJrOmR__IJ8K_1",
+          "type": "multiple_choice",
+          "prompt": "Why do factories usually run compact computer-vision models on local edge hardware beside the conveyor line?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Cloud data centres refuse to process black-and-white photographs"
+            },
+            {
+              "id": "b",
+              "text": "Running models locally uses ten times more internet bandwidth than streaming uncompressed video"
+            },
+            {
+              "id": "c",
+              "text": "Factory cameras only work when unplugged from electrical power"
+            },
+            {
+              "id": "d",
+              "text": "Local edge inference delivers millisecond response times to trigger reject gates without depending on internet latency"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "High-speed production lines need instant, deterministic decisions to divert faulty parts even if the outside internet connection drops.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_A4frP9bVsSkJ",
       "title": "Labelled defect images are the hard part",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The biggest bottleneck in building a factory vision model is rarely the algorithm; it is collecting and accurately labelling enough real examples of rare defects on a line that mostly makes good parts.\n\nIt is like teaching a trainee security guard to spot a forged fifty-pound note when ninety-nine thousand nine hundred and ninety-nine notes passing through the till are genuine.\n\nConsultants often solve this cold-start problem by combining anomaly detection trained on abundant \"good\" parts with carefully staged defect samples and expert quality engineer reviews.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_A4frP9bVsSkJ_1",
+          "type": "multiple_choice",
+          "prompt": "Why is training data collection often tricky when setting up a defect detection model on a well-run production line?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Real defects are rare by definition, making it hard to gather hundreds of labelled examples of every possible fault type upfront"
+            },
+            {
+              "id": "b",
+              "text": "Factory cameras can only take one photograph per week"
+            },
+            {
+              "id": "c",
+              "text": "Good, non-defective parts are impossible to photograph on a moving conveyor"
+            },
+            {
+              "id": "d",
+              "text": "Quality engineers are legally barred from looking at photographs of faulty goods"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because well-run lines produce very few faults, teams often start with anomaly detection on normal parts or stage deliberate defect samples.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-Ld5vtJQx5nQ",
       "title": "Lighting and setup affect accuracy",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In industrial computer vision, consistent physical lighting, camera mounting, and background contrast often make a bigger difference to accuracy than switching to a newer neural network architecture.\n\nImagine trying to spot a tiny scratch on a shiny chrome tap while sunlight glares through a skylight at noon and shadows fall across the bench at dusk.\n\nAdding a simple protective shroud with diffused LED ring lighting around the inspection point frequently eliminates glare and jumps model accuracy from eighty per cent to ninety-nine per cent overnight.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-Ld5vtJQx5nQ_1",
+          "type": "multiple_choice",
+          "prompt": "What should an AI consultant check first if a factory vision model's accuracy suddenly drops every afternoon at three o'clock?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whether the neural network forgot how to multiply matrices during lunch"
+            },
+            {
+              "id": "b",
+              "text": "Whether competitors hacked into the mathematical weights of the model"
+            },
+            {
+              "id": "c",
+              "text": "Physical changes on the line, such as sunlight glare through a window, vibration, or a smudged camera lens"
+            },
+            {
+              "id": "d",
+              "text": "Whether the product catalogue changed its font size on the company website"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Physical environment shifts like glare, dust, oil mist, or knocked camera brackets are the most common culprits when industrial vision accuracy degrades.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_36JU5ReD0kJ3",
       "title": "Track defect rates over time",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Spotting and kicking a faulty item off the conveyor is only half the job; logging defect types and timestamps over time lets engineers trace which upstream machine or material batch caused the fault.\n\nIt is like a dentist not only filling a cavity today, but noticing that all cavities are appearing on the same side of the mouth because of a cracked nightguard.\n\nWhen defect counts are linked to batch numbers, mould cavities, and shift temperatures, quality control transforms from an end-of-line bin into a continuous process improvement loop.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_36JU5ReD0kJ3_1",
+          "type": "multiple_choice",
+          "prompt": "How does logging vision defect classifications alongside timestamps and batch numbers create extra value for a factory?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It allows the factory to ship defective items to customers as long as they were counted"
+            },
+            {
+              "id": "b",
+              "text": "It helps engineers trace spikes in specific faults back to the exact upstream machine setting, tool wear, or raw material batch"
+            },
+            {
+              "id": "c",
+              "text": "It replaces the need to ever clean or maintain production machinery"
+            },
+            {
+              "id": "d",
+              "text": "It slows the conveyor belt down to one item per hour"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Connecting defect trends to upstream machine and batch records lets the team fix the root cause and prevent future scrap.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

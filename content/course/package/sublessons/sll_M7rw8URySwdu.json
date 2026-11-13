@@ -5,8 +5,8 @@
     {
       "id": "bit_4dL_hIEPVE1d",
       "title": "Neurons, weights, activation functions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An artificial neuron computes a weighted sum of its numerical inputs, adds a learnable bias term, and passes the result through a non-linear activation function to produce its output signal. Stacking layers of these neurons forms a multi-layer perceptron (MLP).\n\nIt is like a hiring committee member who scores a candidate by weighting experience, test results, and references, then applies a personal threshold before voting yes or no.\n\nWithout non-linear activation functions between layers, even a hundred-layer network collapses mathematically into a single flat linear regression.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,55 +19,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4dL_hIEPVE1d_1",
+          "type": "multiple_choice",
+          "prompt": "Why must a multi-layer neural network include non-linear activation functions between its weight layers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Activation functions delete half of the input columns from the database to save disk space"
+            },
+            {
+              "id": "b",
+              "text": "Weights cannot be stored as floating-point numbers unless an activation function is applied first"
+            },
+            {
+              "id": "c",
+              "text": "Without non-linear activations, a stack of linear matrix multiplications collapses into a single linear transformation"
+            },
+            {
+              "id": "d",
+              "text": "Activation functions guarantee that the training loss reaches zero on the very first batch"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Multiplying linear matrices together only ever produces another linear matrix, so non-linear functions are required to learn curved decision boundaries.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Qbiaz1dnK1-f",
       "title": "Forward pass and loss functions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The forward pass feeds input data through the network layer by layer to produce a prediction, and the loss function compares that prediction against the ground-truth target to output a single scalar score measuring how wrong the model currently is.\n\nIt is like an archer shooting an arrow toward a target (the forward pass) and a coach measuring the exact distance in centimetres from the bullseye (the loss function).\n\nA model only optimises the exact mathematical loss function you give it, so choosing a loss that ignores real client priorities will steer the weights toward the wrong business behaviour.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Qbiaz1dnK1-f_1",
+          "type": "multiple_choice",
+          "prompt": "What is the role of the loss function at the end of a neural network's forward pass?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It quantifies the discrepancy between the network's prediction and the true target as a single scalar value to be minimised"
+            },
+            {
+              "id": "b",
+              "text": "It randomly shuffles the order of the layers before the next batch arrives"
+            },
+            {
+              "id": "c",
+              "text": "It converts raw text files into SQL database tables during inference"
+            },
+            {
+              "id": "d",
+              "text": "It freezes all weights permanently so the model cannot be updated"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The loss function provides the differentiable error signal that backpropagation and the optimiser use to improve the weights.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5jDEeZ83JWk-",
       "title": "ReLU, GELU, sigmoid, and tanh: what each is used for",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Rectified Linear Unit (ReLU) outputs zero for negative inputs and passes positive values unchanged; Gaussian Error Linear Unit (GELU) is a smooth curve used inside modern transformers; sigmoid squashes values into zero to one for binary probabilities; and hyperbolic tangent (tanh) squashes values into minus one to plus one.\n\nIt is like choosing different dimmer switches for a building: a crisp on-ramp for fast interior corridors (ReLU or GELU) and a bounded zero-to-hundred dial for the final probability meter (sigmoid).\n\nAvoid putting sigmoid or tanh throughout deep hidden layers, because their flat tails saturate and starve early layers of gradients.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5jDEeZ83JWk-_1",
+          "type": "multiple_choice",
+          "prompt": "Where are ReLU or GELU typically used in a modern neural network compared with the sigmoid function?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "ReLU and GELU are used in hidden layers to keep gradients flowing, whereas sigmoid is used on binary classification outputs or gates"
+            },
+            {
+              "id": "b",
+              "text": "Sigmoid is used in every hidden layer of a transformer, whereas GELU is only used for linear regression"
+            },
+            {
+              "id": "c",
+              "text": "ReLU is only used on the final output of multi-class problems, whereas tanh outputs probabilities between 0 and 1"
+            },
+            {
+              "id": "d",
+              "text": "All four functions produce identical outputs for negative numbers"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Unbounded positive slopes in ReLU and GELU prevent saturation in deep hidden layers, while sigmoid maps scores into valid binary probabilities at the output.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_POKOoUX2uEKN",
       "title": "Matching output layer and loss: softmax with cross-entropy, linear with squared error",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The final layer of a neural network must match the prediction task and loss function: multi-class classification pairs a softmax output with cross-entropy loss, binary classification pairs a single sigmoid output with binary cross-entropy, and continuous regression pairs a raw linear output with mean squared or absolute error.\n\nIt is like fitting the right nozzle to a factory hose: a mist sprayer for coating categories evenly versus a straight open pipe for measuring continuous water flow.\n\nIn practice, code frameworks combine the final softmax or sigmoid step inside the cross-entropy loss function for numerical stability, so passing already-squashed probabilities twice is a classic bug.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_POKOoUX2uEKN_1",
+          "type": "multiple_choice",
+          "prompt": "Which output activation and loss function pair is standard for predicting a continuous numeric value such as house price in pounds?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A softmax output layer paired with categorical cross-entropy loss"
+            },
+            {
+              "id": "b",
+              "text": "A ReLU output layer paired with binary cross-entropy loss on negative labels"
+            },
+            {
+              "id": "c",
+              "text": "A tanh output layer that clips all house prices between -1 and +1 pounds"
+            },
+            {
+              "id": "d",
+              "text": "A linear output layer (no squashing activation) paired with mean squared error or mean absolute error"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Continuous regression requires an unconstrained linear output so predictions can take any real scale, scored by a distance loss like squared or absolute error.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1KKlQr-c2upO",
       "title": "Weight initialization and why it matters",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Weight initialisation sets the starting random numbers for every layer's weight matrix before training begins, using variance-scaling rules (such as He initialisation for ReLU or Xavier initialisation for tanh and sigmoid) so signals neither vanish nor explode as they pass through the network.\n\nIt is like setting the initial microphone gain across twenty connected soundboards in a concert hall so the first test note neither fades into silence nor blows out the speakers.\n\nNever initialise all weights in a layer to the exact same number (such as zero), because every neuron in that layer will compute the exact same update forever and fail to learn distinct features.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1KKlQr-c2upO_1",
+          "type": "multiple_choice",
+          "prompt": "What happens if you initialise every weight in a hidden layer to exact zero?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The network converges to the global minimum in a single step without needing backpropagation"
+            },
+            {
+              "id": "b",
+              "text": "Every neuron in the layer receives the exact same gradient and updates identically, failing to break symmetry"
+            },
+            {
+              "id": "c",
+              "text": "The forward pass immediately raises a division-by-zero exception on the input data"
+            },
+            {
+              "id": "d",
+              "text": "Each neuron automatically learns a different orthogonal eigenvector"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Identical starting weights cause all hidden units in a layer to compute identical activations and gradients, acting as if the layer had only one neuron.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

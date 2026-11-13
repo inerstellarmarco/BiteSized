@@ -5,74 +5,242 @@
     {
       "id": "bit_6-M4LE7J3SpL",
       "title": "Clustering and cell-type annotation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In single-cell RNA-seq (scRNA-seq), clustering groups thousands of individual cells with similar gene expression profiles into communities in reduced dimensional space, and cell-type annotation assigns biological identities (such as CD8+ T cells, macrophages, or alveolar epithelial cells) to those clusters. Frameworks like `Seurat` (in R) and `Scanpy` (in Python) use shared nearest-neighbour graphs and the Leiden or Louvain community-detection algorithms; check the current details in the scverse and Seurat documentation.\n\nIt is like grouping millions of anonymised supermarket loyalty cards by shopping basket similarity and then labelling the resulting clusters as \"student households\", \"vegan cooks\", or \"new parents\" based on their signature purchases.\n\nChanging the clustering resolution parameter splits or merges clusters arbitrarily, so clusters are computational groupings rather than absolute biological truths until validated by markers.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6-M4LE7J3SpL_1",
+          "type": "multiple_choice",
+          "prompt": "In single-cell RNA-seq analysis, what is the relationship between unsupervised clustering and cell-type annotation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Clustering sequences the DNA in the wet lab, while annotation trims Illumina adapters from FASTQ files"
+            },
+            {
+              "id": "b",
+              "text": "Unsupervised clustering groups cells mathematically by transcriptomic similarity, and cell-type annotation then assigns biological identities to those groups using marker genes or reference atlases"
+            },
+            {
+              "id": "c",
+              "text": "Cell-type annotation must be completed before raw sequencing reads are aligned to the genome"
+            },
+            {
+              "id": "d",
+              "text": "Clustering always produces the exact same number of cell types regardless of the resolution parameter"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Graph-based clustering partitions cells into groups based on expression similarity, after which domain knowledge and reference markers are used to label what biological cell types or states those clusters represent.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_PPObvIlmtlgE",
       "title": "Trajectory analysis",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Trajectory analysis (or pseudotime inference) orders single cells along a continuous path or branching tree to model dynamic biological processes such as stem-cell differentiation, immune activation, or disease progression from a static snapshot of cells captured at different stages. Tools like `Monocle3`, `Slingshot`, and `scVelo` / `CellRank` infer progression paths through high-dimensional gene expression space; check the current details on RNA velocity limitations and multi-omic lineage tracing methods.\n\nIt is like photographing ten thousand marathon runners across a city at a single instant in time and reconstructing the race route by ordering runners from fresh starters to exhausted finishers based on their sweat levels and stride wear.\n\nDo not apply trajectory tools blindly to unrelated, terminally differentiated cell types (like forcing a line between mature neurons and mature B cells) where no biological transition actually occurs.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PPObvIlmtlgE_1",
+          "type": "multiple_choice",
+          "prompt": "What does \"pseudotime\" represent in a single-cell trajectory analysis?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The exact number of minutes the tissue biopsy spent inside the sequencing instrument"
+            },
+            {
+              "id": "b",
+              "text": "The wall-clock runtime required by the HPC cluster to align the FASTQ files"
+            },
+            {
+              "id": "c",
+              "text": "A latent quantitative measure of how far an individual cell has progressed along a continuous biological process (such as differentiation), inferred from transcriptomic similarity rather than wall-clock time"
+            },
+            {
+              "id": "d",
+              "text": "The physical distance in micrometres between two cells on a microscope slide"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Pseudotime orders cells along a continuous biological transition based on gradual changes in their gene expression profiles rather than chronological clock time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_biv-0NoqZY5g",
       "title": "Typical steps: filter cells, normalize, reduce dimensions, cluster",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A standard single-cell RNA-seq workflow proceeds through a well-defined sequence of steps: filtering out low-quality barcodes (empty droplets, dying cells with high mitochondrial reads), normalising counts per cell and log-transforming, selecting highly variable genes, reducing dimensionality with Principal Component Analysis (PCA) followed by UMAP or t-SNE for 2D visualisation, and finally graph-based clustering.\n\nIt is like processing a massive customer survey by first discarding blank or corrupted forms, standardising currency scales, distilling hundreds of questions into key lifestyle axes, and plotting customer segments on a summary map.\n\nNever run clustering directly on 2D UMAP or t-SNE coordinates, and never over-interpret long-range distances between islands on a UMAP plot, as nonlinear embeddings distort global geometry.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_biv-0NoqZY5g_1",
+          "type": "multiple_choice",
+          "prompt": "Why do single-cell pipelines flag and filter out cell barcodes that exhibit a very high percentage of mitochondrial RNA reads paired with low total gene counts?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Healthy dividing stem cells transcribe 95% of their RNA exclusively from mitochondrial DNA"
+            },
+            {
+              "id": "b",
+              "text": "High mitochondrial percentages indicate that the sample was sequenced on a long-read Nanopore device"
+            },
+            {
+              "id": "c",
+              "text": "When a cell membrane ruptures or undergoes apoptosis during tissue dissociation, cytoplasmic mRNA leaks out while mitochondrial transcripts stay trapped inside intact mitochondria"
+            },
+            {
+              "id": "d",
+              "text": "Mitochondrial genes have no exons and cause UMAP visualisations to crash"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Damaged or dying cells lose cytoplasmic messenger RNA through compromised outer membranes while retaining membrane-bound mitochondria, inflating the relative fraction of mitochondrial reads.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_8CAGLZN0l8vY",
       "title": "Doublets and ambient RNA as artefacts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Single-cell droplet assays suffer from two major technical artefacts that can masquerade as novel hybrid cell types: doublets (when two or more cells get encapsulated inside the same oil droplet and share a single cell barcode) and ambient RNA (\"soup\" of cell-free RNA released by lysed cells during dissociation that gets captured in every droplet). Computational tools like `Scrublet` or `DoubletFinder` score synthetic doublets, while `CellBender` or `SoupX` estimate and subtract background ambient RNA; check the current details for benchmarked doublet and ambient removal tools.\n\nIt is like an audio recording booth where two speakers accidentally walk into the same booth at once (a doublet) while loud hallway chatter leaks under every studio door in the building (ambient RNA).\n\nFor example, if high-expression haemoglobin RNA from lysed red blood cells contaminates ambient soup, naive analysts may falsely conclude that neurons or T cells are expressing haemoglobin.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8CAGLZN0l8vY_1",
+          "type": "multiple_choice",
+          "prompt": "How can a researcher distinguish a technical doublet from a genuine transitional cell state when a cluster appears to express canonical marker genes from two completely unrelated lineages (for example, both T-cell and B-cell markers)?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Assume immediately that a brand-new hybrid stem cell has been discovered without running quality checks"
+            },
+            {
+              "id": "b",
+              "text": "Check whether the cluster shows roughly double the typical UMI/gene counts and high scores in computational doublet detectors like `Scrublet` or `DoubletFinder`, as two cells captured in one droplet combine their transcripts"
+            },
+            {
+              "id": "c",
+              "text": "Delete all T-cell and B-cell genes from the reference genome GTF file"
+            },
+            {
+              "id": "d",
+              "text": "Run `samtools sort` on the raw FASTQ file to split the droplets apart"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "When two distinct cells are co-encapsulated in a single droplet, their combined transcriptomes produce chimeric marker profiles alongside elevated total UMI/gene counts and high synthetic doublet similarity scores.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Ti31NEy2F8eh",
       "title": "Annotate clusters with marker genes and reference atlases",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Assigning accurate biological labels to single-cell clusters combines two strategies: manual curation using differential expression to check known canonical marker genes (for example, `CD3D` for T cells, `MS4A1` for B cells, `EPCAM` for epithelial cells) and automated label transfer against curated reference atlases such as the Human Cell Atlas (`CELLxGENE`) using tools like `SingleR`, `Azimuth`, or `CellTypist`; check the current details on tissue-specific reference models.\n\nIt is like identifying unknown birds in a wildlife survey by both checking field-guide traits like beak shape and plumage (marker genes) and matching photos against a national museum database (reference atlas transfer).\n\nAutomated reference classifiers work quickly but can mislabel diseased, mutated, or rare cell states that were absent from the healthy reference atlas, so always verify automated labels against canonical marker expression.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Ti31NEy2F8eh_1",
+          "type": "multiple_choice",
+          "prompt": "What is a key limitation of relying exclusively on automated reference-atlas label transfer tools (like `Azimuth` or `SingleR`) to annotate single-cell clusters in a tumour biopsy?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Automated annotation tools can only classify bacterial cells and fail on all mammalian tissues"
+            },
+            {
+              "id": "b",
+              "text": "Reference atlases require 100x whole-genome DNA sequencing instead of single-cell RNA counts"
+            },
+            {
+              "id": "c",
+              "text": "Automated tools permanently delete the UMAP coordinates from the `Seurat` or `Scanpy` object"
+            },
+            {
+              "id": "d",
+              "text": "Reference atlases built from healthy tissues may lack diseased, malignant, or treatment-induced cell states, causing automated classifiers to force inaccurate healthy labels onto novel or abnormal cells"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Automated classifiers can only assign labels that exist in their training reference, so malignant cells or novel disease states must be verified using marker gene inspection and copy-number or mutation signals.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ReUQZ9AtFerM",
       "title": "Trajectories suggest an ordering; they do not prove lineage",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "While trajectory and pseudotime algorithms draw smooth arrows across single-cell scatter plots, they only measure transcriptomic similarity across a static snapshot and cannot by themselves prove true developmental lineage or causal directionality. Two cell states that look transcriptionally similar may actually arise from separate progenitors (convergent differentiation), and without prior biological knowledge of the starting stem cell or experimental lineage barcodes, the arrow of time can easily point backwards.\n\nIt is like arranging a shelf of seashells by size from smallest to largest: the smooth gradient looks like one shell growing over time, even if the shells actually belong to three different species collected on the same beach.\n\nTo prove true clonal ancestry and fate in client drug-discovery studies, computational trajectories must be paired with experimental time-series sampling, genetic lineage barcoding, or somatic mitochondrial tracing.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ReUQZ9AtFerM_1",
+          "type": "multiple_choice",
+          "prompt": "Why can a computational trajectory inferred solely from a single-timepoint scRNA-seq snapshot not prove true cellular lineage or developmental direction on its own?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Trajectory algorithms only inspect intron lengths and ignore exon counts"
+            },
+            {
+              "id": "b",
+              "text": "Single-cell sequencers scramble nucleotide bases whenever cells divide"
+            },
+            {
+              "id": "c",
+              "text": "Pseudotime algorithms only connect cells by transcriptomic similarity in a static snapshot, which cannot distinguish true ancestor-descendant relationships from convergent states or determine the direction of time without external biological anchors"
+            },
+            {
+              "id": "d",
+              "text": "Lineage can only be proven by converting the count matrix into a CRAM file"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because standard scRNA-seq destroys cells at a single timepoint and measures only expression similarity, inferred trajectories are hypotheses that require prior root anchors, time-series experiments, or genetic lineage barcodes for causal proof.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

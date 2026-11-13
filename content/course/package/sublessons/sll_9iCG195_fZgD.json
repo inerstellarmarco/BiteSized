@@ -5,8 +5,8 @@
     {
       "id": "bit_6902fJ0-gyxM",
       "title": "Loss landscapes and minima",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A loss landscape is the high-dimensional surface formed by plotting the model's error value across every possible combination of weights, where valleys and basins represent parameter settings with low error called minima.\n\nIt is like a mountain range where elevation represents business cost and your goal is to hike down into the deepest valley you can find.\n\nIn real neural networks with millions of parameters, you cannot visualise the true surface directly, and the lowest valley on training data may not generalise best to new client data.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,25 +19,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6902fJ0-gyxM_1",
+          "type": "multiple_choice",
+          "prompt": "What does a low valley in a model's loss landscape represent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A region where the model has the maximum possible number of trainable layers"
+            },
+            {
+              "id": "b",
+              "text": "A configuration where every weight has been set to a large positive integer"
+            },
+            {
+              "id": "c",
+              "text": "A set of parameter weights that produces a small error on the objective function"
+            },
+            {
+              "id": "d",
+              "text": "A batch of corrupted training examples that should be deleted from the dataset"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The height of the loss surface measures error for each weight configuration, so valleys correspond to low-loss parameter settings.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_MR00RhGX705t",
       "title": "Stochastic and mini-batch gradient descent",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Full-batch gradient descent computes the exact slope over the entire dataset before taking one step, whereas stochastic gradient descent uses a single example and mini-batch gradient descent averages the slope over a small sample such as thirty-two or two hundred and fifty-six records.\n\nIt is like polling fifty shoppers at midday to adjust a store layout immediately rather than interviewing every citizen in the city before moving a single shelf.\n\nMini-batch updates are much faster per step and fit in hardware memory, though the sample noise means the loss jiggles rather than dropping smoothly on every single step.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_MR00RhGX705t_1",
+          "type": "multiple_choice",
+          "prompt": "Why is mini-batch gradient descent preferred over full-batch gradient descent on large datasets?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It computes the exact noise-free gradient of the entire population on every single update"
+            },
+            {
+              "id": "b",
+              "text": "It updates weights frequently using affordable memory per step while utilising parallel hardware efficiently"
+            },
+            {
+              "id": "c",
+              "text": "It eliminates the need to choose a learning rate or any other hyperparameter"
+            },
+            {
+              "id": "d",
+              "text": "It guarantees convergence to the global minimum in a single pass through the data"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Mini-batches balance hardware parallelism with frequent, low-cost updates instead of scanning millions of rows for every single step.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_HK1GGTRoAepB",
       "title": "Learning rate, momentum, Adam",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The learning rate sets the step size along the gradient, momentum adds a moving average of past steps to smooth out zigzags in narrow valleys, and the Adam optimiser combines momentum with per-parameter step scaling based on recent gradient magnitudes.\n\nIt is like a heavy bowling ball rolling down a gutter that keeps its forward speed through minor bumps while adjusting sensitivity for each lane board.\n\nAdam is a reliable default for most neural models, but if the learning rate is set too high the optimiser can still overshoot valleys and diverge completely.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,43 +106,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_HK1GGTRoAepB_1",
+          "type": "multiple_choice",
+          "prompt": "How does the Adam optimiser improve upon basic gradient descent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It combines momentum from past gradients with adaptive per-parameter learning rates scaled by recent gradient magnitudes"
+            },
+            {
+              "id": "b",
+              "text": "It evaluates every possible weight combination in parallel without computing any derivatives"
+            },
+            {
+              "id": "c",
+              "text": "It forces all weights in the network to share a single identical scalar value"
+            },
+            {
+              "id": "d",
+              "text": "It replaces the loss function with a random number generator to avoid local minima"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Adam tracks both a running average of gradients (momentum) and a running average of squared gradients to scale each parameter's step size adaptively.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qthoy2bjbLqh",
       "title": "Local minima, saddle points, and flat regions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A local minimum is a small valley higher than the best possible basin, a saddle point is a spot that curves up in some directions and down in others, and a plateau is a wide flat region where gradients are nearly zero.\n\nIt is like a hiker pausing on a mountain pass that slopes upward toward two peaks on the sides but slopes downward into valleys ahead and behind.\n\nIn high-dimensional neural networks, true bad local minima are rarer than once feared, whereas saddle points and flat plateaus are common and can stall slow optimisers.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qthoy2bjbLqh_1",
+          "type": "multiple_choice",
+          "prompt": "What characterises a saddle point on a high-dimensional loss surface?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every direction points strictly uphill so no parameter change can reduce the loss locally"
+            },
+            {
+              "id": "b",
+              "text": "The gradient is zero, with the surface curving upward along some directions and downward along others"
+            },
+            {
+              "id": "c",
+              "text": "The loss value reaches negative infinity and halts the training script immediately"
+            },
+            {
+              "id": "d",
+              "text": "The gradient has infinite magnitude in all directions at once"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "At a saddle point the slope flattens out, but some cross-sections curve up like a valley while others curve down like a ridge.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_iCFqDMnS8BLL",
       "title": "Why noisy mini-batch gradients still work",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Because each mini-batch is a random sample of the training set, its gradient fluctuates around the true full-dataset gradient, adding natural jostling that helps the optimiser slip off saddle points and escape sharp, brittle valleys.\n\nIt is like gently shaking a jar of dry coffee granules so they settle into a stable, broad level rather than sticking in precarious narrow pockets.\n\nHowever, near the end of training that same sampling noise prevents the weights from settling to the bottom of a basin unless you decay the learning rate.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_iCFqDMnS8BLL_1",
+          "type": "multiple_choice",
+          "prompt": "How can the sampling noise in mini-batch gradients actually help neural network training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The noise deletes mislabelled records from the hard drive before they affect the weights"
+            },
+            {
+              "id": "b",
+              "text": "The randomness ensures that training loss reaches exact zero on the first epoch"
+            },
+            {
+              "id": "c",
+              "text": "The fluctuations help jostle parameters off saddle points and steer them toward broader, more generalisable basins"
+            },
+            {
+              "id": "d",
+              "text": "The noise converts non-linear activation functions into simple linear equations"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Stochastic gradient noise acts as a helpful perturbation that discourages getting trapped in sharp, fragile crevices or flat saddle points.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_VyTl6QQKx4S_",
       "title": "Convex vs. non-convex problems",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A convex optimisation problem has a single bowl-shaped loss surface where any local minimum is guaranteed to be the global minimum, whereas a non-convex problem has a rugged landscape of many valleys, ridges, and saddles.\n\nIt is like the difference between dropping a marble into a smooth cereal bowl and dropping it onto a crumpled sheet of tin foil.\n\nClassical models like linear and logistic regression with standard losses are convex and give reproducible answers, whereas deep neural networks are non-convex and depend on initialisation and random seeds.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_VyTl6QQKx4S__1",
+          "type": "multiple_choice",
+          "prompt": "What is the key practical guarantee of a strictly convex loss function?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Training requires zero data points because the optimal weights are known in advance"
+            },
+            {
+              "id": "b",
+              "text": "The model can learn arbitrary non-linear image representations without hidden layers"
+            },
+            {
+              "id": "c",
+              "text": "Gradient descent will converge in a single step regardless of the learning rate chosen"
+            },
+            {
+              "id": "d",
+              "text": "Any local minimum found by gradient descent is also the unique global minimum"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A convex bowl has no misleading side valleys, so descending until the slope is zero reaches the best possible solution.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

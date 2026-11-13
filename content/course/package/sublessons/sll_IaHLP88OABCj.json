@@ -5,8 +5,8 @@
     {
       "id": "bit_dXpVx7pvElJP",
       "title": "Streaming and parallel tool calls",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Two immediate code changes make almost any agent feel twice as fast without changing the model.\n\nFirst, **stream the final response** (and intermediate status updates) so the user starts reading within a second instead of waiting for the last full stop. Second, enable and execute **parallel tool calls**: when an agent needs to look up three orders or search two sources, let the model emit all three tool calls in a single turn and run them concurrently with `asyncio.gather` or `Promise.all`, returning all three results in the next turn.\n\nIt is sending one shopper to pick up milk, bread and eggs on a single trip rather than making three separate walks to the corner shop.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,25 +19,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_dXpVx7pvElJP_1",
+          "type": "multiple_choice",
+          "prompt": "How do parallel tool calls reduce agent latency?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They allow tools to run before the user has typed their question"
+            },
+            {
+              "id": "b",
+              "text": "They make database queries run without a network connection"
+            },
+            {
+              "id": "c",
+              "text": "They delete two of the three tool calls at random"
+            },
+            {
+              "id": "d",
+              "text": "The model requests multiple independent lookups in a single turn and your code runs them concurrently, cutting three round trips down to one"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Combining multiple independent tool calls into one model turn and running them concurrently saves both LLM round trips and tool wait time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_IUfrPKl9pc4F",
       "title": "KV cache reuse and speculative decoding",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Under the hood, model providers use two clever inference optimisations that you can take advantage of: **KV cache reuse (prompt caching)** and **speculative decoding / predicted outputs**.\n\nWhen your prompt prefix matches a cached **Key-Value (KV) state** from a recent call, the GPU skips recomputing attention over those thousands of input tokens, cutting Time to First Token dramatically on long documents. **Predicted outputs (speculative decoding)** help when an agent is editing a file or document where 90% of the text stays the same: you pass the original text as the prediction, and the GPU verifies matching chunks in parallel, generating the updated file several times faster.\n\nIt is proofreading and marking changes on an existing typescript rather than retyping the whole chapter from scratch.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IUfrPKl9pc4F_1",
+          "type": "multiple_choice",
+          "prompt": "When does passing a predicted output (speculative decoding) speed up generation dramatically?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When generating a brand-new creative story from a three-word prompt"
+            },
+            {
+              "id": "b",
+              "text": "When the output is a single boolean `true` or `false`"
+            },
+            {
+              "id": "c",
+              "text": "When most of the output is already known, such as making small edits to an existing code file or document"
+            },
+            {
+              "id": "d",
+              "text": "When no input context exists"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "KV cache reuse speeds up reading long static inputs, while predicted outputs speed up rewriting large texts where most tokens remain unchanged.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_UfGO07BEwhEO",
       "title": "Smaller, faster models for simple steps",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Within an agent workflow, not every step needs a giant frontier reasoning model.\n\nRouting, query rewriting, extracting five fields into JSON, summarising a tool output or checking a simple guardrail can usually be handled by a **small, fast model** (such as a Flash, Haiku or Mini tier, or a tuned small open model) that runs at 150 to 300 tokens per second instead of 40 tokens per second.\n\nIt is sending a bicycle courier through city traffic with a single envelope while keeping the articulated lorry for pallet loads.\n\nSwapping three intermediate helper steps to a fast model tier often cuts five seconds off an agent run while trimming the bill at the same time.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,25 +106,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_UfGO07BEwhEO_1",
+          "type": "multiple_choice",
+          "prompt": "Why does replacing frontier models with smaller, faster models on intermediate helper steps work so well?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Smaller models always have larger context windows than frontier models"
+            },
+            {
+              "id": "b",
+              "text": "Frontier models cannot return JSON on intermediate steps"
+            },
+            {
+              "id": "c",
+              "text": "Using two different model sizes in one workflow is forbidden by APIs"
+            },
+            {
+              "id": "d",
+              "text": "Steps like routing, query rewriting and simple extraction rarely need frontier reasoning and run several times faster on compact models"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Matching model size per step gives you small-model speed on the plumbing steps and frontier quality on the final synthesis or hard reasoning step.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_zWC-FEK9Xn3E",
       "title": "Fewer steps: redesigning the workflow",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The fastest model call is the one you do not have to make.\n\nLook at your agent traces and ask which sequential LLM turns can be replaced by plain code or combined. If the agent always calls `get_user` and then calls `get_recent_orders` in two separate turns, pre-fetch both in parallel in code before calling the model once. If a separate critic turn only checks whether five required fields are present and the numbers add up, replace that LLM critic with a two-millisecond Python check.\n\nIt is redesigning a kitchen layout so the fridge, chopping board and hob are next to each other instead of at opposite ends of a corridor.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_zWC-FEK9Xn3E_1",
+          "type": "multiple_choice",
+          "prompt": "How can redesigning a workflow cut latency more than any model tweak?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By adding three extra reflection turns to every request"
+            },
+            {
+              "id": "b",
+              "text": "By pre-fetching predictable data in code and replacing routine LLM routing or checking steps with deterministic code, eliminating entire model round trips"
+            },
+            {
+              "id": "c",
+              "text": "By removing all indexes from the database"
+            },
+            {
+              "id": "d",
+              "text": "By splitting every sentence into a separate API call"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Eliminating unnecessary sequential LLM calls by moving predictable lookups and checks into plain code cuts whole seconds off response time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_EzsiJGCgQCyd",
       "title": "Perceived speed: show progress while work continues",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Two systems with the exact same eight-second total duration can feel completely different to a human user.\n\nAn interface that shows nothing for eight seconds feels broken after three seconds. An interface that acknowledges the request in 200ms, shows the real steps as they complete (\"Found 3 matching policies... Checking exclusions...\"), streams the opening summary line at second three and fills in the detail table beneath it feels brisk and trustworthy.\n\nIt is an airport baggage screen that updates \"Bags unloaded -> On belt 4\" versus staring at an empty carousel with no display.\n\nDesign for **perceived speed** alongside raw millisecond cuts.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -81,7 +193,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_EzsiJGCgQCyd_1",
+          "type": "multiple_choice",
+          "prompt": "How can you improve perceived speed when an agent task genuinely takes eight seconds of real work?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Show a fake \"100% Complete\" message before the tools have even started"
+            },
+            {
+              "id": "b",
+              "text": "Hide the screen behind a black overlay for eight seconds"
+            },
+            {
+              "id": "c",
+              "text": "Acknowledge immediately, display truthful real-time progress steps as tools complete and stream the answer as soon as tokens start"
+            },
+            {
+              "id": "d",
+              "text": "Add a five-second delay to fast requests so every request takes eight seconds"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Immediate feedback, honest step-by-step progress and token streaming keep the user engaged and confident while real work finishes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

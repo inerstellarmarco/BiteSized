@@ -5,32 +5,88 @@
     {
       "id": "bit_4MwafPufYmRm",
       "title": "Many simple agents solving a problem together",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Swarm intelligence takes inspiration from ant colonies and bee hives: instead of one giant, complicated brain directing everything, many simple agents follow local rules and coordinate through a shared environment or message board.\n\nIn an AI swarm, you might spawn twenty lightweight workers that each explore a different lead, post short findings to a shared board, read promising leads posted by peers and converge on an answer.\n\nIt is a search-and-rescue team fanning out across a hillside in grid squares and calling out on the radio when someone spots a footprint.\n\nEach individual agent stays simple; the power comes from parallel coverage and shared signals.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4MwafPufYmRm_1",
+          "type": "multiple_choice",
+          "prompt": "How does a swarm architecture differ from a single complex agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Many lightweight agents work in parallel following simple rules and sharing findings, rather than one agent doing everything sequentially"
+            },
+            {
+              "id": "b",
+              "text": "A swarm uses only one model call with a very long prompt"
+            },
+            {
+              "id": "c",
+              "text": "Swarm agents are not allowed to share any information"
+            },
+            {
+              "id": "d",
+              "text": "Every agent in a swarm must be a different human being"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Swarms trade central planning for broad parallel exploration by many simple workers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_71-ai1P4XaJB",
       "title": "Emergent behaviour and its risks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Emergent behaviour is a pattern that appears when many agents interact, even though no single agent was programmed to behave that way.\n\nSometimes emergence is helpful, such as agents naturally clustering around the most fruitful data source. Often in business systems it is a headache: one agent posts a speculative guess to the shared board, three other agents cite that guess as confirmation, and within two rounds the whole swarm is confidently building on a rumour it invented itself.\n\nIt is an echo chamber in a group chat where a rumour gets repeated by three people and suddenly sounds like an established fact.\n\nGuard against herd cascades by requiring primary source citations on every shared post.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_71-ai1P4XaJB_1",
+          "type": "multiple_choice",
+          "prompt": "What is a dangerous emergent behaviour when swarm agents read each other's outputs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Agents suddenly stop consuming any electricity"
+            },
+            {
+              "id": "b",
+              "text": "The database automatically upgrades its hardware"
+            },
+            {
+              "id": "c",
+              "text": "An unverified guess from one agent can be repeated by others until the swarm treats its own rumour as confirmed fact"
+            },
+            {
+              "id": "d",
+              "text": "Every agent starts speaking in medieval Latin"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Without strict source-citation rules, a swarm can amplify a single hallucination into an apparent consensus.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BcWro3BwYZmm",
       "title": "Parallel swarms for search and research tasks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Where swarms genuinely shine is broad, embarrassingly parallel discovery work: scanning fifty competitor websites, auditing every file in a large codebase for a security pattern, or triaging a backlog of five hundred support tickets.\n\nIn these tasks, a coordinator slices the search space into independent shards, assigns one worker per shard, and collects their structured reports. Because the workers barely need to depend on each other during the search phase, the job finishes in a fraction of the time a single agent would take.\n\nIt is twenty stocktakers each counting one aisle of a supermarket at the same time on Sunday evening.\n\nKeep inter-agent chatter minimal during the scan and merge results cleanly at the end.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,19 +99,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BcWro3BwYZmm_1",
+          "type": "multiple_choice",
+          "prompt": "On which type of workload is a parallel swarm most effective?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Writing a single three-sentence apology email"
+            },
+            {
+              "id": "b",
+              "text": "Sequential tasks where step two cannot start until step one finishes"
+            },
+            {
+              "id": "c",
+              "text": "Real-time voice calls that must reply in under 200 milliseconds"
+            },
+            {
+              "id": "d",
+              "text": "Broad search, audit or research tasks that split cleanly into many independent slices"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Swarms excel when a large search space can be sharded across many workers running concurrently.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_kED7-iiKfYxj",
       "title": "Why swarms are hard to predict, test, and budget",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Free-form swarms look exciting in demos, but they are difficult to run safely in client production systems.\n\nFirst, **budget**: ten agents chatting and spawning helpers can burn through a hundred model calls in seconds. Second, **testing**: because parallel messages arrive in slightly different orders on every run, the same input can produce different paths and outputs, making regression testing hard. Third, **accountability**: when the final answer is wrong, untangling fifty interleaved board messages takes ages.\n\nIt is releasing a flock of sheep vs driving a delivery van: the van stays on the road and arrives at a known time.\n\nOnly use a swarm where bounded parallel fan-out is not enough, and enforce strict per-run token and agent caps.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kED7-iiKfYxj_1",
+          "type": "multiple_choice",
+          "prompt": "Why are free-form agent swarms difficult to run in production business systems?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Swarms can only run on computers from the 1990s"
+            },
+            {
+              "id": "b",
+              "text": "Non-deterministic message ordering, rapidly multiplying token costs and tangled traces make them hard to test, debug and budget"
+            },
+            {
+              "id": "c",
+              "text": "They never use more than one API call"
+            },
+            {
+              "id": "d",
+              "text": "Providers refuse to sell tokens for parallel requests"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Because execution order and call counts vary from run to run, swarms require tight caps and are harder to verify than structured workflows.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

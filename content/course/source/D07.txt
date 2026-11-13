@@ -1,0 +1,313 @@
+// D7 D7 AI for Drug Discovery
+@@ sll_DOCule0sCk_P | D7.1 Discovery Pipeline > Target Identification
+## Genetics- and omics-driven target discovery
+Target discovery is the process of finding a biological molecule, such as a protein or gene, whose modulation could treat a specific disease. Machine learning models analyse large genomic, transcriptomic, and proteomic datasets to spot patterns linking molecular changes to patient outcomes.
+
+It is like a detective scanning thousands of phone records and financial logs to identify the key conspirator behind a crime before making an arrest.
+
+However, statistical association in omics data is not proof of causation. As an AI consultant, advise pharmaceutical clients that computational hits may simply reflect downstream effects of the disease rather than its root driver.
+
+?? What is the primary role of machine learning in omics-driven target discovery?
++ Identifying molecular patterns and associations that point to potential disease drivers
+- Replacing all wet-lab and clinical trials with purely computational simulations
+- Guaranteeing that every differentially expressed gene causes the disease
+- Manufacturing synthetic proteins directly inside patient cells
+= Machine learning scans complex biological datasets to find candidate targets associated with disease, though lab work is still needed to prove causation.
+
+## Target validation
+Target validation is the experimental phase that tests whether altering a candidate biological target actually produces the desired therapeutic effect safely. It moves beyond statistical correlation to establish a causal link between the target and disease progression.
+
+Think of a pharmaceutical programme investigating a new oncology target. Before spending £20 million on chemistry, the team uses gene editing and cell assays to confirm that blocking the protein truly stops tumour growth.
+
+Computational predictions alone cannot validate a target. Biological networks often have backup pathways that compensate when one protein is blocked, so physical experiments remain essential.
+
+?? Why is target validation necessary after computational target discovery?
++ To prove experimentally that modulating the candidate target causally alters the disease
+- To compress the genomic sequencing files stored in the hospital database
+- To train a larger language model on unlabelled public abstracts
+- To bypass regulatory review by showing strong statistical correlations
+= Target discovery finds correlations, whereas target validation uses biological experiments to confirm that changing the target actually affects the disease.
+
+## Human genetics evidence raises the odds that a target works
+Human genetics evidence uses naturally occurring DNA variations in human populations to link specific genes to disease risk or protection. When people born with a mutation in a particular gene are naturally protected from an illness, a drug mimicking that effect has a much higher chance of succeeding.
+
+It acts like a lifelong clinical trial run by nature, showing in advance what happens when a biological pathway is dialled up or down in real people.
+
+Even so, genetic support does not guarantee clinical success. A gene that shapes biology from birth may not respond the same way when targeted by a medicine later in adulthood.
+
+?? Why do drug discovery teams prize human genetic evidence when choosing a target?
++ Natural human variants demonstrate the real-world effect of altering that gene in people
+- Genetic data automatically generates the chemical formula for a safe pill
+- Targets with human genetic links do not require clinical safety trials
+- Human DNA sequences are completely identical across every patient population
+= Naturally occurring genetic variations act as an experiment in humans, significantly increasing the likelihood that targeting that pathway will work clinically.
+
+## Multi-omics and literature evidence combined
+Combining multi-omics and literature evidence means integrating genomics, transcriptomics, and proteomics with structured knowledge mined from scientific papers and clinical reports. AI systems build knowledge graphs that connect experimental measurements to decades of published biological findings.
+
+For a biotech client prioritising targets for liver fibrosis, an AI pipeline might merge single-cell RNA data with relationships extracted from millions of journal articles to rank the strongest candidates.
+
+The caveat is that published literature carries heavy publication bias and occasional errors. Models trained on papers tend to over-recommend well-studied proteins whilst overlooking genuinely novel biology.
+
+?? What is a key limitation of combining literature mining with multi-omics data for target ranking?
++ Published literature is biased toward already famous genes and contains historical errors
+- Scientific papers cannot be read by natural language processing systems
+- Multi-omics measurements only work on bacterial cells rather than human tissue
+- Knowledge graphs erase all quantitative expression values from the database
+= Literature-based models inherit the biases and errors of published research, often favouring heavily studied targets over novel ones.
+
+## Validation: cells, models, and eventually patients
+Target validation progresses through a hierarchy of biological systems, starting in cultured cells, moving to organoids or animal models, and finally reaching human patients. Each stage tests whether the therapeutic hypothesis holds up as biological complexity increases.
+
+It is like testing a new aircraft design first in a computer wind tunnel, then with a remote-controlled scale model, and finally in a piloted test flight.
+
+Every laboratory model is an imperfect proxy for human biology. Mice and cell lines often fail to replicate human immune responses or organ interactions, meaning true validation only finishes in clinical trials.
+
+?? Why must target validation progress from cell cultures to animal models and finally to human patients?
++ Simple lab models cannot fully capture the complex interactions of an intact human body
+- Cell cultures are much more expensive to maintain than human phase three trials
+- Regulatory agencies forbid testing compounds on cells before dosing patients
+- Animal models have identical metabolism and immune systems to human beings
+= Each step adds biological realism, because cells in a dish and animal models only partially reflect how a human patient will respond.
+
+## Many targets fail in the clinic, even after good preclinical data
+Clinical attrition is the high rate at which candidate drugs fail during human trials despite promising results in laboratory cells and animals. A drug may engage its target as planned yet fail to improve patient symptoms or cause unexpected toxic side effects.
+
+Consider a neurology programme where an AI-selected target clears plaques in mouse brains cleanly, but the resulting £100 million human trial shows no cognitive benefit for patients.
+
+Consultants must remind stakeholders that AI can accelerate early discovery, but it cannot repeal human biology. Preclinical models simplify complex diseases, leaving substantial uncertainty until human dosing begins.
+
+?? Why do many drug targets fail in human clinical trials even after strong preclinical results?
++ Preclinical laboratory models simplify human biology and can miss efficacy gaps or toxicities
+- Clinical trial doctors intentionally alter the chemical structure of the drug
+- Machine learning models stop working once a molecule enters a hospital
+- Preclinical assays only measure marketing potential rather than biological activity
+= Laboratory and animal models are incomplete representations of human disease, so efficacy failures and unexpected toxicities frequently appear only in human trials.
+
+@@ sll_gpzWv4QE3jkS | D7.1 Discovery Pipeline > Hit & Lead Discovery
+## Virtual screening and docking
+Virtual screening uses computers to search vast libraries of millions or billions of chemical structures to find compounds likely to bind a biological target. Molecular docking is a structure-based method within virtual screening that fits each small molecule into the target protein's three-dimensional binding pocket and estimates interaction strength.
+
+It is like a digital locksmith testing millions of virtual keys in a 3D model of a lock before cutting any physical metal keys.
+
+However, proteins are flexible and constantly moving in water, whereas standard docking treats them as mostly rigid shapes. This simplification causes both false positives and missed hits.
+
+?? How does structure-based molecular docking assist in hit discovery?
++ It computationally fits virtual compounds into a protein pocket to prioritise candidates for lab testing
+- It physically synthesises millions of chemicals in robotic glassware overnight
+- It proves with certainty that a compound will be safe in human clinical trials
+- It sequences the genome of patients who fail to respond to standard therapy
+= Docking estimates how well candidate molecules fit and interact with a target binding site, helping teams select a manageable subset for wet-lab testing.
+
+## Property prediction (ADMET)
+Property prediction uses machine learning models to estimate a molecule's physical, chemical, and biological behaviour from its chemical structure before anyone synthesises it in the lab. In drug discovery, these models focus heavily on ADMET properties, which govern how a compound moves through and affects the body.
+
+For a medicinal chemistry team, running an ADMET predictor is like checking a lorry's weight and height against bridge limits on a map before setting off on a delivery route.
+
+These predictions are only statistical estimates with confidence intervals. When a client designs compounds outside the chemical families used to train the model, prediction accuracy drops sharply.
+
+?? Why do discovery teams run machine learning property predictors early in hit-to-lead work?
++ To flag compounds with poor drug-like behaviour before spending money synthesising them
+- To replace mandatory human toxicology studies required by medicines regulators
+- To determine the retail price a health service will pay for the finished tablet
+- To increase the molecular weight of every candidate compound in the library
+= Early property prediction filters out molecules likely to fail due to poor absorption, rapid breakdown, or toxicity before costly synthesis and testing.
+
+## Docking scores are rough filters, not proof of binding
+A docking score is a fast mathematical approximation of the interaction energy between a small molecule and a protein binding site. It is designed to rank millions of compounds quickly rather than calculate true physical binding affinity.
+
+It works like a quick automated CV screen in recruitment: it helps weed out clearly unsuitable applicants, but it cannot tell you who will actually perform best on the job.
+
+Because docking simplifies water molecules, protein motion, and entropy, top-scoring virtual hits frequently show zero activity in the lab. Consultants should position docking as an enrichment filter, never as proof of binding.
+
+?? How should a drug discovery team interpret high scores from a molecular docking run?
++ As a rough ranking filter to enrich candidate lists rather than proof of real binding
+- As an exact measurement of clinical efficacy in human patients
+- As definitive confirmation that the molecule is patentable and non-toxic
+- As proof that wet-lab biochemical binding assays are no longer needed
+= Docking scores rely on rough physical approximations to run quickly, so they only enrich candidate sets and must be verified experimentally.
+
+## ADMET: absorption, distribution, metabolism, excretion, and toxicity
+ADMET stands for absorption, distribution, metabolism, excretion, and toxicity, the five criteria that determine whether a potent molecule can actually function as a safe medicine in the body. A compound must get into the bloodstream, reach the right tissue, survive long enough to act, exit safely, and avoid harming healthy organs.
+
+It is like hiring a specialist repair engineer: they are useless if they cannot get through security, find the broken machine, finish the job before their shift ends, and leave without damaging the building.
+
+Optimising ADMET is difficult because improving one property, such as solubility, often worsens another, such as membrane permeability.
+
+?? What does the ADMET profile of a drug candidate describe?
++ How the body absorbs, distributes, breaks down, and removes the compound, plus its toxic risks
+- The five stages of venture capital financing required to launch a biotech startup
+- The sequence of amino acids that fold a target receptor inside the cell membrane
+- The software architecture used to store hospital electronic health records
+= ADMET covers absorption, distribution, metabolism, excretion, and toxicity, which together dictate whether a biologically active compound can work safely in a patient.
+
+## Models predict from known chemistry; novel chemistry is riskier
+Quantitative structure-activity and property models learn statistical patterns from historical assays performed on previously synthesised molecules. They perform reliably when evaluating new compounds that resemble their training data, a concept known as staying within the model's domain of applicability.
+
+It is like a house price estimator trained solely on flats in Manchester; ask it to value a remote Scottish castle, and its valuation will be wildly unreliable.
+
+In drug discovery, teams specifically seek novel chemical structures to secure patents and hit difficult targets. As candidates move further into unexplored chemical space, model uncertainty rises and experimental surprises multiply.
+
+?? What happens when a property prediction model evaluates a molecule far outside its training chemistry?
++ Prediction error rises sharply because the compound lies outside the model's domain of applicability
+- The model automatically conducts a wet-lab experiment to gather new training data
+- Accuracy improves because novel molecules follow simpler physical rules
+- The software converts the unfamiliar chemical into a well-known generic drug
+= Machine learning models interpolate within familiar chemical space, so predictions on structurally novel compounds carry high uncertainty and require careful lab verification.
+
+## Confirm the top picks in lab assays
+Wet-lab assay confirmation is the step where computational hits are physically acquired or synthesised and tested in biochemical or cellular experiments. These assays measure real binding affinity, functional activity, and early safety signals using physical instruments.
+
+Think of an AI screening project that narrows ten million virtual compounds down to two hundred candidates; a laboratory scientist then tests those two hundred on assay plates to find the ten that genuinely work.
+
+Feeding both the successes and the failures from those lab plates back into the model is what makes the next cycle smarter. Without experimental confirmation, computational pipelines simply accumulate unverified guesses.
+
+?? Why is testing top computational picks in wet-lab assays essential to an AI discovery workflow?
++ It verifies which virtual hits truly work and generates real data to retrain the models
+- It satisfies a legal requirement to spend at least half the budget on glassware
+- It alters the fundamental laws of thermodynamics to match the computer docking score
+- It guarantees that every tested molecule will pass phase three clinical trials
+= Physical assays separate real active compounds from computational false positives and provide ground-truth results to improve subsequent modelling rounds.
+
+@@ sll_ax83fu5EMDDF | D7.2 Generative Chemistry & Biologics > Molecule Generation
+## Generative models for small molecules
+Generative models for small molecules use architectures such as transformers, diffusion models, or graph neural networks to propose entirely new chemical structures rather than merely searching existing catalogues. They learn the grammar of chemical bonds and design compounds tailored to a target profile.
+
+It is the difference between browsing a rack of ready-made suits in a shop and having a bespoke tailor cut a new suit to your exact measurements.
+
+Despite the hype, chemical space is vast and mostly empty of viable medicines. Generative models only add value when paired with reliable scoring functions and medicinal chemists who can judge whether the output makes sense.
+
+?? How do generative chemistry models differ from traditional virtual screening?
++ They design brand-new chemical structures rather than only searching catalogues of existing compounds
+- They eliminate the need to check for toxicity or metabolic stability
+- They physically manufacture pills using desktop 3D printers in the clinic
+- They only work on large protein antibodies and cannot represent carbon rings
+= While virtual screening searches predefined libraries, generative models construct novel molecular graphs or strings aimed at desired properties.
+
+## Multi-objective optimization
+Multi-objective optimisation is the process of steering molecule generation or selection to satisfy several competing criteria at the same time. Instead of maximising a single score, the algorithm searches for a balanced compromise across all required drug traits.
+
+It is like buying a family car where you must balance fuel economy, boot space, safety ratings, and purchase price rather than just picking the fastest engine on the market.
+
+If a scoring function omits a critical constraint, reinforcement learning will ruthlessly exploit that blind spot, producing bizarre molecules that score brilliantly on paper while failing basic chemistry principles.
+
+?? What is the main hazard of poorly specified scoring functions in multi-objective molecule optimisation?
++ The model exploits gaps in the score to propose unrealistic molecules that only look good on paper
+- The computer refuses to output any structures until all objectives reach one hundred per cent
+- The algorithm automatically deletes the client's historical assay database
+- The generated molecules become too cheap and straightforward for chemists to synthesise
+= Generative optimisers perform reward hacking when constraints are missing, maximising the mathematical score by inventing chemically flawed or impractical structures.
+
+## Balance potency, selectivity, safety, and ease of synthesis
+Developing a viable drug candidate requires balancing potency against the target, selectivity over off-target proteins, safety in healthy tissues, and ease of chemical synthesis. A molecule that binds its target tightly is useless if it also blocks vital heart channels or takes thirty steps to make.
+
+In a lead optimisation programme, an AI tool might suggest a slightly less potent analogue because it avoids a toxic liver metabolite and cuts synthesis costs by £50,000 per batch.
+
+Because each property is predicted with uncertainty, errors compound when combining multiple models. Teams must track uncertainty estimates rather than trusting a single combined composite score blindly.
+
+?? Why might a medicinal chemistry team choose a candidate with slightly lower target potency?
++ Because it offers a better overall balance of selectivity, safety, and synthetic feasibility
+- Because lower potency drugs are exempt from regulatory approval pathways
+- Because high potency molecules cannot be represented in digital chemical formats
+- Because patients always prefer taking larger and more frequent doses of medicine
+= Drug discovery is a compromise across multiple traits; a slightly weaker binder that is safe, selective, and practical to make is far more valuable than a toxic or unmakeable potent hit.
+
+## Generated molecules may be hard or impossible to make
+Synthetic accessibility is the practical measure of how easily a proposed chemical structure can be built from available starting materials using real chemical reactions. Generative algorithms frequently invent valid-looking molecular graphs that contain strained rings, unstable functional groups, or baffling stereochemistry.
+
+It is like an architect drawing a stunning building with floating staircases that obey the drawing software's rules but defy real-world gravity and construction budgets.
+
+To prevent wasted effort, AI pipelines constrain generation using reaction-based templates or retrosynthesis planners. Even then, experienced bench chemists must review candidate lists before ordering synthesis.
+
+?? How do discovery teams reduce the risk that generative models propose unmakeable molecules?
++ By constraining generation with reaction rules, retrosynthesis models, and chemist reviews
+- By training the model exclusively on fictional molecules from science textbooks
+- By removing all carbon and nitrogen atoms from the generative vocabulary
+- By asking the algorithm to maximise molecular complexity at every step
+= Incorporating synthetic accessibility scores, reaction templates, and human medicinal chemist oversight keeps generated structures grounded in practical chemistry.
+
+## Novelty vs. staying near known drug-like space
+Every generative chemistry project faces a tension between structural novelty and staying close to known drug-like chemical space. Novel structures can unlock fresh intellectual property and hit tough biological targets, whereas familiar scaffolds have predictable behaviour and well-tested synthesis routes.
+
+It is like a film studio deciding between a bold original screenplay and a sequel to an established franchise: the original offers a breakthrough hit, while the sequel carries much lower commercial risk.
+
+Venturing too far from known space means both ADMET predictors and synthesis planners lose accuracy at the exact moment you rely on them to guide the search.
+
+?? What trade-off arises when pushing generative models toward highly novel chemical scaffolds?
++ Greater patent freedom comes at the cost of less reliable property predictions and harder synthesis
+- Novel scaffolds are guaranteed to be free of toxic side effects in humans
+- Familiar drug-like molecules cannot be tested in standard wet-lab assays
+- Predictive models become more accurate the further a molecule sits from training data
+= Moving into uncharted chemical space creates opportunities for new patents, but predictive models become less trustworthy and synthesis becomes less predictable.
+
+@@ sll_ao1zfMfjl9PJ | D7.2 Generative Chemistry & Biologics > Biologics Design
+## Antibody design and affinity optimization
+Antibody design and affinity optimisation use machine learning to engineer large Y-shaped immune proteins so they bind a specific disease target tightly and selectively. Protein language models and structural predictors suggest amino acid mutations in the antibody's binding loops to strengthen its grip on the antigen.
+
+For a biotech client developing an anti-inflammatory therapy, an AI model can propose fifty targeted sequence variants that improve binding tenfold without screening millions of random phages.
+
+However, training data for specific antibody-antigen pairs is far sparser than general protein data, and loop regions are highly flexible, making zero-shot structural predictions prone to error.
+
+?? What is the goal of computational affinity optimisation in antibody engineering?
++ Suggesting amino acid changes in the binding region to strengthen interaction with the target antigen
+- Converting a large protein antibody into a small orally absorbed aspirin tablet
+- Removing the immune system completely from patients receiving biologic therapy
+- Sequencing the entire genome of every bacterium found in the laboratory
+= Affinity optimisation uses sequence and structure models to identify specific mutations in the antibody's variable loops that improve binding to the target.
+
+## De novo protein design (RFdiffusion, ProteinMPNN)
+~m
+De novo protein design creates brand-new proteins from scratch that do not exist in nature, tailored to bind a target or catalyse a reaction. Tools such as RFdiffusion generate novel 3D protein backbones, while ProteinMPNN designs amino acid sequences that fold into those exact shapes; check the current details as new generative models appear rapidly.
+
+It is like sculpting a custom mechanical bracket in 3D CAD software to fit an awkward engine part, then choosing the exact metal alloy needed to hold that shape under heat.
+
+While de novo binders achieve impressive hit rates in the lab compared with older physics methods, many designs still misfold, aggregate, or fail functional cell tests.
+
+?? How do tools like RFdiffusion and ProteinMPNN work together in de novo protein design?
++ One generates a novel 3D protein backbone and the other finds an amino acid sequence that folds into it
+- One recruits patients for clinical trials and the other writes regulatory submissions
+- One synthesises small carbon rings and the other compresses hospital X-ray images
+- One sequences patient DNA and the other calculates health insurance premiums
+= Modern de novo design typically pairs a structure-generation model like RFdiffusion with an inverse-folding sequence model like ProteinMPNN.
+
+## Generate the structure first, then design a sequence for it
+The structure-first paradigm in protein engineering separates geometry from sequence: first you compute a 3D backbone geometry that complements the target surface, and second you solve the inverse folding problem to find an amino acid sequence that adopts that backbone.
+
+Think of building a stone arch bridge: first you design the exact wooden frame that holds the arch's curve against the riverbanks, and then you select and place the stones that lock into that shape.
+
+The catch is that not every mathematically smooth backbone is physically realisable by natural amino acids. Teams must filter designs by passing the predicted sequences back through folding models to check self-consistency.
+
+?? Why do structure-first design pipelines run a folding predictor on their newly designed sequences?
++ To verify that the proposed amino acid sequence actually folds back into the intended 3D backbone
+- To translate the protein sequence into a legal patent claim automatically
+- To measure the market size of the disease indication in pounds sterling
+- To destroy any computer files that contain hydrophobic amino acids
+= Because an imagined backbone might not be physically achievable, passing the designed sequence through a structure predictor checks whether it is expected to fold into the target geometry.
+
+## Affinity is not the only goal: stability, production, and immune response matter
+Developability in biologics encompasses all the practical properties required to turn a tight-binding protein into a manufacturable, safe medicine. Beyond target affinity, a therapeutic protein must resist clumping at high concentrations, survive storage temperatures, express well in production cells, and avoid triggering the patient's immune system.
+
+It is like baking a commercial loaf of bread: tasting delicious fresh from the oven is not enough if it collapses during slicing, moulds in two hours, or triggers severe allergies.
+
+Chasing maximum binding affinity often adds sticky hydrophobic patches on the protein surface, ruining solubility and triggering anti-drug antibodies in patients.
+
+?? Why can optimising an antibody solely for maximum binding affinity ruin a drug programme?
++ Mutations that boost binding often cause protein aggregation, poor manufacturing yield, or immune reactions
+- High-affinity antibodies immediately turn into small-molecule gases at room temperature
+- Regulatory bodies forbid any biologic medicine that binds its target tightly
+- Stronger binding always stops host production cells from reading DNA
+= Biologics must be developable; mutations that increase binding frequently introduce sticky surface patches that cause clumping, poor stability, or immunogenicity.
+
+## Lab testing remains the final judge
+Experimental characterisation is the mandatory laboratory testing phase where computationally designed proteins are expressed in living cells, purified, and measured for binding, stability, and biological function. No matter how confident a deep learning model looks, physical reality decides whether a biologic works.
+
+A client might generate ten thousand confident virtual binders on a cloud cluster over a weekend, yet discover in wet-lab surface plasmon resonance assays that only twelve actually bind the target cleanly without aggregating.
+
+As an AI consultant, frame generative protein tools as ways to shrink the number of lab variants needed to find a winner, never as replacements for wet-lab validation.
+
+?? What is the realistic value proposition of generative AI in biologics design?
++ Increasing the hit rate so teams test fewer physical variants in the lab to find a viable candidate
+- Eliminating the need for wet-lab protein expression, purification, and binding assays
+- Guaranteeing that every computer-generated sequence folds and functions perfectly first time
+- Replacing human clinical trials with three-dimensional molecular animations
+= Generative design dramatically improves experimental hit rates and speeds up design cycles, but physical lab testing remains essential to confirm expression, folding, and activity.

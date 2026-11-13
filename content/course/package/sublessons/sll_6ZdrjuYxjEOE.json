@@ -5,56 +5,168 @@
     {
       "id": "bit_Psq7Hna27FE5",
       "title": "Transferring control between agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A handoff is the moment one agent finishes its part of a conversation or workflow and transfers active control to another agent.\n\nIn code, a handoff is often implemented as a special tool call, such as `transfer_to_billing_agent()`, or as a state update that changes `active_agent = \"billing\"`. From the next turn onwards, the new agent's system prompt and tools take over the conversation.\n\nIt is a receptionist saying \"I'll put you through to accounts now\" and transferring your phone call to the right extension.\n\nMake handoffs explicit in your logs so you can always see which agent was in charge at every turn.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Psq7Hna27FE5_1",
+          "type": "multiple_choice",
+          "prompt": "How is a handoff between agents typically triggered in code?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By asking the user to close the app and open a different website"
+            },
+            {
+              "id": "b",
+              "text": "By restarting the database server"
+            },
+            {
+              "id": "c",
+              "text": "By a structured tool call or state update that switches which agent's prompt and tools handle the next step"
+            },
+            {
+              "id": "d",
+              "text": "By changing the font colour in the chat window"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Implementing handoffs as explicit tool calls or state changes makes transfers clean, testable and easy to log.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2845N_UhzqMf",
       "title": "Passing context during handoffs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Nothing frustrates a user more than being transferred to a second agent and having to repeat their name, order number and problem all over again.\n\nWhen Agent A hands off to Agent B, it must pass a structured handover note along with control. That note carries the key entities already collected (such as `customer_id`, `order_id` and `verified_status`) and a brief summary of what has happened so far.\n\nIt is a paramedic handing a patient to the A&E doctor with a concise handover sheet of vital signs and treatments already given.\n\nValidate the handover payload with a schema so the receiving agent never starts blind.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2845N_UhzqMf_1",
+          "type": "multiple_choice",
+          "prompt": "Why must a structured context summary be passed during an agent handoff?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So the receiving agent has the facts and identifiers already gathered and does not force the user or system to repeat work"
+            },
+            {
+              "id": "b",
+              "text": "Because the receiving agent is not allowed to read any text"
+            },
+            {
+              "id": "c",
+              "text": "To make the user repeat their account number three times for security"
+            },
+            {
+              "id": "d",
+              "text": "To erase everything learned in the first half of the conversation"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Passing verified identifiers and a brief summary lets the new agent pick up smoothly where the previous one left off.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BHHwUM3vfWHp",
       "title": "Handoff vs. delegation: giving away the task vs. asking for help",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Handoff and delegation look similar, but they differ in who stays in charge afterwards.\n\nIn a **handoff**, Agent A transfers ownership of the task to Agent B and steps out of the way; Agent B now owns the rest of the interaction. In **delegation**, Agent A stays in charge, calls Agent B as a helper to answer one specific sub-question, receives Agent B's reply and continues its own work.\n\nIt is the difference between a GP transferring you to a hospital ward (handoff) versus ordering a lab blood test that comes back to the GP's desk (delegation).\n\nUse delegation when the first agent needs a specialist fact to finish its job; use a handoff when the whole job belongs to another specialist.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BHHwUM3vfWHp_1",
+          "type": "multiple_choice",
+          "prompt": "What is the difference between a handoff and delegation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They are two words for the exact same thing"
+            },
+            {
+              "id": "b",
+              "text": "Delegation deletes the original agent's context window"
+            },
+            {
+              "id": "c",
+              "text": "A handoff transfers ownership of the task to the new agent, whereas delegation calls a helper and returns the result to the original agent"
+            },
+            {
+              "id": "d",
+              "text": "A handoff requires the user to pay twice"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "In delegation the calling agent remains the owner and receives the sub-result; in a handoff the new agent takes over completely.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_PKus0g4IhWYM",
       "title": "What to pass: the goal, work done so far, and what is still open",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A good handover packet between agents answers three questions clearly and briefly.\n\nFirst, **the goal**: what the user or workflow is ultimately trying to achieve. Second, **work done so far**: the facts confirmed, actions already taken and constraints discovered. Third, **what is still open**: the specific job the receiving agent needs to complete next and any unanswered questions.\n\nIt is a shift handover between two factory supervisors at 6 p.m.: what today's target is, which batches are finished and which machine still needs checking.\n\nStructuring every handover around these three fields prevents both duplicated work and dropped requirements.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PKus0g4IhWYM_1",
+          "type": "multiple_choice",
+          "prompt": "Which three items belong in every agent-to-agent handover packet?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The full training dataset of the model, the server IP address and a random joke"
+            },
+            {
+              "id": "b",
+              "text": "The overall goal, the work completed so far and what still needs to be done next"
+            },
+            {
+              "id": "c",
+              "text": "Only the last word the user typed"
+            },
+            {
+              "id": "d",
+              "text": "The system prompts of every other agent in the company"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Stating the goal, completed facts and remaining work gives the receiving agent clear bearings without noise.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_C5Svv3gvXjcD",
       "title": "Too much context confuses; too little forces rework",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When passing context to another agent, both extremes cause failures.\n\nPass **too little** (for example, just \"help the user with their invoice\") and the second agent has to re-run database queries or re-ask the user questions that were already answered two minutes ago. Pass **too much** (dumping forty turns of raw tool JSON and failed search attempts) and the second agent gets distracted by stale errors and wastes tokens reading dead ends.\n\nIt is packing for a business trip: bring the presentation and a clean suit, not an empty briefcase and not your entire wardrobe.\n\nPass distilled facts, verified IDs and the current state, leaving the raw scratchpad behind.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -67,13 +179,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_C5Svv3gvXjcD_1",
+          "type": "multiple_choice",
+          "prompt": "What happens if you pass either too little or too much context during a handoff?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Passing forty pages of failed tool calls always improves accuracy"
+            },
+            {
+              "id": "b",
+              "text": "Passing zero context is ideal because models remember other conversations automatically"
+            },
+            {
+              "id": "c",
+              "text": "Context size has no effect on token cost or latency"
+            },
+            {
+              "id": "d",
+              "text": "Too little forces the next agent to repeat lookups or questions, while too much buries key facts in stale noise"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The sweet spot is a distilled handover: verified facts, IDs and open tasks, stripped of raw tool clutter.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_slU3e90S_r9A",
       "title": "Handing off to a human as a normal option",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The most important specialist in any business workflow is a human colleague.\n\nDesign human handoff as a first-class route with its own clear trigger rules: high monetary value, low confidence, angry customer sentiment, policy exceptions or explicit user request (\"let me speak to a person\"). When triggered, the agent packages the same clean handover summary (goal, facts checked, why it escalated) onto the human's support ticket.\n\nIt is a self-service supermarket till smoothly calling the attendant over with the exact item flagged on screen when an ID check is needed.\n\nA well-prepared human handoff saves the staff member five minutes of reading and makes the customer feel looked after.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -86,7 +226,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_slU3e90S_r9A_1",
+          "type": "multiple_choice",
+          "prompt": "Why should handing off to a human include a structured summary of what the agent already checked?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So the human has to read ten pages of raw JSON logs"
+            },
+            {
+              "id": "b",
+              "text": "Because human agents are not allowed to see the customer's name"
+            },
+            {
+              "id": "c",
+              "text": "So the human colleague can step in immediately with the facts and reason for escalation without making the user start over"
+            },
+            {
+              "id": "d",
+              "text": "To stop the human from answering the question"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Treating a human colleague like a top-tier specialist with a clean handover packet makes escalation fast and painless for everyone.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

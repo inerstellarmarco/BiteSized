@@ -5,8 +5,8 @@
     {
       "id": "bit_2UmlfHRyr3xv",
       "title": "Tiered chatbots with escalation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A tiered AI support design lets an automated agent handle straightforward, well-documented customer requests in tier one, while seamlessly escalating complex, emotional, or high-value issues to human specialists.\n\nIt is like a hospital walk-in centre where a triage nurse treats minor grazes immediately and sends chest pains straight through to the emergency doctor.\n\nThe biggest mistake in customer service AI is building a \"walled garden\" bot that traps frustrated customers in endless loops by hiding the option to speak to a real person.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,25 +19,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2UmlfHRyr3xv_1",
+          "type": "multiple_choice",
+          "prompt": "What separates a well-designed tiered AI support system from one that frustrates customers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It hides all human contact options so the bot deflection rate reaches one hundred per cent"
+            },
+            {
+              "id": "b",
+              "text": "It forces customers to answer twenty trivia questions before logging a fault"
+            },
+            {
+              "id": "c",
+              "text": "It treats a minor password reset and a major billing dispute in the exact same way"
+            },
+            {
+              "id": "d",
+              "text": "It resolves simple, routine queries quickly while offering a clear, frictionless path to a human agent for complex or sensitive issues"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Effective tiered support matches the channel to the problem, combining instant self-service for routine tasks with fast human care when needed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_CcUghToAhPtX",
       "title": "Real-world case: Klarna AI assistant",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Klarna made global headlines by rolling out a generative AI customer service assistant across millions of chats to handle routine refunds, payment queries, and order tracking at speed.\n\nIt is like opening hundreds of express checkout lanes overnight to clear queues of shoppers who only have one or two simple items in their basket.\n\nSubsequent industry discussions and company updates highlighted the ongoing value of human agents for complex service recovery, so check the current details and remind clients to balance automation speed with human empathy.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_CcUghToAhPtX_1",
+          "type": "multiple_choice",
+          "prompt": "What lesson should an AI consultant draw from high-profile enterprise customer support rollouts like Klarna's?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Replacing one hundred per cent of human support staff permanently has zero impact on complex dispute handling"
+            },
+            {
+              "id": "b",
+              "text": "AI support assistants only work for companies based in Sweden"
+            },
+            {
+              "id": "c",
+              "text": "Press releases always tell the complete operational story without needing further verification"
+            },
+            {
+              "id": "d",
+              "text": "AI handles high volumes of routine transactional queries rapidly, but organisations still need skilled humans for complex or sensitive cases"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "High-volume routine queries are ideal for AI automation, while human judgement and empathy remain crucial for edge cases and relationship recovery.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_WRTCO0Qp9nf7",
       "title": "Start with common questions backed by a knowledge base",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When launching a customer support agent, always start with the top ten to twenty most frequent, low-risk questions that are already clearly answered in an up-to-date knowledge base.\n\nIt is like teaching a new receptionist how to give directions to the car park and Wi-Fi password on week one, before asking them to handle complex contract disputes.\n\nBefore switching the bot on, audit the client's help centre articles; if the written documentation contradicts itself on return rules, the AI will give conflicting answers to customers too.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,43 +106,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WRTCO0Qp9nf7_1",
+          "type": "multiple_choice",
+          "prompt": "What is the essential prerequisite before launching a customer-facing AI support agent on routine FAQs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Training a brand-new foundation model from scratch on fifty years of physics textbooks"
+            },
+            {
+              "id": "b",
+              "text": "Deleting all existing help centre articles so the model can improvise freely"
+            },
+            {
+              "id": "c",
+              "text": "Waiting until the bot can solve every rare edge case in the business simultaneously"
+            },
+            {
+              "id": "d",
+              "text": "Auditing and updating the underlying knowledge base so the articles are accurate, clear, and non-contradictory"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A support bot grounded in a messy, outdated knowledge base will simply deliver wrong answers faster and with higher confidence.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BJrxQqthFCIx",
       "title": "A clear handoff to a human, with full context",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When an AI support agent escalates a conversation to a human colleague, it must pass across the full chat transcript, verified customer details, and a brief summary of what has already been tried.\n\nNothing annoys a customer more than explaining their problem to a bot for five minutes, being transferred to a person, and hearing \"Can you give me your account number and tell me what's wrong?\"\n\nAs a consultant, treat the handoff screen inside the human agent's workspace as a first-class design requirement, not an afterthought bolted on at the end of the project.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BJrxQqthFCIx_1",
+          "type": "multiple_choice",
+          "prompt": "Why is passing full conversation context during a bot-to-human handoff so critical to customer satisfaction?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It allows the human agent to paste the entire chat onto public social media"
+            },
+            {
+              "id": "b",
+              "text": "It makes the customer wait longer in the queue so they hang up"
+            },
+            {
+              "id": "c",
+              "text": "It removes the need to verify the customer's identity at any point in the journey"
+            },
+            {
+              "id": "d",
+              "text": "It saves the customer from repeating their details and lets the human agent solve the problem immediately"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A warm handoff with a concise summary respects the customer's time and helps the human agent resolve the issue on the first contact.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__Am8JQU2iUDk",
       "title": "Measure resolution and satisfaction, not only deflection",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Ticket deflection measures how many chats ended without touching a human agent, but true support success requires measuring actual issue resolution, repeat contacts, and customer satisfaction (CSAT).\n\nCounting deflection alone is like a doctor claiming a hundred per cent cure rate simply because they locked the surgery door and nobody managed to get an appointment.\n\nIf a customer closes the chat window in frustration and rings the call centre ten minutes later, a naive dashboard counts a \"deflected chat\" while the business actually paid for two failed interactions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__Am8JQU2iUDk_1",
+          "type": "multiple_choice",
+          "prompt": "Why is ticket deflection rate dangerous when used as the sole key performance indicator for an AI support bot?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Deflection rate is impossible to calculate using standard support software"
+            },
+            {
+              "id": "b",
+              "text": "A bot can achieve high deflection simply by frustrating customers into giving up or calling another channel without solving their problem"
+            },
+            {
+              "id": "c",
+              "text": "High deflection always means customers are delighted with the service"
+            },
+            {
+              "id": "d",
+              "text": "Measuring customer satisfaction is illegal under consumer protection law"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Pairing containment metrics with first-contact resolution, repeat-contact rates, and CSAT reveals whether customers actually got help.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_QNn62RqBfQe0",
       "title": "Case studies: separate vendor claims from verified results",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When vendors pitch support AI claiming \"eighty per cent cost reduction in thirty days\", a good consultant separates headline marketing claims from verified net operational results.\n\nIt is like reading a diet pill advert that promises dramatic weight loss in the headline, while the tiny footnote admits participants also ran ten miles a day and ate only soup.\n\nAsk probing questions on behalf of your client: how was \"resolution\" defined, did customers simply abandon the chat, what did integration and knowledge cleanup cost, and how did CSAT move?",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_QNn62RqBfQe0_1",
+          "type": "multiple_choice",
+          "prompt": "What should an AI consultant investigate when a vendor claims their support bot \"resolved seventy per cent of tickets automatically\"?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only the colour scheme of the vendor's slide deck"
+            },
+            {
+              "id": "b",
+              "text": "How \"resolved\" was defined, whether customers re-contacted within a week, and what happened to customer satisfaction scores"
+            },
+            {
+              "id": "c",
+              "text": "Whether the vendor's chief executive has a large social media following"
+            },
+            {
+              "id": "d",
+              "text": "Nothing, because vendor marketing headlines are audited to the same standard as statutory accounts"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Digging into definitions, repeat contacts, and hidden implementation work protects clients from overpromising business cases.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,8 +5,8 @@
     {
       "id": "bit_Fa_npCfyagED",
       "title": "Automated training pipelines",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An automated training pipeline packages data extraction, validation, feature preparation, model training, evaluation, and registration into a repeatable script or workflow rather than a sequence of manual notebook clicks. Whenever the team needs a fresh model, the pipeline runs the exact same steps in the exact same order on clean compute infrastructure.\n\nIt is like an automated bottling line that washes, fills, caps, and labels every bottle consistently, instead of workers filling bottles by hand with a funnel.\n\nInteractive notebooks are great for early exploration, but leaving production retraining inside manual notebooks invites human copy-paste errors and hidden state bugs.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Fa_npCfyagED_1",
+          "type": "multiple_choice",
+          "prompt": "Why do consultancy teams replace manual Jupyter notebook steps with automated training pipelines before handing a system over to a client?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Automated pipelines execute every preparation, training, and evaluation step consistently without relying on manual human clicks or hidden notebook state"
+            },
+            {
+              "id": "b",
+              "text": "Jupyter notebooks are legally prohibited from importing machine learning libraries"
+            },
+            {
+              "id": "c",
+              "text": "Automated pipelines never require any cloud compute or storage resources to run"
+            },
+            {
+              "id": "d",
+              "text": "Notebooks can only process datasets that have fewer than fifty rows"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Turning manual notebook workflows into automated pipelines eliminates out-of-order cell execution bugs and makes retraining reliable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_VbgBkg1kAWA7",
       "title": "Testing models before release",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before a newly trained or updated model is released to users, an automated pipeline must run a suite of behavioural and performance tests on it, much like unit and integration tests in software engineering. These checks verify overall accuracy, performance on critical customer segments, latency, output schema validity, and safety guardrails.\n\nIt is like a car manufacturer putting every new vehicle batch through braking, emissions, and crash tests before shipping them to dealerships.\n\nA model that compiles and loads without throwing a software exception can still return terrible predictions, so testing must inspect statistical and behavioural quality, not just whether the server starts.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,43 +66,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_VbgBkg1kAWA7_1",
+          "type": "multiple_choice",
+          "prompt": "Why are standard software unit tests alone not enough when releasing a new machine learning model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Machine learning code is written in languages that do not support unit testing frameworks"
+            },
+            {
+              "id": "b",
+              "text": "Software unit tests take several months to run on a single function"
+            },
+            {
+              "id": "c",
+              "text": "A model can run without any code crashes while still producing inaccurate, biased, or badly formatted predictions"
+            },
+            {
+              "id": "d",
+              "text": "Models only fail when the server hardware physically catches fire"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Beyond checking that code executes cleanly, ML release tests must validate prediction quality, slice fairness, and latency on real test cases.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_yc-MGE7-8GdW",
       "title": "Tests for the data, the code, and the model itself",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A comprehensive continuous integration pipeline for machine learning tests three distinct layers: the data, the code, and the trained model. Data tests check schemas, missing values, and distribution ranges; code tests verify feature transforms and pipeline logic; and model tests check evaluation metrics, subgroup slices, and inference speed.\n\nIt is like a restaurant quality system that inspects incoming raw vegetables at the back door, checks that kitchen equipment is clean, and tastes the finished soup before serving.\n\nCatching a broken upstream data column with a fast data test saves hours of wasted GPU compute that would otherwise be spent training a broken model.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_yc-MGE7-8GdW_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it valuable to run automated data schema and range tests before starting the model training step in a pipeline?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Data tests automatically write the Python code for the neural network architecture"
+            },
+            {
+              "id": "b",
+              "text": "Running data tests eliminates the need to evaluate the final trained model"
+            },
+            {
+              "id": "c",
+              "text": "Data tests compress the final model weights into a smaller file format"
+            },
+            {
+              "id": "d",
+              "text": "It catches corrupted or missing upstream data early before wasting hours of expensive GPU training time"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Validating input data quality upfront prevents garbage data from silently poisoning an expensive training run and producing a flawed model.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_oN78sIQ5A_y7",
       "title": "Quality gates: the new model must beat the current one",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A quality gate is an automated rule in a deployment pipeline that blocks a candidate model from being promoted unless it meets absolute thresholds and matches or beats the currently deployed production model on a golden evaluation set. The candidate must also stay within agreed latency, cost, and safety limits.\n\nIt is like a sports team trial where a challenger only takes the starting jersey if they run faster than the current champion on the same track.\n\nWithout an automated champion-versus-challenger gate, scheduled retraining pipelines can accidentally replace a reliable production model with a weaker one after an unusual week of data.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oN78sIQ5A_y7_1",
+          "type": "multiple_choice",
+          "prompt": "How does a champion-versus-challenger quality gate protect a production AI system during automated retraining?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It deletes the current production model before testing whether the new model works"
+            },
+            {
+              "id": "b",
+              "text": "It promotes the newly trained challenger model only if it matches or beats the current production champion on held-out evaluation tests"
+            },
+            {
+              "id": "c",
+              "text": "It forces both models to argue with each other in a public chat room"
+            },
+            {
+              "id": "d",
+              "text": "It automatically approves every new model as long as training finished in under an hour"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Comparing the new candidate directly against the incumbent model on the same benchmark prevents automated pipelines from shipping regressions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_VVOU5egkUXAF",
       "title": "Pipelines that run on a schedule or when new data arrives",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Production retraining pipelines are usually triggered in one of two ways: on a fixed calendar schedule, such as every Sunday night, or by an event, such as when a verified batch of new labelled data lands in storage or a drift alarm fires. Choosing the right trigger depends on how fast the business environment changes.\n\nIt is like servicing a delivery van either every six months on the calendar or as soon as the dashboard mileage counter hits ten thousand miles.\n\nEven when retraining is triggered automatically, high-stakes client systems often pause at the final production promotion step for a human sign-off or shadow check.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_VVOU5egkUXAF_1",
+          "type": "multiple_choice",
+          "prompt": "What are the two most common ways to trigger an automated retraining pipeline in production?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whenever a user refreshes their web browser window or clicks a CSS button"
+            },
+            {
+              "id": "b",
+              "text": "Only when the cloud provider replaces the physical server racks in the data centre"
+            },
+            {
+              "id": "c",
+              "text": "By rolling a physical dice in the engineering office every morning"
+            },
+            {
+              "id": "d",
+              "text": "On a fixed calendar schedule or in response to an event such as new validated data arriving or detected drift"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Scheduled cadences and event-driven triggers let teams keep models fresh without someone remembering to launch scripts by hand.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

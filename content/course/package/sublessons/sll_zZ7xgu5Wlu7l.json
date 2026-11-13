@@ -5,8 +5,8 @@
     {
       "id": "bit_Bo6tdlBOG5h6",
       "title": "Shared memory and a task board for the team",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A bot team needs a shared task board and workspace where every bot can read the current status of a job and save its completed artefacts. Instead of whispering long histories directly to each other, bots read and update a central record.\n\nThink of a hospital ward whiteboard coupled with a patient's clip-chart at the end of the bed, showing what has been done and what is needed next.\n\nHowever, dumping every raw thought into shared memory quickly bloats context and confuses the team. Bots should write only clean summaries and final outputs to the shared board, keeping their rough scratchpads private.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Bo6tdlBOG5h6_1",
+          "type": "multiple_choice",
+          "prompt": "Why should bots write only clean outputs rather than every rough thought to shared memory?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because cloud databases cannot store more than ten words per customer record"
+            },
+            {
+              "id": "b",
+              "text": "To prevent context bloat and stop rough intermediate text from confusing other bots"
+            },
+            {
+              "id": "c",
+              "text": "To hide the team's progress from the human supervisor managing the workflow"
+            },
+            {
+              "id": "d",
+              "text": "Because language models charge ten times more for reading text from a task board"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Keeping the shared board tidy with structured status updates and final outputs keeps downstream bots focused and economical.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_yjmMs_qtRvCD",
       "title": "Handoffs with structured messages",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When one bot hands work to another, it should pass a structured message with fixed fields rather than a rambling paragraph of chat. Using a strict schema ensures the receiving bot gets every required piece of data in a predictable format.\n\nFor example, a triage bot handing off a support ticket sends a neat record containing `ticket_id`, `customer_tier`, `issue_category`, and `urgency_score` instead of a casual note.\n\nIf a bot fails to fill a required field, code validation can catch the mistake immediately before the next bot starts work. Do not make the schema so rigid, though, that there is nowhere to pass an unexpected warning note.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,43 +66,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_yjmMs_qtRvCD_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main benefit of using structured messages with fixed fields for bot handoffs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Code can validate that all required information is present before the next bot starts work"
+            },
+            {
+              "id": "b",
+              "text": "Structured messages allow bots to communicate without using any network connection"
+            },
+            {
+              "id": "c",
+              "text": "Fixed fields let the receiving bot ignore the customer's actual question completely"
+            },
+            {
+              "id": "d",
+              "text": "It guarantees that the language model will never hallucinate a wrong fact inside a field"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Enforcing a clear schema at handoffs catches missing fields early and gives the next step predictable inputs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_J-FYi_k6tPYR",
       "title": "Define what done means for each task",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every task assigned to a bot needs an explicit definition of done that can be checked before the task is marked complete. Without clear completion criteria, a bot may stop halfway through a job or keep polishing the same paragraph forever.\n\nIn a property survey workflow, \"done\" for the extraction bot means every required room dimension is filled in, units are converted to metres, and any unreadable page is flagged.\n\nWhenever possible, check these conditions with simple code rules alongside a reviewer bot. Remember that passing a format check shows the output is complete, not that every underlying business assumption is wise.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_J-FYi_k6tPYR_1",
+          "type": "multiple_choice",
+          "prompt": "What happens when a bot task lacks a clear definition of done?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The bot will automatically ask the client's customers to write the missing rules"
+            },
+            {
+              "id": "b",
+              "text": "The system will run faster because it skips all validation steps at the end"
+            },
+            {
+              "id": "c",
+              "text": "The cloud provider will automatically generate the correct business criteria"
+            },
+            {
+              "id": "d",
+              "text": "The bot may finish prematurely with incomplete work or loop endlessly trying to improve its output"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Clear completion criteria tell the system exactly when to stop, accept the work, or trigger an error path.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1C6HPhsWAkEc",
       "title": "Handling conflicts and duplicated work",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When multiple bots work on the same task board, they can accidentally claim the same item or overwrite each other's updates. A reliable system uses task locking, unique job IDs, and clear rules for which bot wins if two conclusions clash.\n\nIt is like an air traffic control system that assigns each plane a single runway slot so two aircraft never try to land on the same strip of tarmac at once.\n\nIf a compliance bot says an application is blocked while a sales bot marks it ready, the system must not guess. Conflicting assessments should lock the record and route it to a manager bot or a human.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1C6HPhsWAkEc_1",
+          "type": "multiple_choice",
+          "prompt": "How should a system prevent two bots from processing the same task at the same time?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Tell the bots in their prompts to be polite and wait a few seconds before starting"
+            },
+            {
+              "id": "b",
+              "text": "Use unique job IDs and task locking on the shared board so only one bot claims an item"
+            },
+            {
+              "id": "c",
+              "text": "Run all bots only once a month so they rarely overlap in practice"
+            },
+            {
+              "id": "d",
+              "text": "Delete any customer request that triggers more than one bot in the system"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "System-level locks and clear conflict rules stop duplicate actions and prevent bots from overwriting each other's work.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1qS3f9rQZfQs",
       "title": "Humans work from the same board",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Human staff who oversee or collaborate with a bot team should use the same task board rather than a separate hidden dashboard. Seeing bot tasks alongside human tasks in one queue makes handoffs natural and keeps the whole operation visible.\n\nIn an accountancy practice, bookkeepers open their normal workflow board each morning to see which bank reconciliations the bots finished overnight and which exceptions sit waiting in the human column.\n\nThe interface must still suit people, not software engineers. Translate raw bot status codes into plain business labels so staff can step in, edit a draft, or reassign a job without reading technical logs.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1qS3f9rQZfQs_1",
+          "type": "multiple_choice",
+          "prompt": "Why should human staff work from the same task board as the bot team?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It forces office staff to learn how to read raw JSON code and server stack traces"
+            },
+            {
+              "id": "b",
+              "text": "It keeps the whole workflow visible in one place and makes handoffs between bots and people seamless"
+            },
+            {
+              "id": "c",
+              "text": "It eliminates the need for access controls or separate user accounts"
+            },
+            {
+              "id": "d",
+              "text": "It allows bots to approve their own work whenever the board is busy"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Sharing a single plain-English board lets staff see progress at a glance and step smoothly into exception tasks.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

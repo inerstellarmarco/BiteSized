@@ -5,32 +5,88 @@
     {
       "id": "bit_uD88-1GzZYc6",
       "title": "Graph neural networks for molecules",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A graph neural network (GNN) is a deep learning architecture designed to operate directly on graph-structured data, making it a natural choice for modelling small molecules in chemistry and drug discovery. Through message passing, each node iteratively updates its representation by aggregating information from its connected neighbours.\n\nIt is like a neighbourhood watch network where each household updates its situational awareness by talking to the houses directly next door over several rounds.\n\nUnlike flat text strings (such as SMILES) or fixed molecular fingerprints, GNNs learn task-specific representations directly from chemical topology or 3D geometry. However, standard GNNs can suffer from over-smoothing when stacked too deeply and still struggle with activity cliffs where one tiny atomic swap abolishes drug binding.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_uD88-1GzZYc6_1",
+          "type": "multiple_choice",
+          "prompt": "How do message-passing graph neural networks build representations of small molecules?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The network flattens the molecule into an alphabetical list of elements and runs linear regression"
+            },
+            {
+              "id": "b",
+              "text": "Each atom is treated as an independent sample with zero information shared across chemical bonds"
+            },
+            {
+              "id": "c",
+              "text": "The model converts the chemical structure into an audio waveform before applying speech recognition"
+            },
+            {
+              "id": "d",
+              "text": "Nodes iteratively aggregate and update feature vectors from their bonded neighbouring atoms across layers"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Message passing lets each atom refine its embedding based on local chemical environments and bond connectivity across successive hops.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_YnUsil8kplUM",
       "title": "Biological networks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Beyond individual molecules, systems biology represents cellular organisation through large-scale biological networks where entities such as genes, proteins, metabolites, and phenotypes are linked by functional or physical relationships. Graph learning algorithms analyse these networks to prioritise disease genes, predict missing links, or identify drug repurposing opportunities.\n\nIt is like mapping an airline's route network to spot which hub airports would paralyse national travel if closed by a storm.\n\nA crucial caveat for AI consultants is that biological networks are plagued by study bias: famous cancer proteins like TP53 have thousands of recorded links simply because scientists test them constantly, whereas under-studied proteins look isolated. Models must correct for node degree bias or they will just re-predict popular genes.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YnUsil8kplUM_1",
+          "type": "multiple_choice",
+          "prompt": "What is a major source of bias when training graph models on published biological interaction networks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Well-studied genes have disproportionately high numbers of recorded edges compared with under-studied genes"
+            },
+            {
+              "id": "b",
+              "text": "Biological networks are completely uniform grids where every protein has exactly four neighbours"
+            },
+            {
+              "id": "c",
+              "text": "Graph neural networks cannot process nodes that have more than two incoming connections"
+            },
+            {
+              "id": "d",
+              "text": "Metabolic pathways never share common chemical intermediates across human tissues"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Literature-derived networks reflect human research attention as much as true biology, causing naive models to favour high-degree hub proteins.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_JRDvR-6toQwa",
       "title": "Atoms as nodes and bonds as edges",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When representing a small molecule as a mathematical graph, each atom becomes a node carrying features such as atomic number, formal charge, and chirality, while each chemical bond becomes an edge carrying attributes such as bond type (single, double, aromatic) and ring membership.\n\nIt is like a subway map where each station is a node with passenger capacity data and each rail line is an edge labelled by track speed.\n\nFor three-dimensional equivariant GNNs, edges also include spatial distances and bond angles between atoms in 3D space. Consultants should remind medicinal chemistry teams that how you featurise protonation states, tautomers, and 3D conformers at physiological pH strongly impacts downstream model predictions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,31 +99,115 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_JRDvR-6toQwa_1",
+          "type": "multiple_choice",
+          "prompt": "In a molecular graph representation used for machine learning, what do the nodes and edges typically represent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Nodes represent individual atoms with their chemical properties, and edges represent the bonds or spatial distances between them"
+            },
+            {
+              "id": "b",
+              "text": "Nodes represent hospital pharmacies, and edges represent courier delivery routes between cities"
+            },
+            {
+              "id": "c",
+              "text": "Nodes represent entire chromosomes, and edges represent cell division timelines"
+            },
+            {
+              "id": "d",
+              "text": "Nodes represent laboratory spectrometers, and edges represent power cables connecting them"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Molecular graphs encode chemical structure by mapping atoms to nodes and covalent or spatial interactions to edges.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qN3mA_pITBd8",
       "title": "Protein interaction and regulatory networks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Cellular networks come in distinct flavours with very different mathematical semantics: protein-protein interaction (PPI) networks are typically undirected graphs showing which proteins physically bind, whereas gene regulatory networks (GRNs) are directed, signed graphs showing which transcription factors activate or repress target genes.\n\nIt is like the difference between a mutual handshake log (undirected) and a corporate org chart showing who approves whose budget (directed).\n\nMerging undirected physical binding data with directed causal regulation without preserving edge types and tissue context creates a hairball graph that misleads graph neural networks. Always advise clients to build heterogeneous, context-aware graphs that keep interaction types and tissue origins distinct.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qN3mA_pITBd8_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it important to distinguish protein-protein interaction networks from gene regulatory networks in graph modelling?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Protein interaction networks only exist in bacteria, whereas regulatory networks only exist in mammals"
+            },
+            {
+              "id": "b",
+              "text": "Regulatory networks contain no gene nodes and only model lipid membrane diffusion"
+            },
+            {
+              "id": "c",
+              "text": "Undirected graphs cannot be stored in computer memory alongside node feature matrices"
+            },
+            {
+              "id": "d",
+              "text": "Physical binding is generally symmetric and undirected, whereas transcriptional regulation is directed and activating or repressing"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Treating directed causal regulation and symmetric physical binding as identical edges destroys essential biological semantics needed for accurate mechanism inference.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_55ARS-SZ0uXp",
       "title": "Predicting properties from structure",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Quantitative structure-property and structure-activity relationship (QSPR/QSAR) models predict a molecule's biological potency, solubility, blood-brain barrier permeability, or toxicity (ADMET) directly from its molecular graph or fingerprints. In early drug discovery, virtual screening ranks millions of make-on-demand compounds before chemists synthesise a single vial.\n\nIt is like an architectural engineer estimating a bridge design's weight limit from its blueprint before pouring any concrete.\n\nThe constant trap in molecular property prediction is using random train-test splits, where near-identical chemical analogues sit in both sets and give inflated accuracy. Consultants must insist on scaffold splits or temporal splits so the client sees how the model performs on genuinely novel chemical series.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_55ARS-SZ0uXp_1",
+          "type": "multiple_choice",
+          "prompt": "Why should molecular property predictors be evaluated using scaffold splits or temporal splits rather than random splits?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Scaffold splits automatically double the training speed of graph neural networks on small datasets"
+            },
+            {
+              "id": "b",
+              "text": "Random splits are mathematically impossible to compute when molecules contain aromatic carbon rings"
+            },
+            {
+              "id": "c",
+              "text": "Random splits place nearly identical chemical analogues in both train and test sets, overestimating how well the model generalises to new chemical series"
+            },
+            {
+              "id": "d",
+              "text": "Temporal splits guarantee that every virtual hit will pass human Phase III clinical trials"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "In drug discovery, models are used to evaluate new chemical series, so validation must hold out entire molecular scaffolds or later-discovered compounds.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

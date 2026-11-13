@@ -5,8 +5,8 @@
     {
       "id": "bit_x-MmK4NvYFTL",
       "title": "Full fine-tuning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Full fine-tuning updates every single parameter across all layers of the pretrained base model during backpropagation, just like continuing pretraining on your specialised task dataset with a smaller learning rate. Because every weight matrix is free to adapt, full fine-tuning offers the maximum theoretical capacity to shift the model's behaviour across large, complex domain datasets.\n\nIt is like renovating an entire office building from the foundations to the roof rather than just refitting the meeting rooms on the top floor.\n\nHowever, updating billions of parameters carries a steep hardware and operational price tag: you need a large multi-GPU cluster to hold the training states, you risk overwriting the base model's general capabilities if your dataset is narrow, and every finished training run produces a massive multi-gigabyte copy of the entire model to store and deploy.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,55 +19,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_x-MmK4NvYFTL_1",
+          "type": "multiple_choice",
+          "prompt": "What defines full fine-tuning compared with parameter-efficient fine-tuning (PEFT) methods?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Full fine-tuning computes gradients and updates every weight in the pretrained network rather than training only a small set of added parameters"
+            },
+            {
+              "id": "b",
+              "text": "Full fine-tuning trains the model from random initialisation without using any pretrained weights"
+            },
+            {
+              "id": "c",
+              "text": "Full fine-tuning updates only the final classification head and freezes all transformer layers"
+            },
+            {
+              "id": "d",
+              "text": "Full fine-tuning runs exclusively on CPUs without using gradient descent"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "In full fine-tuning, all parameters of the base model are unlocked and updated during backpropagation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_XPh14jkayIR9",
       "title": "Catastrophic forgetting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Catastrophic forgetting (also called catastrophic interference) occurs when fine-tuning a neural network on a narrow new task overwrites the weight configurations that supported its previously learned skills. After aggressive fine-tuning on, say, converting natural language into SQL queries, a model might become brilliant at SQL while suddenly losing its ability to summarise an email, follow safety boundaries, or hold a normal polite conversation.\n\nImagine a bilingual translator who spends six months locked in a legal archive doing nothing but drafting Latin tax clauses, and walks out struggling to order a coffee in everyday French.\n\nCatastrophic forgetting is worst when you run full fine-tuning for too many epochs with a high learning rate on a narrow, homogeneous dataset.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XPh14jkayIR9_1",
+          "type": "multiple_choice",
+          "prompt": "What is catastrophic forgetting when fine-tuning a large language model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The GPU loses all data stored in its volatile memory when the server powers down"
+            },
+            {
+              "id": "b",
+              "text": "The model forgets the earlier words of a long user prompt when the KV cache overflows"
+            },
+            {
+              "id": "c",
+              "text": "The tokeniser deletes rare words from its vocabulary file after training finishes"
+            },
+            {
+              "id": "d",
+              "text": "Training aggressively on a narrow new task causes the model to overwrite weights needed for its general language and reasoning skills"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Because all skills share the same weight matrices, large unconstrained weight updates for one narrow domain can disrupt general capabilities learned during pretraining.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_XE0ajSrWwUzK",
       "title": "Full fine-tuning needs memory for weights, gradients, and optimizer state",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Why can an 80-gigabyte GPU run inference on a 30-billion-parameter model in 16-bit precision, yet crash immediately if you try full fine-tuning on that same model? Inference only stores the weights and a small KV cache, whereas full fine-tuning must also store a gradient, a 32-bit master weight, and two 32-bit Adam states per parameter, plus forward activations.\n\nIt is like parking a car in a small garage (inference) versus setting up a full workshop around it with engine hoists and tool cabinets on every side (full fine-tuning).\n\nFull mixed-precision fine-tuning with AdamW requires roughly three to four times as much parameter memory as 16-bit inference, pushing medium-sized models onto multi-GPU nodes.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XE0ajSrWwUzK_1",
+          "type": "multiple_choice",
+          "prompt": "Why does full fine-tuning require several times more GPU memory than running inference on the same model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Full fine-tuning duplicates the vocabulary table once for every training example in the dataset"
+            },
+            {
+              "id": "b",
+              "text": "Inference runs in 64-bit precision whereas training requires 256-bit floating-point numbers"
+            },
+            {
+              "id": "c",
+              "text": "Training must store per-parameter gradients, optimiser momentum and variance states, and forward activations alongside the model weights"
+            },
+            {
+              "id": "d",
+              "text": "The GPU must store a complete video recording of the user's screen during backpropagation"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Holding gradients, 32-bit master weights, and Adam's first and second moment states for every unlocked parameter multiplies the memory footprint far beyond the inference weights alone.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_A0dF36kC14Nv",
       "title": "Forgetting: new skills can erase old ones",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In client projects, catastrophic forgetting often shows up in subtle, business-critical ways rather than total gibberish. A customer-support chatbot fine-tuned solely on 2,000 examples of refund policy answers may start trying to issue a refund even when a customer asks a simple question about store opening hours, or may lose its instruction-tuned safety alignment and comply with adversarial prompts it used to refuse cleanly.\n\nThink of a carpenter who replaces every tool in their belt with five sizes of hammer: when a job needs a hammer it goes fast, but suddenly every screw looks like a nail too.\n\nThis is why your evaluation suite must include two separate test sets: a task-specific eval to verify that the new skill improved, and a general capability and safety regression eval to confirm that broad instruction-following did not degrade.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_A0dF36kC14Nv_1",
+          "type": "multiple_choice",
+          "prompt": "How can an engineering team detect whether a fine-tuning run has caused harmful forgetting on general behaviour or safety?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Include a general instruction-following and safety regression test set alongside the narrow domain evaluation suite"
+            },
+            {
+              "id": "b",
+              "text": "Check only the training loss on the narrow domain dataset after the tenth epoch"
+            },
+            {
+              "id": "c",
+              "text": "Measure the file size of the saved checkpoint on disk before and after training"
+            },
+            {
+              "id": "d",
+              "text": "Count how many milliseconds the tokeniser takes to encode a single word"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Testing on a broad regression suite alongside your target task catches cases where narrow domain tuning degrades general helpfulness, formatting, or safety boundaries.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_KavnXWCyG4Nx",
       "title": "Mixing in general data reduces forgetting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When you need to teach a model a strong domain skill without erasing its general conversational ability, the most effective defences are data replay (mixing a small percentage of diverse general instruction examples into your domain training dataset), using parameter-efficient fine-tuning (like LoRA), and keeping the learning rate and epoch count conservative. Even a five to ten per cent blend of general instruction, reasoning, and safety examples acts as an anchor during gradient descent.\n\nIt is like an athlete focusing on a new golf swing who still spends fifteen minutes of every session doing general core stability exercises so their overall posture does not drift out of alignment.\n\nRegularisation penalties that penalise the fine-tuned model for drifting too far from the frozen base model's probability distribution also help keep general skills intact.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KavnXWCyG4Nx_1",
+          "type": "multiple_choice",
+          "prompt": "How does mixing a small share of general instruction examples into a domain fine-tuning dataset help prevent catastrophic forgetting?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It reduces the total number of tokens processed during each training epoch by half"
+            },
+            {
+              "id": "b",
+              "text": "It keeps gradients anchored on diverse tasks so the optimiser cannot overwrite general language and safety capabilities"
+            },
+            {
+              "id": "c",
+              "text": "It converts a full fine-tuning run into a zero-shot prompting pipeline automatically"
+            },
+            {
+              "id": "d",
+              "text": "It allows the model to train without calculating cross-entropy loss on the domain examples"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Replaying diverse general instruction and safety examples during training regularises the weight updates so the model retains broad capabilities while learning the new task.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

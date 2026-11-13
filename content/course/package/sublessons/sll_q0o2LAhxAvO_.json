@@ -5,44 +5,128 @@
     {
       "id": "bit_PqOQmwQETpbA",
       "title": "n8n and low-code orchestration",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Low-code workflow platforms such as n8n, Make and Zapier let you wire together triggers, APIs, databases and AI agent nodes on a visual canvas. Check the current details for each platform's AI agent features.\n\nIn a couple of hours, a consultant can build a working workflow that watches a shared inbox, extracts invoice fields with an LLM node, checks the supplier in Xero or HubSpot, posts an approval button in Slack and logs the result to Google Sheets.\n\nIt is building with Lego bricks: the connectors for hundreds of business apps are already moulded and ready to snap together.\n\nLow-code tools are brilliant for fast prototypes, internal automations and client teams without full-time software engineers.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PqOQmwQETpbA_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main strength of low-code orchestration platforms like n8n for an AI consultant?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They train new frontier language models from scratch"
+            },
+            {
+              "id": "b",
+              "text": "Ready-made integrations and a visual canvas let you connect business apps and AI steps quickly without writing boilerplate plumbing"
+            },
+            {
+              "id": "c",
+              "text": "They never require API keys or authentication"
+            },
+            {
+              "id": "d",
+              "text": "They replace the need for any testing or error handling"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Low-code platforms excel at rapid integration with SaaS tools and visual workflows that non-developers can inspect.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_P8k7P-kDiLla",
       "title": "Custom Python orchestration",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a workflow needs complex state management, custom evaluation suites, strict version control in Git, high-throughput concurrency or intricate retry and branching logic, visual canvases start to feel cramped.\n\nWriting the orchestration in Python (or TypeScript), either with plain async code or a code-first framework like LangGraph or PydanticAI, gives you the full power of software engineering: unit tests, code review, type checking, custom data structures and deployment in your own containers.\n\nIt is a bespoke joinery workshop compared with flat-pack furniture: it takes more skill to set up, but you can build any shape to exact tolerances.\n\nProduction products with heavy traffic or tricky logic usually end up in code.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_P8k7P-kDiLla_1",
+          "type": "multiple_choice",
+          "prompt": "When is custom code orchestration in Python or TypeScript preferable to a visual low-code canvas?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When nobody on the client team can read or maintain code and the workflow is a simple two-step Slack alert"
+            },
+            {
+              "id": "b",
+              "text": "When you need Git version control, automated test suites, complex state logic or high-scale production control"
+            },
+            {
+              "id": "c",
+              "text": "When you want to avoid writing any tests"
+            },
+            {
+              "id": "d",
+              "text": "Never, because Python cannot call web APIs"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Code-first orchestration gives you proper software engineering practices: type safety, unit tests, diffs in Git and full control over execution.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_0BswHE4Dam1I",
       "title": "Framework comparison",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every few months a new agent framework trends on social media. Beneath the marketing, most code frameworks fall into a few recognisable styles. Check the current details as frameworks evolve rapidly.\n\n**Graph and state-machine frameworks** (such as LangGraph) focus on explicit control flow, checkpoints and cycles. **Role and crew frameworks** (such as CrewAI) focus on persona-driven multi-agent teams and quick setup. **Typed single-agent libraries** (such as PydanticAI or the OpenAI and Anthropic Agent SDKs) focus on clean tool loops and strict schema validation with minimal magic.\n\nIt is choosing kitchen equipment: a food processor, a stand mixer and a sharp chef's knife each suit different recipes.\n\nRemember that plain code with the provider SDK is always a valid option too.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0BswHE4Dam1I_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you include \"plain code with the provider SDK\" when comparing agent frameworks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Provider SDKs cannot call tools or return JSON"
+            },
+            {
+              "id": "b",
+              "text": "Frameworks are required by law for all AI applications"
+            },
+            {
+              "id": "c",
+              "text": "Many workflows need only a simple loop and tool calls, where plain code has zero framework lock-in and nothing hidden"
+            },
+            {
+              "id": "d",
+              "text": "Plain code costs twice as much per token at the API"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A thin loop in plain code is often easier to understand and maintain than a heavy framework when the control flow is simple.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_B5szeBA_vJOB",
       "title": "Triggers, webhooks, and schedules that start agent work",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Not every agent starts because a human typed a message into a chat box. Many of the most valuable business agents run in the background, started by an event or a clock.\n\nThere are three common starters. A **webhook** fires the instant an external event happens, such as a new support ticket in Zendesk or a new lead in HubSpot. A **schedule** (cron job) runs at set times, such as every weekday at 7 a.m. to prepare the morning briefing. A **queue or database trigger** wakes a worker when a new file lands in storage.\n\nIt is a burglar alarm (event webhook) versus a central-heating timer (schedule).\n\nBackground agents need even stricter budgets and alerting than chat agents because nobody is watching the screen while they run.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,37 +139,121 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_B5szeBA_vJOB_1",
+          "type": "multiple_choice",
+          "prompt": "Why do background agents triggered by webhooks or schedules need especially strict budgets and alerts?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because webhook requests do not use any tokens"
+            },
+            {
+              "id": "b",
+              "text": "Because scheduled tasks can only run on Sundays"
+            },
+            {
+              "id": "c",
+              "text": "Because background agents cannot call tools"
+            },
+            {
+              "id": "d",
+              "text": "Because no human is watching them live in a chat window to notice if they loop or fail"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Unattended runs need hard caps, dead-letter queues and alerts so a broken webhook does not quietly burn budget overnight.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_nxslL4dGqkoD",
       "title": "Mixing both: low-code for plumbing, code for the agent logic",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "You do not have to choose exclusively between n8n and custom Python. One of the cleanest consulting patterns combines both.\n\nUse the low-code platform for what it does best: OAuth logins, watching Gmail or Slack, timers, webhooks and writing rows to Salesforce or Notion. When the workflow reaches the hard AI step, have the low-code node call your own Python service over a single HTTP endpoint, which runs the tested, version-controlled agent and returns clean JSON.\n\nIt is using standard plumbing pipes to bring water to the house, and a specialist espresso machine on the counter to brew the coffee.\n\nThis split keeps SaaS connectors easy and core AI logic properly engineered.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_nxslL4dGqkoD_1",
+          "type": "multiple_choice",
+          "prompt": "How can you combine low-code tools and custom code effectively in a client architecture?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Write every step twice in both systems and throw one away"
+            },
+            {
+              "id": "b",
+              "text": "Put all database passwords in public chat messages"
+            },
+            {
+              "id": "c",
+              "text": "Use low-code for SaaS triggers, OAuth and notifications, and call a version-controlled code service for the core agent logic"
+            },
+            {
+              "id": "d",
+              "text": "Use custom Python only for sending Slack emojis and n8n for training neural networks"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Letting low-code handle third-party app connectors while code handles the complex, tested agent logic gives you the best of both worlds.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_fOAKQRoWJ0pb",
       "title": "Frameworks merge and retire: Microsoft Agent Framework replaced AutoGen and Semantic Kernel, which moved to maintenance mode",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The agent framework landscape consolidates quickly. A clear example happened in the Microsoft ecosystem: after running two overlapping libraries for years, Microsoft introduced the unified **Microsoft Agent Framework**, while earlier projects **AutoGen** and **Semantic Kernel** moved into maintenance mode. Check the current details for the latest roadmap and migration guides.\n\nTeams that had tightly coupled every business rule to internal quirks of an early framework faced painful rewrites. Teams that kept their prompts, tool functions and schemas in clean, framework-agnostic code swapped the outer runner in a few days.\n\nIt is keeping your recipes in a notebook so you are not stuck when you change your brand of oven.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_fOAKQRoWJ0pb_1",
+          "type": "multiple_choice",
+          "prompt": "What architectural lesson comes from frameworks like AutoGen and Semantic Kernel being superseded by Microsoft Agent Framework?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Never use any software written after 2020"
+            },
+            {
+              "id": "b",
+              "text": "Rewrite your entire database every week"
+            },
+            {
+              "id": "c",
+              "text": "Put all business logic inside undocumented framework internals"
+            },
+            {
+              "id": "d",
+              "text": "Keep your prompts, schemas and tool functions in clean, portable code so you can swap the orchestration framework without a full rewrite"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Isolating your core prompts, tools and schemas from framework glue protects your client when frameworks merge or retire.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BqrQbltVNIHO",
       "title": "Comparison criteria: control, debugging, state handling, and lock-in",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When evaluating an orchestration framework for a client, ignore the five-minute \"hello world\" demo. Every framework makes a three-line demo look easy.\n\nJudge it instead on four production criteria. **Control**: can you enforce exact branching and hard step caps in code? **Debugging**: when step four fails, do you see the exact prompt and tool call, or a wall of thirty internal framework stack frames? **State handling**: how cleanly does it checkpoint, pause for humans and resume? **Lock-in**: how hard is it to take your tools and prompts out if you leave?\n\nIt is test-driving a car on a wet roundabout and checking the boot space, not just admiring the paint in the showroom.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
@@ -98,7 +266,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BqrQbltVNIHO_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a framework's five-minute demo a poor guide for choosing it on a client project?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Demos always take several weeks to run"
+            },
+            {
+              "id": "b",
+              "text": "Demos hide how the framework behaves when you need strict control, clear stack traces, state checkpoints and an exit path"
+            },
+            {
+              "id": "c",
+              "text": "Every framework fails on the first line of a demo"
+            },
+            {
+              "id": "d",
+              "text": "Clients only care about how few characters the import statement has"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Evaluate frameworks on control, debuggability, state persistence and portability under real failure conditions, not demo brevity.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

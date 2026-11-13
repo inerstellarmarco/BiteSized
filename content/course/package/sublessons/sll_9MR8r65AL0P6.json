@@ -5,74 +5,242 @@
     {
       "id": "bit_HDDuatkGOovq",
       "title": "Data and concept drift",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Once a model is deployed to the real world, the environment around it never stays frozen. Over time, both the incoming customer data and the underlying real-world patterns shift away from the historical snapshot the model learned from, causing accuracy to decay gradually known as model drift.\n\nIt is like using a printed paper road map from five years ago: new housing estates and altered one-way streets gradually make the old directions less reliable each month.\n\nAdvising a client on an AI launch always requires budgeting for ongoing drift monitoring and periodic refresh cycles, because no model stays accurate forever without maintenance.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_HDDuatkGOovq_1",
+          "type": "multiple_choice",
+          "prompt": "Why do machine learning models often lose accuracy over months in production even when their code and weights never change?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The numerical weights inside the file physically rust and decay on the hard drive"
+            },
+            {
+              "id": "b",
+              "text": "Cloud servers gradually reduce their CPU clock speed the longer a container runs"
+            },
+            {
+              "id": "c",
+              "text": "The real-world input data and customer behaviours change over time relative to the historical training snapshot"
+            },
+            {
+              "id": "d",
+              "text": "Python libraries automatically randomise model predictions after ninety days"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Static models reflect the world as it looked when they were trained, so shifting customer behaviour and market conditions erode performance over time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NwvSAfP0uWQR",
       "title": "Retraining triggers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a monitoring system detects that the world has shifted or model performance is slipping, a retraining trigger decides when to launch a pipeline to refresh the model on newer data. Triggers can be time-based, volume-based, drift-based, or performance-based.\n\nIt is like a thermostat that switches the boiler on either at six o'clock every morning or whenever the living room temperature drops below eighteen degrees.\n\nSetting a drift trigger too sensitively can cause expensive, unnecessary retraining loops during brief anomalies, so automated triggers should always be paired with data quality checks and a champion-challenger gate.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NwvSAfP0uWQR_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an automated drift-based retraining trigger always be paired with upstream data quality checks and evaluation gates?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because retraining a model deletes all historical backups from cloud storage"
+            },
+            {
+              "id": "b",
+              "text": "So a sudden broken sensor or upstream software bug does not trigger the pipeline to retrain the model on corrupted data"
+            },
+            {
+              "id": "c",
+              "text": "So the model can skip evaluation and deploy directly to production in one second"
+            },
+            {
+              "id": "d",
+              "text": "Because drift triggers only work on models that have fewer than ten parameters"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "If a sudden input shift is caused by a broken upstream data feed rather than real customer change, retraining blindly will bake that bug into the new model.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_sjRcfPdCd5jv",
       "title": "Data drift: the inputs change; concept drift: the relationship changes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Analysts distinguish between two types of shift: data drift, also called covariate shift, happens when the distribution of input features changes, whereas concept drift happens when the relationship between the inputs and the correct target outcome changes. For instance, more younger shoppers visiting your website is data drift, while shoppers suddenly refusing to buy winter coats at last year's price is concept drift.\n\nIt is like an estate agent who either sees a sudden wave of studio flats coming onto the market, which is data drift, or sees interest rates jump so that the same three-bedroom house now sells for twenty per cent less, which is concept drift.\n\nDiagnosing which type of drift occurred matters because severe concept drift often requires collecting fresh ground-truth labels and sometimes rethinking the features entirely.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_sjRcfPdCd5jv_1",
+          "type": "multiple_choice",
+          "prompt": "What is the difference between data drift and concept drift in a production machine learning system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Data drift only happens in text models, whereas concept drift only happens in image models"
+            },
+            {
+              "id": "b",
+              "text": "Data drift means the database hard drive is full, whereas concept drift means the network cable is unplugged"
+            },
+            {
+              "id": "c",
+              "text": "Data drift happens during model training, whereas concept drift happens before any data is collected"
+            },
+            {
+              "id": "d",
+              "text": "Data drift means the distribution of incoming inputs has changed, whereas concept drift means the true relationship between inputs and the target outcome has changed"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Data drift shifts the frequency of input patterns, while concept drift alters what the right answer actually is for a given input.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_8y4DwITgukur",
       "title": "Drift tests and thresholds",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "To detect data drift automatically, monitoring pipelines compare the statistical distribution of recent live inputs against a reference baseline window from training using metrics such as the Population Stability Index, Kolmogorov-Smirnov test, or embedding distance. When the divergence metric crosses a pre-configured threshold, the dashboard raises a warning.\n\nIt is like a factory quality gauge that measures the diameter of bolts coming off a press and rings a bell if the average size drifts more than half a millimetre from the blueprint.\n\nWith hundreds of features, statistical tests can fire false alarms on harmless minor fluctuations, so teams focus alerts on the most influential features and output score distributions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8y4DwITgukur_1",
+          "type": "multiple_choice",
+          "prompt": "Why do experienced MLOps teams prioritise drift alerts on high-importance features and prediction score distributions rather than alerting on every minor column?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Testing hundreds of minor features with tight statistical thresholds creates constant false-alarm fatigue from harmless fluctuations"
+            },
+            {
+              "id": "b",
+              "text": "Statistical drift tests cannot be calculated on more than one column per year"
+            },
+            {
+              "id": "c",
+              "text": "Minor features are automatically deleted by the model registry during deployment"
+            },
+            {
+              "id": "d",
+              "text": "Drift metrics like Population Stability Index only work on audio recordings"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Focusing thresholds on the features that actually drive model decisions prevents engineers from ignoring noisy, low-impact alerts.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_UaQRBGtUhDP7",
       "title": "Retrain on a schedule, on drift, or on a drop in quality",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Organisations choose between three main retraining strategies: retraining on a regular calendar schedule, retraining when input drift crosses a threshold, or retraining when measured prediction quality drops. In practice, many mature teams combine a predictable monthly or weekly schedule with emergency retraining when quality or drift alerts fire.\n\nIt is like brushing your teeth every morning and evening on a routine schedule while also visiting the dentist immediately if you feel a sudden toothache.\n\nRelying solely on input drift can trigger false alarms when inputs shift harmlessly, whereas relying solely on measured accuracy fails if ground-truth labels take months to arrive.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_UaQRBGtUhDP7_1",
+          "type": "multiple_choice",
+          "prompt": "Why do many production teams combine a regular scheduled retraining cadence with drift and quality alerts rather than relying on a single method?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Running all three methods reduces the cloud compute bill to zero pounds"
+            },
+            {
+              "id": "b",
+              "text": "Scheduled runs keep the model steadily updated, while drift and quality alerts catch sudden unexpected shifts between scheduled runs"
+            },
+            {
+              "id": "c",
+              "text": "Scheduled pipelines can only run in winter, whereas drift alerts only work in summer"
+            },
+            {
+              "id": "d",
+              "text": "Combining triggers allows the team to skip all data validation and testing gates"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Blending routine scheduled refreshes with anomaly-driven triggers balances predictable maintenance against rapid response to sudden market shifts.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2MZWVy6BTPTX",
       "title": "Delayed labels: measuring accuracy later",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In many commercial applications, you cannot measure true prediction accuracy the moment the model makes a decision because the real-world outcome only becomes known days, weeks, or months later. Credit card fraud disputes can take thirty days to arrive, and annual insurance or loan default labels take a full year.\n\nIt is like a farmer planting wheat seeds in autumn who can monitor soil moisture and rainfall immediately, but cannot weigh the actual grain harvest until late summer.\n\nWhen ground-truth labels are delayed, teams monitor immediate proxy signals such as input drift, prediction confidence distributions, and short-term user actions like click-through or escalation rates.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2MZWVy6BTPTX_1",
+          "type": "multiple_choice",
+          "prompt": "How should an AI consultant monitor a loan-default or fraud model when true ground-truth labels take weeks or months to arrive?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Shut the model down completely after every prediction until the customer finishes paying off a five-year loan"
+            },
+            {
+              "id": "b",
+              "text": "Assume the model is one hundred per cent accurate forever and turn off all logging"
+            },
+            {
+              "id": "c",
+              "text": "Monitor immediate leading indicators such as input feature drift, prediction score distributions, and early operational proxy signals while waiting for delayed labels"
+            },
+            {
+              "id": "d",
+              "text": "Ask the model to grade its own predictions and treat those guesses as audited financial truth"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Proxy metrics and input-output distribution tracking provide early warning during the gap before true downstream outcomes mature.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

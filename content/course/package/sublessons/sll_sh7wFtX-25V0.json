@@ -5,8 +5,8 @@
     {
       "id": "bit_-mjeu7bsZBw_",
       "title": "Diagnostic and prognostic classifiers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Clinical classification models fall into two main categories depending on the clinical question they answer. A diagnostic classifier determines whether a patient currently has a specific disease or subtype right now, whereas a prognostic classifier predicts the likely future course or outcome of a condition over time.\n\nIt is like the difference between a mechanic checking whether your car battery is flat today and estimating whether the gearbox will fail within two years.\n\nConfusing the two leads to flawed trial designs and mismatched training labels. As an AI consultant, clarify early whether the client wants to detect existing pathology or stratify future patient risk, as each requires different follow-up data.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,79 +19,275 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-mjeu7bsZBw__1",
+          "type": "multiple_choice",
+          "prompt": "How does a prognostic biomarker classifier differ from a diagnostic classifier?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A prognostic classifier uses only imaging data, whereas a diagnostic classifier uses only blood proteomics"
+            },
+            {
+              "id": "b",
+              "text": "A diagnostic classifier predicts survival time over ten years, whereas a prognostic classifier detects lab contamination"
+            },
+            {
+              "id": "c",
+              "text": "A diagnostic classifier requires no ground-truth clinical labels during model training"
+            },
+            {
+              "id": "d",
+              "text": "A prognostic classifier estimates future clinical outcomes, whereas a diagnostic classifier identifies current disease status"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Diagnosis asks what condition is present today, while prognosis forecasts how a patient's condition is likely to evolve in the future.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_9cSmpDSqw8Jn",
       "title": "Survival analysis basics",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Survival analysis is a family of statistical and machine learning methods designed to model the time until a clinical event occurs, such as disease relapse, hospital readmission, or death. Unlike binary classification at a fixed date, it handles patients who are followed for different lengths of time.\n\nIt is like tracking how many months customer subscriptions last when clients sign up at different times and some are still active today.\n\nReducing survival data to a simple yes-or-no label at five years wastes valuable information and biases results if patients drop out early. Consultants should steer clinical clients towards time-to-event modelling whenever outcomes unfold over variable follow-up horizons.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9cSmpDSqw8Jn_1",
+          "type": "multiple_choice",
+          "prompt": "Why is survival analysis preferred over simple binary classification for long-term clinical outcomes?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It eliminates the need to record when patients enter or leave a clinical study"
+            },
+            {
+              "id": "b",
+              "text": "It converts all continuous gene expression measurements into binary presence-or-absence calls"
+            },
+            {
+              "id": "c",
+              "text": "It models the time until an event occurs while accounting for variable patient follow-up durations"
+            },
+            {
+              "id": "d",
+              "text": "It guarantees hundred-percent sensitivity even when half the cohort lacks molecular data"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Time-to-event methods use both whether an event happened and how long each patient was observed, avoiding the bias of arbitrary fixed time cut-offs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rwL-zD8TpANF",
       "title": "Diagnostic: is the disease present; prognostic: what will happen",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Scoping a clinical machine learning engagement requires matching the ground-truth label definition strictly to either a diagnostic or prognostic workflow. A diagnostic dataset pairs molecular profiles taken at biopsy with a contemporaneous pathology standard, whereas a prognostic dataset links baseline profiles to longitudinal follow-up registries.\n\nIt is like checking a smoke detector against an active kitchen fire versus scoring a building's five-year fire risk from its wiring plan.\n\nA common pitfall is training a model on patients with advanced, obvious symptoms and claiming it can screen asymptomatic people early. Challenge clients to ensure their training cohort reflects the exact point in the patient journey where the tool will run.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rwL-zD8TpANF_1",
+          "type": "multiple_choice",
+          "prompt": "What is a common mistake when building a diagnostic screening model from hospital biobank data?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Training on late-stage symptomatic patients and assuming the model will detect early asymptomatic disease"
+            },
+            {
+              "id": "b",
+              "text": "Recording pathology confirmation at the same time the diagnostic tissue sample is collected"
+            },
+            {
+              "id": "c",
+              "text": "Using healthy controls drawn from the same demographic population as the disease cases"
+            },
+            {
+              "id": "d",
+              "text": "Evaluating the classifier using both sensitivity and specificity at clinically relevant thresholds"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Models trained on obvious late-stage disease often learn downstream inflammatory markers that are absent in the early screening population they are meant to serve.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_fUNIw73CTyKf",
       "title": "Sensitivity and specificity, and the cost of each error",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sensitivity measures the proportion of true disease cases a test correctly catches, while specificity measures the proportion of healthy individuals it correctly clears. Choosing a classification threshold trades one against the other, and the right balance depends entirely on the clinical cost of each error.\n\nIt is like setting an airport security scanner: catching every threat raises false alarms that require brief bag checks, which is far safer than missing a weapon.\n\nA false negative in cancer screening can cost a life through delayed treatment, whereas a false positive in a trial pointing to toxic surgery carries severe harm. Consultants must align decision thresholds with clinical consequences rather than defaulting to 0.5.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_fUNIw73CTyKf_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an AI consultant avoid defaulting to a 0.5 probability threshold for clinical classifiers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Probability outputs from machine learning models are always mathematically restricted to values below 0.4"
+            },
+            {
+              "id": "b",
+              "text": "Sensitivity and specificity are invariant to the decision threshold chosen by the operator"
+            },
+            {
+              "id": "c",
+              "text": "Clinical regulators require all diagnostic models to maximise false positive rates during screening"
+            },
+            {
+              "id": "d",
+              "text": "False positives and false negatives carry very different clinical and financial harms depending on the use case"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The optimal operating threshold must reflect whether missing a true case or triggering an unnecessary follow-up intervention causes greater harm.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Fhgb3gDKTLqc",
       "title": "Survival: time-to-event data and censoring",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In clinical follow-up studies, censoring occurs when a patient's exact event time is unknown because the study ended before the event happened, or the patient moved away and was lost to follow-up. We still know the patient remained event-free up to their last recorded visit.\n\nIt is like tracking lightbulb lifespan when the laboratory closes after a thousand hours while several bulbs are still shining brightly.\n\nDropping censored patients from a dataset skews survival estimates downwards, while treating them as permanently cured skews results upwards. Survival models properly incorporate partial observation times, provided the reason a patient was censored is unrelated to their hidden prognosis.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Fhgb3gDKTLqc_1",
+          "type": "multiple_choice",
+          "prompt": "What does right-censoring mean in a clinical survival dataset?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A patient's genomic sequencing file was corrupted by laboratory software errors"
+            },
+            {
+              "id": "b",
+              "text": "A patient had not experienced the clinical event by the time their observation period ended"
+            },
+            {
+              "id": "c",
+              "text": "A patient experienced the clinical event prior to enrolling in the baseline study"
+            },
+            {
+              "id": "d",
+              "text": "A patient's biomarker measurements were removed as statistical outliers during normalisation"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Right-censored records capture that a patient survived at least until their last known follow-up date without experiencing the event during observation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_3ogCwwPrTENF",
       "title": "Kaplan-Meier curves and Cox models (concept)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Kaplan-Meier curves and Cox proportional hazards models are foundational tools for analysing time-to-event data in clinical research. A Kaplan-Meier plot displays the estimated survival probability over time for distinct patient risk groups, while a Cox model relates multiple molecular features to the hazard rate; check the current details in standard biostatistics packages.\n\nIt is like comparing customer retention curves across two membership tiers while modelling how usage habits speed up or slow down cancellation.\n\nKeep in mind that standard Cox regression assumes feature effects remain proportional over time and struggles when genes outnumber patients unless penalised variants like Cox-LASSO are used. Always check proportional hazards assumptions before reporting hazard ratios.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3ogCwwPrTENF_1",
+          "type": "multiple_choice",
+          "prompt": "What is the distinct role of a Kaplan-Meier curve compared with a Cox model in biomarker studies?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Kaplan-Meier curves select genes from raw sequencing reads, while Cox models normalise batch effects"
+            },
+            {
+              "id": "b",
+              "text": "Cox models require no time-to-event labels, while Kaplan-Meier curves ignore censored patients entirely"
+            },
+            {
+              "id": "c",
+              "text": "Kaplan-Meier curves visualise survival probabilities across groups over time, while Cox models estimate how features affect hazard risk"
+            },
+            {
+              "id": "d",
+              "text": "Kaplan-Meier curves predict protein folding structures, while Cox models align DNA sequences"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Researchers use Kaplan-Meier plots to compare survival trajectories between stratified groups and Cox regression to quantify the effect of covariates on hazard rates.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_zg-3m-ogPRru",
       "title": "Prevalence changes the meaning of a positive result",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Disease prevalence is the proportion of individuals in the target population who actually have the condition being tested. Even when a biomarker test boasts ninety-five percent sensitivity and ninety-five percent specificity, its positive predictive value plummets when used to screen a rare disease in the general public.\n\nIt is like looking for a single counterfeit coin in a vault of ten thousand coins using a scale that errs one percent of the time: most flagged coins will still be genuine.\n\nIn low-prevalence screening, false positives easily outnumber true cases ten to one. Consultants must always calculate positive and negative predictive values using the real clinical prevalence of the client's target clinic.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_zg-3m-ogPRru_1",
+          "type": "multiple_choice",
+          "prompt": "What happens to the positive predictive value of a highly accurate test when it is moved from a specialist clinic to low-prevalence population screening?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The positive predictive value rises to one hundred percent because more healthy people are tested"
+            },
+            {
+              "id": "b",
+              "text": "The positive predictive value drops sharply because false positives from the large healthy majority outnumber true cases"
+            },
+            {
+              "id": "c",
+              "text": "The test's intrinsic sensitivity and specificity automatically drop to zero in low-prevalence settings"
+            },
+            {
+              "id": "d",
+              "text": "The number of false negatives exceeds the total population size of the screening programme"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "When a condition is rare in the tested population, even a small false positive rate generates more false alarms than true detections.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

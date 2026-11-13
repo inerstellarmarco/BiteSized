@@ -5,44 +5,128 @@
     {
       "id": "bit_kdPrOAMySquW",
       "title": "Agents on top of an existing ERP vs. a lightweight AI-native system",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When helping a client modernise operations, you face a fundamental architectural choice: connect AI agents on top of their existing ERP, or build a lightweight custom system with AI woven directly into its workflows.\n\nIt is the difference between fitting smart sensors and modern heating controls into an established brick factory versus building a brand-new bespoke workshop on an empty plot of land.\n\nNeither path wins every time. Wrapping an existing ERP preserves years of accounting compliance and historical data, while a lightweight custom system works well when a small business has no ERP yet or only needs a narrow operational tool.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kdPrOAMySquW_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main architectural trade-off between adding agents to an existing ERP and building a lightweight custom system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Existing ERPs never store inventory counts, whereas custom systems cannot connect to the internet"
+            },
+            {
+              "id": "b",
+              "text": "Building a custom ERP from scratch always takes less than forty-eight hours"
+            },
+            {
+              "id": "c",
+              "text": "Keeping the existing ERP preserves proven accounting and history, while a custom build offers flexibility at the cost of owning every feature"
+            },
+            {
+              "id": "d",
+              "text": "Adding agents to an existing ERP requires deleting all historical financial records first"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Wrapping an existing ERP leverages mature core accounting and inventory logic, while building custom software trades maturity for tailored simplicity.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_QTwlDd6BzM3Y",
       "title": "Existing ERP: faster, but limited by its API and customization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Building agents on top of an established ERP gets you to production faster because the core tables, permissions, and accounting rules already work. However, your agents are constrained by what the vendor's API exposes and how rigid the system's custom fields are.\n\nImagine renting a serviced office in a high-security tower; you can move your desks in on day one, but you cannot knock down walls or use the goods lift outside building hours.\n\nBefore quoting a fixed price for an ERP integration, inspect the client's actual licence tier and API documentation. Many legacy ERPs charge extra fees for API access or lock key manufacturing tables behind awkward batch exports.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_QTwlDd6BzM3Y_1",
+          "type": "multiple_choice",
+          "prompt": "Why must a consultant inspect a client's legacy ERP API and licence tier before scoping an agent project?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "All ERP systems across the world share the exact same free open API specification"
+            },
+            {
+              "id": "b",
+              "text": "Legacy ERPs automatically write their own AI agents as soon as a user logs in"
+            },
+            {
+              "id": "c",
+              "text": "Some ERPs restrict API access, omit key manufacturing endpoints, or charge steep fees for integration tiers"
+            },
+            {
+              "id": "d",
+              "text": "API documentation is only needed after the project has already gone live in production"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Integration feasibility and cost depend heavily on whether the existing ERP exposes clean, affordable APIs for the records you need.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5uXIgE6rQGZZ",
       "title": "Lightweight system: full control, but you own every feature",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Building a lightweight custom operations system on a modern relational database gives you total control over the data schema, user interface, and agent integrations. The catch is that you and the client now own every feature, bug fix, and edge case forever.\n\nIt is like building your own kit car from scratch; you can choose the exact steering wheel and engine tune you love, but when the windscreen wipers fail in the rain, there is no dealership warranty to call.\n\nClients often underestimate how much hidden plumbing a real ERP contains, such as partial shipments, credit notes, multi-currency tax rules, and stock reversals. Never rebuild a full accounting ledger from scratch if off-the-shelf software can handle it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5uXIgE6rQGZZ_1",
+          "type": "multiple_choice",
+          "prompt": "What is the hidden danger of building a bespoke ERP system from scratch for a client?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "You end up having to build and maintain complex edge cases like partial shipments, credit notes, and tax rules"
+            },
+            {
+              "id": "b",
+              "text": "Relational databases cannot store more than one hundred rows of inventory data"
+            },
+            {
+              "id": "c",
+              "text": "Custom software is legally forbidden from generating PDF purchase orders"
+            },
+            {
+              "id": "d",
+              "text": "Users cannot log into a lightweight system from a standard web browser"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Standard ERPs handle hundreds of unglamorous accounting and inventory edge cases that are expensive and risky to recreate from scratch.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rKmR1Lt4cD7C",
       "title": "Spreadsheets as the starting point for most small companies",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "For a very small business still running on paper or scattered notes, well-structured spreadsheets or a simple cloud table tool are often the wisest starting point before jumping into heavy ERP software. They force the team to standardise part numbers and habits first.\n\nThink of learning to ride a bicycle with stabilisers on a quiet park path before entering a busy city velodrome on a carbon racing bike.\n\nThe limit is that spreadsheets break down once multiple staff edit stock simultaneously or bills of materials become nested. Use the spreadsheet stage to clean up master data so the eventual move to a proper database is smooth.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,31 +139,115 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rKmR1Lt4cD7C_1",
+          "type": "multiple_choice",
+          "prompt": "Why can a structured spreadsheet be a sensible intermediate step for a tiny business with no digital records?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Spreadsheets provide stronger row-level security and audit logs than enterprise databases"
+            },
+            {
+              "id": "b",
+              "text": "It helps the team standardise part numbers and daily habits at low cost before migrating to a full database"
+            },
+            {
+              "id": "c",
+              "text": "A single spreadsheet file can easily handle ten million concurrent warehouse transactions a second"
+            },
+            {
+              "id": "d",
+              "text": "Using spreadsheets means the company never has to count physical inventory again"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Standardising item codes and recording habits in a simple table prepares a small team for a structured ERP without overwhelming them on day one.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-1DwLshYuKp6",
       "title": "Open-source ERPs (e.g., ERPNext, Odoo) as a middle path",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Open-source and modular platforms such as ERPNext and Odoo offer a strong middle path between rigid legacy enterprise systems and risky from-scratch builds. Because licensing tiers, modules, and community editions evolve, always check the current details before recommending a platform.\n\nIt is like buying a modular timber-frame house where the foundations, roof, and plumbing arrive pre-engineered, yet you can still open the wall panels to run your own custom wiring.\n\nWith these systems, your client gets tested inventory, MRP, and accounting modules out of the box, while you get clean REST APIs and source access to attach AI agents cleanly.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-1DwLshYuKp6_1",
+          "type": "multiple_choice",
+          "prompt": "Why do modular platforms like ERPNext or Odoo often serve as a practical middle path for SME clients?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They run without any database server or user authentication"
+            },
+            {
+              "id": "b",
+              "text": "They automatically file corporate tax returns in every country without configuration"
+            },
+            {
+              "id": "c",
+              "text": "They provide ready-made inventory and accounting modules alongside accessible APIs and code for custom AI integration"
+            },
+            {
+              "id": "d",
+              "text": "They forbid consultants from adding custom fields or external webhooks"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Open-source and modular ERPs combine battle-tested core operational logic with the openness needed to connect modern AI workflows.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rBx1PKWwgssY",
       "title": "Decide on size, process complexity, existing software, and budget",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Choosing the right path requires weighing four client realities: company size, manufacturing or distribution complexity, the state of their existing software, and their budget for both setup and ongoing maintenance.\n\nIt is like a commercial vehicle consultant choosing between a small electric van, a refrigerated box lorry, and an articulated fleet based on the client's cargo, routes, current garage, and capital budget.\n\nA twenty-person electronics assembler with three-level bills of materials has completely different needs from a five-person wholesale importer. Map their actual workflows and maintenance budget before writing a single line of code.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rBx1PKWwgssY_1",
+          "type": "multiple_choice",
+          "prompt": "Which four factors should guide whether a client wraps an existing ERP, adopts a modular ERP, or builds a lightweight tool?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The CEO's favourite colour, the office postcode, the day of the week, and the font size"
+            },
+            {
+              "id": "b",
+              "text": "How many social media posts the marketing team publishes each afternoon"
+            },
+            {
+              "id": "c",
+              "text": "Whether the warehouse roof is made of corrugated steel or concrete tiles"
+            },
+            {
+              "id": "d",
+              "text": "Company size, process complexity, existing software maturity, and budget for setup and maintenance"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Matching architecture to company scale, operational complexity, existing systems, and total budget prevents costly misfits.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

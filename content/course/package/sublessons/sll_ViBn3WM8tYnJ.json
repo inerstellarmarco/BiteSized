@@ -5,32 +5,88 @@
     {
       "id": "bit_XErNO4VDg9aC",
       "title": "Learning from traces and feedback",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Learning from traces and feedback is the disciplined habit of reviewing real production runs, both where the agent succeeded and where users gave a thumbs-down, edited the draft, or abandoned the task, to improve your system continuously. A full trace shows every prompt, retrieved chunk, reasoning step, tool call, latency figure, and user correction in sequence.\n\nFor a consultant managing a legal drafting assistant, noticing in the traces that lawyers consistently rewrite the third paragraph of every generated NDA tells you immediately which instruction or template needs fixing.\n\nImplicit feedback, such as how heavily a user edits an AI draft before sending it, is often a much richer signal than a rarely clicked thumbs-up button.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XErNO4VDg9aC_1",
+          "type": "multiple_choice",
+          "prompt": "Why is implicit user feedback, such as tracking whether a user edits or discards an AI-generated draft, so valuable alongside execution traces?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Implicit feedback automatically updates the client's billing address in the database"
+            },
+            {
+              "id": "b",
+              "text": "Tracking draft edits requires zero storage space compared to saving thumbs-up clicks"
+            },
+            {
+              "id": "c",
+              "text": "Implicit feedback is only legal to collect if the application does not use a language model"
+            },
+            {
+              "id": "d",
+              "text": "Most users rarely click explicit rating buttons, whereas their edits and actions reveal directly where the agent's output fell short in real work"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Pairing full execution traces with real behavioural signals like human edits, retries, or escalations pinpoints the exact workflows where the agent struggles in production.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2m19RCNx_CJ5",
       "title": "Automated prompt and policy optimization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Automated prompt and policy optimisation uses algorithms and evaluation datasets to systematically search for better system prompts, few-shot examples, or routing rules instead of relying solely on manual trial and error. Frameworks such as DSPy and automated prompt tuners treat prompts as programmable parameters: given a golden evaluation set and a clear scoring metric, the optimiser tests candidate instructions and selects the version that scores highest.\n\nIt is like an A/B testing engine that tests dozens of headline variations against a real conversion metric rather than two marketers arguing in a meeting room over which phrasing sounds nicer.\n\nCheck the current details of prompt optimisation tools before adopting them, and remember that an automated optimiser is only as good as your evaluation metric; if your metric is flawed, the optimiser will ruthlessly game it.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2m19RCNx_CJ5_1",
+          "type": "multiple_choice",
+          "prompt": "What is the mandatory prerequisite before you can use an automated prompt optimisation tool effectively?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A representative evaluation dataset paired with a reliable, trustworthy scoring metric that accurately reflects task quality"
+            },
+            {
+              "id": "b",
+              "text": "A cluster of at least one thousand dedicated graphics cards on premises"
+            },
+            {
+              "id": "c",
+              "text": "Permission from the model provider to edit the neural network's internal source code"
+            },
+            {
+              "id": "d",
+              "text": "Removing all tool definitions and retrieval steps from the application"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Automated prompt optimisers search for prompts that maximise your evaluation score, so without a solid dataset and an accurate metric, they will optimise for the wrong behaviour.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_u8Q03bOymbxV",
       "title": "The loop: observe, find failure patterns, fix, re-test",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every mature AI engineering team runs a continuous four-step improvement loop: observe production traces, cluster failures into clear patterns, ship a targeted fix, and re-test against the evaluation suite. Rather than panicked whack-a-mole after a single complaint, you group fifty failed traces together to see whether the root cause is bad retrieval chunks, confusing tool descriptions, or a missing guardrail.\n\nIt is like a hospital quality team reviewing monthly patient charts to spot the top three causes of treatment delays, fixing the intake form, and measuring wait times again the next month.\n\nEvery time you fix a failure cluster, you add several representative examples from that cluster to your permanent evaluation set so the bug stays fixed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,19 +99,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_u8Q03bOymbxV_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you group failed production traces into failure patterns before changing your prompts or code?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Grouping traces compresses the log files so they fit on a floppy disk"
+            },
+            {
+              "id": "b",
+              "text": "It reveals the dominant root causes, such as a recurring retrieval gap or ambiguous tool schema, so you fix the biggest real problems systematically rather than chasing isolated one-off anecdotes"
+            },
+            {
+              "id": "c",
+              "text": "Model providers refuse to process prompt updates unless you submit a spreadsheet of fifty errors"
+            },
+            {
+              "id": "d",
+              "text": "Failure clustering automatically refunds the tokens spent on failed requests"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Categorising failures shows which root cause accounts for the largest share of real-world errors, ensuring engineering effort targets high-impact fixes first.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_aMro2Mg5Fn3r",
       "title": "Humans decide what better means",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "No matter how sophisticated your automated evaluators, trace analysers, and prompt optimisers become, humans must always define what \"better\" actually means for the business and its users. Only human domain experts and business owners can weigh trade-offs between speed and thoroughness, strict safety refusals and helpfulness, or brand warmth and brevity.\n\nFor a medical triage assistant, a human clinical lead rather than an LLM judge must decide that missing a serious symptom is a hundred times worse than asking two extra clarifying questions.\n\nConsultants should regularly sit down with client subject-matter experts to review raw traces together and recalibrate the automated evaluation rubrics against human judgement.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_aMro2Mg5Fn3r_1",
+          "type": "multiple_choice",
+          "prompt": "Why can you never delegate the definition of evaluation criteria and success metrics entirely to an AI system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Defining what constitutes good performance involves business priorities, ethical trade-offs, and domain values that only accountable humans can judge"
+            },
+            {
+              "id": "b",
+              "text": "Language models are unable to output numbers between zero and one hundred"
+            },
+            {
+              "id": "c",
+              "text": "Automated evaluators only work on weekends when human staff are offline"
+            },
+            {
+              "id": "d",
+              "text": "Setting evaluation metrics requires physical access to the data centre's power supply"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "AI tools can score outputs against a rubric at scale, but human leaders and domain experts must define the rubric, weigh trade-offs, and periodically audit that the scores match reality.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,543 @@
+// D3 D3 Bioinformatics Pipelines
+
+@@ sll_-5Ch6IuOM_Ku | D3.1 Workflow Engines > Reproducible Pipelines
+
+## Nextflow and nf-core
+~m
+Nextflow is a reactive workflow engine designed for scalable and reproducible scientific pipelines, and nf-core is a global community initiative that publishes peer-reviewed, standardised Nextflow pipelines for bioinformatics. Nextflow separates workflow logic from execution environments so the same pipeline runs across local servers, HPC schedulers, and cloud batch platforms; check the current details on Nextflow DSL2 syntax and nf-core release catalogues.
+
+It is like an automated factory control system paired with a library of certified assembly-line blueprints that any manufacturing plant can download and run immediately.
+
+When advising biotech clients, verify that custom module modifications do not break nf-core schema validation or container pinning.
+
+?? How do Nextflow and nf-core relate to one another in bioinformatics?
++ Nextflow is the workflow execution engine, and nf-core is a community collection of peer-reviewed, standardised bioinformatics pipelines built in Nextflow
+- Nextflow is an Illumina DNA sequencer, and nf-core is the wet-lab reagent kit used to extract RNA
+- nf-core is a Linux operating system kernel, and Nextflow is a relational database for clinical trials
+- Nextflow and nf-core are competing variant callers that only run on Windows laptops
+= Nextflow provides the language and runtime engine for orchestrating pipelines, while nf-core curates best-practice community workflows written in Nextflow.
+
+## Snakemake rules and workflows
+~m
+Snakemake is a Python-based workflow management system that defines data analyses as a set of rules specifying how to create output files from input files using shell commands, scripts, or wrappers. By matching filename wildcards backwards from the desired final targets, Snakemake builds a directed acyclic graph (DAG) of jobs and executes only the steps that are missing or outdated; check the current details in the Snakemake documentation for executor plugins.
+
+It is like a smart spreadsheet where updating one input cell automatically recalculates only the dependent formulas downstream without redoing unrelated sheets.
+
+One caveat is that complex wildcard patterns can occasionally cause ambiguous rule-matching errors if output directory paths are not cleanly separated.
+
+?? How does Snakemake determine which rules to execute and in what order when running a workflow?
++ It resolves filename wildcards backwards from the requested target outputs to build a directed acyclic graph (DAG) of dependencies
+- It runs every rule in alphabetical order regardless of which input files exist
+- It requires the user to manually click each step in a web browser after every file finishes
+- It executes all steps simultaneously before any input files are generated
+= Snakemake works backwards from target filenames, matching input and output patterns across rules to construct and schedule a dependency graph.
+
+## Pipelines describe inputs, steps, and outputs
+A computational bioinformatics pipeline is a formalised graph of processing steps in which each task declares its required input files, the exact software command or script to run, and the resulting output files. Instead of chaining fragile manual bash scripts together, a workflow engine tracks file lineage, manages temporary directories, and parallelises independent samples automatically across hundreds of patients.
+
+It is like an industrial recipe card system where every station logs which raw ingredients enter, which machine settings run, and which labelled containers move to the next conveyor belt.
+
+Even the cleanest pipeline structure will still produce garbage results if sample sheet metadata maps the wrong FASTQ files to patient identifiers.
+
+?? Why do bioinformatics teams use formal workflow pipelines instead of running ad-hoc manual shell scripts for each sample?
++ Workflow pipelines formally declare inputs, steps, and outputs so the engine can automate parallel execution, track provenance, isolate failures, and guarantee identical processing across cohorts
+- Workflow engines compress DNA sequences so they no longer require disk storage
+- Manual shell scripts cannot execute standard command-line utilities like samtools or bcftools
+- Workflow engines eliminate the need for quality control or biological replicates
+= Defining explicit inputs, tasks, and outputs allows workflow managers to parallelise sample processing reliably and reproduce results without manual human error.
+
+## nf-core provides community-tested pipelines
+~m
+Rather than building common genomic workflows from scratch, teams can adopt off-the-shelf pipelines from nf-core such as `nf-core/rnaseq`, `nf-core/sarek` for variant calling, or `nf-core/scrnaseq` for single-cell analysis. Each pipeline includes continuous integration tests, pre-built software containers, standardised MultiQC reporting, and detailed parameter documentation; check the current details on the nf-core website for available pipelines and release versions.
+
+It is like deploying an audited enterprise ERP module for payroll rather than paying consultants to code a bespoke tax calculator from zero.
+
+However, consultants must still tune pipeline parameters to match the client's specific wet-lab library kit, strandedness, and reference genome rather than blindly running default flags.
+
+?? What is the main business and scientific advantage of starting a client project with an established nf-core pipeline like `nf-core/rnaseq` or `nf-core/sarek`?
++ It provides a peer-reviewed, containerised, and continuously tested workflow with standardised QC reports, saving months of custom pipeline engineering
+- It guarantees that wet-lab samples with degraded RNA will automatically yield perfect biological discoveries
+- It bypasses all institutional data-privacy and controlled-access regulations
+- It runs without requiring any CPU, memory, or disk resources on the host server
+= Community-maintained nf-core pipelines embed best-practice toolchains, pinned containers, and automated testing, reducing engineering overhead and improving auditability.
+
+## Resume runs without redoing finished steps
+~m
+Modern workflow engines cache the execution state and input hashes of every completed task so that an interrupted pipeline can be resumed (for example, using Nextflow `-resume` or Snakemake `--rerun-incomplete`) from the exact point of failure. When a forty-hour whole-genome run fails at the final annotation step due to a transient network timeout or memory limit, resuming skips all finished alignment and variant-calling tasks and re-runs only the failed step; check the current details for cache-directive settings in your engine.
+
+It is like saving checkpoints in a video game before a boss battle instead of restarting from the opening tutorial every time you lose.
+
+Be careful on shared scratch storage: if an automated cleanup policy deletes the hidden work or cache directory, the workflow engine loses its task history and must recompute everything from scratch.
+
+?? How does a workflow engine's resume feature save time and compute budget during large genomics projects?
++ It reuses cached outputs from already completed steps whose inputs and parameters have not changed, re-running only failed or modified downstream tasks
+- It skips variant calling completely whenever a compute node runs out of memory
+- It lowers the Phred quality threshold to zero so failed alignments pass automatically
+- It deletes all raw FASTQ files as soon as the first step starts running
+= Task caching allows pipelines to recover from late-stage failures or parameter tweaks in downstream steps without repeating expensive upstream compute like read alignment.
+
+## Run the same pipeline locally, on a cluster, or in the cloud
+~m
+Portable workflow engines decouple the scientific pipeline definition from the underlying compute infrastructure through configuration profiles and executor plugins. The exact same pipeline code can test a tiny dataset on a laptop, submit thousands of jobs to an on-premise Slurm cluster, or autoscale spot instances on AWS Batch or Google Cloud Batch by changing a single configuration flag; check the current details for your cloud provider's executor setup.
+
+It is like shipping goods in standard intermodal freight containers that fit seamlessly onto a local delivery lorry, a freight train, or an ocean cargo ship without repacking the boxes inside.
+
+In practice, moving to the cloud still requires adapting file paths to object storage URIs (`s3://` or `gs://`) and tuning instance disk mounts so heavy I/O steps do not bottleneck.
+
+?? How do workflow engines like Nextflow and Snakemake allow the same pipeline to run on a laptop, an HPC cluster, or the cloud without rewriting the analysis steps?
++ They separate the workflow logic from the execution environment, using configuration profiles and executors to translate tasks into local processes, Slurm jobs, or cloud batch calls
+- They emulate a full supercomputer inside a web browser tab using JavaScript
+- Cloud providers and HPC clusters all use the exact same hardware and local hard drive paths
+- They email the raw FASTQ files to a manual operator who runs the commands by hand
+= By abstracting job submission and environment management into configuration profiles, workflow managers keep pipeline code independent of the underlying compute platform.
+
+@@ sll_V0cc-3d6AMDf | D3.1 Workflow Engines > Environments
+
+## Conda/Bioconda environments
+~m
+Conda (along with faster drop-in solvers like Mamba and Pixi) is a cross-platform package and environment manager, and Bioconda is its dedicated channel hosting thousands of pre-compiled bioinformatics software packages. Conda creates isolated user-space directories containing specific versions of tools and their underlying C, R, or Python libraries without needing administrator root privileges; check the current details on channel priority settings for `conda-forge` and `bioconda`.
+
+It is like giving each chef in a shared kitchen their own locked spice rack and knife roll so one recipe's ingredients never contaminate another's station.
+
+Note that Conda environments do not isolate host operating system kernel libraries or environment variables (`~/.bashrc`, `R_LIBS_USER`), so containers offer stronger cross-machine reproducibility than Conda alone.
+
+?? What problem do Conda and the Bioconda channel solve for bioinformaticians working on shared Linux servers?
++ They allow users to install isolated environments with conflicting tool versions and dependencies without needing administrator privileges
+- They replace the Linux kernel with a Windows graphical interface for running genome browsers
+- They automatically sequence DNA samples without requiring laboratory instruments
+- They provide unlimited free cloud storage for controlled-access human BAM files
+= Conda and Bioconda let researchers install and isolate complex bioinformatics software stacks and conflicting library versions in user space without root access.
+
+## Docker and Singularity/Apptainer containers
+~m
+Software containers package an application together with its entire filesystem, system libraries, and dependencies into an immutable image that runs identically across different Linux hosts. While Docker is the industry standard for cloud and local development, Singularity and Apptainer are purpose-built for shared scientific HPC clusters and can convert and run Docker images directly as single `.sif` files; check the current details on OCI image compatibility.
+
+It is like sealing a calibrated laboratory instrument inside a climate-controlled mobile pod so it performs identically whether parked in London, Zurich, or Tokyo.
+
+A common pitfall when running containers is host path mounting: if your data sits on `/scratch/project` outside the default home directory, you must explicitly bind-mount that path into the container so the tool can see the files.
+
+?? How do software containers provide stronger reproducibility than virtual environments like Conda alone?
++ Containers encapsulate the entire user-space operating system filesystem and system libraries into an immutable image, eliminating host library differences
+- Containers run without using the host machine's CPU or memory
+- Containers automatically correct wet-lab batch effects in RNA-seq matrices
+- Containers compress genomic reference files to zero bytes on disk
+= While Conda still relies on underlying host system libraries and shell variables, containers bundle the complete operating system user-space environment into a portable image.
+
+## Pinning versions for reproducibility
+Version pinning is the practice of locking the exact release numbers and build hashes of every software tool, library dependency, and container image used in a bioinformatics pipeline (for example, `samtools=1.20` with a specific container digest rather than `latest`). Updating an aligner, variant caller, or single-cell clustering library between minor releases can change default filtering thresholds, statistical models, and output coordinates.
+
+It is like an airline maintenance manual specifying the exact part serial number and torque setting rather than telling mechanics to "use whatever bolts are newest in the supply bin".
+
+In regulated clinical diagnostics or pharma biomarker filings, floating tags like `:latest` are unacceptable because an unannounced upstream rebuild can silently alter patient reports overnight.
+
+?? Why should production bioinformatics pipelines never use floating tags like `:latest` for software containers or packages?
++ Upstream updates to tools or dependencies can silently change default algorithms, parameters, or file formats, breaking reproducibility across runs
+- The `:latest` tag always downloads the oldest beta version from 2010
+- Container registries charge ten times more money when downloading `:latest` images
+- Linux servers block network access whenever a version number contains digits
+= Pinning exact software versions and container digests guarantees that re-running an analysis months or years later uses the exact same code and produces identical results.
+
+## Containers on HPC: Apptainer, because Docker usually needs admin rights
+~m
+Most shared High-Performance Computing (HPC) clusters ban standard Docker because the classic Docker daemon runs with root privileges, allowing any user who can launch a Docker container to mount the host root filesystem and gain full administrator control of the node. Apptainer (formerly Singularity) solves this by running containers rootlessly as the regular unprivileged user who launched the job; check the current details for your cluster's Apptainer bind-mount configuration.
+
+It is like a secure bank building that refuses to give visiting contractors a master skeleton key (Docker root daemon), instead issuing badge-linked toolboxes (Apptainer) that only open the rooms the contractor is already authorised to enter.
+
+Because Apptainer converts standard Docker images seamlessly (`apptainer pull docker://...`), AI teams can build images in Docker during CI/CD and execute them via Apptainer on HPC.
+
+?? Why do shared HPC clusters typically require Apptainer (Singularity) instead of standard Docker for running containerised pipelines?
++ Standard Docker typically relies on a root-privileged daemon that poses a multi-tenant security risk, whereas Apptainer runs containers safely under the user's normal unprivileged account
+- Docker containers cannot execute C++ or Python programs used in bioinformatics
+- Apptainer automatically doubles the clock speed of HPC processors
+- Docker can only run on macOS laptops and is incompatible with Linux servers
+= On multi-user HPC systems, granting access to a root-level Docker daemon allows privilege escalation, whereas Apptainer preserves the calling user's existing permissions and works cleanly with job schedulers like Slurm.
+
+## Record tool versions and parameters with every result
+~m
+Complete computational provenance requires saving an automated manifest alongside every analysis output that records the exact pipeline commit hash, software versions, container digests, command-line parameters, and reference genome accessions used. Years later, when a manuscript reviewer, clinical auditor, or client asks how a specific biomarker table was generated, human memory and lab notebooks are never reliable enough; check the current details on automated provenance reporting in Nextflow and MultiQC.
+
+It is like stamping every pharmaceutical pill bottle with the batch number, factory line, manufacturing date, and exact ingredient formulation so any quality question can be traced instantly.
+
+Tools like MultiQC and Nextflow execution reports collect version tables automatically, but consultants must ensure custom post-processing scripts in R or Python also log their session info and random seeds.
+
+?? Why must every bioinformatics output directory include an automated record of tool versions, exact command-line parameters, and reference genome IDs?
++ Subtle changes in parameters, reference builds, or software versions can alter biological conclusions, and full provenance is required to audit, debug, or reproduce results later
+- File systems automatically delete VCF and BAM files that are not accompanied by a version text file
+- Recording tool versions reduces the sequencing error rate of the wet-lab instrument
+- Journal publishers require tool version logs so they can bill software authors per run
+= Without an automated record of exact software versions, non-default flags, random seeds, and reference builds, it becomes impossible to reproduce or audit analytical results over time.
+
+@@ sll_nEinom0m_u9W | D3.2 Core Processing Steps > QC & Alignment
+
+## Quality control and trimming
+Quality control (QC) and read trimming are the initial preprocessing steps applied to raw FASTQ reads to assess sequencing run health and remove synthetic adapter sequences or low-quality base tails before alignment. During sequencing, base call confidence naturally degrades toward the 3-prime end of reads, and if the DNA insert is shorter than the read length, the machine reads right into the synthetic adapter ligated at the end.
+
+It is like inspecting incoming timber deliveries for rot and sawing off the stamped shipping brackets on the ends of each plank before feeding the wood into precision carpentry machines.
+
+Note that some modern splice-aware aligners and variant callers handle low-quality tails internally via soft-clipping, so overly aggressive quality trimming can counterproductively shorten reads too much.
+
+?? Why do raw sequencing reads sometimes contain synthetic adapter sequences at their 3-prime ends that must be trimmed?
++ When a DNA or RNA fragment is shorter than the sequencing read length, the instrument reads past the biological insert into the ligated synthetic adapter
+- Cells naturally transcribe Illumina adapter sequences at the end of every human exon
+- Aligners inject adapter sequences into FASTQ files to mark high-quality bases
+- Adapter sequences only appear when a FASTQ file is compressed with gzip
+= If the library insert fragment is shorter than the number of sequencing cycles, the read extends through the biological DNA into the flanking synthetic adapter oligonucleotide.
+
+## Read alignment and quantification
+Read alignment and quantification are the core steps that translate raw sequencing reads into genomic coordinates and molecular abundance counts. In DNA sequencing, an aligner maps reads to a reference genome so variant callers can inspect pileups; in RNA sequencing, reads are either aligned with a splice-aware mapper and counted per gene or quantified directly against reference transcripts to produce a sample-by-gene count matrix.
+
+It is like sorting millions of returned postal ballots by constituency address on a national map and then tallying the vote totals for each candidate per district.
+
+When scoping compute resources for clients, remember that coordinate alignment produces huge BAM files and takes substantial CPU and RAM, whereas lightweight transcript quantification skips BAM generation entirely.
+
+?? What is the primary output of the read alignment and quantification stage in an RNA-seq workflow?
++ Genomic alignment records (or transcript mappings) and a quantitative count matrix recording how many reads originated from each gene or transcript per sample
+- A three-dimensional crystal structure of every protein in the sample
+- Uncalibrated electrical signal traces from the sequencing flow cell
+- A list of clinical patient diagnoses approved by regulatory agencies
+= Alignment maps reads to their genomic or transcriptomic origins, and quantification aggregates those mapped reads into an expression count matrix across genes or transcripts.
+
+## FastQC and MultiQC summaries: read quality, adapters, and duplication
+~m
+`FastQC` is the standard tool for generating quality-control profiles of individual FASTQ files, and `MultiQC` scans an entire project directory to aggregate logs from `FastQC`, aligners, and variant callers into a single interactive HTML dashboard. Together they reveal per-base quality drops, adapter contamination, GC content shifts, and PCR duplication rates across hundreds of samples at a glance; check the current details on supported MultiQC module plugins.
+
+It is like combining individual vehicle inspection sheets (`FastQC`) into a fleet-wide executive dashboard (`MultiQC`) so a logistics manager can immediately spot which three lorries in a hundred have failing brakes.
+
+A vital caveat is that `FastQC` warning flags assume a uniform whole-genome library: RNA-seq, amplicon, and bisulfite datasets naturally trigger "fail" warnings on duplication or GC distribution even when the experiment worked perfectly.
+
+?? Why can a healthy, high-quality RNA-seq sample trigger duplication or per-base sequence content warnings in `FastQC`?
++ `FastQC` thresholds assume a random whole-genome library, whereas RNA-seq naturally over-represents highly expressed transcripts and has hexamer priming biases at read starts
+- Any red warning in `FastQC` proves the sequencing machine suffered a hardware failure and the data must be deleted
+- `FastQC` can only read BAM files and corrupts compressed FASTQ inputs
+- RNA molecules do not contain guanine or cytosine bases
+= Because `FastQC` evaluates metrics against expectations for uniform genomic DNA, specialised assays like RNA-seq, ChIP-seq, or methylation sequencing routinely trigger expected warnings that require assay-aware interpretation.
+
+## Trim adapters and low-quality ends
+~m
+Tools such as `fastp`, `Cutadapt`, and `Trim Galore` scan raw FASTQ reads to clip residual synthetic adapter sequences, trim low-Phred-score bases from the 3-prime tails, and discard reads that become too short after trimming. In paired-end sequencing, the trimmer must process Read 1 and Read 2 together so that if one mate is discarded, the paired FASTQ files stay strictly synchronised line-for-line; check the current details in the `fastp` documentation for poly-G tail trimming on two-colour Illumina platforms.
+
+It is like editing a two-camera interview where cutting ten corrupted frames from Camera A requires syncing the exact same cut on Camera B so the audio and video never drift out of alignment.
+
+If R1 and R2 files fall out of sync after careless single-file filtering, downstream aligners will fail or mismatch mate pairs across the entire sample.
+
+?? Why must paired-end FASTQ files (`R1` and `R2`) always be trimmed together in paired mode rather than trimmed as two independent single-end files?
++ If a read is discarded from `R1` without removing or separating its mate in `R2`, the two files lose their line-by-line synchronisation and corrupt downstream paired alignment
+- Paired mode doubles the length of every DNA sequence by fusing `R1` and `R2` into chromosomes
+- `R2` files do not contain Phred quality scores unless `R1` is present in the same command
+- Trimming files independently converts paired-end Illumina reads into Nanopore long reads
+= Aligners rely on mate pairs appearing at identical line offsets in `R1` and `R2` files, so paired-aware trimming keeps mate records synchronised when low-quality reads are dropped.
+
+## Aligners map reads to a reference; some tools skip alignment and quantify directly
+~m
+Classical aligners, such as `BWA-MEM2` or `minimap2` for DNA and splice-aware `STAR` or `HISAT2` for RNA, compute base-by-base alignments of reads against the reference genome. By contrast, lightweight pseudoalignment or selective-alignment tools like `Salmon` and `kallisto` skip genome-wide base-level alignment and match $k$-mers directly against a reference transcriptome to estimate transcript abundance in a fraction of the time and memory; check the current details on decoy-aware transcriptome indexing for `Salmon`.
+
+It is like sorting books either by verifying every word on every page against the Library of Congress master edition (base-level alignment) or by scanning unique barcode phrases to tally inventory counts instantly (pseudoalignment).
+
+While `Salmon` and `kallisto` are ideal for fast gene expression matrices, they do not produce genomic BAM files for novel splice-junction discovery or DNA variant calling.
+
+?? When would a bioinformatician choose a full splice-aware genome aligner like `STAR` over a fast lightweight quantifier like `Salmon` or `kallisto`?
++ When the project requires base-level genomic BAM alignments to inspect novel splice junctions, call RNA sequence variants, or visualise read pileups across introns and exons
+- When the goal is simply to minimise RAM usage and run quantification on a standard laptop
+- When working with proteomics mass spectrometry spectra instead of nucleotide sequences
+- When the organism has no reference genome or transcriptome of any kind
+= Lightweight quantifiers like `Salmon` and `kallisto` rapidly estimate expression of known transcripts, whereas full splice-aware aligners like `STAR` generate coordinate BAMs needed for novel splicing, variant detection, and genome browser inspection.
+
+## Check alignment rates and look for unexpected contamination
+~m
+After alignment, inspecting overall mapping rates, uniquely mapped percentages, unmapped reads, and taxonomic screening reports (using tools like `Kraken2` or `FastQ Screen`) verifies that the library actually captured the intended biological target. High fractions of unmapped reads, multi-mapping ribosomal RNA, mycoplasma bacteria, or cross-species carryover indicate wet-lab issues that can bias downstream AI models; check the current details for updated `Kraken2` microbial reference databases.
+
+It is like testing a municipal water sample after filtration: if half the volume turns out to be industrial runoff instead of drinking water, you halt distribution before running taste panels.
+
+In RNA-seq, if ribosomal RNA (rRNA) depletion failed in the lab, 70% of your reads may map to rRNA loci, leaving too few messenger RNA reads to quantify gene expression reliably.
+
+?? What does it typically indicate in an RNA-seq experiment if overall genome alignment is 90%, but uniqueness is low because 75% of all reads map to ribosomal RNA (rRNA) loci?
++ Wet-lab rRNA depletion or poly-A selection failed, leaving insufficient sequencing depth on protein-coding messenger RNAs
+- The reference genome FASTA file is missing all protein-coding chromosomes
+- The sample has exceptionally high coverage across every transcription factor in the genome
+- The sequencing instrument used Phred Q40 scores instead of Q30 scores
+= Ribosomal RNA makes up the vast majority of cellular RNA; if wet-lab rRNA removal or poly-A capture fails, rRNA dominates the sequencing run and starves messenger RNA coverage.
+
+@@ sll_qyw-ZLQ-t8Ve | D3.2 Core Processing Steps > Variant Calling
+
+## Germline vs. somatic variant calling
+~m
+Germline variant calling and somatic variant calling are two fundamentally different analytical workflows designed for inherited genetics versus acquired mutations (primarily in cancer or mosaic tissues). Germline callers assume a diploid genome where true variants appear in roughly 50% (heterozygous) or 100% (homozygous) of reads covering a site, whereas somatic callers must detect mutations present in only a fraction of cells within a heterogeneous sample; check the current details for caller benchmarks across `DeepVariant` and `GATK`.
+
+It is like checking whether a factory printing press has a permanent crack in its master plate that marks every single banknote (germline) versus spotting a tiny ink smudge that appeared halfway through Tuesday's print run on only 4% of the notes (somatic).
+
+Applying a germline caller like `GATK HaplotypeCaller` or `DeepVariant` to a tumour biopsy will systematically discard low-frequency cancer driver mutations as noise.
+
+?? Why do standard germline variant callers fail to detect many clinically important cancer mutations in tumour biopsies?
++ Germline callers expect variants to follow diploid inheritance ratios (around 50% or 100% allele fraction) and dismiss low-frequency somatic mutations as sequencing errors
+- Germline callers can only read FASTA files and cannot process aligned BAM files
+- Cancer cells use RNA instead of DNA as their hereditary material
+- Germline callers only inspect mitochondrial DNA and ignore all nuclear chromosomes
+= Because germline algorithms model diploid genotypes (0%, 50%, or 100% variant allele frequency), they filter out subclonal tumour mutations that occur at low allele fractions.
+
+## Annotation and filtering
+Raw VCF files produced by variant callers contain thousands to millions of candidate calls mixed with sequencing and alignment artefacts, requiring systematic filtering followed by functional annotation. Filtering removes technical false positives using quality metrics or machine learning models, while annotation links each surviving variant to affected genes, amino acid changes, population allele frequencies, and clinical significance databases.
+
+It is like a fraud detection pipeline that first strips out corrupted sensor pings (technical filtering) and then enriches each real transaction with merchant category, customer history, and watchlist matches (annotation).
+
+Never confuse technical filtering with clinical prioritisation: a variant can be 100% real at the DNA level (`FILTER=PASS`) yet completely benign clinically because 40% of the healthy population carries it.
+
+?? What is the difference between technical variant filtering and functional variant annotation?
++ Technical filtering removes false-positive sequencing or alignment artefacts, whereas functional annotation enriches true variants with biological context like gene impact and population frequency
+- Technical filtering deletes exons from the reference genome, whereas annotation converts VCF files into FASTQ files
+- Annotation happens inside the wet-lab sequencer before alignment, while filtering only applies to proteomics
+- Technical filtering and functional annotation are identical terms for coordinate sorting a BAM file
+= Filtering distinguishes real genetic variants from technical artefacts, while annotation maps those variants onto transcripts, protein consequences, and external knowledge bases.
+
+## Germline: inherited variants; somatic: variants acquired in tumours
+Germline variants are present in the fertilised egg and therefore exist in virtually every nucleated cell of a person's body and can be passed to offspring, whereas somatic variants arise during an individual's lifetime in specific cells, such as UV-induced mutations in skin melanoma or smoking-induced mutations in lung tumours, and are restricted to that clone of cells.
+
+It is like the difference between a structural design change written into the original architectural blueprint of an entire housing estate (germline) and a kitchen remodel carried out years later inside one specific house (somatic).
+
+In clinical oncology consulting, distinguishing germline from somatic status matters immensely: finding a `BRCA1` mutation in a tumour could be an acquired somatic event or an inherited germline risk that also affects the patient's family members.
+
+?? If a DNA mutation arises in a patient's lung cell due to tobacco smoke exposure and drives a lung tumour, what type of variant is it and will it be present in a normal blood sample?
++ It is a somatic variant acquired during life, so it will be present in the lung tumour cells but absent from normal blood leukocytes
+- It is a germline variant that will immediately rewrite the DNA of every cell in the patient's body and all their children
+- It is a reference genome build artefact caused by aligning reads to GRCh38
+- It is an intronic splice junction that only exists as a lipid metabolite
+= Mutations acquired in body tissues after conception are somatic variants confined to the descendant clone of cells (such as the tumour) and are absent from unrelated normal tissues.
+
+## Somatic calling is harder: low allele fractions and a normal-tissue comparison
+~m
+Somatic variant calling is analytically much harder than germline calling because biopsy samples contain an unknown mixture of tumour cells, healthy stromal and immune cells (lowering tumour purity), and genetically distinct tumour subclones. To separate rare acquired tumour mutations from the patient's millions of inherited germline variants and systematic sequencing noise, gold-standard somatic pipelines (such as `GATK Mutect2` or `Strelka2`) sequence a matched normal sample, typically blood or adjacent healthy tissue, alongside the tumour; check the current details on somatic caller best practices and Panel of Normals (PoN) construction.
+
+It is like trying to spot three newly painted graffiti marks on a brick wall from a blurry photograph by comparing it side-by-side against a baseline photo of the exact same wall taken before the incident.
+
+When no matched normal sample exists (tumour-only sequencing), pipelines must rely heavily on population databases and panels of normals, leaving rare private germline variants hard to separate from somatic mutations.
+
+?? Why does gold-standard somatic variant calling sequence a matched normal sample (such as blood) alongside the patient's tumour biopsy, and require higher sequencing depth?
++ Higher depth is needed to detect variants at low allele fractions due to impure tumour samples and subclones, while the matched normal subtracts the patient's inherited germline variants
+- The matched normal sample provides the reference genome FASTA sequence because human tumours have no chromosomes
+- Somatic callers average the tumour and blood reads together to reduce coverage to 5x
+- Sequencing blood automatically cures technical batch effects in single-cell RNA-seq
+= Tumour biopsies have variable purity and subclonal heterogeneity requiring deep coverage to catch low variant allele fractions, and the matched normal tissue distinguishes acquired tumour changes from inherited germline polymorphisms.
+
+## Filter by depth, quality, and population frequency
+~m
+Effective variant prioritisation combines technical quality thresholds, such as read depth (`DP`), genotype quality (`GQ`), strand bias, and mapping quality, with biological filters based on population allele frequencies from large cohorts like gnomAD. Variants supported by only two reads or appearing solely on reverse-strand reads are usually technical artefacts, while variants present in 5% of the general population are too common to cause a rare severe Mendelian disorder; check the current details for gnomAD population frequency thresholds.
+
+It is like screening insurance claims by first rejecting illegible forms with missing signatures (depth and quality) and then excluding routine seasonal wear-and-tear (common population polymorphisms) when investigating a rare catastrophic failure.
+
+Always match ancestry awareness when filtering by population frequency, and remember that recessive disease carriers can still appear at modest frequencies in healthy control databases.
+
+?? Why do rare-disease genomics pipelines filter out variants that have a high allele frequency (for example, >1% or >5%) in population databases like gnomAD?
++ A genetic variant that is common in the general population cannot be the sole cause of a rare, highly penetrant Mendelian disorder
+- High-frequency population variants are always technical sequencing errors caused by Illumina adapters
+- Variants present in gnomAD only occur in bacterial genomes and never in humans
+- Common variants cannot be stored inside standard VCF files
+= If a genetic disorder affects 1 in 50,000 people, a variant found in 5% of the population is far too common to be the primary pathogenic driver of that rare condition.
+
+## Annotation predicts effects on genes and links to databases
+~m
+Variant annotation tools such as `Ensembl VEP` (Variant Effect Predictor), `SnpEff`, and `ANNOVAR` overlay called variants onto reference transcript models to predict molecular consequences (such as missense, nonsense/stop-gained, frameshift, or splice-site disruption) and attach external database identifiers. Common annotation sources include `gnomAD` for population frequencies, `ClinVar` for curated clinical pathogenicity assertions, `COSMIC` for somatic cancer mutations, and AI missense predictors like `AlphaMissense` or `REVEL`; check the current details for database release versions and licence terms.
+
+It is like enriching a list of building structural cracks with engineering lookup tables that state whether each crack hits a decorative partition wall (synonymous/intronic) or severs a main load-bearing steel beam (frameshift/stop-gained), plus whether inspectors have seen that exact failure before (`ClinVar`).
+
+Remember that the exact same genomic coordinate can be annotated as missense on one transcript isoform and intronic on another, so clinical labs standardise on canonical sets like MANE Select.
+
+?? What kind of information do variant annotation tools like `Ensembl VEP` or `SnpEff` add to a VCF file?
++ Predicted functional consequences on transcripts and proteins (such as missense or frameshift) along with links to external resources like `gnomAD`, `ClinVar`, and `COSMIC`
+- Per-base Phred quality scores and raw flow-cell cluster coordinates from the sequencer
+- Three-dimensional tissue coordinates from spatial transcriptomics slides
+- Automated wet-lab PCR primer sequences that repair the mutation in vivo
+= Variant annotators map coordinate changes onto gene models to predict coding/splicing impacts and cross-reference population and clinical databases.
+
+@@ sll_qVxVckfDG5Hm | D3.3 Transcriptomics & Single-Cell > RNA-seq & miRNA-seq
+
+## Quantification and normalization
+~m
+In RNA-seq analysis, quantification counts how many sequencing reads map to each gene or transcript, and normalisation adjusts those raw integers to account for technical differences such as sequencing library depth and gene length. A raw count of 500 reads for a gene has no standalone biological meaning without knowing whether the total sample was sequenced to 5 million reads or 50 million reads, and whether the gene is 500 bases or 10,000 bases long; check the current details in `DESeq2` and `edgeR` input documentation.
+
+It is like comparing retail sales across branches: before declaring one store more productive, you must adjust raw receipt counts for how many hours the store stayed open (library depth) and the square footage of its showroom (gene length).
+
+Note that within-sample metrics like TPM (Transcripts Per Million) adjust for both length and depth, whereas differential expression tools (`DESeq2`, `edgeR`) require raw unnormalised integer counts as input and apply their own cross-sample normalisation factors internally.
+
+?? Why do longer genes naturally accumulate more sequencing reads than shorter genes expressed at the exact same molecular copy number in standard fragmented RNA-seq?
++ Longer transcripts break into more cDNA fragments during library preparation, creating more opportunities for reads to be sampled per transcript molecule
+- Sequencing instruments selectively amplify long genes and destroy short genes during basecalling
+- Short genes do not contain adenine or thymine bases
+- Aligners multiply the read count of every gene by its exon count automatically
+= Because standard short-read RNA-seq fragments transcripts before sequencing, a 10 kb transcript yields roughly ten times as many fragments per molecule as a 1 kb transcript at the same molar abundance.
+
+## Differential expression analysis
+~m
+Differential expression (DE) analysis statistically tests each gene across experimental groups (such as drug-treated versus vehicle control, or tumour versus normal) to identify genes whose transcript abundance changed significantly beyond random biological and technical noise. Standard tools like `DESeq2`, `edgeR`, and `limma-voom` model gene counts using negative binomial or precision-weighted linear models that account for mean-variance relationships across replicates; check the current details in their Bioconductor vignettes for design formula syntax.
+
+It is like comparing monthly revenue across two groups of franchise stores after a marketing campaign to determine which product lines showed a genuine sales lift versus random weekly fluctuation.
+
+Always include known covariates like sex, patient age, or processing batch in the DE regression formula (`~ batch + condition`) so technical confounders do not masquerade as disease biology.
+
+?? Why do differential expression tools like `DESeq2` and `edgeR` use specialised count distributions (such as the negative binomial distribution) instead of a simple Student's t-test on raw counts?
++ RNA-seq counts are discrete, skewed integers whose variance increases nonlinearly with mean expression (overdispersion), which violates standard t-test assumptions especially at small sample sizes
+- Student's t-tests can only be computed on protein structures and never on nucleotide data
+- The negative binomial distribution allows differential expression to be calculated with zero biological replicates
+- Raw RNA-seq counts are always negative numbers between -100 and 0
+= Sequencing count data exhibits overdispersion (variance exceeds the mean) and discrete skew, which negative binomial generalised linear models handle accurately even with modest replicate counts.
+
+## Counts depend on sequencing depth: normalize before comparing
+~m
+Because raw read counts scale directly with the total number of reads sequenced in a library, comparing raw counts between Sample A (sequenced to 20 million reads) and Sample B (sequenced to 60 million reads) will falsely make almost every gene appear three times higher in Sample B. Furthermore, library composition biases occur when a few hyper-expressed genes consume a huge share of total reads, depressing the apparent relative counts of all other genes; check the current details on normalisation methods in `DESeq2` and `edgeR`.
+
+It is like comparing the number of faulty items found in two factory inspections where Inspector A checked 100 boxes and Inspector B checked 1,000 boxes: without dividing by inspection volume and accounting for product mix, the raw defect counts cannot be compared.
+
+Robust normalisation methods like `DESeq2` median-of-ratios or `edgeR` TMM (Trimmed Mean of M-values) correct for both total depth and composition bias across samples.
+
+?? What is "library composition bias" in RNA-seq normalisation, and why can simple total-count scaling (like CPM) fail when it occurs?
++ If a few highly expressed genes dramatically increase in one condition and consume a large fraction of the total sequencing reads, simple total-count scaling artificially makes all other unchanging genes look downregulated
+- Composition bias means the GC content of the reference genome changes between Tuesday and Wednesday
+- Simple total-count scaling deletes all genes with fewer than ten exons
+- Composition bias only occurs when sequencing DNA on Oxford Nanopore devices
+= Because sequencing measures relative proportions from a fixed read pool, extreme upregulation of a few abundant genes shrinks the remaining read share for all other genes unless robust methods like TMM or median-of-ratios are used.
+
+## Replicates are essential for statistics
+Biological replicates, which are independent samples obtained from distinct patients, animals, or independently grown cell cultures, are mandatory for estimating natural biological variance and performing valid statistical inference in transcriptomics. Technical replicates, which simply re-sequence the exact same extracted RNA tube twice, measure only instrument noise and cannot tell you whether a gene difference reflects the treatment or random individual-to-individual variation.
+
+It is like surveying voter opinion before an election: interviewing one single citizen ten times (technical replicates) tells you nothing about the wider public, whereas interviewing ten different citizens once each (biological replicates) estimates population variance.
+
+As an AI consultant, if a client brings an $n = 1$ per group experiment asking for p-values, explain clearly that without biological replicates you cannot separate treatment effect from biological noise.
+
+?? What is the critical difference between biological replicates and technical replicates in an RNA-seq experiment?
++ Biological replicates are independent biological samples that capture natural sample-to-sample variance needed for statistical testing, whereas technical replicates repeatedly measure the same single sample and only capture assay noise
+- Technical replicates come from different human patients, whereas biological replicates are copies of the same FASTQ file on disk
+- Technical replicates are required by `DESeq2` to compute p-values, while biological replicates should be discarded
+- Biological replicates always produce identical read counts down to the last integer
+= Valid statistical generalisation about a condition or treatment requires biological replicates to quantify biological variability across independent individuals or cultures.
+
+## Differential expression: log fold change and adjusted p-value
+Every differential expression table summarises each gene using two complementary metrics: the log2 fold change ($\log_2\text{FC}$), which measures the magnitude and direction of the expression shift, and the adjusted p-value, which measures the statistical confidence against a false positive. A $\log_2\text{FC}$ of $+1$ means expression doubled ($2^1 = 2\times$), $-1$ means expression halved ($2^{-1} = 0.5\times$), and $0$ means no change.
+
+It is like evaluating an investment strategy by looking at both the percentage return (effect size / fold change) and the consistency of that return across years (statistical significance): a tiny 0.1% gain might be statistically consistent yet commercially trivial, while a volatile 500% spike in one week might just be luck.
+
+Analysts typically plot both axes together in a volcano plot and require genes to pass both an adjusted p-value threshold and a minimum $\log_2\text{FC}$ magnitude.
+
+?? If a gene has a $\log_2$ fold change ($\log_2\text{FC}$) of $-2.0$ in treated samples compared to untreated controls, how has its expression changed?
++ Its expression decreased four-fold (to one-quarter, or $2^{-2} = 0.25\times$, of the control level)
+- Its expression decreased by exactly two sequencing reads per sample
+- Its expression increased two-fold ($2\times$) compared to controls
+- The gene was deleted from two chromosomes in the reference genome
+= Because fold change is expressed on a base-2 logarithmic scale, $\log_2\text{FC} = -2$ corresponds to $2^{-2} = 1/4$ ($0.25\times$), a four-fold reduction in expression.
+
+## Multiple testing correction (false discovery rate)
+~m
+When a differential expression analysis tests 20,000 human genes simultaneously using a naive raw p-value cutoff of $p < 0.05$, pure chance alone will produce roughly $20,000 \times 0.05 = 1,000$ false-positive hits even when zero true biological differences exist. Multiple testing correction methods, most commonly the Benjamini-Hochberg procedure that controls the False Discovery Rate (FDR, reported as `padj` or $q$-value), adjust p-values upward to bound the expected proportion of false discoveries among the called hits; check the current details on independent hypothesis weighting (`IHW`) in `DESeq2`.
+
+It is like flipping a fair coin across twenty thousand contestants: hundreds will land heads five times in a row purely by luck unless you adjust the winning threshold for the size of the crowd.
+
+In client reports, never rank or filter genome-wide omics results by unadjusted raw p-values.
+
+?? Why must you filter differential expression results using the adjusted p-value (FDR / `padj`) rather than the raw p-value when testing 20,000 genes?
++ Testing 20,000 hypotheses at a raw $p < 0.05$ cutoff yields around 1,000 false positives by random chance alone, whereas FDR correction controls the expected proportion of false discoveries
+- Raw p-values are only calculated for introns, whereas adjusted p-values are calculated for exons
+- Adjusted p-values convert negative fold changes into positive numbers
+- Using raw p-values causes `samtools` to corrupt the underlying BAM files
+= Simultaneous hypothesis testing across thousands of genes inflates false positives exponentially unless multiple testing correction (such as Benjamini-Hochberg FDR) is applied.
+
+## miRNA-seq specifics: short reads and small-RNA databases
+~m
+MicroRNA sequencing (miRNA-seq or small RNA-seq) requires specialised wet-lab size selection and bioinformatic processing because mature microRNAs are only about 19 to 25 nucleotides long, which is much shorter than standard 50 to 150 base Illumina sequencing reads. Because every read runs past the tiny miRNA into the 3-prime adapter, precise adapter trimming and length filtering (keeping reads around 18 to 26 nt) are mandatory before mapping to dedicated small-RNA references like `miRBase` or `MirGeneDB`; check the current details for curated `MirGeneDB` and `miRBase` release versions.
+
+It is like shipping tiny jewellery rings inside standard shoeboxes: you must unpack and remove the foam padding (adapter sequence) from every single box before weighing the ring inside.
+
+Also beware that standard `miRBase` releases contain some historical false-positive annotations, so high-precision clinical workflows often cross-check against `MirGeneDB`.
+
+?? Why is adapter trimming even more critical in miRNA-seq than in standard mRNA-seq?
++ Mature miRNAs are only ~22 nucleotides long, so standard 50 to 150 cycle sequencing reads always read past the miRNA into the 3-prime adapter, preventing alignment if untrimmed
+- miRNA molecules are over 10,000 nucleotides long and span multiple chromosomes
+- miRNA-seq instruments do not output FASTQ quality scores unless adapters are removed first
+- Adapter trimming converts microRNAs into messenger RNAs for ribosome translation
+= Because mature microRNAs (~22 nt) are shorter than the read length of standard sequencers, virtually every raw read contains trailing 3-prime adapter sequence that will block alignment to short miRNA references unless clipped.
+
+@@ sll_6reMKOIIZ2ZM | D3.3 Transcriptomics & Single-Cell > Single-Cell Analysis
+
+## Clustering and cell-type annotation
+~m
+In single-cell RNA-seq (scRNA-seq), clustering groups thousands of individual cells with similar gene expression profiles into communities in reduced dimensional space, and cell-type annotation assigns biological identities (such as CD8+ T cells, macrophages, or alveolar epithelial cells) to those clusters. Frameworks like `Seurat` (in R) and `Scanpy` (in Python) use shared nearest-neighbour graphs and the Leiden or Louvain community-detection algorithms; check the current details in the scverse and Seurat documentation.
+
+It is like grouping millions of anonymised supermarket loyalty cards by shopping basket similarity and then labelling the resulting clusters as "student households", "vegan cooks", or "new parents" based on their signature purchases.
+
+Changing the clustering resolution parameter splits or merges clusters arbitrarily, so clusters are computational groupings rather than absolute biological truths until validated by markers.
+
+?? In single-cell RNA-seq analysis, what is the relationship between unsupervised clustering and cell-type annotation?
++ Unsupervised clustering groups cells mathematically by transcriptomic similarity, and cell-type annotation then assigns biological identities to those groups using marker genes or reference atlases
+- Clustering sequences the DNA in the wet lab, while annotation trims Illumina adapters from FASTQ files
+- Cell-type annotation must be completed before raw sequencing reads are aligned to the genome
+- Clustering always produces the exact same number of cell types regardless of the resolution parameter
+= Graph-based clustering partitions cells into groups based on expression similarity, after which domain knowledge and reference markers are used to label what biological cell types or states those clusters represent.
+
+## Trajectory analysis
+~m
+Trajectory analysis (or pseudotime inference) orders single cells along a continuous path or branching tree to model dynamic biological processes such as stem-cell differentiation, immune activation, or disease progression from a static snapshot of cells captured at different stages. Tools like `Monocle3`, `Slingshot`, and `scVelo` / `CellRank` infer progression paths through high-dimensional gene expression space; check the current details on RNA velocity limitations and multi-omic lineage tracing methods.
+
+It is like photographing ten thousand marathon runners across a city at a single instant in time and reconstructing the race route by ordering runners from fresh starters to exhausted finishers based on their sweat levels and stride wear.
+
+Do not apply trajectory tools blindly to unrelated, terminally differentiated cell types (like forcing a line between mature neurons and mature B cells) where no biological transition actually occurs.
+
+?? What does "pseudotime" represent in a single-cell trajectory analysis?
++ A latent quantitative measure of how far an individual cell has progressed along a continuous biological process (such as differentiation), inferred from transcriptomic similarity rather than wall-clock time
+- The exact number of minutes the tissue biopsy spent inside the sequencing instrument
+- The wall-clock runtime required by the HPC cluster to align the FASTQ files
+- The physical distance in micrometres between two cells on a microscope slide
+= Pseudotime orders cells along a continuous biological transition based on gradual changes in their gene expression profiles rather than chronological clock time.
+
+## Typical steps: filter cells, normalize, reduce dimensions, cluster
+A standard single-cell RNA-seq workflow proceeds through a well-defined sequence of steps: filtering out low-quality barcodes (empty droplets, dying cells with high mitochondrial reads), normalising counts per cell and log-transforming, selecting highly variable genes, reducing dimensionality with Principal Component Analysis (PCA) followed by UMAP or t-SNE for 2D visualisation, and finally graph-based clustering.
+
+It is like processing a massive customer survey by first discarding blank or corrupted forms, standardising currency scales, distilling hundreds of questions into key lifestyle axes, and plotting customer segments on a summary map.
+
+Never run clustering directly on 2D UMAP or t-SNE coordinates, and never over-interpret long-range distances between islands on a UMAP plot, as nonlinear embeddings distort global geometry.
+
+?? Why do single-cell pipelines flag and filter out cell barcodes that exhibit a very high percentage of mitochondrial RNA reads paired with low total gene counts?
++ When a cell membrane ruptures or undergoes apoptosis during tissue dissociation, cytoplasmic mRNA leaks out while mitochondrial transcripts stay trapped inside intact mitochondria
+- Healthy dividing stem cells transcribe 95% of their RNA exclusively from mitochondrial DNA
+- High mitochondrial percentages indicate that the sample was sequenced on a long-read Nanopore device
+- Mitochondrial genes have no exons and cause UMAP visualisations to crash
+= Damaged or dying cells lose cytoplasmic messenger RNA through compromised outer membranes while retaining membrane-bound mitochondria, inflating the relative fraction of mitochondrial reads.
+
+## Doublets and ambient RNA as artefacts
+~m
+Single-cell droplet assays suffer from two major technical artefacts that can masquerade as novel hybrid cell types: doublets (when two or more cells get encapsulated inside the same oil droplet and share a single cell barcode) and ambient RNA ("soup" of cell-free RNA released by lysed cells during dissociation that gets captured in every droplet). Computational tools like `Scrublet` or `DoubletFinder` score synthetic doublets, while `CellBender` or `SoupX` estimate and subtract background ambient RNA; check the current details for benchmarked doublet and ambient removal tools.
+
+It is like an audio recording booth where two speakers accidentally walk into the same booth at once (a doublet) while loud hallway chatter leaks under every studio door in the building (ambient RNA).
+
+For example, if high-expression haemoglobin RNA from lysed red blood cells contaminates ambient soup, naive analysts may falsely conclude that neurons or T cells are expressing haemoglobin.
+
+?? How can a researcher distinguish a technical doublet from a genuine transitional cell state when a cluster appears to express canonical marker genes from two completely unrelated lineages (for example, both T-cell and B-cell markers)?
++ Check whether the cluster shows roughly double the typical UMI/gene counts and high scores in computational doublet detectors like `Scrublet` or `DoubletFinder`, as two cells captured in one droplet combine their transcripts
+- Assume immediately that a brand-new hybrid stem cell has been discovered without running quality checks
+- Delete all T-cell and B-cell genes from the reference genome GTF file
+- Run `samtools sort` on the raw FASTQ file to split the droplets apart
+= When two distinct cells are co-encapsulated in a single droplet, their combined transcriptomes produce chimeric marker profiles alongside elevated total UMI/gene counts and high synthetic doublet similarity scores.
+
+## Annotate clusters with marker genes and reference atlases
+~m
+Assigning accurate biological labels to single-cell clusters combines two strategies: manual curation using differential expression to check known canonical marker genes (for example, `CD3D` for T cells, `MS4A1` for B cells, `EPCAM` for epithelial cells) and automated label transfer against curated reference atlases such as the Human Cell Atlas (`CELLxGENE`) using tools like `SingleR`, `Azimuth`, or `CellTypist`; check the current details on tissue-specific reference models.
+
+It is like identifying unknown birds in a wildlife survey by both checking field-guide traits like beak shape and plumage (marker genes) and matching photos against a national museum database (reference atlas transfer).
+
+Automated reference classifiers work quickly but can mislabel diseased, mutated, or rare cell states that were absent from the healthy reference atlas, so always verify automated labels against canonical marker expression.
+
+?? What is a key limitation of relying exclusively on automated reference-atlas label transfer tools (like `Azimuth` or `SingleR`) to annotate single-cell clusters in a tumour biopsy?
++ Reference atlases built from healthy tissues may lack diseased, malignant, or treatment-induced cell states, causing automated classifiers to force inaccurate healthy labels onto novel or abnormal cells
+- Automated annotation tools can only classify bacterial cells and fail on all mammalian tissues
+- Reference atlases require 100x whole-genome DNA sequencing instead of single-cell RNA counts
+- Automated tools permanently delete the UMAP coordinates from the `Seurat` or `Scanpy` object
+= Automated classifiers can only assign labels that exist in their training reference, so malignant cells or novel disease states must be verified using marker gene inspection and copy-number or mutation signals.
+
+## Trajectories suggest an ordering; they do not prove lineage
+While trajectory and pseudotime algorithms draw smooth arrows across single-cell scatter plots, they only measure transcriptomic similarity across a static snapshot and cannot by themselves prove true developmental lineage or causal directionality. Two cell states that look transcriptionally similar may actually arise from separate progenitors (convergent differentiation), and without prior biological knowledge of the starting stem cell or experimental lineage barcodes, the arrow of time can easily point backwards.
+
+It is like arranging a shelf of seashells by size from smallest to largest: the smooth gradient looks like one shell growing over time, even if the shells actually belong to three different species collected on the same beach.
+
+To prove true clonal ancestry and fate in client drug-discovery studies, computational trajectories must be paired with experimental time-series sampling, genetic lineage barcoding, or somatic mitochondrial tracing.
+
+?? Why can a computational trajectory inferred solely from a single-timepoint scRNA-seq snapshot not prove true cellular lineage or developmental direction on its own?
++ Pseudotime algorithms only connect cells by transcriptomic similarity in a static snapshot, which cannot distinguish true ancestor-descendant relationships from convergent states or determine the direction of time without external biological anchors
+- Trajectory algorithms only inspect intron lengths and ignore exon counts
+- Single-cell sequencers scramble nucleotide bases whenever cells divide
+- Lineage can only be proven by converting the count matrix into a CRAM file
+= Because standard scRNA-seq destroys cells at a single timepoint and measures only expression similarity, inferred trajectories are hypotheses that require prior root anchors, time-series experiments, or genetic lineage barcodes for causal proof.

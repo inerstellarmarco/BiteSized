@@ -5,74 +5,242 @@
     {
       "id": "bit_CxL3abfpie4u",
       "title": "Multi-head attention",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Multi-head attention splits the embedding dimension into several smaller subspaces called heads, runs scaled dot-product attention independently in each head with its own Query, Key, and Value projections, and then concatenates the head outputs and passes them through a final output projection matrix. Rather than computing one single attention pattern over a 4,096-dimensional vector, a model might run 32 parallel heads of 128 dimensions each.\n\nImagine reviewing a commercial contract with a team of specialists: the lawyer checks liability clauses, the accountant checks payment terms, and the engineer checks delivery dates, before combining their findings into one summary.\n\nSplitting into multiple heads costs roughly the same total compute and parameter count as a single full-width head, but gives the layer far greater expressiveness.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_CxL3abfpie4u_1",
+          "type": "multiple_choice",
+          "prompt": "How does multi-head attention keep its total computational cost similar to single-head attention of the same model width?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It runs only one randomly chosen head per forward pass and skips the others"
+            },
+            {
+              "id": "b",
+              "text": "It forces all attention heads to share the exact same Query and Key weight matrices"
+            },
+            {
+              "id": "c",
+              "text": "It drops seventy-five per cent of the input tokens before computing the dot products"
+            },
+            {
+              "id": "d",
+              "text": "It divides the model's hidden dimension across the heads so each head operates on smaller vectors"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "By setting each head's dimension to the total model dimension divided by the number of heads, the total matrix multiplication work remains constant.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_XdjBrgtzfxt7",
       "title": "Positional encodings (sinusoidal, RoPE)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Because self-attention treats its input as an unordered bag of tokens, positional encodings inject explicit sequence-order signals into the model so it can tell which word came first and how far apart two tokens sit. Early transformers added fixed sinusoidal waves of different frequencies to the input token embeddings at the bottom of the network, while modern large language models typically apply Rotary Position Embeddings (RoPE) directly inside each attention layer.\n\nIt is like numbering the pages of a loose-leaf manuscript before handing it to an editor, so even if the sheets are examined side by side, their sequence is unmistakable.\n\nThe design of the positional encoding strongly affects whether a model can handle documents longer than the sequences it saw during training.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XdjBrgtzfxt7_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary purpose of positional encodings in a transformer architecture?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To compress the vocabulary size by merging synonyms into a single vector"
+            },
+            {
+              "id": "b",
+              "text": "To encrypt user prompts so they cannot be logged by the inference server"
+            },
+            {
+              "id": "c",
+              "text": "To replace the feed-forward neural network inside each transformer layer"
+            },
+            {
+              "id": "d",
+              "text": "To give the model information about token order and relative distance in the sequence"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Self-attention is naturally permutation-equivariant, so positional encodings are required to distinguish word order and token spacing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-Yc7GZAxqgXW",
       "title": "Heads attend to different relationships in parallel",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Because each attention head in a layer has its own independent projection matrices, different heads specialise in tracking different linguistic, structural, or logical relationships at the same time. When researchers inspect trained transformers, they find some heads tracking grammar (linking a pronoun like \"it\" back to the right noun), others attending to the immediately preceding token, and others matching opening and closing brackets in source code.\n\nThink of air traffic controllers watching the same radar screen through different filters: one tracks altitude separation, another monitors runway queues, and a third watches weather fronts.\n\nIf a layer had only a single attention head, averaging all those competing softmax distributions together would blur distinct relationships into an unhelpful compromise.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-Yc7GZAxqgXW_1",
+          "type": "multiple_choice",
+          "prompt": "Why is having multiple independent softmax distributions per layer useful when processing complex text or code?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "One token often needs to gather information from several different places for grammar, meaning, and formatting at once"
+            },
+            {
+              "id": "b",
+              "text": "Multiple softmax calculations guarantee that the model's output contains zero factual hallucinations"
+            },
+            {
+              "id": "c",
+              "text": "Having multiple heads allows the model to skip backpropagation on half of the layers"
+            },
+            {
+              "id": "d",
+              "text": "Each head translates the input sentence into a different spoken human language automatically"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A single softmax distribution tends to focus on one dominant match, whereas parallel heads can simultaneously track syntax, coreference, and long-range context.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Fg0NF299Igt8",
       "title": "Without position information, word order is lost",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Without positional encodings or a causal mask, a self-attention layer is permutation-equivariant: if you shuffle the order of the words in a prompt, the layer produces the exact same output vectors, merely shuffled in the same way. To an unpositioned attention layer, \"The client sued the vendor\" and \"The vendor sued the client\" contain the exact same pairwise dot products and yield identical token representations.\n\nIt is like throwing all the words of a contract into a tombola drum: you still have the exact same vocabulary, but you have no idea who owes money to whom.\n\nIn business applications where negation, chronology, and clause structure flip the meaning of a sentence completely, preserving precise word order through positional mechanisms is vital.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Fg0NF299Igt8_1",
+          "type": "multiple_choice",
+          "prompt": "What would happen to the output of an unmasked self-attention layer with no positional encodings if you swapped two words in the input?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model would crash with a dimension mismatch error during the Query-Key multiplication"
+            },
+            {
+              "id": "b",
+              "text": "The softmax attention weights would all drop to zero across the entire row"
+            },
+            {
+              "id": "c",
+              "text": "The output vectors for every token would have the exact same values as before, just in the swapped positions"
+            },
+            {
+              "id": "d",
+              "text": "The feed-forward network would automatically restore the original word order"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because dot products and weighted sums do not depend on sequence index, pure self-attention without positional signals cannot distinguish different orderings of the same tokens.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lTgcC5U_nQ6y",
       "title": "Rotary encodings (RoPE) and long contexts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Rotary Position Embeddings (RoPE) encode position by rotating pairs of dimensions in the Query and Key vectors in 2D planes by an angle proportional to each token's absolute position index, right before computing the attention dot product. Because of a neat geometric property of rotations, the dot product between a rotated Query at position m and a rotated Key at position n depends only on their relative distance (m minus n), not on their absolute positions.\n\nThink of two clock hands spinning at the same speed: the angle between the two hands depends only on the time elapsed between them, no matter what hour the clock started at.\n\nBecause different dimension pairs rotate at frequencies ranging from fast (for local syntax) to very slow (for document-wide themes), RoPE generalises well and can be rescaled via frequency interpolation to extend a model's context window from 8,000 to over 128,000 tokens.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lTgcC5U_nQ6y_1",
+          "type": "multiple_choice",
+          "prompt": "What geometric property makes Rotary Position Embeddings (RoPE) effective for modelling long sequences?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "RoPE converts all floating-point vectors into fixed three-dimensional geographic coordinates"
+            },
+            {
+              "id": "b",
+              "text": "RoPE deletes tokens that sit more than a hundred words away from the current query"
+            },
+            {
+              "id": "c",
+              "text": "RoPE replaces the attention matrix with a fixed convolutional filter of width three"
+            },
+            {
+              "id": "d",
+              "text": "Rotating Query and Key vectors by position angles makes their dot product depend cleanly on the relative distance between tokens"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "By applying position-dependent rotations to Q and K, RoPE ensures the attention score naturally reflects relative token spacing while decaying smoothly over long distances.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_LZlDwx7xbgK_",
       "title": "Residual connections, layer norm, and the feed-forward block",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Attention is only half of a transformer block; the complete block wraps multi-head attention and a position-wise feed-forward network (FFN, or MLP) inside residual skip connections and layer normalisation ( typically RMSNorm applied before each sub-layer in modern architectures). The residual stream acts as a shared communication highway running straight from the bottom of the model to the top, with each attention head and FFN reading from the stream and adding its update back in.\n\nIt is like a document travelling along a conveyor belt: attention stations gather relevant footnotes from other pages and clip them on, while FFN stations process each page individually using stored domain knowledge.\n\nIn fact, the feed-forward blocks hold roughly two-thirds of a standard transformer's parameters and store much of the factual and pattern knowledge learned during pretraining.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_LZlDwx7xbgK__1",
+          "type": "multiple_choice",
+          "prompt": "How do attention sub-layers and feed-forward (FFN) sub-layers divide the work inside a transformer block?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Attention updates the model weights during inference, while the FFN only runs during training"
+            },
+            {
+              "id": "b",
+              "text": "Attention processes only the first half of the prompt, while the FFN processes the second half"
+            },
+            {
+              "id": "c",
+              "text": "Attention moves contextual information between tokens, while the FFN transforms each token's representation individually using learned weights"
+            },
+            {
+              "id": "d",
+              "text": "Attention normalises vector lengths to one, while the FFN computes the causal mask"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Self-attention routes information across sequence positions, and the position-wise feed-forward network applies non-linear transformations to each token's enriched vector.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

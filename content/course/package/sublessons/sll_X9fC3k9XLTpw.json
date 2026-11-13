@@ -5,8 +5,8 @@
     {
       "id": "bit_GPuqO9cM41ne",
       "title": "Cost multiplies: every agent adds tokens and calls",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A single-agent call sends one system prompt, the user input and its tool definitions.\n\nNow split that same job across a four-agent team with a supervisor. The supervisor reads the input and writes a brief. Worker 1 reads its system prompt and the brief, calls tools and writes a report. The supervisor reads the report and briefs Worker 2. Worker 2 runs its turns. The supervisor reads both reports and calls the Reviewer. One user question has quietly turned into twelve LLM calls and tens of thousands of repeated context tokens.\n\nIt is calling a meeting with six people for a decision one person could have made at their desk in five minutes.\n\nAlways calculate the token multiplier per user request before proposing a multi-agent design.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,25 +19,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GPuqO9cM41ne_1",
+          "type": "multiple_choice",
+          "prompt": "Why does a multi-agent team often cost several times more tokens than a single agent for the same request?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Providers charge a special penalty fee whenever two agents have different names"
+            },
+            {
+              "id": "b",
+              "text": "Multi-agent systems are required to use the most expensive model for every step"
+            },
+            {
+              "id": "c",
+              "text": "Every delegation, handoff and review repeats system prompts and context across multiple separate LLM calls"
+            },
+            {
+              "id": "d",
+              "text": "Single agents do not pay for input tokens"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Each agent turn and coordinator handoff resends prompts and context, multiplying both call count and token spend.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_IGdnJ8MvqMaI",
       "title": "Errors compound: one bad handoff spoils everything after it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a chain of agents, each agent trusts the structured output or summary handed to it by the previous agent.\n\nIf Agent 1 misreads a date as 2024 instead of 2025, or drops a crucial constraint when summarising the user's request, Agent 2 and Agent 3 never see the original source to notice the slip. They build elaborate, polished analysis on top of a false premise.\n\nIt is the party game Whisper Down the Lane: a tiny slip between the first two players turns the message into nonsense by the end of the line.\n\nValidate key facts and pass references to original source IDs across handoffs so later agents or gates can verify critical figures.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IGdnJ8MvqMaI_1",
+          "type": "multiple_choice",
+          "prompt": "How can a small mistake in the first agent spoil the work of an entire multi-agent team?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Later agents always delete the first agent's output"
+            },
+            {
+              "id": "b",
+              "text": "Errors automatically cancel each other out across three agents"
+            },
+            {
+              "id": "c",
+              "text": "Downstream agents work from the first agent's summary or handoff without seeing the original input, so they build on the mistake"
+            },
+            {
+              "id": "d",
+              "text": "Only the last agent in a chain can make mistakes"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Information loss or distortion at a handoff propagates forward unless key facts are checked against original sources.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_sYg6XkPSc542",
       "title": "Agents that loop, stall, or argue",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Put two or more autonomous agents in a conversation without tight rules and they can fail in uniquely comical ways.\n\nTwo agents can fall into a **politeness loop** (\"Thank you!\" / \"You're welcome, let me know if you need anything else!\" / \"Thanks again!\"). A generator and an overly strict critic can **argue** for ten rounds as fixing one rule breaks another. Or a supervisor can **stall**, repeatedly calling the same search worker that keeps returning \"no results found\".\n\nIt is two people holding a door for each other in a corridor, both saying \"After you\" while nobody walks through.\n\nPrevent these with structured outputs instead of chatty prose, state progress checks and hard turn limits.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,13 +106,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_sYg6XkPSc542_1",
+          "type": "multiple_choice",
+          "prompt": "What is a common cause of two agents getting stuck in a loop?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Setting a strict maximum step count on the workflow"
+            },
+            {
+              "id": "b",
+              "text": "Using structured JSON fields to signal completion"
+            },
+            {
+              "id": "c",
+              "text": "Unstructured chat handoffs or conflicting critic rules with no progress check or turn cap"
+            },
+            {
+              "id": "d",
+              "text": "Running deterministic code between steps"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Replacing free-form chat between agents with structured state updates and hard iteration limits stops polite or argumentative loops.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_FIg2QsPgLaLh",
       "title": "Tracing a failure back to the agent that caused it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a user reports that the final report contained a wrong figure, a multi-agent system gives you a mystery: did the researcher fetch the wrong document, did the analyst miscalculate the percentage, did the writer misquote the analyst, or did the editor change the number during polishing?\n\nTo answer that in two minutes instead of two hours, your tracing system must record a hierarchical span for every agent run, every handoff payload and every tool call under a single `trace_id`.\n\nIt is food traceability on a supermarket pack that tells you the exact farm, batch and packing line a box of strawberries came from.\n\nWithout end-to-end traces, teams waste days blaming the wrong prompt.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -69,13 +153,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FIg2QsPgLaLh_1",
+          "type": "multiple_choice",
+          "prompt": "What do you need in place to quickly find which agent in a team introduced a wrong fact?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A single log line that prints only the final answer shown to the user"
+            },
+            {
+              "id": "b",
+              "text": "Guessing which agent is usually worst and editing its prompt at random"
+            },
+            {
+              "id": "c",
+              "text": "Deleting all intermediate state as soon as each node finishes"
+            },
+            {
+              "id": "d",
+              "text": "End-to-end tracing that records every agent's inputs, tool calls and handoff payloads under one shared trace ID"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Hierarchical traces let you inspect the exact input and output of each agent in the chain to pinpoint where the fact went wrong.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Wxtwrich-QCY",
       "title": "Evaluating the team and each agent separately",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Testing a multi-agent system requires two levels of evaluation: **end-to-end team evals** and **component-level agent evals**.\n\nEnd-to-end evals test whether the whole system turns a user request into a good final result. Component evals test each agent in isolation with fixed test inputs: given this exact research brief, does the researcher find the right three facts; given these exact facts, does the writer produce an accurate draft?\n\nIt is testing a racing car both by timing a full lap of the circuit and by testing the brakes and engine on a workshop rig on their own.\n\nIf an end-to-end test fails, component evals tell you which specialist broke.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -88,13 +200,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Wxtwrich-QCY_1",
+          "type": "multiple_choice",
+          "prompt": "Why do you need both end-to-end team evaluations and isolated per-agent evaluations?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Per-agent evals replace the need to ever test the whole workflow together"
+            },
+            {
+              "id": "b",
+              "text": "End-to-end evals cost zero tokens to run"
+            },
+            {
+              "id": "c",
+              "text": "You cannot pass test inputs to a single agent on its own"
+            },
+            {
+              "id": "d",
+              "text": "End-to-end evals measure overall user outcome, while per-agent evals isolate which specialist or handoff caused a regression"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Component evals let you test and tune each specialist quickly and deterministically, while end-to-end evals verify that the handoffs work together.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_JTvh6zZl9Y1V",
       "title": "A single agent is the baseline to beat",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before you build a five-agent crew, build the best single agent (or simple prompt chain) you can and measure it on your evaluation set.\n\nModern frontier models have large context windows, strong reasoning and reliable tool calling. A huge proportion of tasks that needed a complex multi-agent setup two years ago are now handled faster, cheaper and more accurately by one well-structured agent or two chained calls with code checks in between.\n\nIt is checking whether one skilled tradesperson can finish the job in an afternoon before hiring a general contractor and four subcontractors.\n\nIf a multi-agent team does not clearly beat your single-agent baseline on quality, speed or cost, keep the single agent.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -107,7 +247,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_JTvh6zZl9Y1V_1",
+          "type": "multiple_choice",
+          "prompt": "What should always be your baseline before committing to a complex multi-agent architecture?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A team of twenty agents with no tools"
+            },
+            {
+              "id": "b",
+              "text": "A human typing answers by hand with no AI"
+            },
+            {
+              "id": "c",
+              "text": "A single well-prompted agent or simple prompt chain measured on the same evaluation suite"
+            },
+            {
+              "id": "d",
+              "text": "Having no evaluation suite at all"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A single agent or simple chain is cheaper, faster and easier to debug, so a multi-agent design must earn its complexity on the evals.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

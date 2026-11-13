@@ -1,0 +1,413 @@
+// B14 Cost, Latency & Observability
+@@ sll_3qRPiEGV38Ph | B14.1 Cost Engineering > Understanding AI Costs
+## Token economics and pricing models
+~m
+Language model APIs are billed primarily per million tokens, split into two rates: **input tokens** (everything you send in the prompt: system instructions, conversation history, retrieved documents and tool definitions) and **output tokens** (everything the model writes back, including hidden reasoning tokens). Check the current details on each provider's pricing page.
+
+Output tokens typically cost three to five times more per token than input tokens because generating tokens one by one on GPUs is much more compute-intensive than reading the prompt in parallel. Cached input tokens, on the other hand, are heavily discounted.
+
+It is a printing press where setting up the page plate (input) is cheap, and each page printed on heavy paper (output) costs more.
+?? Why do providers charge several times more per million output tokens than input tokens, and what counts as output?
++ Generating tokens one at a time takes much more GPU work than reading input in parallel, and both visible replies and hidden thinking tokens count as output
+- Input tokens are always more expensive than output tokens
+- Hidden thinking tokens are never billed by any provider
+- Tool definitions sent in the prompt are billed as output tokens
+= Understanding the price gap between cached input, regular input and output (including thinking tokens) is the foundation of AI cost control.
+## Unit economics per user and per task
+A total monthly API bill of £1,200 means nothing on its own. Is that brilliant or terrible? You only know when you translate it into **unit economics**: the cost per completed business task and the cost per active user.
+
+If your subscription product charges a user £20 a month and your agent costs £0.40 per task across 100 tasks a month (£40 per user), you lose £20 on every new customer you sign. If an internal invoice-processing agent costs £0.03 per invoice and saves four minutes of a £24/hour clerk's time (£1.60 of labour), the unit economics are overwhelmingly positive.
+
+It is a café owner calculating the cost of beans, milk and cup per latte sold before setting the menu price.
+?? Why must an AI consultant calculate cost per completed task and cost per active user rather than looking only at total monthly API spend?
++ Unit economics show whether each task or user is profitable against the price charged or the time saved, and how costs will scale with growth
+- Total monthly spend always stays flat when user numbers multiply by ten
+- Providers only bill once every five years
+- Cost per task is impossible to measure from token logs
+= Knowing the cost per task and per user tells you immediately whether your pricing model and margins work as adoption grows.
+## Agents multiply cost: many calls per task
+In a simple single-turn Q&A tool, one user question equals one API call. In an autonomous agent, one user question can trigger ten loop steps, three sub-agent delegations, two retries and a final verifier check.
+
+Crucially, on every turn of an agent loop, the **entire conversation history and all tool outputs so far** are re-sent as input tokens. Step 1 sends 2,000 tokens; Step 2 sends 4,000; Step 10 sends 25,000. A ten-step run does not cost ten times a one-step run; because the context grows on every turn, it can easily cost thirty or forty times as much.
+
+It is a snowball rolling downhill, getting heavier on every turn of the loop.
+?? Why can a ten-step agent loop cost thirty times more than a single call rather than just ten times more?
++ Each step in the loop re-sends the growing history of previous messages and tool outputs as input tokens on every call
+- Providers multiply the price per token by ten after step five
+- Tool calls are billed in gold bullion
+- The first step of an agent loop is always free
+= Because context accumulates across turns, multi-step agents have quadratic input-token growth unless context is trimmed or cached.
+## Where the money goes: finding the expensive steps
+When a client asks you to cut their AI bill in half, do not guess. Break token spend down by **workflow step, tool and prompt section**.
+
+You will almost always find a 80/20 pattern: one or two steps account for the bulk of the bill. Common culprits are twenty tool schemas sent on every turn when only two are needed, a retrieval step stuffing ten full-page documents into context when top-three snippets would do, a reasoning model with a huge thinking budget running on a trivial router step, or an uncapped retry loop on broken inputs.
+
+It is reading an itemised electricity monitor room by room and discovering an old immersion heater in the loft is using 70% of the power.
+?? What is the right first step when optimising the cost of an existing AI workflow?
++ Measure token spend per workflow step and prompt section so you target the one or two steps where most of the money actually goes
+- Rewrite the entire application in assembly language before looking at any logs
+- Delete half of the user's question at random
+- Switch every single step to the weakest model without testing
+= Itemised telemetry per step reveals the exact bloated prompt, tool output or oversized model call driving the bill.
+## Cost against the value of the task done
+Cost optimisation is not a race to spend zero pence; it is matching the spend on each task to the business value and risk of that task.
+
+Spending £0.80 of frontier reasoning tokens to review a £250,000 commercial lease and catch a dangerous liability clause is an extraordinary bargain. Spending £0.80 to classify whether a newsletter signup email came from a personal or work address is absurd when a £0.0002 call or a two-line regex does the job.
+
+It is sending a courier van for a signed property deed, and a second-class stamp for a postcard.
+
+Tier your architecture so high-value decisions get frontier intelligence and routine plumbing costs fractions of a penny.
+?? How should you judge whether £0.50 per run is too expensive for an AI workflow?
++ Compare the £0.50 cost against the business value of the task and whether a cheaper model or code step passes the same evaluation suite
+- Any run over £0.01 is always too expensive regardless of the task
+- More expensive runs are always better even on trivial tasks
+- Never compare AI cost to the human time or business risk involved
+= The right spend is the lowest-cost setup that passes your quality and safety evals for the value of the job being done.
+
+@@ sll_DQAnB3KD5ZRP | B14.1 Cost Engineering > Cost Reduction
+## Model routing and cascades
+Two related patterns cut model spend dramatically without sacrificing quality on hard questions: **routing** and **cascades**.
+
+In **routing**, a fast classifier or tiny model inspects the request up front and sends easy questions to a small, cheap model and complex ones to a frontier model. In a **cascade**, you try the small, cheap model first on every request, and run a fast verification check on its output (such as schema validation, SQL execution or citation check). Only if the check fails or confidence is low do you escalate the request to the expensive frontier model.
+
+It is a helpdesk where Tier 1 resolves 80% of tickets in two minutes and passes only the knotty 20% up to Tier 2 engineers.
+?? How does a model cascade differ from upfront routing?
++ A cascade tries the cheap model first and escalates to the stronger model only if a verification check or confidence rule fails
+- A cascade always calls the most expensive model first and then calls the cheap model
+- Routing calls every model in the world at the same time
+- Cascades cannot use verification checks
+= Cascades work brilliantly when you have a fast check (like code execution or schema validation) that tells you immediately whether the cheap model succeeded.
+## Prompt caching, semantic caching, and batching
+Three caching and batching levers can cut token bills by 50% to 90% with zero drop in output quality.
+
+**Prompt (prefix) caching** reuses the static prefix of your prompt (system instructions, few-shot examples, tool schemas and long reference documents) across calls on the provider's servers at a steep discount; always put static content at the **top** of the prompt and dynamic user input at the **bottom** so the prefix stays identical. **Semantic caching** stores answers to frequent questions and serves them when a near-identical question arrives. **Batch APIs** process non-urgent workloads overnight for roughly 50% off standard token prices.
+
+It is keeping standard forms pre-printed on the shelf (prefix cache) rather than typesetting the header from scratch for every customer.
+?? Where must you place static instructions, tool definitions and few-shot examples in your prompt to get the benefit of provider prompt caching?
++ At the very beginning (prefix) of the prompt, with changing user inputs placed at the end
+- Mixed randomly with timestamps on the very first line of the prompt
+- At the very end of the prompt after the user's question
+- Inside the user's browser cookies
+= Provider KV-prefix caching matches from the first token onwards, so keeping the static prefix byte-for-byte identical at the top maximises cache hits.
+## Shorter prompts and smaller tool results
+Every token you stop sending is a token you neither pay for nor wait for.
+
+Two places accumulate silent bloat over a project's life. First, **system prompts**: teams keep pasting new paragraphs of rules until a simple step carries a 4,000-token essay of repetitive instructions; tightening and deduplicating it often improves accuracy while halving input cost. Second, **tool results**: a naive tool returns all 60 columns of a database row or a raw 30,000-token HTML page when the agent only needed 4 fields (`id`, `name`, `status`, `amount`) and the top 20 matching rows.
+
+It is trimming the outer cabbage leaves before weighing and cooking, rather than putting the whole crate in the pot.
+?? What is one of the highest-impact ways to shrink input token usage in tool-using agents?
++ Have tools return only the specific fields and filtered rows the agent needs rather than dumping entire raw API payloads or HTML pages
+- Remove all error messages when a tool fails
+- Rename variables in your Python code to single letters
+- Increase the model's maximum output token limit
+= Filtering and projecting tool outputs in code before returning them to the model saves thousands of input tokens on every subsequent loop turn.
+## Batch jobs for work that can wait
+~m
+Most major model providers offer a **Batch API** alongside their synchronous live endpoints: you upload a file or list of requests, the provider processes them within a window (typically up to 24 hours, often finishing much sooner) during off-peak GPU capacity, and charges roughly **50% less** per input and output token, with much higher separate rate limits. Check the current details for each provider's batch SLA and discount.
+
+Batch APIs are ideal for nightly document indexing, classifying yesterday's call transcripts, generating weekly client digests, or running large offline evaluation suites.
+
+It is sending non-urgent freight on an overnight goods train at half the price of a daytime express courier.
+?? Which workload is best suited to a provider's discounted Batch API?
++ Nightly classification of call transcripts, bulk document extraction or large offline evaluation runs that do not have a user waiting live
+- A live customer-support chat window where the user is typing right now
+- A real-time voice conversation
+- An autocomplete dropdown that must appear in 150 milliseconds
+= Whenever no human is waiting synchronously on the screen, batch APIs halve your token bill and avoid eating into your live rate limits.
+## Cut cost only while evals still pass
+Cost reduction without an evaluation suite is just breaking your product cheaply.
+
+Whenever you switch a step to a smaller model, shorten a prompt, trim retrieval from top-10 to top-4 chunks or quantise an open-weight model, run your evaluation suite before and after. Treat your quality and safety thresholds as hard constraints: a change that cuts cost by 60% while keeping eval pass rates flat (say 91% -> 91%) is a clear win to ship immediately; a change that cuts cost by 60% while dropping faithfulness from 95% to 78% is a rejected experiment.
+
+It is insulating a house to cut the heating bill while keeping the thermostat at a comfortable 20°C, not simply turning the boiler off in January.
+?? What rule should govern every cost-optimisation experiment on an AI system?
++ Only ship a cost reduction after verifying on your evaluation suite that accuracy and safety still meet your required thresholds
+- Always pick whichever change makes the API bill smallest, regardless of accuracy
+- Never measure accuracy when changing models
+- Only test cost changes on a single two-word prompt
+= Pairing every cost experiment with your eval suite lets you cut waste aggressively while proving to the client that quality stayed intact.
+
+@@ sll_b43IonbG9E6T | B14.2 Latency Optimization > Why Agents Are Slow
+## Latency sources
+When a user clicks a button and waits twelve seconds for an agent to reply, where did those twelve seconds actually go?
+
+Total latency is the sum of several pieces: **network and gateway overhead** (TLS handshakes, auth, routing), **retrieval and tool execution time** (database queries, external SaaS APIs, web scraping), **model prefill time** (reading the input prompt tokens), and **model decode time** (generating output and thinking tokens one after another), multiplied across **every sequential step** in the workflow.
+
+It is a journey time made up of walking to the station, waiting on the platform, the train ride itself and changing trains halfway.
+
+Measure each segment on a timeline waterfall before trying to speed anything up.
+?? Why should you inspect a step-by-step latency waterfall before trying to speed up a slow agent?
++ Because total wait time is split across retrieval, external APIs, prompt prefill, output generation and sequential hops, and you need to see which segment is the real bottleneck
+- Because 100% of latency always comes from CSS rendering in the browser
+- Because database queries and model calls always take zero milliseconds
+- Because you can only optimise the fastest step in a workflow
+= A trace waterfall shows immediately whether your twelve-second wait is a slow third-party API, a giant prompt or too many sequential LLM turns.
+## Time to first token
+In streaming applications, two latency numbers matter to the user: **Time to First Token (TTFT)** and **Total Generation Time**.
+
+TTFT is how long the user stares at a waiting state after pressing Send before the first word appears on screen. It is driven mainly by network setup, retrieval/guardrail checks that run before the model, any hidden reasoning tokens generated before visible text starts, and **prompt prefill** (how many input tokens the model must read before it can emit token one).
+
+It is how long it takes the waiter to bring bread and water to the table: once something arrives, waiting for the main course feels much shorter.
+?? What factors primarily drive Time to First Token (TTFT) on a single streaming model call?
++ Pre-model steps (like retrieval), input prompt length (prefill), any upfront thinking tokens and provider queue/model size
+- How fast the user can read the final paragraph
+- Only the last word of the model's output
+- The size of the user's hard drive
+= Keeping pre-model steps parallel or fast, caching long prompt prefixes and right-sizing thinking budgets keep TTFT snappy.
+## Output length drives response time
+Once the first token arrives, the rest of the model's call time is dominated by **output token count** (including hidden reasoning tokens) divided by the model's generation speed in tokens per second.
+
+Because autoregressive models generate output tokens strictly one after another, reading 2,000 extra input tokens might add only 100 milliseconds of parallel prefill, whereas **generating** 500 extra output tokens at 50 tokens per second adds a full **10 seconds** of waiting!
+
+It is the difference between glancing at a printed page in a second (reading input) and typing that whole page out letter by letter on a keyboard (generating output).
+?? Why does generating 500 extra output tokens slow a call down far more than sending 500 extra input tokens?
++ Input tokens are processed in parallel during prefill, whereas output tokens must be generated one by one in sequence
+- Input tokens travel faster over fibre-optic cables than output tokens
+- Models read input tokens one letter per minute
+- Output length has no effect on response time
+= Because output decoding is sequential, asking for concise outputs and compact JSON schemas is one of the strongest latency levers you have.
+## Every extra step adds a model call
+In a multi-step agent or prompt chain, sequential calls are the biggest latency multiplier of all.
+
+Suppose each model call has 600ms of prefill and network overhead plus 1.4 seconds of generation (2 seconds total). A single call takes 2 seconds. A five-step ReAct loop that searches, refines, looks up a record, reflects and writes the answer takes at least 10 seconds plus tool time. Add a supervisor and a critic and you are at 16 seconds.
+
+It is changing trains four times on a cross-country trip: even if each train is fast, walking between platforms at four stations doubles the journey time.
+?? Why do multi-step agent loops and long prompt chains add so much latency even when each individual call is reasonably fast?
++ Every sequential step pays full network, prefill and generation time one after another before the next step can start
+- Providers insert a mandatory thirty-second pause between calls from the same account
+- Parallel calls add their latencies together in the exact same way
+- Single model calls are not allowed to use tools
+= Sequential round trips stack end to end, so reducing the number of serial LLM turns is the single biggest way to make an agent fast.
+
+@@ sll_IaHLP88OABCj | B14.2 Latency Optimization > Speed Techniques
+## Streaming and parallel tool calls
+Two immediate code changes make almost any agent feel twice as fast without changing the model.
+
+First, **stream the final response** (and intermediate status updates) so the user starts reading within a second instead of waiting for the last full stop. Second, enable and execute **parallel tool calls**: when an agent needs to look up three orders or search two sources, let the model emit all three tool calls in a single turn and run them concurrently with `asyncio.gather` or `Promise.all`, returning all three results in the next turn.
+
+It is sending one shopper to pick up milk, bread and eggs on a single trip rather than making three separate walks to the corner shop.
+?? How do parallel tool calls reduce agent latency?
++ The model requests multiple independent lookups in a single turn and your code runs them concurrently, cutting three round trips down to one
+- They allow tools to run before the user has typed their question
+- They make database queries run without a network connection
+- They delete two of the three tool calls at random
+= Combining multiple independent tool calls into one model turn and running them concurrently saves both LLM round trips and tool wait time.
+## KV cache reuse and speculative decoding
+Under the hood, model providers use two clever inference optimisations that you can take advantage of: **KV cache reuse (prompt caching)** and **speculative decoding / predicted outputs**.
+
+When your prompt prefix matches a cached **Key-Value (KV) state** from a recent call, the GPU skips recomputing attention over those thousands of input tokens, cutting Time to First Token dramatically on long documents. **Predicted outputs (speculative decoding)** help when an agent is editing a file or document where 90% of the text stays the same: you pass the original text as the prediction, and the GPU verifies matching chunks in parallel, generating the updated file several times faster.
+
+It is proofreading and marking changes on an existing typescript rather than retyping the whole chapter from scratch.
+?? When does passing a predicted output (speculative decoding) speed up generation dramatically?
++ When most of the output is already known, such as making small edits to an existing code file or document
+- When generating a brand-new creative story from a three-word prompt
+- When the output is a single boolean `true` or `false`
+- When no input context exists
+= KV cache reuse speeds up reading long static inputs, while predicted outputs speed up rewriting large texts where most tokens remain unchanged.
+## Smaller, faster models for simple steps
+Within an agent workflow, not every step needs a giant frontier reasoning model.
+
+Routing, query rewriting, extracting five fields into JSON, summarising a tool output or checking a simple guardrail can usually be handled by a **small, fast model** (such as a Flash, Haiku or Mini tier, or a tuned small open model) that runs at 150 to 300 tokens per second instead of 40 tokens per second.
+
+It is sending a bicycle courier through city traffic with a single envelope while keeping the articulated lorry for pallet loads.
+
+Swapping three intermediate helper steps to a fast model tier often cuts five seconds off an agent run while trimming the bill at the same time.
+?? Why does replacing frontier models with smaller, faster models on intermediate helper steps work so well?
++ Steps like routing, query rewriting and simple extraction rarely need frontier reasoning and run several times faster on compact models
+- Smaller models always have larger context windows than frontier models
+- Frontier models cannot return JSON on intermediate steps
+- Using two different model sizes in one workflow is forbidden by APIs
+= Matching model size per step gives you small-model speed on the plumbing steps and frontier quality on the final synthesis or hard reasoning step.
+## Fewer steps: redesigning the workflow
+The fastest model call is the one you do not have to make.
+
+Look at your agent traces and ask which sequential LLM turns can be replaced by plain code or combined. If the agent always calls `get_user` and then calls `get_recent_orders` in two separate turns, pre-fetch both in parallel in code before calling the model once. If a separate critic turn only checks whether five required fields are present and the numbers add up, replace that LLM critic with a two-millisecond Python check.
+
+It is redesigning a kitchen layout so the fridge, chopping board and hob are next to each other instead of at opposite ends of a corridor.
+?? How can redesigning a workflow cut latency more than any model tweak?
++ By pre-fetching predictable data in code and replacing routine LLM routing or checking steps with deterministic code, eliminating entire model round trips
+- By adding three extra reflection turns to every request
+- By removing all indexes from the database
+- By splitting every sentence into a separate API call
+= Eliminating unnecessary sequential LLM calls by moving predictable lookups and checks into plain code cuts whole seconds off response time.
+## Perceived speed: show progress while work continues
+Two systems with the exact same eight-second total duration can feel completely different to a human user.
+
+An interface that shows nothing for eight seconds feels broken after three seconds. An interface that acknowledges the request in 200ms, shows the real steps as they complete ("Found 3 matching policies... Checking exclusions..."), streams the opening summary line at second three and fills in the detail table beneath it feels brisk and trustworthy.
+
+It is an airport baggage screen that updates "Bags unloaded -> On belt 4" versus staring at an empty carousel with no display.
+
+Design for **perceived speed** alongside raw millisecond cuts.
+?? How can you improve perceived speed when an agent task genuinely takes eight seconds of real work?
++ Acknowledge immediately, display truthful real-time progress steps as tools complete and stream the answer as soon as tokens start
+- Show a fake "100% Complete" message before the tools have even started
+- Hide the screen behind a black overlay for eight seconds
+- Add a five-second delay to fast requests so every request takes eight seconds
+= Immediate feedback, honest step-by-step progress and token streaming keep the user engaged and confident while real work finishes.
+
+@@ sll_tmfnisOtZnQu | B14.3 Observability & Telemetry > Tracing & Telemetry
+## Telemetry
+**Telemetry** is the automated collection of measurements from your running software in production: logs, metrics and traces.
+
+In a traditional web app, telemetry tells you whether the server returned `200 OK` and how much CPU it used. In an AI app, a request can return `200 OK` in 1.2 seconds while giving the customer a completely fabricated answer or spending £0.90 in a tool loop. AI telemetry must therefore capture both **system health** (latency, errors, rate limits, token counts, cost) and **AI behaviour** (prompts, retrieved chunks, tool calls, guardrail flags and evaluation scores).
+
+It is the cockpit instruments of an aircraft, tracking not just engine temperature but altitude, heading and fuel burn.
+?? Why is standard HTTP status-code monitoring (`200 OK` vs `500 Error`) not enough for an AI application?
++ An AI endpoint can return `200 OK` while hallucinating, failing to find sources, looping through tools or burning excessive tokens
+- AI applications never use HTTP status codes
+- `200 OK` always means the database crashed
+- Standard web servers cannot record timestamps
+= AI observability must capture what happened inside the reasoning, retrieval and tool steps, not just whether the HTTP socket closed cleanly.
+## Tracing with OpenTelemetry
+~m
+**OpenTelemetry (OTel)** is the vendor-neutral open standard for emitting traces, metrics and logs from applications, supported across observability platforms such as LangSmith, Langfuse, Arize Phoenix, Datadog, Honeycomb and Sentry. Check the current details for the OpenTelemetry GenAI semantic conventions.
+
+By instrumenting your app with OpenTelemetry (and its GenAI span attributes for model names, token counts and tool calls), you avoid locking your codebase to a single monitoring vendor. If a client wants traces sent to their existing Datadog account instead of a separate AI dashboard, you change the exporter endpoint without touching your agent code.
+
+It is fitting standard shipping bar-codes on parcels so any scanner in any warehouse can read them.
+?? What is the advantage of instrumenting your AI application with OpenTelemetry?
++ It uses an open standard so you can export traces and metrics to whichever observability tool you or your client prefers without rewriting instrumentation code
+- It makes language models run without GPUs
+- It automatically fixes prompt injections without guardrails
+- It only works with one closed monitoring vendor
+= Standardised OpenTelemetry instrumentation keeps your telemetry portable across specialist LLM observability tools and enterprise APM platforms.
+## A trace: every step of one run, in order
+A **trace** represents the complete journey of one user request or background job from start to finish, made up of nested **spans**.
+
+The top-level parent span covers the whole request (`POST /ask`, 4.2s). Inside it sit child spans in exact chronological order: `input_guardrail` (80ms), `hybrid_search` (210ms, 5 chunks), `agent_step_1_llm` (1.4s, 1,800 input / 90 output tokens), `tool_get_invoice` (150ms), `agent_step_2_llm` (2.3s) and `output_guardrail` (60ms).
+
+It is an X-ray of a parcel's journey showing the exact timestamp and duration at the collection depot, sorting hub, delivery van and front door.
+?? How do a trace and its spans represent an agent run?
++ The trace records the whole end-to-end run under one ID, while nested spans record the timing, inputs and outputs of each individual LLM call, retrieval and tool step
+- A trace only records the final sentence shown to the user
+- Spans are random numbers generated after the server shuts down
+- Every span must belong to a different user
+= Hierarchical spans under one trace ID let you see both the big picture of a run and the exact detail of every step inside it.
+## What to record: prompts, tool calls, tokens, cost, and time
+For a span to be useful when you are debugging a bad answer or a high bill at 4 p.m. on a Friday, it must record the right attributes.
+
+On **LLM spans**, record the rendered system and user messages, model snapshot name, temperature, tool definitions, raw response, finish reason, input tokens, cached tokens, output/thinking tokens, calculated cost and TTFT/total latency. On **retrieval spans**, record the query, filter parameters, chunk IDs and similarity scores. On **tool spans**, record the tool name, arguments, return payload (or error) and duration.
+
+It is a flight data recorder capturing control inputs, engine readings and radio calls together on the same timeline.
+?? Why should a retrieval span log the exact chunk IDs and scores alongside the user query?
++ So when an answer is wrong, you can immediately see whether the right source chunks were retrieved or missed during that specific run
+- Because chunk IDs are shown as the main title on the user's login page
+- To make the vector database run slower
+- Because LLM spans cannot record token counts
+= Recording exact inputs, outputs, IDs, tokens and timings on each span type gives you everything needed to replay and diagnose a run.
+## Keeping personal data out of logs
+Prompts and tool outputs are full of sensitive customer information: names, email addresses, medical notes, bank details, API tokens and private documents. If your telemetry exporter dumps raw prompts straight into a third-party logging dashboard used by twenty developers, you have just created a serious privacy and compliance breach.
+
+Pass telemetry payloads through a **redaction / scrubbing middleware** before they leave your application: strip authentication headers and secrets, mask PII patterns (emails, phone numbers, card digits, national insurance numbers), or log hashed identifiers and document IDs in production while enabling full text capture only in staging or for explicitly consented debug sessions.
+
+It is redacting names and addresses with black marker before putting case files into the training library.
+?? Why must you scrub or mask personal data and secrets before sending traces to an observability platform?
++ Raw prompts and tool results often contain customer PII or credentials that must not be exposed in broadly accessible logs or third-party tools
+- Observability platforms refuse to accept any text that contains the letter "@"
+- Masking personal data makes the language model forget how to speak English
+- Privacy laws like GDPR do not apply to log files
+= Redacting PII and secrets at the telemetry boundary lets engineers debug production issues without leaking private customer data into log stores.
+
+@@ sll_0F84-NSrweV9 | B14.3 Observability & Telemetry > Traceability & Audit
+## Auditable decision trails for every action
+When an agent operates in finance, healthcare, HR, insurance or legal workflows, regulators and internal auditors will ask a simple question: **for this specific decision on 14 October, show us exactly what information the system saw, what rules ran and why this action was taken.**
+
+An **auditable decision trail** is an immutable record linking the input request, the exact retrieved source documents and versions, the model and prompt versions, the tool calls and results, any guardrail checks and the final output or action.
+
+It is a dual-control bank ledger that records every voucher, check and signature behind a transaction so an auditor can reconstruct it years later.
+?? What does an auditable decision trail allow an organisation to prove?
++ Exactly which inputs, source documents, model/prompt versions, tool outputs and checks led to a specific AI-assisted decision or action
+- That the language model is a qualified human lawyer
+- That no computer was involved in the transaction
+- Only how much electricity the data centre used that month
+= Immutable decision trails provide the evidence required for regulatory compliance, customer dispute resolution and internal audit.
+## Linking traces to evals and incidents
+Your observability traces, your incident tracker and your offline evaluation dataset should connect via clickable IDs rather than living on three separate islands.
+
+When a user clicks "Report an error" or a guardrail triggers an incident alert, attach the `trace_id` automatically to the ticket. From that trace view, give engineers a one-click **"Add to eval dataset"** action that exports the span's inputs and retrieved context into a new regression test case, stamped with `source_trace_id`.
+
+It is a hospital linking an incident report directly to the patient's chart number and adding the case to the teaching rounds folder.
+
+Linking all three turns every production surprise into a permanent test in minutes.
+?? Why should your incident tickets and new evaluation test cases store the `trace_id` of the production run that triggered them?
++ So engineers can jump straight to the exact production context and convert real incidents into permanent regression tests with full provenance
+- Because `trace_id` values make database queries run without indexes
+- To stop users from ever reporting bugs
+- Because evaluation datasets can only hold trace IDs and no text
+= Connecting incidents, traces and eval items creates a tight feedback loop from live problem to reproduced bug to permanent test.
+## Who approved what, and when
+In any human-in-the-loop workflow, the audit trail is incomplete if it stops at the moment the agent paused.
+
+When a human reviewer clicks Approve, Edit or Reject on an action card, record a tamper-evident audit entry: the **authenticated user ID and role** of the reviewer, the **exact timestamp**, the **action payload shown to them**, any **edits they made** before approving (the diff between the agent's proposal and the final executed action), and their **reason note** if provided.
+
+It is a pharmacist initialing and dating the prescription label after checking the dosage prepared by the dispensary assistant.
+?? What must the audit log record when a human approves or edits an agent's proposed action?
++ Who the authenticated reviewer was, when they decided, the exact proposal they saw, and any edits or reason notes they made
+- Only that a button was clicked by someone unknown
+- Only the agent's first draft, throwing away the human's edits
+- The reviewer's home address and personal bank balance
+= Logging the reviewer's identity, timestamp and exact diff proves human oversight and shows where humans had to correct the agent.
+## How long to keep records
+Keeping every raw trace forever conflicts with privacy rules, while deleting everything after 24 hours leaves you blind to last week's billing dispute.
+
+Define an explicit **retention policy** split into tiers. Keep **full debug traces** (with redacted text) for a short operational window, such as 14 to 30 days, so engineers can diagnose recent bugs. Keep **structured audit records and aggregate metrics** (who approved what, cost, latency, pass/fail flags, version hashes, with personal data stripped or governed by legal retention rules) for the period required by the client's sector (for example, 1 to 7 years in regulated finance). Also ensure your "delete user data" workflow purges that user's records across traces too.
+
+It is keeping CCTV tape for thirty days while keeping signed tax receipts for six years.
+?? Why do production AI systems typically use tiered retention (short retention for verbose debug traces, longer retention for compact audit records)?
++ It balances GDPR data-minimisation and storage costs with the need to debug recent issues and retain required compliance audit logs
+- Because hard drives automatically erase all files after 48 hours
+- Because privacy laws require keeping every user's personal chat messages forever
+- To make debugging yesterday's bugs impossible
+= Separating short-lived debug logs from long-term compliance records respects privacy rules while keeping audit trails intact.
+
+@@ sll_ddiHNfANtGQd | B14.3 Observability & Telemetry > Dashboards & Incident Response
+## Dashboards for quality, cost, and latency
+A useful LLMOps dashboard shows the health of your AI system on one screen, grouped into three panels that you can read in thirty seconds.
+
+Panel 1 is **Quality & Safety**: task completion rate, user acceptance/edit rate, thumbs-up/down ratio, guardrail block rate, empty-retrieval rate and sampled judge pass rates. Panel 2 is **Cost & Volume**: requests per hour, total and per-task token spend, cache hit rate and top-spending tenants. Panel 3 is **Latency & Reliability**: TTFT, p50 and p95 end-to-end duration, step counts, provider error/`429` rates and fallback triggers.
+
+It is a car dashboard showing speed, fuel level and warning lights without burying the driver in fifty dials.
+?? Why should a latency dashboard show the 95th percentile (`p95`) alongside the median (`p50`)?
++ The median can look fast even when 1 in 20 users is stuck waiting thirty seconds in a slow multi-step tail
+- `p95` and `p50` are always the exact same number
+- Only the fastest single request of the day matters to users
+- `p95` measures how many tokens are in the system prompt
+= Tracking `p95` (and `p99`) exposes the slow tail of multi-step or retried agent runs that average latency hides.
+## Alerting and trace-based debugging
+Dashboards are for humans looking at a screen; **alerts** are for waking you up when something breaks while nobody is watching.
+
+Configure automated alerts on clear symptom thresholds: provider error or fallback rate jumping above 5%, `p95` latency doubling, hourly token spend crossing a budget ceiling, empty-retrieval rate spiking (often a broken index update), or a sudden drop in user acceptance rate. Every alert notification should link directly to a filtered list of the **failing traces** from that time window so the on-call engineer can click straight into the exact span that broke.
+
+It is a fire alarm control panel that shows which floor and room detector triggered, not just a bell ringing in the street.
+?? What makes an operational alert actionable for an engineer responding to an AI incident?
++ Firing on clear symptom thresholds (cost spikes, error/fallback rates, latency or quality drops) with a direct link to the failing traces
+- Sending an email every time a single request succeeds normally
+- Alerting with no timestamp, no metric and no link to logs
+- Waiting until the monthly invoice arrives to check for runaway loops
+= Tying threshold alerts directly to the matching traces cuts time-to-diagnosis from hours to minutes.
+## Reading real traces every week
+Automated metrics and LLM judges only catch the failure modes you already thought to write checks for. They never notice the new, weird way users started phrasing requests this week or the subtle awkwardness in a new tool's output.
+
+The single best habit in applied AI is a **weekly trace review**. Block thirty minutes every week to read 20 to 30 real production traces end to end: 10 random runs, 10 runs where the user edited, undid or gave a thumbs-down, and 10 slow or multi-step runs.
+
+It is a shop owner spending an hour on the shop floor every Friday watching customers browse and listening to questions at the till.
+
+Teams that read real traces every week spot problems weeks before they show up on a chart.
+?? Why is reading a sample of real production traces every week essential even when you have automated dashboards and LLM judges?
++ Automated checks only measure known failure modes, whereas reading real traces uncovers unexpected user behaviour and new failure patterns
+- Dashboards cannot display numbers or charts
+- Reading twenty traces takes six months of full-time work
+- LLM judges are 100% omniscient and never miss a new bug
+= Regular human eyes on real traces discover the unknown unknowns that you then turn into new automated checks and evals.
+## After an incident: fix it, then add a test
+When a production incident happens (a bad hallucination reaches a client, a prompt injection slips through, or a retry loop burns £200), handle it in three calm steps.
+
+First, **stop the bleeding**: flip the feature flag, roll back the prompt/index or tighten the budget cap in minutes. Second, **diagnose from the trace**: find the exact span and input that caused the failure and ship the code, tool or guardrail fix. Third, **lock the door**: add that exact incident trace as a permanent test case in your CI evaluation and security regression suite, and hold a brief blameless review on how to catch that class of issue earlier next time.
+
+It is repairing a burst pipe, turning the water back on and lagging the pipe so next winter's frost cannot burst it again.
+?? What is the final step after mitigating and fixing a production AI incident?
++ Adding the failing scenario from the incident trace into your automated CI evaluation suite so that class of failure cannot silently recur
+- Deleting the incident trace so the dashboard looks clean
+- Turning off all alerts so you do not get woken up again
+- Blaming the user who typed the request
+= Every resolved incident should leave behind a permanent regression test and guardrail so your system gets tougher over time.

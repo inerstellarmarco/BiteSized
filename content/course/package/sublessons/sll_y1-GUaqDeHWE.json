@@ -5,20 +5,48 @@
     {
       "id": "bit_pOrw-tl2qYKE",
       "title": "SFT runs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Supervised Fine-Tuning (SFT) is the stage that turns a raw pretrained base model (or adapts an instruction model) into a reliable task assistant by training it with cross-entropy next-token loss on curated instruction-response pairs. Whereas pretraining processes trillions of tokens over weeks, a typical domain SFT run trains over just a few hundred to a few tens of thousands of examples for 1 to 3 epochs using a small learning rate.\n\nIt is like taking a university graduate who has read the entire library (pretraining) and putting them through a two-week onboarding induction so they know how to answer client emails in your firm's house format (SFT).\n\nTraining for too many epochs on a small SFT dataset causes the model to memorise the training responses word-for-word, driving training loss near zero while validation loss climbs and outputs become brittle.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_pOrw-tl2qYKE_1",
+          "type": "multiple_choice",
+          "prompt": "How does a typical Supervised Fine-Tuning (SFT) run compare in scale and objective with base pretraining?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It replaces cross-entropy loss with k-means clustering and runs on trillions of unlabelled web pages"
+            },
+            {
+              "id": "b",
+              "text": "It requires at least a hundred epochs and a learning rate ten times higher than pretraining"
+            },
+            {
+              "id": "c",
+              "text": "It uses the same next-token cross-entropy objective, but runs for just a few epochs on a much smaller, curated dataset of prompt-response pairs"
+            },
+            {
+              "id": "d",
+              "text": "It only updates the tokeniser merge rules and leaves all neural network weights frozen"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "SFT reuses autoregressive cross-entropy loss on high-quality demonstration pairs over a short schedule so the model adopts the target format and behaviour without overfitting.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_r82FXJ5qGGBb",
       "title": "Chat templates",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every chat or instruction model uses a specific chat template (often defined as a Jinja template inside the tokeniser configuration on Hugging Face; check the current details for your specific model family's template syntax) to serialise a list of system, user, and assistant messages into a single flat sequence of tokens. The template inserts special control tokens such as `<|im_start|>`, `<|start_header_id|>`, or `<|eot_id|>` to mark exactly where each speaker's turn begins and ends.\n\nThink of a radio communications protocol where speakers say \"Over\" at the end of a turn and \"Out\" at the end of a transmission so neither side talks over the other or forgets when to stop.\n\nWithout those exact special turn-boundary tokens, the model has no reliable signal for when the user's question has finished, when its own assistant persona begins, or when to emit the end-of-turn stop token.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,43 +59,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_r82FXJ5qGGBb_1",
+          "type": "multiple_choice",
+          "prompt": "What is the role of a chat template in an instruction-tuned language model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It translates the user's prompt from English into Python source code before calling the GPU"
+            },
+            {
+              "id": "b",
+              "text": "It formats multi-turn system, user, and assistant messages into a single token stream with the exact special boundary tokens the model expects"
+            },
+            {
+              "id": "c",
+              "text": "It encrypts the conversation history so that the cloud provider cannot count the tokens"
+            },
+            {
+              "id": "d",
+              "text": "It compresses images and audio files into 4-bit floating-point weight matrices"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A chat template wraps each role and message in the precise special delimiter tokens that the model was trained to recognise as turn boundaries and stop signals.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4bLf1p4LmXxg",
       "title": "Train on the assistant's answers, not on the prompts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "During supervised fine-tuning on conversational data, standard practice is completion-only loss (also called prompt masking): the forward pass runs across the entire sequence of system prompt, user question, and assistant answer, but cross-entropy loss is calculated only on the assistant's response tokens (plus the end-of-turn stop token). The loss on all system and user tokens is masked out (typically by setting their target labels to `-100`).\n\nIt is like marking a student's exam script: the student must read the printed exam question to write a sensible answer, but you grade them only on the answer they wrote, not on whether they memorised the wording of the question paper.\n\nMasking out the prompt tokens stops the model from wasting capacity learning to imitate user typos or boiler-plate system instructions, and focuses every gradient step squarely on producing high-quality assistant outputs, especially when prompts are long and answers are short.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4bLf1p4LmXxg_1",
+          "type": "multiple_choice",
+          "prompt": "Why do SFT pipelines typically mask out the loss on system and user prompt tokens?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So gradient updates focus entirely on teaching the model how to generate the assistant's response rather than memorising user prompts"
+            },
+            {
+              "id": "b",
+              "text": "Because self-attention cannot read user prompt tokens if their loss is not masked"
+            },
+            {
+              "id": "c",
+              "text": "To prevent the KV cache from storing Key and Value vectors for the user's question"
+            },
+            {
+              "id": "d",
+              "text": "Because system and user prompts do not use token IDs from the model's vocabulary"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The model still attends to the full prompt during the forward pass, but masking prompt labels out of the cross-entropy loss ensures weights only update to improve assistant completions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_V3rzsWU_F3ny",
       "title": "A wrong chat template quietly ruins results",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "One of the most common, frustrating bugs in real-world fine-tuning projects is a silent mismatch in chat templates or special tokens between training and inference. If you accidentally train a model using generic `\"User: ... Assistant: ...\"` plain text while its base weights expect `<|start_header_id|>user<|end_header_id|>`, or if you forget to train the model on the exact end-of-sequence token that your serving engine listens for, the training loss will still go down smoothly while actual inference outputs fall apart.\n\nImagine wiring a doorbell button to the wrong frequency: the button clicks nicely under your finger, the battery light stays green, and yet nobody inside the house ever hears it ring.\n\nIn production, a template mismatch typically causes the model to ramble past the end of its answer, start hallucinating fake follow-up `\"User:\"` turns by itself, or suffer a mysterious ten-point drop on evaluation benchmarks. Always verify the exact tokenised IDs of one training example before starting a run.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_V3rzsWU_F3ny_1",
+          "type": "multiple_choice",
+          "prompt": "What is a classic symptom of a chat-template or end-of-turn token mismatch between SFT training and production serving?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The GPU refuses to load the checkpoint file and throws an immediate hardware fault"
+            },
+            {
+              "id": "b",
+              "text": "The training loss stays at positive infinity on every single batch"
+            },
+            {
+              "id": "c",
+              "text": "The model fails to stop at the end of its answer and continues generating imaginary user turns or repetitive text"
+            },
+            {
+              "id": "d",
+              "text": "The model outputs only numbers sorted in descending order"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "If the end-of-turn token or role delimiter used during training does not match what the inference engine sends and listens for, the model misses its stop cue and keeps generating.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_xkd4L-2HDuNc",
       "title": "Watch validation loss and sample outputs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When monitoring an SFT run, looking only at the training loss curve is a trap: training loss will almost always decrease steadily as the model memorises your dataset. Instead, you must watch two signals in parallel at regular checkpoints: the validation loss on a held-out split, and actual generated sample responses on a fixed set of diagnostic prompts.\n\nIt is like coaching a chef: checking the thermometer (validation loss) tells you if the dish is starting to burn, while actually tasting a spoonful (sample outputs) tells you if the seasoning is right.\n\nCrucially, in generative language models, a slightly higher validation cross-entropy loss after epoch two does not always mean worse task accuracy, or conversely, a low loss on teacher-forced tokens may hide a repetition loop that only appears when the model generates long answers autoregressively from its own predictions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xkd4L-2HDuNc_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you generate and inspect full sample responses at checkpoints during SFT rather than relying on cross-entropy loss curves alone?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Validation loss cannot be calculated on datasets that contain more than fifty examples"
+            },
+            {
+              "id": "b",
+              "text": "Cross-entropy measures next-token teacher-forced probabilities and can miss autoregressive generation issues like repetition loops or broken stop tokens"
+            },
+            {
+              "id": "c",
+              "text": "Generating sample responses automatically updates the optimiser's learning rate"
+            },
+            {
+              "id": "d",
+              "text": "Cross-entropy loss only measures the speed of the GPU and not the accuracy of the words"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Teacher-forced validation loss scores one token at a time given perfect history, whereas full generation reveals how the model behaves when feeding its own outputs back in turn after turn.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

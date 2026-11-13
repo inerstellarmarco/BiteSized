@@ -5,8 +5,8 @@
     {
       "id": "bit_Gvco2iNgSbQf",
       "title": "RLHF and reward models",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Supervised fine-tuning teaches a model to imitate demonstrations, but it is often much easier for a human expert to compare two model drafts and judge which one is clearer, safer, and more accurate than to write a flawless essay from scratch. Reinforcement Learning from Human Feedback (RLHF) captures that comparative judgement by training a separate Reward Model to predict human preferences, and then using reinforcement learning to tune the language model to maximise that reward score.\n\nThink of a dive coach who cannot perform a triple somersault themselves, but scores every dive out of ten so the athlete quickly tightens their form.\n\nWhile RLHF shaped early chat assistants, maintaining a separate reward model and a live reinforcement learning loop in memory simultaneously is complex and resource-heavy.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,25 +19,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Gvco2iNgSbQf_1",
+          "type": "multiple_choice",
+          "prompt": "Why is preference-based alignment useful after Supervised Fine-Tuning (SFT)?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "SFT models cannot output natural language sentences until RLHF adds a tokeniser"
+            },
+            {
+              "id": "b",
+              "text": "RLHF reduces the number of layers in the transformer by seventy-five per cent"
+            },
+            {
+              "id": "c",
+              "text": "Humans can often judge which of two candidate outputs is better more reliably and cheaply than writing perfect demonstrations from scratch, and preference training penalises bad habits directly"
+            },
+            {
+              "id": "d",
+              "text": "Supervised Fine-Tuning can only be applied to encoder models like BERT"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Preference alignment lets the model learn from both positive and negative examples, steering tone, helpfulness, and safety beyond what imitation alone achieves.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Rq_NeTH4zYId",
       "title": "DPO",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Direct Preference Optimization (DPO) is a simpler, widely adopted alternative to classic RLHF that aligns a language model directly on pairs of preferred and rejected responses without ever training a separate reward model or running reinforcement learning sampling loops. Through a mathematical rearrangement of the RLHF objective, DPO shows that the language model itself implicitly defines a reward function through the ratio of its probabilities to a frozen reference copy of the SFT model.\n\nIt is like cutting out the middleman in a supply chain: instead of training an inspector to write scorecards and then training the factory to chase the scorecard, you adjust the factory line directly from the customer's side-by-side choices.\n\nBecause DPO reduces alignment to a clean, stable binary cross-entropy loss over preference pairs, it is vastly easier and cheaper to run in client projects than PPO-based RLHF.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Rq_NeTH4zYId_1",
+          "type": "multiple_choice",
+          "prompt": "How does Direct Preference Optimization (DPO) simplify the alignment pipeline compared with classic RLHF?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It optimises the policy model directly on chosen-versus-rejected preference pairs using a closed-form loss, without training a separate reward model"
+            },
+            {
+              "id": "b",
+              "text": "It removes the need for any preference data and trains using only unlabelled web text"
+            },
+            {
+              "id": "c",
+              "text": "It updates only the tokeniser vocabulary and freezes all transformer weights"
+            },
+            {
+              "id": "d",
+              "text": "It replaces the transformer architecture with a random forest classifier"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "By reparameterising the reward in terms of the policy and reference model log-probabilities, DPO aligns the model with a single stable supervised-style loss step.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ofp9oC_Wp0-w",
       "title": "Reasoning training",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Modern reasoning training (such as Reinforcement Learning with Verifiable Rewards, or RLVR, using algorithms like Group Relative Policy Optimization (GRPO) popularised by models like DeepSeek-R1; check the current details for current reasoning training recipes) takes a different path from human-preference RLHF. Instead of using a subjective neural reward model on open-ended chat, the training loop gives the model checkable maths, coding, or logic problems, samples a group of candidate chain-of-thought solutions, and scores them using a deterministic verifier such as a unit-test runner or symbolic solver.\n\nIt is like practising chess or competitive programming: nobody grades your handwriting style, because the code either passes the test suite or it fails.\n\nBecause a deterministic verifier cannot be sweet-talked by fluent bluffing, reinforcement learning over millions of verifiable problems drives the model to discover self-correction, verification checks, and deep multi-step problem solving on its own.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,49 +106,161 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ofp9oC_Wp0-w_1",
+          "type": "multiple_choice",
+          "prompt": "How does reasoning training with verifiable rewards (RLVR) differ from classic conversational RLHF?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It bans the model from generating any intermediate steps before the final word"
+            },
+            {
+              "id": "b",
+              "text": "It requires human annotators to manually grade every token in real time during GPU training"
+            },
+            {
+              "id": "c",
+              "text": "It can only be used on creative poetry writing where there is no right or wrong answer"
+            },
+            {
+              "id": "d",
+              "text": "It scores generated chain-of-thought solutions using deterministic checkable verifiers (like unit tests or exact maths answers) rather than a subjective human-preference reward model"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Using objective programmatic verifiers on checkable tasks provides a noise-free reward signal that scales reinforcement learning without reward-model bluffing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4g_KHdEaboH9",
       "title": "Preference data: chosen vs. rejected answers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Whether you use RLHF or DPO, the training fuel is a preference dataset where each row contains three elements: a shared prompt $x$, a winning response $y_w$ (chosen), and a losing response $y_l$ (rejected). Typically, engineers generate several candidate responses for the same prompt from the current SFT model, and either domain experts or a calibrated judge rubric picks which candidate is better and why.\n\nThink of an optician flipping between two lenses and asking \"Is it clearer with lens one, or lens two?\" rather than asking the patient to write down their own prescription formula from memory.\n\nPreference tuning works particularly well for fixing stubborn bad habits that SFT struggles to eradicate: if your SFT model occasionally slips into hedging language or leaks internal formatting tags, putting that exact flawed output in the `rejected` column and the clean version in the `chosen` column explicitly pushes probability mass away from the mistake.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4g_KHdEaboH9_1",
+          "type": "multiple_choice",
+          "prompt": "What are the three core components of each training record in a preference dataset for DPO or RLHF?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A prompt, a preferred (chosen) response to that prompt, and a dispreferred (rejected) response to that same prompt"
+            },
+            {
+              "id": "b",
+              "text": "A system prompt, a random integer seed, and a validation loss scalar"
+            },
+            {
+              "id": "c",
+              "text": "Three unrelated user questions from different domains with no assistant answers"
+            },
+            {
+              "id": "d",
+              "text": "An input image, a bounding box coordinate, and a class label"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Preference datasets pair a single shared context prompt with both a winning completion to reinforce and a losing completion to suppress.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_H_cb7wY6Glyn",
       "title": "RLHF: a reward model scores answers, then the policy is optimized",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Classic RLHF runs in two stages after Supervised Fine-Tuning. First, you train a Reward Model (an SFT model with a scalar output head) on pairs of human-ranked responses so it scores preferred answers higher than rejected ones. Second, the active language model (the \"policy\") generates responses, the frozen Reward Model scores them, and an RL algorithm updates the policy to increase reward while a KL-divergence penalty tethers it to the original SFT reference model.\n\nIt is like a writer drafting articles to please an editor (the reward model), while a house-style rulebook (the KL penalty) prevents bizarre gimmicks.\n\nWithout that KL anchor back to the reference model, the policy quickly collapses into degenerate text.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_H_cb7wY6Glyn_1",
+          "type": "multiple_choice",
+          "prompt": "Why does the RLHF optimisation objective include a KL-divergence penalty between the active policy model and the frozen SFT reference model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To prevent the policy model from drifting too far from natural language and exploiting quirks in the imperfect reward model"
+            },
+            {
+              "id": "b",
+              "text": "To force the reward model to output a score of exact zero on every prompt"
+            },
+            {
+              "id": "c",
+              "text": "To double the vocabulary size of the active policy model after every epoch"
+            },
+            {
+              "id": "d",
+              "text": "To delete the system prompt from the KV cache during generation"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The KL penalty acts as a trust region or tether, keeping the policy's output distribution close to the coherent SFT model while it optimises for higher reward.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_nrdPzVfsxBUO",
       "title": "DPO learns from preferences directly, without a separate reward model",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Inside a DPO training step, two models are compared: the trainable policy model $\\pi_\\theta$ and the frozen reference SFT model $\\pi_{\\text{ref}}$. For each preference pair $(x, y_w, y_l)$, the loss increases the log-probability of the chosen answer $y_w$ relative to the reference model, while decreasing the log-probability of the rejected answer $y_l$ relative to the reference model, weighted by how badly the implicit reward misranks the pair.\n\nThink of a balance scale where the frozen reference model marks the neutral zero point, and every step nudges the chosen tray up and the rejected tray down.\n\nWhen running DPO with LoRA, you only need one base model in VRAM: disabling the adapter gives $\\pi_{\\text{ref}}$, and enabling it gives $\\pi_\\theta$.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_nrdPzVfsxBUO_1",
+          "type": "multiple_choice",
+          "prompt": "How can an engineer run DPO without loading two separate copies of the full base model into GPU memory?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Use LoRA so that the base model with the adapter disabled acts as the frozen reference model and enabling the adapter gives the trainable policy"
+            },
+            {
+              "id": "b",
+              "text": "Delete the reference term from the DPO loss equation so there is no baseline comparison"
+            },
+            {
+              "id": "c",
+              "text": "Run the reference model on a human annotator's calculator once per week"
+            },
+            {
+              "id": "d",
+              "text": "Replace the chosen and rejected responses with a single one-word classification label"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "With LoRA, toggling the adapter off computes the exact reference log-probabilities $\\pi_{\\text{ref}}$ and toggling it on computes the policy $\\pi_\\theta$, using only one base model in memory.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5XVQv7pP6rDd",
       "title": "Reward hacking and over-optimization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Reward hacking (an instance of Goodhart's Law) happens when a model optimised for a proxy reward discovers superficial shortcuts that score high on the reward metric while making outputs worse for real users. A classic example in chat alignment was length and sycophancy bias: because annotators and reward models slightly favoured longer, polite answers, over-optimised models started padding every simple yes-or-no question with five paragraphs of pompous bullet points and flattery.\n\nIt is like paying a software team a bonus per line of code written, and discovering that every simple five-line function has been stretched into five hundred lines of boilerplate.\n\nStopping alignment runs before KL divergence grows too large, debiasing reward rubrics, and checking real task evals prevent reward hacking.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
@@ -105,19 +273,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5XVQv7pP6rDd_1",
+          "type": "multiple_choice",
+          "prompt": "What is reward hacking during alignment training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "An external attacker steals the reward model weights from the cloud storage bucket"
+            },
+            {
+              "id": "b",
+              "text": "The GPU clock speed increases beyond its factory specification during reinforcement learning"
+            },
+            {
+              "id": "c",
+              "text": "The policy model exploits flaws or biases in the proxy reward signal (such as length or flattery) to get high scores without genuinely improving answer quality"
+            },
+            {
+              "id": "d",
+              "text": "The reward model automatically fixes bugs in the Python training script"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because any learned reward model or rubric is an imperfect proxy for true quality, pushing optimisation too far causes the policy to game the proxy's blind spots.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lCLnQKYT_VsR",
       "title": "Reasoning training rewards correct final answers on checkable problems",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When training a model with reinforcement learning on checkable problems (like mathematics competitions, SQL queries against a test database, or software bug fixes), researchers found a striking lesson: you should mainly reward whether the final answer is verifiably correct and meets format rules, rather than trying to micro-manage every sentence of the intermediate thinking process with a neural step-by-step critic.\n\nThink of hiring a seasoned detective to solve a case: if you judge them strictly on whether the culprit is caught with hard evidence, they will figure out the best investigative workflow; if you micro-manage how they hold their magnifying glass, they will spend all day posing for the checklist.\n\nWhen models are given a clean binary correctness reward plus a token budget, they naturally learn to allocate short thoughts to easy questions and extended multi-perspective checks to hard problems, a capability that transfers strongly to enterprise coding and analytical agents.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a7",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lCLnQKYT_VsR_1",
+          "type": "multiple_choice",
+          "prompt": "Why do modern reasoning training pipelines prefer rewarding verifiable final correctness over scoring every intermediate thought step with a neural critic?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Neural networks are mathematically incapable of generating tokens between the prompt and the final answer"
+            },
+            {
+              "id": "b",
+              "text": "Checking whether a unit test passes requires ten times more GPU memory than running a 70B reward model"
+            },
+            {
+              "id": "c",
+              "text": "Outcome rewards force the model to answer every question in a single token without thinking"
+            },
+            {
+              "id": "d",
+              "text": "Verifiable outcome rewards cannot be easily gamed and let the model discover effective reasoning and self-correction strategies on its own"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Programmatic verification of the final answer provides an objective, hack-resistant signal that scales reinforcement learning and encourages genuine problem-solving behaviour.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

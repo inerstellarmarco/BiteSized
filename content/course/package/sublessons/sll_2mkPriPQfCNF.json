@@ -5,32 +5,88 @@
     {
       "id": "bit_rdeS40cWn5MC",
       "title": "Decision ladder: single prompt, workflow, single agent, multi-agent (see B4.1, B9.1)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The architecture decision ladder orders AI patterns from simplest and most predictable to most autonomous and complex: first try a single well-structured prompt, then a deterministic multi-step workflow, then a single tool-using agent, and only at the top rung a multi-agent system. At each rung on the ladder, you climb higher only when evaluation data proves that the simpler rung cannot handle the task's branching or domain breadth.\n\nIt is like a doctor starting with rest and physiotherapy before prescribing strong medication, and trying medication before scheduling major surgery.\n\nIn consulting engagements, climbing only as high on this ladder as the task truly demands is the single best way to deliver projects on time, within budget, and with high reliability.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rdeS40cWn5MC_1",
+          "type": "multiple_choice",
+          "prompt": "According to the architecture decision ladder, when should you move up from a deterministic workflow to an autonomous single agent or multi-agent design?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only when the task requires dynamic, input-dependent planning or tool selection that cannot be mapped as a fixed sequence of steps"
+            },
+            {
+              "id": "b",
+              "text": "Immediately on day one of every project so the architecture diagram looks impressive"
+            },
+            {
+              "id": "c",
+              "text": "Whenever the client's budget is small and they need the lowest possible token cost"
+            },
+            {
+              "id": "d",
+              "text": "Whenever the task involves calculating exact payroll taxes from a fixed table"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Each step up the ladder trades predictability, speed, and low cost for flexibility; you should only add autonomous loops or multiple agents when fixed steps cannot handle the variability of the task.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BdPfgnDNKAFM",
       "title": "Matching autonomy to risk and reversibility (see B4.2, B11.2)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Matching autonomy to risk and reversibility means calibrating how much freedom an agent has based on how much damage a mistake would cause and how easily that mistake can be undone. Actions that are low-risk and easily reversible, like creating a draft ticket, tagging an internal note, or running a test in a sandbox, can run with high autonomy, whereas high-risk, irreversible actions, like wiring funds, deleting production tables, or sending legal notices to customers, must be gated by deterministic rules and human approval.\n\nThink of word-processing software: auto-correcting a typo can happen silently because you can press Undo in a second, whereas formatting the entire hard drive asks for explicit confirmation.\n\nYou can give a single agent high autonomy on its research and drafting tools while locking its external action tools behind an approval queue.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BdPfgnDNKAFM_1",
+          "type": "multiple_choice",
+          "prompt": "Which combination of action characteristics justifies allowing an AI agent to execute a tool call autonomously without human sign-off?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "High financial impact and complete irreversibility, such as executing an international wire transfer"
+            },
+            {
+              "id": "b",
+              "text": "External customer-facing legal commitments that cannot be recalled once sent"
+            },
+            {
+              "id": "c",
+              "text": "Permanent deletion of production customer databases without backups"
+            },
+            {
+              "id": "d",
+              "text": "Low business risk and high reversibility, where any mistake is cheap and easy to undo"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Autonomy should be tuned per tool: reversible, low-blast-radius actions can run automatically for speed, while high-impact, irreversible actions require strict guardrails and human approval.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_MqoL5fzxv0-k",
       "title": "Scaling up: from one user to many clients",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Scaling an AI prototype that works for one user on a laptop into a production service for thousands of users or multiple enterprise clients changes every layer of the architecture. You must introduce per-tenant data isolation, asynchronous job queues to handle traffic spikes without hitting model rate limits, semantic or exact caching, cost budgets per customer, and automated monitoring alerts.\n\nIt is like scaling a home kitchen dinner party for four friends into a commercial catering business serving five hundred wedding guests every Saturday without mixing up a single nut-allergy meal.\n\nMany consulting pilots stall before production because the team estimated only the model prompt and forgot the multi-tenant security, rate-limit queueing, and per-client cost metering.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,7 +99,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_MqoL5fzxv0-k_1",
+          "type": "multiple_choice",
+          "prompt": "What architectural changes are typically required when moving an AI agent from a single-user prototype to a multi-client production service?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Rewriting all prompts to be ten times longer so the model works harder"
+            },
+            {
+              "id": "b",
+              "text": "Sharing a single global conversation memory across all competing clients to save database space"
+            },
+            {
+              "id": "c",
+              "text": "Removing all authentication checks so requests load faster in the browser"
+            },
+            {
+              "id": "d",
+              "text": "Enforcing strict tenant data isolation, adding queues and rate-limit management, tracking per-client token budgets, and deploying production observability"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Production multi-tenant scale requires hard tenant isolation in data and memory, resilient queueing against provider rate limits, per-tenant cost controls, and automated observability.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

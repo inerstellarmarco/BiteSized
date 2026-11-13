@@ -5,62 +5,202 @@
     {
       "id": "bit_CbFdZfXLWHFy",
       "title": "k-means and hierarchical clustering",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Clustering groups unlabelled records by similarity: k-means iteratively assigns points to the nearest of k cluster centres (centroids) and updates those centres to the group means, whereas hierarchical clustering builds a nested tree (dendrogram) by successively merging or splitting groups across all distance scales.\n\nIt is like sorting a box of mixed buttons into five bowls by size and colour (k-means) versus organising a company org chart from pairs of desks up to divisions (hierarchical).\n\nRemember that k-means assumes roughly spherical, similarly sized clusters in Euclidean space, so skewed features or crescent-shaped groups will confuse it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_CbFdZfXLWHFy_1",
+          "type": "multiple_choice",
+          "prompt": "How does the standard k-means algorithm form clusters?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It alternates between assigning each point to the nearest cluster centroid and recalculating each centroid as the mean of its assigned points"
+            },
+            {
+              "id": "b",
+              "text": "It builds a full binary tree of pairwise merges without requiring a choice of k"
+            },
+            {
+              "id": "c",
+              "text": "It trains a softmax classifier using ground-truth category labels provided by the user"
+            },
+            {
+              "id": "d",
+              "text": "It projects the data onto the single direction of maximum variance using eigenvectors"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "K-means minimises within-cluster squared distances by repeatedly reassigning points to their closest centre and moving centres to the average of their members.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_49EeCXx8rRaV",
       "title": "PCA, t-SNE, UMAP for dimensionality reduction",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Principal Component Analysis (PCA) projects high-dimensional data onto orthogonal linear axes that preserve maximum global variance, whereas t-SNE and UMAP are non-linear manifold methods that arrange points in two or three dimensions so that local neighbourhood relationships are preserved for visual inspection.\n\nIt is like photographing a teapot from its most informative side angle (PCA) versus unfolding the curved skin of an orange flat onto a table so neighbouring segments stay together (t-SNE and UMAP).\n\nUse PCA when you need fast, deterministic feature compression for downstream models, and reserve t-SNE or UMAP for exploratory scatter plots.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_49EeCXx8rRaV_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main distinction between PCA and methods like t-SNE or UMAP?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "PCA is a linear projection that preserves global variance, while t-SNE and UMAP are non-linear embeddings focused on preserving local neighbourhoods"
+            },
+            {
+              "id": "b",
+              "text": "PCA only works on two-dimensional images, while t-SNE requires target labels for every row"
+            },
+            {
+              "id": "c",
+              "text": "t-SNE and UMAP are strictly linear matrix multiplications that never use hyperparameters"
+            },
+            {
+              "id": "d",
+              "text": "PCA randomly shuffles cluster centres, while UMAP deletes correlated columns from the table"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "PCA finds orthogonal linear combinations of features capturing global variance, whereas t-SNE and UMAP optimise non-linear layouts to keep nearby points together.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2kQT9WJ8Wj3R",
       "title": "Choosing the number of clusters",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Because unsupervised clustering has no ground-truth labels, choosing the number of clusters k combines quantitative heuristics such as the elbow plot of within-cluster variance and the silhouette score with practical business judgement about how many segments the organisation can actually act upon.\n\nIt is like a marketing team deciding how many distinct newsletter versions to write; twelve statistical micro-clusters are useless if the team only has capacity to run four campaigns.\n\nA mathematical peak in the silhouette score is only a starting point; always inspect cluster profiles with domain experts to check that the groups make operational sense.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2kQT9WJ8Wj3R_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an AI consultant combine metrics like the silhouette score with client domain judgement when picking the number of customer clusters?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The silhouette score always equals zero unless a client executive types in the exact revenue target"
+            },
+            {
+              "id": "b",
+              "text": "Unsupervised clustering has no single \"true\" k, so segments must be both statistically coherent and practical for the business to act on"
+            },
+            {
+              "id": "c",
+              "text": "K-means refuses to compile in code if k is not a prime number above twenty"
+            },
+            {
+              "id": "d",
+              "text": "Domain experts can calculate exact eigenvalues in their heads without looking at data"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Statistical cohesion metrics guide the range of plausible k values, but business utility determines whether the resulting segments are actionable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_dWgW-M49iBZs",
       "title": "t-SNE and UMAP plots are for exploring, not for measuring distances",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When viewing a two-dimensional t-SNE or UMAP chart, tight clumps genuinely reflect points that were close neighbours in the original space, but the visual sizes of clusters and the empty distances between far-apart clusters are distorted by local density scaling and hyperparameter choices.\n\nIt is like the London Underground map, which reliably shows which station comes next on a line while stretching outer suburbs and squashing central zones out of true geographical scale.\n\nNever run k-means on top of a two-dimensional t-SNE plot or tell a client that one cluster is twice as wide as another based on that visual alone.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_dWgW-M49iBZs_1",
+          "type": "multiple_choice",
+          "prompt": "What can you reliably conclude from a 2D t-SNE scatter plot of customer embeddings?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The exact Euclidean distance between two far-apart clusters on the chart equals their true distance in the raw data"
+            },
+            {
+              "id": "b",
+              "text": "A cluster that looks twice as wide on the screen has exactly twice the variance of a smaller-looking cluster"
+            },
+            {
+              "id": "c",
+              "text": "The x and y axes correspond to the two single most important raw columns in the database"
+            },
+            {
+              "id": "d",
+              "text": "Points plotted right next to each other are likely close neighbours in the high-dimensional space, though distances between separate clusters are not to scale"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Non-linear neighbourhood embeddings adapt their scale to local density, preserving nearby relationships while distorting global distances and cluster areas.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_acjuxj89Tg63",
       "title": "Anomaly detection with isolation forests (concept)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An isolation forest detects anomalies in unlabelled data by building many random decision trees that pick a feature and a split value at random; rare, unusual points get isolated into their own leaf near the root in very few splits, whereas normal points sit deep inside dense crowds.\n\nIt is like playing a game of twenty questions to identify one person in a stadium; someone wearing a bright neon dinosaur costume can be singled out in two questions, while an ordinary spectator takes many questions.\n\nAnomalies are simply statistically unusual records, so an isolation forest flags sensor glitches and VIP bulk orders alongside real fraud unless you investigate the alerts.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_acjuxj89Tg63_1",
+          "type": "multiple_choice",
+          "prompt": "Why do anomalous data points have shorter average path lengths in an isolation forest?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because the algorithm sorts all rows by their fraud label before building the first tree"
+            },
+            {
+              "id": "b",
+              "text": "Because normal points are deleted from the tree before any splits are made"
+            },
+            {
+              "id": "c",
+              "text": "Because isolation forests only allow a maximum depth of one split for every point"
+            },
+            {
+              "id": "d",
+              "text": "Because outliers sit far from dense groups in feature space, random splits separate them from the rest of the data in very few steps"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Points in sparse regions of feature space are quickly partitioned into singleton leaves by random cuts, yielding short paths from the root.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

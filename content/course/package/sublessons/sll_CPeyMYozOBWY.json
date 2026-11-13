@@ -5,50 +5,162 @@
     {
       "id": "bit_gIk3SmaanTPa",
       "title": "Shadow-mode execution",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Shadow mode is the safest way to test a new agent on real live production traffic without any risk to customers.\n\nWhile your human team handles incoming tickets, orders or claims as normal, the agent silently receives a copy of each real request in the background and records what it *would* have done or replied. Nothing the shadow agent produces is sent to the customer or written to the live system of record.\n\nIt is a trainee pilot sitting in the jump seat writing down every call they would make during a real flight, while the captain flies the plane.\n\nShadow mode exposes your agent to all the messy edge cases of real life at zero customer risk.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gIk3SmaanTPa_1",
+          "type": "multiple_choice",
+          "prompt": "What happens during shadow-mode execution of an agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The agent runs silently on live requests and logs what it would do, while humans still handle the actual live responses and actions"
+            },
+            {
+              "id": "b",
+              "text": "The agent handles all live customer actions with the lights turned off in the office"
+            },
+            {
+              "id": "c",
+              "text": "The agent runs only on fake test data written by developers"
+            },
+            {
+              "id": "d",
+              "text": "Customers see both the human's answer and the agent's rough draft at the same time"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Shadow mode tests the agent against real production inputs in the background without exposing users to its outputs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_V6dlDo8ZLClr",
       "title": "Agent vs. human comparison",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The whole point of running in shadow mode is to compare the agent's logged decision against what the human staff member actually did on the exact same case.\n\nAt the end of each week, your evaluation script pairs each shadow run with the human outcome. Where did they agree? Where they disagreed, was the agent wrong (a hallucination or missed policy rule), or did the agent actually spot a detail the busy human missed?\n\nIt is comparing a student's practice exam answers against the examiner's worked solutions question by question.\n\nThose disagreements become your highest-value list of prompt fixes, missing tools and new evaluation test cases.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_V6dlDo8ZLClr_1",
+          "type": "multiple_choice",
+          "prompt": "Why do you compare shadow-mode agent outputs against the human actions on the same live cases?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To fire the human team on the first day"
+            },
+            {
+              "id": "b",
+              "text": "To measure agreement on real traffic and uncover the exact edge cases where the agent fails before it goes live"
+            },
+            {
+              "id": "c",
+              "text": "Because shadow mode only works if you never read the logs"
+            },
+            {
+              "id": "d",
+              "text": "To train the customer to write better prompts"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Side-by-side comparison on real cases reveals blind spots and gives you a concrete scorecard of readiness.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-_n523bIaGgD",
       "title": "Moving from shadow, to assisted, to automatic",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A responsible rollout moves through three stages of autonomy as trust and accuracy grow.\n\nStage 1 is **Shadow mode**: the agent runs in the background for measurement only. Stage 2 is **Assisted (co-pilot) mode**: the agent prepares the draft reply or recommended action in the staff member's screen, and the human reviews, edits if needed and clicks Send. Stage 3 is **Automatic mode** (often starting with the easiest, lowest-risk category): the agent handles routine cases end to end and escalates exceptions to humans.\n\nIt is learning to drive: first watching, then driving with an instructor next to you, then driving solo on quiet roads before the motorway.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-_n523bIaGgD_1",
+          "type": "multiple_choice",
+          "prompt": "What is the normal three-stage rollout path for introducing an agent into a business workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Automatic mode on 100% of traffic on day one, then writing tests a month later"
+            },
+            {
+              "id": "b",
+              "text": "Shadow mode first, then human-assisted co-pilot mode, and finally automatic execution for proven categories"
+            },
+            {
+              "id": "c",
+              "text": "Assisted mode forever without ever measuring accuracy"
+            },
+            {
+              "id": "d",
+              "text": "Deleting the human workflow before the agent is built"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Graduating from shadow to assisted to selective automation builds evidence and staff confidence at each step.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_uL3eJpTTuq-7",
       "title": "Deciding what agreement rate is good enough to go live",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before you start shadow mode, agree in writing with the client what numbers will qualify a category to move to assisted or automatic mode.\n\nThere is no single magic percentage. For drafting internal meeting notes, 85 per cent agreement might be plenty. For auto-approving insurance claims, you may require 99 per cent agreement on low-value claims and zero critical safety errors across five hundred shadow cases. Break the score down by category: you will often find the agent is at 98 per cent on password resets and 60 per cent on billing disputes, letting you launch password resets first.\n\nIt is a learner driver needing zero serious faults on the test, not just a decent average across manoeuvres.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_uL3eJpTTuq-7_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you measure shadow-mode agreement separately for each request category?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "An agent may be ready to go live on simple, high-accuracy categories right away while still needing work on complex ones"
+            },
+            {
+              "id": "b",
+              "text": "Every category always has the exact same accuracy score"
+            },
+            {
+              "id": "c",
+              "text": "Averages hide nothing and never mislead anyone"
+            },
+            {
+              "id": "d",
+              "text": "Clients prefer launching only the worst-performing category first"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Per-category metrics let you automate the easy wins early while keeping harder categories in assisted or human mode.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

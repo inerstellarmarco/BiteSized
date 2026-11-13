@@ -5,74 +5,242 @@
     {
       "id": "bit_dkqUhoq0v7Gj",
       "title": "Precision, memory, and speed",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Model precision describes how many bits a computer uses to store each numerical weight inside a neural network. Lowering this precision reduces the memory needed to hold the model and speeds up inference because the hardware moves less data for every token generated.\n\nIt is like saving a high-resolution photograph as a compressed JPEG so it loads faster on a webpage while looking nearly identical to the human eye.\n\nHowever, pushing precision too low strips away subtle numerical distinctions, which can degrade complex reasoning and factual recall on difficult client tasks.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_dkqUhoq0v7Gj_1",
+          "type": "multiple_choice",
+          "prompt": "Why does lowering numerical precision usually speed up language model inference?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The hardware transfers fewer bytes from memory for each calculation"
+            },
+            {
+              "id": "b",
+              "text": "The model automatically skips half of its transformer layers"
+            },
+            {
+              "id": "c",
+              "text": "Lower precision increases the context window without extra compute"
+            },
+            {
+              "id": "d",
+              "text": "The tokeniser merges words into larger chunks during generation"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Reducing the number of bits per weight means less data must move between memory and compute units for every token.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_HAiargxfMIN3",
       "title": "Post-training quantization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Post-training quantisation converts a fully trained model from high precision, such as 16-bit floating point, into a lower precision format like 8-bit or 4-bit integers without retraining the network from scratch.\n\nIt is like packing an already tailored wardrobe into vacuum-sealed travel bags right before a flight rather than remaking the clothes.\n\nWhile this approach is fast and cheap for an AI consultant to apply, some methods still require a small calibration dataset to measure how activations behave and prevent sharp drops in output quality.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_HAiargxfMIN3_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main advantage of post-training quantisation for a consultancy team?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It compresses an existing model quickly without the cost of full retraining"
+            },
+            {
+              "id": "b",
+              "text": "It guarantees that the compressed model will outperform the original model"
+            },
+            {
+              "id": "c",
+              "text": "It removes the need for any GPU memory during production serving"
+            },
+            {
+              "id": "d",
+              "text": "It permanently deletes biased training examples from the model weights"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Post-training quantisation shrinks a finished model in hours rather than repeating an expensive training run.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_vucuYBvt7woo",
       "title": "Fewer bits per weight means less memory",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Storing each model weight with fewer bits directly shrinks the total footprint of the model on disk and in graphics memory. Moving from 16-bit weights to 4-bit weights cuts the space needed for the parameters by roughly four times.\n\nIt is like replacing thick hardback books on a library shelf with slim paperback editions that hold the exact same text in a quarter of the space.\n\nEven so, auxiliary components such as embedding tables and normalisation layers often stay at higher precision, so total memory rarely drops by the exact theoretical ratio.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vucuYBvt7woo_1",
+          "type": "multiple_choice",
+          "prompt": "Moving a model's weights from 16-bit precision to 4-bit precision reduces weight memory by roughly what factor?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "About two times"
+            },
+            {
+              "id": "b",
+              "text": "About four times"
+            },
+            {
+              "id": "c",
+              "text": "About eight times"
+            },
+            {
+              "id": "d",
+              "text": "About sixteen times"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Four bits is one quarter of sixteen bits, so the parameter storage drops to roughly one fourth of its original size.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_iwCTjD4jQUO3",
       "title": "Memory needed is roughly parameters times bytes per parameter",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "You can estimate the baseline memory required to load a model's weights by multiplying the parameter count by the bytes used per parameter, then adding a small overhead of around twenty per cent. At 16-bit precision each parameter takes two bytes, whereas at 4-bit precision each parameter takes half a byte.\n\nIt is like calculating the weight of a shipping pallet by multiplying the number of boxes by the weight of each box, plus the wooden pallet itself.\n\nThis quick calculation only covers the static weights and does not include the working memory needed for active user requests.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_iwCTjD4jQUO3_1",
+          "type": "multiple_choice",
+          "prompt": "Roughly how much memory is needed just to hold the static weights of a 70-billion-parameter model at 4-bit precision?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Around 140 to 168 gigabytes including overhead"
+            },
+            {
+              "id": "b",
+              "text": "Around 7 to 9 gigabytes including overhead"
+            },
+            {
+              "id": "c",
+              "text": "Around 35 to 42 gigabytes including overhead"
+            },
+            {
+              "id": "d",
+              "text": "Around 500 gigabytes including overhead"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "At half a byte per parameter, 70 billion parameters take 35 gigabytes, plus a small margin for metadata and unquantised layers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_WWeh2_JXHn1O",
       "title": "Activations and the KV cache need memory too",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Loading the model weights is only part of the memory budget because the GPU must also store temporary activations and the key-value cache for every active conversation. As prompts grow longer or more users connect at the same time, this working memory expands rapidly.\n\nIt is like a chef who not only needs cupboard space for ingredients but also requires clear counter space for every meal being cooked at once.\n\nIf a consultant sizes a server for the weights alone, the system will crash with out-of-memory errors as soon as production traffic arrives.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WWeh2_JXHn1O_1",
+          "type": "multiple_choice",
+          "prompt": "What happens to the key-value cache memory as concurrent user requests and prompt lengths increase?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It shrinks because the GPU compresses older conversations into the weights"
+            },
+            {
+              "id": "b",
+              "text": "It grows larger and can eventually exceed the memory used by the weights"
+            },
+            {
+              "id": "c",
+              "text": "It stays completely fixed regardless of traffic or sequence length"
+            },
+            {
+              "id": "d",
+              "text": "It moves automatically to the client's web browser to save server RAM"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Each active sequence stores its own intermediate attention states in the key-value cache, which scales with length and concurrency.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_us1lfG82pdg2",
       "title": "Outlier values make quantization harder",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Neural networks often develop a small number of weights and activations with extreme numerical values that are much larger than their neighbours. When a simple quantisation scheme stretches its limited bit range to cover those extreme outliers, all the normal values get squashed together into a few coarse buckets.\n\nIt is like grading a class on a curve where one billionaire's income sets the scale, making everyone else's salaries look identical at zero.\n\nModern quantisation algorithms must isolate or rescale these outlier channels separately, or else a 4-bit model can lose its ability to form coherent sentences.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_us1lfG82pdg2_1",
+          "type": "multiple_choice",
+          "prompt": "Why do extreme outlier values cause trouble during uniform low-bit quantisation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They stretch the quantisation scale so normal values lose fine resolution"
+            },
+            {
+              "id": "b",
+              "text": "They cause the GPU cooling fans to spin past their physical limits"
+            },
+            {
+              "id": "c",
+              "text": "They force the tokeniser to reject rare words in the user prompt"
+            },
+            {
+              "id": "d",
+              "text": "They double the number of transformer layers required at runtime"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A wide numerical range forced by a few outliers leaves very few distinct bit levels for the tightly clustered majority of values.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

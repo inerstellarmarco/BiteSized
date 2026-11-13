@@ -5,20 +5,48 @@
     {
       "id": "bit_Wk3Hk54Aosyb",
       "title": "Layers: interface, orchestration, agents, tools and integrations, memory and data, guardrails, evals and observability",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A complete enterprise AI system can be understood cleanly through seven distinct architectural layers: the user or API interface, orchestration (routing and workflow state), agents (models, prompts, and reasoning loops), tools and integrations, memory and data (RAG and state stores), guardrails (input/output safety and permissions), and evals and observability running across the whole stack.\n\nThink of a modern office building: the reception lobby is the interface, the lift controller is orchestration, the specialist staff are agents, the phone lines are integrations, the filing room is memory, security turnstiles are guardrails, and CCTV plus building telemetry are observability.\n\nUsing this seven-layer checklist in every client discovery workshop guarantees you never design a clever agent while forgetting guardrails, memory isolation, or production monitoring.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Wk3Hk54Aosyb_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a layered architecture framework useful when designing an enterprise AI system with a client?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It forces every software project to hire seven separate consulting firms"
+            },
+            {
+              "id": "b",
+              "text": "It requires seven sequential language model calls for every single user greeting"
+            },
+            {
+              "id": "c",
+              "text": "It provides a complete checklist of concerns so you design interfaces, orchestration, models, tools, data, guardrails, and observability together without blind spots"
+            },
+            {
+              "id": "d",
+              "text": "It eliminates the need for any database or security controls in the application"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Separating the stack into clear layers ensures critical production requirements like guardrails, observability, and data boundaries are designed upfront rather than bolted on after a failure.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_GNJ405ZGzWkW",
       "title": "One decision per layer: build, buy, or skip",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "For each of the seven layers in your architecture, you make a deliberate business decision with the client: build it custom in-house, buy or adopt an existing platform/open-source tool, or skip the layer entirely if the use case does not need it. A simple internal document summariser might skip complex multi-agent orchestration and long-term conversational memory completely, buy a managed observability tool, and build custom domain prompts and evaluation sets.\n\nIt is like opening a bakery where you buy a standard commercial oven and payment terminal off the shelf, skip building a delivery fleet at first, and spend all your creative energy crafting your signature sourdough recipe.\n\nCustom-building commodity plumbing like trace dashboards wastes your client's budget, while outsourcing your client's core domain evaluations gives away their competitive edge.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,19 +59,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GNJ405ZGzWkW_1",
+          "type": "multiple_choice",
+          "prompt": "In the \"build, buy, or skip\" decision across architecture layers, when is \"skip\" the smartest choice for a layer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When the layer involves security guardrails or evaluation on a high-risk customer-facing agent"
+            },
+            {
+              "id": "b",
+              "text": "When the engineering team wants to launch to production without any user interface or API"
+            },
+            {
+              "id": "c",
+              "text": "Whenever a commercial vendor offers a cheap off-the-shelf tool for a required layer"
+            },
+            {
+              "id": "d",
+              "text": "When the current use case does not actually need that capability, such as skipping long-term cross-session memory for a stateless one-shot invoice extractor"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Skipping unnecessary layers (like multi-agent orchestration or long-term memory when a stateless workflow suffices) keeps the system lean, fast, and easy to maintain.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ysmKQ08Ff9lj",
       "title": "Architecture decision records: writing down what you chose and why",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An Architecture Decision Record (ADR) is a short, one-page note stored in the project repository that documents a single important technical choice, the context and constraints at the time, the alternatives considered, and the trade-offs accepted. For example, an ADR might record why the team chose a single workflow using a fast mid-tier model and a relational vector index instead of a multi-agent graph with a separate vector database.\n\nIt is like a ship's captain logging why they steered south around a storm system so the next watch officer understands the route and knows when to turn back north once the weather clears.\n\nIn the fast-moving AI field, ADRs are priceless six months later because they tell future engineers which assumptions have changed when new models or lower prices arrive.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ysmKQ08Ff9lj_1",
+          "type": "multiple_choice",
+          "prompt": "Why are Architecture Decision Records (ADRs) especially valuable in fast-moving AI projects?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They automatically compile English text into GPU assembly code during deployment"
+            },
+            {
+              "id": "b",
+              "text": "They capture the exact constraints, model limits, and cost trade-offs behind a design choice so future teams know when a newer model or price drop makes it worth revisiting"
+            },
+            {
+              "id": "c",
+              "text": "They legally prevent the client from ever upgrading their software in the future"
+            },
+            {
+              "id": "d",
+              "text": "They replace the need for version control systems like Git"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Because AI model capabilities and prices shift rapidly, recording why a decision was made under specific project constraints lets future engineers spot immediately when an old workaround can be retired.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

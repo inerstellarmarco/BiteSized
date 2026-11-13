@@ -5,74 +5,242 @@
     {
       "id": "bit_rI5k2s8_IXqq",
       "title": "Trajectory and tool-call evaluation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Evaluating an agent is harder than evaluating a single prompt because the agent takes a **trajectory**: a sequence of thoughts, tool calls, tool arguments and observations on its way to the answer.\n\nTrajectory evaluation checks that path. Did the agent call the right tool with valid arguments? Did it check the customer's identity *before* calling the account-details tool? Did it avoid unnecessary or duplicate tool calls? Keep trajectory assertions flexible enough that harmless differences in ordering (such as looking up Product A before Product B) still pass, while mandatory safety sequences are strictly enforced.\n\nIt is a driving examiner checking both that you reached the test centre and that you checked your mirrors before overtaking.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rI5k2s8_IXqq_1",
+          "type": "multiple_choice",
+          "prompt": "What does trajectory evaluation check in an agent run?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only the last word of the final message"
+            },
+            {
+              "id": "b",
+              "text": "Which tools the agent called, with what arguments and in what order on its way to the result"
+            },
+            {
+              "id": "c",
+              "text": "The colour scheme of the chat window"
+            },
+            {
+              "id": "d",
+              "text": "How many lines of CSS the frontend uses"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Trajectory evals inspect the sequence of tool calls and arguments to verify safe, efficient behaviour along the path.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_tQbq5rYnhPI4",
       "title": "Task-success benchmarks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In the wider industry, agents are often compared on public **task-success benchmarks**: sandboxed environments containing realistic multi-step tasks with automated pass/fail grading. Examples include SWE-bench Verified and SWE-bench Pro for software engineering, OSWorld for computer use, GAIA for general tool-using assistants and τ-bench (tau-bench) for customer-service policy compliance. Check the current details as new benchmarks appear regularly.\n\nPublic benchmarks are useful for shortlisting candidate models, but models can overfit to famous public test sets. Always build a private benchmark of 30 to 100 tasks from your client's own domain and tools before making final architecture decisions.\n\nIt is reading official fuel-economy figures to shortlist three vans, then testing them on your actual delivery route with a full load.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_tQbq5rYnhPI4_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you pair public agent benchmarks with a private benchmark built from your client's own tasks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Public benchmarks are illegal to read in commercial projects"
+            },
+            {
+              "id": "b",
+              "text": "Every model scores 0% on all public benchmarks"
+            },
+            {
+              "id": "c",
+              "text": "Public benchmarks help shortlist models, but only a private benchmark tests your client's specific data, tools and edge cases without benchmark overfitting"
+            },
+            {
+              "id": "d",
+              "text": "Private benchmarks do not need any scoring rules"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Public benchmarks show general capability, while a private task suite measures how the agent performs on your client's real work.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_YlS2Q7e1QcVK",
       "title": "Outcome first: did the task get done?",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When grading an agent run, start with the most important question: **did the task actually succeed?**\n\nTwo runs might take slightly different valid paths: one agent searches by invoice number, another searches by customer name and date, and both find the right record and resolve the ticket accurately. If your eval rigidly fails any run that did not follow one exact script of tool calls, you will penalise smart adaptation.\n\nIt is marking a maths problem: give primary credit for getting the right answer lawfully, and only fail the method if it broke a rule or guessed by luck.\n\nGrade the final outcome as your primary pass/fail metric, and use trajectory checks for safety rules and efficiency.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YlS2Q7e1QcVK_1",
+          "type": "multiple_choice",
+          "prompt": "Why should outcome success be the primary metric when evaluating an agent, ahead of requiring one exact sequence of tool calls?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "An agent can often reach the right result through more than one valid sequence of steps, and rigid path matching penalises legitimate adaptation"
+            },
+            {
+              "id": "b",
+              "text": "Tool calls never matter even when an agent deletes the database"
+            },
+            {
+              "id": "c",
+              "text": "Agents never use tools to finish tasks"
+            },
+            {
+              "id": "d",
+              "text": "Outcome evaluation does not require knowing what the task was"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Grading the final outcome rewards effective problem-solving while leaving trajectory checks to enforce safety boundaries and budgets.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NkWcZhCxUJup",
       "title": "Checking the final state of the system, not what the agent said",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In an action-taking agent eval, never grade success by reading the agent's final chat message (\"I have booked your appointment for Tuesday at 10 a.m. and sent the confirmation\").\n\nInstead, inspect the **state of the sandbox environment or test database** after the agent finishes. Query the test calendar table: is there actually a row for Tuesday at 10 a.m. with the right customer ID, and is there one item in the test outbox?\n\nIt is checking that the shelves in the warehouse are actually stacked, rather than taking the worker's word at the tea break.\n\nState-based grading catches agents that hallucinate tool success or stop one step short.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NkWcZhCxUJup_1",
+          "type": "multiple_choice",
+          "prompt": "How should an automated eval verify that an action-taking agent completed a booking task?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By checking whether the agent wrote the words \"booking confirmed\" in its reply"
+            },
+            {
+              "id": "b",
+              "text": "By asking the agent in a follow-up turn whether it is telling the truth"
+            },
+            {
+              "id": "c",
+              "text": "By measuring how long the agent's reply is"
+            },
+            {
+              "id": "d",
+              "text": "By querying the test database or sandbox environment afterwards to confirm the booking record actually exists with the right values"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Inspecting the actual environment or database state after the run proves the action succeeded in reality, not just in prose.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_If6g7xQOtWqS",
       "title": "Cost, steps, and time as part of the score",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent that solves a customer query in 3 steps, 4 seconds and £0.02 is a production-ready tool. An agent that solves the exact same query in 28 steps, 90 seconds and £1.40 by calling every tool five times is a production disaster, even though both get `pass = true` on accuracy.\n\nAlways record and threshold four numbers together on every eval run: **task success rate**, **average and p95 latency**, **step / tool-call count** and **token cost per task**. Plot quality against cost so you can see the Pareto frontier when comparing models and architectures.\n\nIt is judging a delivery service on whether the parcel arrived intact, on time and within the postage budget.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_If6g7xQOtWqS_1",
+          "type": "multiple_choice",
+          "prompt": "Why must agent evaluations track token cost, step count and latency alongside task accuracy?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Cost and latency are always identical across every model and prompt"
+            },
+            {
+              "id": "b",
+              "text": "Users prefer waiting two minutes for a simple answer"
+            },
+            {
+              "id": "c",
+              "text": "Token cost cannot be calculated from API responses"
+            },
+            {
+              "id": "d",
+              "text": "A change that boosts accuracy by 1% while multiplying cost and wait time fivefold may be unusable in production"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Recording accuracy, latency, steps and cost together lets you make informed trade-offs and catch inefficient loops before launch.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-2QIlXb2vpLS",
       "title": "Run each test several times: agents vary",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a multi-step agent, a small variation on step one changes the tool call, which changes the observation on step two, which sends the rest of the run down a different path. A single pass on a test case might have been a lucky break; a single failure might have been a one-in-ten slip.\n\nFor critical agent benchmarks, run each test task `k` times (for example, 3 or 5 trials) and distinguish two metrics. **`pass@k`** asks whether the agent succeeded at least once in `k` tries (useful when code can verify and pick the winning attempt). **`pass^k`** asks whether the agent succeeded on *all* `k` tries, which is what matters when a real customer only gets one live run.\n\nIt is the difference between a trick-shot video filmed over ten takes (`pass@10`) and a concert pianist playing live on stage (`pass^k`).",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-2QIlXb2vpLS_1",
+          "type": "multiple_choice",
+          "prompt": "Why is `pass^k` (succeeding on every one of `k` trials) an important metric for live customer-facing agents?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Customers always run their question five times and grade the best one themselves"
+            },
+            {
+              "id": "b",
+              "text": "`pass^k` is always higher than `pass@k`"
+            },
+            {
+              "id": "c",
+              "text": "Running a test more than once is impossible in code"
+            },
+            {
+              "id": "d",
+              "text": "Real users experience a single live run rather than picking the best of five attempts, so consistency across every trial matters"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Measuring consistency across multiple trials per task shows whether an agent is reliably solid or only succeeds intermittently.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,8 +5,8 @@
     {
       "id": "bit_shlhc2q6OLFn",
       "title": "Nucleotide Transformer, Evo, and DNABERT",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "DNA foundation models such as DNABERT, Nucleotide Transformer, and Evo apply transformer or state-space architectures to raw genomic sequences across humans and diverse species. Because model architectures, context lengths, and checkpoints evolve rapidly, check the current details before selecting a backbone for genomic pipelines.\n\nIt is like moving from a dictionary that only knows protein-coding words to a reader that scans the entire genome, including punctuation and instruction margins.\n\nUnlike protein models that only see the two percent of the human genome that codes for proteins, DNA models process promoters, enhancers, splice sites, and intergenic regions. However, signal in non-coding DNA is far sparser and noisier than in proteins, so task-specific fine-tuning remains essential.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,55 +19,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_shlhc2q6OLFn_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary advantage of DNA language models such as Nucleotide Transformer or Evo over protein-only language models?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They only require twenty base pairs of training data to predict three-dimensional protein complexes"
+            },
+            {
+              "id": "b",
+              "text": "They directly measure epigenetic methylation levels without needing any laboratory sequencing data"
+            },
+            {
+              "id": "c",
+              "text": "They compress the entire three-billion-base human genome into a single eight-bit integer"
+            },
+            {
+              "id": "d",
+              "text": "They can model non-coding genomic regions such as promoters, enhancers, and splice sites in addition to coding regions"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Because DNA models train on nucleotide sequences across whole genomes, they can represent regulatory and non-coding elements invisible to amino-acid-only models.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hHQyqAT04gBb",
       "title": "Regulatory and expression prediction",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sequence-to-function genomic models predict how a stretch of DNA controls gene expression, chromatin accessibility, histone marks, or splicing across different human cell types. By learning the grammar of transcription factor binding motifs, these models estimate how non-coding genetic variants alter gene regulation.\n\nIt is like predicting how loud an orchestra will play a passage by reading both the musical notes and the conductor's tempo markings on the score.\n\nA vital limitation is that every cell in a patient's body shares almost the same DNA sequence, yet liver cells and neurons express completely different genes. Therefore, genomic models must be conditioned on or trained for specific cell types and tissue contexts to give clinically meaningful predictions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hHQyqAT04gBb_1",
+          "type": "multiple_choice",
+          "prompt": "Why must a genomic deep learning model account for cell-type context when predicting gene expression from DNA sequence?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Different cell types share the same DNA sequence but activate completely different regulatory programmes and genes"
+            },
+            {
+              "id": "b",
+              "text": "Neurons and liver cells use completely different nucleotide alphabets to store genetic information"
+            },
+            {
+              "id": "c",
+              "text": "Gene expression levels are identical across every tissue in the human body at all times"
+            },
+            {
+              "id": "d",
+              "text": "Non-coding variants only occur inside red blood cells that lack nuclear DNA"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because regulatory activity is highly tissue-specific, a DNA sequence that drives strong expression in hepatocytes may be completely silent in cortical neurons.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_kXIbNZUydeP4",
       "title": "DNA treated as a sequence of tokens (k-mers or single bases)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before a transformer or state-space model can read a chromosome, the continuous string of A, C, G, and T nucleotides must be split into discrete tokens. Designers either tokenise DNA into individual single bases, fixed overlapping or non-overlapping k-mers (such as 6-mers), or variable-length byte-pair encoding fragments.\n\nIt is like choosing whether to read a long telegram letter by letter, in fixed three-letter chunks, or grouped into common syllables.\n\nMulti-base k-mer tokens pack longer genomic spans into fewer tokens to save compute, but a single base-pair mutation or insertion shifts every downstream token boundary, making base-resolution variant scoring awkward. Single-nucleotide tokenisation preserves exact base resolution at the cost of much longer sequence lengths.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kXIbNZUydeP4_1",
+          "type": "multiple_choice",
+          "prompt": "What is a practical trade-off between k-mer tokenisation and single-nucleotide tokenisation in DNA language models?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Multi-base k-mers compress sequence length for efficiency, whereas single-base tokens preserve exact nucleotide resolution for point mutations"
+            },
+            {
+              "id": "b",
+              "text": "Single-nucleotide tokenisation requires a million distinct vocabulary tokens, whereas k-mers use only four"
+            },
+            {
+              "id": "c",
+              "text": "Multi-base k-mer models cannot be trained on graphics processing units due to alphabet restrictions"
+            },
+            {
+              "id": "d",
+              "text": "Single-nucleotide tokens automatically remove all introns from genomic DNA sequences before training"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Grouping bases into k-mers reduces token count per kilobase, but single-base tokenisation avoids boundary frame-shifts when evaluating single-nucleotide variants.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_chvbK4BwReZK",
       "title": "Long-range regulation needs long contexts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In mammalian genomes, a distal enhancer sequence can loop through three-dimensional nuclear space to switch on a target gene promoter located hundreds of thousands of base pairs away. Capturing these long-range regulatory interactions requires genomic architectures with massive context windows spanning hundreds of kilobases or megabases.\n\nIt is like trying to understand a footnote on page five hundred of a legal contract that modifies a clause written on page two.\n\nStandard self-attention scales quadratically with sequence length, so older models with a few thousand tokens miss distal enhancers entirely. Even when newer long-context architectures fit a megabase into memory, consultants should verify whether the model genuinely uses distant bases rather than relying only on the local promoter.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_chvbK4BwReZK_1",
+          "type": "multiple_choice",
+          "prompt": "Why do models predicting mammalian gene regulation benefit from very long sequence context windows?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Distal enhancers and regulatory elements can influence gene promoters across hundreds of thousands of base pairs"
+            },
+            {
+              "id": "b",
+              "text": "Individual human exons are always at least five million base pairs long without interruption"
+            },
+            {
+              "id": "c",
+              "text": "Longer context windows eliminate the need for cell-type-specific epigenetic training data"
+            },
+            {
+              "id": "d",
+              "text": "Standard three-base codons cannot be decoded unless the entire chromosome is loaded at once"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Mammalian gene expression is frequently controlled by regulatory elements located tens or hundreds of kilobases away from the transcription start site.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_eYFiLV_VnM6_",
       "title": "Benchmarks differ: check how a model was validated",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Genomic foundation models are evaluated on benchmark suites such as the Genomic Benchmarks, BEND, or DART-Eval, which test tasks ranging from promoter classification to enhancer-gene linking. Because new leaderboards appear regularly and task difficulty varies widely, check the current details of any benchmark cited in a vendor pitch.\n\nIt is like evaluating a commercial delivery van: winning a flat motorway fuel-economy test says nothing about how it climbs steep mountain roads with a heavy load.\n\nMany random train-test splits in genomics leak homologous sequences or paralogous genes across chromosomes, inflating accuracy. Consultants should verify that genomic models were validated by holding out entire chromosomes and tested on realistic variant-effect tasks rather than trivial motif classification.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_eYFiLV_VnM6__1",
+          "type": "multiple_choice",
+          "prompt": "How should an AI consultant validate a genomic model's benchmark claims before recommending it to a client?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Accept whichever model reports the highest average accuracy across simple synthetic motif datasets"
+            },
+            {
+              "id": "b",
+              "text": "Ensure that training and test sequences were randomly sampled from overlapping sliding windows on chromosome one"
+            },
+            {
+              "id": "c",
+              "text": "Select the model with the largest parameter count regardless of how its evaluation splits were constructed"
+            },
+            {
+              "id": "d",
+              "text": "Check that validation splits held out whole chromosomes or evolutionary families and tested tasks matching the client's goal"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Genomic sequences share homology and overlapping windows, so rigorous validation requires chromosome-level hold-outs and benchmarks aligned with the real downstream task.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

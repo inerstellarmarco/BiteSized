@@ -5,8 +5,8 @@
     {
       "id": "bit_y8CAbV0OcrfI",
       "title": "Marketing system: agent team, brand memory, channel connectors, approval gates",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A reference architecture for an enterprise marketing system combines a small specialist agent team, a shared brand and campaign memory store, read/write channel connectors, and human approval gates. Typically, a campaign planner breaks a brief into tasks, a researcher pulls product facts and audience insights from RAG, a copywriter drafts posts grounded in a brand-voice guideline store, a compliance critic checks claims against legal rules, and a human marketer approves the batch before connectors publish to email or social platforms.\n\nIt mirrors a real creative agency where researchers, copywriters, and brand guardians collaborate on a campaign storyboard, but the client's marketing director always signs off before the billboard goes up.\n\nBecause publishing a false product claim or off-brand message is immediately public and hard to retract, the outbound channel connectors sit strictly behind the human approval gate.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_y8CAbV0OcrfI_1",
+          "type": "multiple_choice",
+          "prompt": "In a reference marketing agent architecture, why are the external publishing connectors placed behind a human approval gate even after an AI compliance critic checks the draft?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Social media APIs do not support automated software connections of any kind"
+            },
+            {
+              "id": "b",
+              "text": "Publishing to external customer channels is a high-visibility, hard-to-reverse action where a single missed brand or legal error causes immediate public harm"
+            },
+            {
+              "id": "c",
+              "text": "The AI copywriter cannot generate text until after the post has already been published"
+            },
+            {
+              "id": "d",
+              "text": "Human marketers are required to retype every character manually because copy-and-paste is disabled"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Combining an automated brand/compliance reviewer (which catches 90 per cent of routine issues fast) with a final human approval gate before external publication balances speed with brand safety.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_3lmsN63gEBHu",
       "title": "ERP and MRP system: system of record, calculation code, ask-your-data and exception agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In an enterprise resource planning (ERP) and material requirements planning (MRP) reference architecture, the relational database remains the unshakeable system of record and deterministic code handles all inventory maths, lead-time calculations, and ledger updates. AI agents sit alongside this core in two focused roles: an ask-your-data analyst agent that translates natural-language questions from operations staff into safe read-only SQL queries or reports, and an exception-handling agent that investigates supply delays, drafts supplier chaser emails, and proposes reorder adjustments for a human planner to approve.\n\nIt is like a warehouse where a calibrated digital scale and barcode scanner record exact stock counts, while an intelligent coordinator reads supplier delay notices and recommends which delivery van to reroute.\n\nNever let a language model directly calculate stock reorder quantities in free text or write unvalidated updates straight into the ERP ledger.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,13 +66,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3lmsN63gEBHu_1",
+          "type": "multiple_choice",
+          "prompt": "In an ERP and MRP reference architecture, how should responsibilities be divided between deterministic software and AI agents?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Deterministic code and the ERP database handle exact inventory maths and system-of-record updates, while AI agents handle natural-language data queries and investigate supply exceptions for human sign-off"
+            },
+            {
+              "id": "b",
+              "text": "The language model replaces the relational database and stores all company inventory counts inside its system prompt"
+            },
+            {
+              "id": "c",
+              "text": "AI agents estimate stock levels and tax figures using creative high-temperature generation without code calculators"
+            },
+            {
+              "id": "d",
+              "text": "Deterministic code is deleted entirely so the ERP runs as a single open-ended group chat"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Core financial and inventory calculations require exact deterministic code and transactional databases, while agents excel at natural-language reporting and triaging unstructured supplier exceptions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_RaiEAKwlUTeG",
       "title": "Bot team for a business function: manager, specialists, reviewer, human owner",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A reusable reference pattern for automating a departmental business function, such as customer onboarding, IT service desk triage, or vendor due diligence, organises a bounded bot team around four clear roles: a coordinator (manager) that routes incoming work, narrow specialist agents each equipped with only their own domain tools and RAG index, a reviewer/evaluator gate that checks outputs against a rubric, and an accountable human owner.\n\nThink of a well-run tax office branch: a front-desk manager routes each client file to either the payroll specialist or the VAT specialist, a senior auditor checks the completed return against a checklist, and the branch partner signs off on complex cases.\n\nAssigning a named human owner in the business who reviews weekly metrics and owns the escalation queue prevents the bot team from becoming an orphaned black box.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -57,19 +113,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RaiEAKwlUTeG_1",
+          "type": "multiple_choice",
+          "prompt": "Why does the departmental bot-team reference pattern give each specialist agent only its own narrow tools and knowledge base rather than giving one giant agent every tool in the company?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Narrow tool sets and focused context improve accuracy on specialist tasks and enforce least-privilege security boundaries if one agent is compromised"
+            },
+            {
+              "id": "b",
+              "text": "Model providers forbid connecting more than two tools to any API account"
+            },
+            {
+              "id": "c",
+              "text": "Specialist agents do not use language models and run only on mechanical calculators"
+            },
+            {
+              "id": "d",
+              "text": "Having multiple specialist agents eliminates the need for any reviewer checks or human ownership"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Scoping each specialist to a focused prompt, domain RAG source, and minimal tool set prevents tool-selection confusion and limits the security blast radius.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_DxInReVge4ae",
       "title": "Reading and critiquing published agent architectures",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Reading and critiquing published agent architecture diagrams from vendors, engineering blogs, and client teams is a core capstone skill for an AI consultant. Whenever you examine a proposed diagram, run through a structured critique: ask whether a simpler workflow could replace a complex multi-agent mesh, trace where untrusted inputs cross trust boundaries, check whether exact calculations are mistakenly left to an LLM, verify how tenant data is isolated, and look for missing evaluation, cost, latency, or human fallback paths.\n\nIt is like an experienced structural engineer looking at a glossy building render and immediately asking where the load-bearing columns, fire escapes, and drainage pipes actually sit.\n\nPractising this critical eye lets you walk into any client architecture review and offer calm, practical improvements that save money and prevent production failures.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DxInReVge4ae_1",
+          "type": "multiple_choice",
+          "prompt": "When critiquing a proposed multi-agent architecture diagram from a vendor or client team, which question should an AI consultant always ask?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Could we add ten more autonomous agents to make the diagram look more impressive to investors?"
+            },
+            {
+              "id": "b",
+              "text": "Can we remove all error handling and logging boxes so the diagram fits on a smaller business card?"
+            },
+            {
+              "id": "c",
+              "text": "Which social media influencer designed the colour palette for the arrows?"
+            },
+            {
+              "id": "d",
+              "text": "Could a simpler deterministic workflow handle part of this, and where are the trust boundaries, exact-code checks, evaluations, and failure fallbacks?"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A rigorous architectural critique checks for unnecessary complexity, unguarded trust boundaries, LLM misuse on deterministic maths, tenant isolation gaps, and missing observability or fallbacks.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

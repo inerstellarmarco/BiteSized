@@ -5,8 +5,8 @@
     {
       "id": "bit_m8X6N1FrCNAg",
       "title": "Document processing and back-office agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Intelligent Document Processing (IDP) and back-office agents combine optical character recognition, vision-language models, and validation rules to extract structured fields from messy business paperwork and enter them into core systems.\n\nIt is like a tireless clerk who reads incoming supplier delivery notes in twenty different layouts, checks the quantities against the original purchase order, and highlights any mismatch in yellow.\n\nAlways build deterministic validation checks around extracted numbers, for instance verifying that line items plus VAT actually equal the printed invoice total before posting anything to the finance ledger.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_m8X6N1FrCNAg_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an AI document processing pipeline run deterministic arithmetic and database checks on extracted invoice fields?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because vision-language models refuse to read numbers that contain a decimal point"
+            },
+            {
+              "id": "b",
+              "text": "To slow down invoice processing so suppliers get paid six months late"
+            },
+            {
+              "id": "c",
+              "text": "To verify that line items, tax, and totals add up and match an approved purchase order before posting to finance systems"
+            },
+            {
+              "id": "d",
+              "text": "Because accounting systems do not store numerical values"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Pairing AI extraction with strict mathematical and purchase-order reconciliation catches misread digits before a wrong payment leaves the bank.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6cziufT6Oxos",
       "title": "Workflow automation platforms",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Modern workflow automation platforms connect triggers, APIs, database lookups, deterministic business rules, and targeted AI steps into reliable end-to-end operational pipelines.\n\nIt is like a factory assembly line where conveyor belts and mechanical guides move the product reliably from station to station, calling in a skilled specialist only at the one step that requires judgement.\n\nAs a consultant, resist the temptation to make the entire workflow a free-form autonomous agent when ninety per cent of the steps are simple, predictable API moves between two databases.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,55 +66,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6cziufT6Oxos_1",
+          "type": "multiple_choice",
+          "prompt": "When designing a back-office automation pipeline, which steps should use AI and which should use standard deterministic workflow rules?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Use a large language model to guess database ID numbers instead of running an exact lookup query"
+            },
+            {
+              "id": "b",
+              "text": "Replace every deterministic API integration with an unmonitored conversational chatbot"
+            },
+            {
+              "id": "c",
+              "text": "Avoid using workflow platforms and ask staff to copy and paste JSON payloads by hand"
+            },
+            {
+              "id": "d",
+              "text": "Use AI only for unstructured steps like reading varied documents or classifying text, and use deterministic rules for routing, maths, and database updates"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Keeping deterministic steps in code and reserving AI calls for unstructured text or image steps makes the pipeline faster, cheaper, and far more reliable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BgGxAVGk8pp0",
       "title": "Invoices, orders, and forms are the first targets",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "High-volume semi-structured documents such as supplier invoices, customer purchase orders, customs declarations, and onboarding forms are the strongest initial targets for back-office AI automation.\n\nFor example, a wholesale distributor receiving three thousand emailed PDF purchase orders a week in fifty different customer layouts can cut manual data-entry time dramatically while speeding up dispatch.\n\nThese documents work so well because the required output schema is fixed and known in advance, making accuracy easy to test and validate automatically.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BgGxAVGk8pp0_1",
+          "type": "multiple_choice",
+          "prompt": "Why do supplier invoices and customer purchase orders make such strong first targets for operational AI?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They arrive in high volumes with varied layouts, yet map into a fixed, verifiable set of fields in the company's ERP system"
+            },
+            {
+              "id": "b",
+              "text": "They have zero financial value, so mistakes never matter to the finance director"
+            },
+            {
+              "id": "c",
+              "text": "Every supplier in the world uses the exact same pixel-identical paper template"
+            },
+            {
+              "id": "d",
+              "text": "Processing invoices never requires checking numbers or dates"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "High volume combined with a clear target schema and built-in reconciliation rules makes document intake a high-ROI starting point.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2snGcsc62pU6",
       "title": "Automate the stable steps first",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before automating a back-office workflow with AI, stabilise and simplify the process first, and target the well-defined, repeatable steps rather than trying to automate a chaotic, undocumented mess.\n\nIt is like paving a farm track: you fill in the potholes and straighten the fence before laying tarmac, otherwise you just create a high-speed bumpy road into a ditch.\n\nIf three regions in your client's company follow completely contradictory approval rules for the same form, standardise the human policy first so the automation has one clear rulebook to follow.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2snGcsc62pU6_1",
+          "type": "multiple_choice",
+          "prompt": "What happens if an organisation automates a broken, inconsistent back-office process without simplifying and standardising it first?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The AI automatically rewrites company management policy and resolves departmental politics overnight"
+            },
+            {
+              "id": "b",
+              "text": "Broken processes always run with one hundred per cent accuracy once wrapped in an API"
+            },
+            {
+              "id": "c",
+              "text": "Standardising a workflow before automation is banned by quality management standards"
+            },
+            {
+              "id": "d",
+              "text": "It simply executes confusion and errors at higher speed and makes the workflow harder to debug"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Simplifying and standardising the process first often delivers half the efficiency gain on its own and ensures the automation rests on solid ground.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_m77Hzzah6y9e",
       "title": "A human queue for the exceptions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every well-architected back-office AI pipeline includes a dedicated exception queue where low-confidence extractions, failed validation rules, or unusual requests land neatly for a human operator to resolve.\n\nIt is like a supermarket self-checkout bank where eight tills hum along automatically while one attendant steps in whenever a barcode is torn or an age check pops up.\n\nCrucially, the exception interface should show the original document side by side with the highlighted uncertain field so the human can fix it in five seconds rather than starting from scratch.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_m77Hzzah6y9e_1",
+          "type": "multiple_choice",
+          "prompt": "How should a document automation workflow handle an incoming invoice where the total does not match the purchase order or confidence is low?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Route it to a human exception queue with the original document and the specific mismatch clearly highlighted"
+            },
+            {
+              "id": "b",
+              "text": "Guess a random number so the invoice can be paid automatically without delay"
+            },
+            {
+              "id": "c",
+              "text": "Delete the invoice silently so neither the supplier nor the finance team knows what happened"
+            },
+            {
+              "id": "d",
+              "text": "Shut down the entire company's accounting system until the supplier sends a new PDF"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A clear exception queue lets straight-through processing handle the routine majority while humans resolve ambiguous or mismatched cases safely.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_xoDhVc48SJ2r",
       "title": "Measure cycle time and error rate before and after",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "To prove the operational value of process automation, measure two core metrics before and after deployment: end-to-end cycle time (how long a request takes from arrival to completion) and error or rework rate.\n\nFor instance, tracking that average order entry dropped from four hours to twelve minutes while data-entry mistakes fell from three per cent to half a per cent gives leadership undeniable proof of value.\n\nBe sure to measure end-to-end cycle time including the human exception queue; if eighty per cent of items fly through in seconds but the remaining twenty per cent sit untouched in an exception inbox for a week, the process is still broken.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xoDhVc48SJ2r_1",
+          "type": "multiple_choice",
+          "prompt": "Why must cycle-time measurement in an automated workflow include the items that routed to the human exception queue?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because items handled automatically by AI take zero seconds and cannot be timed"
+            },
+            {
+              "id": "b",
+              "text": "Because human exception queues are only opened once every five years"
+            },
+            {
+              "id": "c",
+              "text": "Because overall operational performance depends on how fast both straight-through items and exceptions reach completion"
+            },
+            {
+              "id": "d",
+              "text": "Because error rates only apply to paper documents written in pencil"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Measuring end-to-end cycle time and accuracy across all items prevents teams from hiding bottlenecks inside a neglected exception queue.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

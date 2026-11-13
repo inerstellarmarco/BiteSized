@@ -5,20 +5,48 @@
     {
       "id": "bit_82n16K-JETO2",
       "title": "Rates of change and partial derivatives",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A derivative measures how fast a function's output changes when its input shifts slightly, and a partial derivative measures that rate when you nudge just one input variable while holding all other variables fixed.\n\nIt is like testing how a client's profit margin responds to a tiny change in shipping price while keeping wages, rent, and ad spend completely still.\n\nPartial derivatives only describe the local slope at the current point, so they can mislead you if you extrapolate far away across a curved function.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_82n16K-JETO2_1",
+          "type": "multiple_choice",
+          "prompt": "What does a partial derivative with respect to a single weight tell you?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The global minimum value that the loss function will reach after a hundred epochs"
+            },
+            {
+              "id": "b",
+              "text": "How strongly two input features correlate with each other across the test set"
+            },
+            {
+              "id": "c",
+              "text": "How rapidly the output or loss changes when that single weight is nudged and all other weights stay fixed"
+            },
+            {
+              "id": "d",
+              "text": "The exact number of hidden layers required to reduce training error to zero"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A partial derivative isolates the instantaneous rate of change along one coordinate axis while treating all other variables as constants.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_sUklEVcDA2mW",
       "title": "The chain rule (the core of backpropagation)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The chain rule from calculus states that when functions are composed inside one another, the derivative of the final output with respect to an early input is the product of the local derivatives along the chain.\n\nIt is like tracing how a one-pound rise in raw steel cost changes bolt cost, which changes engine cost, which changes the final lorry price.\n\nBecause backpropagation multiplies local derivatives across many layers, chains of numbers consistently below one or above one can make the signal vanish or explode.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,43 +59,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_sUklEVcDA2mW_1",
+          "type": "multiple_choice",
+          "prompt": "Why is the calculus chain rule essential for training multi-layer neural networks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It guarantees that every non-convex loss surface turns into a smooth bowl with one minimum"
+            },
+            {
+              "id": "b",
+              "text": "It lets backpropagation compute how early layer weights affect the final loss by multiplying local derivatives layer by layer"
+            },
+            {
+              "id": "c",
+              "text": "It removes the need to store intermediate activations during the forward pass"
+            },
+            {
+              "id": "d",
+              "text": "It sorts training examples by difficulty so the optimiser can skip easy batches"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Neural networks are nested function compositions, so the chain rule decomposes end-to-end sensitivity into step-by-step local derivatives.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gpf6jZgvcvLv",
       "title": "Gradient: the vector of partial derivatives, pointing uphill",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The gradient gathers all the partial derivatives of a scalar function into a single vector, with one entry per parameter, and that vector always points in the direction of steepest upward increase of the function.\n\nIt is like standing on a foggy Welsh hillside with an instrument that tells you the slope north and the slope east, combining them to point straight uphill.\n\nTo reduce a model's loss, gradient descent steps in the opposite direction of the gradient, though the steepest local step is not always the fastest path down a narrow valley.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gpf6jZgvcvLv_1",
+          "type": "multiple_choice",
+          "prompt": "In which direction does the gradient vector of a loss function point, and how does gradient descent use it?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The gradient points in the direction of steepest increase, so gradient descent steps in the negative gradient direction to reduce loss"
+            },
+            {
+              "id": "b",
+              "text": "The gradient points directly at the global minimum, so gradient descent jumps to that coordinate in one step"
+            },
+            {
+              "id": "c",
+              "text": "The gradient points along flat contour lines where the loss never changes"
+            },
+            {
+              "id": "d",
+              "text": "The gradient points toward the steepest decrease, so gradient descent adds the gradient to the weights"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because the gradient points uphill toward higher loss values, subtracting a multiple of the gradient moves parameters downhill.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_VTF0IhLylQT0",
       "title": "Computation graphs: how autograd records the steps",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A computation graph is a directed network of nodes and edges where variables and parameters feed into mathematical operations, allowing automatic differentiation engines to record every forward step and replay derivatives backward automatically.\n\nIt is like a spreadsheet that remembers every cell formula linking raw inputs to the bottom-line total, so it can trace how changing any cell affects the result.\n\nStoring every intermediate tensor on the forward graph consumes substantial memory during training, which is why consultants disable gradient tracking during client inference runs.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_VTF0IhLylQT0_1",
+          "type": "multiple_choice",
+          "prompt": "Why do deep learning frameworks build a computation graph during the forward pass?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To record each operation and intermediate value needed to apply the chain rule automatically during the backward pass"
+            },
+            {
+              "id": "b",
+              "text": "To encrypt model weights so external users cannot inspect the architecture"
+            },
+            {
+              "id": "c",
+              "text": "To compress the training dataset onto disk before the first epoch begins"
+            },
+            {
+              "id": "d",
+              "text": "To replace matrix multiplications with rule-based lookup tables at inference time"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Autograd tracks the sequence of elementary operations and saved tensors on the forward pass so it can traverse the graph in reverse to compute exact gradients.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_E0yU0ndnNkmh",
       "title": "Vanishing and exploding gradients (concept)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Vanishing and exploding gradients occur in deep or recurrent networks when repeated multiplication of derivatives through the chain rule causes gradient values in early layers to shrink toward zero or blow up toward infinity.\n\nIt is like a game of whispered messages down a long line of fifty people, where the message either fades into silence or gets shouted louder at every step.\n\nModern techniques such as residual skip connections, careful weight initialisation, normalisation layers, and gradient clipping largely tame this problem, though very deep setups still need monitoring.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_E0yU0ndnNkmh_1",
+          "type": "multiple_choice",
+          "prompt": "What happens to early layers of a deep network when gradients vanish during training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Their weight updates become tiny, so early layers barely learn while later layers do all the adjusting"
+            },
+            {
+              "id": "b",
+              "text": "Their weights immediately overflow into not-a-number errors on the first training batch"
+            },
+            {
+              "id": "c",
+              "text": "They memorise the training labels within one epoch and overfit the validation set"
+            },
+            {
+              "id": "d",
+              "text": "They automatically prune themselves from the computation graph to save memory"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "When gradients shrink toward zero as they propagate backward, early layers receive almost no signal telling them how to improve.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

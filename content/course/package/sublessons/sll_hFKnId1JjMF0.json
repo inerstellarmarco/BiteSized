@@ -5,8 +5,8 @@
     {
       "id": "bit_K0TeJYuUOxJL",
       "title": "Accuracy, precision, recall, F1, ROC-AUC",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Accuracy is the share of all predictions that are correct; precision is the share of positive alerts that are truly positive; recall is the share of actual positives caught; F1 is the harmonic mean of precision and recall; and ROC-AUC measures how well positives are ranked above negatives across thresholds.\n\nIt is like judging a security scanner by how rarely its alarms are false (precision) versus how rarely a real threat slips past (recall).\n\nOverall accuracy misleads when one class dominates; predicting \"no fraud\" every time scores ninety-nine percent accuracy when fraud is one percent of rows.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,67 +19,235 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_K0TeJYuUOxJL_1",
+          "type": "multiple_choice",
+          "prompt": "If a medical screening model flags 100 patients as positive, 80 of whom actually have the condition, while missing 20 other patients who also have it, what are its precision and recall?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Precision is 100% and recall is 20%"
+            },
+            {
+              "id": "b",
+              "text": "Precision is 50% and recall is 99%"
+            },
+            {
+              "id": "c",
+              "text": "Precision is 20% and recall is 0%"
+            },
+            {
+              "id": "d",
+              "text": "Precision is 80% (80 of 100 flagged) and recall is 80% (80 of 100 actual cases caught)"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Precision divides true positives (80) by total predicted positives (100), and recall divides true positives (80) by total actual positives (80 caught + 20 missed = 100).",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Ufe_A-1miceF",
       "title": "RMSE, MAE, R-squared for regression",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Root Mean Squared Error (RMSE) squares each prediction error before averaging and taking the square root, heavily penalising large outliers; Mean Absolute Error (MAE) averages the absolute error sizes; and R-squared measures the share of target variance explained compared with predicting the simple mean.\n\nIt is like a courier firm tracking average minutes late per parcel (MAE) versus paying a contract fine that quadruples whenever a parcel is two hours late (RMSE).\n\nBecause R-squared depends on how spread out the test sample is, always report RMSE or MAE in real business units like pounds or hours alongside it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Ufe_A-1miceF_1",
+          "type": "multiple_choice",
+          "prompt": "How does Root Mean Squared Error (RMSE) behave differently from Mean Absolute Error (MAE) when evaluating a regression model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "RMSE ignores all negative errors whereas MAE only counts errors larger than ten"
+            },
+            {
+              "id": "b",
+              "text": "RMSE squares individual errors before averaging, so it penalises occasional large errors much more heavily than MAE"
+            },
+            {
+              "id": "c",
+              "text": "MAE is always expressed in squared units whereas RMSE is unitless between zero and one"
+            },
+            {
+              "id": "d",
+              "text": "RMSE and MAE always produce the exact same number on every dataset"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Squaring the residuals gives disproportionately large weight to big misses, making RMSE sensitive to outliers compared with the linear weighting of MAE.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_HfJCNgJc5sV6",
       "title": "Class imbalance and calibration",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Severe class imbalance occurs when the target event of interest (such as equipment failure, click-through, or loan default) makes up only a tiny fraction of the dataset, which tempts naive accuracy metrics and threshold rules into ignoring the minority class.\n\nIt is like searching for one faulty bolt in a crate of ten thousand; guessing \"every bolt is fine\" sounds nearly spotless on paper while failing the entire quality mission.\n\nBe careful with resampling tricks like oversampling the minority class or undersampling the majority class: while they shift the decision boundary, they artificially distort the model's predicted probabilities unless you recalibrate afterwards.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_HfJCNgJc5sV6_1",
+          "type": "multiple_choice",
+          "prompt": "What is a key drawback of oversampling the minority class or undersampling the majority class during training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It shifts the apparent base rate of the event, causing the model's raw predicted probabilities to become miscalibrated overestimate scores"
+            },
+            {
+              "id": "b",
+              "text": "It reduces the recall of the minority class to exact zero in every linear model"
+            },
+            {
+              "id": "c",
+              "text": "It forces the test set to contain no positive examples at all"
+            },
+            {
+              "id": "d",
+              "text": "It makes precision-recall curves mathematically impossible to plot"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Changing the class ratio in the training data alters the prior learned by the model, so raw probability outputs will overstate the real-world likelihood unless recalibrated.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TMeUSiAkjgux",
       "title": "Precision-recall curves for rare classes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When positive cases are rare, the Receiver Operating Characteristic (ROC) curve can look deceptively strong because its false positive rate divides false alarms by the massive pool of true negatives, whereas a Precision-Recall (PR) curve directly compares positive predictive value against recall without being diluted by easy negatives.\n\nIt is like evaluating a spam filter for urgent legal notices among millions of routine emails; a thousand false alarms barely move the false positive rate out of millions, but they swamp the legal team's inbox and show up clearly as low precision.\n\nFor heavily skewed client problems, always inspect the PR curve alongside the decision threshold.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TMeUSiAkjgux_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a Precision-Recall (PR) curve more informative than an ROC curve when the positive class is very rare (e.g. 0.1% of records)?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "ROC curves cannot be computed whenever the dataset has more than a thousand rows"
+            },
+            {
+              "id": "b",
+              "text": "PR curves ignore false positives completely and only plot true negatives"
+            },
+            {
+              "id": "c",
+              "text": "A large number of true negatives keeps the ROC false positive rate tiny even when false alarms vastly outnumber true positives, whereas precision exposes that dilution directly"
+            },
+            {
+              "id": "d",
+              "text": "ROC-AUC is always negative when the positive class is below 10%"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Precision compares true positives to total predicted positives (TP + FP), directly revealing when false alarms overwhelm rare true events.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4rVWKj-LK-O0",
       "title": "Calibration: do predicted 80% events happen 80% of the time?",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Probability calibration measures whether a model's numeric confidence scores match empirical long-run frequencies, meaning that among all records given a predicted probability around 0.80, roughly eighty percent actually experience the positive outcome.\n\nIt is like a weather presenter whose \"eighty percent chance of rain\" forecasts are followed by actual rain on roughly four out of every five such days.\n\nA model can have an excellent ranking score (high ROC-AUC) while still being poorly calibrated, and whenever a client multiplies predicted probabilities by financial costs to compute expected value in pounds, you should check a reliability diagram and calibrate with Platt scaling or isotonic regression if needed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4rVWKj-LK-O0_1",
+          "type": "multiple_choice",
+          "prompt": "When is good probability calibration especially critical in a business application?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When the business only cares about sorting the top ten records in order without using the numeric probability values"
+            },
+            {
+              "id": "b",
+              "text": "When the problem is an unsupervised clustering task with no target variable"
+            },
+            {
+              "id": "c",
+              "text": "When the model is a linear regression predicting continuous house prices in pounds"
+            },
+            {
+              "id": "d",
+              "text": "When the predicted probability is multiplied directly by financial gain or loss to make an expected-value decision"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Expected-value calculations (such as pricing insurance risk or bidding on ad impressions) rely on the probability numbers representing true empirical likelihoods, not just relative rankings.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__zS9mIDAtS7F",
       "title": "Choose the metric from the business cost of each error",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "No statistical metric is universally best in a vacuum; an AI consultant chooses the evaluation metric and classification threshold by mapping the real-world financial, operational, and human costs of a false positive versus a false negative with the client.\n\nIt is like comparing an automated promotional voucher email, where a false positive costs pennies, against an automated oncology triage tool, where a false negative delays urgent care.\n\nInstead of leaving the classification cutoff at a default 0.50, build a simple cost matrix in pounds or staff hours with the client and set the threshold where expected business value is maximised.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__zS9mIDAtS7F_1",
+          "type": "multiple_choice",
+          "prompt": "Why is leaving a classifier's decision threshold at the default 0.50 often suboptimal for a client?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Most software libraries crash if the decision threshold is set to 0.50 in production"
+            },
+            {
+              "id": "b",
+              "text": "A 0.50 threshold assumes false positives and false negatives have equal business cost, which is rarely true in real operations"
+            },
+            {
+              "id": "c",
+              "text": "Setting a threshold of 0.50 changes the ROC-AUC score of the underlying probability rankings"
+            },
+            {
+              "id": "d",
+              "text": "Probabilities from logistic regression can only take values between 0.0 and 0.2"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "When a missed detection costs fifty times more than a false alarm (or vice versa), shifting the probability threshold to reflect that cost ratio improves net business outcome.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

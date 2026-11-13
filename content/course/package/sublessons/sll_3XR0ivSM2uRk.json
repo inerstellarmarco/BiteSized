@@ -5,74 +5,242 @@
     {
       "id": "bit_HL3XdnbriLAx",
       "title": "Shell basics, piping, and grep/awk",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The Unix command-line shell, together with text-stream utilities like `grep`, `awk`, `sed`, `cut`, and `sort`, forms the daily workbench for inspecting and wrangling tab-delimited bioinformatics files. Because genomic files often contain millions of lines that crash desktop spreadsheet software, streaming text line-by-line with `grep` for pattern matching and `awk` for column logic is essential; check the current details in your system's GNU coreutils manual.\n\nIt is like inspecting a fast-moving factory conveyor belt with an optical sensor that counts and diverts matching packages on the fly, rather than trying to stack ten million boxes onto a single office desk.\n\nHowever, avoid parsing complex formats like SAM or VCF with fragile regular expressions when dedicated format-aware tools (`samtools`, `bcftools`) exist, as header lines and optional tags easily break naive column scripts.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_HL3XdnbriLAx_1",
+          "type": "multiple_choice",
+          "prompt": "Why do bioinformaticians inspect multi-gigabyte VCF or GTF files using command-line tools like `grep` and `awk` instead of opening them in desktop spreadsheet software?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Streaming command-line tools process files line-by-line with minimal memory, whereas spreadsheet programs hang or truncate data and corrupt gene names into dates"
+            },
+            {
+              "id": "b",
+              "text": "Desktop spreadsheet programs are legally prohibited from opening tab-delimited text files"
+            },
+            {
+              "id": "c",
+              "text": "Command-line tools automatically convert text files into wet-lab DNA samples"
+            },
+            {
+              "id": "d",
+              "text": "`grep` and `awk` require graphic cards that only run on Linux servers"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Unix stream utilities process arbitrarily large text files with tiny memory footprints and preserve exact text strings without spreadsheet row limits or auto-formatting corruption.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hKrCZW7cv3Ec",
       "title": "Working on HPC clusters and the cloud",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Most production bioinformatics analyses run on shared High-Performance Computing (HPC) clusters or cloud batch environments (such as AWS HealthOmics, Google Cloud Batch, or Azure Batch) rather than local laptops. Whole-genome alignment, single-cell clustering, and protein structure prediction require dozens of CPU cores, hundreds of gigabytes of RAM, or specialised GPUs, plus high-throughput storage; check the current details on cloud instance pricing and regional data-residency rules.\n\nIt is like renting a commercial industrial bakery with fifty high-capacity ovens for a banquet order instead of baking ten thousand loaves one by one in a home kitchen.\n\nWhen advising clients on cloud versus on-premise HPC, account for data egress fees: moving terabytes of BAM files out of cloud object storage often costs more than the compute itself.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hKrCZW7cv3Ec_1",
+          "type": "multiple_choice",
+          "prompt": "What is a major hidden cost that AI consultants must account for when designing cloud-based genomics workflows?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Cloud providers charge a separate fee for every unique gene symbol found in a GTF file"
+            },
+            {
+              "id": "b",
+              "text": "Data egress and transfer fees when moving terabytes of large sequencing files across regions or out of cloud storage, alongside idle storage costs for intermediate files"
+            },
+            {
+              "id": "c",
+              "text": "Linux command-line tools require an expensive per-user commercial licence on cloud servers"
+            },
+            {
+              "id": "d",
+              "text": "Cloud CPUs run ten times slower on DNA sequences than laptop processors"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Because raw and aligned sequencing datasets span terabytes, cloud storage retention for temporary intermediates and network egress charges can quickly dominate project budgets if not managed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_314cwjqIyk4k",
       "title": "Files, directories, and permissions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In multi-user Linux environments, organising project directories cleanly and setting strict POSIX file permissions (`read`, `write`, `execute` for user, group, and others) protects sensitive patient data and prevents accidental deletions. Using commands like `chmod` and `chown` ensures that authorised project team members can collaborate within shared group directories while blocking access to unauthorised users on the same server.\n\nIt is like a hospital records room where every cabinet has separate keycard access levels: auditors can read files, the lead archivist can add new folders, and visitors from other departments cannot open the door at all.\n\nIn regulated clinical consulting, leaving world-readable (`chmod 777` or `644`) permissions on directories holding identifiable human VCF or BAM files is a serious security compliance breach.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_314cwjqIyk4k_1",
+          "type": "multiple_choice",
+          "prompt": "Why is running `chmod 777` on a shared server directory containing clinical genomic data a dangerous practice?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It permanently encrypts the directory so that not even the file owner can read the FASTQ files"
+            },
+            {
+              "id": "b",
+              "text": "It deletes all BAM index files and converts VCF files into plain text"
+            },
+            {
+              "id": "c",
+              "text": "It grants read, write, and execute permissions to every user account on the system, exposing sensitive patient data and allowing accidental or malicious deletion"
+            },
+            {
+              "id": "d",
+              "text": "It restricts the directory so that only the system administrator can view file sizes"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Setting `chmod 777` makes files readable, writable, and executable by all users on the host, violating data governance and risking accidental corruption or unauthorised access.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_tkbL6OjptA1i",
       "title": "Pipes chain small tools together",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The Unix pipe operator (`|`) connects the standard output (`stdout`) of one command directly to the standard input (`stdin`) of the next command in memory, allowing complex multi-step transformations without writing giant intermediate files to disk. For example, a bioinformatician can decompress a `.vcf.gz` stream, filter variants with `bcftools`, extract columns with `awk`, and count unique records with `sort | uniq -c` in a single command line.\n\nIt is like linking water filtration stages directly together with pipes so water flows continuously from sediment screen to carbon filter to UV steriliser without filling and emptying giant holding tanks between each step.\n\nOne important caveat in bash scripts is that by default a pipeline only reports the exit code of the last command, so always enable `set -euo pipefail` to catch silent failures in earlier stages.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_tkbL6OjptA1i_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary advantage of chaining bioinformatics commands together with Unix pipes (`|`) and why should scripts include `set -euo pipefail`?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Pipes compress files onto magnetic tape, and `set -euo pipefail` deletes the input data after running"
+            },
+            {
+              "id": "b",
+              "text": "Pipes translate Python code into C++, and `set -euo pipefail` disables all error messages"
+            },
+            {
+              "id": "c",
+              "text": "Pipes stream data in memory without writing huge temporary files to disk, and `set -euo pipefail` ensures the script stops if any command inside the pipeline fails"
+            },
+            {
+              "id": "d",
+              "text": "Pipes bypass cluster job schedulers so jobs run with unlimited memory on the login node"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Piping avoids slow disk I/O and storage bloat from massive intermediate files, while `set -euo pipefail` prevents upstream errors in a pipeline from going unnoticed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_PfhW94HEEySe",
       "title": "Job schedulers (e.g., Slurm): request resources and queue work",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "On shared High-Performance Computing (HPC) clusters, a workload manager such as Slurm, PBS, or LSF coordinates resource allocation by queuing user jobs and dispatching them to compute nodes with the requested CPUs, RAM, GPUs, and wall-time limits. Users submit batch scripts (`sbatch`) or request interactive compute sessions (`srun` / `salloc`) rather than running programs directly; check the current details for your institution's partition names and fair-share policies.\n\nIt is like an airport air-traffic control system that assigns each aircraft a scheduled runway slot and gate matching its wingspan, preventing twenty planes from trying to land on the same strip at once.\n\nRequesting far more memory or CPUs than a tool actually uses wastes budget and leaves your job waiting longer in the queue, whereas requesting too little causes the scheduler to kill the job mid-run with an Out-Of-Memory (`OOM`) error.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PfhW94HEEySe_1",
+          "type": "multiple_choice",
+          "prompt": "What happens on a Slurm-managed HPC cluster if a bioinformatics job attempts to use more RAM than the user requested in the job submission script?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The cluster automatically purchases additional physical RAM from the cloud provider without interrupting the job"
+            },
+            {
+              "id": "b",
+              "text": "The aligner silently skips half of the chromosomes in the genome to stay within memory limits"
+            },
+            {
+              "id": "c",
+              "text": "The scheduler terminates the job immediately with an Out-Of-Memory (OOM) error to protect other workloads running on the compute node"
+            },
+            {
+              "id": "d",
+              "text": "The job is moved back to the login node and given administrator privileges"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Job schedulers strictly enforce requested memory limits via cgroups, killing processes that exceed their allocation so they cannot crash shared compute nodes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_AJbnMcIJTKE6",
       "title": "Never run heavy jobs on the login node",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The login node (or head node) of an HPC cluster is a shared lightweight gateway intended strictly for editing scripts, managing files, and submitting jobs to the scheduler, never for running CPU- or memory-intensive bioinformatics tools. When someone runs a multi-threaded genome aligner or machine learning training script directly on the login node, it starves CPU and RAM for hundreds of other colleagues, freezing their terminal sessions and stalling job submissions.\n\nIt is like parking a forty-tonne cement mixer sideways inside a hotel reception lobby to mix concrete, blocking every guest from checking in or reaching the lifts.\n\nEven seemingly quick tasks like decompressing a 100 GB archive or indexing a BAM file should be submitted as a compute job or run inside an interactive compute allocation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AJbnMcIJTKE6_1",
+          "type": "multiple_choice",
+          "prompt": "Why must you never run heavy tasks like read alignment or model training directly on an HPC login node?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Login nodes do not have access to the shared filesystem where sequencing files are stored"
+            },
+            {
+              "id": "b",
+              "text": "Programs executed on the login node produce inaccurate Phred quality scores"
+            },
+            {
+              "id": "c",
+              "text": "The login node deletes any file larger than one megabyte every five minutes"
+            },
+            {
+              "id": "d",
+              "text": "The login node is a shared gateway for all users to edit files and submit jobs, so heavy compute starves resources and freezes access for the entire organisation"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Login nodes are shared entry points with limited resources designed for file management and job submission; compute-heavy workloads belong on scheduled compute nodes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

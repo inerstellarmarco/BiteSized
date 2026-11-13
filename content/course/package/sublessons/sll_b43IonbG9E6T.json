@@ -5,50 +5,162 @@
     {
       "id": "bit_IIoa3rgtYiY6",
       "title": "Latency sources",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a user clicks a button and waits twelve seconds for an agent to reply, where did those twelve seconds actually go?\n\nTotal latency is the sum of several pieces: **network and gateway overhead** (TLS handshakes, auth, routing), **retrieval and tool execution time** (database queries, external SaaS APIs, web scraping), **model prefill time** (reading the input prompt tokens), and **model decode time** (generating output and thinking tokens one after another), multiplied across **every sequential step** in the workflow.\n\nIt is a journey time made up of walking to the station, waiting on the platform, the train ride itself and changing trains halfway.\n\nMeasure each segment on a timeline waterfall before trying to speed anything up.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IIoa3rgtYiY6_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you inspect a step-by-step latency waterfall before trying to speed up a slow agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because total wait time is split across retrieval, external APIs, prompt prefill, output generation and sequential hops, and you need to see which segment is the real bottleneck"
+            },
+            {
+              "id": "b",
+              "text": "Because 100% of latency always comes from CSS rendering in the browser"
+            },
+            {
+              "id": "c",
+              "text": "Because database queries and model calls always take zero milliseconds"
+            },
+            {
+              "id": "d",
+              "text": "Because you can only optimise the fastest step in a workflow"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A trace waterfall shows immediately whether your twelve-second wait is a slow third-party API, a giant prompt or too many sequential LLM turns.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_CEvDsPU6iWqA",
       "title": "Time to first token",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In streaming applications, two latency numbers matter to the user: **Time to First Token (TTFT)** and **Total Generation Time**.\n\nTTFT is how long the user stares at a waiting state after pressing Send before the first word appears on screen. It is driven mainly by network setup, retrieval/guardrail checks that run before the model, any hidden reasoning tokens generated before visible text starts, and **prompt prefill** (how many input tokens the model must read before it can emit token one).\n\nIt is how long it takes the waiter to bring bread and water to the table: once something arrives, waiting for the main course feels much shorter.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_CEvDsPU6iWqA_1",
+          "type": "multiple_choice",
+          "prompt": "What factors primarily drive Time to First Token (TTFT) on a single streaming model call?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "How fast the user can read the final paragraph"
+            },
+            {
+              "id": "b",
+              "text": "Pre-model steps (like retrieval), input prompt length (prefill), any upfront thinking tokens and provider queue/model size"
+            },
+            {
+              "id": "c",
+              "text": "Only the last word of the model's output"
+            },
+            {
+              "id": "d",
+              "text": "The size of the user's hard drive"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Keeping pre-model steps parallel or fast, caching long prompt prefixes and right-sizing thinking budgets keep TTFT snappy.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rA_cdYo3PvCt",
       "title": "Output length drives response time",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Once the first token arrives, the rest of the model's call time is dominated by **output token count** (including hidden reasoning tokens) divided by the model's generation speed in tokens per second.\n\nBecause autoregressive models generate output tokens strictly one after another, reading 2,000 extra input tokens might add only 100 milliseconds of parallel prefill, whereas **generating** 500 extra output tokens at 50 tokens per second adds a full **10 seconds** of waiting!\n\nIt is the difference between glancing at a printed page in a second (reading input) and typing that whole page out letter by letter on a keyboard (generating output).",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rA_cdYo3PvCt_1",
+          "type": "multiple_choice",
+          "prompt": "Why does generating 500 extra output tokens slow a call down far more than sending 500 extra input tokens?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Input tokens travel faster over fibre-optic cables than output tokens"
+            },
+            {
+              "id": "b",
+              "text": "Models read input tokens one letter per minute"
+            },
+            {
+              "id": "c",
+              "text": "Input tokens are processed in parallel during prefill, whereas output tokens must be generated one by one in sequence"
+            },
+            {
+              "id": "d",
+              "text": "Output length has no effect on response time"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because output decoding is sequential, asking for concise outputs and compact JSON schemas is one of the strongest latency levers you have.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lOu4-L2IV_o_",
       "title": "Every extra step adds a model call",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a multi-step agent or prompt chain, sequential calls are the biggest latency multiplier of all.\n\nSuppose each model call has 600ms of prefill and network overhead plus 1.4 seconds of generation (2 seconds total). A single call takes 2 seconds. A five-step ReAct loop that searches, refines, looks up a record, reflects and writes the answer takes at least 10 seconds plus tool time. Add a supervisor and a critic and you are at 16 seconds.\n\nIt is changing trains four times on a cross-country trip: even if each train is fast, walking between platforms at four stations doubles the journey time.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lOu4-L2IV_o__1",
+          "type": "multiple_choice",
+          "prompt": "Why do multi-step agent loops and long prompt chains add so much latency even when each individual call is reasonably fast?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every sequential step pays full network, prefill and generation time one after another before the next step can start"
+            },
+            {
+              "id": "b",
+              "text": "Providers insert a mandatory thirty-second pause between calls from the same account"
+            },
+            {
+              "id": "c",
+              "text": "Parallel calls add their latencies together in the exact same way"
+            },
+            {
+              "id": "d",
+              "text": "Single model calls are not allowed to use tools"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Sequential round trips stack end to end, so reducing the number of serial LLM turns is the single biggest way to make an agent fast.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

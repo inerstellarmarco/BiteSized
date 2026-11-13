@@ -1,0 +1,390 @@
+// B11 Guardrails, Human-in-the-Loop & Agent UX
+@@ sll_aJ1f3R7QhrhJ | B11.1 Guardrails > Input & Output Guardrails
+## Topic, content, and PII filters
+Guardrails are automated safety checks that sit around your language model to inspect what goes in and what comes out.
+
+Three common filters handle the basics. **Topic filters** keep a mortgage assistant from giving medical advice or chatting about politics. **Content filters** block hate speech, self-harm, threats and competitor bashing. **PII filters** detect and redact personally identifiable information such as national insurance numbers, credit card digits, phone numbers and home addresses using regexes and named-entity models.
+
+It is a mailroom scanner that checks incoming and outgoing post for prohibited items and sensitive data before delivery.
+?? What are the three everyday jobs handled by topic, content and PII filters?
++ Keeping the assistant on topic, blocking harmful or inappropriate language and redacting personal data
+- Training the foundation model, designing the website logo and billing customers
+- Translating text into Spanish, compressing images and sorting database indexes
+- Increasing the model's temperature so replies are more creative
+= Topic, content and PII filters enforce scope boundaries, content safety and personal-data protection around the model.
+## Hallucination control
+A hallucination guardrail checks whether factual claims in the model's draft are actually supported by the source data retrieved for that turn.
+
+In practice, this combines deterministic checks with a fast verifier model. Code checks verify that every quoted order number, price, URL or citation ID appears in the retrieved context. A groundedness check then flags any sentence that states a figure, date or policy promise not present in the sources.
+
+It is a newspaper sub-editor underlining every number and quote in a story and checking each one against the reporter's interview notes.
+
+When a claim fails the check, either strip the sentence, regenerate with stricter instructions or abstain.
+?? How does a hallucination guardrail verify a draft answer before it reaches the user?
++ It checks that numbers, citations and factual claims in the draft are grounded in the retrieved source data
+- It asks the same model whether it feels confident about its own prose
+- It counts whether the paragraph has an even number of words
+- It replaces all numbers in the answer with zeros
+= Groundedness checks compare the draft against retrieved sources and reject claims that have no backing evidence.
+## Input checks before the model; output checks before the user
+Input and output guardrails sit at two different boundaries and protect against different risks.
+
+**Input guardrails** run before (or in parallel with) the main model call. They catch prompt-injection attempts, off-topic requests, oversized payloads and raw personal data that should be masked before leaving your server. **Output guardrails** run after the model generates a draft and before the user sees it. They catch leaked secrets, ungrounded claims, broken schemas and forbidden promises.
+
+It is washing your hands before cooking (input check) and checking the meat temperature with a probe before serving (output check).
+
+You need both because a clean input can still produce a flawed output.
+?? Why do you need both input guardrails and output guardrails around a model?
++ Input checks stop bad or unsafe requests going in, while output checks catch hallucinations, leaks or rule breaks before the user sees them
+- Input guardrails and output guardrails do the exact same check on the same text
+- Output guardrails run before the user types a question
+- Input guardrails can guarantee the model never hallucinates
+= Input checks protect the model and third-party APIs from bad inputs; output checks protect the user and business from bad responses.
+## Guardrails add delay and cost: put them where the risk is
+Every guardrail that calls a classifier or an extra language model adds milliseconds and token charges to your pipeline.
+
+If you stack five LLM-based guardrails in a row on a simple internal search tool, the safety checks will cost more and take longer than the answer itself. Match the guardrail to the risk. Use fast, zero-cost regex and code checks everywhere. Add heavier model-based guardrails on public-facing apps, financial figures, health or legal topics, and actions that change data.
+
+It is putting a heavy vault door on the bank safe, not on the staff stationery cupboard.
+
+Run input guardrails in parallel with retrieval or the main call to hide their latency.
+?? How can you keep guardrails from making your application slow and expensive?
++ Use fast code checks everywhere, reserve heavier model checks for high-risk paths and run checks in parallel where possible
+- Run ten sequential frontier-model checks on every single word
+- Turn off all validation including basic JSON parsing
+- Only run guardrails after the user has closed the browser
+= Proportionate guardrails and parallel execution protect high-risk paths without bogging down low-risk interactions.
+## Guardrails fail too: measure false alarms and misses
+A guardrail is a classifier, which means it makes two kinds of mistake: **false positives** (false alarms that block a harmless, legitimate user request) and **false negatives** (misses that let a harmful or hallucinated output slip through).
+
+Turn a guardrail's sensitivity dial too high and real customers cannot ask normal questions about their account ("Sorry, I cannot help with that"). Turn it too low and it catches nothing.
+
+It is a smoke alarm: if it goes off every time you make toast, someone eventually takes the battery out.
+
+Test your guardrails on a labelled dataset of both safe and unsafe examples, and monitor block rates in production.
+?? What happens when a guardrail's false-positive (false alarm) rate is too high?
++ Legitimate user questions get blocked unnecessarily, frustrating users and hurting the product
+- Every harmful prompt is guaranteed to slip through
+- The model runs twice as fast
+- Token costs drop to zero
+= Balancing false alarms against misses on a real test set keeps guardrails protective without blocking normal business use.
+
+@@ sll_eLqcX12gOJHX | B11.1 Guardrails > Action Guardrails
+## Allow-lists and permission scopes
+When an agent has tools that act on the world, action guardrails restrict what those tools are allowed to do.
+
+Always prefer an **allow-list** over a deny-list. A deny-list tries to guess every dangerous command ("do not run `DROP TABLE`"), and attackers always find a command you forgot to list. An allow-list specifies the exact operations permitted: this agent may run `SELECT` queries on the `public_catalog` view, send emails only to `@client.co.uk` addresses, and refund orders up to £50. Everything else is rejected by default.
+
+It is a visitor badge that opens only the ground-floor meeting rooms rather than a master key with a sticky note saying "please stay out of the lab".
+?? Why is an allow-list safer than a deny-list for controlling agent tool actions?
++ An allow-list permits only explicitly approved actions and blocks everything else by default, whereas a deny-list misses unexpected attacks
+- A deny-list is impossible to write in Python
+- Allow-lists let the agent run any command it invents
+- Deny-lists block legitimate actions by default
+= Default-deny with an explicit allow-list ensures new or unexpected tool arguments cannot slip past your rules.
+## Sandboxing
+If an agent executes code, runs shell commands, parses untrusted files or controls a browser, it must do that work inside a **sandbox**: an isolated container or virtual machine stripped of access to your host server, production database and internal network.
+
+A good sandbox has no production secrets in its environment variables, strict CPU and memory limits, a short timeout, an ephemeral filesystem that is wiped after the run, and network access restricted to approved domains.
+
+It is testing fireworks inside a concrete bunker rather than on the living-room carpet.
+
+Even if a prompt injection tricks the agent into running malicious code, the blast stays inside the disposable box.
+?? What is the purpose of running an agent's code execution or browser tool inside a sandbox?
++ To isolate untrusted execution in a disposable environment so bad or injected commands cannot reach your host server, secrets or network
+- To give the agent direct root access to the production database
+- To make Python scripts run without using any CPU
+- To store permanent customer backups inside the temporary container
+= Sandboxing contains the blast radius when an agent runs generated code or interacts with untrusted files and websites.
+## Step and spend limits
+An action guardrail should also cap the **volume** and **cost** of actions an agent can take in a single run or time window.
+
+Set limits at two levels. First, **token and step budgets** per run (for example, at most 15 tool calls and £0.50 of model spend). Second, **business action quotas**: an agent may send at most 3 emails per ticket, issue at most 1 refund per order, or update at most 20 CRM rows in one batch without human sign-off.
+
+It is a contactless bank card that lets you tap for a coffee, but stops and asks for your PIN if someone tries to tap ten times in a row or spend £500.
+
+Action quotas turn a potential runaway bug into a small, contained hiccup.
+?? Why should an agent have business action quotas (such as max rows updated or max emails sent) in addition to token limits?
++ An agent can cause serious business damage in just a few cheap tool calls if it mass-emails customers or updates thousands of records
+- Token limits and action quotas measure the exact same thing
+- Sending ten thousand emails always costs ten million tokens
+- Databases cannot count how many rows an update affects
+= A single cheap tool call could delete or message thousands of records unless business-level volume caps are enforced.
+## Controls in code, not only in the prompt
+Writing "Never issue a refund over £50 and never read another customer's orders" in the system prompt is a polite request, not a security boundary.
+
+A clever user prompt or an indirect injection hidden in a support ticket can persuade the model to ignore its system prompt. Hard limits must live in the deterministic Python or TypeScript code of the tool itself: the `issue_refund` function checks `if amount > 50: raise PermissionError`, and `get_orders` takes `user_id` from the authenticated session token, never from an LLM tool argument.
+
+It is locking the medicine cabinet with a key rather than writing "Do not open" on the door.
+?? Where must hard security rules (such as refund caps or which user's data a tool may read) be enforced?
++ In deterministic application code inside the tool handler, using the authenticated session rather than trusting model arguments
+- Only in the system prompt using capital letters and exclamation marks
+- In a polite message asked to the user before login
+- Nowhere, because models never ignore system prompts
+= Prompts can be overridden or misunderstood; only code-level checks and session-bound permissions provide a real security boundary.
+## Each agent has its own identity and permissions
+In many hasty prototypes, every agent and tool runs under one shared administrator API key or database superuser account. If any agent in the workflow is tricked, the attacker inherits keys to the whole kingdom.
+
+Give each agent its own distinct service identity and scoped credentials. The `catalog_search` agent connects with a read-only database user that can only see the products table. The `draft_support_reply` agent can create a draft in the helpdesk but cannot press Send.
+
+It is giving each contractor on a site their own named pass with access only to the rooms their trade requires.
+
+Separate identities also make audit logs crystal clear about which agent did what.
+?? Why should each agent in a system have its own scoped service identity rather than sharing one admin credential?
++ It limits what a compromised or faulty agent can touch and makes audit logs show clearly which agent took each action
+- Sharing one admin key makes audit logs much more detailed
+- Read-only database accounts cost more than superuser accounts
+- Databases only allow one user account to exist
+= Per-agent credentials enforce least privilege in infrastructure and give you unambiguous audit trails.
+
+@@ sll_A3Z5LgwjQxtn | B11.2 Human-in-the-Loop > Approval Workflows
+## Pausing for approval before critical actions
+Human-in-the-loop (HITL) approval means the agent does the legwork up to the brink of an important action, then pauses and waits for a person to click Approve, Edit or Reject before the action actually executes.
+
+For instance, an accounts-payable agent can read an invoice, match it to the purchase order, check the supplier's bank details and prepare the payment instruction, then pause for the finance manager's one-click sign-off.
+
+It is a junior solicitor preparing the contract and placing it on the partner's desk with a "Sign here" tab before it goes to the client.
+
+You capture 90 per cent of the time savings while keeping human accountability on the final trigger.
+?? What is the main advantage of pausing an agent for human approval right before a critical action?
++ The agent still does the time-consuming preparation, while a human verifies and owns the final high-stakes action
+- The human has to do all the research and typing from scratch
+- It removes the need for the agent to use any tools
+- The action runs before the human sees it
+= Pre-action approval combines the speed of AI preparation with human judgement at the moment of commitment.
+## Interrupts, checkpoints, and resumable state
+A human reviewer might approve an action in ten seconds, or they might be at lunch and approve it four hours later. You cannot hold an HTTP request or a Python `sleep()` open in memory for four hours waiting for them.
+
+Proper approval workflows use **checkpoints and interrupts**. Before running the sensitive tool, the framework saves the full workflow state to the database, emits a notification (in the app, Slack or email) and exits cleanly, freeing the server. When the reviewer clicks Approve hours later, a webhook loads the saved checkpoint, injects the approval decision and resumes from that exact step.
+
+It is bookmarking a page and closing the book until you come back this evening.
+?? How should an agent architecture wait for a human approval that might take several hours?
++ Save a state checkpoint to a database, stop the process cleanly and resume from the saved checkpoint when the approval webhook arrives
+- Keep an HTTP connection and a `while True` loop spinning in memory for hours
+- Re-run the entire workflow from the beginning every thirty seconds
+- Cancel the task if the user does not click within two seconds
+= Checkpointing state to persistent storage lets workflows pause indefinitely at zero compute cost and resume reliably.
+## Which actions need approval: money, messages, and deletions
+You do not need human approval when an agent searches a knowledge base, summarises a PDF or writes a private draft. Those actions are read-only or easily discarded.
+
+Require approval for actions that cross an external boundary or are hard to reverse. The big three in almost every business are **money** (issuing refunds, placing orders, changing prices or paying invoices), **external messages** (sending emails, SMS or public posts to customers and partners) and **destructive writes** (deleting records, revoking access or overwriting live configurations).
+
+It is the difference between pencilling notes in a margin and posting a signed cheque in the postbox.
+
+Classify every tool by reversibility and blast radius before launch.
+?? Which group of agent actions should almost always require human approval (or strict caps) before executing?
++ Moving money, sending external messages to customers and deleting or overwriting important records
+- Searching an internal FAQ document
+- Counting rows in a read-only analytics table
+- Formatting a draft note that only the current user can see
+= Actions that are irreversible, externally visible or financially binding carry high cost if the agent makes a mistake.
+## Showing the reviewer exactly what will happen
+An approval prompt that says "Agent wants to run `update_record`. Approve?" is useless. The human has no idea what record is changing or whether the new values are right.
+
+Design the approval card so a busy reviewer can verify it in five seconds. Show **what will happen** in plain language ("Send £340 refund to Jane Doe"), the **before-and-after diff** of any fields changing, the **reason and source evidence** the agent relied on ("Order #4821 returned to warehouse on 12 Nov"), and buttons to **Approve, Edit parameters or Reject**.
+
+It is a banking app showing the payee name, sort code and amount on the confirmation screen before you scan your thumbprint.
+?? What must a good human-approval screen show the reviewer?
++ The exact action and parameters, a clear before-and-after diff and the source evidence behind the recommendation
+- Only the internal function name and a raw hexadecimal memory address
+- A 50-page log of every token the model generated
+- Just a green button with no details
+= Reviewers can only catch mistakes quickly when the exact target, values, diff and supporting evidence are clearly presented.
+## Approval fatigue: too many prompts get rubber-stamped
+If you ask a human to approve twenty low-risk steps on every task, by Tuesday afternoon they will stop reading the cards and click Approve on autopilot. When a genuinely dangerous mistake appears on card twenty-one, they will rubber-stamp that too.
+
+This is **approval fatigue**, the same problem that made browser cookie banners pointless. Protect human attention fiercely. Let read-only lookups, Reversible drafts and low-value actions (such as refunds under £15 that pass all fraud checks) run automatically, so that when an approval prompt does appear, the reviewer knows it actually matters.
+
+It is a car dashboard that only lights a red warning lamp when something truly needs the driver's attention.
+?? What causes approval fatigue in human-in-the-loop systems, and how do you prevent it?
++ Asking humans to approve too many routine, low-risk steps causes them to click through blindly; prevent it by automating safe steps and reserving prompts for high-risk actions
+- Showing too much clear evidence on high-risk actions
+- Letting read-only search tools run without a popup
+- Paying reviewers a salary
+= Reserving approval prompts for genuinely high-stakes or unusual cases keeps human review attentive and meaningful.
+
+@@ sll_CPeyMYozOBWY | B11.2 Human-in-the-Loop > Shadow Mode
+## Shadow-mode execution
+Shadow mode is the safest way to test a new agent on real live production traffic without any risk to customers.
+
+While your human team handles incoming tickets, orders or claims as normal, the agent silently receives a copy of each real request in the background and records what it *would* have done or replied. Nothing the shadow agent produces is sent to the customer or written to the live system of record.
+
+It is a trainee pilot sitting in the jump seat writing down every call they would make during a real flight, while the captain flies the plane.
+
+Shadow mode exposes your agent to all the messy edge cases of real life at zero customer risk.
+?? What happens during shadow-mode execution of an agent?
++ The agent runs silently on live requests and logs what it would do, while humans still handle the actual live responses and actions
+- The agent handles all live customer actions with the lights turned off in the office
+- The agent runs only on fake test data written by developers
+- Customers see both the human's answer and the agent's rough draft at the same time
+= Shadow mode tests the agent against real production inputs in the background without exposing users to its outputs.
+## Agent vs. human comparison
+The whole point of running in shadow mode is to compare the agent's logged decision against what the human staff member actually did on the exact same case.
+
+At the end of each week, your evaluation script pairs each shadow run with the human outcome. Where did they agree? Where they disagreed, was the agent wrong (a hallucination or missed policy rule), or did the agent actually spot a detail the busy human missed?
+
+It is comparing a student's practice exam answers against the examiner's worked solutions question by question.
+
+Those disagreements become your highest-value list of prompt fixes, missing tools and new evaluation test cases.
+?? Why do you compare shadow-mode agent outputs against the human actions on the same live cases?
++ To measure agreement on real traffic and uncover the exact edge cases where the agent fails before it goes live
+- To fire the human team on the first day
+- Because shadow mode only works if you never read the logs
+- To train the customer to write better prompts
+= Side-by-side comparison on real cases reveals blind spots and gives you a concrete scorecard of readiness.
+## Moving from shadow, to assisted, to automatic
+A responsible rollout moves through three stages of autonomy as trust and accuracy grow.
+
+Stage 1 is **Shadow mode**: the agent runs in the background for measurement only. Stage 2 is **Assisted (co-pilot) mode**: the agent prepares the draft reply or recommended action in the staff member's screen, and the human reviews, edits if needed and clicks Send. Stage 3 is **Automatic mode** (often starting with the easiest, lowest-risk category): the agent handles routine cases end to end and escalates exceptions to humans.
+
+It is learning to drive: first watching, then driving with an instructor next to you, then driving solo on quiet roads before the motorway.
+?? What is the normal three-stage rollout path for introducing an agent into a business workflow?
++ Shadow mode first, then human-assisted co-pilot mode, and finally automatic execution for proven categories
+- Automatic mode on 100% of traffic on day one, then writing tests a month later
+- Assisted mode forever without ever measuring accuracy
+- Deleting the human workflow before the agent is built
+= Graduating from shadow to assisted to selective automation builds evidence and staff confidence at each step.
+## Deciding what agreement rate is good enough to go live
+Before you start shadow mode, agree in writing with the client what numbers will qualify a category to move to assisted or automatic mode.
+
+There is no single magic percentage. For drafting internal meeting notes, 85 per cent agreement might be plenty. For auto-approving insurance claims, you may require 99 per cent agreement on low-value claims and zero critical safety errors across five hundred shadow cases. Break the score down by category: you will often find the agent is at 98 per cent on password resets and 60 per cent on billing disputes, letting you launch password resets first.
+
+It is a learner driver needing zero serious faults on the test, not just a decent average across manoeuvres.
+?? Why should you measure shadow-mode agreement separately for each request category?
++ An agent may be ready to go live on simple, high-accuracy categories right away while still needing work on complex ones
+- Every category always has the exact same accuracy score
+- Averages hide nothing and never mislead anyone
+- Clients prefer launching only the worst-performing category first
+= Per-category metrics let you automate the easy wins early while keeping harder categories in assisted or human mode.
+
+@@ sll_y3QQtdbhsP0Y | B11.3 HCI / UX for Agents > Designing Agent Interfaces
+## Progress and reasoning displays
+When a single LLM call takes two seconds, a simple spinner is fine. When an agent takes twenty-five seconds to search three databases, run a calculation and check a policy document, a blank spinning wheel makes users think the app has frozen.
+
+Show a calm, readable progress display of what the agent is doing right now: "Checking Q3 ledger... Comparing against budget... Drafting summary." Let curious users expand a drawer to see the steps taken, while keeping the main view uncluttered.
+
+It is the pizza tracker showing "Order received -> In the oven -> Out for delivery" so you do not phone the shop wondering if they forgot you.
+?? Why should an agent interface show step-by-step progress rather than a plain spinner on multi-step tasks?
++ It reassures the user that the system is working and shows what stage the agent has reached during longer waits
+- It makes the model generate tokens twice as fast on the server
+- Users enjoy reading raw stack traces and memory addresses
+- Spinners are no longer supported by modern web browsers
+= Visible progress steps turn an anxious, opaque wait into a transparent process the user can follow and trust.
+## Streaming status and long-running task UX
+Agent tasks fall into three time bands, and each needs a different user experience.
+
+Under **5 seconds**, stream the tokens of the reply directly onto the screen so the user can start reading immediately. Between **5 and 60 seconds**, stream live step updates ("Searching 14 contracts...") with a Cancel button so the user can stop a misunderstood request early. Over **1 minute**, do not make the user stare at the tab at all: move the job to a background task list and let them carry on with other work until it finishes.
+
+It is the difference between waiting at the espresso bar, taking a table buzzer, and having furniture delivered tomorrow with a text alert.
+?? How should the interface handle a task that takes several minutes to complete?
++ Run it in the background with a visible status tracker and a cancel option so the user can do other work without keeping the tab open
+- Freeze the screen with no buttons until it finishes
+- Time out and delete the work after thirty seconds
+- Force the user to click a button every ten seconds to keep it alive
+= Matching the UX pattern to task duration respects the user's time and prevents lost work when someone switches tabs.
+## Showing sources and actions taken
+Users trust an agent when they can verify its claims and see what it touched in one click.
+
+Every factual answer should link its claims to the exact source document, page or database record it came from, ideally opening the highlighted passage in a side panel when clicked. Every action-taking run should display a clear activity receipt: which tools were called, which records were created or updated, and links to open those records in the underlying system (such as the CRM or ticketing tool).
+
+It is an itemised till receipt that shows each item scanned and the exact change given, rather than a handwritten total on a scrap of paper.
+?? What two pieces of evidence should an agent interface surface alongside its final output?
++ Clickable links to the source documents behind its claims and a clear receipt of any tool actions or record changes it made
+- The model's internal neural network weights and the server's electricity bill
+- Only a thumbs-up icon with no links
+- A list of random websites found on the internet
+= Source citations and action receipts let users verify facts and audit changes in seconds.
+## Chat is not always the right interface
+Because ChatGPT launched as a chat box, many teams default to building every AI feature as a blank chat window with a flashing cursor. Often that is the worst possible interface for the job.
+
+Busy staff do not want to type a three-sentence prompt every time they open an invoice. They want the AI to pre-fill the form fields, highlight the two unusual clauses in yellow on the PDF, and give them three one-click buttons: `Approve`, `Flag discrepancy` or `Ask supplier`.
+
+It is a car's automatic gearbox and parking sensors built into the dashboard, rather than a keyboard on the steering wheel asking you to type driving instructions.
+
+Embed AI into the workflow screen where the work already happens.
+?? Why is a blank chat box often the wrong interface for a business AI tool?
++ Users doing repetitive work prefer pre-filled fields, inline highlights and one-click actions inside their existing screen over typing prompts from scratch
+- Chat boxes cannot display English text
+- Buttons and forms cost ten times more tokens than chat
+- Nobody knows how to use a button on a webpage
+= Good agent UX meets users inside their task with structured controls, saving chat for open-ended questions and exceptions.
+## Notifying people when a background task finishes
+When a long research, audit or batch job runs in the background, the user has moved on to another tab or another job. A finished report sitting silently in a hidden screen helps nobody.
+
+Design a clean completion notification through the channel the user actually watches: an in-app badge, an email summary, a Slack or Teams message, or a mobile push notification. Include a two-line summary of the outcome ("Q3 audit complete: 48 passed, 2 flagged for review") and a direct deep link that opens the finished result or the pending approval card.
+
+It is the washing machine beeping when the cycle finishes instead of leaving the wet laundry sitting inside all weekend.
+?? What should a background-task completion notification include?
++ A brief summary of the outcome (including any items needing attention) and a direct link to open the result
+- The entire 30-page report pasted into a phone alert
+- Only the word "Done" with no link or context
+- Notifications every three seconds while the task is still running
+= Concise outcome summaries with a direct deep link bring the user smoothly back to review or approve the finished work.
+
+@@ sll_tfQYuQDz4yGj | B11.3 HCI / UX for Agents > Trust & Control
+## Undo, edit, and override controls
+Even a very good agent will sometimes misread a nuance or pick a phrasing the user wants to tweak. Users forgive occasional slips when fixing them is effortless; they abandon the tool when they feel trapped by its choices.
+
+Build three controls into every agent output. **Edit**: let the user tweak the drafted email, table or parameters inline before or after saving. **Undo / Rollback**: keep a snapshot of the previous record state so a one-click Undo reverses an automated change cleanly. **Override**: let a human pick a different category or value and record a short reason why.
+
+It is the `Ctrl+Z` shortcut in a word processor: people write faster and more confidently because mistakes are reversible.
+?? Why do inline edit, undo and override controls increase user adoption of an agent?
++ Users trust and use automation much more readily when they can easily tweak drafts or reverse a mistake in one click
+- They stop the user from ever changing what the AI wrote
+- They allow you to skip testing the agent before launch
+- Undo buttons delete the entire customer database
+= Making agent actions easy to edit, override and undo keeps the human in command and removes the fear of pressing Go.
+## Escalation and handoff to humans
+Every user-facing agent needs a clear, unhidden escape hatch to reach a human.
+
+Nothing destroys trust faster than a bot that traps an upset customer in an endless loop of "I didn't quite catch that, please rephrase". Escalate automatically when the agent detects repeated failed attempts, low retrieval confidence, out-of-scope requests, high financial stakes or frustrated language, and always honour a direct request like "speak to a person" on the first ask.
+
+It is the "Assistance" button at a railway ticket barrier that immediately connects you to staff when your ticket will not scan.
+
+Make escalation feel like a helpful service step, not a system crash.
+?? When should a customer-facing agent escalate a conversation to a human colleague?
++ Immediately when the user asks for a person, or automatically when confidence is low, stakes are high or the agent fails to resolve the issue
+- Only after the user has asked the exact same question ten times in a row
+- Never, because escalating means the AI project failed
+- Only on bank holidays
+= Prompt, graceful escalation protects customer trust whenever a request goes beyond what the agent can safely handle.
+## Handing over with full context, so nobody repeats themselves
+We looked earlier at passing context between two AI agents. The exact same rule applies, with even more force, when an AI agent hands over to a human staff member and a real customer is waiting on the line.
+
+When the human opens the escalated ticket or live chat, they should see a structured three-bullet summary at the top: who the customer is (already verified), what they asked for, what the agent already checked or tried, and why it handed over. Tell the customer clearly: "I have passed your order details (#4821) to Sarah in billing so you won't need to repeat them."
+
+It is a doctor reading the nurse's triage notes before calling you into the consulting room.
+?? What makes a bot-to-human handoff feel seamless to both the customer and the staff member?
++ Giving the staff member a concise summary of verified details and checks already done, so the customer never has to repeat themselves
+- Wiping the chat history before the human joins so they start fresh
+- Asking the customer to fill in a new web form with the same details
+- Hiding the reason the bot escalated
+= Passing verified context to the human colleague respects the customer's time and lets the staff member solve the problem straight away.
+## Being clear that it is an AI
+Always make it unmistakable to users that they are interacting with an AI system, not a human pretending to type.
+
+Apart from being a legal requirement under transparency rules such as the EU AI Act, honesty sets the right expectations. A user who knows they are talking to an AI assistant writes clearer requests, checks important numbers against the linked sources, and understands why a complex exception is being handed to a human specialist.
+
+It is a clear "Automated service" voice announcement on a phone line rather than pretending a recording is a live receptionist.
+
+State what the assistant can do, what it cannot do and how to reach a person.
+?? Why should an interface clearly disclose that the user is interacting with an AI?
++ It meets legal transparency requirements and sets honest expectations about what the assistant can do and when to verify or escalate
+- It tricks users into thinking they are chatting with the company founder
+- It excuses the company from fixing any bugs
+- It makes the model run without an API key
+= Clear disclosure builds honest trust, satisfies regulatory obligations and helps users interact with the tool effectively.
+## Collecting feedback from users
+Every interaction with your live agent is a chance to learn where it shines and where it stumbles.
+
+Collect two kinds of feedback: **explicit** and **implicit**. Explicit feedback is a quick thumbs-up/thumbs-down or a one-click tag ("Wrong policy", "Missing detail", "Great answer") on the output. Implicit feedback is even richer because every user gives it without trying: did they copy and send the draft as-is, did they heavily edit three paragraphs before sending, did they click Undo, or did they immediately escalate to a human?
+
+It is a restaurant watching both the comment cards left on the table and which dishes come back to the kitchen half-uneaten.
+
+Feed both signals straight into your evaluation dataset.
+?? Why are implicit user signals (such as heavy edits to a draft, clicks on Undo or immediate escalations) so valuable?
++ Every user generates them naturally during real work, showing where outputs needed fixing even when nobody clicks a feedback button
+- Only 100% of users fill in long survey forms after every message
+- Implicit signals do not need to be logged anywhere
+- Editing a draft means the user hated the entire product
+= Tracking whether users accept, edit or undo an agent's work gives you continuous, unbiased feedback on real-world quality.

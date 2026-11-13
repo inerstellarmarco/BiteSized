@@ -5,8 +5,8 @@
     {
       "id": "bit_mArOiqtoQzV4",
       "title": "Genes, diseases, and drugs as nodes and edges",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A biomedical knowledge graph organises biological facts into a structured network where entities such as genes, proteins, pathways, diseases, and drugs are represented as nodes, and the relationships between them (such as \"inhibits\", \"causes\", or \"treats\") are represented as typed, directed edges.\n\nIt is like a detective's investigation board where photos of people, companies, and locations are linked by labelled strings showing who paid or met whom.\n\nUnlike unstructured text paragraphs, a knowledge graph makes relationships explicit and machine-queryable across millions of facts integrated from curated databases and literature. However, a graph is only as clean as its ingestion pipeline; poorly normalised nodes create duplicate islands that break graph traversal.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_mArOiqtoQzV4_1",
+          "type": "multiple_choice",
+          "prompt": "How does a biomedical knowledge graph represent scientific knowledge differently from raw journal text?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It stores every research paper as an unindexed MP3 audio recording of the author reading aloud"
+            },
+            {
+              "id": "b",
+              "text": "It deletes all information about chemical drugs and retains only patient billing postcodes"
+            },
+            {
+              "id": "c",
+              "text": "It structures entities like genes, drugs, and diseases as nodes connected by explicitly typed relationship edges"
+            },
+            {
+              "id": "d",
+              "text": "It replaces specific relationship types with unlabelled random connections between words"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Knowledge graphs turn unstructured assertions into explicit subject-predicate-object triples that algorithms and scientists can traverse systematically.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_vSjncCi8jX3g",
       "title": "Multi-hop queries (gene to pathway to drug)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A multi-hop query traverses a chain of connected nodes and edges across a knowledge graph to answer questions that no single document states in one place. For example, a researcher might trace from a disease-associated gene to the biological pathway it regulates, to a partner protein in that pathway, and finally to an approved drug that inhibits that partner.\n\nIt is like finding a flight connection from a small regional town to another continent by routing through two major hub airports.\n\nThe practical risk is combinatorial explosion: after three or four hops through hub nodes like inflammation or ATP, thousands of noisy, trivial paths appear. Consultants must constrain multi-hop searches by edge type, tissue specificity, and evidence confidence.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,13 +66,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vSjncCi8jX3g_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main danger of running unconstrained multi-hop queries across four or five steps in a biomedical knowledge graph?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Graph databases refuse to execute any query that crosses more than one edge type"
+            },
+            {
+              "id": "b",
+              "text": "Traversing through high-degree hub nodes creates a combinatorial explosion of noisy, biologically trivial paths"
+            },
+            {
+              "id": "c",
+              "text": "Multi-hop queries permanently delete the nodes they visit from the underlying storage engine"
+            },
+            {
+              "id": "d",
+              "text": "Connecting a gene to a pathway automatically invalidates the drug's chemical structure"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Without filtering by edge type and confidence, multi-hop paths rapidly fan out through generic hub nodes and return thousands of meaningless associations.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_kpKucItLGx0S",
       "title": "Graph RAG over biomedical knowledge",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Graph RAG combines vector-based text retrieval with structured traversal of a biomedical knowledge graph to answer complex scientific questions. When a user asks how a drug might affect a disease, the system retrieves both relevant literature passages and the structured subgraph of genes, pathways, and interactions linking the two entities.\n\nIt is like preparing a strategy brief using both detailed witness interview transcripts and an accountant's structured spreadsheet of company transfers.\n\nGraph RAG excels at multi-entity synthesis and structured completeness where chunk-based text RAG misses connections spread across separate papers. The trade-off is higher engineering cost to maintain entity linking and ontology alignment; consultants should deploy Graph RAG when multi-hop relational reasoning truly justifies the complexity.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -57,43 +113,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kpKucItLGx0S_1",
+          "type": "multiple_choice",
+          "prompt": "How does Graph RAG complement standard text-chunk RAG in biomedical discovery workflows?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It pairs structured multi-hop entity relationships from a knowledge graph with detailed textual evidence from literature passages"
+            },
+            {
+              "id": "b",
+              "text": "It eliminates the need to store any source text or citations by memorising only node colours"
+            },
+            {
+              "id": "c",
+              "text": "It runs exclusively on analogue hardware without requiring any database indexing"
+            },
+            {
+              "id": "d",
+              "text": "It restricts user queries to single-word lookups of chemical molecular weights"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Graph RAG uses structured graph topology to find multi-step biological connections while grounding each link in retrieved text passages.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_SO3VAsvBAZEy",
       "title": "Standard identifiers and ontologies connect the sources",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Integrating twenty biomedical databases into one knowledge graph requires standard identifiers and formal ontologies such as Ensembl or Entrez for genes, UniProt for proteins, ChEMBL or DrugBank for compounds, and Mondo or EFO for diseases. Because ontology mappings update continuously, check the current details and release versions when building ETL pipelines.\n\nIt is like international shipping using universal barcode and customs codes so ports in every country recognise the exact same cargo container.\n\nWithout strict ontology alignment, \"breast carcinoma\" in one dataset and \"malignant neoplasm of breast\" in another remain disconnected nodes. AI consultants should treat identifier mapping and cross-reference governance as the foundational step of any biomedical data platform.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_SO3VAsvBAZEy_1",
+          "type": "multiple_choice",
+          "prompt": "Why are standard ontologies and identifiers (such as UniProt, Ensembl, and Mondo) essential when building a biomedical knowledge graph?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They encrypt the database so that scientists cannot read the names of human chromosomes"
+            },
+            {
+              "id": "b",
+              "text": "They compress gigapixel pathology images into three-letter amino acid codes"
+            },
+            {
+              "id": "c",
+              "text": "They allow any laboratory to invent private, unmapped names for common generic medicines"
+            },
+            {
+              "id": "d",
+              "text": "They align disparate databases onto shared canonical concepts so identical genes or diseases are not split into duplicate nodes"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Canonical identifiers and hierarchical ontologies unify naming differences across sources, enabling clean data integration and hierarchical reasoning.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_96P0ZUXxZaHh",
       "title": "Evidence on each edge: source, type, and strength",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a rigorous biomedical knowledge graph, an edge connecting a gene to a disease is never just a bare line; it carries rich provenance metadata recording the source database or paper, the experimental evidence type (such as human genetic association, CRISPR screen, or text mining), and a confidence or statistical strength score.\n\nIt is like a bridge registry that records whether each river crossing is a reinforced motorway viaduct, a wooden footbridge, or an unverified rumour.\n\nAn edge extracted automatically by an NLP script from an abstract sentence is far weaker than a curated clinical trial outcome or human loss-of-function genetics. Consultants must ensure agents and UIs filter and weight graph edges by provenance and evidence tier.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_96P0ZUXxZaHh_1",
+          "type": "multiple_choice",
+          "prompt": "Why should every edge in a biomedical knowledge graph store provenance, evidence type, and confidence metadata?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Graph visualisation software cannot draw a line on screen unless it contains at least fifty metadata fields"
+            },
+            {
+              "id": "b",
+              "text": "Provenance metadata automatically converts mouse cell-line experiments into approved human therapies"
+            },
+            {
+              "id": "c",
+              "text": "It lets users and agents distinguish high-confidence human genetic or clinical evidence from weak text-mined associations"
+            },
+            {
+              "id": "d",
+              "text": "Storing source identifiers reduces the number of nodes in the graph to zero"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Recording how a relationship was discovered and how strong the support is prevents weak or noisy assertions from polluting downstream reasoning.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Z3HmYDaRKp8p",
       "title": "Graph links are hypotheses to check, not facts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a knowledge graph or link-prediction model surfaces a novel connection between a target gene and a patient indication, that link represents a structured scientific hypothesis rather than an established biological fact. Literature-mined edges can reflect negated sentences, speculate in discussion sections, or hold true only in artificial cell lines.\n\nIt is like a market analyst spotting a correlation between two retail trends: it tells you where to investigate next, not that a merger is guaranteed to succeed.\n\nEven curated database edges are often context-dependent and lack tissue directionality. Train client teams to use knowledge graph paths as a hypothesis-ranking engine that always leads into primary source inspection and experimental validation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Z3HmYDaRKp8p_1",
+          "type": "multiple_choice",
+          "prompt": "How should drug-discovery teams treat novel target-disease links surfaced by a biomedical knowledge graph?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "As prioritised hypotheses that require verification in primary literature and wet-lab experiments"
+            },
+            {
+              "id": "b",
+              "text": "As proven causal mechanisms ready to advance directly into human clinical dosing"
+            },
+            {
+              "id": "c",
+              "text": "As mathematical errors that must be deleted whenever they are not already famous"
+            },
+            {
+              "id": "d",
+              "text": "As regulatory approvals issued automatically by national medicines agencies"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Graph links aggregate noisy, context-specific observations and predictions, making them valuable starting points for investigation rather than final proof.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

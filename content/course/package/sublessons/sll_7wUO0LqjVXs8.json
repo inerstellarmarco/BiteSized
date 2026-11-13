@@ -5,8 +5,8 @@
     {
       "id": "bit_z5DozT5sK8P-",
       "title": "Agents that launch and monitor Nextflow pipelines",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Pipeline agents are LLM-powered orchestrators that help researchers configure, launch, monitor, and troubleshoot standardised bioinformatics workflows written in engines such as Nextflow, Snakemake, or WDL (including nf-core pipelines). Because workflow manager APIs and cloud executors evolve rapidly, check the current details for your client's stack.\n\nIt is like an experienced factory floor dispatcher who sets up the assembly line schedule, watches the gauges, and alerts an engineer if a machine jams.\n\nCrucially, the language model should never improvise raw shell commands to align sequencing reads itself; instead, it prepares validated configuration files for deterministic workflow engines. This separation keeps heavy genomic processing reproducible, scalable, and auditable.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_z5DozT5sK8P-_1",
+          "type": "multiple_choice",
+          "prompt": "What is the proper architectural role of an LLM agent when working with bioinformatics workflows such as Nextflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The language model processes billions of raw FASTQ sequencing reads directly inside its own attention window"
+            },
+            {
+              "id": "b",
+              "text": "The agent rewrites the C++ source code of sequence aligners from scratch before every patient sample"
+            },
+            {
+              "id": "c",
+              "text": "Nextflow replaces the language model by generating natural-language clinical consultation letters"
+            },
+            {
+              "id": "d",
+              "text": "The agent configures, launches, and monitors deterministic Nextflow pipelines rather than improvising raw read-alignment commands itself"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Delegating execution to deterministic workflow engines like Nextflow ensures scalability and reproducibility while the agent handles configuration and monitoring.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2IfFR0MhQ_NG",
       "title": "Tool wrappers for bioinformatics CLIs via MCP",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The Model Context Protocol (MCP) and structured tool-calling schemas allow developers to wrap classic bioinformatics command-line interfaces (such as BLAST, samtools, bcftools, or Scanpy scripts) into typed, self-documenting tools that an AI agent can invoke safely. Check the current details of the MCP specification and SDKs when designing enterprise tool servers.\n\nIt is like fitting standard electrical plugs and safety switches onto industrial workshop tools so a central controller can operate them without touching bare wires.\n\nWell-designed wrappers validate input file paths, restrict flags to safe allow-lists, and return structured summaries rather than dumping ten megabytes of raw terminal logs into the model's context window.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,25 +66,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2IfFR0MhQ_NG_1",
+          "type": "multiple_choice",
+          "prompt": "Why should bioinformatics command-line tools be exposed to agents through typed MCP wrappers rather than raw bash execution?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Typed wrappers validate parameters, enforce security boundaries, and return concise summaries instead of overflowing the context window"
+            },
+            {
+              "id": "b",
+              "text": "Command-line bioinformatics tools cannot run on Linux servers unless invoked by a chatbot"
+            },
+            {
+              "id": "c",
+              "text": "Raw bash shells automatically correct biological batch effects without human configuration"
+            },
+            {
+              "id": "d",
+              "text": "MCP wrappers compress terabyte BAM alignment files into twenty-character text prompts"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Structured tool wrappers prevent dangerous shell injection, validate file types and flags, and distil massive CLI outputs into agent-readable summaries.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_794p1bDInolT",
       "title": "The agent proposes parameters; a human approves the run",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In production bioinformatics, an agent can inspect sample sheet metadata, infer whether sequencing reads are paired-end or single-end, select the matching reference genome build (such as GRCh38), and draft the complete pipeline run configuration. Before launching a heavy cloud job or modifying production registries, the workflow pauses for explicit human approval.\n\nIt is like a tax accountant preparing your full return and highlighting key assumptions on a summary screen, waiting for your signature before filing with HMRC.\n\nA wrong reference genome or mismatched adapter trimming setting can silently ruin a cohort analysis and waste thousands of pounds in cloud compute. Human-in-the-loop sign-off on the proposed parameter diff is a mandatory safeguard.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_794p1bDInolT_1",
+          "type": "multiple_choice",
+          "prompt": "Why should a bioinformatics pipeline agent pause for human approval after drafting run parameters?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Workflow engines like Nextflow require a physical thumbprint scanner attached to every cloud server node"
+            },
+            {
+              "id": "b",
+              "text": "Approving parameters manually doubles the sequencing depth of the original wet-lab glass flow cell"
+            },
+            {
+              "id": "c",
+              "text": "A human expert can catch costly mistakes in reference genome build, sample pairing, or cloud resource settings before compute is spent"
+            },
+            {
+              "id": "d",
+              "text": "Language models are incapable of outputting valid JSON or YAML configuration syntax on their own"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Reviewing the proposed configuration lets a bioinformatician verify scientific assumptions and compute budgets before launching expensive or irreversible runs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qmp4zg5qBsaJ",
       "title": "Cost and compute limits for cloud jobs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Genomic and structural biology pipelines can spin up hundreds of cloud virtual machines or multi-GPU nodes, easily burning through £10,000 in a single weekend if an agent triggers a runaway retry loop or selects oversized instances. Pipeline agents must operate inside strict financial and compute guardrails.\n\nIt is like giving a junior buyer a corporate payment card with a hard daily spending limit and automatic alerts rather than an uncapped blank cheque.\n\nWhen consulting for biotech teams, enforce hard per-run cost ceilings, maximum retry counts, spot-instance policies, and dry-run validation checks (`-stub-run` or `--dry-run`) before allowing any agentic system to submit jobs to AWS Batch, Google Cloud Life Sciences, or HPC queues.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -69,25 +153,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qmp4zg5qBsaJ_1",
+          "type": "multiple_choice",
+          "prompt": "What operational guardrails are essential when giving an AI agent permission to submit cloud bioinformatics jobs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Unlimited automatic retries on the largest available GPU cluster until every job exits with code zero"
+            },
+            {
+              "id": "b",
+              "text": "Storing cloud root administrator credentials directly inside the user-facing system prompt"
+            },
+            {
+              "id": "c",
+              "text": "Hard per-job budget caps, strict retry limits, and mandatory dry-run checks to prevent runaway cloud spending"
+            },
+            {
+              "id": "d",
+              "text": "Disabling all billing alerts so researchers are not distracted during pipeline execution"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Autonomous retry loops or misconfigured cluster requests on terabyte omics datasets can rapidly exhaust cloud budgets without hard quotas and retry caps.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6jmiWs5Oomiw",
       "title": "Log tool versions and parameters for every run",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In regulated therapeutics, clinical diagnostics, and serious discovery science, a result is worthless if you cannot reconstruct exactly how it was computed six months later. Every agent-initiated pipeline run must immutably log the container digest (Docker or Singularity), exact software versions, reference database hashes, random seeds, and full parameter sets.\n\nIt is like an aviation black box combined with a pharmaceutical batch record that logs every instrument setting and ingredient lot number.\n\nBecause an LLM agent's reasoning trace is stochastic, reproducibility relies on capturing the deterministic execution manifest produced by the workflow engine. Consultants should wire agents to store provenance manifests automatically alongside every output dataset.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6jmiWs5Oomiw_1",
+          "type": "multiple_choice",
+          "prompt": "Why must an agentic bioinformatics system log exact container digests, software versions, and parameter files for every run?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Logging software versions makes the language model run fifty times faster during token generation"
+            },
+            {
+              "id": "b",
+              "text": "Minor version shifts in aligners or reference annotations can change biological results, and audits require complete reproducibility"
+            },
+            {
+              "id": "c",
+              "text": "Bioinformatics tools never receive updates or bug fixes after their initial public release"
+            },
+            {
+              "id": "d",
+              "text": "Container digests replace the need to back up raw patient sequencing data"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Capturing the exact container, reference build, and parameter manifest ensures that stochastic agent interactions still produce fully reproducible scientific outputs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hajE78QSyeXI",
       "title": "Sandboxed access to data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Biomedical datasets frequently contain sensitive patient genomic sequences, protected health information, or proprietary pharmaceutical chemical structures. When an AI agent writes or executes code to inspect data, it must run inside an isolated, least-privilege sandbox environment with strict data governance boundaries.\n\nIt is like letting an external archive researcher inspect fragile manuscripts inside a locked reading room where bags are barred and raw pages never leave the building.\n\nGive the sandbox read-only mounts to input buckets, block outbound internet access so code cannot exfiltrate patient sequences to external servers, and strip direct patient identifiers before exposing metadata to external LLM APIs.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -100,7 +240,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hajE78QSyeXI_1",
+          "type": "multiple_choice",
+          "prompt": "How should file and network permissions be configured for a sandbox where an AI agent analyses clinical omics data?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Grant the agent root write permissions across the hospital's primary production database and open internet access"
+            },
+            {
+              "id": "b",
+              "text": "Mount input data as read-only, restrict network egress to prevent data exfiltration, and enforce strict access controls"
+            },
+            {
+              "id": "c",
+              "text": "Upload raw patient whole-genome BAM files directly to public consumer chat interfaces for faster parsing"
+            },
+            {
+              "id": "d",
+              "text": "Allow the agent to modify raw instrument files in place so storage space is conserved"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Read-only input mounts and blocked external network egress prevent accidental deletion of raw data and protect sensitive genomic or proprietary records from leakage.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

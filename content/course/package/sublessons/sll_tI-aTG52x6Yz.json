@@ -5,32 +5,88 @@
     {
       "id": "bit_RgluM2h9pIem",
       "title": "Flagging late suppliers, short stock, and mismatched documents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An exception agent runs on a schedule or event trigger to scan ERP records for operational problems, such as purchase orders past their promised delivery date, work orders short of components, or goods receipts that do not match the purchase order.\n\nIt works like a night security guard who checks fifty doors across a factory and leaves a short morning report listing only the two doors that were found unlocked.\n\nBy catching a late supplier shipment three days before the assembly line needs the part, the agent gives the buyer time to expedite the courier or reschedule the factory floor calmly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RgluM2h9pIem_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary role of an exception agent in an ERP or MRP system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To proactively scan records and alert staff to problems like late deliveries, stock shortages, and document mismatches"
+            },
+            {
+              "id": "b",
+              "text": "To send celebratory emails every time a routine order has no problems at all"
+            },
+            {
+              "id": "c",
+              "text": "To rewrite the company's legal terms and conditions without human oversight"
+            },
+            {
+              "id": "d",
+              "text": "To replace the warehouse forklift drivers with automated chat messages"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Exception agents monitor operational transactions continuously so planners catch supply and inventory disruptions early.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_foCCAsSTyokv",
       "title": "Exceptions only: people look at problems, not at everything",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Management by exception means designing automated reports and alerts so staff only see the small fraction of orders or items that have drifted outside normal tolerances, rather than scrolling through thousands of healthy rows every morning.\n\nImagine an intensive care nurse monitoring twenty patient heart-rate screens; the system stays quiet while vitals are steady and sounds a clear chime only when a patient's readings cross a threshold.\n\nBe careful not to set alert thresholds too tightly. If an agent flags a hundred minor warnings every morning, planners will suffer alert fatigue and start ignoring the notifications altogether, missing the one critical shortage buried in the list.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_foCCAsSTyokv_1",
+          "type": "multiple_choice",
+          "prompt": "What happens if an exception agent sets its alert thresholds too sensitively and sends dozens of minor warnings every day?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Suppliers immediately improve their delivery speed because they sense the extra alerts"
+            },
+            {
+              "id": "b",
+              "text": "The ERP database runs out of primary keys within a week"
+            },
+            {
+              "id": "c",
+              "text": "Staff experience alert fatigue and begin ignoring the messages, causing them to miss genuinely critical problems"
+            },
+            {
+              "id": "d",
+              "text": "Planners gain more free time because reading a hundred alerts takes less time than reading five"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Keeping exception alerts focused on actionable, high-impact deviations prevents alert fatigue and preserves human attention.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_MuRRcao4srbU",
       "title": "Drafting purchase orders for human approval",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When an exception agent spots an item falling below its reorder point or needed for an upcoming work order, it can automatically prepare a draft purchase order with the preferred supplier, required quantity, lead time, and price, leaving it in a queue for a human buyer to approve.\n\nIt is like a paralegal preparing a complete contract with all the client details filled in and placing a sticky note on the signature line so the partner can review and sign in thirty seconds.\n\nThis pattern captures 90 percent of the time savings while keeping commercial accountability with the human buyer, who might know that a product line is being discontinued next month.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,31 +99,115 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_MuRRcao4srbU_1",
+          "type": "multiple_choice",
+          "prompt": "Why is having an agent create a draft purchase order for human approval better than letting it send orders directly to suppliers on day one?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It saves the buyer nearly all the data-entry preparation time while letting a human catch context the ERP might not know"
+            },
+            {
+              "id": "b",
+              "text": "ERP systems cannot store purchase orders in a draft status"
+            },
+            {
+              "id": "c",
+              "text": "Suppliers charge double the price whenever an order is created via an API"
+            },
+            {
+              "id": "d",
+              "text": "Human buyers enjoy retyping part numbers manually from scratch every morning"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Drafting orders automates the tedious lookup and entry work while preserving a quick human check before company cash is committed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_GzkbdsbKUotm",
       "title": "Explaining why an exception was raised",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Whenever an agent flags an exception or proposes a draft purchase order, it should include a concise, plain-language explanation showing the exact math and records that triggered the alert.\n\nFor example, instead of just saying \"Buy 200 units of Valve B-12,\" the note should say \"Current stock is 40, open Work Order WO-409 needs 180 on Friday, safety stock is 50, and Supplier Apex has a 50-unit minimum order.\"\n\nWhen buyers can see the exact reasoning in two sentences, they approve valid drafts in seconds and immediately spot if an old work order left open by mistake is driving false demand.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GzkbdsbKUotm_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an exception agent explain the exact numbers and orders behind its recommendation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It lets the human reviewer verify the logic in seconds and spot whether stale data triggered a false alarm"
+            },
+            {
+              "id": "b",
+              "text": "Long explanations slow down the database so fewer exceptions can happen"
+            },
+            {
+              "id": "c",
+              "text": "Suppliers require a three-page essay attached to every purchase order"
+            },
+            {
+              "id": "d",
+              "text": "Explaining the math allows the agent to skip checking current stock on hand"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Showing the stock, demand, and rule inputs behind an alert makes human review fast and reveals bad underlying records immediately.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_MsbZGxxj1B_y",
       "title": "Logging what people override, and learning from it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Whenever a human planner edits or rejects an agent's draft purchase order or dismisses an exception alert, the system should log the override along with a quick reason code or note. Those overrides are gold dust for improving the system.\n\nThink of a junior buyer learning from a senior manager; if the manager crosses out Supplier A and picks Supplier B every Tuesday because Supplier A's courier is unreliable in winter, the junior writes that rule down for next week.\n\nAs a consultant, review override logs monthly with the client. Frequently, overrides show that a minimum order quantity, lead time, or preferred supplier field in the ERP master data needs updating.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_MsbZGxxj1B_y_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it valuable to log whenever a human planner overrides or rejects an agent's recommendation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The logs can be used to fine employees who disagree with the language model"
+            },
+            {
+              "id": "b",
+              "text": "Logging overrides automatically deletes the rejected items from the physical warehouse"
+            },
+            {
+              "id": "c",
+              "text": "Software vendors pay cash rebates for every rejected recommendation logged"
+            },
+            {
+              "id": "d",
+              "text": "Override patterns reveal outdated master data or missing business rules so you can improve the system over time"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Tracking human edits highlights where ERP master records or agent rules differ from real-world operational knowledge.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

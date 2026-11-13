@@ -5,74 +5,242 @@
     {
       "id": "bit_Q1c3Y2HutGda",
       "title": "SGD, momentum, Adam, AdamW",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An optimiser is the algorithm that adjusts a neural network's weights using gradients from backpropagation so that training loss decreases step by step. Stochastic gradient descent (SGD) takes raw steps downhill, while momentum adds a running average of past gradients to smooth out noisy updates. Adam and AdamW go further by tracking both momentum and per-parameter gradient variance.\n\nIt is like walking down a foggy valley: basic SGD steps strictly follow the slope under your feet, whereas momentum and Adam act like a heavy rolling ball that keeps moving smoothly across small bumps.\n\nNo single optimiser wins on every problem. SGD with momentum often generalises well on classic vision benchmarks, whereas AdamW is the standard choice when fine-tuning transformers for client projects.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Q1c3Y2HutGda_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main role of an optimiser during neural network training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It splits the raw dataset into training, validation, and testing partitions"
+            },
+            {
+              "id": "b",
+              "text": "It defines the number of layers and hidden dimensions in the architecture"
+            },
+            {
+              "id": "c",
+              "text": "It converts raw text strings into numerical token identifiers before training"
+            },
+            {
+              "id": "d",
+              "text": "It updates model weights using calculated gradients to reduce the loss function"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "An optimiser uses the gradients computed during backpropagation to adjust weights and minimise loss.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_t4XHasKAeIea",
       "title": "Warmup and cosine schedules",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A learning-rate schedule changes the step size systematically over the course of training rather than keeping it fixed from start to finish. The most common modern recipe combines a short linear warmup phase at the start with a smooth cosine decay that gradually reduces the learning rate towards a small floor.\n\nThink of a sculptor who starts gently to test the stone, works at full pace while roughing out the shape, and then slows down to make delicate finishing cuts at the end.\n\nA cosine schedule requires you to choose the total number of training steps in advance. If a client project stops training early or extends the run mid-way, the decay curve will no longer match the actual budget.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_t4XHasKAeIea_1",
+          "type": "multiple_choice",
+          "prompt": "Why do modern training runs typically pair a warmup phase with cosine decay?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To increase the total number of model parameters gradually during each epoch"
+            },
+            {
+              "id": "b",
+              "text": "To prevent early instability and then smoothly reduce step sizes for fine convergence"
+            },
+            {
+              "id": "c",
+              "text": "To ensure the learning rate reaches its maximum value on the final training step"
+            },
+            {
+              "id": "d",
+              "text": "To replace the need for computing gradients during the second half of training"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Warmup avoids destructive early steps while cosine decay gently shrinks updates so the weights settle cleanly into a minimum.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_oMTvxhqd94u6",
       "title": "Adam adapts the step size for each parameter",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Adam (Adaptive Moment Estimation) maintains two moving averages for every weight in the network: the first moment (the mean of recent gradients) and the second moment (the uncentred variance of recent gradients). It divides the smoothed gradient by the square root of the smoothed squared gradient, giving each parameter its own effective step size.\n\nIt is like a project manager who gives steady, confident team members longer leashes while checking in more cautiously on tasks where estimates swing wildly from day to day.\n\nThis adaptability makes Adam fast to converge on complex architectures with sparse or varied gradients. However, storing two extra floating-point states per parameter triples the memory needed for model weights unless memory-saving variants are used.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oMTvxhqd94u6_1",
+          "type": "multiple_choice",
+          "prompt": "How does Adam adjust the effective learning rate for individual parameters?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It scales each update using running averages of both the gradient and the squared gradient"
+            },
+            {
+              "id": "b",
+              "text": "It assigns a random learning rate to every layer at the start of each epoch"
+            },
+            {
+              "id": "c",
+              "text": "It sets the step size to zero for any weight that has a positive gradient"
+            },
+            {
+              "id": "d",
+              "text": "It multiplies every weight by the total number of training examples in the batch"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Adam tracks first and second moments per parameter so weights with noisy or large gradients receive smaller, stabilised steps.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_52YDpzhuIRmK",
       "title": "AdamW fixes how weight decay is applied",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "AdamW separates weight decay from the adaptive gradient calculation instead of mixing L2 regularisation into the loss before computing Adam's moving averages. In standard Adam, adding an L2 penalty to the loss means parameters with large historical gradients get less weight decay than intended, weakening regularisation where it is needed most.\n\nThink of applying a flat management fee directly to every account balance at the end of the month, rather than bundling the fee into volatile daily transaction adjustments.\n\nBy shrinking weights directly by a small fraction at each step before or alongside the Adam update, AdamW makes the learning rate and weight decay independent hyperparameters. When tuning a client's language or vision model, this decoupling makes hyperparameter searches much more predictable.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_52YDpzhuIRmK_1",
+          "type": "multiple_choice",
+          "prompt": "What flaw in standard Adam does AdamW correct?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Standard Adam cannot compute gradients for models that use activation functions"
+            },
+            {
+              "id": "b",
+              "text": "Standard Adam scales L2 regularisation by the adaptive gradient variance, weakening weight decay"
+            },
+            {
+              "id": "c",
+              "text": "Standard Adam requires the batch size to equal the total number of model layers"
+            },
+            {
+              "id": "d",
+              "text": "Standard Adam forces all weights in the network to share an identical scalar value"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "AdamW decouples weight decay from the adaptive moment division so that every weight decays at a consistent, predictable rate.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_SuZlG4IMSzS0",
       "title": "Warmup stabilizes early training",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Learning-rate warmup begins training with a tiny learning rate and increases it linearly over the first few hundred or few thousand steps until it reaches the target peak value. At step zero, weights are random and the adaptive variance estimates in optimisers like Adam have seen almost no data, so full-sized updates can easily overshoot and destabilise layer activations.\n\nIt is like warming up a car engine on a freezing morning before pulling onto the motorway at seventy miles per hour.\n\nWithout warmup, deep transformers often suffer from sudden gradient spikes or divergence in the first epoch. You still need to tune the warmup duration carefully, because a warmup that is too short leaves instability behind, while one that is too long wastes paid GPU hours.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_SuZlG4IMSzS0_1",
+          "type": "multiple_choice",
+          "prompt": "Why are the very first steps of training a deep network especially prone to instability without warmup?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Weights are unfocused and the optimiser's running variance estimates are still inaccurate"
+            },
+            {
+              "id": "b",
+              "text": "The dataset contains more corrupted labels in the first batch than in later batches"
+            },
+            {
+              "id": "c",
+              "text": "The GPU clock speed runs at double its normal rate during the initial five minutes"
+            },
+            {
+              "id": "d",
+              "text": "The loss function only measures accuracy on the final layer during early steps"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Early gradients and adaptive second-moment estimates are noisy and uncalibrated, so starting with small steps prevents destructive weight jumps.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_21CdsXjGuwzK",
       "title": "Learning-rate range tests",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A learning-rate range test is a quick diagnostic run where you start with a very small learning rate, increase it exponentially after every mini-batch, and plot the training loss against the learning rate. The curve typically stays flat at tiny rates, drops steadily in a productive middle zone, and then shoots upwards when the steps become too large.\n\nThink of testing the volume knob on a new sound system by turning it up slowly until you hear the exact point where clean audio turns into distortion.\n\nYou then pick a peak learning rate safely below the point where the loss starts climbing, often near the steepest downward slope. Because the test mutates the model weights as it climbs into the unstable region, you must reset the network to its initial checkpoint before starting the real training run.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_21CdsXjGuwzK_1",
+          "type": "multiple_choice",
+          "prompt": "How do you choose a target learning rate from a learning-rate range test plot?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Select a value in the region where loss falls steeply, safely before it starts diverging"
+            },
+            {
+              "id": "b",
+              "text": "Pick the highest learning rate tested where the loss reaches its maximum spike"
+            },
+            {
+              "id": "c",
+              "text": "Choose the smallest learning rate on the far left where the loss curve is completely flat"
+            },
+            {
+              "id": "d",
+              "text": "Average all learning rates tested and multiply that number by the batch size"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The sweet spot lies where the loss decreases rapidly with increasing step size, well before large updates cause the loss to explode.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

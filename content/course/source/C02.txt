@@ -1,0 +1,538 @@
+// C2 C2 Classical Machine Learning
+@@ sll_9GlW1kGOkn7X | C2.1 ML Fundamentals > The ML Workflow
+## Supervised vs. unsupervised vs. reinforcement learning
+Supervised learning trains a model on inputs paired with known target labels, unsupervised learning discovers hidden groupings or structure in unlabelled data, and reinforcement learning trains an agent to choose actions through trial-and-error rewards in an environment.
+
+It is like learning to price houses from past sales sheets (supervised), sorting customer profiles by shopping habits without predefined tags (unsupervised), or training a warehouse robot via points for safe deliveries (reinforcement).
+
+Most commercial consulting projects succeed with supervised learning whenever historical outcomes can be joined reliably to past features.
+
+?? How does supervised learning differ from unsupervised learning?
++ Supervised learning fits a model using inputs paired with known target labels, whereas unsupervised learning finds patterns in unlabelled data
+- Supervised learning runs without any historical data, whereas unsupervised learning requires manual human scoring on every step
+- Supervised learning only works on images, whereas unsupervised learning only works on relational tables
+- Supervised learning optimises cumulative game rewards, whereas unsupervised learning predicts continuous prices
+= Supervised algorithms learn a mapping from features to provided ground-truth targets, while unsupervised algorithms uncover structure without target labels.
+
+## Train / validation / test splits
+A dataset is split into three distinct subsets: the training set used to fit model weights, the validation set used to compare models and tune hyperparameters, and the test set used once at the end to estimate real-world performance.
+
+It is like a student studying textbook exercises (train), sitting mock exams to pick which topics to revise (validation), and then facing the final public exam (test).
+
+If rows from the same customer, household, or document appear across splits, the model will memorise shared quirks and report inflated validation scores.
+
+?? What is the specific purpose of the validation set in a machine learning workflow?
++ To compare candidate models and tune hyperparameters without touching the final test set
+- To update the internal weights of the neural network during every gradient descent step
+- To permanently replace the training data once the first epoch finishes
+- To store unlabelled production logs that have no ground-truth outcomes
+= The validation split provides an intermediate check for model selection and tuning while keeping the test split unseen for final evaluation.
+
+## Bias-variance tradeoff, overfitting
+Bias is the error from an overly rigid model that misses real patterns (underfitting), whereas variance is the error from an overly flexible model that memorises random noise in the training sample (overfitting).
+
+It is like a tailor who either sews one boxy sack size for every client (high bias) or tailors a suit so tightly to one posture that the wearer cannot breathe after lunch (high variance).
+
+You diagnose overfitting by watching the gap between low training error and rising validation error, then address it with regularisation, simpler models, or stronger data.
+
+?? What pattern in training and validation metrics indicates that a model is overfitting?
++ Training error is very low while validation error is substantially worse or starting to rise
+- Both training error and validation error are high and nearly identical from the start
+- Validation accuracy reaches 100 percent while training accuracy stays near random guessing
+- The model refuses to run because the feature columns have different measurement units
+= Overfitting occurs when a model captures noise specific to the training set, driving training error down while failing to generalise to validation data.
+
+## Problem framing: what is predicted, from what, and when
+Problem framing translates a vague business wish into a precise prediction target, a defined set of input features available at the prediction timestamp, and the operational decision the score will trigger.
+
+It is like turning an executive's request to "reduce customer churn" into predicting which active subscribers on the first of the month will cancel within thirty days, using only activity logged before that morning.
+
+Many consulting projects fail not from weak algorithms, but from framing a target that arrives too late to act on or uses features recorded after the event.
+
+?? Why must problem framing specify the exact point in time when a prediction will be made in production?
++ To ensure the model only uses features that are actually recorded and available before that decision moment
+- To guarantee that the training dataset contains an equal number of rows from every day of the week
+- To allow the optimiser to use future outcome columns as input features during training
+- To force the database server to delete all historical logs older than thirty days
+= Fixing the prediction timestamp prevents temporal leakage and ensures the model relies solely on information available when the business needs to act.
+
+## Start with a baseline and a simple model
+Before training complex ensembles or deep networks, you should establish a non-machine-learning heuristic baseline (such as predicting last week's value or the majority class) followed by a fast, interpretable linear or small tree model.
+
+It is like checking whether a simple thermostat rule solves an office heating complaint before wiring the building with an expensive automated climate programme.
+
+A baseline exposes data pipeline bugs early and tells the client whether the extra cost and complexity of an advanced model actually buys meaningful lift.
+
+?? Why should an AI consultant build a simple heuristic and linear baseline before trying complex models?
++ It verifies the evaluation pipeline and sets a clear benchmark that any complex model must beat to justify its cost
+- Simple models always achieve lower error than gradient boosting on every dataset
+- Complex models cannot be trained unless a linear regression weight file is loaded first
+- Baselines eliminate the need to split the data into training and test sets
+= A quick baseline catches data leakage or pipeline flaws early and quantifies the genuine value added by more sophisticated algorithms.
+
+## Time-based splits when the data has a time order
+When data records occur over time, such as sales forecasting, fraud detection, or ticket triage, you must split the data chronologically so the model trains on earlier periods and validates or tests on later periods.
+
+It is like testing a weather forecasting method by fitting it on data up to October and judging its predictions on November, rather than mixing November days into the training notes.
+
+Randomly shuffling time-ordered rows leaks future economic conditions, seasonal peaks, and shifting customer behaviour into the past, producing unrealistic accuracy estimates.
+
+?? Why is a random train-test split dangerous for datasets with a time order?
++ It lets the model train on future observations to predict past ones, leaking future trends and inflating test scores
+- Random splits take ten times longer to compute than chronological splits on modern hardware
+- Time-ordered datasets never contain numeric features suitable for random sampling
+- Shuffling rows changes the column names in the underlying database table
+= In production a model always predicts the future from the past, so training on future rows leaks information that will not exist at inference time.
+
+## Keep the test set locked until the end
+The test set must remain completely untouched during exploration, feature engineering, model selection, and hyperparameter tuning, serving only as a single final audit before you recommend deployment to a client.
+
+It is like keeping a sealed safety inspection envelope in a safe until construction finishes, because peeking at the exact inspection checklist repeatedly turns the audit into just another practice worksheet.
+
+If you check test metrics after every tweak and keep the version that scored best on the test set, you have leaked test information into your design choices.
+
+?? What happens if a team repeatedly evaluates different model ideas on the test set and picks the winner?
++ The test set effectively becomes part of the tuning process, making its final score an over-optimistic estimate of production performance
+- The test set rows automatically merge into the training matrix during gradient descent
+- The model weights reset to random values each time the test script is executed
+- The validation set becomes mathematically identical to a uniform distribution
+= Selecting models based on test performance overfits to the specific quirks of the test sample, destroying its value as an unbiased final check.
+
+@@ sll_7osvNTcf2qaT | C2.1 ML Fundamentals > Feature Engineering
+## Scaling, encoding, feature creation
+Feature engineering transforms raw client tables into numerical inputs that algorithms can digest, combining numerical scaling (standardisation or min-max scaling), categorical encoding, and domain-specific feature creation such as ratios or rolling averages.
+
+It is like a chef washing, peeling, and dicing raw market vegetables into uniform pieces so they cook evenly in the pan.
+
+Every scaling statistic or category mapping must be fitted solely on the training split and then applied unchanged to validation, test, and live data to avoid data leakage.
+
+?? When standardising features by subtracting the mean and dividing by the standard deviation, how should the validation and test sets be scaled?
++ Using the mean and standard deviation calculated from the training set only
+- Using the mean and standard deviation calculated separately on the test set
+- Using the combined mean and standard deviation of the entire dataset before splitting
+- Leaving the validation and test sets unscaled while scaling only the training set
+= Fitting scalers on the training split alone prevents information from the validation or test distributions from leaking into training.
+
+## Feature selection methods
+Feature selection removes irrelevant or redundant inputs using filter methods (such as correlation or mutual information scores), wrapper methods (such as recursive feature elimination), or embedded methods (such as lasso penalties or tree importances).
+
+It is like packing for a consulting trip by laying out only the tools needed for the client workshop and leaving duplicate cables and heavy books behind.
+
+Dropping noisy or collinear columns speeds up inference, reduces data maintenance costs, and lowers variance, though aggressive automated filtering can accidentally discard a feature that only works in combination with another.
+
+?? How do wrapper methods for feature selection differ from simple univariate filter methods?
++ Wrapper methods evaluate subsets of features by actually training and scoring a model, capturing feature interactions that single-feature filters miss
+- Wrapper methods never train a model and only check whether column names are spelled correctly
+- Filter methods require deep neural networks whereas wrapper methods only work on text files
+- Wrapper methods always keep every column in the dataset without removing anything
+= Filter methods score each feature rapidly in isolation, whereas wrapper methods test how combinations of features perform inside a chosen algorithm.
+
+## Scaling matters for distance-based and gradient-based models
+Models that measure distances between points (such as k-nearest neighbours, k-means, and support vector machines) or optimise weights via gradients and penalties (such as linear models with regularisation and neural networks) are sensitive to feature scales.
+
+It is like calculating the distance between two houses by adding differences in annual household income in pounds to differences in bedroom count; the thousands of pounds completely drown out the bedrooms.
+
+Standardising features puts every axis on comparable footing and keeps loss surfaces rounder so gradient descent converges smoothly instead of zigzagging.
+
+?? Why does failing to scale features harm a k-nearest neighbours (k-NN) model?
++ Features measured in large numerical units dominate the distance calculation, making small-unit features almost invisible
+- Decision splits inside k-NN require all input numbers to be negative integers
+- Unscaled numbers cause the tree depth of k-NN to grow to infinity
+- Distance formulas cannot be computed whenever two columns have different means
+= Euclidean and similar distance metrics sum squared differences across coordinates, so a feature spanning thousands will overwhelm a feature spanning zero to one.
+
+## One-hot encoding for categories
+One-hot encoding turns a categorical column with discrete text labels (such as city or contract tier) into several binary zero-or-one indicator columns, preventing the model from assuming a false numerical order between categories.
+
+It is like replacing a single "payment method" column containing card, cash, or invoice with three separate tick-boxes so no algorithm thinks invoice is three times larger than card.
+
+When a column has thousands of unique values like postcodes or product IDs, one-hot encoding creates a huge sparse table, so grouping rare categories or using target encoding is wiser.
+
+?? Why is one-hot encoding preferred over assigning arbitrary integers (1, 2, 3...) to unordered categories in a linear model?
++ Arbitrary integers trick a linear model into treating the categories as having a meaningful numeric order and spacing
+- One-hot encoding reduces the total number of columns in the dataframe to one
+- Linear models can read raw text strings directly without any numeric conversion
+- Assigning integers 1, 2, 3 causes the computer to run out of disk space immediately
+= A single numeric column imposes an artificial linear ordering where category 3 is treated as halfway between 2 and 4, whereas binary indicators give each category its own weight.
+
+## Missing-value strategies and missing-value indicators
+When client records contain missing values, you can drop incomplete rows if they are rare, impute missing entries using the training median, mean, or a model-based estimate, and add a binary indicator column flagging that the value was originally missing.
+
+It is like filling in a blank income box on a loan form with the typical applicant's income while clipping a note to the page saying the applicant chose not to answer.
+
+In business data, missingness is rarely random; a blank credit score or skipped survey question is often a strong predictive signal in its own right.
+
+?? Why is it often helpful to add a binary missing-value indicator column alongside median imputation?
++ The fact that a value was not recorded often carries genuine predictive signal about customer or system behaviour
+- Median imputation deletes the row unless a binary column is appended next to it
+- Adding an indicator column guarantees that all features follow a normal distribution
+- Gradient boosting algorithms crash if every column contains valid numbers without a binary flag
+= In real datasets, missing entries often reflect deliberate user choices or specific system pathways, so an indicator preserves that signal after imputation fills the gap.
+
+## Domain features often beat clever models
+Domain features are engineered variables crafted from business knowledge, such as debt-to-income ratios in lending, days since last login in software subscriptions, or price relative to category average in retail.
+
+It is like giving a junior analyst a pre-calculated profit-margin ratio instead of expecting them to discover division from raw revenue and cost columns on their own.
+
+Spending a day interviewing client subject-matter experts to build three thoughtful domain features regularly delivers larger accuracy gains than weeks of hyperparameter tuning on raw tables.
+
+?? Why does crafting domain-specific features such as ratios or time-since-last-event often outperform switching to a fancier algorithm?
++ Domain features directly express the business relationships that matter, making the predictive pattern much easier for any model to learn
+- Domain features allow you to evaluate the model on the training set instead of a test set
+- Fancier algorithms are mathematically incapable of reading floating-point numbers
+- Adding domain features removes the need to check for data leakage across time
+= Expressing domain knowledge explicitly in the inputs reduces the complexity of the function the model has to approximate from limited data.
+
+@@ sll_9aDsYeeLHoft | C2.2 Core Algorithms > Supervised Models
+## Linear and logistic regression
+Linear regression predicts a continuous numeric target as a weighted sum of the input features plus a bias term, whereas logistic regression passes that weighted sum through a sigmoid function to output a probability between zero and one for classification.
+
+It is like using one weighted scorecard to estimate a property's sale price in pounds (linear) and another scorecard squashed onto a zero-to-hundred percent scale to estimate the chance the buyer defaults (logistic).
+
+Both models are fast, stable, and easy to explain to regulators, though they assume linear boundaries unless you explicitly add interaction terms or polynomial features.
+
+?? How does logistic regression turn a linear weighted sum of features into a valid probability for binary classification?
++ It passes the weighted sum through the logistic (sigmoid) function, which maps any real number into the range (0, 1)
+- It clips any prediction below zero to 0.0 and any prediction above one to 1.0
+- It takes the square root of the weighted sum and divides by the number of rows
+- It sorts the features alphabetically and returns the median feature value
+= The sigmoid function smoothly squashes unconstrained log-odds scores from negative infinity to positive infinity into probabilities between 0 and 1.
+
+## Decision trees, random forests, gradient boosting
+A decision tree splits data recursively using if-then thresholds; a random forest averages many trees trained independently on bootstrap samples and random feature subsets; and gradient boosting builds shallow trees sequentially, where each new tree corrects the residual errors of the previous ensemble.
+
+It is like asking one specialist for a flowchart, polling a committee of independent specialists, or having a relay team of editors each fix the mistakes left by the previous editor.
+
+Random forests resist overfitting with little tuning, whereas gradient boosting usually achieves higher accuracy on tabular data when tuned carefully.
+
+?? What is the core difference between how a random forest and a gradient boosted tree ensemble build their trees?
++ A random forest trains trees independently in parallel and averages them, while gradient boosting trains trees sequentially to fix prior errors
+- A random forest trains only a single tree, while gradient boosting trains thousands of linear regressions
+- A random forest requires features to be one-hot encoded and scaled, while gradient boosting only works on images
+- A random forest optimises sequential residuals, while gradient boosting averages bootstrap samples in parallel
+= Bagging in random forests reduces variance by averaging independent trees, whereas boosting reduces bias and error by fitting each new tree to the current residuals or gradients.
+
+## SVMs and k-nearest neighbours
+Support Vector Machines (SVMs) find the boundary hyperplane that separates classes with the widest safety margin (optionally using kernels for curved boundaries), while k-nearest neighbours (k-NN) stores the training points and predicts a new point's label from the majority vote or average of its k closest training examples.
+
+It is like drawing the widest possible chalk lane between two warehouse zones (SVM) versus pricing an antique by looking up the five most similar items sold recently (k-NN).
+
+Both methods struggle when datasets grow to millions of rows or hundreds of noisy dimensions unless you compress or index the space first.
+
+?? How does a k-nearest neighbours (k-NN) classifier make a prediction for a new client record?
++ It measures the distance from the new record to the training points and takes the majority class among the k closest neighbours
+- It multiplies the new record by a learned weight matrix and applies a softmax layer
+- It traces a sequence of if-then threshold splits from a root node to a leaf node
+- It finds the single widest margin hyperplane separating all positive and negative records
+= As an instance-based learner, k-NN defers computation until inference time and bases its prediction on the labels of the nearest stored training examples.
+
+## Regularization: ridge and lasso
+Regularisation discourages overly complex models by adding a penalty for large weights to the loss function: Ridge (L2) penalises the sum of squared weights, shrinking correlated weights smoothly together, while Lasso (L1) penalises the sum of absolute weights, driving unimportant weights all the way to exact zero.
+
+It is like giving a project manager a strict budget on weight sizes; Ridge trims every department's budget proportionally, whereas Lasso shuts down low-value tasks completely.
+
+Remember to standardise numeric features before applying Ridge or Lasso so the penalty treats every feature fairly regardless of its measurement units.
+
+?? Which property makes Lasso (L1) regularisation useful for automatic feature selection in linear models?
++ Its absolute-value penalty pushes the weights of weak or redundant features to exact zero
+- Its squared penalty forces all features in the dataset to share the exact same non-zero weight
+- It automatically creates non-linear interaction terms between every pair of columns
+- It removes the need to choose a regularisation strength hyperparameter
+= The geometry of the L1 absolute-value penalty creates sharp corners at zero, causing small coefficients to drop out completely during optimisation.
+
+## Trees handle mixed data and need little scaling
+Decision trees and tree ensembles split one feature at a time by checking whether values fall above or below a threshold, which means any monotonic rescaling of a column (such as converting pounds to pence or taking a logarithm) leaves the split order unchanged.
+
+It is like sorting staff by height; whether you measure them in centimetres or inches, the exact same people stand to the left and right of the midpoint.
+
+Because trees inspect raw rankings and mix numeric columns with encoded categories naturally, they save preprocessing effort, though they cannot extrapolate linear trends beyond the minimum and maximum values seen in training.
+
+?? Why does multiplying a numeric feature by 1,000 have no effect on the structure of a decision tree?
++ Tree splits only depend on the ordering of values along each feature, and monotonic scaling simply shifts the threshold by the same factor
+- Decision trees automatically standardise every feature to mean zero and variance one before splitting
+- Decision trees ignore all numeric features and only split on text categories
+- Multiplying by 1,000 converts the decision tree into a logistic regression model
+= Because a split rule only separates rows below and above a cut-point, scaling a feature's units scales the cut-point identically without changing which rows go to each branch.
+
+## Gradient boosting is often the strongest choice on tabular data
+On structured business tables with heterogeneous columns (prices, dates, counts, and categories), modern gradient-boosted decision tree libraries consistently match or beat deep neural networks while training in a fraction of the time and compute budget.
+
+It is like using a nimble delivery van for city-centre drop-offs rather than hiring a cargo plane that shines only on intercontinental routes.
+
+Deep learning dominates unstructured inputs like raw text, audio, and images, but for a client's customer churn table or credit risk scorecard, gradient boosting paired with solid feature engineering should be your primary workhorse.
+
+?? For a standard structured business table of 50,000 customer rows with mixed numeric and categorical columns, which model family is usually the strongest contender?
++ Gradient-boosted decision trees
+- Deep convolutional neural networks
+- Recurrent long short-term memory networks
+- Unsupervised k-means clustering
+= Gradient-boosted trees handle ragged feature distributions, sharp threshold effects, and mixed column types natively, making them the benchmark on tabular data.
+
+## Choosing a model: data size, interpretability, and speed
+Selecting the right model for a client means balancing predictive accuracy against dataset size, latency and compute budgets, regulatory explainability requirements, and the engineering team's ability to maintain the system in production.
+
+It is like advising a logistics firm on vehicle purchases; a Formula One car is fastest on a track, but a reliable estate car is what actually delivers parcels on budget.
+
+When a hospital or bank requires transparent scorecards or sub-millisecond responses on modest hardware, a well-regularised linear model or compact tree ensemble often beats a marginal accuracy gain from a heavyweight ensemble.
+
+?? When advising a regulated financial client who must explain every rejected loan application in plain terms and has only 2,000 historical rows, what should guide model choice?
++ Prefer an interpretable, low-variance model such as regularised logistic regression or shallow trees over a complex black-box architecture
+- Always deploy the largest deep neural network available regardless of sample size or audit rules
+- Choose k-nearest neighbours with k=1 because it never overfits small datasets
+- Skip validation splits so all 2,000 rows can be memorised by a thousand-layer network
+= Small sample sizes favour low-variance models that resist overfitting, and regulatory constraints require transparent feature attributions.
+
+@@ sll_puFKobf6SyzI | C2.2 Core Algorithms > Unsupervised Models
+## k-means and hierarchical clustering
+Clustering groups unlabelled records by similarity: k-means iteratively assigns points to the nearest of k cluster centres (centroids) and updates those centres to the group means, whereas hierarchical clustering builds a nested tree (dendrogram) by successively merging or splitting groups across all distance scales.
+
+It is like sorting a box of mixed buttons into five bowls by size and colour (k-means) versus organising a company org chart from pairs of desks up to divisions (hierarchical).
+
+Remember that k-means assumes roughly spherical, similarly sized clusters in Euclidean space, so skewed features or crescent-shaped groups will confuse it.
+
+?? How does the standard k-means algorithm form clusters?
++ It alternates between assigning each point to the nearest cluster centroid and recalculating each centroid as the mean of its assigned points
+- It builds a full binary tree of pairwise merges without requiring a choice of k
+- It trains a softmax classifier using ground-truth category labels provided by the user
+- It projects the data onto the single direction of maximum variance using eigenvectors
+= K-means minimises within-cluster squared distances by repeatedly reassigning points to their closest centre and moving centres to the average of their members.
+
+## PCA, t-SNE, UMAP for dimensionality reduction
+Principal Component Analysis (PCA) projects high-dimensional data onto orthogonal linear axes that preserve maximum global variance, whereas t-SNE and UMAP are non-linear manifold methods that arrange points in two or three dimensions so that local neighbourhood relationships are preserved for visual inspection.
+
+It is like photographing a teapot from its most informative side angle (PCA) versus unfolding the curved skin of an orange flat onto a table so neighbouring segments stay together (t-SNE and UMAP).
+
+Use PCA when you need fast, deterministic feature compression for downstream models, and reserve t-SNE or UMAP for exploratory scatter plots.
+
+?? What is the main distinction between PCA and methods like t-SNE or UMAP?
++ PCA is a linear projection that preserves global variance, while t-SNE and UMAP are non-linear embeddings focused on preserving local neighbourhoods
+- PCA only works on two-dimensional images, while t-SNE requires target labels for every row
+- t-SNE and UMAP are strictly linear matrix multiplications that never use hyperparameters
+- PCA randomly shuffles cluster centres, while UMAP deletes correlated columns from the table
+= PCA finds orthogonal linear combinations of features capturing global variance, whereas t-SNE and UMAP optimise non-linear layouts to keep nearby points together.
+
+## Choosing the number of clusters
+Because unsupervised clustering has no ground-truth labels, choosing the number of clusters k combines quantitative heuristics such as the elbow plot of within-cluster variance and the silhouette score with practical business judgement about how many segments the organisation can actually act upon.
+
+It is like a marketing team deciding how many distinct newsletter versions to write; twelve statistical micro-clusters are useless if the team only has capacity to run four campaigns.
+
+A mathematical peak in the silhouette score is only a starting point; always inspect cluster profiles with domain experts to check that the groups make operational sense.
+
+?? Why should an AI consultant combine metrics like the silhouette score with client domain judgement when picking the number of customer clusters?
++ Unsupervised clustering has no single "true" k, so segments must be both statistically coherent and practical for the business to act on
+- The silhouette score always equals zero unless a client executive types in the exact revenue target
+- K-means refuses to compile in code if k is not a prime number above twenty
+- Domain experts can calculate exact eigenvalues in their heads without looking at data
+= Statistical cohesion metrics guide the range of plausible k values, but business utility determines whether the resulting segments are actionable.
+
+## t-SNE and UMAP plots are for exploring, not for measuring distances
+When viewing a two-dimensional t-SNE or UMAP chart, tight clumps genuinely reflect points that were close neighbours in the original space, but the visual sizes of clusters and the empty distances between far-apart clusters are distorted by local density scaling and hyperparameter choices.
+
+It is like the London Underground map, which reliably shows which station comes next on a line while stretching outer suburbs and squashing central zones out of true geographical scale.
+
+Never run k-means on top of a two-dimensional t-SNE plot or tell a client that one cluster is twice as wide as another based on that visual alone.
+
+?? What can you reliably conclude from a 2D t-SNE scatter plot of customer embeddings?
++ Points plotted right next to each other are likely close neighbours in the high-dimensional space, though distances between separate clusters are not to scale
+- The exact Euclidean distance between two far-apart clusters on the chart equals their true distance in the raw data
+- A cluster that looks twice as wide on the screen has exactly twice the variance of a smaller-looking cluster
+- The x and y axes correspond to the two single most important raw columns in the database
+= Non-linear neighbourhood embeddings adapt their scale to local density, preserving nearby relationships while distorting global distances and cluster areas.
+
+## Anomaly detection with isolation forests (concept)
+An isolation forest detects anomalies in unlabelled data by building many random decision trees that pick a feature and a split value at random; rare, unusual points get isolated into their own leaf near the root in very few splits, whereas normal points sit deep inside dense crowds.
+
+It is like playing a game of twenty questions to identify one person in a stadium; someone wearing a bright neon dinosaur costume can be singled out in two questions, while an ordinary spectator takes many questions.
+
+Anomalies are simply statistically unusual records, so an isolation forest flags sensor glitches and VIP bulk orders alongside real fraud unless you investigate the alerts.
+
+?? Why do anomalous data points have shorter average path lengths in an isolation forest?
++ Because outliers sit far from dense groups in feature space, random splits separate them from the rest of the data in very few steps
+- Because the algorithm sorts all rows by their fraud label before building the first tree
+- Because normal points are deleted from the tree before any splits are made
+- Because isolation forests only allow a maximum depth of one split for every point
+= Points in sparse regions of feature space are quickly partitioned into singleton leaves by random cuts, yielding short paths from the root.
+
+@@ sll_hFKnId1JjMF0 | C2.3 Model Evaluation & Tuning > Metrics
+## Accuracy, precision, recall, F1, ROC-AUC
+Accuracy is the share of all predictions that are correct; precision is the share of positive alerts that are truly positive; recall is the share of actual positives caught; F1 is the harmonic mean of precision and recall; and ROC-AUC measures how well positives are ranked above negatives across thresholds.
+
+It is like judging a security scanner by how rarely its alarms are false (precision) versus how rarely a real threat slips past (recall).
+
+Overall accuracy misleads when one class dominates; predicting "no fraud" every time scores ninety-nine percent accuracy when fraud is one percent of rows.
+
+?? If a medical screening model flags 100 patients as positive, 80 of whom actually have the condition, while missing 20 other patients who also have it, what are its precision and recall?
++ Precision is 80% (80 of 100 flagged) and recall is 80% (80 of 100 actual cases caught)
+- Precision is 100% and recall is 20%
+- Precision is 50% and recall is 99%
+- Precision is 20% and recall is 0%
+= Precision divides true positives (80) by total predicted positives (100), and recall divides true positives (80) by total actual positives (80 caught + 20 missed = 100).
+
+## RMSE, MAE, R-squared for regression
+Root Mean Squared Error (RMSE) squares each prediction error before averaging and taking the square root, heavily penalising large outliers; Mean Absolute Error (MAE) averages the absolute error sizes; and R-squared measures the share of target variance explained compared with predicting the simple mean.
+
+It is like a courier firm tracking average minutes late per parcel (MAE) versus paying a contract fine that quadruples whenever a parcel is two hours late (RMSE).
+
+Because R-squared depends on how spread out the test sample is, always report RMSE or MAE in real business units like pounds or hours alongside it.
+
+?? How does Root Mean Squared Error (RMSE) behave differently from Mean Absolute Error (MAE) when evaluating a regression model?
++ RMSE squares individual errors before averaging, so it penalises occasional large errors much more heavily than MAE
+- RMSE ignores all negative errors whereas MAE only counts errors larger than ten
+- MAE is always expressed in squared units whereas RMSE is unitless between zero and one
+- RMSE and MAE always produce the exact same number on every dataset
+= Squaring the residuals gives disproportionately large weight to big misses, making RMSE sensitive to outliers compared with the linear weighting of MAE.
+
+## Class imbalance and calibration
+Severe class imbalance occurs when the target event of interest (such as equipment failure, click-through, or loan default) makes up only a tiny fraction of the dataset, which tempts naive accuracy metrics and threshold rules into ignoring the minority class.
+
+It is like searching for one faulty bolt in a crate of ten thousand; guessing "every bolt is fine" sounds nearly spotless on paper while failing the entire quality mission.
+
+Be careful with resampling tricks like oversampling the minority class or undersampling the majority class: while they shift the decision boundary, they artificially distort the model's predicted probabilities unless you recalibrate afterwards.
+
+?? What is a key drawback of oversampling the minority class or undersampling the majority class during training?
++ It shifts the apparent base rate of the event, causing the model's raw predicted probabilities to become miscalibrated overestimate scores
+- It reduces the recall of the minority class to exact zero in every linear model
+- It forces the test set to contain no positive examples at all
+- It makes precision-recall curves mathematically impossible to plot
+= Changing the class ratio in the training data alters the prior learned by the model, so raw probability outputs will overstate the real-world likelihood unless recalibrated.
+
+## Precision-recall curves for rare classes
+When positive cases are rare, the Receiver Operating Characteristic (ROC) curve can look deceptively strong because its false positive rate divides false alarms by the massive pool of true negatives, whereas a Precision-Recall (PR) curve directly compares positive predictive value against recall without being diluted by easy negatives.
+
+It is like evaluating a spam filter for urgent legal notices among millions of routine emails; a thousand false alarms barely move the false positive rate out of millions, but they swamp the legal team's inbox and show up clearly as low precision.
+
+For heavily skewed client problems, always inspect the PR curve alongside the decision threshold.
+
+?? Why is a Precision-Recall (PR) curve more informative than an ROC curve when the positive class is very rare (e.g. 0.1% of records)?
++ A large number of true negatives keeps the ROC false positive rate tiny even when false alarms vastly outnumber true positives, whereas precision exposes that dilution directly
+- ROC curves cannot be computed whenever the dataset has more than a thousand rows
+- PR curves ignore false positives completely and only plot true negatives
+- ROC-AUC is always negative when the positive class is below 10%
+= Precision compares true positives to total predicted positives (TP + FP), directly revealing when false alarms overwhelm rare true events.
+
+## Calibration: do predicted 80% events happen 80% of the time?
+Probability calibration measures whether a model's numeric confidence scores match empirical long-run frequencies, meaning that among all records given a predicted probability around 0.80, roughly eighty percent actually experience the positive outcome.
+
+It is like a weather presenter whose "eighty percent chance of rain" forecasts are followed by actual rain on roughly four out of every five such days.
+
+A model can have an excellent ranking score (high ROC-AUC) while still being poorly calibrated, and whenever a client multiplies predicted probabilities by financial costs to compute expected value in pounds, you should check a reliability diagram and calibrate with Platt scaling or isotonic regression if needed.
+
+?? When is good probability calibration especially critical in a business application?
++ When the predicted probability is multiplied directly by financial gain or loss to make an expected-value decision
+- When the business only cares about sorting the top ten records in order without using the numeric probability values
+- When the problem is an unsupervised clustering task with no target variable
+- When the model is a linear regression predicting continuous house prices in pounds
+= Expected-value calculations (such as pricing insurance risk or bidding on ad impressions) rely on the probability numbers representing true empirical likelihoods, not just relative rankings.
+
+## Choose the metric from the business cost of each error
+No statistical metric is universally best in a vacuum; an AI consultant chooses the evaluation metric and classification threshold by mapping the real-world financial, operational, and human costs of a false positive versus a false negative with the client.
+
+It is like comparing an automated promotional voucher email, where a false positive costs pennies, against an automated oncology triage tool, where a false negative delays urgent care.
+
+Instead of leaving the classification cutoff at a default 0.50, build a simple cost matrix in pounds or staff hours with the client and set the threshold where expected business value is maximised.
+
+?? Why is leaving a classifier's decision threshold at the default 0.50 often suboptimal for a client?
++ A 0.50 threshold assumes false positives and false negatives have equal business cost, which is rarely true in real operations
+- Most software libraries crash if the decision threshold is set to 0.50 in production
+- Setting a threshold of 0.50 changes the ROC-AUC score of the underlying probability rankings
+- Probabilities from logistic regression can only take values between 0.0 and 0.2
+= When a missed detection costs fifty times more than a false alarm (or vice versa), shifting the probability threshold to reflect that cost ratio improves net business outcome.
+
+@@ sll_pRrvV-tfodXV | C2.3 Model Evaluation & Tuning > Validation & Tuning
+## Cross-validation and data leakage
+In k-fold cross-validation, the training data is partitioned into k equal folds, and the model is trained k times, each time holding out one fold for validation and training on the remaining k-1 folds to obtain a stable average score.
+
+It is like rotating which team member acts as the quality inspector across five project sprints so every piece of work gets checked fairly.
+
+Data leakage happens whenever preprocessing steps like scaling, imputation, or oversampling are computed across the whole dataset before splitting; every transformation must happen strictly inside each fold's training loop.
+
+?? How does data leakage commonly occur during k-fold cross-validation?
++ By fitting scalers, imputers, or feature selectors on the entire dataset before splitting into folds rather than inside each training fold
+- By choosing k=5 instead of k=10 on a medium-sized tabular dataset
+- By averaging the validation metric across all k folds at the end of the run
+- By keeping a separate final test set locked away until cross-validation is complete
+= Any step that computes statistics using rows from the held-out fold leaks validation information into the training pipeline and inflates cross-validation scores.
+
+## Hyperparameter search (grid, random, Bayesian)
+Hyperparameters are configuration settings chosen before training, such as tree depth or learning rate: grid search tests every combination on a fixed lattice, random search samples combinations at random, and Bayesian optimisation models past trials to pick the next promising configuration intelligently.
+
+It is like searching for water on a farm by drilling on a rigid grid, throwing darts at the map so every latitude gets distinct tests (random), or choosing each drill site from moisture readings of earlier holes (Bayesian).
+
+Random search usually beats grid search when only a few hyperparameters matter, while Bayesian search shines when each run is expensive.
+
+?? Why does random search often find a better hyperparameter setting than grid search in the same number of trials?
++ When only one or two hyperparameters strongly affect performance, random search explores many distinct values along those key axes instead of repeating the same grid points
+- Random search evaluates every possible real number in continuous space in a single trial
+- Grid search is only allowed to test a single hyperparameter at a time
+- Random search modifies the test set labels to make the validation score look higher
+= A grid wastes evaluations testing identical values of an important parameter across unimportant ones, whereas random trials test a fresh value of every parameter on every run.
+
+## Model interpretability with SHAP
+SHAP (SHapley Additive exPlanations) uses cooperative game theory to break down any single model prediction into additive contributions from each input feature, showing how much each feature pushed that specific prediction above or below the baseline average.
+
+It is like splitting a team sales bonus fairly among contributors by checking how much the total changes across every possible combination of who joined the pitch.
+
+SHAP provides consistent local and global explanations for tree ensembles, though it explains how the model uses its inputs rather than true real-world causality, and it can split credit awkwardly among correlated columns.
+
+?? What does a local SHAP explanation show for an individual customer's prediction?
++ How much each feature value contributed positively or negatively to push that customer's prediction away from the dataset baseline
+- Which causal intervention in the real world is guaranteed to change the customer's future behaviour
+- The exact p-value of the null hypothesis for a linear regression slope
+- The total disk space consumed by the random forest model file
+= SHAP values sum to the difference between the model's baseline expected output and the specific prediction for that instance, attributing shares to each feature.
+
+## Grouped and time-series cross-validation
+Standard random k-fold cross-validation fails when rows are not independent: grouped k-fold keeps all records from the same entity (such as a patient, customer account, or store) together in either the training or validation fold, while time-series cross-validation trains on prior periods and validates on the following future block.
+
+It is like testing a medical tool on hospitals it has never seen before, or testing a sales forecast on each quarter using only prior quarters.
+
+Matching your validation scheme to how the model will meet new groups or future dates in production is essential for honest error estimates.
+
+?? When one patient contributes twenty separate medical scans to a dataset and the model will be deployed to diagnose new patients, which cross-validation strategy should you use?
++ Grouped k-fold cross-validation grouped by patient ID, so all scans from any single patient stay in the same fold
+- Standard shuffled k-fold cross-validation so every patient has scans in both train and validation folds
+- Leave-one-row-out cross-validation without grouping by patient
+- Training and validating on the exact same rows without splitting
+= Grouping by patient prevents the model from memorising patient-specific anatomy across splits and mirrors the production goal of generalising to unseen patients.
+
+## Nested validation avoids over-optimistic estimates
+When you tune hyperparameters on a small dataset, picking the best score across many cross-validation trials is slightly biased upward; nested cross-validation solves this with an outer loop holding out test folds and an inner cross-validation loop that tunes hyperparameters strictly inside each outer training split.
+
+It is like running heats inside each regional club to pick their finalist (inner loop), and then holding the national championship on a fresh track (outer loop).
+
+Nested validation multiplies compute cost by the number of inner folds, so use it mainly on small datasets where tuning bias is a real risk.
+
+?? What problem does nested cross-validation solve on small datasets?
++ It separates hyperparameter selection (inner loop) from performance estimation (outer loop), preventing the winning hyperparameter score from being over-optimistic
+- It reduces the number of models trained to just one single linear regression fit
+- It allows features from the outer test fold to be used when fitting the inner scaler
+- It replaces gradient descent with an analytical closed-form matrix inversion
+= Selecting the maximum score across many hyperparameter trials on the same validation folds introduces selection bias; an outer loop evaluates that entire tuning procedure on untouched folds.
+
+## Tune on validation data, report on test data
+Every modelling decision, including algorithm choice, feature engineering, hyperparameter tuning, and threshold selection, must be guided by validation data, while the final performance numbers presented to stakeholders come from evaluating the single chosen pipeline once on the held-out test set.
+
+It is like a chef tasting and adjusting the seasoning in the kitchen pot (validation) before serving the finished dish once to the restaurant critic at the table (test).
+
+Reporting your validation score as the final expected production metric hides the degree to which your design choices adapted to that validation sample.
+
+?? After comparing thirty hyperparameter configurations on the validation set and picking the best one, which score gives the fairest estimate of future production performance?
++ The score of that single chosen model when evaluated once on the untouched test set
+- The highest score observed on the training set during the final epoch
+- The best validation score achieved across the thirty hyperparameter trials
+- The average of the training score and the best validation score
+= Because the winning configuration was selected specifically for performing well on the validation set, an independent test set is needed for an unbiased estimate.
+
+## Feature importance can mislead when features are correlated
+Standard tree-based feature importance and permutation importance can mislead you when two or more input features are strongly correlated, because the model splits credit between the twin columns or relies on the other twin when one is shuffled, making each look weaker than the underlying signal really is.
+
+It is like having two identical thermometers on the same factory wall; a model splits its attention between them so neither single thermometer looks essential on a chart, even though temperature is the main driver.
+
+Before telling a client that a factor does not matter, always inspect correlation clusters and group-level importance.
+
+?? What happens to feature importance scores when two strongly correlated features carry the same predictive signal?
++ The importance gets split or diluted between the correlated features, making each individual feature look less important than the shared signal truly is
+- Both correlated features automatically receive an importance score of 100%
+- Decision trees refuse to train whenever two columns have a correlation above 0.5
+- Permutation importance deletes both columns from the database permanently
+= When two features hold duplicate information, trees can swap between them and single-column permutation leaves the twin intact, masking the true combined importance.

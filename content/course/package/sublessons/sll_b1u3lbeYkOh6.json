@@ -5,56 +5,168 @@
     {
       "id": "bit_9PKzDUB-nfi-",
       "title": "Demand forecasting and inventory optimization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "AI demand forecasting predicts how many units of each product customers will buy across future weeks and locations, while inventory optimisation balances stock levels so shelves stay full without tying up excess cash.\n\nIt is like a bakery owner predicting how many sourdough loaves and croissants to bake for Saturday morning so regular customers do not leave empty-handed and unsold bread does not go in the bin.\n\nMachine learning shines when dozens of interacting signals drive demand across thousands of stock-keeping units, though every forecast should still be compared against a simple seasonal baseline first.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9PKzDUB-nfi-_1",
+          "type": "multiple_choice",
+          "prompt": "What dual tension does demand forecasting and inventory optimisation help a supply chain team balance?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Ensuring warehouses are always one hundred per cent empty so rent is zero"
+            },
+            {
+              "id": "b",
+              "text": "Avoiding costly stockouts and lost sales on one side while avoiding excess cash tied up in unsold warehouse stock on the other"
+            },
+            {
+              "id": "c",
+              "text": "Ordering ten years of perishable food stock in advance to get a bulk discount"
+            },
+            {
+              "id": "d",
+              "text": "Eliminating all transport lorries from the supply chain"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Good inventory planning finds the sweet spot between service availability and working capital efficiency.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6QaZ54_JdPkl",
       "title": "Route and logistics optimization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Route and logistics optimisation uses mathematical algorithms to sequence deliveries, consolidate loads, and assign vehicles while respecting real-world constraints like driver hours, lorry capacity, and customer time windows.\n\nIt is like solving a giant puzzle where fifty delivery vans must visit eight hundred postcodes before five o'clock, avoiding low bridges and rush-hour bottlenecks, while burning the least fuel.\n\nEven a three to five per cent reduction in total miles driven across a regional fleet saves substantial fuel costs, driver overtime, and carbon emissions every single month.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6QaZ54_JdPkl_1",
+          "type": "multiple_choice",
+          "prompt": "Which real-world constraints must a practical logistics optimisation system respect when building daily delivery routes?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Vehicle weight and volume limits, legal driver shift hours, road restrictions, and customer delivery time windows"
+            },
+            {
+              "id": "b",
+              "text": "Only the straight-line compass distance on a flat paper map with no roads"
+            },
+            {
+              "id": "c",
+              "text": "The personal horoscope of each warehouse supervisor"
+            },
+            {
+              "id": "d",
+              "text": "Assuming every lorry can travel at two hundred miles per hour through city centres"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Operational routing only works on the road when the solver incorporates real physical, legal, and customer-service constraints.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_OfUfDTVQt-U4",
       "title": "Forecasts are wrong; plan for error ranges",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The fundamental law of supply chain analytics is that every single point forecast is wrong to some degree, so smart planners work with probability ranges (such as P10, P50, and P90) rather than a single magic number.\n\nIt is like checking a weather forecast before a hike: knowing there is a thirty per cent chance of heavy rain tells you to pack a waterproof jacket, whereas a single \"mostly dry\" headline leaves you soaked.\n\nAs an AI consultant, train client executives to ask for the forecast uncertainty band and bias, rather than blaming the data science team when actual sales land eight per cent away from the midpoint.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OfUfDTVQt-U4_1",
+          "type": "multiple_choice",
+          "prompt": "Why should a supply chain forecasting model output probability ranges rather than a single fixed number?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because future demand always carries uncertainty, and knowing the likely upper and lower bounds lets planners manage risk sensibly"
+            },
+            {
+              "id": "b",
+              "text": "Because computers cannot display single numbers on a screen"
+            },
+            {
+              "id": "c",
+              "text": "Because probability ranges guarantee that customers will buy the exact maximum amount"
+            },
+            {
+              "id": "d",
+              "text": "Because printing three numbers instead of one eliminates supplier lead times"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Probabilistic forecasts quantify uncertainty explicitly, allowing operations teams to plan buffer capacity where the downside risk is highest.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NFBiqajzS736",
       "title": "Inputs: past sales, seasonality, promotions, and events",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A strong demand forecasting model combines historical sales records with calendar seasonality, planned price promotions, marketing campaigns, weather patterns, and local holidays or events.\n\nFurthermore, you must correct historical sales for past stockouts: if a shop sold fifty umbrellas by noon and ran out of stock, true demand was much higher than fifty.\n\nFeeding unadjusted sales history into an AI model teaches it to systematically under-forecast your client's most popular products right when they are needed most.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NFBiqajzS736_1",
+          "type": "multiple_choice",
+          "prompt": "Why must historical sales data be adjusted for past stockouts before training a demand forecasting model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Stockouts always mean zero customers wanted the product that day"
+            },
+            {
+              "id": "b",
+              "text": "If a product sold out early, recorded sales reflect the stock limit rather than true customer demand, causing the model to under-forecast"
+            },
+            {
+              "id": "c",
+              "text": "Adjusting for stockouts is prohibited by retail accounting standards"
+            },
+            {
+              "id": "d",
+              "text": "Forecasting models only look at competitor prices and never at past sales"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Distinguishing constrained sales from unconstrained demand stops the algorithm from repeating past inventory shortages.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_bmYPAemW_EnQ",
       "title": "Safety stock sized to forecast error",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Safety stock is the deliberate buffer of extra inventory held to absorb unexpected demand spikes or supplier delivery delays, and its size should be calculated directly from your forecast error and lead-time variability.\n\nIt is like leaving twenty minutes early for an airport train when you know the local bus is unpredictable, versus leaving five minutes early when you live right next door to the station.\n\nWhen an AI model reduces forecast error on a stable product line, the client can safely shrink that buffer stock and release working capital without hurting customer availability.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -67,19 +179,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_bmYPAemW_EnQ_1",
+          "type": "multiple_choice",
+          "prompt": "What determines how much safety stock a warehouse needs to hold for a given product?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The alphabetical order of the product's name in the catalogue"
+            },
+            {
+              "id": "b",
+              "text": "The personal favourite number of the warehouse manager"
+            },
+            {
+              "id": "c",
+              "text": "The size of the forecast error, the variability of supplier lead times, and the target customer service level"
+            },
+            {
+              "id": "d",
+              "text": "Nothing, because every product in a company should always have the exact same number of buffer units"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Sizing safety stock mathematically to actual forecast error and supplier reliability protects availability where risk is high and frees cash where demand is predictable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_OA3eutvwPFC2",
       "title": "Solvers do the maths; the LLM explains and orchestrates",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In supply chain and operations, combinatorial mathematical solvers (such as linear or constraint programming) should calculate the optimal schedule or route, while large language models act as the natural-language interface around them.\n\nIt is like pairing a master navigator who calculates the exact fuel and tide tables with a clear-spoken captain who explains the plan to the crew and takes requests when a port closes.\n\nNever ask a language model to optimise a five-hundred-stop vehicle routing table in its head; let the LLM translate a planner's question into solver constraints and explain the solver's mathematical trade-offs in plain English.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OA3eutvwPFC2_1",
+          "type": "multiple_choice",
+          "prompt": "What is the right division of labour between a mathematical optimisation solver and a large language model in logistics planning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The solver computes the exact mathematical schedule under constraints, while the language model translates user inputs and explains the resulting trade-offs"
+            },
+            {
+              "id": "b",
+              "text": "The language model guesses all lorry routes by rhyming postcode letters without any maths solver"
+            },
+            {
+              "id": "c",
+              "text": "The mathematical solver writes customer apology emails while the language model calculates fuel weights"
+            },
+            {
+              "id": "d",
+              "text": "Neither tool is needed because spreadsheets cannot handle more than three rows"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Combining deterministic mathematical solvers for hard optimisation with LLMs for natural interaction gives both provable accuracy and usability.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

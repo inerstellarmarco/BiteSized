@@ -5,80 +5,248 @@
     {
       "id": "bit_2ZdrQ6Ef9SDb",
       "title": "Nodes, edges, and shared state",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "LangGraph models an agent workflow as a graph made of three building blocks: nodes, edges and shared state. Check the current details for recent API changes.\n\nShared state is a single typed data record that holds the progress of the run. Nodes are functions that read that state, do one piece of work and write updates back to the state. Edges are the arrows connecting nodes, defining which node runs next.\n\nIt is a board game where the board is the graph, the counters and score sheet are the shared state, and each square tells you what action to take next.\n\nThis structure turns messy agent logic into an explicit map you can inspect and test.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2ZdrQ6Ef9SDb_1",
+          "type": "multiple_choice",
+          "prompt": "What are the three core building blocks of a LangGraph workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Tables, rows and foreign keys in a spreadsheet"
+            },
+            {
+              "id": "b",
+              "text": "Nodes that do work, edges that connect them and a shared state object they read and update"
+            },
+            {
+              "id": "c",
+              "text": "HTML tags, CSS rules and browser cookies"
+            },
+            {
+              "id": "d",
+              "text": "Random prompts with no shared data"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A graph workflow combines processing steps (nodes), transitions (edges) and a single shared state record.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_SjMlGLMn3GaZ",
       "title": "Cyclical workflows",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Traditional data pipelines are directed acyclic graphs (DAGs): data flows strictly forward from start to finish and never loops back.\n\nAgent work is different. An agent writes code, runs a test, sees an error, edits the code and runs the test again. That requires a cycle, an arrow that points back to an earlier step until a check passes. Graph-based agent frameworks are built specifically to support these controlled loops.\n\nIt is a chef tasting a sauce, adding salt and tasting again, rather than serving whatever came out on the first stir.\n\nCycles give agents the ability to retry and self-correct inside a predictable structure.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_SjMlGLMn3GaZ_1",
+          "type": "multiple_choice",
+          "prompt": "Why do agent workflows often need cycles rather than a strictly one-way pipeline?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Agents frequently need to try an action, inspect the result and loop back to revise until a check passes"
+            },
+            {
+              "id": "b",
+              "text": "Cycles allow the workflow to skip reading the user's input"
+            },
+            {
+              "id": "c",
+              "text": "One-way pipelines cannot call language models at all"
+            },
+            {
+              "id": "d",
+              "text": "A cycle guarantees the run uses zero tokens"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Retry, tool-use and revision loops all require returning to an earlier step when the work is not yet complete.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_cIz0RThFvNjg",
       "title": "Why graphs: agent work as steps and decisions you can draw",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When agent control logic is buried inside nested `if` statements and prompt instructions, nobody on the team can tell what paths the system might take.\n\nRepresenting the workflow as a graph forces you to draw every step and every decision point explicitly. You can render the graph as a diagram, show it to a client, and trace exactly which node ran and which branch was taken on any failed run.\n\nIt is a London Underground map: you can see every station and every interchange at a glance instead of guessing where the tunnel goes.\n\nIf you cannot draw your agent's control flow on a whiteboard, it is probably too tangled to debug in production.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cIz0RThFvNjg_1",
+          "type": "multiple_choice",
+          "prompt": "What is a practical advantage of modelling an agent workflow as an explicit graph?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every possible step and branch is visible, making the workflow easier to explain, test and debug"
+            },
+            {
+              "id": "b",
+              "text": "It removes the need to write any functions"
+            },
+            {
+              "id": "c",
+              "text": "It lets the model invent new database tables at random"
+            },
+            {
+              "id": "d",
+              "text": "It hides the control flow from developers"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "An explicit graph makes the allowed steps and transitions visible both in code and as a diagram.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6zL4kcMPe7yZ",
       "title": "Nodes: one step of work (an LLM call, a tool, or plain code)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A node in a graph is just a regular function that takes the current state as input and returns the fields it wants to update.\n\nCrucially, not every node has to call a language model. One node might call an LLM to draft a SQL query. The next node might be ten lines of plain Python that validate the query syntax. The third node might execute the query against Postgres.\n\nIt is a relay race where some runners are AI models and others are fast, deterministic code functions handing the baton along.\n\nMixing plain-code nodes with model nodes keeps the workflow fast, cheap and predictable wherever AI is not needed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6zL4kcMPe7yZ_1",
+          "type": "multiple_choice",
+          "prompt": "What can a node in an agent graph contain?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only a frontier language model call and nothing else"
+            },
+            {
+              "id": "b",
+              "text": "An LLM call, a tool execution or plain deterministic code that reads and updates the state"
+            },
+            {
+              "id": "c",
+              "text": "Only user-interface styling rules"
+            },
+            {
+              "id": "d",
+              "text": "A complete copy of the operating system"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Because a node is simply a function over state, you can freely mix model calls, tool calls and ordinary code steps.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_b7NPJCsWoAgK",
       "title": "Edges: what runs next; conditional edges choose a path",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Edges control the order of execution between nodes. They come in two kinds: normal edges and conditional edges.\n\nA normal edge is a fixed arrow: when Node A finishes, always go to Node B. A conditional edge is a decision function that inspects the current state and chooses which node to visit next. For example, if `state.error` is present, route to the `fix_query` node; otherwise route to the `summarise_results` node.\n\nIt is a railway points switch that checks the signal and directs the train onto platform one or platform two.\n\nPutting routing logic in conditional edges keeps navigation in testable code rather than inside a node's prompt.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_b7NPJCsWoAgK_1",
+          "type": "multiple_choice",
+          "prompt": "What is the difference between a normal edge and a conditional edge in a graph?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A normal edge costs tokens, while a conditional edge is free"
+            },
+            {
+              "id": "b",
+              "text": "Conditional edges can only point backwards"
+            },
+            {
+              "id": "c",
+              "text": "Normal edges delete the shared state"
+            },
+            {
+              "id": "d",
+              "text": "A normal edge always goes to the same next node, while a conditional edge inspects the state to choose the path"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Conditional edges read the state after a node finishes and branch to different nodes based on what happened.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_CJpKZEChWpUZ",
       "title": "Shared state: the single record every node reads and updates",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Instead of passing long chains of function arguments from step to step, a graph workflow keeps one shared state object for the run.\n\nWhen a node finishes, it returns only the fields it changed, such as `{\"sql_query\": \"SELECT ...\"}` or appending a new item to `messages`. The graph merges those updates into the shared state before calling the next node.\n\nIt is a patient's medical chart on the end of a hospital bed: each nurse or doctor reads the chart, performs their check and writes their entry on the same record.\n\nHaving one source of truth makes it easy to inspect the exact state of the run at any step.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_CJpKZEChWpUZ_1",
+          "type": "multiple_choice",
+          "prompt": "How do nodes share information in a graph-based workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every node emails a spreadsheet to the user"
+            },
+            {
+              "id": "b",
+              "text": "Nodes guess what earlier nodes did without reading any data"
+            },
+            {
+              "id": "c",
+              "text": "Each node overwrites the entire database from scratch"
+            },
+            {
+              "id": "d",
+              "text": "Each node reads what it needs from the single shared state object and returns updates to merge back into it"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The shared state acts as the single record for the run, updated cleanly after each node finishes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ZcVpQZhRQ4Fd",
       "title": "Loops need an exit: step limits and stop conditions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Any graph with a cycle can loop forever if the exit condition is never met.\n\nYou protect against runaway loops in two places. First, in the conditional edge: track a counter such as `revision_count` in the shared state and route to an exit or fallback node once it reaches three. Second, at the graph runner level: set a hard recursion or step limit (such as 25 total node visits) so the framework stops the run automatically if a bug creates an endless cycle.\n\nIt is fitting both a thermostat and a fuse to a heater: one stops it in normal use, and the other cuts the power if the first fails.\n\nNever deploy a cyclical graph without both checks in place.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
@@ -91,7 +259,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ZcVpQZhRQ4Fd_1",
+          "type": "multiple_choice",
+          "prompt": "What two safeguards prevent a cyclical agent graph from running forever?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Asking the model nicely not to loop"
+            },
+            {
+              "id": "b",
+              "text": "Removing all conditional edges from the graph"
+            },
+            {
+              "id": "c",
+              "text": "A stop condition in the conditional edge (such as a retry counter) and a hard maximum step limit on the graph run"
+            },
+            {
+              "id": "d",
+              "text": "Using a larger font in the system prompt"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Combining an explicit retry counter in state with a framework-level step cap guarantees every loop terminates.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

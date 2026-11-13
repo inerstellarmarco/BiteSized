@@ -5,56 +5,168 @@
     {
       "id": "bit_M--tdrFATJ8z",
       "title": "Message passing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Message passing is the core mechanism that allows a Graph Neural Network (GNN) to learn from data structured as nodes and edges rather than grids of pixels or sequences of words. In each layer, every node sends its current feature vector as a \"message\" along its outgoing edges, aggregates the incoming messages from its connected neighbours, and combines them with its own state to produce an updated representation.\n\nIt is like a round-table briefing where every department head shares a one-minute status update with the teams they work with directly, and everyone revises their own risk assessment after listening.\n\nAfter one layer of message passing, a node knows about its immediate one-hop neighbours; after two layers, it integrates information from two hops away. This makes GNNs sensitive to both node attributes and the topology of connections around them.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_M--tdrFATJ8z_1",
+          "type": "multiple_choice",
+          "prompt": "How does a node acquire information from nodes two hops away in a message-passing Graph Neural Network?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By deleting all one-hop edges from the graph before the forward pass begins"
+            },
+            {
+              "id": "b",
+              "text": "By stacking two message-passing layers so neighbours first gather one-hop information and then pass it on in the second layer"
+            },
+            {
+              "id": "c",
+              "text": "By sorting the node identifiers alphabetically and running a 1D convolution"
+            },
+            {
+              "id": "d",
+              "text": "By increasing the learning rate to twice its initial value during the first epoch"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Each message-passing layer expands a node's receptive field by one hop along the graph edges, so k layers incorporate information from a k-hop neighbourhood.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_YOShO41MC5Rw",
       "title": "Node and graph classification",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Graph Neural Networks are commonly applied at two different levels of granularity: node classification and whole-graph classification. In node classification, the goal is to predict a label for individual entities within a large connected network, using the final node embeddings directly. In graph classification, the goal is to assign a single label to an entire self-contained graph by pooling all its node embeddings into one summary vector.\n\nThink of node classification as identifying which individual accounts inside a bank's transaction network are mules, whereas graph classification is like judging whether an entire molecular diagram represents a toxic compound.\n\nFor graph classification, the readout pooling function (such as sum, mean, or attention pooling) must be permutation-invariant, meaning the prediction stays identical no matter how the nodes are numbered in the computer's memory.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YOShO41MC5Rw_1",
+          "type": "multiple_choice",
+          "prompt": "What additional step is required for whole-graph classification compared with node classification?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A permutation-invariant pooling (readout) operation that combines all node embeddings into a single graph-level vector"
+            },
+            {
+              "id": "b",
+              "text": "Removing all edge connections so that every node is processed as an isolated tabular row"
+            },
+            {
+              "id": "c",
+              "text": "Converting the graph into a natural language essay before feeding it to the network"
+            },
+            {
+              "id": "d",
+              "text": "Training a separate neural network for every individual node in the dataset"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Node classification predicts directly from per-node vectors, whereas graph classification aggregates all node vectors via a readout layer to classify the entire structure.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_UA3wMJWnaZai",
       "title": "Each node updates itself from its neighbours",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Inside a single GNN layer, a node's update breaks down into two clean mathematical steps: aggregation and update. First, the aggregation function collects the feature vectors of all immediate neighbours using an order-independent operation such as sum, mean, or max, sometimes weighted by edge importance or attention scores. Second, the update function passes the node's own previous vector and the aggregated neighbour vector through a learnable neural transformation.\n\nIt is like valuing a house: you first average the recent sale prices of the homes on the same street (aggregation) and then combine that neighbourhood figure with the specific size and condition of your own property (update).\n\nBecause graphs have no natural left-to-right or top-to-bottom order, using a symmetric aggregation function is essential so the output never depends on the arbitrary order in which neighbours are listed in a file.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_UA3wMJWnaZai_1",
+          "type": "multiple_choice",
+          "prompt": "Why must the neighbour aggregation function in a GNN layer be invariant to the order of the neighbours?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because GPUs can only compute sums when numbers are sorted from largest to smallest"
+            },
+            {
+              "id": "b",
+              "text": "Because every node in a real-world graph always has the exact same number of neighbours"
+            },
+            {
+              "id": "c",
+              "text": "Because a graph's neighbours have no intrinsic sequence order, so re-listing them should not change the node's output"
+            },
+            {
+              "id": "d",
+              "text": "Because order invariance allows the network to skip the backward pass during training"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Unlike pixels in an image or words in a sentence, a node's neighbours form an unordered set, so the aggregation must yield the same result under any permutation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_0GvKgVdkF7mZ",
       "title": "Link prediction",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Link prediction is the task of estimating whether an edge should exist between two nodes in a graph, either to uncover missing relationships right now or to forecast connections that will form in the future. After running message-passing layers to compute context-rich embeddings for every node, the model scores candidate pairs of nodes using a dot product, cosine similarity, or a small neural network applied to both vectors.\n\nThink of a professional networking platform suggesting \"people you may know\" by spotting two consultants who share several mutual clients and similar industry skills but have not yet connected.\n\nDuring training, engineers hide a subset of real edges as positive examples and sample non-existent edges as negative examples. You must take care not to leak the test edges into the message-passing graph during evaluation, or the model will cheat by using the very link it is trying to predict.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0GvKgVdkF7mZ_1",
+          "type": "multiple_choice",
+          "prompt": "How does a GNN typically predict whether a link exists between two nodes after message passing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It counts the number of characters in the two node names and checks if they match"
+            },
+            {
+              "id": "b",
+              "text": "It pools the entire graph into a single scalar number that applies to all pairs equally"
+            },
+            {
+              "id": "c",
+              "text": "It deletes both nodes from the graph and measures whether the training loss increases"
+            },
+            {
+              "id": "d",
+              "text": "It computes a similarity score or passes the pair of learned node embeddings into a scoring head"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Link prediction combines the learned representations of two candidate nodes (for instance via dot product or an MLP) to output the probability of an edge between them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-YJi--4eb_FU",
       "title": "Uses: molecules, networks, and recommendations",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Graph Neural Networks shine in client domains where relationships between entities carry as much signal as the attributes of the entities themselves. In drug discovery, atoms are nodes and bonds are edges, letting GNNs predict toxicity before synthesising a compound. In finance and cybersecurity, GNNs trace rings of coordinated accounts across transaction graphs, while in e-commerce, user-item graphs power large-scale recommendation engines.\n\nIt is like solving a detective case: reading suspects' files in isolation misses the conspiracy that becomes obvious once you pin strings between them on a wall board.\n\nBefore proposing a GNN, always benchmark gradient-boosted trees with engineered graph features like node degree or PageRank, which sometimes suffice when relational effects are weak.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -67,19 +179,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-YJi--4eb_FU_1",
+          "type": "multiple_choice",
+          "prompt": "In which business scenario is a Graph Neural Network most likely to add value over a standard tabular model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Predicting house prices from a flat spreadsheet of floor area, bedroom count, and build year with no network links"
+            },
+            {
+              "id": "b",
+              "text": "Fraud or recommendation problems where multi-hop relationships between accounts and items carry key signal"
+            },
+            {
+              "id": "c",
+              "text": "Translating customer support emails from French into English sentence by sentence"
+            },
+            {
+              "id": "d",
+              "text": "Transcribing recorded call-centre audio files into plain text transcripts"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "GNNs add the most value when multi-step relational structure (such as transaction rings, molecular bonds, or user-item interaction graphs) is central to the prediction.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_mkxXwnKjFxBi",
       "title": "Over-smoothing limits depth",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Over-smoothing is a structural pathology in Graph Neural Networks where stacking too many message-passing layers causes the representations of all connected nodes to converge towards nearly identical vectors. While Convolutional Neural Networks and Transformers often grow stronger at dozens or hundreds of layers, a naive GNN frequently peaks at just two to four layers before accuracy drops sharply.\n\nImagine pouring cups of differently coloured paint into a row of bowls and mixing neighbouring bowls together repeatedly: after one or two mixes you get useful blends, but after twenty mixes every bowl turns the exact same muddy grey.\n\nBecause every layer averages a node with its neighbours, repeated steps expand the receptive field across the whole graph until local node identity washes out. Techniques like residual skip connections, jumping knowledge connections, or sampling subgraphs help mitigate over-smoothing when longer-range context is genuinely needed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_mkxXwnKjFxBi_1",
+          "type": "multiple_choice",
+          "prompt": "Why does adding many message-passing layers to a standard GNN often hurt performance?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "GNN layers cannot use activation functions after the third layer of the network"
+            },
+            {
+              "id": "b",
+              "text": "Each additional GNN layer deletes half of the edges in the input graph permanently"
+            },
+            {
+              "id": "c",
+              "text": "Repeatedly averaging neighbour features across many hops causes all node representations to become indistinguishable (over-smoothing)"
+            },
+            {
+              "id": "d",
+              "text": "The number of trainable parameters drops to zero whenever a GNN exceeds four layers"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Over-smoothing occurs because repeated neighbourhood aggregation acts like a low-pass filter on the graph, washing out the distinctive local features of individual nodes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

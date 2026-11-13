@@ -5,8 +5,8 @@
     {
       "id": "bit_kCm4HtasUcYA",
       "title": "Vectors as data points and directions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A vector is an ordered list of numbers that represents either a single data point in space or a direction and magnitude of movement from the origin. Every feature in a dataset becomes one coordinate along a separate axis.\n\nIt is like a client profile card where annual spend, support tickets, and account age are listed in a fixed order to place that customer at an exact spot on a map.\n\nHowever, raw coordinates mean little unless the axes share comparable scales and clear definitions across every record you analyse.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,79 +19,275 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kCm4HtasUcYA_1",
+          "type": "multiple_choice",
+          "prompt": "How does machine learning represent a customer record as a vector?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "As an ordered list of numbers where each position holds one feature value"
+            },
+            {
+              "id": "b",
+              "text": "As an unordered bag of text labels with no fixed coordinate positions"
+            },
+            {
+              "id": "c",
+              "text": "As a single summary score that discards individual feature measurements"
+            },
+            {
+              "id": "d",
+              "text": "As a circular graph that connects every database table to another"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Each number in a vector corresponds to a specific feature dimension, placing the record at a defined point or direction in space.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_XzPrDAQbRbvM",
       "title": "Dot products and cosine similarity (see A5.2, B2.1)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The dot product multiplies matching coordinates of two vectors and adds the results together, while cosine similarity divides that sum by both vector lengths to measure the angle between them regardless of size.\n\nIt is like comparing two shoppers by the mix of groceries in their baskets rather than how many total bags they bought.\n\nA high cosine score still depends on how the embedding model was trained, so two vectors pointing the same way may reflect shared topic words rather than true business equivalence.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XzPrDAQbRbvM_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main difference between the raw dot product and cosine similarity?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Cosine similarity normalises for vector length so only the angle between directions is compared"
+            },
+            {
+              "id": "b",
+              "text": "Cosine similarity ignores negative numbers whereas the dot product deletes positive ones"
+            },
+            {
+              "id": "c",
+              "text": "The dot product requires square matrices whereas cosine similarity only works on text strings"
+            },
+            {
+              "id": "d",
+              "text": "The dot product measures Euclidean distance whereas cosine similarity counts non-zero entries"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Dividing the dot product by the product of the two vector norms removes magnitude effects and leaves the cosine of the angle between them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1ga0G81f_kYI",
       "title": "Matrix multiplication as a transformation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Matrix multiplication applies a linear transformation to a space, rotating, stretching, squashing, or projecting every input vector into a new coordinate system according to the numbers stored in the matrix rows and columns.\n\nIt is like converting a table of regional sales figures from local currencies and units into a standardised global reporting view in one step.\n\nBecause a single matrix multiply is strictly linear, stacking several of them without non-linear activation functions in between collapses into just one flat transformation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1ga0G81f_kYI_1",
+          "type": "multiple_choice",
+          "prompt": "What happens geometrically when you multiply a vector by a matrix?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The vector is linearly transformed through operations such as rotation, scaling, or projection"
+            },
+            {
+              "id": "b",
+              "text": "The vector is sorted from smallest coordinate to largest coordinate without changing length"
+            },
+            {
+              "id": "c",
+              "text": "Each coordinate is raised to an exponential power to create a curved surface"
+            },
+            {
+              "id": "d",
+              "text": "The vector is split into random sub-samples to prevent overfitting during inference"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A matrix acts as a linear map that stretches, rotates, or projects vectors into a new space.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_akQy_LdGtATx",
       "title": "Vector length (norm) and unit vectors",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The length of a vector, called its norm, measures how far the point sits from the origin, and dividing a vector by its Euclidean norm produces a unit vector of length one that keeps only its direction.\n\nIt is like turning a delivery van report that mixes route compass bearings with total kilometres driven into a pure compass heading of length one.\n\nWatch out for zero vectors in sparse client data, because dividing a vector of all zeros by its norm causes a divide-by-zero error unless you add a tiny safety constant.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_akQy_LdGtATx_1",
+          "type": "multiple_choice",
+          "prompt": "How do you convert a non-zero vector into a unit vector?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Subtract the mean of the coordinates so the entries sum to zero"
+            },
+            {
+              "id": "b",
+              "text": "Multiply the vector by its own transpose to obtain a scalar value"
+            },
+            {
+              "id": "c",
+              "text": "Divide every coordinate of the vector by the vector's length (norm)"
+            },
+            {
+              "id": "d",
+              "text": "Round every coordinate to the nearest whole integer between zero and one"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Scaling each component by the reciprocal of the Euclidean norm preserves direction while setting total length to one.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_nJw_tQ014R9C",
       "title": "A matrix as a table of weights: a neural-network layer is a matrix multiply",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a neural network, a dense layer stores its learnable connections as a matrix of weights, where each column or row holds the strengths linking every input feature to one output neuron via matrix multiplication.\n\nIt is like a panel of specialist reviewers who each apply their own weighted scorecard to the same client proposal at the exact same moment.\n\nThis matrix step plus a bias term only computes weighted sums, so the network still needs a non-linear activation afterwards to learn curved boundaries.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_nJw_tQ014R9C_1",
+          "type": "multiple_choice",
+          "prompt": "What role does the weight matrix play inside a standard dense neural-network layer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It records the historical timestamps of every training epoch run on the server"
+            },
+            {
+              "id": "b",
+              "text": "It stores the learnable connection strengths that transform an input vector into output pre-activations"
+            },
+            {
+              "id": "c",
+              "text": "It holds the raw validation images in compressed binary form for visual inspection"
+            },
+            {
+              "id": "d",
+              "text": "It enforces a hard rule that prevents gradients from flowing backward through the model"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Multiplying the input by the weight matrix computes the weighted sums for all neurons in the layer simultaneously.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_bDlD732BJlmU",
       "title": "Shapes must match: the most common source of tensor errors",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Two matrices can be multiplied only when the inner dimensions match, meaning the number of columns in the first matrix equals the number of rows in the second, and the output takes the outer dimensions.\n\nIt is like connecting two sections of industrial piping for a factory client where the outlet diameter of the first pipe must match the inlet diameter of the second.\n\nBroadcasting rules in modern code libraries sometimes hide mismatched dimensions by silently repeating a column or row, which can corrupt predictions without raising an error.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_bDlD732BJlmU_1",
+          "type": "multiple_choice",
+          "prompt": "When multiplying matrix A of shape (32, 128) by matrix B, which shape for B is valid and what output shape results?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "B has shape (32, 10) and the output has shape (128, 32)"
+            },
+            {
+              "id": "b",
+              "text": "B has shape (128, 10) and the output has shape (32, 10)"
+            },
+            {
+              "id": "c",
+              "text": "B has shape (10, 128) and the output has shape (10, 32)"
+            },
+            {
+              "id": "d",
+              "text": "B has shape (128, 128) and the output has shape (128, 128)"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The inner dimension 128 matches across both matrices, and the resulting matrix takes the outer dimensions of 32 rows by 10 columns.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_tUWbLzO20Kga",
       "title": "Batches: stacking many vectors into one matrix",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Instead of passing data points through a model one vector at a time, practitioners stack dozens or hundreds of input vectors as rows in a single batch matrix and multiply the whole batch at once.\n\nIt is like baking forty loaves of bread on one large commercial tray rather than heating the oven forty separate times for single loaves.\n\nLarger batches utilise parallel graphics hardware efficiently, yet making the batch too big can exceed memory limits and alter how well the trained model generalises.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_tUWbLzO20Kga_1",
+          "type": "multiple_choice",
+          "prompt": "Why do engineers stack individual input vectors into a batch matrix before multiplying by layer weights?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Stacking vectors removes all noise from the labels and guarantees zero validation error"
+            },
+            {
+              "id": "b",
+              "text": "Parallel hardware can process one large matrix multiplication much faster than many separate vector calls"
+            },
+            {
+              "id": "c",
+              "text": "Matrix multiplication is mathematically undefined for a single vector on modern processors"
+            },
+            {
+              "id": "d",
+              "text": "Batching reduces the number of features in each customer record by half"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Modern accelerators are optimised for dense matrix-matrix operations, making batched processing far more efficient than sequential single-example updates.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

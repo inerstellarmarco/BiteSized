@@ -1,0 +1,529 @@
+// B12 Evaluation of AI Systems & Agents
+@@ sll_kHsY2fOxCXYM | B12.1 Evaluation Foundations > Why Evals Matter
+## LLM evals as the unit tests of AI
+In traditional software, unit tests check that `calculate_tax(100)` always returns `20`. In AI engineering, **evaluations (evals)** play the same role, adapted for outputs that are flexible rather than identical character for character.
+
+An eval suite is a collection of representative test inputs paired with scoring functions that check whether the model or agent produced an acceptable, accurate, safe result. Whenever you change a prompt, swap a model, update a tool or tweak your chunking, you run the eval suite to see whether quality went up or down.
+
+It is a flight simulator that every software change must land safely in before it goes near real passengers.
+?? What role do evaluations (evals) play in an AI engineering project?
++ They act like automated tests that measure whether prompt, model or code changes improve or break system quality
+- They replace the need for any database in production
+- They guarantee that a model will never use any tokens
+- They are marketing brochures written for investors
+= Evals turn subjective impressions into repeatable measurements you can run before every change goes live.
+## Offline vs. online evaluation
+Evaluation happens in two places: **offline** before deployment and **online** in live production.
+
+**Offline evaluation** runs your fixed benchmark dataset against a candidate version of your system in development or CI. Because the test inputs are the same every time, offline evals give you a clean apples-to-apples comparison between two prompts or two models before a single user is affected. **Online evaluation** monitors real live traffic in production using guardrails, sampled judge scores, latency logs and user feedback signals (edits, thumbs-down, escalations).
+
+It is crash-testing a car in the lab before launch (offline) and reading engine telemetry from cars on the road (online).
+
+You need offline evals to catch regressions early and online evals to catch new real-world edge cases.
+?? How do offline and online evaluation complement each other?
++ Offline evals compare changes on a fixed test set before release, while online evals monitor real user traffic in production
+- Offline evals run only when the office internet is broken
+- Online evals replace the need to test changes before deploying them
+- Both run only once when the project shuts down
+= Offline evals keep bad changes from shipping, and online evals reveal new patterns that real users bring in production.
+## Without evals, every change is a guess
+Teams without an eval suite fall into the "vibe check" trap. A developer tweaks the system prompt to fix one bad answer they saw this morning, tries three questions by hand, says "looks better to me" and deploys to production. Unseen, that prompt tweak quietly broke ten other cases that used to work.
+
+Without a systematic test set and score, you are playing whack-a-mole in the dark. You cannot tell whether a new model release is worth switching to, whether a cheaper prompt is just as accurate, or whether your RAG changes actually helped.
+
+It is adjusting a telescope lens with your eyes shut and hoping the stars are sharper.
+?? What happens when a team tunes prompts by checking only two or three examples by hand ("vibe checking")?
++ Fixing one example often silently breaks other cases, and the team has no way to know whether overall quality improved or worsened
+- The system automatically reaches 100% accuracy within a week
+- It saves time across the whole life of the project
+- Provider API costs drop by half
+= Only a repeatable eval suite across diverse cases tells you whether a change is a net improvement or a regression.
+## Define success before you build
+As a consultant, one of the highest-leverage questions you can ask a client in week one is: "Show me ten examples of a good output and tell me what would make an output unacceptable."
+
+Writing down the evaluation criteria and collecting sample test cases *before* you build the architecture clarifies every requirement. You discover early that "a good summary" actually means "under 150 words, quotes exact policy numbers, never promises a refund and flags urgent legal threats".
+
+It is agreeing the specification and inspection checklist with the homeowner before laying the foundations of the extension.
+
+Eval-driven development stops you building the wrong system fast.
+?? Why should you define evaluation criteria and sample test cases before building the agent?
++ It turns vague goals into concrete, agreed rules for what good looks like and guides every design choice
+- So you can delete the criteria as soon as coding starts
+- Because models cannot run until at least ten thousand test cases exist
+- To delay the project by six months before writing a line of code
+= Agreeing how outputs will be judged up front exposes hidden requirements and gives you a target from day one.
+## Start small: twenty real cases beat none
+Many teams put off building evals because they think they need a thousand perfectly labelled academic benchmarks before they can start. So they build nothing.
+
+In practice, twenty to fifty real examples taken from the client's actual inbox, support tickets or documents are enough to catch the majority of obvious regressions and get your harness running in an afternoon. Pick ten routine cases, five or six tricky edge cases and a few known failure cases.
+
+It is tasting twenty spoonfuls from different parts of the soup pot: you do not need to drink the whole cauldron to know it needs salt.
+
+Start with twenty real cases on day one and grow the set every week.
+?? Why is starting with twenty real client examples better than waiting until you have a thousand?
++ Twenty real cases can be assembled in an afternoon and immediately catch major regressions, whereas waiting often means having no evals at all
+- Evaluation scripts refuse to run on more than twenty items
+- Fake random strings are always better than real client examples
+- A thousand examples always give worse statistical accuracy than twenty
+= A small, realistic test set running today beats a giant theoretical dataset that never gets built.
+
+@@ sll_bLNptRaDS7LS | B12.1 Evaluation Foundations > Ground Truth & Datasets
+## Ground truth sets
+A ground truth (or "golden") dataset is a curated collection of test inputs where each input is paired with the verified right answer, expected tool calls or required facts that a correct response must contain.
+
+For a SQL agent, an item in the ground truth set might pair the question "What was Q2 revenue in Scotland?" with the verified figure `£142,800` and the reference query. For a RAG assistant, it pairs the question with the exact source chunk IDs that hold the answer and the key facts the reply must state.
+
+It is the master calibration weight that a trading-standards inspector puts on a shop's scales to check they read true.
+
+Guard your golden set carefully and keep it in version control.
+?? What is a ground truth ("golden") evaluation dataset?
++ A curated set of test inputs paired with verified reference answers, facts or expected actions used to score the system
+- The raw unlabelled internet text used to pre-train a foundation model
+- A list of user passwords stored in plain text
+- Whatever the model happened to output on its very first run
+= A golden set provides trusted reference targets against which every new version of your system can be measured.
+## Synthetic data generation for test scenarios
+Before your app goes live, or when you want to test rare edge cases, you may not have enough real user logs yet. **Synthetic data generation** uses a strong language model to generate realistic test inputs and scenarios from your documents and rules.
+
+To get realistic variety rather than fifty bland, identical questions, generate across controlled dimensions: take each chunk of your knowledge base, pair it with a persona (impatient customer, confused newcomer, detail-oriented auditor) and a scenario type (multi-hop question, missing-info question, typo-filled message) and ask the generator for test pairs.
+
+It is a theatre director writing role-play cards for mystery shoppers before the shop opens to the public.
+
+Always have a human review synthetic gold answers before trusting them in your suite.
+?? How do you stop synthetic test data from being repetitive and unrealistically polite?
++ Vary the generation inputs across real source documents, diverse user personas and specific edge-case scenarios, then review the results
+- Ask one prompt to "write 100 questions" in a single call with no context
+- Never look at the generated questions before running them
+- Use only one-word questions
+= Conditioning synthetic generation on real documents, varied personas and failure scenarios produces realistic breadth, and human review keeps the labels accurate.
+## Error analysis from real traces
+The richest source of evaluation cases is not your imagination; it is looking at real production traces where your system struggled.
+
+**Error analysis** is a simple, disciplined habit. Pull fifty to a hundred real traces from logs, read them one by one in a spreadsheet, note where the output was wrong or clumsy, and group the failures into plain-English categories: "Picked the wrong product year", "Ignored negation in the query", "Tool returned empty and agent guessed".
+
+It is a football coach watching the match video on Monday morning and tallying where goals were conceded rather than guessing what to practise.
+
+Counting the failure categories tells you instantly which fix will move the needle most.
+?? Why should you read and categorise a sample of real failure traces before deciding what to improve?
++ It shows you which failure modes actually happen most often in practice, so you fix the biggest real problems first
+- It takes longer than guessing and gives no useful numbers
+- Models automatically fix their own prompts when you open a spreadsheet
+- Error analysis is only for systems that have zero users
+= Categorising and counting real failures replaces hunches with a ranked list of what is actually hurting users.
+## Human labelling workflows and inter-annotator agreement
+When human domain experts (such as lawyers, doctors or senior support leads) label your golden dataset or grade sample outputs, two experts will sometimes disagree on what counts as a pass.
+
+If Expert A and Expert B only agree on 60 per cent of cases, no AI system or automated judge can ever score well against their labels because the target itself is fuzzy. Measure **inter-annotator agreement** by having two people independently grade the same batch of thirty items. Where they disagree, sit down together, tighten the written grading rubric until both experts score consistently, and only then label the rest.
+
+It is two gymnastics judges agreeing the exact deduction rules before the competition starts.
+?? What does low agreement between two human labellers tell you?
++ That your grading rubric or task definition is ambiguous and needs clarifying before you can trust the labels
+- That the AI model has suddenly become sentient
+- That you should delete all test cases and stop evaluating
+- That human domain experts know nothing about their job
+= If two qualified humans cannot agree on pass or fail using your instructions, the instructions themselves are too vague.
+## Covering normal cases, edge cases, and attacks
+A balanced evaluation dataset needs three distinct buckets of test cases so you do not optimise for one at the expense of the others.
+
+**Normal ("happy path") cases** cover the everyday questions that make up 80 per cent of real traffic. **Edge cases** cover tricky but legitimate situations: ambiguous names, questions whose answer is "not in the documents", multi-part queries, huge tables and grumpy typos. **Adversarial / attack cases** test safety boundaries: prompt injections, requests for another user's data and attempts to trigger unauthorized tool calls.
+
+It is testing a bridge under weekday commuter traffic, a winter storm and a deliberate overload check.
+
+Report scores for each bucket separately so a high happy-path score never hides a broken safety check.
+?? Why should an evaluation dataset include happy-path cases, edge cases and adversarial attacks in separate buckets?
++ So you verify that everyday requests work well, tricky boundary cases are handled cleanly and safety defences hold up
+- Because adversarial attacks are the only messages real users ever send
+- So you can average all three into one number and ignore safety failures
+- Because happy-path cases never break when you edit a prompt
+= Separate buckets ensure a change that improves edge-case handling or safety does not break routine work, and vice versa.
+## Every real failure becomes a new test case
+Treat every bug reported by a user or caught in production logs as a gift to your evaluation suite.
+
+Follow the standard software engineering rule for regressions: before you edit the prompt, tool or retrieval code to fix the bug, copy the exact failing input and context into your offline evaluation dataset with a test that fails today. Then make your fix, confirm the new test passes, and confirm none of the existing tests broke.
+
+It is a vaccine: once the system has encountered and beaten a real bug, that exact bug is locked into the test suite so it can never quietly return.
+
+Over a few months, your eval set becomes an institutional memory of every real trap in your domain.
+?? What should you do whenever a real user hits a failure in production?
++ Add that failing scenario to your offline evaluation dataset before fixing it, so it is tested on every future change
+- Fix it quickly in production and delete the log so nobody sees it
+- Ask the user never to type that question again
+- Replace your entire evaluation dataset with only that one question
+= Turning every production bug into a permanent regression test stops old bugs from creeping back in months later.
+
+@@ sll_jCMkXsQqMSsa | B12.2 Evaluation Methods > Automated Metrics
+## Exact match, BLEU/ROUGE, retrieval metrics
+Classical automated metrics compare a model's output against a reference without calling another LLM.
+
+**Exact match** (after normalising case and whitespace) checks whether a category label, SQL value, extracted ID or yes/no answer equals the ground truth. **BLEU and ROUGE** count overlapping words and short phrases (n-grams) between the generated text and a reference text. **Retrieval metrics** such as Recall@k, Precision@k and Mean Reciprocal Rank (MRR) score whether the right source chunks appeared in the top `k` search results.
+
+It is marking a multiple-choice sheet with a stencil (exact match) versus checking whether key terms appear in an essay.
+
+Exact match and retrieval metrics remain workhorses of modern AI evals.
+?? For which type of output is normalised Exact Match the ideal evaluation metric?
++ Discrete outputs with one right value, such as classification labels, extracted IDs, numbers or tool names
+- Open-ended creative stories where many wordings are equally good
+- Audio recordings of background noise
+- Unlabelled inputs where no ground truth exists
+= When there is a single expected label, identifier or figure, exact match in code is fast, free and 100% objective.
+## Task-specific scoring functions
+Often the sharpest automated eval is a ten-line function you write specifically for your task's rules.
+
+If the agent generates a JSON schedule, write a Python function that parses the JSON, checks that no person is double-booked, confirms every shift has a qualified lead and verifies total hours stay under the weekly cap. If the agent writes a SQL query, execute both the agent's query and the reference query against a test database and compare the returned result tables.
+
+It is checking a crossword solution by verifying that every word fits the grid and matches the clues, regardless of what order the solver filled them in.
+
+Task-specific code checks grade whether the output *works*, not how it is phrased.
+?? How can you objectively evaluate a SQL-generating agent when two differently written SQL queries can be equally correct?
++ Run both the generated query and the reference query against a test database and compare the returned result sets
+- Count whether both queries have the exact same number of spaces
+- Ask an LLM whether the SQL query looks pretty
+- Only accept queries written on one line
+= Comparing execution results on a known test database grades functional correctness even when the SQL syntax differs.
+## Code checks first: cheapest and most reliable
+When designing an evaluation pipeline, always apply deterministic code checks before reaching for an LLM judge.
+
+Code checks run in milliseconds, cost zero tokens, never vary between runs and cannot be sweet-talked by a confident-sounding hallucination. Check format (valid JSON, schema compliance), length (word or character limits), required and forbidden strings (mandatory disclosures, leaked keys, competitor names), valid citations (every cited ID exists in context) and arithmetic totals in plain code first.
+
+It is passing building plans through an automated geometry and load calculator before asking the planning committee to judge the aesthetics.
+
+Only invoke an LLM judge on criteria that genuinely require reading comprehension.
+?? Why should deterministic code checks always run before LLM-as-a-judge evaluations?
++ Code checks are instant, free and 100% consistent for format, schema, citation and maths rules
+- Code checks can evaluate empathy and literary style better than any human
+- LLM judges are free and take zero milliseconds
+- Running code checks makes JSON schemas invalid
+= Handling objective rules in code saves money and eliminates judge noise, leaving LLM judges for nuance and meaning.
+## Word-overlap scores miss meaning
+Older text metrics like BLEU and ROUGE were invented for machine translation and summarisation when calling a language model to grade meaning was impossible. They work by counting shared words between the candidate and the reference.
+
+That creates a huge blind spot for AI assistants. If the reference answer is "Refunds are allowed within 30 days" and the model writes "Refunds are **not** allowed within 30 days", word-overlap metrics give a nearly perfect score because seven of the eight words match, even though the meaning is the exact opposite. Conversely, "You have a month to claim your money back" gets a terrible score despite meaning the same thing.
+
+It is judging two recipes as identical because they use the same ingredients, even though one bakes the cake and the other throws it in the bin.
+?? Why can word-overlap metrics like BLEU and ROUGE be misleading when evaluating assistant answers?
++ Adding a single word like "not" reverses the meaning while keeping high word overlap, and valid paraphrases score poorly
+- They are too slow and cost thousands of pounds per sentence
+- They require a GPU cluster to count words
+- They only work on numbers and cannot read letters
+= Counting shared words misses negation, factual flips and natural paraphrasing, which is why semantic or code checks are needed.
+
+@@ sll_61c2ulT-113X | B12.2 Evaluation Methods > LLM-as-a-Judge
+## Rubric design and pairwise comparison
+When an output is open-ended prose and you need to evaluate qualities like faithfulness, completeness or tone, **LLM-as-a-Judge** uses a language model with a grading prompt to score the response.
+
+There are two main ways to set up the judge. In **direct rubric grading**, the judge evaluates one output against a written checklist and returns pass/fail (or a rubric breakdown). In **pairwise comparison**, the judge is shown two outputs side by side (for example, Prompt v1 vs Prompt v2 on the same input) and asked which better satisfies the rubric.
+
+It is a wine tasting where a judge either scores one glass against a checklist or tastes two glasses blind to pick the better one.
+?? What are the two main ways to structure an LLM-as-a-Judge evaluation?
++ Direct grading of a single output against a rubric, or pairwise comparison of two outputs on the same input
+- Asking the model to guess the developer's birthday, or counting the vowels
+- Running the database without indexes, or deleting the prompt
+- Training a model from scratch on every single test case
+= Direct rubric scoring gives an absolute pass rate, while pairwise comparison spots subtle differences between two versions.
+## Judge bias and calibration with human labels
+LLM judges have well-documented biases you must guard against.
+
+**Length (verbosity) bias**: judges tend to prefer longer, more detailed-looking answers even when the extra paragraphs are waffle. **Position bias**: in pairwise comparisons, judges often favour whichever answer is shown first. **Self-preference bias**: a model often grades outputs written by its own model family more generously.
+
+It is an examiner who gets dazzled by neat handwriting and three extra pages of padding.
+
+Mitigate position bias by running each pairwise test twice with the order swapped, and **calibrate** your judge prompt against 50 to 100 human-labelled examples until the judge agrees with your human domain experts.
+?? How do you check whether an LLM judge can be trusted on your task?
++ Compare the judge's scores against a set of human-labelled examples and refine the rubric until agreement is high
+- Assume any frontier model is 100% unbiased out of the box
+- Always put your favourite prompt in Position A so it wins
+- Make outputs twice as long so the judge likes them more
+= Calibrating the judge prompt against human labels exposes verbosity or position bias and proves the judge measures what you care about.
+## One criterion per judge works better than one overall score
+If you ask one judge prompt to "evaluate this response for factual accuracy, completeness, British spelling, polite tone and conciseness, and give an overall verdict", the judge muddles the criteria together. A charmingly polite hallucination gets a pass.
+
+Split distinct criteria into separate, focused checks (or separate boolean fields in a structured schema, each with its own short reasoning step). Have one check verify **faithfulness to the sources**, a second verify **completeness against the user question**, and a third check **tone and policy compliance**.
+
+It is a car safety inspection that checks brakes, tyres and lights on separate lines of the form rather than asking "is this car nice overall?".
+?? Why should an LLM judge evaluate one clear criterion at a time rather than giving a single blended "quality" verdict?
++ Focused criteria prevent a strength in one area (such as polite tone) from masking a failure in another (such as a wrong fact)
+- Models cannot read more than ten words in a prompt
+- A single blended score makes it obvious which exact rule failed
+- Separate criteria allow hallucinations to pass automatically
+= Grading each dimension separately gives you reliable verdicts and tells you straight away whether a drop came from accuracy, completeness or tone.
+## Pass or fail is easier to trust than a 1-to-10 score
+Ask an LLM judge (or a human) to rate an answer on a scale from 1 to 10 and you will see numbers cluster vaguely around 7 and 8, with no clear difference between a 6 and a 7. Worse, the same prompt run tomorrow may get a 7 instead of an 8.
+
+Binary **pass/fail** decisions (or at most a three-point scale: `pass`, `borderline`, `fail` with explicit definitions for each) are far more consistent and actionable. "Did the reply state all three required figures from the table without adding unverified claims? `true` or `false`."
+
+It is a driving test: at the end of the hour you either passed or you failed; a score of "6.4 out of 10" does not tell you whether you can drive home.
+?? Why are binary pass/fail judge criteria generally better than a 1-to-10 numeric scale?
++ Pass/fail forces a clear boundary definition and produces much more consistent, repeatable scores than vague middle numbers like 6 or 7
+- Models do not know the numbers between 2 and 9
+- A 1-to-10 scale is too strict and never gives a 7
+- Binary scores cannot be aggregated into a percentage pass rate across a dataset
+= Clear binary checks per criterion aggregate cleanly into a dataset pass rate (e.g. 92% passed) without noisy 1-to-10 guesswork.
+## A judge is a prompt too: version and test it
+It is easy to forget that an LLM judge is itself an AI system made of a prompt, a model and a schema.
+
+If you silently edit the judge prompt or let the provider auto-update the judge model while you are comparing two versions of your agent, your ruler changed length in the middle of measuring the room. Keep your judge prompts in version control alongside your code, pin the exact judge model version, and maintain a small golden set of known-good and known-bad answers to unit-test the judge itself.
+
+It is checking your kitchen scales with a known 1 kg weight before weighing the flour for a wedding cake.
+?? Why must you version-control your judge prompts and test them against known-good and known-bad examples?
++ Because a change or bug in the judge changes your evaluation scores even if the agent itself did not change
+- Because judge prompts are sent directly to end users in chat
+- Because version control makes API calls free
+- Because a judge never needs a model name
+= Treating the judge as versioned, tested code ensures that changes in your eval score reflect real changes in your agent, not drift in your ruler.
+
+@@ sll_YIjgBaUy9e4r | B12.2 Evaluation Methods > Statistics for Evaluation
+## Noise: results differ from run to run with no change at all
+Even with low temperature, running the exact same evaluation suite twice on the exact same system will often give slightly different scores, such as 84% on run one and 86% on run two.
+
+This **run-to-run noise** comes from floating-point non-determinism on GPUs, dynamic batching on provider servers, live tool latencies and small variations in both the agent and the LLM judge. If you see a 2% jump after editing a prompt and celebrate without knowing your baseline noise level, you may just be celebrating a coin flip.
+
+It is stepping on bathroom scales three times in a minute and seeing a half-pound difference before you have eaten anything.
+?? Why can two identical evaluation runs on the exact same code and prompt produce slightly different pass rates?
++ GPU sampling noise, server batching and judge variance create natural run-to-run variation even when nothing in your code changed
+- Somebody secretly edited your database between the two runs
+- Language models are 100% deterministic at all times
+- Evaluation scripts randomly delete half the test cases
+= Understanding baseline run-to-run variance stops you mistaking random noise for a genuine improvement or regression.
+## Confidence intervals on pass rates
+A single pass rate like "80% passed" hides how certain that number is. 8 out of 10 is 80%, and 800 out of 1,000 is also 80%, yet the first could easily be 55% or 95% on the next batch of questions.
+
+A **confidence interval** (such as `80% ± 4%` at 95% confidence) states the plausible range for the true pass rate given your sample size. When comparing two versions, if their confidence intervals overlap heavily and the difference is smaller than the margin of error, you do not yet have strong statistical evidence that one is better.
+
+It is an opinion poll reporting "48% (±3%)" so readers know a 1-point lead is a statistical tie.
+?? What does a confidence interval around an evaluation pass rate tell you?
++ The plausible range of the true pass rate given your test set size, showing how much uncertainty surrounds the headline percentage
+- The exact token cost of the run in pounds and pence
+- How confident the model felt emotionally while writing the answer
+- The maximum number of users your server can handle
+= Confidence intervals show whether a score difference is larger than the statistical uncertainty of your sample size.
+## Sample size: how many test cases are enough
+How many test cases you need depends on how small an improvement you want to detect reliably.
+
+With **20 to 30 test cases**, you can easily spot big leaps or bad breakages, such as a pass rate jumping from 60% to 85% or dropping to 40%. To reliably distinguish an 88% prompt from a 91% prompt, you need **200 to 500 test cases**, because on a 25-item set a 3% difference is less than a single question changing from fail to pass.
+
+It is flipping a coin: ten flips are enough to spot a two-headed coin, while spotting a coin weighted 52/48 takes hundreds of flips.
+
+Grow your test set as your system matures and the gains you chase become smaller.
+?? Why can a 25-case evaluation set catch a major regression but not reliably prove a 2% improvement?
++ On 25 cases, a single question equals 4%, so a 2% difference is smaller than one item flipping by chance
+- Twenty-five cases are too large for a computer to calculate percentages on
+- Improvements under 10% are impossible in AI systems
+- Larger test sets always have wider margins of error than smaller ones
+= Small test sets have wide margins of error that catch big shifts quickly, while detecting small percentage gains requires hundreds of cases.
+## Paired tests when comparing two versions
+When you compare Prompt A and Prompt B, do not test Prompt A on fifty random questions and Prompt B on fifty *different* questions. One batch might simply happen to contain easier questions.
+
+Always run a **paired comparison** on the exact same test items, and inspect the four cells of the paired table: how many items passed in both, failed in both, **improved** (failed in A, passed in B) and **regressed** (passed in A, failed in B). Even if the overall score went from 80% to 84%, seeing that 6 items improved while 2 critical cases regressed tells you exactly what to inspect before shipping.
+
+It is testing two pairs of running shoes with the same runner on the same track, not two different runners on different hills.
+?? Why is looking at individual wins (failed -> passed) and regressions (passed -> failed) across paired test items so informative?
++ It cancels out differences in question difficulty and reveals whether an overall gain hid new regressions on previously working cases
+- It lets you use completely different questions for each version
+- It guarantees that zero items ever regress
+- It removes the need to run Prompt A at all
+= Paired item-by-item comparison gives much higher statistical sensitivity and highlights exact regressions even when the headline average goes up.
+## Agreement with human judges (e.g., Cohen's kappa)
+When you compare an LLM judge against human labellers (or two humans against each other), raw percentage agreement can flatter a lazy judge.
+
+Suppose 90% of your test outputs are good. A broken judge that blindly says `pass` on every single item without reading it will achieve 90% raw agreement with humans just by chance! Statistics like **Cohen's kappa** adjust for the agreement you would get by random guessing given the class balance, and checking **precision and recall on the `fail` class** shows whether the judge actually catches the bad 10%.
+
+It is a weather forecaster in the Sahara who predicts "sunny" every day: 98% accuracy, yet useless on the one day it rains.
+?? Why can raw percentage agreement between an LLM judge and human labels be misleading on an unbalanced dataset?
++ If 90% of answers pass, a judge that rubber-stamps "pass" on everything gets 90% agreement while catching zero failures
+- Raw percentages cannot be calculated when datasets have more than ten rows
+- Cohen's kappa always equals 100% on every dataset
+- Human labellers always mark every answer as a fail
+= Chance-corrected metrics like Cohen's kappa and failure-detection recall check whether your judge actually spots the bad cases rather than agreeing by default.
+
+@@ sll_zwGlHDLBuMIX | B12.3 Evaluating Agents & RAG > RAG Evals
+## Faithfulness, relevance, context precision
+Evaluating a RAG system is often organised around the **RAG triad**: three metrics that check the links between the question, the retrieved chunks and the final answer.
+
+**Context Precision / Recall** checks the retrieval step: did the search bring back the chunks that actually hold the answer, without burying them in irrelevant noise? **Faithfulness (Groundedness)** checks generation against the retrieved chunks: did the answer stick strictly to facts in those chunks? **Answer Relevance** checks generation against the user's question: did the reply actually answer what was asked?
+
+It is marking a research essay on three things: did the student pull the right library books, did they quote those books accurately, and did they answer the exam question?
+?? What do the three parts of the RAG evaluation triad measure?
++ Whether retrieval found the right context, whether the answer is faithful to that context, and whether the answer addresses the user's question
+- Font size, page colour and server memory usage
+- How fast the user types, how long the PDF is and how old the database is
+- Only whether the answer is longer than 500 words
+= Checking context quality, faithfulness and answer relevance pinpoints whether a bad RAG answer failed in search or in generation.
+## Hallucination rate measurement
+To measure hallucination rate systematically on a RAG or agent benchmark, break each generated answer into its individual **atomic claims** (simple factual statements, figures and dates) and check each claim against the retrieved context.
+
+A claim is **supported** if the retrieved context entails it, **contradicted** if the context says the opposite, or **unsupported** if the context never mentions it. Your hallucination rate is the proportion of answers (or claims) that contain contradicted or unsupported statements when the prompt asked for grounded facts.
+
+It is an auditor ticking each line item on an expense claim against the stapled paper receipts and flagging any line with no receipt.
+?? How is hallucination rate measured systematically in a grounded AI system?
++ By breaking answers into individual factual claims and checking what share of claims are unsupported or contradicted by the retrieved sources
+- By asking the user to guess how many parameters the model has
+- By counting how many adjectives appear in the reply
+- By measuring the network latency between the server and the database
+= Claim-level verification against the provided sources turns "hallucination" from a vague complaint into a trackable percentage.
+## Scoring retrieval and generation separately
+When a RAG system gives a wrong answer, there are two completely different suspects: either **retrieval failed** (the search step never fetched the paragraph containing the right fact) or **generation failed** (the right paragraph was right there in the prompt, and the model misread or ignored it).
+
+If you only score the final answer, you do not know whether to fix your chunking and search index or to fix your system prompt and model choice. Always log the retrieved chunk IDs and score retrieval (`Recall@k`) separately from generation (faithfulness and correctness when given the gold chunks).
+
+It is a kitchen investigation: if a dish tastes bad, check first whether the supplier delivered rotten tomatoes or whether the chef burned good ones.
+?? Why must you evaluate the retrieval step and the generation step separately in a RAG pipeline?
++ So you know whether a wrong answer happened because search failed to fetch the right chunk or because the model misread the chunk it was given
+- Because retrieval and generation always fail at the exact same rate
+- Because vector databases cannot return chunk IDs
+- So you can delete the search index in production
+= Separating retrieval metrics from generation metrics tells you immediately which half of the RAG pipeline needs fixing.
+## Checking that citations support the claims
+Adding `[1]` and `[2]` at the end of sentences makes an answer look trustworthy, even when source `[1]` says nothing of the sort. Users rarely click every link until the day an important decision goes wrong.
+
+Your evaluation suite should test **citation accuracy** directly. First, a deterministic code check verifies that every cited document ID or URL actually exists in the retrieved set (models sometimes invent `[4]` when only three chunks were provided). Second, a targeted check verifies that the specific passage in chunk `[1]` genuinely supports the sentence that cited it.
+
+It is checking that a footnote in a legal brief both points to a real case and actually says what the barrister claims it says.
+?? What two things must citation evaluation verify?
++ That every cited source ID actually exists in the retrieved context and that the cited passage genuinely supports the sentence attached to it
+- Only that square brackets `[1]` appear somewhere in the paragraph
+- That the answer cites at least twenty documents even when one was retrieved
+- That citations are written in italics
+= A valid citation must both point to a real retrieved source and back up the specific claim it is attached to.
+
+@@ sll_kAFSvfWZtFjP | B12.3 Evaluating Agents & RAG > Agent Evals
+## Trajectory and tool-call evaluation
+Evaluating an agent is harder than evaluating a single prompt because the agent takes a **trajectory**: a sequence of thoughts, tool calls, tool arguments and observations on its way to the answer.
+
+Trajectory evaluation checks that path. Did the agent call the right tool with valid arguments? Did it check the customer's identity *before* calling the account-details tool? Did it avoid unnecessary or duplicate tool calls? Keep trajectory assertions flexible enough that harmless differences in ordering (such as looking up Product A before Product B) still pass, while mandatory safety sequences are strictly enforced.
+
+It is a driving examiner checking both that you reached the test centre and that you checked your mirrors before overtaking.
+?? What does trajectory evaluation check in an agent run?
++ Which tools the agent called, with what arguments and in what order on its way to the result
+- Only the last word of the final message
+- The colour scheme of the chat window
+- How many lines of CSS the frontend uses
+= Trajectory evals inspect the sequence of tool calls and arguments to verify safe, efficient behaviour along the path.
+## Task-success benchmarks
+~m
+In the wider industry, agents are often compared on public **task-success benchmarks**: sandboxed environments containing realistic multi-step tasks with automated pass/fail grading. Examples include SWE-bench Verified and SWE-bench Pro for software engineering, OSWorld for computer use, GAIA for general tool-using assistants and τ-bench (tau-bench) for customer-service policy compliance. Check the current details as new benchmarks appear regularly.
+
+Public benchmarks are useful for shortlisting candidate models, but models can overfit to famous public test sets. Always build a private benchmark of 30 to 100 tasks from your client's own domain and tools before making final architecture decisions.
+
+It is reading official fuel-economy figures to shortlist three vans, then testing them on your actual delivery route with a full load.
+?? Why should you pair public agent benchmarks with a private benchmark built from your client's own tasks?
++ Public benchmarks help shortlist models, but only a private benchmark tests your client's specific data, tools and edge cases without benchmark overfitting
+- Public benchmarks are illegal to read in commercial projects
+- Every model scores 0% on all public benchmarks
+- Private benchmarks do not need any scoring rules
+= Public benchmarks show general capability, while a private task suite measures how the agent performs on your client's real work.
+## Outcome first: did the task get done?
+When grading an agent run, start with the most important question: **did the task actually succeed?**
+
+Two runs might take slightly different valid paths: one agent searches by invoice number, another searches by customer name and date, and both find the right record and resolve the ticket accurately. If your eval rigidly fails any run that did not follow one exact script of tool calls, you will penalise smart adaptation.
+
+It is marking a maths problem: give primary credit for getting the right answer lawfully, and only fail the method if it broke a rule or guessed by luck.
+
+Grade the final outcome as your primary pass/fail metric, and use trajectory checks for safety rules and efficiency.
+?? Why should outcome success be the primary metric when evaluating an agent, ahead of requiring one exact sequence of tool calls?
++ An agent can often reach the right result through more than one valid sequence of steps, and rigid path matching penalises legitimate adaptation
+- Tool calls never matter even when an agent deletes the database
+- Agents never use tools to finish tasks
+- Outcome evaluation does not require knowing what the task was
+= Grading the final outcome rewards effective problem-solving while leaving trajectory checks to enforce safety boundaries and budgets.
+## Checking the final state of the system, not what the agent said
+In an action-taking agent eval, never grade success by reading the agent's final chat message ("I have booked your appointment for Tuesday at 10 a.m. and sent the confirmation").
+
+Instead, inspect the **state of the sandbox environment or test database** after the agent finishes. Query the test calendar table: is there actually a row for Tuesday at 10 a.m. with the right customer ID, and is there one item in the test outbox?
+
+It is checking that the shelves in the warehouse are actually stacked, rather than taking the worker's word at the tea break.
+
+State-based grading catches agents that hallucinate tool success or stop one step short.
+?? How should an automated eval verify that an action-taking agent completed a booking task?
++ By querying the test database or sandbox environment afterwards to confirm the booking record actually exists with the right values
+- By checking whether the agent wrote the words "booking confirmed" in its reply
+- By asking the agent in a follow-up turn whether it is telling the truth
+- By measuring how long the agent's reply is
+= Inspecting the actual environment or database state after the run proves the action succeeded in reality, not just in prose.
+## Cost, steps, and time as part of the score
+An agent that solves a customer query in 3 steps, 4 seconds and £0.02 is a production-ready tool. An agent that solves the exact same query in 28 steps, 90 seconds and £1.40 by calling every tool five times is a production disaster, even though both get `pass = true` on accuracy.
+
+Always record and threshold four numbers together on every eval run: **task success rate**, **average and p95 latency**, **step / tool-call count** and **token cost per task**. Plot quality against cost so you can see the Pareto frontier when comparing models and architectures.
+
+It is judging a delivery service on whether the parcel arrived intact, on time and within the postage budget.
+?? Why must agent evaluations track token cost, step count and latency alongside task accuracy?
++ A change that boosts accuracy by 1% while multiplying cost and wait time fivefold may be unusable in production
+- Cost and latency are always identical across every model and prompt
+- Users prefer waiting two minutes for a simple answer
+- Token cost cannot be calculated from API responses
+= Recording accuracy, latency, steps and cost together lets you make informed trade-offs and catch inefficient loops before launch.
+## Run each test several times: agents vary
+In a multi-step agent, a small variation on step one changes the tool call, which changes the observation on step two, which sends the rest of the run down a different path. A single pass on a test case might have been a lucky break; a single failure might have been a one-in-ten slip.
+
+For critical agent benchmarks, run each test task `k` times (for example, 3 or 5 trials) and distinguish two metrics. **`pass@k`** asks whether the agent succeeded at least once in `k` tries (useful when code can verify and pick the winning attempt). **`pass^k`** asks whether the agent succeeded on *all* `k` tries, which is what matters when a real customer only gets one live run.
+
+It is the difference between a trick-shot video filmed over ten takes (`pass@10`) and a concert pianist playing live on stage (`pass^k`).
+?? Why is `pass^k` (succeeding on every one of `k` trials) an important metric for live customer-facing agents?
++ Real users experience a single live run rather than picking the best of five attempts, so consistency across every trial matters
+- Customers always run their question five times and grade the best one themselves
+- `pass^k` is always higher than `pass@k`
+- Running a test more than once is impossible in code
+= Measuring consistency across multiple trials per task shows whether an agent is reliably solid or only succeeds intermittently.
+
+@@ sll_qubbENCp0Mat | B12.3 Evaluating Agents & RAG > Continuous Evaluation
+## Regression testing in CI
+Your evaluation suite is most useful when it runs automatically in Continuous Integration (CI) whenever someone opens a pull request that changes a prompt, tool definition, retrieval setting or orchestration graph.
+
+To keep CI fast and affordable, split the suite into two tiers. Run a **fast smoke suite** (for example, all deterministic code checks plus 25 core cases) on every pull request in two minutes, blocking the merge if pass rates drop below your threshold. Run the **full benchmark suite** (hundreds of cases across multiple trials) nightly or before a production release.
+
+It is an automated spellcheck on every paragraph you type, plus a full proofread before the book goes to the printer.
+?? How can you run evaluations in CI without making every code commit wait an hour and cost a fortune?
++ Run a fast smoke subset and deterministic checks on every pull request, and run the full multi-trial suite nightly or before release
+- Never run any tests until a customer complains
+- Run ten thousand frontier-model calls on every single typo fix
+- Delete the evaluation suite from the repository
+= A two-tier CI setup catches bad regressions immediately on pull requests while keeping full-scale benchmarking affordable.
+## A/B tests and shadow mode
+Offline evals tell you how a change performs on your known test set. When a major change passes offline evals, **shadow mode** and **A/B testing** verify that it also works on live user behaviour.
+
+As we saw in B11, shadow mode runs the new version silently alongside the current system with zero user impact. Once shadow mode looks healthy, an **A/B test** routes a split of live traffic (say 10% at first, then 50%) to the new version while the control group stays on the current version, comparing real business outcomes such as resolution rate, user edits, escalations and latency.
+
+It is taste-testing a new recipe in the kitchen first, then offering it as a daily special before replacing the main menu.
+?? What does a live A/B test measure that an offline evaluation dataset cannot?
++ How real users interact with, edit, accept or escalate the new version's outputs in live workflows
+- Whether the output is valid JSON
+- How many words are in the system prompt
+- Whether Python is installed on the server
+= Live A/B testing measures real user behaviour and business outcomes that fixed offline test sets can only approximate.
+## Re-running evals when the model or prompt changes
+There are two triggers that must always kick off a full evaluation run: **when you change your prompt or code**, and **when you change or upgrade the underlying model**.
+
+Many teams remember the first and forget the second. When a provider releases a new model snapshot or retires an old one, a prompt that was tuned around the quirks of the old model can behave very differently on the new one: tool calls may become more or less eager, answers may get longer or shorter, or edge-case formatting may shift.
+
+It is re-checking the oven timings when you buy a new fan oven, even though your cake recipe has not changed a word.
+?? Why must you re-run your full evaluation suite before switching to a new model version, even if your prompts did not change?
++ Different models and snapshots respond differently to the same prompt, tool definitions and formatting instructions
+- Every new model is guaranteed to be worse on every task
+- Providers forbid testing new models before production
+- Changing the model automatically rewrites your database schema
+= Because prompt behaviour and tool-calling habits shift between model versions, your eval suite is the safety check for any model upgrade or fallback.
+## Monitoring live quality with sampled reviews
+You do not need to run an expensive LLM judge on 100% of production traffic to know how live quality is trending.
+
+Run cheap, deterministic checks (latency, error rates, schema validity, empty retrievals, guardrail triggers) on **100% of live runs**. Then take a **stratified sample** of live traces, such as 5% of routine runs plus 100% of runs that triggered a warning, took more than ten steps or received a user edit or thumbs-down, and score that sample asynchronously with your LLM judges and a weekly human review queue.
+
+It is factory quality control: every bottle is weighed on the conveyor belt, and one bottle per crate is opened in the lab for a full taste test.
+?? What is a practical, cost-effective way to monitor quality on high-volume production traffic?
++ Run deterministic metrics on 100% of traffic, and run LLM judges and human review asynchronously on a random sample plus flagged runs
+- Run five frontier-model judges synchronously on 100% of requests while the user waits
+- Never log or inspect any production traffic
+- Only review runs where everything succeeded in one step
+= Combining 100% deterministic telemetry with sampled and risk-focused judge/human reviews gives strong visibility at a fraction of the cost.
+## User feedback as an eval signal
+Close the loop between production and offline testing by turning user feedback signals directly into evaluation candidates.
+
+Build a simple pipeline that watches for high-signal events in live use: a thumbs-down click, a user who rewrote more than half of the AI's draft, an undo click, or a conversation that ended in a frustrated escalation. Queue those traces for a ten-minute weekly review by the product owner or consultant. For each genuine failure, write the corrected expected behaviour and promote the case into the offline golden dataset.
+
+It is a road maintenance crew using pothole reports from drivers to update their weekly repair map and inspection checklist.
+
+This flywheel ensures your eval suite continuously tracks what real users care about.
+?? How do you close the loop between live user feedback and your offline evaluation suite?
++ Review live runs that received negative feedback, heavy edits or escalations, and promote genuine failures into your permanent golden test set
+- Display a thumbs-down button that is not connected to any database or log
+- Automatically train the production model on raw unverified thumbs-down clicks every second
+- Delete any trace where the user edited the draft
+= Feeding reviewed failure traces from real user signals back into your golden dataset makes your evaluations sharper every week.

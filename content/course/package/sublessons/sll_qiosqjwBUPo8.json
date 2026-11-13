@@ -5,8 +5,8 @@
     {
       "id": "bit_WAt1EwP6RuxZ",
       "title": "APIs, webhooks, and database access",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "APIs, webhooks, and direct database connections are the three technical pipes used to connect external software and AI agents to an ERP. An API lets your agent request or submit records on demand, a webhook pushes an alert when an event occurs, and direct database access queries tables straight from the server.\n\nThink of an API as phoning the warehouse desk to ask a question, a webhook as the warehouse ringing a bell whenever a lorry arrives, and direct database access as walking into the filing room yourself.\n\nAlways prefer the ERP's official API over writing directly to its underlying SQL tables. Writing straight to the database often bypasses business validation rules and corrupts internal indexes.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WAt1EwP6RuxZ_1",
+          "type": "multiple_choice",
+          "prompt": "Why is writing records through an ERP's official API safer than inserting rows directly into its underlying database tables?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Direct database queries travel through the internet without using electricity"
+            },
+            {
+              "id": "b",
+              "text": "Official APIs never require authentication tokens or user permissions"
+            },
+            {
+              "id": "c",
+              "text": "Writing directly to SQL tables is the only way to trigger a webhook notification"
+            },
+            {
+              "id": "d",
+              "text": "The official API enforces the ERP's built-in validation rules, accounting links, and audit triggers"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "ERP APIs run essential validation and bookkeeping logic that raw SQL inserts bypass, protecting ledger integrity.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_kcyhqbJgrs7o",
       "title": "MCP servers that expose ERP data to agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A Model Context Protocol (MCP) server is a standardised wrapper that exposes selected ERP tools, queries, and resources to an AI agent through a consistent interface. Because protocol specifications and SDKs evolve rapidly, check the current details when designing your integration.\n\nIt acts like a universal travel adapter plug that lets any modern appliance connect safely to a wall socket without rewiring the building's electrical panel for each device.\n\nWhen building an MCP server for a client's ERP, expose narrow, business-safe tools such as `get_late_purchase_orders` or `create_draft_po` rather than exposing a raw SQL execution tool that lets the model run arbitrary commands.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,43 +66,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kcyhqbJgrs7o_1",
+          "type": "multiple_choice",
+          "prompt": "What is the safest way to design an MCP server that connects an AI agent to a client's ERP?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Give the MCP server root database credentials and let the model write arbitrary DELETE statements"
+            },
+            {
+              "id": "b",
+              "text": "Expose every table including payroll and passwords so you never need to update the server later"
+            },
+            {
+              "id": "c",
+              "text": "Skip input validation inside the MCP server because the language model will check its own parameters"
+            },
+            {
+              "id": "d",
+              "text": "Expose narrow, well-validated business tools with strict parameters rather than a raw unrestricted SQL tool"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Purpose-built MCP tools constrain the agent to safe, predictable queries and actions with proper parameter validation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_w7PQTjQw_802",
       "title": "Test with sandbox data before touching live records",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A sandbox is an isolated copy of the ERP environment populated with realistic test data where you can develop, break, and verify agent workflows without risking live stock, real money, or actual supplier emails.\n\nIt is like a flight simulator where trainee pilots practise engine failures in stormy weather without putting real passengers in danger.\n\nWatch out for sandboxes that still have live email or webhook settings left turned on by mistake. Before running an agent test in a cloned ERP, verify that outbound SMTP mailers and supplier EDI connections are routed to a test trap so you do not accidentally send fifty fake purchase orders to real vendors.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_w7PQTjQw_802_1",
+          "type": "multiple_choice",
+          "prompt": "What precaution must you take even after cloning a live ERP into a test sandbox?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Delete all item master records so the sandbox database stays completely empty during testing"
+            },
+            {
+              "id": "b",
+              "text": "Give real suppliers login access to the sandbox so they can fulfil test orders"
+            },
+            {
+              "id": "c",
+              "text": "Run the sandbox on the exact same production database tables to save disk space"
+            },
+            {
+              "id": "d",
+              "text": "Disable or redirect outbound emails and supplier integrations so test runs do not contact real vendors or customers"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Cloned ERP sandboxes often retain real supplier email addresses and webhook URLs, which must be neutralised before testing agents.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TriwZto2z977",
       "title": "Rate limits and API quotas",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Rate limits and API quotas are caps enforced by an ERP vendor on how many requests an external integration can make per minute, hour, or day. Exceeding them causes the server to reject requests or throttle the entire company's integration traffic.\n\nImagine a motorway toll plaza with only two open booths; if a fleet of two hundred lorries arrives at the exact same second, traffic backs up and nobody gets through on time.\n\nDo not let an AI agent loop through five thousand inventory items by firing five thousand separate API calls one by one. Use bulk endpoints, pagination, and local read caches so your agent works well inside the client's quota.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TriwZto2z977_1",
+          "type": "multiple_choice",
+          "prompt": "How can you prevent an AI agent from exhausting a client's ERP API rate limits?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Open fifty parallel agent threads that retry rejected requests every millisecond"
+            },
+            {
+              "id": "b",
+              "text": "Ask the language model to guess stock levels so it never has to call the ERP API"
+            },
+            {
+              "id": "c",
+              "text": "Disable error handling in the integration script so rate limit warnings are ignored"
+            },
+            {
+              "id": "d",
+              "text": "Use bulk query endpoints, pagination, and caching instead of firing thousands of single-item API calls in a loop"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Batching requests and caching frequent reference data keeps API traffic low and avoids throttling live operations.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rdsCOPb-wol1",
       "title": "Sync problems: duplicates and stale copies",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Synchronisation problems happen when data is copied between an ERP and external tools, leading either to duplicate records created when retries fire twice, or stale copies where an agent acts on yesterday's stock figure after the warehouse already sold the last unit.\n\nIt is like two family members carrying paper copies of the same gift list; if neither crosses off items in real time, both end up buying the same toaster while forgetting the kettle.\n\nTo prevent duplicates, use idempotency keys or unique external reference IDs whenever creating orders via an API. To avoid stale data, query live stock balances at the moment of decision rather than relying on an overnight CSV export.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rdsCOPb-wol1_1",
+          "type": "multiple_choice",
+          "prompt": "How do idempotency keys or unique external reference IDs help when an agent creates orders through an API?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They compress the database so it uses half as much memory on the server"
+            },
+            {
+              "id": "b",
+              "text": "They allow the agent to bypass user permission checks on financial tables"
+            },
+            {
+              "id": "c",
+              "text": "They prevent the ERP from creating duplicate orders if a network timeout causes the agent to retry the same request"
+            },
+            {
+              "id": "d",
+              "text": "They automatically update yesterday's CSV files without querying the server"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Attaching a unique reference ID to each creation request ensures the ERP recognises a retry and creates the record only once.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,62 +5,202 @@
     {
       "id": "bit_ewmDbZLG0OT5",
       "title": "Reusable templates vs. custom builds",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Productising your consulting work means turning a solution that worked for one client into a repeatable template for similar businesses, rather than inventing every project from a blank page. Custom builds teach you the domain; templates make your practice scalable and reliable.\n\nAfter building a bespoke tender-response assistant for one commercial cleaning firm, you can package the core workflow and offer it to twenty other regional contractors with far lower setup effort.\n\nDo not try to productise before you have built a system for two or three real clients first, or you will build a rigid template around the wrong assumptions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ewmDbZLG0OT5_1",
+          "type": "multiple_choice",
+          "prompt": "When is the right time to turn a custom AI build into a reusable template?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Before you have ever spoken to a single client in that industry"
+            },
+            {
+              "id": "b",
+              "text": "Only after hiring fifty full-time software engineers to build a global platform"
+            },
+            {
+              "id": "c",
+              "text": "Never, because every small business has completely unrelated administrative tasks"
+            },
+            {
+              "id": "d",
+              "text": "After delivering the workflow for a few real clients and seeing which parts repeat reliably"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Real client builds reveal the true common pattern, letting you package a proven template rather than guessing in advance.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gHmOEmOwjNff",
       "title": "One build, many clients: separate data for each client",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When you use the same core system across multiple clients, you must keep every client's documents, prompts, logs, and credentials strictly isolated. One client's bot must never be able to search, read, or leak another client's business records.\n\nThink of a modern office building where ten companies share the same structural design and lift design, yet each company has its own locked floor, private postbox, and separate alarm code.\n\nIn practice, deploying separate database instances or strictly keyed tenant namespaces per client is much safer than throwing everyone's files into one shared folder with a prompt asking the bot to be careful.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gHmOEmOwjNff_1",
+          "type": "multiple_choice",
+          "prompt": "How must client data be handled when deploying the same productised workflow across several companies?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "All clients can share one folder as long as the system prompt says not to mix them up"
+            },
+            {
+              "id": "b",
+              "text": "Data isolation only matters for banks and can be ignored for small local businesses"
+            },
+            {
+              "id": "c",
+              "text": "Each client's data, logs, and credentials must be strictly isolated at the infrastructure and database level"
+            },
+            {
+              "id": "d",
+              "text": "Combining every client's private invoices into one search index improves accuracy for everyone"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Hard technical separation between clients prevents cross-company data leaks that no prompt instruction can guarantee against.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_i0dSTAbG-8Bi",
       "title": "Configuration, not code, for client differences",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Even in the same industry, two clients will have different price lists, tone of voice, approval thresholds, and team email addresses. Handle these differences through a simple configuration file per client rather than copying and editing the main codebase ten times.\n\nFor three plumbing firms using your booking bot, the core logic stays identical while a clean settings file holds each firm's call-out fee, postcode coverage area, and emergency phone number.\n\nIf you fork the code for every client, fixing one bug means applying the same patch in ten places. Keep the core engine shared and push local rules into configuration.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_i0dSTAbG-8Bi_1",
+          "type": "multiple_choice",
+          "prompt": "Why should client-specific details like prices and postcodes live in configuration rather than duplicated code?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Configuration files run without needing any computer server or network connection"
+            },
+            {
+              "id": "b",
+              "text": "It lets you improve and fix the shared core system once without maintaining ten diverging code copies"
+            },
+            {
+              "id": "c",
+              "text": "Clients prefer editing raw Python source code whenever their phone number changes"
+            },
+            {
+              "id": "d",
+              "text": "Putting rules in configuration prevents the consultant from charging a setup fee"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Separating settings from core code keeps maintenance manageable across a growing roster of clients.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_WtWUTQSawXfX",
       "title": "A library of tested components",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Over time, an effective AI consultant builds an internal library of tested components: reliable document parsers, triage prompts, structured handoff validators, spend-limit wrappers, and logging hooks. Assembling a new system from battle-tested pieces is faster and far safer than writing fresh code under deadline pressure.\n\nIt is like a carpenter carrying a workshop of seasoned jigs and joinery templates so every cabinet door fits squarely on the first try.\n\nKeep each component in your library small, well-documented, and paired with its own unit tests. Resist turning the library into a bloated framework that is harder to understand than the problem it solves.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WtWUTQSawXfX_1",
+          "type": "multiple_choice",
+          "prompt": "How does maintaining a library of tested components benefit both the consultant and the client?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Projects launch faster with fewer bugs because core pieces like parsers and guardrails are already proven"
+            },
+            {
+              "id": "b",
+              "text": "It allows the consultant to skip discovery and testing on new client engagements"
+            },
+            {
+              "id": "c",
+              "text": "Tested components never need updating when model providers change their APIs"
+            },
+            {
+              "id": "d",
+              "text": "It locks the client into paying for fifty features they do not actually use"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Reusing small, verified building blocks cuts setup time and brings proven reliability to each new client deployment.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Ny9IfYPwXq35",
       "title": "Know when a request is too custom to take on",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Not every client request fits your templates or skills, and taking on a wildly custom build at a standard price will drain your time and profit. Learn to spot requests that require deep bespoke software engineering, niche hardware integration, or regulated expertise you do not hold.\n\nIf your practice specialises in back-office document bots for tradespeople and a factory asks you to build a real-time computer vision safety cut-off for heavy saws, say no politely or refer them to a specialist.\n\nSaying no to poor-fit work protects your reputation and leaves capacity for clients you can serve brilliantly. If you do accept bespoke work, price and scope it as custom research.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Ny9IfYPwXq35_1",
+          "type": "multiple_choice",
+          "prompt": "When should an AI consultant decline or refer a prospective project?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whenever the client asks a question about how their data will be stored"
+            },
+            {
+              "id": "b",
+              "text": "When the request falls far outside your proven components or carries specialist risks you cannot safely support"
+            },
+            {
+              "id": "c",
+              "text": "Any time a client wants to change the company name or postcode in a template"
+            },
+            {
+              "id": "d",
+              "text": "Never, because a consultant should accept every project regardless of fit or risk"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Turning down or referring mismatched, high-risk custom work keeps your practice profitable and protects the client from a failed build.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

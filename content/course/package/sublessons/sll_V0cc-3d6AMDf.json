@@ -5,8 +5,8 @@
     {
       "id": "bit_J7I6NIbEXR4E",
       "title": "Conda/Bioconda environments",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Conda (along with faster drop-in solvers like Mamba and Pixi) is a cross-platform package and environment manager, and Bioconda is its dedicated channel hosting thousands of pre-compiled bioinformatics software packages. Conda creates isolated user-space directories containing specific versions of tools and their underlying C, R, or Python libraries without needing administrator root privileges; check the current details on channel priority settings for `conda-forge` and `bioconda`.\n\nIt is like giving each chef in a shared kitchen their own locked spice rack and knife roll so one recipe's ingredients never contaminate another's station.\n\nNote that Conda environments do not isolate host operating system kernel libraries or environment variables (`~/.bashrc`, `R_LIBS_USER`), so containers offer stronger cross-machine reproducibility than Conda alone.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_J7I6NIbEXR4E_1",
+          "type": "multiple_choice",
+          "prompt": "What problem do Conda and the Bioconda channel solve for bioinformaticians working on shared Linux servers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They allow users to install isolated environments with conflicting tool versions and dependencies without needing administrator privileges"
+            },
+            {
+              "id": "b",
+              "text": "They replace the Linux kernel with a Windows graphical interface for running genome browsers"
+            },
+            {
+              "id": "c",
+              "text": "They automatically sequence DNA samples without requiring laboratory instruments"
+            },
+            {
+              "id": "d",
+              "text": "They provide unlimited free cloud storage for controlled-access human BAM files"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Conda and Bioconda let researchers install and isolate complex bioinformatics software stacks and conflicting library versions in user space without root access.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_QWpB7pZlDRrS",
       "title": "Docker and Singularity/Apptainer containers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Software containers package an application together with its entire filesystem, system libraries, and dependencies into an immutable image that runs identically across different Linux hosts. While Docker is the industry standard for cloud and local development, Singularity and Apptainer are purpose-built for shared scientific HPC clusters and can convert and run Docker images directly as single `.sif` files; check the current details on OCI image compatibility.\n\nIt is like sealing a calibrated laboratory instrument inside a climate-controlled mobile pod so it performs identically whether parked in London, Zurich, or Tokyo.\n\nA common pitfall when running containers is host path mounting: if your data sits on `/scratch/project` outside the default home directory, you must explicitly bind-mount that path into the container so the tool can see the files.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,13 +66,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_QWpB7pZlDRrS_1",
+          "type": "multiple_choice",
+          "prompt": "How do software containers provide stronger reproducibility than virtual environments like Conda alone?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Containers run without using the host machine's CPU or memory"
+            },
+            {
+              "id": "b",
+              "text": "Containers automatically correct wet-lab batch effects in RNA-seq matrices"
+            },
+            {
+              "id": "c",
+              "text": "Containers compress genomic reference files to zero bytes on disk"
+            },
+            {
+              "id": "d",
+              "text": "Containers encapsulate the entire user-space operating system filesystem and system libraries into an immutable image, eliminating host library differences"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "While Conda still relies on underlying host system libraries and shell variables, containers bundle the complete operating system user-space environment into a portable image.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__VEeKr4wr9oJ",
       "title": "Pinning versions for reproducibility",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Version pinning is the practice of locking the exact release numbers and build hashes of every software tool, library dependency, and container image used in a bioinformatics pipeline (for example, `samtools=1.20` with a specific container digest rather than `latest`). Updating an aligner, variant caller, or single-cell clustering library between minor releases can change default filtering thresholds, statistical models, and output coordinates.\n\nIt is like an airline maintenance manual specifying the exact part serial number and torque setting rather than telling mechanics to \"use whatever bolts are newest in the supply bin\".\n\nIn regulated clinical diagnostics or pharma biomarker filings, floating tags like `:latest` are unacceptable because an unannounced upstream rebuild can silently alter patient reports overnight.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -57,31 +113,115 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__VEeKr4wr9oJ_1",
+          "type": "multiple_choice",
+          "prompt": "Why should production bioinformatics pipelines never use floating tags like `:latest` for software containers or packages?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The `:latest` tag always downloads the oldest beta version from 2010"
+            },
+            {
+              "id": "b",
+              "text": "Container registries charge ten times more money when downloading `:latest` images"
+            },
+            {
+              "id": "c",
+              "text": "Upstream updates to tools or dependencies can silently change default algorithms, parameters, or file formats, breaking reproducibility across runs"
+            },
+            {
+              "id": "d",
+              "text": "Linux servers block network access whenever a version number contains digits"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Pinning exact software versions and container digests guarantees that re-running an analysis months or years later uses the exact same code and produces identical results.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_FskIs6LRWly2",
       "title": "Containers on HPC: Apptainer, because Docker usually needs admin rights",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Most shared High-Performance Computing (HPC) clusters ban standard Docker because the classic Docker daemon runs with root privileges, allowing any user who can launch a Docker container to mount the host root filesystem and gain full administrator control of the node. Apptainer (formerly Singularity) solves this by running containers rootlessly as the regular unprivileged user who launched the job; check the current details for your cluster's Apptainer bind-mount configuration.\n\nIt is like a secure bank building that refuses to give visiting contractors a master skeleton key (Docker root daemon), instead issuing badge-linked toolboxes (Apptainer) that only open the rooms the contractor is already authorised to enter.\n\nBecause Apptainer converts standard Docker images seamlessly (`apptainer pull docker://...`), AI teams can build images in Docker during CI/CD and execute them via Apptainer on HPC.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FskIs6LRWly2_1",
+          "type": "multiple_choice",
+          "prompt": "Why do shared HPC clusters typically require Apptainer (Singularity) instead of standard Docker for running containerised pipelines?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Docker containers cannot execute C++ or Python programs used in bioinformatics"
+            },
+            {
+              "id": "b",
+              "text": "Standard Docker typically relies on a root-privileged daemon that poses a multi-tenant security risk, whereas Apptainer runs containers safely under the user's normal unprivileged account"
+            },
+            {
+              "id": "c",
+              "text": "Apptainer automatically doubles the clock speed of HPC processors"
+            },
+            {
+              "id": "d",
+              "text": "Docker can only run on macOS laptops and is incompatible with Linux servers"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "On multi-user HPC systems, granting access to a root-level Docker daemon allows privilege escalation, whereas Apptainer preserves the calling user's existing permissions and works cleanly with job schedulers like Slurm.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_HHxpmy4L_zLA",
       "title": "Record tool versions and parameters with every result",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Complete computational provenance requires saving an automated manifest alongside every analysis output that records the exact pipeline commit hash, software versions, container digests, command-line parameters, and reference genome accessions used. Years later, when a manuscript reviewer, clinical auditor, or client asks how a specific biomarker table was generated, human memory and lab notebooks are never reliable enough; check the current details on automated provenance reporting in Nextflow and MultiQC.\n\nIt is like stamping every pharmaceutical pill bottle with the batch number, factory line, manufacturing date, and exact ingredient formulation so any quality question can be traced instantly.\n\nTools like MultiQC and Nextflow execution reports collect version tables automatically, but consultants must ensure custom post-processing scripts in R or Python also log their session info and random seeds.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_HHxpmy4L_zLA_1",
+          "type": "multiple_choice",
+          "prompt": "Why must every bioinformatics output directory include an automated record of tool versions, exact command-line parameters, and reference genome IDs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "File systems automatically delete VCF and BAM files that are not accompanied by a version text file"
+            },
+            {
+              "id": "b",
+              "text": "Subtle changes in parameters, reference builds, or software versions can alter biological conclusions, and full provenance is required to audit, debug, or reproduce results later"
+            },
+            {
+              "id": "c",
+              "text": "Recording tool versions reduces the sequencing error rate of the wet-lab instrument"
+            },
+            {
+              "id": "d",
+              "text": "Journal publishers require tool version logs so they can bill software authors per run"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Without an automated record of exact software versions, non-default flags, random seeds, and reference builds, it becomes impossible to reproduce or audit analytical results over time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

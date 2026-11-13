@@ -5,8 +5,8 @@
     {
       "id": "bit_lx4wdclpmO3_",
       "title": "Computer-use and browser agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Computer-use and browser agents interact with software the same way a human does: by looking at screenshots or the webpage DOM and moving a cursor, clicking buttons, and typing into forms. This capability lets an agent automate legacy desktop applications or third-party websites that do not offer a clean programmatic API.\n\nFor a logistics client still using a twenty-year-old freight portal with no API, a browser agent can log in, read the shipment table, and enter tracking numbers into a modern system.\n\nHowever, GUI and browser automation is much slower, more brittle when screen layouts change, and more exposed to visual prompt injections than clean API integrations, so always prefer a direct API when one exists.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,43 +19,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lx4wdclpmO3__1",
+          "type": "multiple_choice",
+          "prompt": "When is a computer-use or browser agent the right architectural choice over a standard API tool integration?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whenever a clean, well-documented REST API or MCP server is already available for the service"
+            },
+            {
+              "id": "b",
+              "text": "When the workflow requires sub-second response times and rock-bottom token costs"
+            },
+            {
+              "id": "c",
+              "text": "When you want to guarantee that the agent can never encounter indirect prompt injection"
+            },
+            {
+              "id": "d",
+              "text": "When the agent must interact with a legacy application or external website that provides no programmatic API"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Browser and computer-use agents bridge the gap for legacy or API-less software through the visual interface, though they are slower, costlier, and more fragile than direct API calls.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_aIsLqTNg76eV",
       "title": "Interoperability standards",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Interoperability standards allow AI agents, tools, data sources, and agent teams built by different vendors or frameworks to connect cleanly without custom glue code for every pair. Instead of writing bespoke adapters connecting five models to ten enterprise tools, which would mean fifty custom integrations in total, a shared protocol lets every compliant agent talk to every compliant tool or peer agent out of the box.\n\nIt is like the universal USB-C standard replacing a drawer full of incompatible proprietary phone chargers so any cable plugs into any laptop or accessory.\n\nFor AI consultants, building around open interoperability standards protects your clients from vendor lock-in as models and frameworks change.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_aIsLqTNg76eV_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main architectural benefit of adopting open interoperability standards in an enterprise AI stack?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Components, tools, and agents from different teams or vendors can connect through a common protocol without writing custom point-to-point integration code for every pair"
+            },
+            {
+              "id": "b",
+              "text": "Interoperability standards guarantee that all language models have zero latency"
+            },
+            {
+              "id": "c",
+              "text": "Open standards allow companies to ignore data privacy laws when sharing customer records"
+            },
+            {
+              "id": "d",
+              "text": "Adopting a standard automatically converts legacy COBOL mainframes into neural networks"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Standardised protocols turn an N-by-M integration headache into plug-and-play interfaces, reducing maintenance effort and preventing lock-in to a single framework.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_aY2AhryQ7fgE",
       "title": "MCP, A2A, and AGENTS.md now sit under the Linux Foundation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Three major open standards for agentic ecosystems, namely the Model Context Protocol (MCP) for connecting models to tools and data, the Agent2Agent (A2A) protocol for collaboration between independent agents, and `AGENTS.md` for giving coding agents repository instructions, now sit under neutral open-source governance within the Linux Foundation's Agentic AI Foundation. Originally introduced by Anthropic (MCP), Google (A2A), and OpenAI alongside ecosystem partners (`AGENTS.md`), moving these specifications to the Linux Foundation ensures no single competitor controls the plumbing of agent interoperability.\n\nWhen advising enterprise architects, neutral foundation governance reassures clients that adopting MCP servers, A2A endpoints, and `AGENTS.md` files is a safe long-term bet across vendors.\n\nAlways check the current details of the specifications and supported security extensions as the working groups publish updates.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_aY2AhryQ7fgE_1",
+          "type": "multiple_choice",
+          "prompt": "How do MCP, A2A, and AGENTS.md divide responsibilities in a modern agentic software stack?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "MCP trains foundation models, A2A manufactures server chips, and AGENTS.md encrypts cloud databases"
+            },
+            {
+              "id": "b",
+              "text": "All three are competing file formats for storing 3D graphics in video games"
+            },
+            {
+              "id": "c",
+              "text": "MCP is only for European companies, A2A is only for Canadian companies, and AGENTS.md is only for US companies"
+            },
+            {
+              "id": "d",
+              "text": "MCP connects models to tools and context data, A2A coordinates communication between separate agents, and AGENTS.md provides project-specific instructions inside code repositories"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Each standard addresses a distinct layer: agent-to-tool/data integration (MCP), agent-to-agent collaboration (A2A), and repo-level instructions for coding agents (AGENTS.md), all governed neutrally under the Linux Foundation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Iw6P8-NfxOOK",
       "title": "Longer tasks: how far agents can work unattended",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The task horizon, meaning the length of time a human professional would take to do a task that an AI agent can complete reliably on its own, has been steadily expanding from short five-minute chores toward multi-hour engineering and research assignments. Research groups such as METR measure this horizon across software and reasoning benchmarks, showing rapid growth alongside a critical caveat: success rates still drop as tasks require more sequential steps, novel judgement across messy real-world systems, or zero-error irreversibility.\n\nIt is like a self-driving car that handles four hours of clear motorway cruising effortlessly but still needs an alert human driver to take the wheel in a chaotic, unmarked construction zone.\n\nCheck the current details of long-horizon benchmark results when scoping client projects, and design unattended runs with clear checkpoints rather than blind multi-day autonomy.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Iw6P8-NfxOOK_1",
+          "type": "multiple_choice",
+          "prompt": "What does empirical research on agent task horizons reveal about deploying agents on long, unattended workflows?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Agents in 2026 achieve 100 per cent perfection on month-long company transformations with zero human oversight"
+            },
+            {
+              "id": "b",
+              "text": "Agents cannot perform any task that takes a human more than thirty seconds to complete"
+            },
+            {
+              "id": "c",
+              "text": "Task horizon length depends only on the colour of the user interface and nothing else"
+            },
+            {
+              "id": "d",
+              "text": "While the duration of tasks agents can complete autonomously is growing rapidly, reliability still drops on longer, messier tasks unless checkpoints and verification are built in"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Although frontier models can now sustain coherent work across much longer tasks than a year ago, compounding error rates mean production systems still rely on checkpoints, sandboxes, and scoped milestones.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

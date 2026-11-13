@@ -5,8 +5,8 @@
     {
       "id": "bit_ItIsdSSq3j2t",
       "title": "Query, key, value matrices",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Self-attention begins by projecting each input token's embedding vector through three separate learned weight matrices to produce three new vectors: a Query (Q), a Key (K), and a Value (V). The Query represents what the current token is looking for, the Key acts as a label describing what each token can offer, and the Value holds the actual content to pass forward when a match is found.\n\nIt is like searching a digital library: your search phrase is the Query, the index tags on each book spine are the Keys, and the pages inside the matching books are the Values.\n\nBecause the projection matrices are learned during training, the model discovers for itself what kinds of questions to ask and what information to extract for downstream tasks.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ItIsdSSq3j2t_1",
+          "type": "multiple_choice",
+          "prompt": "What are the distinct roles of the Query, Key, and Value vectors in self-attention?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The Query stores the final output, the Key encrypts the weights, and the Value deletes unused tokens"
+            },
+            {
+              "id": "b",
+              "text": "The Query counts the tokens, the Key sorts them alphabetically, and the Value translates them into integers"
+            },
+            {
+              "id": "c",
+              "text": "The Query searches for relevant context, the Key labels what each token offers, and the Value provides the content to blend"
+            },
+            {
+              "id": "d",
+              "text": "The Query applies dropout, the Key computes layer normalisation, and the Value updates the learning rate"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Self-attention compares Queries against Keys to determine relevance weights, then uses those weights to combine the corresponding Values.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Z3XLcv-dqenq",
       "title": "Scaled dot-product attention",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Scaled dot-product attention is the core formula that lets every token in a sequence gather context from every other token in a single matrix operation. It computes the dot product between the Query matrix and the transposed Key matrix, divides by a scaling factor, applies a softmax function to turn raw scores into probabilities, and multiplies those probabilities by the Value matrix.\n\nThink of a committee chair polling specialists around a table, weighting each person's input by how closely their expertise matches the question on the floor, and combining their answers into one briefing note.\n\nBecause the entire calculation relies on standard matrix multiplications, GPUs can execute scaled dot-product attention across all tokens in a sequence in parallel during training, unlike older recurrent networks that had to step through words one by one.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,67 +66,235 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Z3XLcv-dqenq_1",
+          "type": "multiple_choice",
+          "prompt": "Why can scaled dot-product attention train much faster on modern GPUs than recurrent neural networks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It ignores all previous tokens in a sentence and only looks at the final word"
+            },
+            {
+              "id": "b",
+              "text": "It computes token-to-token interactions across the whole sequence in parallel using matrix multiplications"
+            },
+            {
+              "id": "c",
+              "text": "It requires no trainable weight parameters inside the attention block"
+            },
+            {
+              "id": "d",
+              "text": "It operates exclusively on 1-bit integer values without any floating-point arithmetic"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "By expressing all pairwise token comparisons as dense matrix operations, self-attention avoids the sequential step-by-step bottleneck of recurrent architectures.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_EdOOdSRdTrKO",
       "title": "Attention masks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An attention mask is a matrix of zeros and negative infinities added to the raw Query-Key attention scores right before the softmax step to control which tokens are allowed to attend to which other tokens. Adding zero leaves a score unchanged, while adding negative infinity drives the post-softmax probability to exact zero so the blocked token contributes nothing to the output.\n\nIt is like putting privacy screens between exam desks so a candidate can read only the allowed reference sheets and cannot peek at prohibited pages.\n\nIn practice, attention masks serve two everyday engineering purposes: padding masks stop real tokens from attending to dummy pad tokens added to make batch sequences the same length, and causal masks stop autoregressive decoders from looking ahead at future tokens during training.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_EdOOdSRdTrKO_1",
+          "type": "multiple_choice",
+          "prompt": "How does an attention mask prevent a token from attending to a forbidden position before the softmax step?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It multiplies the Value vector by a random Gaussian noise tensor after the layer finishes"
+            },
+            {
+              "id": "b",
+              "text": "It adds negative infinity to the raw attention score at that position so its softmax probability becomes zero"
+            },
+            {
+              "id": "c",
+              "text": "It deletes the forbidden token's embedding from the vocabulary matrix permanently"
+            },
+            {
+              "id": "d",
+              "text": "It sets the learning rate for that specific token to negative one during backpropagation"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Because the exponential of negative infinity is zero, masking scores with negative infinity before softmax guarantees zero attention weight on blocked positions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_DtHzPPPoK0OR",
       "title": "Scores are queries times keys, scaled by the square root of the key size",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "To measure how strongly token i should attend to token j, self-attention takes the dot product of token i's Query vector and token j's Key vector, and then divides that dot product by the square root of the key dimension ($\\sqrt{d_k}$). Without that division, as the vector dimension $d_k$ grows larger, the variance of the dot products grows proportionally, pushing the numbers to extreme positive and negative values.\n\nImagine a panel of judges where adding more sub-scores makes the total tally balloon; dividing by the scale keeps the final number in a sensible band so one slight lead does not look like a landslide.\n\nIf raw dot products become huge, the softmax function saturates into a sharp one-hot peak where gradients vanish to nearly zero. Scaling by $\\sqrt{d_k}$ keeps the variance near one and preserves healthy gradients throughout training.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DtHzPPPoK0OR_1",
+          "type": "multiple_choice",
+          "prompt": "Why does scaled dot-product attention divide the Query-Key dot products by the square root of the key dimension?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To prevent large dot products from pushing the softmax into regions where gradients vanish"
+            },
+            {
+              "id": "b",
+              "text": "To ensure that the output matrix has fewer columns than the input matrix"
+            },
+            {
+              "id": "c",
+              "text": "To convert floating-point attention scores into discrete integer token IDs"
+            },
+            {
+              "id": "d",
+              "text": "To force every token in the sequence to receive an equal attention weight"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "As dimension $d_k$ increases, dot product magnitudes grow and saturate the softmax; dividing by $\\sqrt{d_k}$ keeps scores moderate and gradients informative.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_DbC4oC_ZLWLd",
       "title": "Softmax turns scores into weights; the output is a weighted sum of values",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Once the scaled Query-Key scores are computed and masked, a row-wise softmax function converts each token's row of arbitrary real numbers into a clean probability distribution where every weight is positive and the whole row sums to 1.0. The layer then multiplies each token's Value vector by its assigned attention weight and sums them up to create the new contextualised representation.\n\nIt is like blending a custom paint colour by mixing 70 per cent of tin A, 20 per cent of tin B, and 10 per cent of tin C according to a precise recipe card.\n\nBecause the output is a weighted average of Value vectors, a single attention head can either focus sharply on one specific token (a weight near 1.0) or blend context smoothly across several related words in a clause.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DbC4oC_ZLWLd_1",
+          "type": "multiple_choice",
+          "prompt": "What property does the row-wise softmax enforce on the attention weights for a given query token?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every weight in the row is either negative one or positive one"
+            },
+            {
+              "id": "b",
+              "text": "The weights are sorted in strictly ascending order from left to right"
+            },
+            {
+              "id": "c",
+              "text": "All attention weights in the row are non-negative and sum to exactly 1.0"
+            },
+            {
+              "id": "d",
+              "text": "The sum of the weights equals the total number of layers in the model"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Applying softmax across keys turns raw similarity scores into a valid probability distribution that acts as mixing weights over the Value vectors.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_jrDeG_dKNije",
       "title": "Causal mask: tokens cannot see the future",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A causal mask (also called an autoregressive or look-ahead mask) is an upper-triangular attention mask that blocks every token at position t from attending to any token at position t+1 or later. In matrix form, all entries above the main diagonal are set to negative infinity before the softmax, leaving only the lower triangle and diagonal active.\n\nThink of reading a mystery novel page by page with a bookmark covering the rest of the chapter so you must guess what happens next using only the clues revealed so far.\n\nThis triangular mask is the trick that makes decoder training efficient: the model can process an entire training document in a single parallel forward pass and compute next-token loss at every position simultaneously, without any position ever cheating by peeking ahead at the answer token.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_jrDeG_dKNije_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a causal mask essential when training an autoregressive decoder language model in parallel?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It doubles the context window length without using any extra GPU memory"
+            },
+            {
+              "id": "b",
+              "text": "It stops each token position from peeking at future tokens that it is supposed to predict"
+            },
+            {
+              "id": "c",
+              "text": "It allows the model to read the prompt backwards from the last word to the first"
+            },
+            {
+              "id": "d",
+              "text": "It removes the need for positional encodings in the transformer block"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Without a causal mask, a parallel forward pass would let token t attend directly to token t+1, turning next-token prediction into trivial copying.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ZYx2y1zAD2EK",
       "title": "Cost grows with the square of the sequence length",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In standard self-attention, every token in a sequence of length N compares its Query against the Keys of all N tokens, creating an N-by-N attention matrix per head. As a result, both computation and naive attention memory scale quadratically with sequence length ($O(N^2)$): doubling a client's prompt from 4,000 to 8,000 tokens quadruples the work inside the self-attention operation.\n\nIt is like clinking glasses at a dinner party: with four guests there are six clinks, with forty guests there are 780, and in a stadium the number of pairs explodes.\n\nWhile hardware-aware tiled attention kernels avoid writing the full N-by-N matrix to slow GPU main memory by keeping intermediate calculations in fast on-chip SRAM, the underlying compute still grows quadratically with sequence length, making long-context prompts substantially more expensive for clients.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ZYx2y1zAD2EK_1",
+          "type": "multiple_choice",
+          "prompt": "If the input sequence length to a standard self-attention layer increases by a factor of four, how does the number of pairwise token comparisons change?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It increases by a factor of two because only half the tokens are compared"
+            },
+            {
+              "id": "b",
+              "text": "It stays completely unchanged because attention cost depends only on vocabulary size"
+            },
+            {
+              "id": "c",
+              "text": "It decreases by a factor of four because longer prompts compress the weight matrices"
+            },
+            {
+              "id": "d",
+              "text": "It increases by a factor of sixteen because self-attention scales with the square of sequence length"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Comparing all N queries against all N keys produces $N^2$ pairs, so quadrupling N multiplies the pairwise attention work by sixteen.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

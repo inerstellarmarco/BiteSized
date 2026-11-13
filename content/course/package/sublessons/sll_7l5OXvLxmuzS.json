@@ -5,20 +5,48 @@
     {
       "id": "bit_CCTeXRNrTO0J",
       "title": "Whole-slide image analysis",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Whole-slide images (WSIs) are high-resolution digital scans of stained tissue biopsies mounted on glass microscope slides, routinely measuring up to 100,000 by 100,000 pixels and several gigabytes per file. Computational pathology uses deep learning to detect tumours, grade disease severity, and predict molecular biomarkers directly from these gigapixel scans.\n\nIt is like analysing a satellite photograph of an entire country where you also need to inspect individual street signs at full zoom.\n\nBecause a whole-slide image is thousands of times larger than a standard photograph, it cannot be fed straight into a conventional convolutional network or vision transformer in a single pass. Pipelines require specialised pyramid storage formats, tissue-background segmentation, and multi-resolution processing strategies.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_CCTeXRNrTO0J_1",
+          "type": "multiple_choice",
+          "prompt": "Why can a standard image classification neural network not process a digital pathology whole-slide image in a single direct pass?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Digital pathology scanners store images as one-dimensional audio streams rather than pixel grids"
+            },
+            {
+              "id": "b",
+              "text": "Whole-slide scans are gigapixel images that are orders of magnitude too large to fit into GPU memory at full resolution"
+            },
+            {
+              "id": "c",
+              "text": "Pathologists only examine slides containing fewer than one hundred pixels in total"
+            },
+            {
+              "id": "d",
+              "text": "Whole-slide images contain no spatial information about cellular arrangement or tissue architecture"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "At up to 100,000 by 100,000 pixels, a single whole-slide image far exceeds the memory capacity of standard end-to-end vision architectures.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_3MhBQeNd-1l2",
       "title": "Pathology foundation models",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Pathology foundation models such as UNI, Virchow, Prov-GigaPath, and CONCH are large vision encoders pre-trained via self-supervised learning on tens of millions of histopathology image tiles across diverse tissues. Because new pathology backbones and commercial licences launch frequently, check the current details before selecting a model for clinical deployment.\n\nIt is like training an apprentice on millions of tissue snapshots from every organ so they already recognise cells, glands, and stroma before learning a rare cancer assay.\n\nBy extracting compact feature vectors for each tissue tile, foundation models allow hospitals to train accurate slide classifiers using hundreds rather than tens of thousands of slides. Still, teams must validate performance carefully on rare tissue subtypes and local staining protocols.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,55 +59,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3MhBQeNd-1l2_1",
+          "type": "multiple_choice",
+          "prompt": "How do pre-trained pathology foundation models accelerate clinical AI development?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They replace the physical microscope scanner so biopsies no longer need to be sliced or stained"
+            },
+            {
+              "id": "b",
+              "text": "They guarantee regulatory approval without requiring clinical validation studies in partner hospitals"
+            },
+            {
+              "id": "c",
+              "text": "They shrink gigapixel whole-slide images down to a single RGB pixel before analysis"
+            },
+            {
+              "id": "d",
+              "text": "They turn tissue tiles into rich feature vectors learned from millions of slides, reducing the number of labelled slides needed for new tasks"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Self-supervised pre-training on massive histopathology archives equips the encoder with rich morphological features that transfer efficiently to downstream clinical tasks.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_txqw2mNR8fp_",
       "title": "Slides are huge: analyze them in tiles, then combine the results",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "To handle gigapixel scale, computational pathology pipelines first segment the tissue from the empty glass background, chop the tissue region into thousands of small patches or tiles (such as 256 by 256 pixels), extract a feature vector for each tile, and finally aggregate those tile vectors into a single slide-level prediction.\n\nIt is like surveying a vast forest by photographing thousands of individual clearings and then combining the field reports at headquarters to judge overall forest health.\n\nThe aggregation step often uses attention-based pooling so the model learns which specific tiles matter most. A key caveat is that simple tile averaging can wash out a tiny metastatic tumour cluster occupying less than one percent of the slide.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_txqw2mNR8fp__1",
+          "type": "multiple_choice",
+          "prompt": "Why do computational pathology pipelines use attention-based aggregation rather than simple averaging across all tissue tiles?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Simple averaging requires ten times more GPU memory than multi-head attention networks"
+            },
+            {
+              "id": "b",
+              "text": "Every single tile across a biopsy slide always contains identical cancerous cells"
+            },
+            {
+              "id": "c",
+              "text": "Attention pooling deletes all tiles containing cell nuclei before making a diagnosis"
+            },
+            {
+              "id": "d",
+              "text": "Diagnostic evidence such as a small tumour nest may sit in only a few tiles that simple averaging would dilute"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Often only a tiny fraction of a biopsy slide contains the diagnostic lesion, so attention mechanisms weight informative tiles while ignoring normal background tissue.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Duvu-ixaCtE9",
       "title": "Staining and scanner differences hurt generalization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In histopathology, laboratories stain tissue slices with haematoxylin and eosin (H&E) dyes to make cell nuclei and cytoplasm visible, then digitise them with optical scanners. However, dye concentrations, room temperatures, slicing thickness, and scanner optics vary noticeably between hospitals, shifting image colour and contrast.\n\nIt is like training a quality-control camera under bright white factory lights and then moving it to a workshop lit by dim yellow lamps.\n\nDeep learning models easily latch onto hospital-specific colour tints, causing catastrophic drops in generalisation when tested at a new medical centre, especially if one hospital contributed more cancer cases during training. Consultants must enforce stain normalisation, colour augmentation, or stain-robust foundation features, plus multi-centre external validation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Duvu-ixaCtE9_1",
+          "type": "multiple_choice",
+          "prompt": "How do variations in H&E staining and slide scanners across hospitals threaten pathology AI models?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Different slide scanners alter the patient's underlying germline DNA sequence during optical scanning"
+            },
+            {
+              "id": "b",
+              "text": "Haematoxylin and eosin dyes permanently erase cellular structure after twenty-four hours"
+            },
+            {
+              "id": "c",
+              "text": "Colour variations make whole-slide image files too small to open in viewing software"
+            },
+            {
+              "id": "d",
+              "text": "Models can overfit to site-specific colour and sharpness differences, failing when deployed at new clinical centres"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Technical differences in tissue preparation and scanner optics create domain shifts that degrade performance or act as shortcuts across clinical sites.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Km7RXszcyR3X",
       "title": "Labels exist only at slide level: weakly supervised learning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In hospital archives, pathology reports typically record a diagnosis or molecular status for the entire biopsy case rather than outlining every individual malignant cell across a gigapixel slide. Training a model when you know the overall slide label but not which specific tiles contain the lesion is called weakly supervised multiple instance learning (MIL).\n\nIt is like knowing whether a massive keyring holds the key that opens a safe, without being told which individual key on the ring works.\n\nMultiple instance learning treats the slide as a bag of tiles and learns to spot positive instances automatically. Because weak labels are noisy and can latch onto background artefacts like pen marks placed by pathologists, always inspect attention heatmaps to confirm the model focuses on real tumour cells.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Km7RXszcyR3X_1",
+          "type": "multiple_choice",
+          "prompt": "Why is multiple instance learning (MIL) widely used in computational pathology?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Pixel-level manual annotation by pathologists is fast, free, and available for every biopsy in the world"
+            },
+            {
+              "id": "b",
+              "text": "Multiple instance learning allows models to train without any diagnostic labels or patient outcomes at all"
+            },
+            {
+              "id": "c",
+              "text": "Hospital records usually provide a single diagnosis for the whole slide rather than pixel-level annotations for millions of cells"
+            },
+            {
+              "id": "d",
+              "text": "Whole-slide images contain only a single cell per slide, making tile-level labels unnecessary"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because manual cell-by-cell annotation on gigapixel slides is prohibitively slow, MIL enables training directly from routine slide-level pathology reports.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_VrNMM4lysHtG",
       "title": "Pathologist review stays in the loop",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Even the strongest pathology foundation model remains a decision-support tool rather than an autonomous replacement for a qualified histopathologist. Clinical deployment workflows present model predictions alongside interpretable attention heatmaps or highlighted regions of interest inside the digital slide viewer so the clinician can verify the morphological evidence.\n\nIt is like an aviation radar that highlights nearby weather cells and traffic on a cockpit screen while the captain retains final authority over the flight path.\n\nModels can be fooled by out-of-distribution artefacts such as tissue folds, air bubbles, cautery burns, or rare benign mimics that were scarce in training data. Consultants designing clinical pathology workflows must build fast, intuitive human-in-the-loop review and clear escalation paths for uncertain cases.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_VrNMM4lysHtG_1",
+          "type": "multiple_choice",
+          "prompt": "Why must a qualified pathologist remain in the loop when deploying computational pathology models clinically?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Pathologists verify visual evidence against tissue artefacts, rare mimics, and full clinical context before signing out a diagnosis"
+            },
+            {
+              "id": "b",
+              "text": "Regulatory laws require pathologists to manually recalculate every matrix multiplication performed by the GPU"
+            },
+            {
+              "id": "c",
+              "text": "Attention heatmaps automatically cure the patient without requiring any surgical or medical decision"
+            },
+            {
+              "id": "d",
+              "text": "Pathology models can only process black-and-white text reports and cannot view stained tissue images"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Human expert oversight catches preparation artefacts and rare pathological entities while integrating slide morphology with the broader clinical picture.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

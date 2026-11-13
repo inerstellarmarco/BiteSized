@@ -5,32 +5,88 @@
     {
       "id": "bit_Sql0kLTKvO7m",
       "title": "Faithfulness, relevance, context precision",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Evaluating a RAG system is often organised around the **RAG triad**: three metrics that check the links between the question, the retrieved chunks and the final answer.\n\n**Context Precision / Recall** checks the retrieval step: did the search bring back the chunks that actually hold the answer, without burying them in irrelevant noise? **Faithfulness (Groundedness)** checks generation against the retrieved chunks: did the answer stick strictly to facts in those chunks? **Answer Relevance** checks generation against the user's question: did the reply actually answer what was asked?\n\nIt is marking a research essay on three things: did the student pull the right library books, did they quote those books accurately, and did they answer the exam question?",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Sql0kLTKvO7m_1",
+          "type": "multiple_choice",
+          "prompt": "What do the three parts of the RAG evaluation triad measure?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whether retrieval found the right context, whether the answer is faithful to that context, and whether the answer addresses the user's question"
+            },
+            {
+              "id": "b",
+              "text": "Font size, page colour and server memory usage"
+            },
+            {
+              "id": "c",
+              "text": "How fast the user types, how long the PDF is and how old the database is"
+            },
+            {
+              "id": "d",
+              "text": "Only whether the answer is longer than 500 words"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Checking context quality, faithfulness and answer relevance pinpoints whether a bad RAG answer failed in search or in generation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_OjI5blzjXOBi",
       "title": "Hallucination rate measurement",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "To measure hallucination rate systematically on a RAG or agent benchmark, break each generated answer into its individual **atomic claims** (simple factual statements, figures and dates) and check each claim against the retrieved context.\n\nA claim is **supported** if the retrieved context entails it, **contradicted** if the context says the opposite, or **unsupported** if the context never mentions it. Your hallucination rate is the proportion of answers (or claims) that contain contradicted or unsupported statements when the prompt asked for grounded facts.\n\nIt is an auditor ticking each line item on an expense claim against the stapled paper receipts and flagging any line with no receipt.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OjI5blzjXOBi_1",
+          "type": "multiple_choice",
+          "prompt": "How is hallucination rate measured systematically in a grounded AI system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By breaking answers into individual factual claims and checking what share of claims are unsupported or contradicted by the retrieved sources"
+            },
+            {
+              "id": "b",
+              "text": "By asking the user to guess how many parameters the model has"
+            },
+            {
+              "id": "c",
+              "text": "By counting how many adjectives appear in the reply"
+            },
+            {
+              "id": "d",
+              "text": "By measuring the network latency between the server and the database"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Claim-level verification against the provided sources turns \"hallucination\" from a vague complaint into a trackable percentage.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_14jO4LDMGvs7",
       "title": "Scoring retrieval and generation separately",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a RAG system gives a wrong answer, there are two completely different suspects: either **retrieval failed** (the search step never fetched the paragraph containing the right fact) or **generation failed** (the right paragraph was right there in the prompt, and the model misread or ignored it).\n\nIf you only score the final answer, you do not know whether to fix your chunking and search index or to fix your system prompt and model choice. Always log the retrieved chunk IDs and score retrieval (`Recall@k`) separately from generation (faithfulness and correctness when given the gold chunks).\n\nIt is a kitchen investigation: if a dish tastes bad, check first whether the supplier delivered rotten tomatoes or whether the chef burned good ones.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,19 +99,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_14jO4LDMGvs7_1",
+          "type": "multiple_choice",
+          "prompt": "Why must you evaluate the retrieval step and the generation step separately in a RAG pipeline?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because retrieval and generation always fail at the exact same rate"
+            },
+            {
+              "id": "b",
+              "text": "Because vector databases cannot return chunk IDs"
+            },
+            {
+              "id": "c",
+              "text": "So you can delete the search index in production"
+            },
+            {
+              "id": "d",
+              "text": "So you know whether a wrong answer happened because search failed to fetch the right chunk or because the model misread the chunk it was given"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Separating retrieval metrics from generation metrics tells you immediately which half of the RAG pipeline needs fixing.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_xtwLHKbdZmGf",
       "title": "Checking that citations support the claims",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Adding `[1]` and `[2]` at the end of sentences makes an answer look trustworthy, even when source `[1]` says nothing of the sort. Users rarely click every link until the day an important decision goes wrong.\n\nYour evaluation suite should test **citation accuracy** directly. First, a deterministic code check verifies that every cited document ID or URL actually exists in the retrieved set (models sometimes invent `[4]` when only three chunks were provided). Second, a targeted check verifies that the specific passage in chunk `[1]` genuinely supports the sentence that cited it.\n\nIt is checking that a footnote in a legal brief both points to a real case and actually says what the barrister claims it says.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xtwLHKbdZmGf_1",
+          "type": "multiple_choice",
+          "prompt": "What two things must citation evaluation verify?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only that square brackets `[1]` appear somewhere in the paragraph"
+            },
+            {
+              "id": "b",
+              "text": "That every cited source ID actually exists in the retrieved context and that the cited passage genuinely supports the sentence attached to it"
+            },
+            {
+              "id": "c",
+              "text": "That the answer cites at least twenty documents even when one was retrieved"
+            },
+            {
+              "id": "d",
+              "text": "That citations are written in italics"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A valid citation must both point to a real retrieved source and back up the specific claim it is attached to.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

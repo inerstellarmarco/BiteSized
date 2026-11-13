@@ -1,0 +1,525 @@
+// E9 E9 Designing Teams of Bots
+@@ sll_e2doDCuU3wqm | E9.1 From Org Chart to Bot Team > Mapping a Business Function
+## Roles, handoffs, and decisions in a human team
+Every business function is a chain of roles, handoffs, and decisions rather than a single job. Before an AI consultant builds any automation, they must trace who does the work, how tasks pass between people, and where choices are made.
+
+It is like a relay race where the runners, the baton passes, and the track judges all determine whether the team finishes cleanly.
+
+However, the official organisation chart rarely shows how work actually happens. Informal favours and undocumented checks often hold a team together, and missing them will break a new bot workflow.
+
+?? Why must a consultant map roles, handoffs, and decisions before designing a bot team?
++ To understand how work actually flows and where choices occur in the business function
+- To replace every human employee in the department within the first week
+- To copy the official organisation chart directly into the software code
+- To eliminate all decision-making from the client's daily operations
+= Mapping how work moves and where choices happen reveals the real process that the bot team must support.
+
+## Write down what each role does, receives, and delivers
+Documenting a role means listing its exact inputs, its core actions, and the outputs it hands to the next step. Clear written boundaries stop bots from overlapping or leaving gaps in a client workflow.
+
+For a logistics firm, an order clerk receives raw customer emails, checks stock levels in the catalogue, and delivers a validated packing slip to the warehouse.
+
+The caveat is that staff often describe only their normal routine. You must sit with them and observe real examples so you capture the messy exceptions they handle without thinking.
+
+?? What are the three essential parts to document for every role in a workflow?
++ What the role receives as input, what it does, and what it delivers as output
+- The job title, the salary band, and the office location of the employee
+- Which programming language, database, and cloud host the company prefers
+- Only the final report that goes to the company's senior executive team
+= Defining exact inputs, actions, and outputs creates the clear interface needed to automate or support a role.
+
+## Which roles become bots and which stay human
+Splitting a workflow between people and bots means assigning structured tasks to software whilst keeping complex oversight with staff. A whole job title rarely turns into a single bot overnight; instead, individual duties within a role are shared out.
+
+In a recruitment agency, a bot can screen incoming CVs against basic criteria and book interview slots, whilst the human consultant interviews candidates and advises the hiring manager.
+
+Never assume a role is completely automatable just because it uses a computer. If a task relies on unspoken context, forcing a bot to do it will frustrate both staff and customers.
+
+?? How should an AI consultant decide which duties become bots and which stay with people?
++ Assign structured, repeatable duties to bots and keep complex context and oversight with humans
+- Turn every junior job title into a bot and keep only directors as human staff
+- Automate whichever tasks have the shortest written job descriptions
+- Let the software vendor decide which staff members are still needed
+= Effective workflows split duties by task nature, giving structured work to bots and context-heavy work to people.
+
+## Judgment, relationships, and accountability stay with people
+High-stakes judgement, relationship building, and legal accountability must always remain with human staff. Bots can draft options and summarise facts, but they cannot bear responsibility when a decision harms a client or breaks a contract.
+
+Consider a commercial insurance broker handling a disputed claim from a long-standing customer. A bot can gather policy clauses, yet a human manager must weigh goodwill, negotiate fairly, and sign off the payout.
+
+Even when a model appears confident, it has no moral or legal standing. Clients must never delegate final sign-off on sensitive financial, legal, or personnel choices to an automated agent.
+
+?? Why must high-stakes judgement and final accountability stay with human staff?
++ Bots cannot hold moral or legal responsibility or manage genuine human relationships
+- Language models are unable to read long legal or financial documents quickly
+- Software licences forbid bots from drafting summaries of disputed claims
+- Customers always prefer waiting several weeks for manual calculations
+= Only people can be held accountable for consequential decisions and maintain trust in sensitive relationships.
+
+## Repetitive, rule-based, and document-heavy work moves to bots first
+The best starting candidates for bots are tasks that happen often, follow clear rules, and involve reading or formatting large piles of documents. These jobs give a client fast savings without risking core business relationships.
+
+A property management firm that processes hundreds of maintenance invoices every week can use a bot to extract supplier names, check reference numbers, and flag missing tax details.
+
+However, high volume alone does not make a task safe to automate. If the rules change every day or the source documents are illegible scribbles, you must standardise the inputs before building a bot.
+
+?? Which tasks should move to bots first when designing a new system for a client?
++ Repetitive, rule-based tasks that involve processing large volumes of documents
+- Rare strategic decisions that the board of directors makes once a year
+- Unstructured negotiations with unhappy customers who want a refund
+- Tasks where the rules are unwritten and change with every single request
+= High-volume, rule-bound document work plays to the strengths of bots and delivers reliable early returns.
+
+## Draw the handoffs: that is where most failures happen
+A handoff is the moment one worker or bot passes a piece of work to the next. Drawing these connections on a diagram exposes missing information, mismatched formats, and unclear responsibility before you write any prompts.
+
+It is like plumbing in a house, where leaks rarely happen in the middle of a solid pipe, but almost always appear at the joints where two pipes meet.
+
+A bot can perform its own step perfectly and still ruin the workflow if the next bot or person misunderstands its output. Always test the transitions between steps with extra care.
+
+?? Why should a consultant pay special attention to handoffs when mapping a workflow?
++ Most process failures happen at the transitions where work passes from one step to the next
+- Drawing handoff diagrams automatically writes the code for the bot team
+- Handoffs are the only part of a business process that never involves human staff
+- Cloud providers charge extra fees whenever a diagram is not included in the file
+= Errors, dropped context, and format mismatches most often occur at the joints between roles rather than inside a single step.
+
+@@ sll_FkqePEuoD8Cf | E9.1 From Org Chart to Bot Team > Team Structure
+## One job per bot, with a clear owner
+Giving each bot a single, narrow job makes the system easier to write, test, and fix. Every bot should also have a named human owner at the client organisation who checks its performance and approves changes.
+
+Think of a professional kitchen where one chef runs the grill and another handles pastry, rather than everyone trying to cook every dish at the same time.
+
+If you cram ten unrelated duties into one giant prompt, changing a rule for one task will accidentally break another. Specialised bots stay predictable, though you must avoid splitting tasks into tiny fragments that only add delay.
+
+?? What is the main advantage of giving each bot a single job and a clear human owner?
++ Narrow bots are easier to test and maintain, and a human owner ensures clear accountability
+- It allows the consultant to bill the client for ten times as many software licences
+- Single-purpose bots never require testing or prompt updates once deployed
+- It prevents human staff from seeing how the automated workflow operates
+= Focused instructions stop tasks from interfering with one another, whilst a human owner keeps someone responsible for results.
+
+## Manager bot, specialist bots, and a reviewer bot
+A common bot team structure uses a manager bot to coordinate work, specialist bots to execute specific tasks, and a reviewer bot to check the output against quality rules. Each role has a distinct prompt and toolset.
+
+In a compliance consultancy, a manager bot breaks an audit request into steps, specialist bots check financial and safety records, and a reviewer bot verifies that every claim cites a source document.
+
+Remember that a reviewer bot can still miss subtle errors or share blind spots with the specialist bots. For high-risk outputs, a human must still inspect the final result.
+
+?? How do a manager bot, specialist bots, and a reviewer bot work together?
++ The manager routes tasks, specialists do the focused work, and the reviewer checks quality against rules
+- All three bots write the exact same report and the longest version is sent to the client
+- The reviewer bot talks to the customer while the manager bot deletes old databases
+- Specialist bots set company strategy while the manager bot checks spelling only
+= Separating coordination, execution, and quality checking keeps each bot focused and catches routine mistakes early.
+
+## Topology choice: pipeline, supervisor, or network
+Team topology is the pattern of how bots communicate and pass work to one another. The three main patterns are a straight pipeline, a central supervisor directing workers, and an open network where any bot can call any other.
+
+A pipeline is like a factory assembly line, a supervisor pattern is like a project manager assigning tasks to contractors, and a network is like an open roundtable discussion.
+
+For client work, prefer pipelines or supervisors whenever the steps are known. Open networks look flexible in demos, but in production they easily get stuck in expensive, unpredictable loops.
+
+?? Why are pipeline or supervisor topologies usually safer for client systems than open networks?
++ They make task order predictable, whereas open networks can get stuck in costly loops
+- Open networks are unable to use language models from major providers
+- Pipelines allow bots to bypass all security and spend controls automatically
+- Supervisor topologies never require any structured messages between bots
+= Predictable routing in pipelines and supervisor patterns keeps costs, timing, and error tracing under control.
+
+## Start with the smallest team that does the job
+Before building a multi-bot system, check whether a single well-prompted bot with good tools or a simple script can solve the client's problem. You should only add another bot when a single one genuinely struggles with competing instructions or separate permissions.
+
+If a local accountancy firm wants to summarise tax letters, one bot with a clear template is far better than a five-bot committee debating the summary.
+
+Every extra bot adds latency, token cost, and another handoff that can fail. Complexity is a cost you pay every day in maintenance, not a badge of technical skill.
+
+?? When should an AI consultant add a second or third bot to a system?
++ Only when a single bot or simple workflow cannot handle the distinct tasks or permissions cleanly
+- Immediately at the start of every project so the architecture diagram looks impressive
+- Whenever the client has unused budget left over at the end of the month
+- As soon as a single prompt exceeds fifty words in length
+= Keeping the team as small as possible reduces latency, ongoing token spend, and handoff failures.
+
+## Each bot gets its own tools, permissions, and budget
+Least-privilege design means giving each bot access only to the tools, data, and spending budget required for its specific job. A bot that only reads documents should never hold permission to send external emails or update payment records.
+
+It is like giving a visiting contractor a key card that opens only the boiler room they are fixing, rather than a master key to the whole office building.
+
+If a prompt injection or logic bug hits one bot, strict permissions contain the blast radius. Without individual budgets, a single confused bot can burn through a client's monthly allowance in an hour.
+
+?? Why should every bot have its own restricted tools, permissions, and budget?
++ To limit potential damage from errors or attacks and prevent a single bot from overspending
+- Because language models refuse to run unless they have a unique credit card attached
+- To allow every bot to modify the company's main accounting database freely
+- So that human administrators do not need to monitor what the team produces
+= Isolating permissions and budgets contains the impact of bugs or prompt injections to a single narrow role.
+
+## A one-page spec for each bot: goal, inputs, outputs, and limits
+Before building a bot, write a one-page specification covering its single goal, its exact inputs, its expected outputs, and its strict limits. This page acts as an agreement between you and the client and guides your testing.
+
+For an estate agency's enquiry bot, the spec states its goal is booking viewings, its input is a web form, its output is a calendar invite, and its limit is never quoting property valuations.
+
+Keep this document in plain English rather than technical jargon. However, a spec only helps if you update it when requirements change; an outdated spec misleads everyone who maintains the system later.
+
+?? What belongs on the one-page specification for an individual bot?
++ Its single goal, exact inputs, expected outputs, and strict operational limits
+- The entire source code of the underlying language model and server firmware
+- A marketing brochure promising that the bot can handle any business task
+- Only the monthly fee that the consultant plans to charge the client
+= A concise specification of goal, inputs, outputs, and limits aligns expectations and provides clear test criteria.
+
+@@ sll_IpQNmcAlL6Ma | E9.1 From Org Chart to Bot Team > Team Examples
+## Purchasing team: demand analyst, buyer, supplier communicator, reviewer
+A purchasing bot team helps a business restock goods by splitting the buying cycle into four clear stages. A demand analyst forecasts stock needs, a buyer selects approved items, a supplier communicator drafts order emails, and a reviewer checks prices against budget rules.
+
+For a regional building merchant, this team turns daily warehouse stock counts into ready-to-send purchase orders for timber and fixings each morning.
+
+Even with a reviewer bot checking totals, a human buyer should approve large orders or price increases before any legally binding order goes to a supplier.
+
+?? In a purchasing bot team, why is a human still needed alongside the reviewer bot?
++ To approve high-value orders or price changes before legally binding commitments are sent
+- To manually type every stock count from paper into the spreadsheet each hour
+- Because bots cannot read catalogue numbers or calculate order quantities
+- To write the initial draft of every routine reorder email from scratch
+= Automated purchasing teams speed up preparation and checking, but humans must authorise binding financial commitments.
+
+## Marketing team
+A marketing bot team turns a client's campaign brief into consistent drafts across several channels. Typically, a researcher bot gathers customer insights and product facts, a copywriter bot drafts posts or newsletters, and a brand editor bot checks tone, claims, and compliance rules.
+
+For a boutique fitness studio launching a winter programme, the team adapts one trainer's notes into an email, three social posts, and a website banner draft in minutes.
+
+The main caveat is that unedited bot copy quickly sounds repetitive and hollow. Human marketers must still supply the creative angle, real customer stories, and final approval before publishing.
+
+?? What is the main risk of letting a marketing bot team publish content without human involvement?
++ The output can become generic and repetitive, or make claims that lack genuine human insight
+- Bots are technically unable to format text for both emails and social media posts
+- A brand editor bot will always delete the copywriter bot's work completely
+- Search engines automatically block any company that uses software to draft newsletters
+= Marketing bots excel at research, drafting, and tone checks, but human creativity and final sign-off keep content authentic.
+
+## Support team: triage, answerer, escalation
+A customer support bot team organises incoming help requests so routine questions get fast answers and tricky cases reach the right person. A triage bot reads the ticket and tags the topic, an answerer bot drafts a reply from the help centre, and an escalation bot packages complex issues for human agents.
+
+When an online retailer receives a delivery query, triage spots the order number, the answerer checks tracking data, or escalation hands a lost-parcel claim to a human with a neat summary.
+
+Never hide the escalation path to save money. Trapping an angry customer in a bot loop destroys trust far faster than a polite handover.
+
+?? What role does the escalation bot play in a customer support bot team?
++ It recognises complex or sensitive issues and hands them to a human agent with a clear summary
+- It argues with unhappy customers until they withdraw their refund requests
+- It deletes tickets that the answerer bot cannot solve within two minutes
+- It rewrites the company's legal terms whenever a customer complains
+= Clean escalation ensures that cases beyond routine rules reach a human quickly with all relevant context attached.
+
+## Finance back office: invoice reader, matcher, approver
+In a finance back office, a bot team speeds up accounts payable by separating reading, verification, and routing. An invoice reader extracts line items from PDFs, a matcher compares them against purchase orders and delivery notes, and an approver bot approves small routine matches or flags discrepancies.
+
+For a catering company receiving fifty food supplier bills a week, the team matches deliveries to agreed prices and queues only the mismatched bills for the finance clerk.
+
+Because financial fraud and tax errors carry severe penalties, strict numeric checks must run in standard code rather than relying on a language model to do arithmetic.
+
+?? How should arithmetic and total checks be handled inside a finance bot team?
++ By using deterministic code tools rather than asking a language model to guess the sums
+- By asking three different language models to vote on the approximate invoice total
+- By rounding all invoice amounts to the nearest hundred pounds to save time
+- By skipping total checks whenever the supplier name looks familiar
+= Financial workflows require exact programmatic maths alongside language bots that extract and match document details.
+
+## The same patterns carry across functions
+Across purchasing, marketing, support, and finance, the same underlying bot roles appear repeatedly under different names. Almost every business function combines an intake or triage step, a specialist worker step, a rule checker, and a human escalation path.
+
+It is like building with standard interlocking building blocks, where the same basic pieces can form a castle, a lorry, or a bridge depending on how you arrange them.
+
+Recognising these shared patterns lets a consultant reuse proven architectures across clients. Still, you must adapt the domain rules and vocabulary for each industry rather than pasting one client's prompts straight into another's business.
+
+?? How does recognising shared patterns across business functions help an AI consultant?
++ It allows proven team structures to be reused while tailoring the specific rules to each client
+- It means the exact same prompt can be sold to a law firm and a bakery without any edits
+- It removes the need to interview client staff or inspect their documents during discovery
+- It guarantees that every department in a company will have the exact same monthly token cost
+= Core structures like triage, worker, checker, and escalation repeat across departments, speeding up safe design when adapted to local rules.
+
+@@ sll_zZ7xgu5Wlu7l | E9.2 Running the Team > Shared Work
+## Shared memory and a task board for the team
+A bot team needs a shared task board and workspace where every bot can read the current status of a job and save its completed artefacts. Instead of whispering long histories directly to each other, bots read and update a central record.
+
+Think of a hospital ward whiteboard coupled with a patient's clip-chart at the end of the bed, showing what has been done and what is needed next.
+
+However, dumping every raw thought into shared memory quickly bloats context and confuses the team. Bots should write only clean summaries and final outputs to the shared board, keeping their rough scratchpads private.
+
+?? Why should bots write only clean outputs rather than every rough thought to shared memory?
++ To prevent context bloat and stop rough intermediate text from confusing other bots
+- Because cloud databases cannot store more than ten words per customer record
+- To hide the team's progress from the human supervisor managing the workflow
+- Because language models charge ten times more for reading text from a task board
+= Keeping the shared board tidy with structured status updates and final outputs keeps downstream bots focused and economical.
+
+## Handoffs with structured messages
+When one bot hands work to another, it should pass a structured message with fixed fields rather than a rambling paragraph of chat. Using a strict schema ensures the receiving bot gets every required piece of data in a predictable format.
+
+For example, a triage bot handing off a support ticket sends a neat record containing `ticket_id`, `customer_tier`, `issue_category`, and `urgency_score` instead of a casual note.
+
+If a bot fails to fill a required field, code validation can catch the mistake immediately before the next bot starts work. Do not make the schema so rigid, though, that there is nowhere to pass an unexpected warning note.
+
+?? What is the main benefit of using structured messages with fixed fields for bot handoffs?
++ Code can validate that all required information is present before the next bot starts work
+- Structured messages allow bots to communicate without using any network connection
+- Fixed fields let the receiving bot ignore the customer's actual question completely
+- It guarantees that the language model will never hallucinate a wrong fact inside a field
+= Enforcing a clear schema at handoffs catches missing fields early and gives the next step predictable inputs.
+
+## Define what done means for each task
+Every task assigned to a bot needs an explicit definition of done that can be checked before the task is marked complete. Without clear completion criteria, a bot may stop halfway through a job or keep polishing the same paragraph forever.
+
+In a property survey workflow, "done" for the extraction bot means every required room dimension is filled in, units are converted to metres, and any unreadable page is flagged.
+
+Whenever possible, check these conditions with simple code rules alongside a reviewer bot. Remember that passing a format check shows the output is complete, not that every underlying business assumption is wise.
+
+?? What happens when a bot task lacks a clear definition of done?
++ The bot may finish prematurely with incomplete work or loop endlessly trying to improve its output
+- The bot will automatically ask the client's customers to write the missing rules
+- The system will run faster because it skips all validation steps at the end
+- The cloud provider will automatically generate the correct business criteria
+= Clear completion criteria tell the system exactly when to stop, accept the work, or trigger an error path.
+
+## Handling conflicts and duplicated work
+When multiple bots work on the same task board, they can accidentally claim the same item or overwrite each other's updates. A reliable system uses task locking, unique job IDs, and clear rules for which bot wins if two conclusions clash.
+
+It is like an air traffic control system that assigns each plane a single runway slot so two aircraft never try to land on the same strip of tarmac at once.
+
+If a compliance bot says an application is blocked while a sales bot marks it ready, the system must not guess. Conflicting assessments should lock the record and route it to a manager bot or a human.
+
+?? How should a system prevent two bots from processing the same task at the same time?
++ Use unique job IDs and task locking on the shared board so only one bot claims an item
+- Tell the bots in their prompts to be polite and wait a few seconds before starting
+- Run all bots only once a month so they rarely overlap in practice
+- Delete any customer request that triggers more than one bot in the system
+= System-level locks and clear conflict rules stop duplicate actions and prevent bots from overwriting each other's work.
+
+## Humans work from the same board
+Human staff who oversee or collaborate with a bot team should use the same task board rather than a separate hidden dashboard. Seeing bot tasks alongside human tasks in one queue makes handoffs natural and keeps the whole operation visible.
+
+In an accountancy practice, bookkeepers open their normal workflow board each morning to see which bank reconciliations the bots finished overnight and which exceptions sit waiting in the human column.
+
+The interface must still suit people, not software engineers. Translate raw bot status codes into plain business labels so staff can step in, edit a draft, or reassign a job without reading technical logs.
+
+?? Why should human staff work from the same task board as the bot team?
++ It keeps the whole workflow visible in one place and makes handoffs between bots and people seamless
+- It forces office staff to learn how to read raw JSON code and server stack traces
+- It eliminates the need for access controls or separate user accounts
+- It allows bots to approve their own work whenever the board is busy
+= Sharing a single plain-English board lets staff see progress at a glance and step smoothly into exception tasks.
+
+@@ sll_ZShmtryI6KUy | E9.2 Running the Team > Keeping Control
+## Approval gates and spend limits for each bot
+An approval gate pauses a bot workflow before a sensitive action until a human clicks approve, whilst a spend limit caps how much money or token budget a bot can consume. Both controls are enforced by the surrounding software, not by asking the bot nicely in its prompt.
+
+For a wholesale distributor, a bot can draft a credit note up to £50, but anything higher pauses at a gate for the finance director, and each bot has a £10 daily API cap.
+
+Set thresholds carefully with the client. If every tiny action requires human approval, staff suffer alert fatigue and start clicking approve without reading.
+
+?? Why must approval gates and spend limits be enforced in code rather than inside the bot's prompt?
++ A bot can ignore or misinterpret prompt instructions, whereas code controls enforce hard boundaries
+- Prompts cannot contain numbers or currency symbols like pounds and pence
+- Code-level gates make the language model run twice as fast on every request
+- Clients prefer not to see any limits written down in the system documentation
+= Hard code boundaries guarantee that a bot cannot exceed its budget or trigger restricted actions, even if it hallucinates.
+
+## Start with fewer bots: every bot adds cost and failure points
+In live operations, every extra bot multiplies your failure modes, slows down response times, and increases API bills. When three bots pass a task along a chain, small inaccuracies in the first bot can snowball into a completely wrong answer by the third.
+
+Think of the children's game of whispered messages around a circle, where a simple sentence gets more distorted with each person who passes it on.
+
+If you see two bots simply rephrasing each other's work, merge them or replace the handoff with a code template. Only keep a separate bot when it brings a genuinely distinct toolset, permission boundary, or evaluation step.
+
+?? What happens when a bot team has more bots than the workflow truly needs?
++ Costs and latency rise, and small errors from early bots can compound across handoffs
+- The accuracy of the final answer is guaranteed to reach one hundred per cent
+- Each individual bot uses zero tokens because the workload is shared out
+- The system becomes immune to network outages and API rate limits
+= Every extra link in a bot chain adds delay, expense, and another chance for errors to snowball.
+
+## A kill switch for the whole team
+A kill switch is an emergency control that immediately pauses all bots in a team, revokes their active job queues, and stops outgoing actions. Every client deployment needs a clear, one-click way for a non-technical manager to halt the system if it starts misbehaving.
+
+It is like the big red emergency stop button on a factory packing line that any supervisor can press the moment boxes start jamming.
+
+When the kill switch is pressed, in-flight tasks should fail safely into a human review queue rather than vanishing silently. Test the switch regularly so you know it stops runaway loops and scheduled background jobs alike.
+
+?? What should happen to in-flight tasks when a manager presses the bot team's kill switch?
++ All automated actions should stop immediately and unfinished tasks should move safely to a human queue
+- All customer records currently being processed should be permanently deleted
+- The bots should speed up to finish their entire backlog before shutting down
+- Only the consultant should receive an email while the bots keep running for another week
+= A good kill switch halts automation right away without losing customer work, routing open items to people for safe handling.
+
+## Separate identities: each bot has its own account and logs
+Every bot in a team should authenticate with its own service account, API key, and identity rather than sharing a single login or borrowing a human employee's credentials. Every action a bot takes must be recorded in an audit log under its own name.
+
+If a support bot and a billing bot share the office manager's email account, nobody can tell which bot sent a mistaken refund promise or whether a human typed it.
+
+Separate identities let you revoke one misbehaving bot's access without shutting down the rest of the business. Just remember to rotate keys and manage those accounts alongside normal staff onboarding and security reviews.
+
+?? Why must each bot have its own service account instead of using a human employee's login?
++ It creates a clear audit trail of which bot did what and allows one bot's access to be revoked cleanly
+- Software vendors give a fifty per cent discount for every extra account created
+- Bots cannot read emails or database rows when logged in as a human user
+- Using separate accounts removes the need to keep activity logs for the system
+= Individual bot accounts make auditing straightforward and let administrators isolate or disable a single bot without disrupting staff.
+
+## Test the team in shadow mode before it acts
+Shadow mode means running the new bot team on real live inputs alongside human staff, whilst blocking the bots from sending anything to customers or changing live databases. Instead, the bots save their proposed actions to a log for comparison.
+
+It is like a learner pilot sitting in the cockpit working out every control move while the experienced captain actually flies the aeroplane.
+
+Running in shadow mode for a couple of weeks exposes strange real-world inputs that never appeared in your test spreadsheet. Still, shadow mode cannot test how customers react to the bot's replies, so treat the first live week with extra supervision.
+
+?? How does shadow mode protect a client when launching a new bot team?
++ Bots process real inputs and log proposed actions for review without touching customers or live records
+- The bots run only between midnight and dawn when no customers are awake
+- Shadow mode hides all errors from the client so the project looks successful
+- It replaces real customer enquiries with five synthetic test sentences forever
+= Shadow mode tests the team against messy live traffic with zero operational risk before switching on real external actions.
+
+@@ sll_d_e0xbkD5afd | E9.3 Managing a Bot Workforce > Performance
+## Scorecard for each bot: quality, cost, and speed
+Managing a bot workforce requires a simple scorecard for every bot tracking three things: output quality, cost per task, and processing speed. Looking at all three together stops you from celebrating a change that improves one metric by ruining another.
+
+For an insurance claims triage bot, the scorecard might show 96 per cent routing accuracy, a cost of £0.02 per claim, and an average speed of four seconds.
+
+If a prompt tweak pushes accuracy to 98 per cent but triples the cost and takes two minutes per claim, the trade-off is immediately obvious. Keep the metrics tied to completed tasks rather than raw token counts alone.
+
+?? Why should a bot's scorecard track quality, cost, and speed together?
++ So you can see the trade-offs when a change improves one metric at the expense of another
+- Because cloud providers require all three numbers before issuing a monthly invoice
+- To prove that the fastest bot is always the most accurate one in the team
+- So the consultant can ignore quality whenever token costs fall below one penny
+= Balancing quality, cost, and speed ensures that improvements in one area do not quietly break the economics or user experience.
+
+## Team-level goals and bot-level goals
+A bot system needs both a team-level goal that measures the overall business outcome and bot-level goals that measure each specialist's step. A bot can hit its narrow target and still hurt the team if the goals are poorly aligned.
+
+Consider a sales qualification team where the intake bot is judged solely on speed; it might rush half-empty records to the research bot, causing the whole team's conversion rate to fall.
+
+Always anchor the team on the end-to-end result the client cares about, such as resolved tickets or verified invoices. Use individual bot metrics to diagnose bottlenecks, never as an excuse to ignore a failing overall process.
+
+?? How can a bot meet its individual goal while still hurting the overall team's performance?
++ Optimising narrowly for one step, such as speed, can pass poor inputs that break downstream bots
+- Individual bots cannot be measured unless the rest of the team is turned off
+- Team-level goals only apply to human staff and never to automated workflows
+- A bot that hits its accuracy target automatically deletes the shared task board
+= Every bot's local metric must support the end-to-end business outcome rather than shifting problems onto the next step in the chain.
+
+## Tracing which bot caused a failure
+When a multi-bot workflow produces a bad final result, you need trace logs that link every step of that job under a single correlation ID. Tracing lets you inspect the exact input and output at each handoff to find where the mistake began.
+
+If a customer receives a quote with the wrong delivery postcode, the trace shows whether the intake bot misread the email, the lookup bot fetched the wrong address, or the writer bot mistyped it.
+
+Without step-by-step traces, consultants waste days tweaking the final bot in the chain when the real bug happened three steps earlier. Remember to protect sensitive personal data inside those trace logs.
+
+?? Why is a shared correlation ID across handoffs essential when debugging a bot team?
++ It lets you trace a single job step by step to see which bot first introduced the error
+- It stops any bot in the team from ever making a mistake in the first place
+- It combines all bots into a single prompt so there are no handoffs to check
+- It automatically refunds the client whenever an API call takes longer than five seconds
+= End-to-end tracing pinpoints whether an error started at intake, processing, or final drafting so you fix the right bot.
+
+## Regular review of sampled work
+Automated scores and reviewer bots never catch every subtle mistake, so a human must regularly inspect a small random sample of completed tasks. Sampling real production runs reveals gradual drift, changing customer habits, and awkward phrasing before they turn into a crisis.
+
+For a recruitment client, spending thirty minutes every Friday reading twenty randomly chosen candidate summaries plus five escalated cases keeps quality grounded in reality.
+
+Stratify your sample so you check both routine successes and borderline cases where the bot hesitated. When you find a recurring flaw during review, turn that example into a permanent test case for future evaluations.
+
+?? Why must a human regularly review a sample of completed bot work even when automated checks pass?
++ Automated checks can miss subtle tone issues, shifting customer inputs, or shared blind spots
+- Language models stop functioning after thirty days unless a human clicks their logs
+- Sampling is the only way to calculate how many tokens the system used that week
+- Reviewing five tasks guarantees that the remaining ten thousand tasks had zero errors
+= Human sampling catches real-world drift and blind spots that automated rules and reviewer bots overlook.
+
+## Compare against the human baseline
+To judge whether a bot team is performing well, compare its quality, speed, and cost against the real baseline of how human staff performed the same job before. People are not hundred-per-cent accurate either, and comparing against an imaginary perfection sets an unfair trap.
+
+If manual data entry clerks at a freight company previously had a four per cent error rate and took twenty minutes per manifest, a bot team at two per cent error in thirty seconds is a clear win.
+
+Be fair in the comparison, however. Human mistakes are often minor typos, whereas a bot mistake can occasionally be a bizarre fabrication, so weigh the severity of errors alongside their frequency.
+
+?? Why should a bot team be evaluated against the real human baseline rather than perfection?
++ Human processes also have errors and delays, though you must compare error severity as well as frequency
+- Because human staff get every single task wrong before automation is introduced
+- To justify deploying a broken bot team that makes worse mistakes than the client's staff
+- Because measuring baseline performance removes the need to test the bots before launch
+= Comparing against real pre-automation performance gives an honest picture of gains, provided you also account for the different nature of bot errors.
+
+@@ sll_gs2HXH4N4H3d | E9.3 Managing a Bot Workforce > Change
+## Updating one bot without breaking the team
+Changing one bot's prompt or tools can unexpectedly break downstream bots that rely on its exact output style or field meanings. Treat every bot's input and output format as a strict contract with the rest of the team.
+
+It is like replacing a gearbox in a car: you can upgrade the internal parts, but the bolts and shaft connections must still match the engine and wheels.
+
+When you improve a specialist bot, run tests not only on that bot in isolation, but also on the full chain that follows it. If the output schema must change, update and test the receiving bots in the same release.
+
+?? What is the safest way to update a single bot inside a multi-bot workflow?
++ Keep its output contract stable and test both the individual bot and the downstream chain
+- Edit the prompt directly in live production and wait to see if any staff complain
+- Rewrite every bot in the team from scratch whenever one small rule changes
+- Turn off all validation schemas so downstream bots accept any text format
+= Treating handoff formats as contracts and testing the full chain stops an isolated tweak from breaking downstream bots.
+
+## Model upgrades: re-run evals on every bot
+When a model provider releases a new version or retires an old one, you must re-run your evaluation suite across every bot before switching over. A newer model is not automatically better for every narrow role in your team.
+
+For instance, upgrading a triage bot to a newer, more talkative model might cause it to add polite explanations around its JSON output, breaking the parser for the next step.
+
+Pin specific model versions in production rather than pointing to a floating "latest" tag that changes without warning. Only migrate a bot after its scorecard confirms that quality, cost, and speed still meet the client's targets.
+
+?? Why should you pin specific model versions and re-run evaluations before upgrading a bot?
++ A newer model can alter output formatting, tone, or cost in ways that break a specific role
+- Newer language models are always slower and less accurate than older versions
+- Model providers never retire old versions once they have been released to the public
+- Re-running evaluations automatically writes a new contract with the client's suppliers
+= Pinning versions prevents surprise changes, and running evaluations verifies that an upgrade genuinely helps each specific bot role.
+
+## A human owner for every bot team
+Every bot team deployed at a client organisation needs a named human owner on the client side who understands what the team does and holds authority over its business rules. The consultant builds and supports the system, but day-to-day operational ownership belongs within the business.
+
+In a mid-sized wholesaler, the head of customer service owns the support bot team, decides when holiday return rules change, and reviews the weekly scorecard.
+
+Without an internal owner, a bot team becomes an orphan whenever your consulting project ends. Staff stop trusting it, nobody updates its knowledge when products change, and the system is eventually switched off.
+
+?? What happens when a bot team has no named human owner inside the client organisation?
++ Nobody updates its business rules as the company changes, and the system gradually loses trust and value
+- The bots automatically promote one of themselves to become the company director
+- The system runs forever without needing any new product information or policy updates
+- Cloud hosting fees drop to zero as soon as the consultant hands over the project
+= A named client owner keeps the bot team aligned with changing business policies and accountable for its daily results.
+
+## Retiring a bot: handover and cleanup
+Bots are not permanent fixtures; when a business process changes or two steps merge, an old bot must be retired cleanly. Proper decommissioning means draining its active task queue, redirecting upstream handoffs, revoking its API keys, and archiving its logs.
+
+Think of when an employee leaves a firm: you hand their open files to a colleague, cancel their security pass, and store their records rather than leaving their desk piled with live mail.
+
+Never simply delete a bot while upstream tasks still point to it, or jobs will vanish silently. Keep the archived logs and specification for the agreed retention period in case an audit question arises later.
+
+?? Which steps are essential when retiring a bot from a live workflow?
++ Drain its open tasks, reroute upstream handoffs, revoke its credentials, and archive its logs
+- Delete its prompt immediately during peak office hours without telling the team owner
+- Leave its API keys and service account active forever in case someone wants them later
+- Erase all historical audit logs so there is no record that the bot ever existed
+= Clean retirement prevents dropped tasks, closes security credentials, and preserves audit history for the client.
+
+## Documenting each bot's purpose and version
+Maintain a lightweight registry that records every bot's purpose, current version number, prompt history, model choice, tool permissions, and human owner. Whenever you change a prompt or rule, increment the version and write a one-line note explaining why.
+
+If a client's invoice accuracy suddenly drops on a Tuesday, a clear version log lets you see immediately that version 1.4 of the matcher bot went live on Monday afternoon and roll it back in seconds.
+
+Keep this registry right beside the configuration files so updating it takes moments. Long, separate manuals quickly fall out of date, whereas a simple version log saves hours during an incident.
+
+?? How does a versioned registry of each bot's prompt and configuration help during an incident?
++ It shows exactly what changed and when, allowing you to roll back to a known working version quickly
+- It prevents human staff from ever asking questions about how the bots work
+- It replaces the need for automated testing, approval gates, or spend limits
+- It convinces the language model to fix its own bugs without human intervention
+= Tracking purpose and version history lets you connect sudden performance shifts to recent edits and restore a stable state fast.

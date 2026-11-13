@@ -5,8 +5,8 @@
     {
       "id": "bit_xNsbLboTClDj",
       "title": "Cross-validation and data leakage",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In k-fold cross-validation, the training data is partitioned into k equal folds, and the model is trained k times, each time holding out one fold for validation and training on the remaining k-1 folds to obtain a stable average score.\n\nIt is like rotating which team member acts as the quality inspector across five project sprints so every piece of work gets checked fairly.\n\nData leakage happens whenever preprocessing steps like scaling, imputation, or oversampling are computed across the whole dataset before splitting; every transformation must happen strictly inside each fold's training loop.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,79 +19,275 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xNsbLboTClDj_1",
+          "type": "multiple_choice",
+          "prompt": "How does data leakage commonly occur during k-fold cross-validation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By choosing k=5 instead of k=10 on a medium-sized tabular dataset"
+            },
+            {
+              "id": "b",
+              "text": "By averaging the validation metric across all k folds at the end of the run"
+            },
+            {
+              "id": "c",
+              "text": "By fitting scalers, imputers, or feature selectors on the entire dataset before splitting into folds rather than inside each training fold"
+            },
+            {
+              "id": "d",
+              "text": "By keeping a separate final test set locked away until cross-validation is complete"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Any step that computes statistics using rows from the held-out fold leaks validation information into the training pipeline and inflates cross-validation scores.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_PaQezzDbSC02",
       "title": "Hyperparameter search (grid, random, Bayesian)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Hyperparameters are configuration settings chosen before training, such as tree depth or learning rate: grid search tests every combination on a fixed lattice, random search samples combinations at random, and Bayesian optimisation models past trials to pick the next promising configuration intelligently.\n\nIt is like searching for water on a farm by drilling on a rigid grid, throwing darts at the map so every latitude gets distinct tests (random), or choosing each drill site from moisture readings of earlier holes (Bayesian).\n\nRandom search usually beats grid search when only a few hyperparameters matter, while Bayesian search shines when each run is expensive.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PaQezzDbSC02_1",
+          "type": "multiple_choice",
+          "prompt": "Why does random search often find a better hyperparameter setting than grid search in the same number of trials?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Random search evaluates every possible real number in continuous space in a single trial"
+            },
+            {
+              "id": "b",
+              "text": "Grid search is only allowed to test a single hyperparameter at a time"
+            },
+            {
+              "id": "c",
+              "text": "When only one or two hyperparameters strongly affect performance, random search explores many distinct values along those key axes instead of repeating the same grid points"
+            },
+            {
+              "id": "d",
+              "text": "Random search modifies the test set labels to make the validation score look higher"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A grid wastes evaluations testing identical values of an important parameter across unimportant ones, whereas random trials test a fresh value of every parameter on every run.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5PGJjuaYhGBH",
       "title": "Model interpretability with SHAP",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "SHAP (SHapley Additive exPlanations) uses cooperative game theory to break down any single model prediction into additive contributions from each input feature, showing how much each feature pushed that specific prediction above or below the baseline average.\n\nIt is like splitting a team sales bonus fairly among contributors by checking how much the total changes across every possible combination of who joined the pitch.\n\nSHAP provides consistent local and global explanations for tree ensembles, though it explains how the model uses its inputs rather than true real-world causality, and it can split credit awkwardly among correlated columns.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5PGJjuaYhGBH_1",
+          "type": "multiple_choice",
+          "prompt": "What does a local SHAP explanation show for an individual customer's prediction?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Which causal intervention in the real world is guaranteed to change the customer's future behaviour"
+            },
+            {
+              "id": "b",
+              "text": "How much each feature value contributed positively or negatively to push that customer's prediction away from the dataset baseline"
+            },
+            {
+              "id": "c",
+              "text": "The exact p-value of the null hypothesis for a linear regression slope"
+            },
+            {
+              "id": "d",
+              "text": "The total disk space consumed by the random forest model file"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "SHAP values sum to the difference between the model's baseline expected output and the specific prediction for that instance, attributing shares to each feature.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_kAu4jVajuXvI",
       "title": "Grouped and time-series cross-validation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Standard random k-fold cross-validation fails when rows are not independent: grouped k-fold keeps all records from the same entity (such as a patient, customer account, or store) together in either the training or validation fold, while time-series cross-validation trains on prior periods and validates on the following future block.\n\nIt is like testing a medical tool on hospitals it has never seen before, or testing a sales forecast on each quarter using only prior quarters.\n\nMatching your validation scheme to how the model will meet new groups or future dates in production is essential for honest error estimates.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kAu4jVajuXvI_1",
+          "type": "multiple_choice",
+          "prompt": "When one patient contributes twenty separate medical scans to a dataset and the model will be deployed to diagnose new patients, which cross-validation strategy should you use?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Standard shuffled k-fold cross-validation so every patient has scans in both train and validation folds"
+            },
+            {
+              "id": "b",
+              "text": "Leave-one-row-out cross-validation without grouping by patient"
+            },
+            {
+              "id": "c",
+              "text": "Training and validating on the exact same rows without splitting"
+            },
+            {
+              "id": "d",
+              "text": "Grouped k-fold cross-validation grouped by patient ID, so all scans from any single patient stay in the same fold"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Grouping by patient prevents the model from memorising patient-specific anatomy across splits and mirrors the production goal of generalising to unseen patients.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_9mlelo0HJz37",
       "title": "Nested validation avoids over-optimistic estimates",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When you tune hyperparameters on a small dataset, picking the best score across many cross-validation trials is slightly biased upward; nested cross-validation solves this with an outer loop holding out test folds and an inner cross-validation loop that tunes hyperparameters strictly inside each outer training split.\n\nIt is like running heats inside each regional club to pick their finalist (inner loop), and then holding the national championship on a fresh track (outer loop).\n\nNested validation multiplies compute cost by the number of inner folds, so use it mainly on small datasets where tuning bias is a real risk.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9mlelo0HJz37_1",
+          "type": "multiple_choice",
+          "prompt": "What problem does nested cross-validation solve on small datasets?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It reduces the number of models trained to just one single linear regression fit"
+            },
+            {
+              "id": "b",
+              "text": "It allows features from the outer test fold to be used when fitting the inner scaler"
+            },
+            {
+              "id": "c",
+              "text": "It replaces gradient descent with an analytical closed-form matrix inversion"
+            },
+            {
+              "id": "d",
+              "text": "It separates hyperparameter selection (inner loop) from performance estimation (outer loop), preventing the winning hyperparameter score from being over-optimistic"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Selecting the maximum score across many hyperparameter trials on the same validation folds introduces selection bias; an outer loop evaluates that entire tuning procedure on untouched folds.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_oyh2Hw9he7d-",
       "title": "Tune on validation data, report on test data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every modelling decision, including algorithm choice, feature engineering, hyperparameter tuning, and threshold selection, must be guided by validation data, while the final performance numbers presented to stakeholders come from evaluating the single chosen pipeline once on the held-out test set.\n\nIt is like a chef tasting and adjusting the seasoning in the kitchen pot (validation) before serving the finished dish once to the restaurant critic at the table (test).\n\nReporting your validation score as the final expected production metric hides the degree to which your design choices adapted to that validation sample.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oyh2Hw9he7d-_1",
+          "type": "multiple_choice",
+          "prompt": "After comparing thirty hyperparameter configurations on the validation set and picking the best one, which score gives the fairest estimate of future production performance?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The score of that single chosen model when evaluated once on the untouched test set"
+            },
+            {
+              "id": "b",
+              "text": "The highest score observed on the training set during the final epoch"
+            },
+            {
+              "id": "c",
+              "text": "The best validation score achieved across the thirty hyperparameter trials"
+            },
+            {
+              "id": "d",
+              "text": "The average of the training score and the best validation score"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because the winning configuration was selected specifically for performing well on the validation set, an independent test set is needed for an unbiased estimate.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_KGFcaRhfvKtm",
       "title": "Feature importance can mislead when features are correlated",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Standard tree-based feature importance and permutation importance can mislead you when two or more input features are strongly correlated, because the model splits credit between the twin columns or relies on the other twin when one is shuffled, making each look weaker than the underlying signal really is.\n\nIt is like having two identical thermometers on the same factory wall; a model splits its attention between them so neither single thermometer looks essential on a chart, even though temperature is the main driver.\n\nBefore telling a client that a factor does not matter, always inspect correlation clusters and group-level importance.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KGFcaRhfvKtm_1",
+          "type": "multiple_choice",
+          "prompt": "What happens to feature importance scores when two strongly correlated features carry the same predictive signal?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Both correlated features automatically receive an importance score of 100%"
+            },
+            {
+              "id": "b",
+              "text": "The importance gets split or diluted between the correlated features, making each individual feature look less important than the shared signal truly is"
+            },
+            {
+              "id": "c",
+              "text": "Decision trees refuse to train whenever two columns have a correlation above 0.5"
+            },
+            {
+              "id": "d",
+              "text": "Permutation importance deletes both columns from the database permanently"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "When two features hold duplicate information, trees can swap between them and single-column permutation leaves the twin intact, masking the true combined importance.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

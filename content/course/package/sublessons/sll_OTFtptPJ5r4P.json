@@ -5,8 +5,8 @@
     {
       "id": "bit_tSUGtuOc5wQs",
       "title": "Transparency with customers and employees",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Transparency means being honest with customers and staff about where artificial intelligence is used, what data it relies on, and how its recommendations affect them. Trust erodes quickly when people discover they were evaluated or served by a hidden algorithm.\n\nFor instance, when a recruitment firm uses AI to summarise candidate CVs, telling applicants upfront how the tool works and confirming that a human recruiter reviews every application keeps the process fair and credible.\n\nThe caveat is that transparency does not mean dumping raw source code or confusing technical jargon onto users. Explain the system's role in plain language that helps people understand what is happening.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_tSUGtuOc5wQs_1",
+          "type": "multiple_choice",
+          "prompt": "What does good AI transparency look like for customers and employees?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Sending customers the full source code and weight matrices of the model"
+            },
+            {
+              "id": "b",
+              "text": "Explaining in plain language when AI is used and how its outputs affect them"
+            },
+            {
+              "id": "c",
+              "text": "Hiding AI usage so customers never worry about automation"
+            },
+            {
+              "id": "d",
+              "text": "Only disclosing AI usage in tiny print at the bottom of a 60-page contract"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Clear, accessible disclosure builds trust and helps people understand how automated tools participate in decisions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_HrKXMQZAuk4h",
       "title": "Real-world case studies of AI failures",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Real-world AI failure case studies are documented incidents where deployed systems caused financial loss, legal liability, or reputational damage by giving wrong answers or acting without proper guardrails. Because new incidents and rulings appear regularly, check the current details when preparing client briefings.\n\nA famous example is an airline support chatbot that invented a bereavement refund policy, leading a tribunal to rule that the company was bound by the promise its own bot made on its website.\n\nThe lesson for consultants is that disclaimers rarely protect a business from sloppy engineering. Studying past failures helps you spot missing guardrails before your client makes the same mistake in public.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,49 +66,161 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_HrKXMQZAuk4h_1",
+          "type": "multiple_choice",
+          "prompt": "What key lesson do real-world chatbot and agent failures teach AI consultants?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Companies can escape liability for wrong answers simply by calling the tool an autonomous agent"
+            },
+            {
+              "id": "b",
+              "text": "Only tiny startups experience AI failures because large corporations have perfect data"
+            },
+            {
+              "id": "c",
+              "text": "Customer-facing chatbots never need retrieval over verified company policy documents"
+            },
+            {
+              "id": "d",
+              "text": "Businesses remain accountable for what their AI systems say and do, so strict guardrails are essential"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Real incidents show that organisations are held responsible for automated promises and errors, making technical guardrails vital.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4PLxAjL_vM_d",
       "title": "Say when AI is involved",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Saying when AI is involved means clearly labelling AI-generated messages, voice calls, and automated interactions so the person on the other end knows they are not dealing with a human. Deception damages brand reputation and breaches disclosure rules in many jurisdictions.\n\nIt is like a recorded telephone menu stating upfront that you are speaking to an automated assistant rather than pretending a live receptionist is typing the replies.\n\nKeep in mind that a polite disclosure at the start of a chat only takes a single sentence. Clients rarely lose customers by admitting a bot is helping them, but they frequently lose trust when customers feel tricked.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4PLxAjL_vM_d_1",
+          "type": "multiple_choice",
+          "prompt": "Why should a business clearly disclose when a customer is interacting with an AI system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Disclosure makes the language model generate tokens at half the cost"
+            },
+            {
+              "id": "b",
+              "text": "Honest labelling respects the customer, protects brand trust, and meets disclosure rules"
+            },
+            {
+              "id": "c",
+              "text": "Customers will never ask for a refund if they know a bot answered them"
+            },
+            {
+              "id": "d",
+              "text": "Labelling the bot removes the need to check whether its answers are accurate"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Openly stating that AI is assisting prevents customers from feeling deceived and satisfies transparency requirements.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_3LIg7upjkYT6",
       "title": "Human recourse: a way to reach a person and appeal",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Human recourse is a straightforward path for a customer or employee to speak with a qualified person and challenge an automated decision or unhelpful AI interaction. No model handles every edge case, and high-stakes decisions always need an escape hatch.\n\nImagine an automated supermarket checkout when a barcode fails to scan; if there is no attendant nearby to override the machine, the shopper simply abandons their basket and walks out.\n\nHowever, recourse is useless if the human reviewer blindly clicks approve on whatever the algorithm suggested. Train staff to investigate escalated cases independently and give them the authority to overturn the machine.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3LIg7upjkYT6_1",
+          "type": "multiple_choice",
+          "prompt": "What makes a human recourse process genuinely effective when an AI system makes a mistake?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A button transfers the user to a second chatbot with a different name"
+            },
+            {
+              "id": "b",
+              "text": "The human reviewer is instructed to always agree with the algorithm's score"
+            },
+            {
+              "id": "c",
+              "text": "Users can easily reach a person who has the training and authority to overturn the automated output"
+            },
+            {
+              "id": "d",
+              "text": "Appeals take six months to process and require a formal letter sent by post"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Real recourse requires both an easy escalation path for the user and a human reviewer empowered to correct the machine.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2UXiaWY0mgsc",
       "title": "Common failure causes: no human check, bad data, and overreach",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Most production AI failures stem from three recurring mistakes: letting systems act without human review, feeding them outdated or biased records, or stretching a model into tasks it cannot reliably perform. Rarely is the root cause a mysterious algorithm glitch.\n\nFor example, if an automated pricing agent sets absurd discounts because last week's cost spreadsheet had missing rows and nobody checked the draft price list, all three failure causes have collided.\n\nAs a consultant, resist client pressure to remove human checkpoints on day one just to save a few pounds. Earn autonomy gradually by proving data quality and narrowing the system's scope first.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2UXiaWY0mgsc_1",
+          "type": "multiple_choice",
+          "prompt": "Which combination causes the vast majority of real-world business AI failures?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Missing human checks, poor underlying data, and using models for tasks beyond their reliable limits"
+            },
+            {
+              "id": "b",
+              "text": "Running models on premises instead of inside a public cloud data centre"
+            },
+            {
+              "id": "c",
+              "text": "Writing prompts in British English rather than American English"
+            },
+            {
+              "id": "d",
+              "text": "Updating security patches on the company's database servers too frequently"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Most failures come from preventable operational choices around data quality, task scope, and human oversight rather than exotic technical bugs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Yq89dFedKvj1",
       "title": "Review incidents and share the lessons",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Reviewing incidents and sharing the lessons means running a blameless post-mortem whenever an AI workflow produces a bad outcome, fixing the underlying process, and telling other teams what went wrong. Every near miss is free tuition if the organisation pays attention.\n\nIt works like aviation safety reporting, where pilots report rough landings or instrument quirks without fear of punishment so every crew learns how to avoid the same hazard.\n\nIf leadership punishes the person who flags an AI mistake, employees will quietly hide errors until a major failure hits a customer. Reward staff who spot model drift or prompt flaws early.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -93,7 +233,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Yq89dFedKvj1_1",
+          "type": "multiple_choice",
+          "prompt": "Why should incident reviews for AI mistakes focus on fixing the process rather than blaming individuals?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Blaming individuals is only effective when the software was written in-house"
+            },
+            {
+              "id": "b",
+              "text": "Process reviews allow the company to delete all audit logs after an incident"
+            },
+            {
+              "id": "c",
+              "text": "Sharing lessons prevents competitors from building their own language models"
+            },
+            {
+              "id": "d",
+              "text": "Blameless reviews encourage staff to report errors early so the whole organisation can strengthen its guardrails"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A safe reporting culture catches small failures early and turns them into shared improvements across every team.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

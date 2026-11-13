@@ -5,62 +5,202 @@
     {
       "id": "bit_ecFQ6Z01Kyx0",
       "title": "Filter, wrapper, and embedded methods (LASSO, RFE)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Feature selection methods reduce thousands of molecular measurements to a manageable biomarker panel using filter, wrapper, or embedded strategies. Filter methods score each feature independently, wrapper methods such as recursive feature elimination (RFE) search subsets using a model, and embedded methods such as LASSO select features during training; check the current details in your modelling library.\n\nIt is like hiring a team by either screening individual CVs, trialling different small groups together, or assessing chemistry during a live project.\n\nEach approach carries trade-offs: filters ignore gene interactions, wrappers are computationally heavy and prone to overfitting, and LASSO arbitrarily drops correlated partners. Match the method to your client's sample size and interpretability goals.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ecFQ6Z01Kyx0_1",
+          "type": "multiple_choice",
+          "prompt": "How do embedded methods such as LASSO differ from simple filter methods in biomarker discovery?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Embedded methods require no outcome labels and rely entirely on raw sequencing quality scores"
+            },
+            {
+              "id": "b",
+              "text": "Filter methods evaluate every possible combination of genes using repeated neural network training"
+            },
+            {
+              "id": "c",
+              "text": "Filter methods automatically group correlated pathway genes into a single synthetic protein"
+            },
+            {
+              "id": "d",
+              "text": "Embedded methods select features jointly while fitting the predictive model rather than scoring genes one by one"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Unlike univariate filters that rank each gene in isolation, embedded methods incorporate feature selection directly into the model optimisation objective.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_sYFToI_zGKAg",
       "title": "Stability selection",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Stability selection is a resampling framework that runs a feature selection algorithm repeatedly on many random subsamples of the training data and keeps only features chosen consistently across runs. It turns an unstable selector like LASSO into a reproducible biomarker filter.\n\nIt is like interviewing candidates across five independent panels and hiring only the applicants whom almost every panel recommends.\n\nIn omics data where many genes correlate strongly, a single model fit often picks one gene over an equally valid neighbour by pure chance. By tracking selection frequency across subsamples, consultants help clients avoid betting a diagnostic assay on a fluke feature.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_sYFToI_zGKAg_1",
+          "type": "multiple_choice",
+          "prompt": "What problem does stability selection solve in high-dimensional biomarker discovery?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It identifies features that are consistently chosen across data perturbations rather than by a single lucky split"
+            },
+            {
+              "id": "b",
+              "text": "It replaces the need for an external validation cohort by generating synthetic hospitals"
+            },
+            {
+              "id": "c",
+              "text": "It speeds up whole-genome sequencing by skipping low-abundance RNA transcripts"
+            },
+            {
+              "id": "d",
+              "text": "It forces uncorrelated genes to share identical regression weights in linear models"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "By aggregating selection results across many subsamples, stability selection filters out features that appear only due to sampling noise.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__iJ27CbrT9dv",
       "title": "Filter: rank by simple statistics; wrapper: search subsets; embedded: built into the model",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Understanding the mechanics of filter, wrapper, and embedded selectors helps a consultant design a staged funnel for high-dimensional datasets. Filters use fast univariate tests like t-statistics, wrappers repeatedly train a classifier on candidate subsets, and embedded approaches apply weight penalties inside the loss function.\n\nIt is like narrowing down house listings first by price filter, then by visiting combinations of streets, and finally negotiating within a fixed mortgage cap.\n\nBecause running wrapper searches directly on thirty thousand genes is both slow and overfit-prone, practical pipelines often apply a conservative filter inside each cross-validation fold before running an embedded or wrapper method. Always validate the entire funnel end to end.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__iJ27CbrT9dv_1",
+          "type": "multiple_choice",
+          "prompt": "Why is running an exhaustive wrapper search directly on tens of thousands of omics features rarely advisable?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Wrapper methods can only process categorical clinical variables and not continuous gene counts"
+            },
+            {
+              "id": "b",
+              "text": "Simple univariate filters always capture complex multi-gene interactions better than wrappers"
+            },
+            {
+              "id": "c",
+              "text": "It is computationally expensive and highly prone to overfitting on small sample sizes"
+            },
+            {
+              "id": "d",
+              "text": "Embedded regularisation methods are mathematically prohibited from running after a filter step"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Searching vast combinations of subsets with a model wrapper quickly overfits small omics cohorts and consumes excessive compute.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_67lcfYnbhu4l",
       "title": "Stable features appear across resamples",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a biomarker signature is genuinely anchored in robust biology, its core features appear repeatedly when the training cohort is bootstrapped or split into different cross-validation folds. Measuring feature overlap across resamples tests whether the signature itself is reproducible, not just its prediction score.\n\nIt is like two independent auditors examining the same company accounts and flagging the exact same three suspicious invoices.\n\nOften, two omics models achieve identical accuracy across folds while sharing almost zero genes because dozens of correlated transcripts carry redundant information. Consultants must show biotech clients the selection frequency table so wet-lab teams know whether their chosen panel is unique or interchangeable.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_67lcfYnbhu4l_1",
+          "type": "multiple_choice",
+          "prompt": "What does it mean when a classifier achieves stable accuracy across folds but selects completely different genes each time?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The cross-validation script has failed to shuffle the patient identifiers between folds"
+            },
+            {
+              "id": "b",
+              "text": "Many correlated genes carry redundant information, making any single selected panel unstable"
+            },
+            {
+              "id": "c",
+              "text": "The underlying disease has no biological relationship with gene expression levels"
+            },
+            {
+              "id": "d",
+              "text": "The regularisation penalty has been set to zero across all training iterations"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Correlated molecular pathways allow different gene subsets to yield similar predictive accuracy, so feature stability must be measured directly across resamples.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rMrfKR4rU1oS",
       "title": "Small signatures need independent confirmation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In clinical translation, diagnostic companies prefer compact signatures of five to twenty biomarkers because smaller panels are far cheaper and easier to measure with targeted laboratory assays. However, compressing thousands of features into a tiny panel leaves the signature vulnerable to platform shifts.\n\nIt is like condensing a comprehensive textbook into a one-page cheat sheet that only works if the exam style stays exactly the same.\n\nA ten-gene signature selected on bulk RNA sequencing often loses calibration when transferred to a targeted PCR test in a hospital lab. Always advise clients to confirm small signatures on an independent cohort measured with the final intended clinical assay.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rMrfKR4rU1oS_1",
+          "type": "multiple_choice",
+          "prompt": "Why must a compact ten-gene biomarker signature be re-validated on the target clinical assay platform?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Targeted PCR assays can only measure thousands of genes at once rather than small panels"
+            },
+            {
+              "id": "b",
+              "text": "Small biomarker panels cannot be evaluated using sensitivity or specificity metrics"
+            },
+            {
+              "id": "c",
+              "text": "Independent confirmation is only required when a signature contains more than five hundred genes"
+            },
+            {
+              "id": "d",
+              "text": "Shifting from discovery sequencing to a targeted clinical assay changes measurement characteristics and calibration"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Moving from a high-throughput discovery platform to a targeted clinical test introduces technical differences that require independent validation and recalibration.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

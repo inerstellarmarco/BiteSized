@@ -1,0 +1,371 @@
+// D2 D2 Sequencing Data & File Formats
+
+@@ sll_X5ei5Ku7doE6 | D2.1 Core File Formats > Raw & Aligned Reads
+
+## FASTA and FASTQ (quality scores)
+~m
+FASTA and FASTQ are the standard text-based file formats used across bioinformatics to represent nucleotide or protein sequences, with FASTQ adding per-base sequencing confidence scores. A FASTA record has a header line starting with `>` followed by sequence letters, whereas a FASTQ record uses four lines per read to pair every base with an ASCII-encoded quality character; check the current details for platform-specific header conventions.
+
+It is like comparing a clean transcript of a courtroom witness statement against an annotated version where the stenographer marks a confidence rating underneath every single letter typed.
+
+Because uncompressed FASTQ files consume massive storage, pipelines almost always store and stream them compressed as `.fastq.gz`.
+
+?? How does a FASTQ file differ from a FASTA file?
++ FASTQ uses four lines per read to store both the nucleotide sequence and an ASCII-encoded quality score for every base, whereas FASTA stores only the header and sequence
+- FASTA stores aligned binary reads, whereas FASTQ stores only three-dimensional protein structures
+- FASTQ files can only hold amino acid sequences and cannot represent DNA or RNA
+- FASTA files include chromosome mapping coordinates and variant call filters for every base
+= While FASTA contains only sequence identifiers and letter strings, FASTQ adds per-base Phred quality scores in a four-line-per-read structure.
+
+## SAM, BAM, CRAM
+~m
+SAM, BAM, and CRAM are the three standard file formats maintained by the Global Alliance for Genomics and Health (GA4GH) for storing sequencing reads aligned to a reference genome. SAM is human-readable plain text, BAM is its lossless block-compressed binary equivalent, and CRAM achieves even tighter compression by storing only differences relative to a reference genome; check the current details on GA4GH specification updates.
+
+It is like storing accounting ledgers as uncompressed CSV text (SAM), a zipped binary database (BAM), or a delta file that only records changes against a standard template (CRAM).
+
+A crucial operational caveat with CRAM is that losing the exact reference FASTA file used during compression makes the aligned reads unreadable.
+
+?? What is the main risk of archiving sequencing alignments in CRAM format without also archiving or indexing the exact reference genome file used?
++ CRAM compresses reads by storing differences against the reference genome, so without the exact matching reference FASTA the sequences cannot be reconstructed
+- CRAM files automatically delete themselves after thirty days on cloud object storage
+- CRAM files cannot store mapping quality scores or strand orientation
+- Standard bioinformatics tools like samtools cannot read binary formats of any kind
+= Because CRAM uses reference-based delta compression, decoding the reads requires access to the exact same reference sequence used when the CRAM file was created.
+
+## FASTA holds sequences; FASTQ adds a quality score for each base
+Every sequencing workflow relies on the distinction between static reference sequences stored in FASTA format and raw instrument output stored in FASTQ format. Reference genomes, transcriptomes, and protein databases use FASTA because their consensus sequences are already established, whereas raw reads coming off a sequencer use FASTQ so downstream tools can weigh base-call uncertainty.
+
+It is like keeping the master dictionary of a language in clean print while grading student dictation exercises with per-letter legibility marks.
+
+When scoping storage budgets for an AI genomics client, remember that raw FASTQ files are typically the largest intermediate artefacts before alignment and compression.
+
+?? Why do sequencing instruments output raw reads in FASTQ format rather than FASTA format?
++ Downstream aligners and variant callers need the per-base quality scores in FASTQ to distinguish true genetic variants from low-confidence sequencing errors
+- FASTA files are limited by operating systems to a maximum of one hundred sequences per file
+- Sequencers cannot output the letters A, C, G, and T into a FASTA file
+- FASTQ files automatically align reads to the human genome without needing an aligner
+= Retaining per-base quality scores in FASTQ allows alignment and variant-calling algorithms to down-weight uncertain base calls that might otherwise look like mutations.
+
+## Phred scores: a higher score means more confidence in the base
+A Phred quality score ($Q$) is a logarithmic measure of base-call accuracy defined as $Q = -10 \log_{10}(P)$, where $P$ is the estimated probability that the base call is wrong. Every ten-point increase reduces the error probability tenfold: Q10 means a 1 in 10 chance of error (90% accuracy), Q20 means 1 in 100 (99% accuracy), and Q30 means 1 in 1,000 (99.9% accuracy).
+
+It is like a manufacturing defect rating where each step up the scale means ten times fewer faulty components per batch.
+
+One caveat for AI engineers is that raw instrument Phred scores are often slightly miscalibrated until base quality score recalibration adjusts for systematic machine cycle biases.
+
+?? If a nucleotide base in a FASTQ file has a Phred quality score of Q30, what is its estimated probability of being an incorrect base call?
++ 1 in 1,000 (99.9% accuracy)
+- 30 in 100 (70.0% accuracy)
+- 1 in 30 (96.7% accuracy)
+- 1 in 1,000,000 (99.9999% accuracy)
+= Because $Q = -10 \log_{10}(P)$, a score of Q30 corresponds to an error probability of $10^{-3}$, or 1 in 1,000 (99.9% accuracy).
+
+## BAM is the compressed binary form of SAM; CRAM compresses further
+Converting human-readable SAM text into binary BAM or reference-compressed CRAM drastically reduces storage footprints and speeds up computer parsing across large patient cohorts. While a whole-genome SAM file can easily exceed several hundred gigabytes, its BAM equivalent shrinks to roughly a quarter of that size, and CRAM shrinks it even further for long-term cloud archival.
+
+It is like converting raw verbose XML logs into indexed Parquet files for daily analytics and then into deduplicated cold archives for regulatory retention.
+
+For cloud consulting engagements on biobank-scale cohorts, switching thousands of whole genomes from BAM to CRAM can save tens of thousands of pounds (`£`) per year in storage costs.
+
+?? Why do bioinformatics pipelines convert SAM output directly into BAM or CRAM rather than saving SAM files to disk?
++ SAM is an uncompressed text format that consumes massive disk space and is slower for software tools to parse and index than binary BAM or CRAM
+- SAM files cannot represent reads from paired-end sequencing experiments
+- Converting to BAM automatically removes all sequencing errors and mutations from the reads
+- Operating systems block files larger than two gigabytes unless they use the `.bam` extension
+= Binary BAM and CRAM files store the exact same alignment information as SAM in a fraction of the disk space while supporting fast random access via indexing.
+
+## Alignment records: position, strand, and mapping quality
+Each alignment record in a SAM, BAM, or CRAM file captures where a sequencing read maps on the reference genome, including the chromosome name, start coordinate, strand orientation, CIGAR alignment string, and mapping quality (MAPQ). The CIGAR string compactly describes matches, insertions, deletions, and soft-clipped ends, while the bitwise FLAG integer encodes whether the read is paired, reverse-complemented, or a duplicate.
+
+It is like a courier delivery receipt that logs not only the street address, but also which side of the road the parcel was left on, whether the box was dented, and how confident the driver is that they found the right building.
+
+Never confuse base quality with mapping quality: a read can have pristine Q40 bases yet a MAPQ of zero if its sequence matches multiple repetitive regions equally well.
+
+?? How can a sequencing read have very high per-base Phred quality scores but a mapping quality (MAPQ) of zero?
++ The read was sequenced accurately, but its sequence matches an identical repetitive region in multiple places on the reference genome so its true origin is ambiguous
+- The aligner crashed halfway through writing the BAM file and zeroed out the quality column
+- A mapping quality of zero indicates the highest possible confidence that a read mapped uniquely
+- High Phred scores always force the aligner to discard mapping coordinates
+= Base quality reflects confidence in the nucleotide letters read by the instrument, whereas mapping quality reflects confidence that the read came from one unique genomic location.
+
+## Sorted and indexed BAMs are needed for most tools
+Before variant callers, genome browsers, or coverage calculators can efficiently inspect an aligned BAM file, the reads must be sorted by genomic coordinate and accompanied by an index file (`.bai` or `.csi`). Without coordinate sorting and an index, a program asking for reads overlapping a single gene would have to scan sequentially through hundreds of millions of reads from the start of the file.
+
+It is like alphabetising a multi-volume encyclopaedia and printing a back-of-book index so a reader can jump straight to a topic instead of reading every page from volume one.
+
+In automated pipelines, forgetting to re-index a BAM file after filtering or modifying it causes downstream tools to fail or silently read stale file offsets.
+
+?? Why do most downstream bioinformatics tools require BAM files to be sorted by coordinate and accompanied by a `.bai` index file?
++ Coordinate sorting and indexing allow tools to jump directly to specific genomic regions without scanning the entire multi-gigabyte file from beginning to end
+- Unsorted BAM files are encrypted and require the `.bai` file as a decryption password
+- Sorting a BAM file automatically calls somatic variants and writes a VCF table
+- Genome browsers only display reads that are sorted alphabetically by their nucleotide sequence
+= Sorting by chromosomal position and creating a `.bai` index enables fast random access to any genomic interval in large alignment files.
+
+@@ sll_-XjLb75DlMOg | D2.1 Core File Formats > Variants & Annotations
+
+## VCF for variants
+~m
+The Variant Call Format (VCF), along with its binary counterpart BCF, is the standard tabular file format for storing genetic sequence variations such as single nucleotide variants, indels, and structural variants. A VCF file combines a metadata header block (`##` lines) that defines annotations and reference contigs with a tab-delimited body where each row represents a variant site and sample genotype columns; check the current details in the GA4GH VCF specification.
+
+It is like an engineering change-order log that only lists the exact line numbers and edits where a client's contract differs from the standard master template, rather than reprinting the entire document.
+
+Because VCF stores only variant positions by default, you cannot distinguish whether an absent position was wild-type reference or simply had zero sequencing coverage unless you use a Genomic VCF (gVCF).
+
+?? Why can a standard VCF file not tell you by itself whether a patient has a normal reference sequence or missing sequencing coverage at a position not listed in the file?
++ Standard VCF files only record sites where a variant was detected, omitting both well-covered reference positions and uncovered dropout regions
+- VCF files only store protein structures and never include genomic coordinates
+- Standard VCF files encrypt all homozygous reference positions using a hospital key
+- Every position in the human genome is always listed in a three-kilobyte VCF file
+= Because standard VCFs omit non-variant sites, an unlisted coordinate could either match the reference genome with high depth or have zero sequencing reads, which is why gVCF is used for cohort joint calling.
+
+## GTF/GFF and BED for annotations
+~m
+GTF (Gene Transfer Format), GFF3 (General Feature Format), and BED (Browser Extensible Data) are the standard tab-delimited formats used to represent genomic intervals and functional annotations such as genes, exons, and regulatory peaks. BED offers a lightweight coordinate table for intervals, whereas GTF and GFF3 capture hierarchical parent-child relationships linking genes to transcripts and exons; check the current details on Ensembl and GENCODE format conventions.
+
+It is like using a simple postcode list (BED) to highlight delivery zones versus a structured organisational chart (GTF/GFF) that maps how individual rooms belong to floors and buildings.
+
+Always check whether chromosomes are named `chr1` (UCSC style) or `1` (Ensembl style), as mismatched naming silently drops every intersection.
+
+?? What happens if you intersect a BAM file that names chromosomes `chr1`, `chr2` with a BED or GTF annotation file that names them `1`, `2`?
++ Tools fail to match the chromosome names and return zero overlapping features, often silently without throwing a fatal error
+- Bioinformatics tools automatically translate all chromosome naming conventions across every species
+- The BAM file is permanently overwritten and converted into a FASTQ file
+- The operating system reboots because numeric chromosome names are illegal in Linux
+= A mismatch between `chr1` and `1` contig naming conventions means string comparisons fail, causing interval intersections and annotations to return empty results.
+
+## VCF columns: position, reference, alternate, quality, and filters
+Every variant row in a VCF file begins with eight mandatory fixed columns: chromosome (`CHROM`), 1-based position (`POS`), identifier (`ID`), reference allele (`REF`), alternate allele (`ALT`), variant quality score (`QUAL`), filter status (`FILTER`), and extensible site annotations (`INFO`), optionally followed by `FORMAT` and per-sample columns. Together these fields state what changed, how confident the caller is, and whether the site passed quality control.
+
+It is like an audit exception table that records the exact ledger page, the original figure, the amended figure, the auditor's confidence score, and whether the entry passed compliance review.
+
+Watch out for the `FILTER` column in client data: a value of `.` means no filtering has been applied yet, whereas `PASS` means the variant explicitly survived all quality filters.
+
+?? In a VCF file, what is the difference between `PASS` and `.` in the `FILTER` column?
++ `PASS` means the variant explicitly passed all applied quality filters, whereas `.` means no filtering has been run on that record yet
+- `.` means the variant passed all filters, whereas `PASS` means the variant should be skipped
+- Both `PASS` and `.` indicate that the variant is a confirmed sequencing artefact
+- `PASS` indicates a germline variant, while `.` indicates a somatic tumour mutation
+= In VCF syntax, `.` denotes a missing or unassessed filter status, while `PASS` confirms that filters were evaluated and the site met every criterion.
+
+## Genome coordinates: 0-based vs. 1-based
+Bioinformatics file formats are split between two coordinate numbering conventions: 1-based closed intervals (used by VCF, GTF, GFF, and SAM) and 0-based half-open intervals (used by BED and BAM binary internals). In a 1-based closed system, the first base of a chromosome is position 1 and both start and end coordinates are included; in a 0-based half-open system, the first base is 0 and the start coordinate is included while the end coordinate is excluded.
+
+It is like counting building floors in the UK where the ground floor is 0 versus the US where the street level is floor 1, while also measuring span length by fence posts versus fence panels.
+
+Notice that in 0-based half-open BED format, interval length is simply `end - start` with no `+ 1` adjustment needed, which avoids off-by-one bugs when writing custom Python parsers for clients.
+
+?? How is the very first nucleotide base of chromosome 1 represented in a 0-based half-open BED file versus a 1-based VCF or GTF file?
++ In BED it is represented as start `0` and end `1`, whereas in VCF or GTF its position is `1`
+- In BED it is position `100`, whereas in VCF it is position `-1`
+- Both BED and VCF represent the first nucleotide as start `1` and end `2`
+- BED files use Roman numerals for coordinates while VCF files use hexadecimal
+= BED uses 0-based, half-open coordinates (`[0, 1)` for the first base), whereas VCF, GTF, GFF, and SAM use 1-based inclusive coordinates (position `1`).
+
+## BED for regions; GTF/GFF for gene structure
+Choosing between BED and GTF/GFF depends on whether your task requires simple genomic intervals or complete multi-exon gene hierarchies. BED requires only three columns (`chrom`, `chromStart`, `chromEnd`) to define regions like ChIP-seq peaks, capture kit targets, or masked repeats, whereas GTF and GFF3 use nine columns with structured key-value attributes (`gene_id`, `transcript_id`) to group exons, coding sequences, and untranslated regions into spliced transcripts.
+
+It is like using sticky notes to mark page ranges for legal redaction (BED) versus maintaining a full XML table of contents that nests chapters, sections, and paragraphs (GTF/GFF).
+
+When quantifying RNA-seq gene expression for a client, tools require GTF or GFF3 rather than a simple 3-column BED file so they know which exons belong to the same transcript.
+
+?? Why do RNA-seq gene quantification tools require a GTF or GFF file rather than a basic 3-column BED file?
++ GTF and GFF files contain hierarchical attributes like `gene_id` and `transcript_id` that group multiple spliced exons into whole transcripts and genes
+- Basic 3-column BED files cannot store chromosome names or numeric start coordinates
+- GTF files contain the raw FASTQ quality scores needed to trim sequencing adapters
+- BED files can only represent bacterial chromosomes and do not work on human genomes
+= Unlike a flat 3-column BED file of intervals, GTF and GFF link separated exons and coding features together under shared transcript and gene identifiers.
+
+## Always match the reference genome version across files
+~m
+Every aligned read file (BAM/CRAM), variant table (VCF), and interval annotation (BED/GTF) in an analysis workflow must use the exact same reference genome build and contig naming scheme. Even within a single build like GRCh38, providers distribute variations with or without decoy sequences, viral contigs, and `chr` prefixes, so check the current details for your reference bundle documentation.
+
+It is like overlaying transparency sheets from architectural drawings: if one sheet uses metric scale from an older blueprint and another uses imperial scale from a newer revision, every room boundary will misalign.
+
+Before running a client pipeline, always inspect the `@SQ` contig headers and sequence lengths in the BAM and VCF files to verify they match byte-for-byte rather than trusting filenames alone.
+
+?? How can a bioinformatician verify programmatically that a BAM file and a VCF file were generated against compatible reference genomes before intersecting them?
++ Inspect the `@SQ` / `##contig` header lines in both files to confirm that chromosome names and exact sequence lengths match
+- Check whether both files were created in the same calendar year
+- Rename both files to include `hg38` in their filenames without checking their headers
+- Compress both files into a single zip archive to align their coordinates automatically
+= Comparing the contig names and base lengths declared in the BAM `@SQ` headers and VCF `##contig` headers reliably detects build mismatches and `chr` prefix discrepancies.
+
+@@ sll_3XR0ivSM2uRk | D2.2 Command-Line Bioinformatics > Linux for Biology
+
+## Shell basics, piping, and grep/awk
+~m
+The Unix command-line shell, together with text-stream utilities like `grep`, `awk`, `sed`, `cut`, and `sort`, forms the daily workbench for inspecting and wrangling tab-delimited bioinformatics files. Because genomic files often contain millions of lines that crash desktop spreadsheet software, streaming text line-by-line with `grep` for pattern matching and `awk` for column logic is essential; check the current details in your system's GNU coreutils manual.
+
+It is like inspecting a fast-moving factory conveyor belt with an optical sensor that counts and diverts matching packages on the fly, rather than trying to stack ten million boxes onto a single office desk.
+
+However, avoid parsing complex formats like SAM or VCF with fragile regular expressions when dedicated format-aware tools (`samtools`, `bcftools`) exist, as header lines and optional tags easily break naive column scripts.
+
+?? Why do bioinformaticians inspect multi-gigabyte VCF or GTF files using command-line tools like `grep` and `awk` instead of opening them in desktop spreadsheet software?
++ Streaming command-line tools process files line-by-line with minimal memory, whereas spreadsheet programs hang or truncate data and corrupt gene names into dates
+- Desktop spreadsheet programs are legally prohibited from opening tab-delimited text files
+- Command-line tools automatically convert text files into wet-lab DNA samples
+- `grep` and `awk` require graphic cards that only run on Linux servers
+= Unix stream utilities process arbitrarily large text files with tiny memory footprints and preserve exact text strings without spreadsheet row limits or auto-formatting corruption.
+
+## Working on HPC clusters and the cloud
+~m
+Most production bioinformatics analyses run on shared High-Performance Computing (HPC) clusters or cloud batch environments (such as AWS HealthOmics, Google Cloud Batch, or Azure Batch) rather than local laptops. Whole-genome alignment, single-cell clustering, and protein structure prediction require dozens of CPU cores, hundreds of gigabytes of RAM, or specialised GPUs, plus high-throughput storage; check the current details on cloud instance pricing and regional data-residency rules.
+
+It is like renting a commercial industrial bakery with fifty high-capacity ovens for a banquet order instead of baking ten thousand loaves one by one in a home kitchen.
+
+When advising clients on cloud versus on-premise HPC, account for data egress fees: moving terabytes of BAM files out of cloud object storage often costs more than the compute itself.
+
+?? What is a major hidden cost that AI consultants must account for when designing cloud-based genomics workflows?
++ Data egress and transfer fees when moving terabytes of large sequencing files across regions or out of cloud storage, alongside idle storage costs for intermediate files
+- Cloud providers charge a separate fee for every unique gene symbol found in a GTF file
+- Linux command-line tools require an expensive per-user commercial licence on cloud servers
+- Cloud CPUs run ten times slower on DNA sequences than laptop processors
+= Because raw and aligned sequencing datasets span terabytes, cloud storage retention for temporary intermediates and network egress charges can quickly dominate project budgets if not managed.
+
+## Files, directories, and permissions
+In multi-user Linux environments, organising project directories cleanly and setting strict POSIX file permissions (`read`, `write`, `execute` for user, group, and others) protects sensitive patient data and prevents accidental deletions. Using commands like `chmod` and `chown` ensures that authorised project team members can collaborate within shared group directories while blocking access to unauthorised users on the same server.
+
+It is like a hospital records room where every cabinet has separate keycard access levels: auditors can read files, the lead archivist can add new folders, and visitors from other departments cannot open the door at all.
+
+In regulated clinical consulting, leaving world-readable (`chmod 777` or `644`) permissions on directories holding identifiable human VCF or BAM files is a serious security compliance breach.
+
+?? Why is running `chmod 777` on a shared server directory containing clinical genomic data a dangerous practice?
++ It grants read, write, and execute permissions to every user account on the system, exposing sensitive patient data and allowing accidental or malicious deletion
+- It permanently encrypts the directory so that not even the file owner can read the FASTQ files
+- It deletes all BAM index files and converts VCF files into plain text
+- It restricts the directory so that only the system administrator can view file sizes
+= Setting `chmod 777` makes files readable, writable, and executable by all users on the host, violating data governance and risking accidental corruption or unauthorised access.
+
+## Pipes chain small tools together
+The Unix pipe operator (`|`) connects the standard output (`stdout`) of one command directly to the standard input (`stdin`) of the next command in memory, allowing complex multi-step transformations without writing giant intermediate files to disk. For example, a bioinformatician can decompress a `.vcf.gz` stream, filter variants with `bcftools`, extract columns with `awk`, and count unique records with `sort | uniq -c` in a single command line.
+
+It is like linking water filtration stages directly together with pipes so water flows continuously from sediment screen to carbon filter to UV steriliser without filling and emptying giant holding tanks between each step.
+
+One important caveat in bash scripts is that by default a pipeline only reports the exit code of the last command, so always enable `set -euo pipefail` to catch silent failures in earlier stages.
+
+?? What is the primary advantage of chaining bioinformatics commands together with Unix pipes (`|`) and why should scripts include `set -euo pipefail`?
++ Pipes stream data in memory without writing huge temporary files to disk, and `set -euo pipefail` ensures the script stops if any command inside the pipeline fails
+- Pipes compress files onto magnetic tape, and `set -euo pipefail` deletes the input data after running
+- Pipes translate Python code into C++, and `set -euo pipefail` disables all error messages
+- Pipes bypass cluster job schedulers so jobs run with unlimited memory on the login node
+= Piping avoids slow disk I/O and storage bloat from massive intermediate files, while `set -euo pipefail` prevents upstream errors in a pipeline from going unnoticed.
+
+## Job schedulers (e.g., Slurm): request resources and queue work
+~m
+On shared High-Performance Computing (HPC) clusters, a workload manager such as Slurm, PBS, or LSF coordinates resource allocation by queuing user jobs and dispatching them to compute nodes with the requested CPUs, RAM, GPUs, and wall-time limits. Users submit batch scripts (`sbatch`) or request interactive compute sessions (`srun` / `salloc`) rather than running programs directly; check the current details for your institution's partition names and fair-share policies.
+
+It is like an airport air-traffic control system that assigns each aircraft a scheduled runway slot and gate matching its wingspan, preventing twenty planes from trying to land on the same strip at once.
+
+Requesting far more memory or CPUs than a tool actually uses wastes budget and leaves your job waiting longer in the queue, whereas requesting too little causes the scheduler to kill the job mid-run with an Out-Of-Memory (`OOM`) error.
+
+?? What happens on a Slurm-managed HPC cluster if a bioinformatics job attempts to use more RAM than the user requested in the job submission script?
++ The scheduler terminates the job immediately with an Out-Of-Memory (OOM) error to protect other workloads running on the compute node
+- The cluster automatically purchases additional physical RAM from the cloud provider without interrupting the job
+- The aligner silently skips half of the chromosomes in the genome to stay within memory limits
+- The job is moved back to the login node and given administrator privileges
+= Job schedulers strictly enforce requested memory limits via cgroups, killing processes that exceed their allocation so they cannot crash shared compute nodes.
+
+## Never run heavy jobs on the login node
+The login node (or head node) of an HPC cluster is a shared lightweight gateway intended strictly for editing scripts, managing files, and submitting jobs to the scheduler, never for running CPU- or memory-intensive bioinformatics tools. When someone runs a multi-threaded genome aligner or machine learning training script directly on the login node, it starves CPU and RAM for hundreds of other colleagues, freezing their terminal sessions and stalling job submissions.
+
+It is like parking a forty-tonne cement mixer sideways inside a hotel reception lobby to mix concrete, blocking every guest from checking in or reaching the lifts.
+
+Even seemingly quick tasks like decompressing a 100 GB archive or indexing a BAM file should be submitted as a compute job or run inside an interactive compute allocation.
+
+?? Why must you never run heavy tasks like read alignment or model training directly on an HPC login node?
++ The login node is a shared gateway for all users to edit files and submit jobs, so heavy compute starves resources and freezes access for the entire organisation
+- Login nodes do not have access to the shared filesystem where sequencing files are stored
+- Programs executed on the login node produce inaccurate Phred quality scores
+- The login node deletes any file larger than one megabyte every five minutes
+= Login nodes are shared entry points with limited resources designed for file management and job submission; compute-heavy workloads belong on scheduled compute nodes.
+
+@@ sll_jpfyc5g1kH13 | D2.2 Command-Line Bioinformatics > Core Utilities
+
+## samtools for sorting, indexing, and viewing BAMs
+~m
+`samtools` is the essential command-line toolkit for inspecting, converting, sorting, indexing, and summarising SAM, BAM, and CRAM alignment files. Common subcommands include `samtools view` to convert formats or filter reads by region and flags, `samtools sort` to order reads by genomic coordinate, and `samtools index` to build `.bai` or `.crai` lookup indexes; check the current details in the HTSlib documentation for thread and memory flags.
+
+It is like a Swiss Army knife for warehouse shipping logs that lets an auditor filter receipts by postcode, sort millions of records into shelf order, and print an instant summary report.
+
+A frequent pitfall is running `samtools view` without `-b` or `-o output.bam`, which dumps millions of lines of uncompressed SAM text straight to your terminal screen.
+
+?? Which sequence of `samtools` subcommands prepares an unsorted alignment file so a genome browser can quickly fetch reads overlapping a specific gene?
++ Run `samtools sort` to order the alignments by genomic coordinate, followed by `samtools index` to generate the index file
+- Run `samtools fastq` followed by `samtools mpileup` to delete all alignment coordinates
+- Run `samtools view` with no arguments to print the entire file to the terminal screen
+- Run `samtools merge` on a single file to convert it into a VCF table
+= Genome browsers and variant callers require coordinate-sorted alignments (`samtools sort`) paired with a spatial index (`samtools index`) for fast regional queries.
+
+## bcftools for filtering and merging VCFs
+~m
+`bcftools` is the standard high-performance utility for manipulating, querying, filtering, normalising, and merging variant calls in VCF and binary BCF formats. Analysts use `bcftools view` or `bcftools filter` to select variants meeting expression thresholds (such as `QUAL > 30 && DP >= 10`), `bcftools norm` to left-align indels and split multi-allelic sites, and `bcftools query` to extract custom tables; check the current details in the HTSlib manual.
+
+It is like a specialised database query engine built specifically to slice, clean, and join clinical audit logs without corrupting nested sample genotype fields.
+
+Before comparing or merging VCFs from two different callers for a client benchmark, always run `bcftools norm` with the reference FASTA so identical indels are represented at the exact same coordinate.
+
+?? Why is it important to run `bcftools norm` with a reference genome before comparing indel calls between two different variant-calling pipelines?
++ The same insertion or deletion inside a repetitive sequence can be written at different coordinates or as multi-allelic rows unless left-aligned and normalised
+- `bcftools norm` converts VCF files into BAM alignment files for genome browsers
+- Indel coordinates in VCF files are stored in random order and do not include chromosome names
+- `bcftools norm` replaces low-quality variant calls with synthetic reference reads
+= Because identical indels in repetitive DNA can be represented in multiple equivalent ways, left-alignment and normalisation ensure consistent representation across callers.
+
+## bedtools for genomic interval arithmetic
+~m
+`bedtools` is a fast toolkit for performing set theory and spatial arithmetic, including intersections, unions, subtractions, and closest-feature lookups, across genomic intervals in BED, GTF/GFF, VCF, and BAM formats. With commands like `bedtools intersect`, `bedtools merge`, and `bedtools coverage`, an analyst can ask questions like "which patient variants fall inside protein-coding exons?" or "which enhancers sit within 10 kilobases of a differentially expressed gene?"; check the current details for sorted-input memory flags.
+
+It is like a geographic information system (GIS) that overlays property parcel maps with flood-zone polygons to list every insured building that touches a high-risk zone.
+
+When intersecting millions of intervals, passing pre-sorted files with the `-sorted` flag dramatically lowers memory usage and prevents out-of-memory crashes.
+
+?? Which `bedtools` operation would you use to identify all called variants in a VCF file that fall within the target regions of an exome capture kit BED file?
++ `bedtools intersect`
+- `bedtools getfasta`
+- `bedtools bamtofastq`
+- `bedtools random`
+= `bedtools intersect` finds overlapping genomic intervals between two feature files, such as filtering a VCF against target capture regions in a BED file.
+
+## Quick checks: read counts, mapping rates, and coverage
+~m
+Before launching expensive downstream analyses or training machine learning models, experienced bioinformaticians run quick command-line sanity checks on read counts, mapping rates, and coverage depth using utilities like `samtools flagstat`, `samtools idxstats`, `samtools depth`, or `mosdepth`. A sudden drop in mapping rate or unexpected coverage gaps immediately exposes wet-lab failures, sample swaps, or bacterial contamination; check the current details for utility options and multi-threading flags.
+
+It is like checking a delivery truck's weight manifest and fuel gauge at the loading bay before driving five hundred miles with an empty or misloaded trailer.
+
+For instance, if human sequencing reads show only a 15% mapping rate against GRCh38, stop the pipeline immediately and check whether the sample was actually mouse tissue or contaminated with mycoplasma.
+
+?? If `samtools flagstat` reports that only 12% of high-quality reads in a supposed human sample aligned to the GRCh38 human reference genome, what should you suspect first?
++ Sample contamination, a species mix-up (such as mouse samples mislabelled as human), or severe wet-lab library preparation failure
+- The human genome is composed of 88% unknown nucleotide letters that do not exist in GRCh38
+- A 12% mapping rate is the gold-standard benchmark for human whole-genome sequencing
+- The BAM file is sorted by coordinate instead of read name
+= Well-prepared human sequencing libraries typically align to the human reference genome at rates above 85% to 95%; a 12% rate points to species mislabelling, contamination, or library failure.
+
+## Ask an AI assistant for commands, then read the manual before running them
+Large language models are remarkably helpful for drafting complex `awk`, `samtools`, `bcftools`, and `bedtools` command lines, but AI assistants frequently hallucinate non-existent flags, mix up 0-based and 1-based coordinates, or omit critical options across tool versions. Always verify generated flags against `--help` or `man` pages and test commands on a small subset of lines (`head`) before executing them on production data.
+
+It is like having a junior analyst draft a SQL migration script: the structure saves time, but a senior engineer always checks the table schema and runs a dry run before touching the live database.
+
+Pay special attention to destructive flags, in-place file overwrites, and subtle filter logic reversals (such as `-v` or `-F` versus `-f` in `samtools view`) that can silently invert your scientific results.
+
+?? Why should you always check `--help` or the manual page and test on a small file subset before running an AI-generated bioinformatics command?
++ AI models can invent non-existent flags, confuse tool versions, or reverse filter logic (such as `-f` vs `-F` in `samtools`), potentially corrupting data or silently inverting results
+- AI assistants can only generate commands for Windows PowerShell and never for Linux bash
+- Reading the manual page is required by Linux before any binary executable unlocks its CPU threads
+- Command-line bioinformatics tools charge a financial penalty every time a syntax error occurs
+= LLMs occasionally hallucinate command-line flags or invert bitwise filter options, so verifying against documentation and testing on small slices prevents silent analytical errors or data loss.
+
+## Keep raw files read-only
+Raw sequencing files coming off the instrument or downloaded from a client repository (such as original `.fastq.gz` files, raw signal files, and checksum manifests) must be stored as strictly read-only (`chmod 444` or immutable object storage) in a dedicated directory separate from working analysis outputs. Every pipeline step should read from the raw directory and write new outputs to a separate processed or scratch directory.
+
+It is like forensics investigators locking original crime-scene negatives in an evidence safe and working exclusively on duplicate prints in the lab.
+
+If a script bug or accidental redirect (`>` instead of `>>`) overwrites a processed BAM file, you can regenerate it from code; if you overwrite the original raw FASTQ file without a backup, the wet-lab sequencing experiment is permanently lost.
+
+?? Why is it a core bioinformatics best practice to remove write permissions (`chmod 444` or `a-w`) on original raw FASTQ files and store them alongside MD5 or SHA256 checksums?
++ It prevents accidental deletion or in-place overwriting by buggy scripts, while checksums verify that the irreplaceable source data has not suffered bit-rot or incomplete transfer
+- Removing write permissions compresses FASTQ files to one-tenth of their original size
+- Aligners like BWA and STAR refuse to read any file that has write permissions enabled
+- Read-only permissions automatically convert Phred scores from Q20 to Q40
+= Raw experimental reads are expensive or impossible to regenerate if lost, so making them read-only and verifying cryptographic checksums protects data integrity throughout a project.

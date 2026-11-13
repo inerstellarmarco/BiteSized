@@ -5,8 +5,8 @@
     {
       "id": "bit_a-VLDbh54S99",
       "title": "One job per bot, with a clear owner",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Giving each bot a single, narrow job makes the system easier to write, test, and fix. Every bot should also have a named human owner at the client organisation who checks its performance and approves changes.\n\nThink of a professional kitchen where one chef runs the grill and another handles pastry, rather than everyone trying to cook every dish at the same time.\n\nIf you cram ten unrelated duties into one giant prompt, changing a rule for one task will accidentally break another. Specialised bots stay predictable, though you must avoid splitting tasks into tiny fragments that only add delay.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_a-VLDbh54S99_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main advantage of giving each bot a single job and a clear human owner?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It allows the consultant to bill the client for ten times as many software licences"
+            },
+            {
+              "id": "b",
+              "text": "Single-purpose bots never require testing or prompt updates once deployed"
+            },
+            {
+              "id": "c",
+              "text": "It prevents human staff from seeing how the automated workflow operates"
+            },
+            {
+              "id": "d",
+              "text": "Narrow bots are easier to test and maintain, and a human owner ensures clear accountability"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Focused instructions stop tasks from interfering with one another, whilst a human owner keeps someone responsible for results.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_MhgPSx0gjqYV",
       "title": "Manager bot, specialist bots, and a reviewer bot",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A common bot team structure uses a manager bot to coordinate work, specialist bots to execute specific tasks, and a reviewer bot to check the output against quality rules. Each role has a distinct prompt and toolset.\n\nIn a compliance consultancy, a manager bot breaks an audit request into steps, specialist bots check financial and safety records, and a reviewer bot verifies that every claim cites a source document.\n\nRemember that a reviewer bot can still miss subtle errors or share blind spots with the specialist bots. For high-risk outputs, a human must still inspect the final result.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,13 +66,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_MhgPSx0gjqYV_1",
+          "type": "multiple_choice",
+          "prompt": "How do a manager bot, specialist bots, and a reviewer bot work together?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "All three bots write the exact same report and the longest version is sent to the client"
+            },
+            {
+              "id": "b",
+              "text": "The reviewer bot talks to the customer while the manager bot deletes old databases"
+            },
+            {
+              "id": "c",
+              "text": "Specialist bots set company strategy while the manager bot checks spelling only"
+            },
+            {
+              "id": "d",
+              "text": "The manager routes tasks, specialists do the focused work, and the reviewer checks quality against rules"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Separating coordination, execution, and quality checking keeps each bot focused and catches routine mistakes early.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-IAW5YZx7W-W",
       "title": "Topology choice: pipeline, supervisor, or network",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Team topology is the pattern of how bots communicate and pass work to one another. The three main patterns are a straight pipeline, a central supervisor directing workers, and an open network where any bot can call any other.\n\nA pipeline is like a factory assembly line, a supervisor pattern is like a project manager assigning tasks to contractors, and a network is like an open roundtable discussion.\n\nFor client work, prefer pipelines or supervisors whenever the steps are known. Open networks look flexible in demos, but in production they easily get stuck in expensive, unpredictable loops.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -57,37 +113,121 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-IAW5YZx7W-W_1",
+          "type": "multiple_choice",
+          "prompt": "Why are pipeline or supervisor topologies usually safer for client systems than open networks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Open networks are unable to use language models from major providers"
+            },
+            {
+              "id": "b",
+              "text": "They make task order predictable, whereas open networks can get stuck in costly loops"
+            },
+            {
+              "id": "c",
+              "text": "Pipelines allow bots to bypass all security and spend controls automatically"
+            },
+            {
+              "id": "d",
+              "text": "Supervisor topologies never require any structured messages between bots"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Predictable routing in pipelines and supervisor patterns keeps costs, timing, and error tracing under control.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_uGlMu3b-Pfxa",
       "title": "Start with the smallest team that does the job",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before building a multi-bot system, check whether a single well-prompted bot with good tools or a simple script can solve the client's problem. You should only add another bot when a single one genuinely struggles with competing instructions or separate permissions.\n\nIf a local accountancy firm wants to summarise tax letters, one bot with a clear template is far better than a five-bot committee debating the summary.\n\nEvery extra bot adds latency, token cost, and another handoff that can fail. Complexity is a cost you pay every day in maintenance, not a badge of technical skill.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_uGlMu3b-Pfxa_1",
+          "type": "multiple_choice",
+          "prompt": "When should an AI consultant add a second or third bot to a system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Immediately at the start of every project so the architecture diagram looks impressive"
+            },
+            {
+              "id": "b",
+              "text": "Whenever the client has unused budget left over at the end of the month"
+            },
+            {
+              "id": "c",
+              "text": "Only when a single bot or simple workflow cannot handle the distinct tasks or permissions cleanly"
+            },
+            {
+              "id": "d",
+              "text": "As soon as a single prompt exceeds fifty words in length"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Keeping the team as small as possible reduces latency, ongoing token spend, and handoff failures.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_w4Mu3ARpaExu",
       "title": "Each bot gets its own tools, permissions, and budget",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Least-privilege design means giving each bot access only to the tools, data, and spending budget required for its specific job. A bot that only reads documents should never hold permission to send external emails or update payment records.\n\nIt is like giving a visiting contractor a key card that opens only the boiler room they are fixing, rather than a master key to the whole office building.\n\nIf a prompt injection or logic bug hits one bot, strict permissions contain the blast radius. Without individual budgets, a single confused bot can burn through a client's monthly allowance in an hour.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_w4Mu3ARpaExu_1",
+          "type": "multiple_choice",
+          "prompt": "Why should every bot have its own restricted tools, permissions, and budget?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because language models refuse to run unless they have a unique credit card attached"
+            },
+            {
+              "id": "b",
+              "text": "To allow every bot to modify the company's main accounting database freely"
+            },
+            {
+              "id": "c",
+              "text": "So that human administrators do not need to monitor what the team produces"
+            },
+            {
+              "id": "d",
+              "text": "To limit potential damage from errors or attacks and prevent a single bot from overspending"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Isolating permissions and budgets contains the impact of bugs or prompt injections to a single narrow role.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_feJqVrJPm6Y2",
       "title": "A one-page spec for each bot: goal, inputs, outputs, and limits",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before building a bot, write a one-page specification covering its single goal, its exact inputs, its expected outputs, and its strict limits. This page acts as an agreement between you and the client and guides your testing.\n\nFor an estate agency's enquiry bot, the spec states its goal is booking viewings, its input is a web form, its output is a calendar invite, and its limit is never quoting property valuations.\n\nKeep this document in plain English rather than technical jargon. However, a spec only helps if you update it when requirements change; an outdated spec misleads everyone who maintains the system later.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -100,7 +240,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_feJqVrJPm6Y2_1",
+          "type": "multiple_choice",
+          "prompt": "What belongs on the one-page specification for an individual bot?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The entire source code of the underlying language model and server firmware"
+            },
+            {
+              "id": "b",
+              "text": "A marketing brochure promising that the bot can handle any business task"
+            },
+            {
+              "id": "c",
+              "text": "Only the monthly fee that the consultant plans to charge the client"
+            },
+            {
+              "id": "d",
+              "text": "Its single goal, exact inputs, expected outputs, and strict operational limits"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A concise specification of goal, inputs, outputs, and limits aligns expectations and provides clear test criteria.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

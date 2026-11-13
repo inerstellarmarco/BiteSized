@@ -5,8 +5,8 @@
     {
       "id": "bit_T3cEkTK_wK0C",
       "title": "Regression testing in CI",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Your evaluation suite is most useful when it runs automatically in Continuous Integration (CI) whenever someone opens a pull request that changes a prompt, tool definition, retrieval setting or orchestration graph.\n\nTo keep CI fast and affordable, split the suite into two tiers. Run a **fast smoke suite** (for example, all deterministic code checks plus 25 core cases) on every pull request in two minutes, blocking the merge if pass rates drop below your threshold. Run the **full benchmark suite** (hundreds of cases across multiple trials) nightly or before a production release.\n\nIt is an automated spellcheck on every paragraph you type, plus a full proofread before the book goes to the printer.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_T3cEkTK_wK0C_1",
+          "type": "multiple_choice",
+          "prompt": "How can you run evaluations in CI without making every code commit wait an hour and cost a fortune?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Never run any tests until a customer complains"
+            },
+            {
+              "id": "b",
+              "text": "Run ten thousand frontier-model calls on every single typo fix"
+            },
+            {
+              "id": "c",
+              "text": "Run a fast smoke subset and deterministic checks on every pull request, and run the full multi-trial suite nightly or before release"
+            },
+            {
+              "id": "d",
+              "text": "Delete the evaluation suite from the repository"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A two-tier CI setup catches bad regressions immediately on pull requests while keeping full-scale benchmarking affordable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rBJauFrZA1WI",
       "title": "A/B tests and shadow mode",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Offline evals tell you how a change performs on your known test set. When a major change passes offline evals, **shadow mode** and **A/B testing** verify that it also works on live user behaviour.\n\nAs we saw in B11, shadow mode runs the new version silently alongside the current system with zero user impact. Once shadow mode looks healthy, an **A/B test** routes a split of live traffic (say 10% at first, then 50%) to the new version while the control group stays on the current version, comparing real business outcomes such as resolution rate, user edits, escalations and latency.\n\nIt is taste-testing a new recipe in the kitchen first, then offering it as a daily special before replacing the main menu.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,25 +66,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rBJauFrZA1WI_1",
+          "type": "multiple_choice",
+          "prompt": "What does a live A/B test measure that an offline evaluation dataset cannot?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whether the output is valid JSON"
+            },
+            {
+              "id": "b",
+              "text": "How real users interact with, edit, accept or escalate the new version's outputs in live workflows"
+            },
+            {
+              "id": "c",
+              "text": "How many words are in the system prompt"
+            },
+            {
+              "id": "d",
+              "text": "Whether Python is installed on the server"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Live A/B testing measures real user behaviour and business outcomes that fixed offline test sets can only approximate.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wPBXVXbRQGHW",
       "title": "Re-running evals when the model or prompt changes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "There are two triggers that must always kick off a full evaluation run: **when you change your prompt or code**, and **when you change or upgrade the underlying model**.\n\nMany teams remember the first and forget the second. When a provider releases a new model snapshot or retires an old one, a prompt that was tuned around the quirks of the old model can behave very differently on the new one: tool calls may become more or less eager, answers may get longer or shorter, or edge-case formatting may shift.\n\nIt is re-checking the oven timings when you buy a new fan oven, even though your cake recipe has not changed a word.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wPBXVXbRQGHW_1",
+          "type": "multiple_choice",
+          "prompt": "Why must you re-run your full evaluation suite before switching to a new model version, even if your prompts did not change?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every new model is guaranteed to be worse on every task"
+            },
+            {
+              "id": "b",
+              "text": "Providers forbid testing new models before production"
+            },
+            {
+              "id": "c",
+              "text": "Changing the model automatically rewrites your database schema"
+            },
+            {
+              "id": "d",
+              "text": "Different models and snapshots respond differently to the same prompt, tool definitions and formatting instructions"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Because prompt behaviour and tool-calling habits shift between model versions, your eval suite is the safety check for any model upgrade or fallback.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_DIo1he9nid7k",
       "title": "Monitoring live quality with sampled reviews",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "You do not need to run an expensive LLM judge on 100% of production traffic to know how live quality is trending.\n\nRun cheap, deterministic checks (latency, error rates, schema validity, empty retrievals, guardrail triggers) on **100% of live runs**. Then take a **stratified sample** of live traces, such as 5% of routine runs plus 100% of runs that triggered a warning, took more than ten steps or received a user edit or thumbs-down, and score that sample asynchronously with your LLM judges and a weekly human review queue.\n\nIt is factory quality control: every bottle is weighed on the conveyor belt, and one bottle per crate is opened in the lab for a full taste test.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -69,19 +153,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DIo1he9nid7k_1",
+          "type": "multiple_choice",
+          "prompt": "What is a practical, cost-effective way to monitor quality on high-volume production traffic?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Run five frontier-model judges synchronously on 100% of requests while the user waits"
+            },
+            {
+              "id": "b",
+              "text": "Run deterministic metrics on 100% of traffic, and run LLM judges and human review asynchronously on a random sample plus flagged runs"
+            },
+            {
+              "id": "c",
+              "text": "Never log or inspect any production traffic"
+            },
+            {
+              "id": "d",
+              "text": "Only review runs where everything succeeded in one step"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Combining 100% deterministic telemetry with sampled and risk-focused judge/human reviews gives strong visibility at a fraction of the cost.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_C_1dkhg1emmb",
       "title": "User feedback as an eval signal",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Close the loop between production and offline testing by turning user feedback signals directly into evaluation candidates.\n\nBuild a simple pipeline that watches for high-signal events in live use: a thumbs-down click, a user who rewrote more than half of the AI's draft, an undo click, or a conversation that ended in a frustrated escalation. Queue those traces for a ten-minute weekly review by the product owner or consultant. For each genuine failure, write the corrected expected behaviour and promote the case into the offline golden dataset.\n\nIt is a road maintenance crew using pothole reports from drivers to update their weekly repair map and inspection checklist.\n\nThis flywheel ensures your eval suite continuously tracks what real users care about.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_C_1dkhg1emmb_1",
+          "type": "multiple_choice",
+          "prompt": "How do you close the loop between live user feedback and your offline evaluation suite?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Review live runs that received negative feedback, heavy edits or escalations, and promote genuine failures into your permanent golden test set"
+            },
+            {
+              "id": "b",
+              "text": "Display a thumbs-down button that is not connected to any database or log"
+            },
+            {
+              "id": "c",
+              "text": "Automatically train the production model on raw unverified thumbs-down clicks every second"
+            },
+            {
+              "id": "d",
+              "text": "Delete any trace where the user edited the draft"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Feeding reviewed failure traces from real user signals back into your golden dataset makes your evaluations sharper every week.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

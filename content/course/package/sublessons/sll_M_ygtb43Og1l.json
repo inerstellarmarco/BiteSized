@@ -5,68 +5,208 @@
     {
       "id": "bit_eu0Sow8D7Dyt",
       "title": "Diffusion models (intuition)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Diffusion models generate images by starting with a canvas of pure random static and gradually removing the noise step by step until a clear picture emerges that matches your text prompt. During training, the model learns how images dissolve into noise so that at inference time it can run the process in reverse.\n\nIt is like a sculptor starting with a rough, shapeless block of marble and chiselling away material pass after pass until a detailed statue appears.\n\nBecause generation requires many sequential denoising steps, producing high-resolution images is computationally heavier than classifying an image, though distilled few-step models help reduce wait times.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_eu0Sow8D7Dyt_1",
+          "type": "multiple_choice",
+          "prompt": "How does a diffusion model create a new image from a text prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It searches the internet in real time and copies a single matching photograph unchanged"
+            },
+            {
+              "id": "b",
+              "text": "It writes HTML table cells and colours each cell one by one in a web browser"
+            },
+            {
+              "id": "c",
+              "text": "It starts with random noise and iteratively refines it over multiple steps guided by the prompt"
+            },
+            {
+              "id": "d",
+              "text": "It records a live video from the user's webcam and applies a black-and-white filter"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Diffusion models learn to reverse a gradual noising process, steering random noise toward a coherent image that fits the text description.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_j-_zpRuU4tqY",
       "title": "Controlled generation and editing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Freeform text prompts alone rarely give marketing or design teams enough consistency for commercial campaigns, because changing a single word can alter the entire scene. Controlled generation and image editing tools let users lock in a product's shape, a character's pose, or a room's layout while varying the background or style.\n\nIt is like a film director keeping the lead actor and stage furniture in the exact same spot while swapping the lighting rig and painted backdrop between takes.\n\nEven with strong control tools, small artefacts around hands, fine text, or reflective surfaces can still appear, requiring a final human design review.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_j-_zpRuU4tqY_1",
+          "type": "multiple_choice",
+          "prompt": "Why do commercial creative teams use controlled generation rather than relying purely on text prompts?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Controlled generation allows models to run without any graphics hardware"
+            },
+            {
+              "id": "b",
+              "text": "Pure text prompts can only generate black-and-white images"
+            },
+            {
+              "id": "c",
+              "text": "Controlled generation automatically registers a government trademark for every image"
+            },
+            {
+              "id": "d",
+              "text": "Text prompts alone leave layout, pose, and exact product geometry too unpredictable across generations"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Visual conditioning signals let businesses keep brand assets or layouts fixed while generating variations around them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__nqhQq6luKUU",
       "title": "Prompting for images: subject, style, and composition",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Effective image prompts usually specify three clear elements: the main subject and action, the artistic or photographic style, and the composition including lighting, camera angle, and background context. Clear, concrete visual adjectives guide the generator far better than vague abstract requests.\n\nIt is like briefing a commercial photographer by specifying the product on a wooden table, warm morning side-lighting, and a shallow depth-of-field close-up, rather than just asking for a nice picture.\n\nHowever, stuffing a prompt with dozens of contradictory style buzzwords often confuses the model and produces a cluttered, unnatural image.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__nqhQq6luKUU_1",
+          "type": "multiple_choice",
+          "prompt": "Which three elements form a reliable structure when writing prompts for an image generation model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Database schema, SQL query, and network port"
+            },
+            {
+              "id": "b",
+              "text": "Audio bitrate, speaker volume, and microphone type"
+            },
+            {
+              "id": "c",
+              "text": "CPU clock speed, RAM latency, and disk format"
+            },
+            {
+              "id": "d",
+              "text": "Subject, style, and composition"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Specifying what is in the scene, how it is rendered, and how the shot is framed gives the generator clear visual constraints.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_nymQZ7C0ZsFm",
       "title": "Control methods: reference images, masks, and edge maps",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "To steer an image generator with precision, practitioners supply extra visual inputs alongside the text prompt, such as reference images for style or subject identity, binary masks indicating which pixels may change, and edge or depth maps that fix the scene geometry. These structural guides constrain where the model places shapes and textures.\n\nIt is like giving a painter a stencilled outline and a colour swatch card so the finished mural matches the client's wall measurements and brand palette.\n\nCombining too many rigid control layers at high strength can make the output look stiff or unnatural, so tuning the conditioning weight is usually needed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_nymQZ7C0ZsFm_1",
+          "type": "multiple_choice",
+          "prompt": "What is the purpose of passing an edge map or depth map into an image generation pipeline?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To lock in the spatial structure and outlines of the scene while generating new textures and styles"
+            },
+            {
+              "id": "b",
+              "text": "To compress the final image file into a smaller ZIP archive"
+            },
+            {
+              "id": "c",
+              "text": "To translate the text prompt from English into Spanish automatically"
+            },
+            {
+              "id": "d",
+              "text": "To delete the model weights from the server after the image is saved"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Structural maps guide the diffusion process so the generated image preserves the exact layout and geometry of the source reference.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rJnrqXJnwOUk",
       "title": "Inpainting and outpainting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Inpainting replaces or repairs a selected region inside an existing image while blending seamlessly with the surrounding pixels, whereas outpainting extends the canvas outward beyond the original borders to invent plausible new scenery. Both techniques use a mask to tell the model which pixels must stay untouched and which pixels should be generated.\n\nIt is like an art restorer filling in a torn patch at the centre of an oil painting, or adding a wider frame and painting the rest of the landscape around it.\n\nWhen inpainting around complex objects or faces, lighting mismatches or subtle seams can still give away the edit if the mask boundary is too tight.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rJnrqXJnwOUk_1",
+          "type": "multiple_choice",
+          "prompt": "What is the difference between inpainting and outpainting in image editing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Inpainting only works on black-and-white drawings, whereas outpainting only works on colour photos"
+            },
+            {
+              "id": "b",
+              "text": "Inpainting converts images into text, whereas outpainting converts text into audio"
+            },
+            {
+              "id": "c",
+              "text": "Inpainting modifies a masked area inside the existing image borders, whereas outpainting generates new content beyond the original edges"
+            },
+            {
+              "id": "d",
+              "text": "Inpainting runs exclusively on mobile phones, whereas outpainting requires a mainframe computer"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Inpainting fills or edits an internal masked region, while outpainting expands the canvas boundary outward.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TpPrTG7v9EMg",
       "title": "Rights, watermarking, and disclosure",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Deploying generative images in business raises important legal and governance questions around training data copyright, brand likeness rights, provenance watermarks such as C2PA metadata, and regulatory disclosure rules. Several jurisdictions and advertising standards require organisations to label synthetic media when it could mislead consumers.\n\nIt is like printing a clear ingredient and allergen label on packaged food so customers know how the product was made before buying it.\n\nBecause intellectual property rulings, platform policies, and statutory disclosure rules under frameworks like the EU AI Act evolve, check the current details with legal counsel before launching a client campaign.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -79,7 +219,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TpPrTG7v9EMg_1",
+          "type": "multiple_choice",
+          "prompt": "Why do many enterprise governance policies require provenance metadata or visible disclosures on AI-generated marketing images?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because image files cannot be displayed in a web browser without a watermark"
+            },
+            {
+              "id": "b",
+              "text": "To comply with transparency regulations and avoid misleading consumers about synthetic media"
+            },
+            {
+              "id": "c",
+              "text": "Because watermarking makes the diffusion model generate images ten times faster"
+            },
+            {
+              "id": "d",
+              "text": "To automatically double the pixel resolution of every generated photograph"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Provenance standards and disclosure labels protect consumer trust and help organisations meet emerging legal transparency duties.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

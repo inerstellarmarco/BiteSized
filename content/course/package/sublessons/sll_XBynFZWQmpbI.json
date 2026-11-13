@@ -5,8 +5,8 @@
     {
       "id": "bit_3pvP27ntMdOH",
       "title": "Turning a vague request into a spec with a success metric",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Clients often ask for \"some AI to help with admin\", which is a wish rather than a project scope. An AI consultant translates that vague wish into a concrete specification naming one workflow, its inputs and outputs, and a measurable target for success.\n\nWhen a dental practice owner asks for an AI receptionist, you narrow the scope to an automated appointment reminder and rescheduling assistant aiming to cut missed slots by thirty per cent.\n\nWithout a clear number attached to success, neither you nor the client will know when the project is finished, and scope creep will swallow your margin.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3pvP27ntMdOH_1",
+          "type": "multiple_choice",
+          "prompt": "How should an AI consultant respond when a client makes a vague request to \"add AI\" to their business?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Start building a general chatbot immediately and decide what it should do after launch"
+            },
+            {
+              "id": "b",
+              "text": "Promise that a single tool will automate every department in the organisation within a week"
+            },
+            {
+              "id": "c",
+              "text": "Refuse to speak with the client until they write a technical architecture document themselves"
+            },
+            {
+              "id": "d",
+              "text": "Translate the request into a specific workflow spec with clear inputs, outputs, and a measurable success metric"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Pinning down a single workflow and a concrete metric aligns expectations and prevents endless scope creep.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_kBp-HBRIPKlf",
       "title": "Discovery questions for small-company owners",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Discovery questions uncover where a small business actually loses time, money, or customers each week. Instead of asking owners which AI tools they want, ask which repetitive tasks keep staff late, where mistakes happen, and what a good outcome is worth.\n\nIt is like a doctor asking a patient where it hurts and how it affects their daily routine, rather than asking which prescription drug they saw in an advert.\n\nBe careful not to take the owner's first answer as the whole story. Frontline staff often know workarounds and bottlenecks that the owner never sees from their desk.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,55 +66,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kBp-HBRIPKlf_1",
+          "type": "multiple_choice",
+          "prompt": "What kind of discovery questions work best when interviewing a small-company owner?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Questions asking which language model parameter count and vector database they prefer"
+            },
+            {
+              "id": "b",
+              "text": "Questions designed to get the owner to agree to the largest possible software licence"
+            },
+            {
+              "id": "c",
+              "text": "Questions that focus only on tasks the owner personally enjoys doing every day"
+            },
+            {
+              "id": "d",
+              "text": "Questions about daily bottlenecks, costly errors, and repetitive work rather than which AI tools they want"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Asking about real operational pain points and their business cost reveals where automation will deliver genuine value.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_xzQc4oTm1M7c",
       "title": "Map the current process before changing it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before proposing any new AI system, walk through the client's existing process step by step using real recent examples. Mapping the current workflow shows who touches the work, how long each stage takes, and why existing rules exist.\n\nFor an electrical contracting firm, watching the administrator price three real job quotes reveals that half the delay comes from chasing missing site photos from engineers.\n\nIf you automate a broken process without mapping it first, you only help the client make mistakes faster. Sometimes a simple form change fixes half the problem before a single bot is built.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xzQc4oTm1M7c_1",
+          "type": "multiple_choice",
+          "prompt": "Why must you map a client's current process using real examples before building an AI system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To prove to the client's staff that their previous work was completely useless"
+            },
+            {
+              "id": "b",
+              "text": "To see where delays and exceptions actually happen and avoid automating a flawed process"
+            },
+            {
+              "id": "c",
+              "text": "Because cloud platforms require a flowchart upload before creating an API key"
+            },
+            {
+              "id": "d",
+              "text": "To stretch out the consulting engagement for several extra months without doing technical work"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Observing the real current workflow exposes root causes and stops you from building software around broken habits.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_MC96TWkxa0o5",
       "title": "Find the data: where it lives, its quality, and who owns it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every AI project depends on the state of the client's underlying data, so you must check where it is stored, how clean it is, and who has permission to use it. Sample real files during scoping rather than trusting a promise that the data is ready.\n\nA recruitment client may claim all candidate records sit neatly in their database, yet an inspection reveals half the CVs are scanned images saved across personal email folders.\n\nAlso confirm whether third-party contracts or privacy laws restrict how those records may be processed. Discovering dirty or locked-down data halfway through a build can sink a fixed-price project.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_MC96TWkxa0o5_1",
+          "type": "multiple_choice",
+          "prompt": "Why should a consultant inspect real data samples during scoping rather than relying on the client's description?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Inspecting data during scoping lets the consultant train a brand-new foundation model from scratch"
+            },
+            {
+              "id": "b",
+              "text": "Real records often turn out to be messy, incomplete, or scattered across systems when inspected closely"
+            },
+            {
+              "id": "c",
+              "text": "Clients intentionally hide their best data so the consultant has less work to do"
+            },
+            {
+              "id": "d",
+              "text": "Data quality has no effect on AI systems once a modern language model is connected"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Checking actual files early reveals formatting messes, missing fields, and access barriers before you commit to a price and deadline.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-MNVy6DldnxF",
       "title": "Define what the system must not do",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An explicit list of out-of-scope actions and hard boundaries is just as important as describing what the system will do. Writing down what the AI must never attempt protects the client from compliance breaches and protects you from unrealistic expectations.\n\nFor an independent financial adviser's assistant, the spec states that the tool may summarise client meeting notes, but must never recommend specific investments or alter portfolio records.\n\nPut these negative rules both in the signed statement of work and in the system's technical guardrails. Clear boundaries reassure nervous stakeholders that the tool will stay in its lane.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-MNVy6DldnxF_1",
+          "type": "multiple_choice",
+          "prompt": "Why is defining what an AI system must not do essential during scoping?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It sets clear safety and scope boundaries for both the client's expectations and the technical guardrails"
+            },
+            {
+              "id": "b",
+              "text": "It allows the consultant to charge extra fees every time the system refuses a dangerous request"
+            },
+            {
+              "id": "c",
+              "text": "Language models can only understand instructions that are written as negative commands"
+            },
+            {
+              "id": "d",
+              "text": "It removes the need to test what the system actually produces during the pilot phase"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Agreed negative boundaries prevent dangerous actions in production and stop stakeholders from assuming the tool does everything.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gVAQldped1oG",
       "title": "Start with a low-risk pilot",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A low-risk pilot tests the AI solution on a narrow slice of real work where mistakes are easy to catch and harmless to the business. Starting small proves value quickly and builds staff confidence before anyone commits to a full rollout.\n\nFor a twenty-person law firm, a pilot might draft internal summaries of incoming property searches for two conveyancers to check, rather than sending automated legal advice straight to clients.\n\nMake sure the pilot uses real company data and real staff rather than a toy demo, or you will miss the practical friction that matters in full production.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gVAQldped1oG_1",
+          "type": "multiple_choice",
+          "prompt": "What makes a pilot project both low-risk and genuinely useful for a client?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It runs on a narrow slice of real work with human oversight before any external action takes place"
+            },
+            {
+              "id": "b",
+              "text": "It uses fake sample data invented by the consultant and never touches client staff"
+            },
+            {
+              "id": "c",
+              "text": "It replaces the client's entire customer support department on day one to test capacity"
+            },
+            {
+              "id": "d",
+              "text": "It runs for two years without any success metrics so nobody feels pressured"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A good pilot uses real data and real users in a safe, supervised slice of work so lessons carry directly into production.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

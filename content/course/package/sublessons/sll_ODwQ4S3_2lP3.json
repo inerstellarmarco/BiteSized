@@ -5,8 +5,8 @@
     {
       "id": "bit_TmNYRnFMhUo0",
       "title": "Least privilege, sandboxing, and isolation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Least privilege, sandboxing, and isolation are foundational security defences that restrict what an AI agent is allowed to see, touch, and execute. Least privilege grants the agent only the minimum permissions needed for its current task, while sandboxing runs any generated code or file operations inside a disposable, locked-down container.\n\nIt is like giving a visiting contractor a keycard that opens only the ground-floor boiler room for two hours rather than a master key to the entire headquarters.\n\nEven if an attacker compromises the model through prompt injection, strict isolation ensures the agent cannot read unrelated databases or modify the underlying host server.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,37 +19,121 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TmNYRnFMhUo0_1",
+          "type": "multiple_choice",
+          "prompt": "How does the principle of least privilege protect an AI agent workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It trains the language model to refuse questions from users who are not company executives"
+            },
+            {
+              "id": "b",
+              "text": "It compresses the system prompt so that fewer tokens are sent to the model provider"
+            },
+            {
+              "id": "c",
+              "text": "It ensures the agent only holds the minimum permissions and data access required for its specific task"
+            },
+            {
+              "id": "d",
+              "text": "It restricts the application to using smaller, cheaper models for every customer request"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "By limiting an agent's credentials and tool permissions to the bare minimum needed, least privilege contains the damage even if the model is tricked by an attacker.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_I_uKYbj9O5w-",
       "title": "Input isolation and output filtering",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Input isolation and output filtering place protective checks before untrusted text reaches the language model and after the model generates its response. Input isolation marks, separates, or screens external text for known attack patterns, while output filtering scans the model's reply and tool calls to block leaked secrets, unsafe links, or policy violations.\n\nThink of it as airport security screening bags coming into the terminal and customs officers checking what passengers carry out onto the street.\n\nWhile classifier filters and regex checks catch many clumsy attacks and accidental leaks, determined attackers can still craft obfuscated prompts that slip past automated scanners.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_I_uKYbj9O5w-_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary role of output filtering in an LLM application?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Preventing users from typing long questions into the chat interface"
+            },
+            {
+              "id": "b",
+              "text": "Speeding up token generation by skipping the final layers of the neural network"
+            },
+            {
+              "id": "c",
+              "text": "Automatically translating the user's prompt into English before the model reads it"
+            },
+            {
+              "id": "d",
+              "text": "Inspecting the model's generated text and tool arguments to block sensitive data leaks or unsafe actions before they take effect"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Output filters act as a gate after inference, checking that the model's response or proposed tool call does not contain leaked credentials, personal data, or prohibited content.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_J5aHgk8W24GM",
       "title": "Treat everything the agent reads as untrusted",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Treating everything the agent reads as untrusted means designing your system under the assumption that any retrieved document, database field, web page, or email could contain a hostile prompt injection. Even internal company wikis or CRM notes can be edited by careless staff or populated via external web forms.\n\nIt is like a bank teller who verifies the signature and account balance on every payment slip, even when the slip is handed over by a colleague from another desk.\n\nWhen your architecture treats retrieved context as potentially hostile data rather than trusted instructions, you never allow a summary step to automatically trigger privileged system tools.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_J5aHgk8W24GM_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an AI architect treat text retrieved from an internal company CRM as untrusted input?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "CRM records often contain text submitted by external leads, emails, or web forms that could carry indirect prompt injections"
+            },
+            {
+              "id": "b",
+              "text": "Internal databases store text in binary formats that language models cannot read accurately"
+            },
+            {
+              "id": "c",
+              "text": "CRM systems automatically delete audit logs whenever an AI agent queries them"
+            },
+            {
+              "id": "d",
+              "text": "Cloud database providers charge higher fees when queries are marked as trusted"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Internal systems frequently ingest customer emails, support tickets, and web form submissions, making them a common carrier for indirect prompt injection payloads.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Mjmab3Qw7mmM",
       "title": "Human approval for high-risk actions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Human approval for high-risk actions pauses an agent's workflow whenever it proposes an irreversible, expensive, or sensitive operation and waits for a qualified person to review and confirm it. Low-risk steps like drafting an email or searching a knowledge base run automatically, while sending money, deleting records, or emailing customers requires explicit sign-off.\n\nIt is like an accounting system where a junior clerk can prepare any supplier invoice on screen, but a finance director must click approve before the bank transfer actually leaves.\n\nTo work well in practice, the approval screen must show the human reviewer the exact parameters of the action clearly, or tired staff will simply rubber-stamp requests without reading them.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -62,25 +146,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Mjmab3Qw7mmM_1",
+          "type": "multiple_choice",
+          "prompt": "When is human-in-the-loop approval most critical in an agentic workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Before the system converts the user's question into vector embeddings for search"
+            },
+            {
+              "id": "b",
+              "text": "Before the agent executes high-risk or irreversible actions such as sending external communications, modifying records, or moving funds"
+            },
+            {
+              "id": "c",
+              "text": "After every single token the language model generates during a conversation"
+            },
+            {
+              "id": "d",
+              "text": "Only when the model returns a response in less than one second"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Placing human approval gates right before consequential, hard-to-reverse tool executions prevents a confused or hijacked agent from causing real-world damage.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_nHFRsnKcQ3O9",
       "title": "Assume a breach: limit what one compromised agent can reach",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Assuming a breach means designing your AI architecture on the premise that an attacker will eventually hijack the model's reasoning, and focusing your engineering effort on limiting the blast radius. Instead of relying solely on prompt rules to keep the model well-behaved, you enforce hard boundaries in traditional deterministic code around network access, spending limits, and tool parameters.\n\nIt is like building watertight compartments inside a ship's hull so that if one section is punctured by an iceberg, the rest of the vessel stays afloat.\n\nFor a consultant, this means putting strict rate limits, row-level database security, and allowlisted API endpoints outside the model where no prompt can override them.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_nHFRsnKcQ3O9_1",
+          "type": "multiple_choice",
+          "prompt": "What does an assume-breach mindset mean when designing an AI agent's architecture?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Enforcing hard limits in code and infrastructure so a compromised model can only cause bounded, minimal damage"
+            },
+            {
+              "id": "b",
+              "text": "Expecting clients to accept full financial liability whenever an AI model makes a mistake"
+            },
+            {
+              "id": "c",
+              "text": "Turning off all logging and monitoring so attackers cannot see system telemetry"
+            },
+            {
+              "id": "d",
+              "text": "Giving every agent full administrator rights so it can repair itself after an attack"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Assuming a breach shifts defence from hoping the model never gets tricked to ensuring via deterministic code and permissions that a tricked model cannot do serious harm.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_0lUAC_1DYg0m",
       "title": "Separating each client's data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Separating each client's data, known as tenant isolation, ensures that documents, embeddings, conversation histories, and cache entries belonging to one customer or department can never be retrieved by another. In a multi-tenant AI system, isolation must be enforced at the database, vector store, and caching layers using authenticated user identities rather than prompt instructions.\n\nIt is like a block of flats where every front door has a distinct physical lock, rather than a shared hallway where a polite sign asks neighbours not to enter each other's rooms.\n\nNever ask an LLM to filter out other clients' records in its prompt; the retrieval code itself must filter by tenant ID before any text ever enters the model's context window.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -93,7 +233,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0lUAC_1DYg0m_1",
+          "type": "multiple_choice",
+          "prompt": "Where must tenant data isolation be enforced in a multi-client RAG system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Inside the system prompt by instructing the model not to mention other clients' names"
+            },
+            {
+              "id": "b",
+              "text": "In the front-end browser styling by hiding unauthorised paragraphs with CSS"
+            },
+            {
+              "id": "c",
+              "text": "Only during the initial creation of the foundation model by the AI lab"
+            },
+            {
+              "id": "d",
+              "text": "In the deterministic retrieval and database query code before any documents enter the model's context window"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "If unauthorised documents are placed into the model's context window, prompt injection or simple model errors can leak them; access control must happen in code before retrieval returns data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

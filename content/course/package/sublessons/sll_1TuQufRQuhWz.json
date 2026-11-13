@@ -5,8 +5,8 @@
     {
       "id": "bit_mKwejDnhUzpL",
       "title": "Plain-language questions over ERP data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An ask-your-data agent lets managers and planners type everyday questions in plain English and receive accurate answers pulled directly from structured ERP tables. It removes the bottleneck of waiting days for an IT specialist to write a custom report.\n\nThink of having a knowledgeable warehouse supervisor sitting beside you who can immediately look up any part number or order status when you ask, without making you learn complex report-builder menus.\n\nThe key limit is that business terms are often ambiguous. When a sales director asks for \"top products this month,\" the agent must know whether the company defines \"top\" by gross revenue, unit volume, or net margin.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,25 +19,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_mKwejDnhUzpL_1",
+          "type": "multiple_choice",
+          "prompt": "Why must an ask-your-data agent have clear definitions for common business terms like revenue or margin?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Language models cannot read English questions unless every word is written in capital letters"
+            },
+            {
+              "id": "b",
+              "text": "ERP databases only store data in encrypted binary files that have no column names"
+            },
+            {
+              "id": "c",
+              "text": "Everyday words can mean different calculations across departments, so the agent needs agreed formulas to return consistent answers"
+            },
+            {
+              "id": "d",
+              "text": "Clear definitions allow the agent to invent numbers when the database is offline"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Mapping company-specific business vocabulary to exact SQL formulas ensures everyone gets consistent, trustworthy answers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_o101CXXctUHx",
       "title": "Typical questions: stock levels, late orders, and margin by product",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Most high-value ERP questions fall into repeatable operational categories: checking available stock versus committed stock, listing overdue purchase or work orders, and comparing gross margin across products or customers.\n\nFor instance, a production manager at 8:00 am usually asks which work orders are blocked by missing parts today, while the commercial director asks which customer orders dropped below a 25 percent margin last week.\n\nRather than letting an agent write brand-new complex SQL joins from scratch every time, build a library of verified query templates for these top twenty questions and let the agent fill in the date ranges and item filters.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_o101CXXctUHx_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a library of verified query templates better than letting an agent write complex SQL from scratch for common ERP questions?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Writing SQL from scratch uses too much ink on the warehouse printer"
+            },
+            {
+              "id": "b",
+              "text": "Database servers refuse to execute queries that were not written at least a year ago"
+            },
+            {
+              "id": "c",
+              "text": "Templates allow the agent to modify customer credit limits while answering read-only questions"
+            },
+            {
+              "id": "d",
+              "text": "Verified templates guarantee consistent business logic for subtle concepts like available versus committed stock"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Pre-built, tested query functions handle tricky ERP table joins and status flags reliably every time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_plQeOyAvSI-1",
       "title": "Read-only access first; write access only with approval",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Starting an ERP agent with strictly read-only database or API credentials means it can look up records and answer questions with zero risk of corrupting inventory, orders, or financial ledgers. Write actions should only be added later behind an approval step.\n\nIt is like letting a new apprentice read the workshop blueprints and inspect finished parts through a glass window before ever handing them the keys to operate the heavy hydraulic press.\n\nClients build confidence quickly when they know a new question-answering bot cannot accidentally delete a sales order. Once read-only accuracy is proven, introduce write actions as saved drafts that a human approves.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,31 +106,115 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_plQeOyAvSI-1_1",
+          "type": "multiple_choice",
+          "prompt": "Why should a new ERP assistant be deployed with strictly read-only credentials at first?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Read-only credentials allow the agent to change supplier bank details silently in the background"
+            },
+            {
+              "id": "b",
+              "text": "Databases do not allow read and write connections to exist in the same company"
+            },
+            {
+              "id": "c",
+              "text": "It delivers immediate value by answering questions while eliminating any risk of corrupting live operational or financial records"
+            },
+            {
+              "id": "d",
+              "text": "Starting with read-only access means you never need to check whether the agent's answers are accurate"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Enforcing read-only access at the credential level keeps early deployments completely safe from accidental data modification.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hJcuMVk9myve",
       "title": "Answers show the query or source so people can check",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every answer from an ERP data agent should cite the exact source tables, record IDs, timestamp, and filter criteria used, or provide a direct link to the underlying ERP view so the user can verify the figure in one click.\n\nThink of a financial analyst handing the managing director a summary card with the exact invoice numbers and ledger page stapled to the back, so the director can spot-check the evidence in seconds.\n\nIf an agent simply replies \"You have £42,300 of overdue orders\" with no breakdown or link, experienced planners will not trust it. Showing the four overdue order numbers and their values makes verification effortless.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hJcuMVk9myve_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an ask-your-data agent always display the underlying record IDs, filters, or query logic alongside its answer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the chat window look more technical so staff stop asking questions"
+            },
+            {
+              "id": "b",
+              "text": "Displaying record IDs automatically backs up the ERP database to the cloud"
+            },
+            {
+              "id": "c",
+              "text": "It prevents the user from opening the main ERP software ever again"
+            },
+            {
+              "id": "d",
+              "text": "It allows staff to verify the numbers in one click and immediately spot if a filter or date range was misunderstood"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Showing the exact source records and filter assumptions turns a black-box number into an auditable, trustworthy answer.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wx7GhpBwguil",
       "title": "Test with questions whose answers you already know",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before releasing a data agent to staff, evaluate it against a golden test set of thirty to fifty realistic business questions paired with the exact ground-truth numbers verified by the client's finance or operations lead.\n\nIt is like testing a new kitchen scale using a certified one-kilogram brass weight before trusting it to measure expensive saffron in the restaurant.\n\nInclude tricky questions in your test set, such as cancelled orders, returned items, and credit notes. An agent that forgets to subtract cancelled orders or credit notes will overstate sales and lose the finance director's trust on day one.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wx7GhpBwguil_1",
+          "type": "multiple_choice",
+          "prompt": "Why must your golden test set for an ERP agent include edge cases like cancelled orders and credit notes?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Cancelled orders are stored on paper in a different building and never appear in the ERP"
+            },
+            {
+              "id": "b",
+              "text": "Credit notes can only be read by models with more than a trillion parameters"
+            },
+            {
+              "id": "c",
+              "text": "Naive queries often forget to exclude cancelled rows or subtract credits, which inflates reported sales and stock figures"
+            },
+            {
+              "id": "d",
+              "text": "Testing only simple happy-path questions guarantees 100 percent accuracy in production"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Real ERP tables contain cancelled lines, returns, and adjustments that must be filtered correctly to match official financial numbers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

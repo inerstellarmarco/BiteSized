@@ -5,8 +5,8 @@
     {
       "id": "bit_PPhPAfFVBhxJ",
       "title": "Reading supplier invoices and delivery notes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Document intake agents use optical character recognition and multimodal language models to extract structured header and line-item data from incoming supplier PDFs, scanned delivery notes, and emailed packing slips.\n\nIt is like having a meticulous mailroom clerk who opens every supplier envelope, reads the messy layout regardless of where the vendor printed the total, and types the clean rows into a standard form.\n\nThe caveat is that supplier part numbers and descriptions rarely match your client's internal item codes word for word. Pair extraction with a lookup table or fuzzy matching step that maps each vendor's SKU to the client's internal ERP item ID.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,49 +19,161 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PPhPAfFVBhxJ_1",
+          "type": "multiple_choice",
+          "prompt": "What common challenge arises after an agent extracts line items from a supplier's PDF invoice?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Supplier PDFs are always formatted using the exact same layout across every company in the world"
+            },
+            {
+              "id": "b",
+              "text": "Multimodal models can only read documents printed in green ink"
+            },
+            {
+              "id": "c",
+              "text": "The supplier's part codes and descriptions must be mapped accurately to the client's internal ERP item numbers"
+            },
+            {
+              "id": "d",
+              "text": "Extracted invoice data never needs to be matched against purchase orders"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Even when text extraction is accurate, reconciling vendor part numbers and units of measure with internal item master codes is essential.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4oaJVCEqpz3W",
       "title": "Three-way match: purchase order, receipt, and invoice",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A three-way match is the core accounts payable control that compares three documents before paying a bill: the original purchase order (what we agreed to buy and pay), the goods receipt note (what physically arrived at the loading bay), and the supplier invoice (what the vendor is billing us for).\n\nImagine ordering ten chairs at £50 each, counting eight chairs off the delivery van, and receiving a bill for ten; you only pay for the eight that arrived until the missing two turn up.\n\nAI agents save huge effort by matching these three records automatically line by line and routing only price or quantity discrepancies to the finance team.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4oaJVCEqpz3W_1",
+          "type": "multiple_choice",
+          "prompt": "What three records are compared during a standard three-way match in accounts payable?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The company's tax return, the CEO's employment contract, and the marketing budget"
+            },
+            {
+              "id": "b",
+              "text": "Three separate copies of the same PDF invoice emailed on different days"
+            },
+            {
+              "id": "c",
+              "text": "The internal purchase order, the warehouse goods receipt, and the supplier's invoice"
+            },
+            {
+              "id": "d",
+              "text": "The customer's website review, the courier's fuel receipt, and the bank's interest rate"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Comparing what was ordered, what was physically received, and what was billed prevents overpaying for missing or mispriced goods.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_i6XI9Givrdzv",
       "title": "Validation rules before anything is posted",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before any extracted document is saved or posted to the ERP, deterministic validation rules must check the extracted data for mathematical and logical consistency. Never trust raw model extraction directly.\n\nIt is like a bank cash machine checking that the notes inside the envelope actually add up to the deposit amount you typed on the screen before crediting your account balance.\n\nEssential validation checks include verifying that line quantities multiplied by unit prices equal the line totals, that all line totals plus tax equal the invoice grand total, that the supplier exists, and that the invoice number has not already been posted.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_i6XI9Givrdzv_1",
+          "type": "multiple_choice",
+          "prompt": "Why must deterministic code check that extracted invoice lines add up to the invoice total before posting to the ERP?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It catches OCR misreads or model extraction slips immediately before bad numbers enter the accounting ledger"
+            },
+            {
+              "id": "b",
+              "text": "Supplier invoices never contain tax or shipping charges that need to be added"
+            },
+            {
+              "id": "c",
+              "text": "Validation rules allow the company to change the supplier's legal name at random"
+            },
+            {
+              "id": "d",
+              "text": "Language models refuse to extract text unless a Python script runs afterwards"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Arithmetic cross-checks between line items, tax, and grand totals catch extraction errors with total reliability.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_R-Jfxo-TamRK",
       "title": "Low-confidence items go to a human queue",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Whenever an intake agent encounters a blurry scan, an unfamiliar part number, a failed math check, or a three-way match discrepancy beyond an agreed tolerance, it must route that document to a human review queue rather than guessing.\n\nThink of an airport passport gate; passengers whose chip and photo match cleanly walk straight through in ten seconds, while anyone with a smudged document is directed politely to a border officer's desk.\n\nDesign the review screen so the human sees the original PDF side by side with the extracted fields, with the uncertain field highlighted in amber so they can fix it in five seconds.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_R-Jfxo-TamRK_1",
+          "type": "multiple_choice",
+          "prompt": "How should a document intake workflow handle an invoice where a smudged line item fails the arithmetic cross-check?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Force the system to post the invoice anyway by inventing a random unit price that makes the math balance"
+            },
+            {
+              "id": "b",
+              "text": "Route the invoice to a human review queue with the uncertain field highlighted alongside the original document"
+            },
+            {
+              "id": "c",
+              "text": "Delete the invoice email permanently and hope the supplier never asks for payment"
+            },
+            {
+              "id": "d",
+              "text": "Shut down the entire ERP server until the supplier prints a cleaner invoice"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Routing uncertain or mismatched documents to a clear side-by-side human queue keeps automation safe and fast to supervise.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qDM-MGtnfJOc",
       "title": "Measure accuracy per field, not only overall",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When evaluating a document extraction system, measure accuracy separately for each critical field and for complete end-to-end documents, rather than quoting a single blended accuracy percentage across every word on the page.\n\nIt is like marking a medical prescription; getting the patient's street name, postcode, and date right is no comfort if the dosage number is wrong on 10 percent of forms.\n\nIf an agent extracts nineteen out of twenty fields correctly on every invoice, a vendor might brag about 95 percent field accuracy, yet zero percent of invoices would pass without human correction if the one wrong field is the grand total.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -74,7 +186,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qDM-MGtnfJOc_1",
+          "type": "multiple_choice",
+          "prompt": "Why can a 95 percent average field accuracy score be misleading for an invoice processing agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Accounting software only requires 50 percent of numbers on an invoice to be right"
+            },
+            {
+              "id": "b",
+              "text": "Field accuracy scores only measure how fast the PDF file downloaded from the email server"
+            },
+            {
+              "id": "c",
+              "text": "If one critical field like the total or quantity is wrong on every invoice, nearly every document still fails or needs human repair"
+            },
+            {
+              "id": "d",
+              "text": "Measuring per-field accuracy is impossible without deleting the validation rules"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Tracking per-field accuracy on critical fields alongside full-document straight-through rates shows how well the system actually performs in production.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

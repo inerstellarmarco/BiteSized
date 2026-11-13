@@ -5,86 +5,282 @@
     {
       "id": "bit_smVKmlAJZ-uW",
       "title": "NCBI, Ensembl, UniProt, PDB",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "NCBI, Ensembl, UniProt, and the Protein Data Bank (PDB) are the foundational public repositories that organise global reference data across sequences, genomes, proteins, and three-dimensional molecular structures. Because database schemas, APIs, and cross-reference releases are updated continuously, check the current details when building automated data ingestion connectors.\n\nIt is like a financial intelligence stack where one agency maintains company filings, another maps corporate subsidiaries, a third tracks executive biographies, and a fourth stores architectural blueprints of their factories.\n\nWhen advising clients on biological foundation models, remember that UniProt combines manually curated Swiss-Prot entries with unreviewed TrEMBL predictions of much lower certainty.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_smVKmlAJZ-uW_1",
+          "type": "multiple_choice",
+          "prompt": "Which public database is the primary global repository for experimentally determined three-dimensional macromolecular structures?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Ensembl Genome Browser"
+            },
+            {
+              "id": "b",
+              "text": "PDB (Protein Data Bank)"
+            },
+            {
+              "id": "c",
+              "text": "NCBI dbSNP"
+            },
+            {
+              "id": "d",
+              "text": "GEO (Gene Expression Omnibus)"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "The Protein Data Bank (PDB) archives three-dimensional structural data of proteins and nucleic acids, whereas NCBI and Ensembl focus on genomes/sequences and UniProt focuses on protein sequence and functional annotation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_7XQ2sW-OSR_D",
       "title": "TCGA, GEO, and other public datasets",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The Cancer Genome Atlas (TCGA) and the Gene Expression Omnibus (GEO) are flagship public repositories that host thousands of multi-omics cancer profiles and functional genomics experiments contributed by researchers worldwide. Because repository portals, such as the NCI Genomic Data Commons, update cohort harmonisation pipelines regularly, check the current details before downloading data for a project.\n\nIt is like a public economic archive where TCGA represents a standardised national census across major industries and GEO represents thousands of independent local market surveys uploaded in varying formats.\n\nWhile TCGA offers deeply characterised tumour-normal cohorts, consultants must account for clinical survival biases and heterogeneous treatment histories across contributing hospitals.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7XQ2sW-OSR_D_1",
+          "type": "multiple_choice",
+          "prompt": "How do TCGA and GEO differ in the structure of the public data they provide?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "GEO only stores three-dimensional crystal structures, while TCGA only stores bacterial genomes"
+            },
+            {
+              "id": "b",
+              "text": "TCGA provides a large, systematically harmonised multi-omics cancer cohort, while GEO archives diverse user-submitted functional genomics studies from many experimental designs"
+            },
+            {
+              "id": "c",
+              "text": "TCGA requires no ethical oversight for raw patient reads, while GEO bans all gene expression matrices"
+            },
+            {
+              "id": "d",
+              "text": "GEO and TCGA are commercial software packages for basecalling Nanopore reads"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "TCGA is a flagship consortium dataset profiling cancer types under uniform standards, whereas GEO is a broad repository archiving varied expression and epigenomic studies from independent labs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_STcyxRXl9u8o",
       "title": "What each resource holds: sequences, genes, proteins, and structures",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Navigating biological databases requires knowing which repository holds the authoritative record for each molecular entity: raw and assembled nucleotide sequences live in GenBank, ENA, and DDBJ, gene models and genomic coordinates live in Ensembl and RefSeq, protein sequences and functional domains live in UniProt, and atomic 3D structures live in the PDB. Because database cross-referencing tools evolve, check the current details for identifier mapping services.\n\nIt is like an enterprise data architecture where raw clickstream logs, cleaned customer tables, product catalogues, and CAD engineering drawings each reside in dedicated systems of record.\n\nA critical pitfall in client knowledge-graph projects is identifier drift: mapping a gene symbol to a protein ID to a 3D structure often involves one-to-many relationships across isoforms.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_STcyxRXl9u8o_1",
+          "type": "multiple_choice",
+          "prompt": "Why can mapping a single gene identifier from Ensembl to UniProt and the PDB return multiple records instead of a one-to-one match?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Biological databases randomly duplicate identifiers to fill storage quotas"
+            },
+            {
+              "id": "b",
+              "text": "Ensembl only indexes bacterial genes while UniProt only indexes plant proteins"
+            },
+            {
+              "id": "c",
+              "text": "Every single nucleotide in a gene is assigned its own separate PDB structure file"
+            },
+            {
+              "id": "d",
+              "text": "A single gene can produce multiple splice isoforms and proteins, and each protein may have several partial or conformational structures in the PDB"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Alternative splicing, multiple transcript annotations, and multiple experimental structures per protein create one-to-many mappings across gene, protein, and structure databases.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_LBEESDDhhVG4",
       "title": "Accession IDs and versions: cite them exactly",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An accession identifier with its explicit version suffix, such as `NM_000546.6` for a RefSeq transcript or `ENSG00000141510.18` in Ensembl, uniquely pinpoints the exact state of a biological sequence or annotation record at a specific release. Human-friendly gene symbols like `TP53` change over time and can be shared across different genomic builds, so check the current details for HGNC nomenclature standards.\n\nIt is like citing an immutable software commit hash or semantic version tag (`v2.4.1`) in an audit report rather than just writing \"the latest main branch\".\n\nWhen building reproducible AI pipelines for regulated healthcare clients, always store versioned accession IDs rather than bare gene symbols that spreadsheet software might even autocorrect into calendar dates.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_LBEESDDhhVG4_1",
+          "type": "multiple_choice",
+          "prompt": "Why should bioinformatics pipelines store versioned accession IDs (like `NM_000546.6`) instead of bare gene symbols?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Bare gene symbols take up gigabytes of disk space compared to accession IDs"
+            },
+            {
+              "id": "b",
+              "text": "Linux command-line tools cannot read alphabetic characters in gene symbols"
+            },
+            {
+              "id": "c",
+              "text": "Accession IDs automatically correct sequencing errors inside raw FASTQ files"
+            },
+            {
+              "id": "d",
+              "text": "Versioned accession IDs uniquely identify an exact sequence revision, whereas gene symbols can be ambiguous, change over time, or get corrupted by spreadsheets"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Versioned accessions provide an immutable reference to a specific sequence record and revision, avoiding the ambiguity and instability of informal gene names.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_yp_s8BONYCrq",
       "title": "Controlled-access data needs approval (e.g., dbGaP)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Controlled-access repositories such as NCBI dbGaP and the European Genome-phenome Archive (EGA) restrict individual-level human genomic and phenotypic data to authorised researchers who submit a formal Data Access Request and ethics approval. Because raw germline DNA sequences are inherently identifiable and cannot be fully anonymised by stripping names, check the current details on institutional signing rules and security standards before planning timelines.\n\nIt is like accessing unredacted personal tax returns at a central bank: summary tables are public, but row-level records require vetted legal clearance and audited secure enclaves.\n\nNever upload controlled-access patient data to public cloud buckets or third-party commercial LLM APIs, as doing so violates legal data-use agreements.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_yp_s8BONYCrq_1",
+          "type": "multiple_choice",
+          "prompt": "Why are raw human whole-genome sequencing reads stored in controlled-access repositories like dbGaP rather than open public servers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Individual-level genomic sequences are inherently identifiable and sensitive, requiring ethical oversight and data-use agreements to protect participant privacy"
+            },
+            {
+              "id": "b",
+              "text": "Raw sequencing files are too small to be indexed by standard web search engines"
+            },
+            {
+              "id": "c",
+              "text": "Controlled-access databases charge a per-base royalty to sequence manufacturers"
+            },
+            {
+              "id": "d",
+              "text": "Open public servers cannot store binary files like BAM or CRAM"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because a person's germline DNA uniquely identifies them and their biological relatives, raw human sequencing data requires controlled access to safeguard privacy and honour participant consent.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_SDaSflv8nB9O",
       "title": "Check licences and consent terms",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every biological database and patient cohort is governed by specific licence terms and participant consent restrictions that dictate whether data may be used for commercial AI training, redistributed, or applied to particular disease areas. For instance, some datasets permit only non-commercial academic research or restrict analysis to a single disease via Disease-Specific (DS) consent codes; check the current details for every dataset licence in your pipeline.\n\nIt is like licensing stock photography where a standard editorial licence allows news reporting but prohibits using the images in a commercial advertising campaign or model weights.\n\nAs an AI consultant, always audit dataset licences and consent ontologies before training proprietary models for a corporate client.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_SDaSflv8nB9O_1",
+          "type": "multiple_choice",
+          "prompt": "Why must an AI consultant review both dataset licences and participant consent codes before training a commercial model on biomedical data?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Licences determine the Phred quality score threshold of the sequencing reads"
+            },
+            {
+              "id": "b",
+              "text": "Consent codes specify whether the genome was aligned to GRCh37 or GRCh38"
+            },
+            {
+              "id": "c",
+              "text": "Some datasets restrict commercial use or legally limit analysis to specific disease areas agreed to by participants during informed consent"
+            },
+            {
+              "id": "d",
+              "text": "All biological data is automatically in the public domain with zero restrictions worldwide"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Database licences and human subject consent agreements legally bound permissible uses, often prohibiting commercial redistribution, model training, or off-topic research.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_PE6t3veDfMeU",
       "title": "Public data has batch effects and missing metadata",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Aggregating public datasets from repositories like GEO or the Sequence Read Archive (SRA) gives AI teams massive sample counts, but these collections suffer heavily from cross-study batch effects, inconsistent preprocessing, and incomplete clinical metadata. Different labs use different extraction kits, platforms, reference builds, and free-text labels, so check the current details on repository metadata standards before ingestion.\n\nIt is like merging CRM spreadsheets from fifty acquired businesses where every branch used different currency units, date formats, and custom status codes without a data dictionary.\n\nBefore training foundation models or classifiers on pooled public data, allocate substantial consulting budget to metadata harmonisation, ontology mapping, and cross-study validation so models do not simply memorise lab identity.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PE6t3veDfMeU_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main risk of training a machine learning classifier directly on pooled public datasets from multiple laboratories without careful curation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Public datasets contain too few genes to train a linear regression model"
+            },
+            {
+              "id": "b",
+              "text": "Public repositories automatically strip all nucleotide sequences from uploaded files"
+            },
+            {
+              "id": "c",
+              "text": "Every study in a public repository uses the exact same sequencing machine and reagent lot"
+            },
+            {
+              "id": "d",
+              "text": "The model may learn laboratory-specific batch effects and inconsistent preprocessing differences rather than true biological signals, while unstandardised metadata causes mislabelling"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Pooled public studies vary in wet-lab protocols, platforms, processing pipelines, and metadata naming, which can easily confound machine learning models if not harmonised and validated across independent cohorts.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

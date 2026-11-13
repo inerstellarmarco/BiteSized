@@ -5,62 +5,202 @@
     {
       "id": "bit_-tlABRDd-lE3",
       "title": "Progress and reasoning displays",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a single LLM call takes two seconds, a simple spinner is fine. When an agent takes twenty-five seconds to search three databases, run a calculation and check a policy document, a blank spinning wheel makes users think the app has frozen.\n\nShow a calm, readable progress display of what the agent is doing right now: \"Checking Q3 ledger... Comparing against budget... Drafting summary.\" Let curious users expand a drawer to see the steps taken, while keeping the main view uncluttered.\n\nIt is the pizza tracker showing \"Order received -> In the oven -> Out for delivery\" so you do not phone the shop wondering if they forgot you.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-tlABRDd-lE3_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an agent interface show step-by-step progress rather than a plain spinner on multi-step tasks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the model generate tokens twice as fast on the server"
+            },
+            {
+              "id": "b",
+              "text": "Users enjoy reading raw stack traces and memory addresses"
+            },
+            {
+              "id": "c",
+              "text": "It reassures the user that the system is working and shows what stage the agent has reached during longer waits"
+            },
+            {
+              "id": "d",
+              "text": "Spinners are no longer supported by modern web browsers"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Visible progress steps turn an anxious, opaque wait into a transparent process the user can follow and trust.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_yHUIZFLPjRr3",
       "title": "Streaming status and long-running task UX",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Agent tasks fall into three time bands, and each needs a different user experience.\n\nUnder **5 seconds**, stream the tokens of the reply directly onto the screen so the user can start reading immediately. Between **5 and 60 seconds**, stream live step updates (\"Searching 14 contracts...\") with a Cancel button so the user can stop a misunderstood request early. Over **1 minute**, do not make the user stare at the tab at all: move the job to a background task list and let them carry on with other work until it finishes.\n\nIt is the difference between waiting at the espresso bar, taking a table buzzer, and having furniture delivered tomorrow with a text alert.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_yHUIZFLPjRr3_1",
+          "type": "multiple_choice",
+          "prompt": "How should the interface handle a task that takes several minutes to complete?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Freeze the screen with no buttons until it finishes"
+            },
+            {
+              "id": "b",
+              "text": "Run it in the background with a visible status tracker and a cancel option so the user can do other work without keeping the tab open"
+            },
+            {
+              "id": "c",
+              "text": "Time out and delete the work after thirty seconds"
+            },
+            {
+              "id": "d",
+              "text": "Force the user to click a button every ten seconds to keep it alive"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Matching the UX pattern to task duration respects the user's time and prevents lost work when someone switches tabs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_C2JBMU2vLC5v",
       "title": "Showing sources and actions taken",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Users trust an agent when they can verify its claims and see what it touched in one click.\n\nEvery factual answer should link its claims to the exact source document, page or database record it came from, ideally opening the highlighted passage in a side panel when clicked. Every action-taking run should display a clear activity receipt: which tools were called, which records were created or updated, and links to open those records in the underlying system (such as the CRM or ticketing tool).\n\nIt is an itemised till receipt that shows each item scanned and the exact change given, rather than a handwritten total on a scrap of paper.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_C2JBMU2vLC5v_1",
+          "type": "multiple_choice",
+          "prompt": "What two pieces of evidence should an agent interface surface alongside its final output?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Clickable links to the source documents behind its claims and a clear receipt of any tool actions or record changes it made"
+            },
+            {
+              "id": "b",
+              "text": "The model's internal neural network weights and the server's electricity bill"
+            },
+            {
+              "id": "c",
+              "text": "Only a thumbs-up icon with no links"
+            },
+            {
+              "id": "d",
+              "text": "A list of random websites found on the internet"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Source citations and action receipts let users verify facts and audit changes in seconds.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hQE7NBFgQ9iZ",
       "title": "Chat is not always the right interface",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Because ChatGPT launched as a chat box, many teams default to building every AI feature as a blank chat window with a flashing cursor. Often that is the worst possible interface for the job.\n\nBusy staff do not want to type a three-sentence prompt every time they open an invoice. They want the AI to pre-fill the form fields, highlight the two unusual clauses in yellow on the PDF, and give them three one-click buttons: `Approve`, `Flag discrepancy` or `Ask supplier`.\n\nIt is a car's automatic gearbox and parking sensors built into the dashboard, rather than a keyboard on the steering wheel asking you to type driving instructions.\n\nEmbed AI into the workflow screen where the work already happens.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hQE7NBFgQ9iZ_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a blank chat box often the wrong interface for a business AI tool?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Users doing repetitive work prefer pre-filled fields, inline highlights and one-click actions inside their existing screen over typing prompts from scratch"
+            },
+            {
+              "id": "b",
+              "text": "Chat boxes cannot display English text"
+            },
+            {
+              "id": "c",
+              "text": "Buttons and forms cost ten times more tokens than chat"
+            },
+            {
+              "id": "d",
+              "text": "Nobody knows how to use a button on a webpage"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Good agent UX meets users inside their task with structured controls, saving chat for open-ended questions and exceptions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_MU72M2oBPCl5",
       "title": "Notifying people when a background task finishes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a long research, audit or batch job runs in the background, the user has moved on to another tab or another job. A finished report sitting silently in a hidden screen helps nobody.\n\nDesign a clean completion notification through the channel the user actually watches: an in-app badge, an email summary, a Slack or Teams message, or a mobile push notification. Include a two-line summary of the outcome (\"Q3 audit complete: 48 passed, 2 flagged for review\") and a direct deep link that opens the finished result or the pending approval card.\n\nIt is the washing machine beeping when the cycle finishes instead of leaving the wet laundry sitting inside all weekend.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_MU72M2oBPCl5_1",
+          "type": "multiple_choice",
+          "prompt": "What should a background-task completion notification include?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The entire 30-page report pasted into a phone alert"
+            },
+            {
+              "id": "b",
+              "text": "Only the word \"Done\" with no link or context"
+            },
+            {
+              "id": "c",
+              "text": "A brief summary of the outcome (including any items needing attention) and a direct link to open the result"
+            },
+            {
+              "id": "d",
+              "text": "Notifications every three seconds while the task is still running"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Concise outcome summaries with a direct deep link bring the user smoothly back to review or approve the finished work.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

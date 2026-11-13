@@ -5,8 +5,8 @@
     {
       "id": "bit_Qg-uJtDFhBeX",
       "title": "Latent space geometry",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A latent space is the internal multi-dimensional coordinate system where a trained neural network represents complex inputs like documents, images, or customer profiles as dense vectors. In a well-structured latent space, the geometry itself carries meaning: similar concepts cluster in neighbourhoods, and directions between points often capture consistent semantic relationships.\n\nIt is like a city map where all the financial firms cluster in one district, all the theatres sit in another, and walking north always takes you towards higher-end shops.\n\nWhen a client builds a semantic search engine or clustering dashboard, they are relying directly on this geometry so that nearby vectors correspond to relevant business records. However, raw distances in high-dimensional spaces can be counter-intuitive, so engineers typically normalise vectors to unit length and compare angles using cosine similarity rather than raw straight-line distance.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,55 +19,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Qg-uJtDFhBeX_1",
+          "type": "multiple_choice",
+          "prompt": "What does it mean when a neural network has learned a meaningful latent space geometry?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Semantically similar inputs map to nearby vectors and spatial directions reflect real relationships"
+            },
+            {
+              "id": "b",
+              "text": "Every input vector has the exact same numerical coordinates as its raw file size in bytes"
+            },
+            {
+              "id": "c",
+              "text": "The vectors are arranged in alphabetical order according to the file names on disk"
+            },
+            {
+              "id": "d",
+              "text": "The latent space contains only two dimensions so humans can view it without projection"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Good representation learning organises the hidden vector space so proximity and direction correspond to genuine conceptual similarity in the domain.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TfCKzaErMjoO",
       "title": "Self-supervised learning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Self-supervised learning is a training paradigm where a model learns rich internal representations from raw, unlabelled data by generating its own supervisory targets directly from the input itself. Rather than paying human annotators to label millions of examples, the system hides or transforms part of the data and trains the network to recover or match the missing information.\n\nThink of a language student who covers up the last word of every sentence in a novel and tries to guess it before uncovering the page to check the answer.\n\nOnce this pretraining stage finishes, the model already understands the structure of the domain and can be adapted to specific client tasks using only a tiny amount of labelled data. The caveat is that self-supervised pretraining still absorbs any biases or blind spots present in the raw corpus.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TfCKzaErMjoO_1",
+          "type": "multiple_choice",
+          "prompt": "Where do the training targets come from in self-supervised learning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They are written manually by domain experts before every training epoch"
+            },
+            {
+              "id": "b",
+              "text": "They are imported from a pre-existing rule-based expert system"
+            },
+            {
+              "id": "c",
+              "text": "They are derived automatically from the structure of the unlabelled input data itself"
+            },
+            {
+              "id": "d",
+              "text": "They are generated randomly without any connection to the input features"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Self-supervised methods turn unlabelled data into supervised tasks by withholding or augmenting parts of the input and asking the network to predict or match them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_XsJgdEvZ-rLx",
       "title": "Pretext tasks: masking, predicting the next item, and matching views",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A pretext task is the synthetic puzzle a self-supervised model solves during pretraining so that it is forced to learn useful representations along the way. Common pretext tasks include masking random words or image patches and reconstructing them, predicting the next token in a sequence, or creating two cropped and recoloured views of the same image and training the network to recognise that they show the same object.\n\nIt is like practising scales and sight-reading in music: the exercises are not the concert piece itself, but mastering them builds the skill needed to play any song later.\n\nThe choice of pretext task shapes what the representation is good at. Models trained to predict the next token excel at open-ended generation, whereas models trained with bidirectional masking or contrastive view matching often produce stronger embeddings for retrieval and classification.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XsJgdEvZ-rLx_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a pretext task useful even when a business has no direct need to solve that exact puzzle in production?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Pretext tasks reduce the number of parameters in the model by ninety per cent"
+            },
+            {
+              "id": "b",
+              "text": "Pretext tasks guarantee that the model will never make errors on out-of-distribution data"
+            },
+            {
+              "id": "c",
+              "text": "Solving the puzzle encrypts the training data so competitors cannot read the weights"
+            },
+            {
+              "id": "d",
+              "text": "Solving the puzzle forces the network to learn generalisable features that transfer to real downstream tasks"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The pretext objective is a means to an end: to predict masked pieces or match augmented views accurately, the network must build a deep internal representation of the domain.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wwiZ5dPqH8ax",
       "title": "Why self-supervised learning scales: no labels needed",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Traditional supervised learning hits a hard ceiling because human labelling is slow, expensive, and difficult to scale across millions of examples, especially in specialised fields like law, medicine, or industrial telemetry. Self-supervised learning breaks through this bottleneck because the training signal is free once you have collected the raw text, audio, code, or sensor streams.\n\nImagine trying to teach a child about the world only through flash cards that a parent sits down and labels by hand, compared with letting the child observe millions of everyday interactions directly.\n\nBecause no human annotation budget restricts the dataset size, teams can scale training runs from thousands of examples to trillions of tokens, which is the foundation of modern foundation models. For most consulting clients, this means you rarely pretrain from scratch; instead, you start from a self-supervised base model and spend your budget on curated task data.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wwiZ5dPqH8ax_1",
+          "type": "multiple_choice",
+          "prompt": "Why was the shift from supervised pretraining to self-supervised pretraining critical for modern foundation models?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It allowed neural networks to be trained on standard office laptops without GPUs"
+            },
+            {
+              "id": "b",
+              "text": "It eliminated the need for backpropagation and gradient descent optimisers"
+            },
+            {
+              "id": "c",
+              "text": "It guaranteed that training datasets contain zero factual errors or duplicate records"
+            },
+            {
+              "id": "d",
+              "text": "It removed the human labelling bottleneck, allowing models to train on vast quantities of raw data"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Without needing paid human labels for every training step, researchers could scale pretraining corpora by orders of magnitude to unlock broad capabilities.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6ZP69Gf772Sn",
       "title": "Evaluating representations with simple probes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A linear probe is a fast, disciplined way to test the quality of a frozen model's learned representations: you lock all the pretrained network weights and train only a single simple linear classifier on top of the extracted embeddings for a labelled target task. If the frozen embeddings already separate the classes cleanly, even a basic linear layer will achieve high accuracy.\n\nIt is like judging how well a kitchen team has prepped the ingredients by seeing whether an apprentice can assemble a great dish in five minutes without doing any extra chopping.\n\nUsing a simple probe ensures you are measuring the quality of the representation itself rather than the learning capacity of a complex downstream head. When evaluating candidate embedding models for a client's document classification pipeline, running a quick linear probe on a few hundred examples lets you compare models cheaply before committing to full fine-tuning.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6ZP69Gf772Sn_1",
+          "type": "multiple_choice",
+          "prompt": "Why must the pretrained backbone weights remain frozen when evaluating representations with a linear probe?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So the test measures the information already captured in the embeddings rather than learning features from scratch"
+            },
+            {
+              "id": "b",
+              "text": "Because updating backbone weights during a probe would delete the test set from disk"
+            },
+            {
+              "id": "c",
+              "text": "Because linear layers cannot receive gradients if earlier layers are also trainable"
+            },
+            {
+              "id": "d",
+              "text": "So that the linear probe can increase the dimensionality of the input images"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Freezing the encoder isolates the quality of the existing representation; if a simple linear layer succeeds, the features are already linearly separable and well organised.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

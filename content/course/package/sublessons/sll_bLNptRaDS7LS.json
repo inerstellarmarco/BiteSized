@@ -5,8 +5,8 @@
     {
       "id": "bit_S1HxJ9VEz_iz",
       "title": "Ground truth sets",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A ground truth (or \"golden\") dataset is a curated collection of test inputs where each input is paired with the verified right answer, expected tool calls or required facts that a correct response must contain.\n\nFor a SQL agent, an item in the ground truth set might pair the question \"What was Q2 revenue in Scotland?\" with the verified figure `£142,800` and the reference query. For a RAG assistant, it pairs the question with the exact source chunk IDs that hold the answer and the key facts the reply must state.\n\nIt is the master calibration weight that a trading-standards inspector puts on a shop's scales to check they read true.\n\nGuard your golden set carefully and keep it in version control.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,67 +19,235 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_S1HxJ9VEz_iz_1",
+          "type": "multiple_choice",
+          "prompt": "What is a ground truth (\"golden\") evaluation dataset?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The raw unlabelled internet text used to pre-train a foundation model"
+            },
+            {
+              "id": "b",
+              "text": "A curated set of test inputs paired with verified reference answers, facts or expected actions used to score the system"
+            },
+            {
+              "id": "c",
+              "text": "A list of user passwords stored in plain text"
+            },
+            {
+              "id": "d",
+              "text": "Whatever the model happened to output on its very first run"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A golden set provides trusted reference targets against which every new version of your system can be measured.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_VqdB-PIfy9Q-",
       "title": "Synthetic data generation for test scenarios",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before your app goes live, or when you want to test rare edge cases, you may not have enough real user logs yet. **Synthetic data generation** uses a strong language model to generate realistic test inputs and scenarios from your documents and rules.\n\nTo get realistic variety rather than fifty bland, identical questions, generate across controlled dimensions: take each chunk of your knowledge base, pair it with a persona (impatient customer, confused newcomer, detail-oriented auditor) and a scenario type (multi-hop question, missing-info question, typo-filled message) and ask the generator for test pairs.\n\nIt is a theatre director writing role-play cards for mystery shoppers before the shop opens to the public.\n\nAlways have a human review synthetic gold answers before trusting them in your suite.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_VqdB-PIfy9Q-_1",
+          "type": "multiple_choice",
+          "prompt": "How do you stop synthetic test data from being repetitive and unrealistically polite?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Vary the generation inputs across real source documents, diverse user personas and specific edge-case scenarios, then review the results"
+            },
+            {
+              "id": "b",
+              "text": "Ask one prompt to \"write 100 questions\" in a single call with no context"
+            },
+            {
+              "id": "c",
+              "text": "Never look at the generated questions before running them"
+            },
+            {
+              "id": "d",
+              "text": "Use only one-word questions"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Conditioning synthetic generation on real documents, varied personas and failure scenarios produces realistic breadth, and human review keeps the labels accurate.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_u0piTYgWmNWJ",
       "title": "Error analysis from real traces",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The richest source of evaluation cases is not your imagination; it is looking at real production traces where your system struggled.\n\n**Error analysis** is a simple, disciplined habit. Pull fifty to a hundred real traces from logs, read them one by one in a spreadsheet, note where the output was wrong or clumsy, and group the failures into plain-English categories: \"Picked the wrong product year\", \"Ignored negation in the query\", \"Tool returned empty and agent guessed\".\n\nIt is a football coach watching the match video on Monday morning and tallying where goals were conceded rather than guessing what to practise.\n\nCounting the failure categories tells you instantly which fix will move the needle most.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_u0piTYgWmNWJ_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you read and categorise a sample of real failure traces before deciding what to improve?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It shows you which failure modes actually happen most often in practice, so you fix the biggest real problems first"
+            },
+            {
+              "id": "b",
+              "text": "It takes longer than guessing and gives no useful numbers"
+            },
+            {
+              "id": "c",
+              "text": "Models automatically fix their own prompts when you open a spreadsheet"
+            },
+            {
+              "id": "d",
+              "text": "Error analysis is only for systems that have zero users"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Categorising and counting real failures replaces hunches with a ranked list of what is actually hurting users.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_kc-n9aMcyoe4",
       "title": "Human labelling workflows and inter-annotator agreement",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When human domain experts (such as lawyers, doctors or senior support leads) label your golden dataset or grade sample outputs, two experts will sometimes disagree on what counts as a pass.\n\nIf Expert A and Expert B only agree on 60 per cent of cases, no AI system or automated judge can ever score well against their labels because the target itself is fuzzy. Measure **inter-annotator agreement** by having two people independently grade the same batch of thirty items. Where they disagree, sit down together, tighten the written grading rubric until both experts score consistently, and only then label the rest.\n\nIt is two gymnastics judges agreeing the exact deduction rules before the competition starts.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kc-n9aMcyoe4_1",
+          "type": "multiple_choice",
+          "prompt": "What does low agreement between two human labellers tell you?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "That the AI model has suddenly become sentient"
+            },
+            {
+              "id": "b",
+              "text": "That you should delete all test cases and stop evaluating"
+            },
+            {
+              "id": "c",
+              "text": "That human domain experts know nothing about their job"
+            },
+            {
+              "id": "d",
+              "text": "That your grading rubric or task definition is ambiguous and needs clarifying before you can trust the labels"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "If two qualified humans cannot agree on pass or fail using your instructions, the instructions themselves are too vague.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_vNNurM-611Kq",
       "title": "Covering normal cases, edge cases, and attacks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A balanced evaluation dataset needs three distinct buckets of test cases so you do not optimise for one at the expense of the others.\n\n**Normal (\"happy path\") cases** cover the everyday questions that make up 80 per cent of real traffic. **Edge cases** cover tricky but legitimate situations: ambiguous names, questions whose answer is \"not in the documents\", multi-part queries, huge tables and grumpy typos. **Adversarial / attack cases** test safety boundaries: prompt injections, requests for another user's data and attempts to trigger unauthorized tool calls.\n\nIt is testing a bridge under weekday commuter traffic, a winter storm and a deliberate overload check.\n\nReport scores for each bucket separately so a high happy-path score never hides a broken safety check.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vNNurM-611Kq_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an evaluation dataset include happy-path cases, edge cases and adversarial attacks in separate buckets?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So you verify that everyday requests work well, tricky boundary cases are handled cleanly and safety defences hold up"
+            },
+            {
+              "id": "b",
+              "text": "Because adversarial attacks are the only messages real users ever send"
+            },
+            {
+              "id": "c",
+              "text": "So you can average all three into one number and ignore safety failures"
+            },
+            {
+              "id": "d",
+              "text": "Because happy-path cases never break when you edit a prompt"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Separate buckets ensure a change that improves edge-case handling or safety does not break routine work, and vice versa.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5QVJjvzamtKe",
       "title": "Every real failure becomes a new test case",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Treat every bug reported by a user or caught in production logs as a gift to your evaluation suite.\n\nFollow the standard software engineering rule for regressions: before you edit the prompt, tool or retrieval code to fix the bug, copy the exact failing input and context into your offline evaluation dataset with a test that fails today. Then make your fix, confirm the new test passes, and confirm none of the existing tests broke.\n\nIt is a vaccine: once the system has encountered and beaten a real bug, that exact bug is locked into the test suite so it can never quietly return.\n\nOver a few months, your eval set becomes an institutional memory of every real trap in your domain.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5QVJjvzamtKe_1",
+          "type": "multiple_choice",
+          "prompt": "What should you do whenever a real user hits a failure in production?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Fix it quickly in production and delete the log so nobody sees it"
+            },
+            {
+              "id": "b",
+              "text": "Ask the user never to type that question again"
+            },
+            {
+              "id": "c",
+              "text": "Replace your entire evaluation dataset with only that one question"
+            },
+            {
+              "id": "d",
+              "text": "Add that failing scenario to your offline evaluation dataset before fixing it, so it is tested on every future change"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Turning every production bug into a permanent regression test stops old bugs from creeping back in months later.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,404 @@
+// B9 Agentic Workflow Patterns
+@@ sll_aePXNNNyXwXf | B9.1 Sequential & Routing Patterns > Prompt Chaining Workflows
+## Gated assembly-line pipelines
+A prompt chain is a fixed sequence of model calls where the output of step one becomes the input to step two, with code checks ("gates") between them.
+
+Suppose a client wants weekly customer call summaries turned into CRM notes and follow-up emails. Step one extracts the agreed actions from the transcript. A gate checks that the JSON is valid and every action has an owner. Step two drafts the follow-up email from those verified actions.
+
+It is a factory assembly line where each station does one job and inspects the part before passing it along.
+
+Unlike an open-ended agent, the path is fixed in code.
+?? How does a gated prompt chain work?
++ A fixed sequence of model steps runs in order, with code checks inspecting each output before the next step runs
+- One model call decides at random which tools to invent
+- Every step runs at the same time without sharing data
+- The user writes the code between each step by hand
+= Prompt chaining links focused model calls in a set order, with gates verifying intermediate results.
+## When chaining beats a single prompt
+You might wonder why not put all the instructions into one big prompt and make a single call.
+
+When a prompt tries to extract data, check compliance rules, translate terminology and polish tone all at once, the model drops rules in the middle. Splitting the job into a chain gives each call one narrow focus, a shorter instruction list and only the context that step actually needs.
+
+It is asking a colleague to first agree the numbers for a proposal, and only then write the cover letter, instead of doing both in one rushed draft.
+
+Chaining also lets you use a cheap model for easy steps and a stronger model only where needed.
+?? Why does splitting a complex job into a prompt chain often beat one giant prompt?
++ Each call gets a narrow focus and shorter instructions, so fewer rules are dropped along the way
+- Three calls always run faster than one call
+- Models refuse prompts longer than a hundred words
+- Chaining removes the need for any instructions
+= Narrow steps follow instructions more reliably and let you match the model size to each step's difficulty.
+## Gates: checks between steps that stop bad work early
+A gate is a check in your code that sits between two steps in a chain and decides whether the output is good enough to pass forward.
+
+Gates are usually simple, deterministic rules: did the JSON parse, are all required fields present, do the quoted figures exist in the source text, is the draft within the word limit? If a gate fails, your code can retry that single step, fall back to a safer path or stop early before wasting money on later steps.
+
+It is airport security checking your boarding pass before you walk all the way to the departure gate.
+
+Stopping a bad output at step one saves every downstream step from building on rubbish.
+?? What is the role of a gate between two steps in a prompt chain?
++ To verify the output of one step before spending time and money on the next step
+- To slow the pipeline down so users wait longer
+- To encrypt the database password
+- To replace all model calls with random numbers
+= Gates catch malformed or invalid intermediate outputs early, so errors do not cascade down the chain.
+## The trade-off: more reliable, but slower
+Prompt chaining is not free. Because step two cannot start until step one finishes, the waiting times add up.
+
+Four sequential calls that each take three seconds mean the user waits at least twelve seconds for an answer. You also pay for input tokens on every step, although each prompt is usually smaller and cleaner than one giant mega-prompt.
+
+It is sending a document through three people for sign-off: the result is safer, but it will not be back on your desk in five minutes.
+
+Use a chain when reliability and inspectable intermediate outputs matter more than an instant reply.
+?? What is the main drawback of a sequential prompt chain?
++ Latency adds up across steps because each call must wait for the previous one to finish
+- It makes every step impossible to test on its own
+- It cannot produce structured outputs
+- It always lowers accuracy compared with a single prompt
+= Running steps one after another increases total wait time, trading speed for reliability and control.
+
+@@ sll_p-LBRoWhLx8Y | B9.1 Sequential & Routing Patterns > Routing
+## Agentic router
+A router is a component at the front of a workflow that reads an incoming request, classifies what kind of job it is and sends it down the appropriate path.
+
+When a customer messages a bank's assistant, a billing dispute, a lost card and a mortgage enquiry need completely different prompts, tools and safety rules. The router decides which lane the message belongs to and hands it over.
+
+It is a hospital triage nurse who assesses each patient at the door and directs them to X-ray, minor injuries or resuscitation.
+
+Without a router, one bloated prompt has to carry instructions and tools for every possible topic.
+?? What does a router do at the start of an AI workflow?
++ It classifies the incoming request and directs it to the prompt, tools or workflow built for that case
+- It answers every question itself without using any other step
+- It deletes messages that arrive outside office hours
+- It trains a new foundation model for each user
+= Routing separates classification from execution so each downstream path stays focused on one job.
+## Multi-provider routing
+Multi-provider routing means your router can send requests not just to different prompts, but to models from different AI providers.
+
+You might route long-document analysis to a model with a huge context window, coding tasks to the strongest code model, and high-volume classification to a fast, cheap model hosted by another provider. It also gives you a live fallback if one provider suffers an outage.
+
+It is a logistics manager who sends overnight parcels with one courier and heavy pallets with another.
+
+Keep a thin adapter layer in code so switching a route's provider is a configuration change, not a rewrite.
+?? What are two practical benefits of multi-provider routing?
++ Matching each task to the provider best suited to it and falling back cleanly when one provider has an outage
+- Paying twice for every single token
+- Forcing users to create accounts with five AI companies
+- Removing the need for API keys
+= Multi-provider routing lets you pick the best model per task and keeps your service running if one vendor goes down.
+## Classifier vs. LLM-based routers
+Not every router needs to be a generative language model.
+
+If you have ten fixed categories and thousands of past examples, a small traditional classifier or an embedding similarity check can route requests in a few milliseconds for a fraction of a penny. An LLM router is slower and dearer, but works straight away with zero training data and handles nuanced instructions or brand-new categories easily.
+
+It is an automatic coin sorter versus a human cashier: the machine is faster for standard coins, while the person handles foreign notes and damaged cheques.
+
+Many teams start with an LLM router on day one, then distil high-volume routes into a small classifier later.
+?? When is a small traditional classifier a better router than a full LLM call?
++ When categories are fixed, traffic is high and you have labelled examples to train a fast, cheap model
+- On day one when you have no examples and the categories keep changing
+- When the router also needs to write a three-page essay
+- When latency and cost do not matter at all
+= A dedicated classifier is much faster and cheaper at scale once categories are stable and training data exists.
+## Sending each request to the right specialist
+Once the router picks a category, the request goes to a specialist prompt or agent built solely for that category.
+
+A refund specialist prompt knows your return policy, has the order-lookup and refund tools, and speaks in a calm service tone. A technical troubleshooting specialist has the product manual search tool and asks diagnostic questions. Neither specialist is distracted by the other's rules or tools.
+
+It is being transferred to the claims department rather than explaining your car accident to the renewals clerk.
+
+Specialist prompts are shorter, cheaper per call, easier to test and much less likely to call the wrong tool.
+?? Why do specialist downstream prompts perform better than one general prompt for everything?
++ Each specialist carries only the instructions, examples and tools relevant to its specific job
+- Specialist prompts do not need to read the user's message
+- They run without an internet connection
+- One specialist can only answer one user per week
+= Stripping out irrelevant rules and tools keeps each specialist prompt sharp, cheap and easy to test.
+## Easy requests to cheap models, hard ones to strong models
+Routing is one of the easiest ways to cut a client's AI bill without hurting quality.
+
+In most business workloads, 70 to 80 per cent of incoming items are straightforward: standard invoices, routine FAQs or simple status checks. A small, fast model handles these just as well as a frontier model at a tenth of the price. The router sends only the tricky 20 per cent, such as disputed contracts or ambiguous complaints, to the expensive model.
+
+It is a GP surgery where routine blood-pressure checks go to the practice nurse and complex diagnoses go to the senior partner.
+
+Measure accuracy on both tiers so you know the cheap route is genuinely safe.
+?? How does difficulty-based routing reduce cost without lowering overall quality?
++ A fast, cheap model handles the routine majority of requests while the expensive model is reserved for hard cases
+- Every request is sent to the cheapest model regardless of difficulty
+- The expensive model is called twice on every easy question
+- Hard requests are thrown away without an answer
+= Matching model price and power to the difficulty of each request saves budget for the cases that actually need a top model.
+## A fallback route for requests that fit nowhere
+Real users will always send messages that fit none of your neat categories: gibberish, two questions in one, a topic your product does not cover, or a prompt-injection attempt.
+
+If you force the router to pick one of five specialist lanes anyway, the message lands in the wrong specialist and produces a baffling reply. Always give the router an explicit `other` or `unclear` route.
+
+It is the enquiries desk at a council office for visitors whose problem does not match any of the numbered queues.
+
+The fallback route can ask a polite clarifying question, state what the assistant can help with, or hand the conversation to a human.
+?? Why must every router have an explicit fallback or "other" route?
++ So requests that are unclear or out of scope are handled gracefully instead of being forced into the wrong specialist
+- Because routers require an even number of categories to run
+- So the system can silently ignore half of all users
+- To make every prompt twice as long
+= An explicit fallback stops out-of-scope or ambiguous messages from being misrouted to a specialist that cannot handle them.
+
+@@ sll_tgVlFr6iXLZZ | B9.2 Parallel Patterns > Parallelization
+## Sectioning
+Sectioning is breaking a task into independent pieces and running them at the same time in separate model calls.
+
+Suppose a compliance tool needs to check a thirty-page contract against four separate rulebooks: data protection, payment terms, liability caps and termination rights. Instead of one huge call checking all four at once, you run four smaller calls in parallel, each checking the contract against one rulebook.
+
+It is four proofreaders checking the same report at the same time: one for numbers, one for names, one for legal terms and one for layout.
+
+Each call is simpler and more thorough, and the whole check finishes in the time of the slowest single call.
+?? What is sectioning in a parallel AI workflow?
++ Splitting a job into independent aspects or chunks and running them simultaneously in separate calls
+- Running one prompt four times in a row on the same thread
+- Deleting three quarters of the input document to save time
+- Asking the user to split their question into four emails
+= Sectioning divides work into separate, focused calls that run concurrently for better speed and attention.
+## Async fan-out and fan-in
+In code, parallelization follows a fan-out and fan-in pattern using asynchronous calls.
+
+Fan-out launches all the parallel requests at once without waiting for the first to finish before starting the second. In Python this is `asyncio.gather`; in TypeScript it is `Promise.all`. Fan-in waits until all of those calls return and collects their outputs into a list for the next step.
+
+It is a waiter taking orders from all six people at a table, sending the tickets to the kitchen together and bringing the plates out when all six are ready.
+
+Always set a timeout and handle partial failures so one stalled call does not freeze the whole batch.
+?? What do "fan-out" and "fan-in" mean in an asynchronous workflow?
++ Launching multiple requests concurrently and then collecting all their results when they finish
+- Turning the server cooling fans on and off
+- Sending one request to the model and deleting the reply
+- Running every request one after another on a single thread
+= Fan-out dispatches independent tasks in parallel, and fan-in gathers their outputs once they complete.
+## Only independent tasks can run in parallel
+Parallelization only works when the tasks do not need each other's outputs.
+
+You can summarise five different interview transcripts in parallel because transcript B does not depend on what was said in transcript A. You cannot run "extract the customer's question" and "draft the answer to that question" in parallel, because the second step needs the output of the first.
+
+It is cooking dinner: you can boil the potatoes and roast the carrots at the same time, but you cannot mash the potatoes while they are still raw in the pan.
+
+Before parallelising, draw the dependency arrows. Only steps with no arrow between them can run side by side.
+?? Which pair of tasks can safely run in parallel?
++ Summarising five separate customer call transcripts at the same time
+- Looking up a customer's email address and sending an email to that address
+- Writing a draft report and proofreading that same draft
+- Running a database query and plotting the numbers it returns
+= Tasks can run in parallel only when neither step requires the output produced by the other.
+## Merging results into one answer
+After parallel calls finish, you have a list of separate outputs that need to become one coherent result for the user.
+
+Sometimes code alone can merge them: concatenating extracted rows into one table, or taking the `true/false` flags from four guardrails and blocking the message if any flag is `true`. When the outputs are prose, such as four regional summaries, a final synthesis model call reads the four pieces, removes repetition and writes one unified report.
+
+It is an editor taking reports from four correspondents and weaving them into a single front-page article.
+
+Keep the synthesis prompt strict so it combines the findings without inventing new ones.
+?? When can your code merge parallel outputs directly without an extra model call?
++ When the outputs are structured items such as table rows, scores or pass/fail flags
+- When four different essay drafts need to be rewritten into one narrative voice
+- Never, because code cannot combine lists
+- Always, even when contradictory paragraphs must be reconciled in prose
+= Structured results like lists, counts and boolean checks can be combined deterministically in code, saving a model call.
+## Faster, but not cheaper
+Running five calls in parallel cuts the user's waiting time from fifteen seconds to three, which feels magical in a live app.
+
+However, it does not reduce token consumption. Five parallel calls still send five prompts and generate five replies, and if a synthesis call sits at the end, you pay for six calls in total. It can also hit provider rate limits much faster than sequential calls because all requests arrive in the same second.
+
+It is hiring five painters for one day instead of one painter for five days: the room is ready tonight, but you still pay for five days of labour.
+
+Use concurrency semaphore limits in code so a batch job does not flood your API quota.
+?? How does running five model calls in parallel affect wall-clock time and total token cost?
++ It cuts wall-clock wait time down towards a single call's duration, while total token cost stays at five calls or more
+- It makes five calls cost the same as one call
+- It makes the user wait five times longer
+- It bypasses API rate limits completely
+= Parallel execution saves waiting time for the user, but every parallel call still consumes its full share of tokens and rate-limit quota.
+
+@@ sll_6Gh5XQj4zoi9 | B9.2 Parallel Patterns > Consensus Building
+## Voting
+Voting runs the same question through multiple parallel calls and picks the answer that appears most often.
+
+Suppose you need to classify a tricky support ticket or solve a multi-step calculation where a single run gets it right 80 per cent of the time. Running three independent calls and taking the majority answer pushes accuracy noticeably higher, because two runs are less likely to make the exact same random slip at once.
+
+It is asking three surveyors to measure a boundary and trusting the figure that two or three of them agree on.
+
+Voting works best when the output is a discrete choice, a number or a clear category that code can compare.
+?? Why does majority voting across several runs improve accuracy on hard tasks?
++ Independent runs are less likely to make the exact same mistake at the same time
+- The model charges nothing for the second and third runs
+- Voting turns a free-text essay into a database table automatically
+- A single model run always gives the wrong answer on purpose
+= When single runs succeed most of the time, taking the majority vote filters out occasional random slips.
+## Ensembles to reduce hallucination
+An ensemble combines several model runs to cross-check claims and strip out hallucinations.
+
+In a high-stakes medical or legal summary, you might ask three calls to extract the key facts from a document, then keep only the facts that appear in at least two of the three outputs, or have a verifier check any claim where the runs disagree.
+
+It is a newsroom rule requiring two independent sources before printing a sensitive story.
+
+Disagreement between runs is itself a valuable signal. When three runs give three different numbers for the same invoice total, your code knows immediately to flag that invoice for a human rather than guessing.
+?? What does disagreement across an ensemble of model runs tell your system?
++ That the answer is uncertain and should be verified or flagged for human review
+- That all three answers are definitely correct
+- That the source document is empty
+- That the user should be billed three times
+= When multiple runs disagree on a fact or figure, it is a strong warning signal not to trust any single output blindly.
+## Different models or prompts give more independent votes
+If you run the exact same prompt three times on the exact same model at low temperature, you will get the exact same mistake three times. That is not a real vote.
+
+To get genuinely independent opinions, vary the setup across the ensemble. Use models from different families, or give each call a differently worded prompt and persona, such as one cautious financial analyst and one sceptical legal reviewer.
+
+It is asking three people from different departments to check a plan, rather than asking one person the same question three times in a row.
+
+True diversity reduces correlated blind spots, where one model family consistently misreads a particular phrasing.
+?? Why is calling two different models better for voting than calling the same model twice at temperature zero?
++ Identical calls at temperature zero share the same biases and repeat the exact same mistake
+- Different models are always free to call
+- Temperature zero produces completely random text
+- Calling two models takes zero network time
+= Votes only protect against errors when the voters are independent enough not to fail in the exact same way.
+## When the cost of several runs is worth it
+Running three or five models for one answer multiplies your token bill by three or five. For everyday chat or internal notes, that is pure waste.
+
+Consensus patterns earn their keep where a single mistake costs far more than a few pence of API calls: extracting figures from financial filings, screening contracts for dangerous clauses, grading high-stakes assessments, or generating gold-standard labels for an evaluation dataset.
+
+It is paying for a second medical opinion before major surgery, not before buying plasters for a grazed knee.
+
+Even in high-stakes workflows, you can save money by running a second vote only when the first model's output triggers a risk rule.
+?? In which situation is the extra cost of a multi-model consensus workflow justified?
++ High-stakes tasks where the business cost of a single error is much greater than the extra API calls
+- Generating casual greetings at the start of a chat
+- Reformatting a shopping list for personal use
+- Every single turn of a free public chatbot
+= Multi-run consensus multiplies token cost, so save it for decisions where mistakes are expensive or dangerous.
+
+@@ sll_x3E1JP-e23-4 | B9.3 Feedback Patterns > Evaluator-Optimizer Workflow
+## Generator plus critic loop
+The evaluator-optimizer workflow splits creation and judgement into two separate components that run in a loop.
+
+The generator (the optimizer) produces a candidate output, such as a marketing email, a SQL query or a translated paragraph. The evaluator (the critic) grades that output against explicit criteria and returns structured feedback. If the output fails any criterion, the generator receives the draft plus the feedback and produces an improved version.
+
+It is a designer creating a poster and an art director marking up the layout until it meets the brand guidelines.
+
+Keeping the two roles in separate prompts stops the generator from marking its own homework leniently.
+?? How do the two roles in an evaluator-optimizer workflow interact?
++ The generator creates or revises a draft, and the evaluator checks it against criteria and returns feedback until it passes
+- Both prompts write separate drafts and throw both away
+- The evaluator writes the first draft and the generator deletes it
+- Neither role reads what the other wrote
+= Separating generation from evaluation lets one prompt focus on creating and the other on strict checking.
+## Stopping criteria and quality thresholds
+An evaluator-optimizer loop stops when one of two conditions is met: the evaluator marks every required check as passed, or the loop hits its maximum number of attempts.
+
+To make the pass condition reliable, ask the evaluator for structured fields rather than a vague paragraph: boolean flags like `all_citations_valid: true` and `tone_matches_brief: true`, or a rubric score that must reach a set threshold.
+
+It is an MOT car test with a printed pass/fail sheet for brakes, lights and tyres, plus a rule that after two failed retests the car goes off the road.
+
+If the loop hits the attempt limit without passing, return the best version so far with a warning or hand it to a person.
+?? Why should an evaluator return structured pass/fail fields or rubric scores rather than free text alone?
++ Structured fields let your code decide cleanly when the quality threshold is met and the loop should stop
+- Models cannot write free text and booleans in the same response
+- Structured fields make the generator ignore the feedback
+- Free text is illegal in API responses
+= Explicit pass/fail flags let your code control the loop reliably without guessing whether a paragraph of critique means "pass".
+## A critic needs clear criteria
+Telling an evaluator prompt to "check whether this draft is good and suggest improvements" guarantees useless, fussy feedback.
+
+Give the critic a concrete rubric. For a client proposal, the rubric might state: must be under 400 words, must quote the exact fee from the pricing table, must not promise delivery dates under two weeks, and must use British spelling. Anything outside the rubric is none of the critic's business.
+
+It is giving an examiner a marking scheme with exact points per question instead of asking them to grade on vibes.
+
+A tight rubric makes the critic consistent across runs and stops it inventing new complaints on every pass.
+?? What happens if you give an evaluator prompt a vague instruction like "make this better" instead of a clear rubric?
++ It invents shifting, fussy complaints on every round and never settles on a clear pass
+- It always passes the first draft without reading it
+- It runs ten times faster than a rubric prompt
+- It automatically writes unit tests in Python
+= Without explicit criteria, a critic prompt nitpicks endlessly because "better" has no finish line.
+## Works when feedback clearly improves the result
+The evaluator-optimizer pattern only makes sense when two things are true: you can evaluate an output more easily than you can generate it right the first time, and written feedback actually helps the generator fix the flaw.
+
+For example, it is hard for a model to write a complex paragraph that hits an exact word limit and includes five mandatory disclosures on try one. It is very easy for a critic (or code) to count the words, list the missing disclosure and tell the generator what to trim and add.
+
+It is tailoring a suit: pinning the sleeves once the jacket is on is much easier than cutting it to the millimetre from measurements alone.
+
+If the critic cannot tell right from wrong any better than the generator, the loop just adds cost and noise.
+?? Under what condition does an evaluator-optimizer loop add real value?
++ When verifying the output and pointing out flaws is easier and more reliable than generating a perfect draft in one shot
+- When the evaluator has no way to tell whether the answer is right or wrong
+- When the task is a one-word classification
+- When you want to triple latency without changing the output
+= A revision loop only helps when the evaluator can reliably spot concrete defects that the generator can then fix.
+
+@@ sll_lWYXKNihIGJf | B9.3 Feedback Patterns > Orchestrator-Workers Architecture
+## Delegation and synthesis
+In an orchestrator-workers architecture, a central orchestrator model breaks a complex request into sub-tasks, delegates each sub-task to a worker, and then synthesises the workers' results into the final output.
+
+Suppose a consultant asks an agent to compare five vendors across security, pricing and integrations. The orchestrator plans the research, spawns workers to investigate each vendor in parallel, collects their structured findings and writes the comparison matrix.
+
+It is a partner at a consulting firm dividing a due-diligence study among associates and assembling their sections into the client deck.
+
+Unlike a fixed pipeline, the orchestrator decides at runtime which sub-tasks are needed for this specific request.
+?? What makes an orchestrator-workers architecture different from a fixed parallel pipeline?
++ The orchestrator dynamically decides at runtime how to break down the task and which workers to run
+- The sub-tasks are hard-coded in advance and never change
+- Workers are not allowed to return any text to the orchestrator
+- It only ever runs a single model call
+= An orchestrator plans the sub-tasks on the fly to fit the request, rather than running the same fixed branches every time.
+## Dynamic vs. fixed worker pools
+Workers can be set up in two ways: a fixed pool of distinct specialists, or a dynamic pool of general workers created on demand.
+
+In a fixed pool, you define named specialists up front, such as a `sql_analyst`, a `policy_researcher` and a `chart_builder`, each with its own tools and system prompt. In a dynamic pool, the orchestrator spawns as many copies of a general worker as the task needs, such as one worker per competitor or one worker per file in a repository.
+
+It is the difference between a surgical team with fixed roles and a harvest crew where you hire ten pickers for ten rows of fruit.
+
+Many systems combine both: fixed specialist types that can be spawned in multiple copies when needed.
+?? When is spawning a dynamic number of workers useful?
++ When the number of sub-tasks depends on the input, such as researching N competitors or reviewing N files
+- When every request always requires the exact same two steps
+- When you want to prevent tasks from running in parallel
+- When only one model call is allowed per day
+= Dynamic worker pools scale to match inputs of varying size, running one worker per item and finishing in parallel.
+## Briefing a worker: goal, context, and what to return
+A worker starts with a clean context window. It does not automatically see the user's whole conversation or what other workers are doing.
+
+Therefore, the orchestrator's brief to each worker must be self-contained. It needs three things: the specific goal for this worker, the exact background context or identifiers it needs, and the format of what to return. "Look up Acme Ltd (company number 01234567) and return a JSON object with their 2025 revenue, headcount and main UK office."
+
+It is briefing a freelancer who was not in the client meeting: if you leave out a requirement, they cannot guess it.
+
+Vague briefs are the number-one cause of wasted worker calls.
+?? Why must the orchestrator give each worker a complete, self-contained brief?
++ Each worker runs in its own isolated context and only knows what the orchestrator passes to it
+- Workers automatically read the minds of other workers
+- Shorter briefs cost ten times more tokens
+- Workers cannot read system prompts
+= Because workers do not share the orchestrator's full history, they need the goal, key facts and output format spelled out.
+## Workers return summaries, not everything they read
+A worker might read ten web pages, three long PDFs and a thousand database rows while doing its job. If five workers each dump all of that raw material back into the orchestrator's context, the orchestrator's context window overflows and its reasoning degrades.
+
+Workers exist to compress information as well as find it. Each worker should digest its raw sources and return a concise, structured summary plus citations to the source IDs.
+
+It is an analyst bringing the board a one-page briefing note with source references, not wheeling a trolley of lever-arch files into the boardroom.
+
+Keep raw tool outputs inside the worker's context and return only the distilled findings.
+?? Why should workers return concise summaries rather than all the raw documents they read?
++ Dumping raw sources from every worker into the orchestrator bloats its context window and hurts quality
+- The orchestrator is not allowed to read structured data
+- Summaries use more tokens than full PDFs
+- Citations are impossible to include in a summary
+= Letting workers filter and distil their findings keeps the orchestrator's context clean, cheap and focused on synthesis.
+## The orchestrator checks worker results before using them
+Workers can fail, misunderstand their brief, come back empty-handed or return incomplete data.
+
+A reliable orchestrator does not blindly paste worker outputs together. When the results come back, it checks whether each worker actually answered its brief. If Worker 3 returned an error or missed the pricing figure, the orchestrator can re-run that worker with a clearer brief, try an alternative source, or note the gap explicitly in the final report.
+
+It is an editor checking that every reporter's section actually covers the assigned question before sending the magazine to print.
+
+Checking at the orchestrator level prevents one weak worker from quietly spoiling the whole deliverable.
+?? What should the orchestrator do when a worker returns an incomplete or off-brief result?
++ Re-run that sub-task with a revised brief or alternative source, or clearly report the missing piece
+- Pretend the missing data was zero and carry on silently
+- Throw away the good results from all the other workers too
+- Crash the entire application
+= Inspecting worker outputs lets the orchestrator retry just the failed sub-task or flag the gap honestly before synthesis.

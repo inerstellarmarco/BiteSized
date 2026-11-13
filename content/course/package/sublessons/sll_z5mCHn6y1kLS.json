@@ -5,44 +5,128 @@
     {
       "id": "bit_s_r4uBD6QPjg",
       "title": "Multi-provider gateways and fallbacks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A **model gateway** sits between your application code and the external AI providers (OpenAI, Anthropic, Google, Bedrock, etc.).\n\nInstead of scattering three different vendor SDKs across twenty files, your code calls one unified interface on the gateway. If your primary model returns a `503 Service Unavailable` or hits a rate limit, the gateway automatically retries with exponential backoff and, if the outage persists, falls over to your configured backup model on another provider so users barely notice a blip.\n\nIt is an automatic backup generator in a hospital that kicks in within seconds when the main power grid trips.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_s_r4uBD6QPjg_1",
+          "type": "multiple_choice",
+          "prompt": "What are the two main jobs of a multi-provider model gateway?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Training new foundation models and designing CSS stylesheets"
+            },
+            {
+              "id": "b",
+              "text": "Replacing your application database with text files"
+            },
+            {
+              "id": "c",
+              "text": "Providing one unified API interface across model vendors and automatically handling retries and failover when a provider is down or rate-limited"
+            },
+            {
+              "id": "d",
+              "text": "Blocking all legitimate users from calling the app"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A gateway decouples your application code from single-vendor SDK quirks and keeps your app running during provider outages.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-DbEAJNCrQAB",
       "title": "Routing via LiteLLM / OpenRouter",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Instead of building a gateway from scratch, many teams use established tools like **LiteLLM** (an open-source Python library and self-hosted proxy server) or hosted services like **OpenRouter** and **Cloudflare AI Gateway**. Check the current details and pricing of each option.\n\nLiteLLM lets you call over a hundred model providers using the standard OpenAI format, either directly in Python or through a central proxy container inside your own cloud. Hosted gateways like OpenRouter give you a single API key and bill across dozens of model families for quick experimentation and fallback routing.\n\nIt is a universal travel adapter that lets one plug connect to sockets in a hundred countries.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-DbEAJNCrQAB_1",
+          "type": "multiple_choice",
+          "prompt": "How does a tool like LiteLLM simplify working with multiple model providers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It runs frontier models directly inside the user's web browser without internet"
+            },
+            {
+              "id": "b",
+              "text": "It deletes the need for any prompts"
+            },
+            {
+              "id": "c",
+              "text": "It only works with one model from 2021"
+            },
+            {
+              "id": "d",
+              "text": "It translates a single standard API call format into the native format of dozens of different model providers, with built-in retries and fallbacks"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Standardising on a gateway layer means switching or adding a model provider requires changing a config string rather than rewriting call sites.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_j8OdwJkmsNuw",
       "title": "One place for keys, logs, and budgets",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When five projects in a company each hold their own raw OpenAI and Anthropic API keys, nobody knows which feature spent £2,000 last weekend, and rotating a leaked key means updating five deployments in a panic.\n\nRouting all traffic through a central model gateway gives you one control point. The gateway holds the real provider API keys in one secure vault, issues separate internal virtual keys to each app or team, logs every call's token count and latency in a standard format, and enforces hard daily or monthly spend caps per key.\n\nIt is a company corporate-card system where every department card has its own limit and itemised statement under one finance account.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_j8OdwJkmsNuw_1",
+          "type": "multiple_choice",
+          "prompt": "Why do engineering teams route internal apps through a central model gateway even when they mostly use one provider?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It centralises API key management, unified token and cost logging, and per-team or per-app spend caps in one place"
+            },
+            {
+              "id": "b",
+              "text": "It makes every API call take ten minutes longer"
+            },
+            {
+              "id": "c",
+              "text": "It hides token spending from the finance team"
+            },
+            {
+              "id": "d",
+              "text": "Providers refuse to talk to applications directly"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Centralising keys, telemetry and budget caps at the gateway prevents runaway spend and makes cost attribution effortless.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_pcJsyhVcL5bX",
       "title": "Fallback models behave differently: test them too",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Configuring `backup_model = \"gpt-4o-mini\"` behind a Claude or Gemini primary feels safe until the day the primary goes down and you discover your backup model formats tool arguments slightly differently or rejects your system prompt structure.\n\nAn untested fallback is a trap waiting to spring during an outage. Every model listed in your fallback chain must be included in your automated CI evaluation suite, and you should periodically test failover in staging to verify that structured schemas, tool calls and tone still pass when the backup takes over.\n\nIt is checking that the spare tyre in your boot is actually inflated and fits the wheel nuts before you get a puncture on the motorway at night.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,7 +139,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_pcJsyhVcL5bX_1",
+          "type": "multiple_choice",
+          "prompt": "Why must you run your evaluation suite against your fallback model as well as your primary model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Different models respond differently to prompts, schemas and tool definitions, so an untested fallback can fail right when an outage triggers it"
+            },
+            {
+              "id": "b",
+              "text": "Fallback models are guaranteed to produce byte-for-byte identical outputs to the primary model"
+            },
+            {
+              "id": "c",
+              "text": "Evaluation suites automatically delete fallback configurations"
+            },
+            {
+              "id": "d",
+              "text": "Backup models never use system prompts"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A fallback only provides real resilience if you have verified on your eval suite that your prompts and tools actually work on it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

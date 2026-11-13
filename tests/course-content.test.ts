@@ -86,10 +86,10 @@ describe("full course package", () => {
     }
   });
 
-  it("leaves no empty bite in a sub-lesson that has been written", () => {
-    for (const { name, subLesson } of sources) {
-      const empty = (files.get(subLesson.id)?.bites ?? []).filter((bite) => !bite.archivedAt && !bite.body.trim()).map((bite) => bite.title);
-      expect(empty, `${name} ${subLesson.id}`).toEqual([]);
+  it("leaves no empty non-archived bite anywhere in the course", () => {
+    for (const file of files.values()) {
+      const empty = file.bites.filter((bite) => !bite.archivedAt && !bite.body.trim()).map((bite) => bite.title);
+      expect(empty, `${file.id} (${file.title})`).toEqual([]);
     }
   });
 

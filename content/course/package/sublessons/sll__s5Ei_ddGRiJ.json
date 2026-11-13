@@ -5,50 +5,162 @@
     {
       "id": "bit_AphHjq5XWJfn",
       "title": "Streamlit and Gradio prototypes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Streamlit and Gradio let you build an interactive web interface for an AI script in a few dozen lines of Python, without writing HTML, CSS or JavaScript. Check the current details for their latest chat and agent components.\n\nIn an hour you can put a working demo in front of a client: file upload, chat box, expandable tool traces and a feedback button. That speed is priceless in week one of a consulting engagement because watching a client try three real documents in a live prototype surfaces requirements no meeting ever would.\n\nIt is building a cardboard scale model of a kitchen extension so the client can see where the doors go before the bricklayers start.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AphHjq5XWJfn_1",
+          "type": "multiple_choice",
+          "prompt": "Why are tools like Streamlit and Gradio so useful at the start of an AI project?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They are high-throughput database engines for banking transactions"
+            },
+            {
+              "id": "b",
+              "text": "They let you wrap Python AI logic in a usable web demo in hours, so stakeholders can test real inputs and give early feedback"
+            },
+            {
+              "id": "c",
+              "text": "They automatically write legal contracts without a model"
+            },
+            {
+              "id": "d",
+              "text": "They replace the need for authentication and multi-tenant security in enterprise production"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Rapid Python UI frameworks turn a notebook or script into something a client can click and test on day one.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_AfVLGkJNbSZQ",
       "title": "Production web front ends",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "While Streamlit and Gradio shine for internal tools and early demos, customer-facing products usually outgrow them once you need custom layouts, fine-grained mobile responsiveness, rich inline editing, offline support, custom authentication and sub-second page loads.\n\nProduction frontends are typically built with web frameworks such as Next.js, React or Vue, often paired with streaming UI helpers (such as the Vercel AI SDK) that manage message state, partial JSON streaming and tool-call rendering cleanly. Check the current details for your chosen stack.\n\nIt is moving from a market stall gazebo to a permanent high-street shopfront once you know what customers are buying.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AfVLGkJNbSZQ_1",
+          "type": "multiple_choice",
+          "prompt": "Why do customer-facing products usually move from prototype frameworks to a full web frontend like Next.js or React?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To get full control over custom UX, mobile responsiveness, authentication, rich inline editing and production performance"
+            },
+            {
+              "id": "b",
+              "text": "Because Python prototypes cannot display text on a screen"
+            },
+            {
+              "id": "c",
+              "text": "Because React makes LLM tokens cost half as much"
+            },
+            {
+              "id": "d",
+              "text": "Because prototype frameworks require fifty servers to run"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Full web frameworks give you complete control over the user experience, branding, security and performance needed for a polished product.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_cQwGGibjGdwM",
       "title": "Meeting users where they are: chat apps, email, and existing tools",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The best frontend for a client's AI assistant is often no new website at all.\n\nEvery new URL and login you ask staff to remember cuts adoption in half. If the sales team lives in Slack and HubSpot all day, deliver the agent as a Slack bot or a side-panel widget inside HubSpot. If an operations team works from a shared inbox, let them forward an email to `triage@company.co.uk` and receive the structured draft reply right in their email thread.\n\nIt is putting a water cooler in the office corridor people already walk down, rather than on the roof behind a locked door.\n\nBefore designing a new dashboard, ask which screen the user already has open at 9 a.m.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cQwGGibjGdwM_1",
+          "type": "multiple_choice",
+          "prompt": "Why does embedding an agent into Slack, Teams, email or the client's CRM often beat launching a standalone web app?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Users adopt tools much faster when the assistant sits inside the software they already use every hour, with no extra login or context switch"
+            },
+            {
+              "id": "b",
+              "text": "Standalone web apps are impossible to host on the internet"
+            },
+            {
+              "id": "c",
+              "text": "Slack and email do not require a backend server to process messages"
+            },
+            {
+              "id": "d",
+              "text": "Users love logging into twelve different dashboards every morning"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Removing friction by meeting users inside their existing daily workflow is one of the easiest ways to drive real adoption.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BXCYQupqYzZM",
       "title": "Prototype first; rebuild only what proves useful",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Many AI projects fail by spending three months building a polished production frontend, role-based admin portal and Kubernetes cluster for an AI feature that turns out not to solve the users' real problem.\n\nFollow a disciplined two-step rule. First, build the thinnest possible prototype (a Streamlit page, a Slack slash command or a script that processes twenty real files) and put it in the hands of five real users for a week. Half of your initial assumptions will change. Second, harden and rebuild into production code **only** the workflow that users actually relied on and asked to keep.\n\nIt is paving the footpath across a park only after seeing where people actually walk across the grass.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BXCYQupqYzZM_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you test a lightweight prototype with real users before building production infrastructure and UI?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Real use quickly reveals which features actually help and which assumptions were wrong, saving weeks of wasted engineering"
+            },
+            {
+              "id": "b",
+              "text": "Prototypes never need any API keys or prompts"
+            },
+            {
+              "id": "c",
+              "text": "Users prefer broken software forever"
+            },
+            {
+              "id": "d",
+              "text": "Production code is faster to write when you do not know what the user wants"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Validating usefulness with a thin prototype first ensures you only invest heavy engineering in features that proved their value.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,74 +5,242 @@
     {
       "id": "bit_b4C1Azq53auz",
       "title": "FDA SaMD, Health Canada medical device rules",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Software as a Medical Device, known as SaMD, refers to software intended to be used for medical purposes such as diagnosis, prevention, or treatment without being part of a physical hardware device. Both the US FDA and Health Canada regulate clinical AI algorithms under dedicated SaMD frameworks; check the current details before advising a client on a submission.\n\nIt is like regulating an airline autopilot programme as safety-critical aviation equipment in its own right, even when it runs on a standard commercial computer chip.\n\nWhether an AI tool counts as regulated SaMD depends on its intended use statement and marketing claims, not on the complexity of its neural network.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_b4C1Azq53auz_1",
+          "type": "multiple_choice",
+          "prompt": "What determines whether a healthcare software tool is regulated as Software as a Medical Device (SaMD)?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whether the software is written in Python rather than C++"
+            },
+            {
+              "id": "b",
+              "text": "Its intended medical purpose for diagnosing, monitoring, or treating patients"
+            },
+            {
+              "id": "c",
+              "text": "Whether the company charges hospitals a monthly subscription fee over £1,000"
+            },
+            {
+              "id": "d",
+              "text": "Whether the algorithm uses more than ten million trainable parameters"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Regulators classify software as a medical device based on its intended clinical use and claims, regardless of the underlying programming language or model architecture.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_C4kCTB5prxdm",
       "title": "Diagnostic approval pathways",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Diagnostic approval pathways are the formal regulatory routes a company must follow to legally market a clinical test or AI diagnostic tool. Depending on jurisdiction and risk, pathways include FDA 510(k) clearance, De Novo classification, Premarket Approval, and rules covering laboratory-developed tests; check the current details for your target market.\n\nChoosing a pathway is like selecting the right planning permission route before building a hospital wing: matching an existing approved design is much faster than proving a completely unprecedented structure from scratch.\n\nMisjudging the pathway early can stall a startup for years if trials were not designed to meet that specific route's statistical standards.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_C4kCTB5prxdm_1",
+          "type": "multiple_choice",
+          "prompt": "Why must an AI diagnostic startup identify its regulatory approval pathway before running pivotal studies?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Regulatory agencies charge no fees if the company guesses the pathway after launching the product"
+            },
+            {
+              "id": "b",
+              "text": "Every diagnostic tool worldwide is approved automatically without submitting clinical data"
+            },
+            {
+              "id": "c",
+              "text": "Different pathways demand specific study designs, comparator devices, and statistical evidence"
+            },
+            {
+              "id": "d",
+              "text": "Choosing a pathway changes the biological DNA sequence of the patients in the trial"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Each regulatory route has distinct requirements for reference comparators, sample sizes, and clinical endpoints, so pivotal trials must be designed around those rules from the start.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_pOskpNimi9hl",
       "title": "Software can be a regulated medical device",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Many software engineers are surprised to learn that pure code running in the cloud can be legally classified as a regulated medical device. If a tool analyses patient data to recommend a specific diagnosis or treatment dosage, medical device law generally applies; check the current details in each country where you deploy.\n\nThink of the difference between a general fitness book and a doctor writing a prescription: an app displaying wellness tips is unregulated, whereas an app analysing a skin photo to rule out melanoma is practicing regulated medicine.\n\nShipping regulated clinical software without clearance exposes a client organisation to enforcement injunctions, recalls, and severe legal liability.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_pOskpNimi9hl_1",
+          "type": "multiple_choice",
+          "prompt": "Which of the following software tools is most likely to be regulated as a medical device?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A cloud algorithm that analyses retinal scans to diagnose diabetic eye disease"
+            },
+            {
+              "id": "b",
+              "text": "A hospital canteen app that displays daily lunch menus and calorie counts"
+            },
+            {
+              "id": "c",
+              "text": "A scheduling tool that tracks staff holiday requests on a ward calendar"
+            },
+            {
+              "id": "d",
+              "text": "A reference website that displays verbatim copies of published medical textbooks"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Software that analyses patient-specific data to detect or diagnose a disease performs a medical device function and falls under regulatory oversight.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_xBLvc9s7-9oY",
       "title": "Risk class sets the evidence needed",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Medical device regulators use a risk-based classification system that scales regulatory scrutiny according to the severity of the patient's condition and the significance of the information the software provides. Higher risk classes require rigorous prospective clinical trials, quality management systems, and premarket review; check the current details for specific class boundaries.\n\nIt is like the difference between safety rules for a bicycle helmet and a commercial passenger jet: the potential harm from failure dictates how much testing is demanded before launch.\n\nA tool that autonomously diagnoses life-threatening stroke on a scan faces far stricter evidence hurdles than one that merely highlights routine admin notes for a clinician to review.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xBLvc9s7-9oY_1",
+          "type": "multiple_choice",
+          "prompt": "What two main factors typically determine the risk class of a medical software device?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The annual revenue of the software vendor and the number of engineers employed"
+            },
+            {
+              "id": "b",
+              "text": "The seriousness of the clinical condition and how heavily the software drives the clinical decision"
+            },
+            {
+              "id": "c",
+              "text": "The cloud provider hosting the database and the size of the graphics cards used"
+            },
+            {
+              "id": "d",
+              "text": "The age of the programming language and whether the user interface uses dark mode"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Regulators scale oversight based on what is at stake for the patient and whether the software informs, drives, or autonomously makes a critical medical decision.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lFe7KBeVO_KI",
       "title": "Changes to learning systems need a plan for updates",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Traditional medical device approvals assumed that a product stays static once cleared, and any major update required a fresh submission. Because machine learning models often need periodic retraining to combat data drift or expand to new scanners, regulators have introduced Predetermined Change Control Plans; check the current details on these frameworks.\n\nIt is like agreeing a pre-approved maintenance protocol with an aviation authority: you get permission upfront for specific, bounded adjustments provided you follow strict verification steps every time.\n\nThis does not allow wild, unconstrained online learning in hospitals. Teams must define exact boundaries, retraining procedures, and validation guardrails before the initial approval is granted.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lFe7KBeVO_KI_1",
+          "type": "multiple_choice",
+          "prompt": "How do Predetermined Change Control Plans help teams manage regulated machine learning devices?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They permit clinical AI models to rewrite their own code continuously without any human testing"
+            },
+            {
+              "id": "b",
+              "text": "They exempt machine learning startups from keeping quality management records"
+            },
+            {
+              "id": "c",
+              "text": "They freeze the model permanently so it can never be updated after launch"
+            },
+            {
+              "id": "d",
+              "text": "They allow pre-agreed model updates within defined boundaries and validation protocols without a full re-submission"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A Predetermined Change Control Plan lets manufacturers specify planned model updates and verification tests upfront, enabling safe, controlled retraining post-approval.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2w_4KuCK2vkN",
       "title": "Talk to regulators early; rules and guidance change, so verify current requirements",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Early regulatory engagement means using formal pre-submission meetings with agencies such as the FDA, MHRA, or Health Canada to review study designs and validation plans before spending millions on clinical trials. Because AI and diagnostics rules evolve rapidly, teams must check the current details directly with regulators and qualified specialists.\n\nIt is like showing your architectural blueprints to the local building inspector before pouring the concrete foundations rather than waiting until the roof is on to discover the foundations are too shallow.\n\nAs an AI consultant, never treat last year's blog post as legal advice; always build early regulatory checkpoints into your client's project roadmap.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2w_4KuCK2vkN_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary benefit of holding a pre-submission meeting with regulators early in development?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Convincing the regulator to waive all safety and accuracy requirements for your startup"
+            },
+            {
+              "id": "b",
+              "text": "Securing venture capital investment directly from the government medicines agency"
+            },
+            {
+              "id": "c",
+              "text": "Getting feedback on proposed validation study designs before committing time and budget to trials"
+            },
+            {
+              "id": "d",
+              "text": "Outsourcing the writing of your machine learning training code to civil servants"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Early regulatory dialogue confirms whether planned endpoints, study cohorts, and validation protocols will actually satisfy reviewers before expensive trials are executed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

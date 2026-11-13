@@ -5,50 +5,162 @@
     {
       "id": "bit_pEMCC8CDV2-G",
       "title": "Eval-gated deployments",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In standard CI/CD, a deployment pipeline blocks a release if a unit test or type check fails. In **LLMOps**, you add an **eval gate** to that same pipeline.\n\nBefore a new prompt, tool or model version can deploy to production, the pipeline automatically runs your evaluation suite against the candidate build and compares the scores against your minimum thresholds (for example: faithfulness >= 95%, safety pass rate = 100%, p95 latency <= 6s, cost per task <= £0.04). If any gate fails, the deployment stops automatically and posts the failing test cases on the pull request.\n\nIt is an automated passport gate at the airport that only opens the barrier when every check on the chip passes.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_pEMCC8CDV2-G_1",
+          "type": "multiple_choice",
+          "prompt": "What is an eval-gated deployment in LLMOps?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A manual meeting where managers guess whether a prompt sounds nice"
+            },
+            {
+              "id": "b",
+              "text": "Deploying straight to production and running tests a month later"
+            },
+            {
+              "id": "c",
+              "text": "An automated deployment pipeline that blocks a release if the candidate version fails accuracy, safety, latency or cost thresholds on the eval suite"
+            },
+            {
+              "id": "d",
+              "text": "Blocking all deployments on Tuesdays"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Making eval thresholds an automated gate in CI/CD stops regressions from reaching production users.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_z-hs_ToQV89C",
       "title": "Rollbacks and canary releases",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Even with good offline evals, real production traffic can hit an unexpected snag. Two deployment habits make releases low-stress: **canary releases** and **instant rollbacks**.\n\nA **canary release** routes a tiny slice of live traffic (say 2% or internal staff accounts first) to the new version while watching error rates, latency, guardrails and user feedback. If everything stays green for an hour, traffic ramps to 25% and then 100%. If anything spikes, an **instant rollback** flips traffic back to the previous known-good container, prompt version and index alias in seconds.\n\nIt is dipping a toe in the bathwater before jumping in, with the cold tap right in reach.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_z-hs_ToQV89C_1",
+          "type": "multiple_choice",
+          "prompt": "How do canary releases and instant rollbacks reduce deployment risk?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A canary exposes only a small slice of traffic to a new version first, and a rollback switches back to the previous working version immediately if metrics degrade"
+            },
+            {
+              "id": "b",
+              "text": "Canary releases send the new version to 100% of users with no monitoring"
+            },
+            {
+              "id": "c",
+              "text": "Rollbacks require rewriting all the code from scratch while users wait"
+            },
+            {
+              "id": "d",
+              "text": "They remove the need for any logging or alerts"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Gradual traffic ramping plus one-click rollback limits the blast radius of any surprise production issue to a tiny fraction of requests.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_tfcg1Yuq57ct",
       "title": "Feature flags to switch behaviour without redeploying",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Waiting ten minutes for a full container rebuild and cloud deployment when a provider is having a bad afternoon or a new prompt is misbehaving feels like an eternity.\n\nPut key AI switches behind **runtime feature flags** (or a hot-reloaded configuration table) that you can flip in two seconds without redeploying code: which model and provider a route uses, which prompt version is active, whether a new agent tool is enabled, and what the maximum step cap is. Include a global **kill switch** that cleanly disables an autonomous feature and falls back to human queueing if an emergency occurs.\n\nIt is a circuit breaker panel on the wall: you can flip one switch off in a second without calling an electrician to rewire the house.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_tfcg1Yuq57ct_1",
+          "type": "multiple_choice",
+          "prompt": "Why should model selection, prompt versions and autonomous actions be controlled by runtime feature flags?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because feature flags make Python code run without a server"
+            },
+            {
+              "id": "b",
+              "text": "So end users can edit the company's database schema"
+            },
+            {
+              "id": "c",
+              "text": "So you can switch models, roll back a prompt or disable a misbehaving tool in seconds without waiting for a full code redeploy"
+            },
+            {
+              "id": "d",
+              "text": "Because redeploying a container takes half a millisecond"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Runtime flags and kill switches give operations teams instant control during model outages or unexpected agent behaviour.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_IlW4TFYbvDwF",
       "title": "Planning for model retirement and migration",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every pinned model snapshot you use today will eventually be retired by its provider, often with three to six months' notice. If your prompts and code are brittle and you have no eval suite, every model retirement becomes an unscheduled crisis.\n\nTurn model migration into a routine, calm two-hour chore. Keep a central inventory of which pinned model versions are used where and their announced deprecation dates. When a replacement snapshot arrives, point a branch at the new model ID, run your offline eval suite, adjust any prompt phrasing where the new model behaves differently, run shadow or canary traffic for a few days, and flip the flag well before the deadline.\n\nIt is renewing your passport a month before it expires rather than discovering it is out of date at the airport check-in desk.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IlW4TFYbvDwF_1",
+          "type": "multiple_choice",
+          "prompt": "What makes migrating to a new model before a provider retirement deadline quick and low-risk?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Waiting until the day after the old model is turned off to see what breaks"
+            },
+            {
+              "id": "b",
+              "text": "Having model IDs centralised in config and an automated evaluation suite ready to verify and tune prompts against the replacement model"
+            },
+            {
+              "id": "c",
+              "text": "Hard-coding the old model name in fifty separate files with no tests"
+            },
+            {
+              "id": "d",
+              "text": "Refusing to ever upgrade models"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Centralised model config plus a solid eval suite turns inevitable model retirements into a routine test-and-switch exercise.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

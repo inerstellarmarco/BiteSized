@@ -5,8 +5,8 @@
     {
       "id": "bit_wHypx15DHaMZ",
       "title": "Supervised vs. unsupervised vs. reinforcement learning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Supervised learning trains a model on inputs paired with known target labels, unsupervised learning discovers hidden groupings or structure in unlabelled data, and reinforcement learning trains an agent to choose actions through trial-and-error rewards in an environment.\n\nIt is like learning to price houses from past sales sheets (supervised), sorting customer profiles by shopping habits without predefined tags (unsupervised), or training a warehouse robot via points for safe deliveries (reinforcement).\n\nMost commercial consulting projects succeed with supervised learning whenever historical outcomes can be joined reliably to past features.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wHypx15DHaMZ_1",
+          "type": "multiple_choice",
+          "prompt": "How does supervised learning differ from unsupervised learning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Supervised learning runs without any historical data, whereas unsupervised learning requires manual human scoring on every step"
+            },
+            {
+              "id": "b",
+              "text": "Supervised learning fits a model using inputs paired with known target labels, whereas unsupervised learning finds patterns in unlabelled data"
+            },
+            {
+              "id": "c",
+              "text": "Supervised learning only works on images, whereas unsupervised learning only works on relational tables"
+            },
+            {
+              "id": "d",
+              "text": "Supervised learning optimises cumulative game rewards, whereas unsupervised learning predicts continuous prices"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Supervised algorithms learn a mapping from features to provided ground-truth targets, while unsupervised algorithms uncover structure without target labels.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_N-JiQxIy0DBZ",
       "title": "Train / validation / test splits",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A dataset is split into three distinct subsets: the training set used to fit model weights, the validation set used to compare models and tune hyperparameters, and the test set used once at the end to estimate real-world performance.\n\nIt is like a student studying textbook exercises (train), sitting mock exams to pick which topics to revise (validation), and then facing the final public exam (test).\n\nIf rows from the same customer, household, or document appear across splits, the model will memorise shared quirks and report inflated validation scores.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,13 +66,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_N-JiQxIy0DBZ_1",
+          "type": "multiple_choice",
+          "prompt": "What is the specific purpose of the validation set in a machine learning workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To update the internal weights of the neural network during every gradient descent step"
+            },
+            {
+              "id": "b",
+              "text": "To permanently replace the training data once the first epoch finishes"
+            },
+            {
+              "id": "c",
+              "text": "To compare candidate models and tune hyperparameters without touching the final test set"
+            },
+            {
+              "id": "d",
+              "text": "To store unlabelled production logs that have no ground-truth outcomes"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The validation split provides an intermediate check for model selection and tuning while keeping the test split unseen for final evaluation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_414o3ocK7dPL",
       "title": "Bias-variance tradeoff, overfitting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Bias is the error from an overly rigid model that misses real patterns (underfitting), whereas variance is the error from an overly flexible model that memorises random noise in the training sample (overfitting).\n\nIt is like a tailor who either sews one boxy sack size for every client (high bias) or tailors a suit so tightly to one posture that the wearer cannot breathe after lunch (high variance).\n\nYou diagnose overfitting by watching the gap between low training error and rising validation error, then address it with regularisation, simpler models, or stronger data.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -57,55 +113,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_414o3ocK7dPL_1",
+          "type": "multiple_choice",
+          "prompt": "What pattern in training and validation metrics indicates that a model is overfitting?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Training error is very low while validation error is substantially worse or starting to rise"
+            },
+            {
+              "id": "b",
+              "text": "Both training error and validation error are high and nearly identical from the start"
+            },
+            {
+              "id": "c",
+              "text": "Validation accuracy reaches 100 percent while training accuracy stays near random guessing"
+            },
+            {
+              "id": "d",
+              "text": "The model refuses to run because the feature columns have different measurement units"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Overfitting occurs when a model captures noise specific to the training set, driving training error down while failing to generalise to validation data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_uLaOfXcZ3zr9",
       "title": "Problem framing: what is predicted, from what, and when",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Problem framing translates a vague business wish into a precise prediction target, a defined set of input features available at the prediction timestamp, and the operational decision the score will trigger.\n\nIt is like turning an executive's request to \"reduce customer churn\" into predicting which active subscribers on the first of the month will cancel within thirty days, using only activity logged before that morning.\n\nMany consulting projects fail not from weak algorithms, but from framing a target that arrives too late to act on or uses features recorded after the event.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_uLaOfXcZ3zr9_1",
+          "type": "multiple_choice",
+          "prompt": "Why must problem framing specify the exact point in time when a prediction will be made in production?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To guarantee that the training dataset contains an equal number of rows from every day of the week"
+            },
+            {
+              "id": "b",
+              "text": "To allow the optimiser to use future outcome columns as input features during training"
+            },
+            {
+              "id": "c",
+              "text": "To force the database server to delete all historical logs older than thirty days"
+            },
+            {
+              "id": "d",
+              "text": "To ensure the model only uses features that are actually recorded and available before that decision moment"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Fixing the prediction timestamp prevents temporal leakage and ensures the model relies solely on information available when the business needs to act.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_JecKEUcZfNiR",
       "title": "Start with a baseline and a simple model",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before training complex ensembles or deep networks, you should establish a non-machine-learning heuristic baseline (such as predicting last week's value or the majority class) followed by a fast, interpretable linear or small tree model.\n\nIt is like checking whether a simple thermostat rule solves an office heating complaint before wiring the building with an expensive automated climate programme.\n\nA baseline exposes data pipeline bugs early and tells the client whether the extra cost and complexity of an advanced model actually buys meaningful lift.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_JecKEUcZfNiR_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an AI consultant build a simple heuristic and linear baseline before trying complex models?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Simple models always achieve lower error than gradient boosting on every dataset"
+            },
+            {
+              "id": "b",
+              "text": "Complex models cannot be trained unless a linear regression weight file is loaded first"
+            },
+            {
+              "id": "c",
+              "text": "It verifies the evaluation pipeline and sets a clear benchmark that any complex model must beat to justify its cost"
+            },
+            {
+              "id": "d",
+              "text": "Baselines eliminate the need to split the data into training and test sets"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A quick baseline catches data leakage or pipeline flaws early and quantifies the genuine value added by more sophisticated algorithms.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_O4lULZ3no-Wb",
       "title": "Time-based splits when the data has a time order",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When data records occur over time, such as sales forecasting, fraud detection, or ticket triage, you must split the data chronologically so the model trains on earlier periods and validates or tests on later periods.\n\nIt is like testing a weather forecasting method by fitting it on data up to October and judging its predictions on November, rather than mixing November days into the training notes.\n\nRandomly shuffling time-ordered rows leaks future economic conditions, seasonal peaks, and shifting customer behaviour into the past, producing unrealistic accuracy estimates.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_O4lULZ3no-Wb_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a random train-test split dangerous for datasets with a time order?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Random splits take ten times longer to compute than chronological splits on modern hardware"
+            },
+            {
+              "id": "b",
+              "text": "Time-ordered datasets never contain numeric features suitable for random sampling"
+            },
+            {
+              "id": "c",
+              "text": "Shuffling rows changes the column names in the underlying database table"
+            },
+            {
+              "id": "d",
+              "text": "It lets the model train on future observations to predict past ones, leaking future trends and inflating test scores"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "In production a model always predicts the future from the past, so training on future rows leaks information that will not exist at inference time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_YAfCEOuXhQL0",
       "title": "Keep the test set locked until the end",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The test set must remain completely untouched during exploration, feature engineering, model selection, and hyperparameter tuning, serving only as a single final audit before you recommend deployment to a client.\n\nIt is like keeping a sealed safety inspection envelope in a safe until construction finishes, because peeking at the exact inspection checklist repeatedly turns the audit into just another practice worksheet.\n\nIf you check test metrics after every tweak and keep the version that scored best on the test set, you have leaked test information into your design choices.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YAfCEOuXhQL0_1",
+          "type": "multiple_choice",
+          "prompt": "What happens if a team repeatedly evaluates different model ideas on the test set and picks the winner?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The test set rows automatically merge into the training matrix during gradient descent"
+            },
+            {
+              "id": "b",
+              "text": "The model weights reset to random values each time the test script is executed"
+            },
+            {
+              "id": "c",
+              "text": "The test set effectively becomes part of the tuning process, making its final score an over-optimistic estimate of production performance"
+            },
+            {
+              "id": "d",
+              "text": "The validation set becomes mathematically identical to a uniform distribution"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Selecting models based on test performance overfits to the specific quirks of the test sample, destroying its value as an unbiased final check.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

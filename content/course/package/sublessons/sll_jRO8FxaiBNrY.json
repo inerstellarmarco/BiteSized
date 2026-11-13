@@ -5,62 +5,202 @@
     {
       "id": "bit_ZgQNWgetYuHD",
       "title": "Entropy and surprise",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In information theory, surprise measures how unexpected a single event is (rare events carry high surprise), and entropy is the average surprise across an entire probability distribution, measuring how uncertain or unpredictable the outcome is.\n\nIt is like comparing a rigged coin that always lands heads, which has zero entropy and no suspense, with a fair die, which carries high uncertainty on every roll.\n\nA model with high output entropy is spreading its bets thinly across many choices, which can signal healthy uncertainty on ambiguous inputs or a poorly trained predictor.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ZgQNWgetYuHD_1",
+          "type": "multiple_choice",
+          "prompt": "Which probability distribution over four classes has the highest entropy?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A uniform distribution where each of the four classes has probability 0.25"
+            },
+            {
+              "id": "b",
+              "text": "A distribution where one class has probability 1.0 and the others have 0.0"
+            },
+            {
+              "id": "c",
+              "text": "A distribution where one class has probability 0.97 and three share 0.03"
+            },
+            {
+              "id": "d",
+              "text": "Entropy is always identical regardless of the class probabilities"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Entropy is maximised when outcomes are equally likely, because predictability is at its lowest and average surprise is at its peak.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_zTaHsaUFNS6N",
       "title": "Cross-entropy and KL divergence",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Cross-entropy measures the average surprise when you use an estimated probability distribution to encode events that actually follow a true distribution, while Kullback-Leibler (KL) divergence is the extra surprise added on top of the true distribution's own entropy.\n\nIt is like packing a suitcase for a client trip based on a weather forecast; cross-entropy is your total discomfort, and KL divergence is the avoidable discomfort caused by forecast error.\n\nBecause the true data entropy is fixed with respect to model weights, minimising cross-entropy during training is mathematically identical to minimising the KL divergence from truth to model.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_zTaHsaUFNS6N_1",
+          "type": "multiple_choice",
+          "prompt": "How are cross-entropy, true entropy, and KL divergence related when comparing a true distribution P with a model distribution Q?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Cross-entropy is always zero whenever KL divergence is greater than ten"
+            },
+            {
+              "id": "b",
+              "text": "KL divergence is the product of P and Q divided by the number of layers"
+            },
+            {
+              "id": "c",
+              "text": "Cross-entropy equals the entropy of P plus the KL divergence from P to Q"
+            },
+            {
+              "id": "d",
+              "text": "True entropy changes on every gradient step while KL divergence stays constant"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Cross-entropy decomposes into the irreducible uncertainty of the true distribution P plus the KL divergence penalty for using Q instead of P.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BOSPo7FoYw6f",
       "title": "Cross-entropy is the standard loss for classification and LLMs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Cross-entropy loss scores a classification model or large language model by taking the negative logarithm of the probability the model assigned to the true label or next token, heavily penalising confident wrong predictions.\n\nIt is like a quiz where saying you are ninety-nine percent sure of a wrong answer costs you a massive penalty, whereas admitting uncertainty costs much less.\n\nBecause the penalty grows steeply when a rare true label gets near-zero probability, a few mislabelled training rows can dominate the gradient and skew the model's calibration.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BOSPo7FoYw6f_1",
+          "type": "multiple_choice",
+          "prompt": "How does cross-entropy loss react when a classifier assigns a probability very close to zero to the true class?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It produces a very large loss penalty, pushing the model strongly to raise that probability"
+            },
+            {
+              "id": "b",
+              "text": "It produces a loss of zero because the model was decisive in its choice"
+            },
+            {
+              "id": "c",
+              "text": "It ignores the example completely to protect the weights from changing"
+            },
+            {
+              "id": "d",
+              "text": "It flips the true label in the dataset to match the model's prediction"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because negative log probability climbs toward infinity as the assigned probability approaches zero, confident mistakes incur a steep penalty.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Ar238hfCFTOS",
       "title": "KL divergence measures how far one distribution is from another",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "KL divergence quantifies how much one probability distribution differs from a reference distribution, making it a staple tool in variational autoencoders, knowledge distillation, and reinforcement learning from human feedback to keep a tuned model close to a baseline.\n\nIt is like measuring how far a regional office's budget split has drifted from the headquarters template across departments.\n\nCrucially, KL divergence is asymmetric, meaning the divergence from distribution P to Q does not equal the divergence from Q to P, so it is not a true geometric distance.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Ar238hfCFTOS_1",
+          "type": "multiple_choice",
+          "prompt": "Why is KL divergence not considered a true distance metric in geometry?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It can take negative values whenever two distributions are identical"
+            },
+            {
+              "id": "b",
+              "text": "It only works on three-dimensional vectors and fails on probabilities"
+            },
+            {
+              "id": "c",
+              "text": "It is asymmetric, so the divergence from P to Q does not equal the divergence from Q to P"
+            },
+            {
+              "id": "d",
+              "text": "It always returns a constant value of 1.0 for any pair of distributions"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Switching the reference distribution and the approximating distribution changes the KL value, violating the symmetry required of a true metric.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_AMB6-9ZzSsoI",
       "title": "Perplexity: cross-entropy turned into a \"how surprised\" score",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Perplexity is the exponential of the average cross-entropy loss per token, turning an abstract logarithmic loss into an intuitive branching factor that indicates how many equally likely choices the language model feels torn between at each step.\n\nIt is like saying a predictive text engine with a perplexity of ten is on average as uncertain at each word as someone rolling a fair ten-sided die.\n\nAlways remember that perplexity depends on the exact tokeniser vocabulary and test corpus, so you cannot fairly compare perplexity numbers across two models that split words into tokens differently.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AMB6-9ZzSsoI_1",
+          "type": "multiple_choice",
+          "prompt": "If a language model has a perplexity of 8 on a test passage, what is the intuitive interpretation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model makes an outright factual error on exactly 8 percent of its sentences"
+            },
+            {
+              "id": "b",
+              "text": "The model requires 8 gigabytes of memory to process a single prompt"
+            },
+            {
+              "id": "c",
+              "text": "The model can only read contexts that are 8 words long or fewer"
+            },
+            {
+              "id": "d",
+              "text": "On average, the model is as uncertain at each next-token prediction as if choosing uniformly among 8 options"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Perplexity exponentiates the cross-entropy loss, expressing average next-token uncertainty as an effective number of equally likely choices.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

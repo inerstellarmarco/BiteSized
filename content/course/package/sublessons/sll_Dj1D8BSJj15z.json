@@ -5,8 +5,8 @@
     {
       "id": "bit_3ljM5GaTxSxq",
       "title": "Monitoring, alerts, and escalation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Once a client system goes live, automated monitoring should watch for failed runs, unusual latency, spend spikes, and sudden drops in task volume. Alerts should notify you before the client notices that their morning queue has stopped moving.\n\nThink of a smoke alarm in a warehouse that rings at the first sign of smouldering wiring, rather than waiting for someone walking past to see flames through the window.\n\nWatch out for silent failures as well as crashes: if a Tuesday normally brings fifty enquiries and today shows zero by noon, a webhook may have expired quietly upstream.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,49 +19,161 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3ljM5GaTxSxq_1",
+          "type": "multiple_choice",
+          "prompt": "Why should monitoring check for sudden drops in task volume as well as error messages?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "An upstream connection or webhook can fail silently, stopping all incoming work without triggering an error crash"
+            },
+            {
+              "id": "b",
+              "text": "Language models run out of words if they are not sent at least fifty requests every hour"
+            },
+            {
+              "id": "c",
+              "text": "Monitoring task volume automatically lowers the price of cloud storage each month"
+            },
+            {
+              "id": "d",
+              "text": "Clients prefer receiving an emergency phone call whenever they have a quiet Sunday"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Watching both error rates and unexpected volume drops catches broken integrations before a backlog piles up for the client.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_t7LXA95lOjPf",
       "title": "Set response times you can keep",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A service level agreement sets out when your support hours run, how quickly you will acknowledge an issue, and how fast you aim to fix urgent versus minor problems. Never promise twenty-four-seven instant fixes if you are a solo consultant or a small team.\n\nFor a local accountancy firm whose bots process routine bookkeeping during office hours, promising a four-hour response between nine and five on weekdays is realistic, sustainable, and completely fit for purpose.\n\nDesign the client's workflow with a safe manual fallback so staff can handle urgent items themselves while waiting for you to investigate a paused bot.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_t7LXA95lOjPf_1",
+          "type": "multiple_choice",
+          "prompt": "Why should a solo consultant or small agency avoid promising twenty-four-seven instant support?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Unachievable promises lead to broken trust and burnout, whereas clear business-hours response times with a manual fallback are reliable"
+            },
+            {
+              "id": "b",
+              "text": "AI systems never experience bugs or outages outside normal weekday office hours"
+            },
+            {
+              "id": "c",
+              "text": "Clients always refuse to sign any contract that mentions specific support hours"
+            },
+            {
+              "id": "d",
+              "text": "Setting realistic response times prevents you from charging a monthly maintenance retainer"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Matching support promises to your real capacity and providing a manual fallback keeps client trust intact when issues arise.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_vQGu8meM5XCe",
       "title": "Handover documentation and training for client staff",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Even the best bot system fails if the client's staff are afraid of it or do not know how to work alongside it. Good handover includes a short, plain-English guide and a live training session showing staff how to review outputs, handle escalations, and pause the system.\n\nFor an operations team using a new purchasing assistant, run a forty-five-minute workshop where staff practise approving a real order, fixing a flagged exception, and reading the status board.\n\nLeave behind a two-page quick-reference sheet with screenshots rather than a fifty-page technical manual that nobody will ever open.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vQGu8meM5XCe_1",
+          "type": "multiple_choice",
+          "prompt": "What makes handover documentation and training effective for a client's frontline staff?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Hands-on practice with real tasks paired with a short, plain-English reference guide showing screenshots"
+            },
+            {
+              "id": "b",
+              "text": "Sending the staff a link to a hundred-page academic paper on transformer neural networks"
+            },
+            {
+              "id": "c",
+              "text": "Keeping the system secret from staff so they cannot accidentally press any buttons"
+            },
+            {
+              "id": "d",
+              "text": "Training only the chief executive and hoping they explain the buttons to the team later"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Practical training on real exceptions and concise visual guides give staff the confidence to use the system every day.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_D8xl3hggEyQI",
       "title": "Runbooks for common problems",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A runbook is a short, step-by-step checklist explaining how to diagnose and fix the five or ten most common problems a system might hit. Having runbooks ready means you or a client administrator can solve routine hiccups in minutes without panicking.\n\nIt is like the laminated troubleshooting card attached to an office photocopier that shows exactly which three doors to open when a sheet of paper jams.\n\nTypical runbooks cover an expired API key, a changed spreadsheet column name, a vendor rate-limit spike, or how to restart a stuck queue after pressing the kill switch.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_D8xl3hggEyQI_1",
+          "type": "multiple_choice",
+          "prompt": "What is the purpose of a runbook in an operational AI system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To give a clear, step-by-step checklist for fixing common operational issues quickly and consistently"
+            },
+            {
+              "id": "b",
+              "text": "To record the marketing history and founding story of the client's business"
+            },
+            {
+              "id": "c",
+              "text": "To replace all automated error handling and spend limits inside the software"
+            },
+            {
+              "id": "d",
+              "text": "To list every possible sentence that a language model might ever generate"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Step-by-step runbooks turn stressful production hiccups into routine five-minute fixes for you or the client's administrator.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_jBmgj1TYIz21",
       "title": "Plan for model and vendor changes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "AI vendors regularly retire model versions, adjust pricing, or suffer temporary outages, so your client systems must be built to survive vendor change. Keep model calls behind a clean wrapper so switching from one model version or provider to another requires editing configuration rather than rewriting the whole workflow.\n\nWhen a provider announces that an older model version will shut down in sixty days, your evaluation suite and wrapper let you test the replacement model and switch over on a quiet afternoon.\n\nWarn clients in your terms that external vendor updates happen periodically and include routine model migrations within your monthly maintenance scope.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -74,7 +186,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_jBmgj1TYIz21_1",
+          "type": "multiple_choice",
+          "prompt": "How can you design a client system so that model retirements or vendor outages are easy to handle?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Hardcode the exact model name and API URL into fifty separate files across the project"
+            },
+            {
+              "id": "b",
+              "text": "Isolate model calls behind a clean configuration wrapper and maintain an evaluation suite to test replacements"
+            },
+            {
+              "id": "c",
+              "text": "Promise the client that the model version deployed on day one will never change for ten years"
+            },
+            {
+              "id": "d",
+              "text": "Avoid using any external APIs and ask client staff to type all replies manually instead"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Decoupling model calls and keeping ready evaluations lets you swap models smoothly when vendors retire versions or suffer downtime.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

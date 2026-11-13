@@ -5,50 +5,162 @@
     {
       "id": "bit_e_wqk_TPE2cl",
       "title": "Safety evals and content policies",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Safety evaluations and content policies define what your AI application must never say or do, and test systematically whether the system upholds those boundaries. A content policy writes down clear rules tailored to the business, such as forbidding medical diagnoses, legal advice, competitor disparagement, or self-harm encouragement, while safety evals test the system against hundreds of borderline prompts.\n\nIt is like a broadcaster publishing clear editorial guidelines for presenters and running dress rehearsals to verify that nobody breaks the rules on air.\n\nA generic provider filter handles universal harms like severe violence, but you must build custom safety evals for your client's specific industry regulations and brand boundaries.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_e_wqk_TPE2cl_1",
+          "type": "multiple_choice",
+          "prompt": "Why does a client project need its own content policy and safety evals on top of the model provider's built-in filters?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Model providers turn off all built-in safety filters as soon as you use an API key"
+            },
+            {
+              "id": "b",
+              "text": "Custom safety evals automatically reduce the per-token price charged by the cloud host"
+            },
+            {
+              "id": "c",
+              "text": "Content policies are only required if you train a foundation model from scratch"
+            },
+            {
+              "id": "d",
+              "text": "Built-in provider filters block universal harms, but they do not know your client's specific brand rules, regulated advice limits, or competitor policies"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "While model providers filter extreme universal harms, businesses have domain-specific boundaries such as not giving unauthorised financial advice or discussing competitors that require custom policies and evaluations.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-0A6ExKtOvLP",
       "title": "Incident reporting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Incident reporting is the structured process for logging, escalating, and investigating unexpected AI failures, security breaches, or harmful outputs once a system is live. A good incident process gives users and staff an easy way to flag bad behaviour, preserves the exact conversation trace and tool logs, and assigns clear ownership for triage.\n\nThink of it as the aviation industry's incident reporting culture, where pilots and crew log near-misses immediately so engineers can investigate the root cause before a serious accident happens.\n\nIn regulated sectors or under frameworks like the EU AI Act, serious incidents involving high-risk AI systems may also carry mandatory reporting deadlines to external regulators; check the current details for your jurisdiction.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-0A6ExKtOvLP_1",
+          "type": "multiple_choice",
+          "prompt": "Why is preserving the full execution trace essential when an AI incident is reported?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Engineers need the exact prompts, retrieved context, model outputs, and tool calls to reproduce and diagnose why the failure occurred"
+            },
+            {
+              "id": "b",
+              "text": "Regulators require companies to print out all conversation logs on paper every Friday"
+            },
+            {
+              "id": "c",
+              "text": "Preserving traces automatically trains the foundation model to fix its own weights overnight"
+            },
+            {
+              "id": "d",
+              "text": "Without execution traces, the user interface cannot display error messages on screen"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because AI behaviour depends heavily on the exact combination of system prompt, retrieved documents, and conversation state, full traces are necessary to understand and fix an incident.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_fD0HsgwHAusZ",
       "title": "Provider usage policies you must follow",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every commercial model provider and cloud platform enforces an acceptable use policy (AUP) that restricts how you and your clients are permitted to use their AI models. These policies universally prohibit illegal acts, child exploitation, cyberattacks, weapons development, and non-consensual intimate imagery, and often restrict automated high-stakes decisions or deceptive impersonation without disclosure.\n\nIt is like leasing a commercial van where the rental contract forbids using the vehicle for dangerous racing or unlicensed hazardous waste transport, regardless of who is driving.\n\nViolating a provider's usage policy can get your client's API account suspended overnight, so always check the current details of the provider's terms before scoping a sensitive use case.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_fD0HsgwHAusZ_1",
+          "type": "multiple_choice",
+          "prompt": "What is the business risk of building a client application that violates your model provider's acceptable use policy?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model will automatically switch to speaking a different language without warning"
+            },
+            {
+              "id": "b",
+              "text": "The provider can suspend or revoke your API access, immediately shutting down the client's production application"
+            },
+            {
+              "id": "c",
+              "text": "Your local development computer will be physically locked by the operating system"
+            },
+            {
+              "id": "d",
+              "text": "The provider will take ownership of all non-AI software in your company's code repository"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Model providers monitor API traffic for policy violations and reserve the right to throttle, suspend, or terminate accounts that breach their acceptable use terms.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_c94djuJ3ue9h",
       "title": "A written plan for when things go wrong",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A written incident response plan for AI systems spells out ahead of time who has the authority to shut the system down, how to fall back to a safe alternative, and who must be notified when a serious failure happens. Include a fast kill switch or feature flag that disables autonomous agent actions or reverts the app to a static workflow within seconds.\n\nIt is like a factory having clearly marked red emergency stop buttons on the wall and a rehearsed evacuation drill before the machinery is ever switched on.\n\nTrying to debate who is allowed to turn off a rogue customer-facing bot while it is actively sending faulty emails turns a minor technical glitch into a major public crisis.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_c94djuJ3ue9h_1",
+          "type": "multiple_choice",
+          "prompt": "What is the most important technical mechanism to include in an AI incident response plan?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A fast kill switch or fallback toggle that immediately disables autonomous actions or switches the system to a safe manual mode"
+            },
+            {
+              "id": "b",
+              "text": "A script that automatically deletes the company's website whenever an error occurs"
+            },
+            {
+              "id": "c",
+              "text": "A tool that sends an automated apology email to every address in the database every ten minutes"
+            },
+            {
+              "id": "d",
+              "text": "A setting that doubles the model's temperature parameter during high-traffic periods"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Having an immediate kill switch or safe fallback path allows the team to stop ongoing harm in seconds while engineers investigate the root cause calmly.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

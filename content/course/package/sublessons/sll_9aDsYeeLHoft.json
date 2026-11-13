@@ -5,86 +5,282 @@
     {
       "id": "bit_UVi4fIE29L8T",
       "title": "Linear and logistic regression",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Linear regression predicts a continuous numeric target as a weighted sum of the input features plus a bias term, whereas logistic regression passes that weighted sum through a sigmoid function to output a probability between zero and one for classification.\n\nIt is like using one weighted scorecard to estimate a property's sale price in pounds (linear) and another scorecard squashed onto a zero-to-hundred percent scale to estimate the chance the buyer defaults (logistic).\n\nBoth models are fast, stable, and easy to explain to regulators, though they assume linear boundaries unless you explicitly add interaction terms or polynomial features.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_UVi4fIE29L8T_1",
+          "type": "multiple_choice",
+          "prompt": "How does logistic regression turn a linear weighted sum of features into a valid probability for binary classification?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It passes the weighted sum through the logistic (sigmoid) function, which maps any real number into the range (0, 1)"
+            },
+            {
+              "id": "b",
+              "text": "It clips any prediction below zero to 0.0 and any prediction above one to 1.0"
+            },
+            {
+              "id": "c",
+              "text": "It takes the square root of the weighted sum and divides by the number of rows"
+            },
+            {
+              "id": "d",
+              "text": "It sorts the features alphabetically and returns the median feature value"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The sigmoid function smoothly squashes unconstrained log-odds scores from negative infinity to positive infinity into probabilities between 0 and 1.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_t0hLQXfD9Is6",
       "title": "Decision trees, random forests, gradient boosting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A decision tree splits data recursively using if-then thresholds; a random forest averages many trees trained independently on bootstrap samples and random feature subsets; and gradient boosting builds shallow trees sequentially, where each new tree corrects the residual errors of the previous ensemble.\n\nIt is like asking one specialist for a flowchart, polling a committee of independent specialists, or having a relay team of editors each fix the mistakes left by the previous editor.\n\nRandom forests resist overfitting with little tuning, whereas gradient boosting usually achieves higher accuracy on tabular data when tuned carefully.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_t0hLQXfD9Is6_1",
+          "type": "multiple_choice",
+          "prompt": "What is the core difference between how a random forest and a gradient boosted tree ensemble build their trees?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A random forest trains only a single tree, while gradient boosting trains thousands of linear regressions"
+            },
+            {
+              "id": "b",
+              "text": "A random forest trains trees independently in parallel and averages them, while gradient boosting trains trees sequentially to fix prior errors"
+            },
+            {
+              "id": "c",
+              "text": "A random forest requires features to be one-hot encoded and scaled, while gradient boosting only works on images"
+            },
+            {
+              "id": "d",
+              "text": "A random forest optimises sequential residuals, while gradient boosting averages bootstrap samples in parallel"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Bagging in random forests reduces variance by averaging independent trees, whereas boosting reduces bias and error by fitting each new tree to the current residuals or gradients.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hqHgp77ahJo2",
       "title": "SVMs and k-nearest neighbours",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Support Vector Machines (SVMs) find the boundary hyperplane that separates classes with the widest safety margin (optionally using kernels for curved boundaries), while k-nearest neighbours (k-NN) stores the training points and predicts a new point's label from the majority vote or average of its k closest training examples.\n\nIt is like drawing the widest possible chalk lane between two warehouse zones (SVM) versus pricing an antique by looking up the five most similar items sold recently (k-NN).\n\nBoth methods struggle when datasets grow to millions of rows or hundreds of noisy dimensions unless you compress or index the space first.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hqHgp77ahJo2_1",
+          "type": "multiple_choice",
+          "prompt": "How does a k-nearest neighbours (k-NN) classifier make a prediction for a new client record?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It multiplies the new record by a learned weight matrix and applies a softmax layer"
+            },
+            {
+              "id": "b",
+              "text": "It measures the distance from the new record to the training points and takes the majority class among the k closest neighbours"
+            },
+            {
+              "id": "c",
+              "text": "It traces a sequence of if-then threshold splits from a root node to a leaf node"
+            },
+            {
+              "id": "d",
+              "text": "It finds the single widest margin hyperplane separating all positive and negative records"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "As an instance-based learner, k-NN defers computation until inference time and bases its prediction on the labels of the nearest stored training examples.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lJ1QWxuL7-7q",
       "title": "Regularization: ridge and lasso",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Regularisation discourages overly complex models by adding a penalty for large weights to the loss function: Ridge (L2) penalises the sum of squared weights, shrinking correlated weights smoothly together, while Lasso (L1) penalises the sum of absolute weights, driving unimportant weights all the way to exact zero.\n\nIt is like giving a project manager a strict budget on weight sizes; Ridge trims every department's budget proportionally, whereas Lasso shuts down low-value tasks completely.\n\nRemember to standardise numeric features before applying Ridge or Lasso so the penalty treats every feature fairly regardless of its measurement units.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lJ1QWxuL7-7q_1",
+          "type": "multiple_choice",
+          "prompt": "Which property makes Lasso (L1) regularisation useful for automatic feature selection in linear models?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Its squared penalty forces all features in the dataset to share the exact same non-zero weight"
+            },
+            {
+              "id": "b",
+              "text": "It automatically creates non-linear interaction terms between every pair of columns"
+            },
+            {
+              "id": "c",
+              "text": "It removes the need to choose a regularisation strength hyperparameter"
+            },
+            {
+              "id": "d",
+              "text": "Its absolute-value penalty pushes the weights of weak or redundant features to exact zero"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The geometry of the L1 absolute-value penalty creates sharp corners at zero, causing small coefficients to drop out completely during optimisation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_78OGosZ9n8m1",
       "title": "Trees handle mixed data and need little scaling",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Decision trees and tree ensembles split one feature at a time by checking whether values fall above or below a threshold, which means any monotonic rescaling of a column (such as converting pounds to pence or taking a logarithm) leaves the split order unchanged.\n\nIt is like sorting staff by height; whether you measure them in centimetres or inches, the exact same people stand to the left and right of the midpoint.\n\nBecause trees inspect raw rankings and mix numeric columns with encoded categories naturally, they save preprocessing effort, though they cannot extrapolate linear trends beyond the minimum and maximum values seen in training.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_78OGosZ9n8m1_1",
+          "type": "multiple_choice",
+          "prompt": "Why does multiplying a numeric feature by 1,000 have no effect on the structure of a decision tree?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Decision trees automatically standardise every feature to mean zero and variance one before splitting"
+            },
+            {
+              "id": "b",
+              "text": "Decision trees ignore all numeric features and only split on text categories"
+            },
+            {
+              "id": "c",
+              "text": "Multiplying by 1,000 converts the decision tree into a logistic regression model"
+            },
+            {
+              "id": "d",
+              "text": "Tree splits only depend on the ordering of values along each feature, and monotonic scaling simply shifts the threshold by the same factor"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Because a split rule only separates rows below and above a cut-point, scaling a feature's units scales the cut-point identically without changing which rows go to each branch.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_jGhsr061sTSC",
       "title": "Gradient boosting is often the strongest choice on tabular data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "On structured business tables with heterogeneous columns (prices, dates, counts, and categories), modern gradient-boosted decision tree libraries consistently match or beat deep neural networks while training in a fraction of the time and compute budget.\n\nIt is like using a nimble delivery van for city-centre drop-offs rather than hiring a cargo plane that shines only on intercontinental routes.\n\nDeep learning dominates unstructured inputs like raw text, audio, and images, but for a client's customer churn table or credit risk scorecard, gradient boosting paired with solid feature engineering should be your primary workhorse.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_jGhsr061sTSC_1",
+          "type": "multiple_choice",
+          "prompt": "For a standard structured business table of 50,000 customer rows with mixed numeric and categorical columns, which model family is usually the strongest contender?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Deep convolutional neural networks"
+            },
+            {
+              "id": "b",
+              "text": "Gradient-boosted decision trees"
+            },
+            {
+              "id": "c",
+              "text": "Recurrent long short-term memory networks"
+            },
+            {
+              "id": "d",
+              "text": "Unsupervised k-means clustering"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Gradient-boosted trees handle ragged feature distributions, sharp threshold effects, and mixed column types natively, making them the benchmark on tabular data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Ew-EQGn9gkjF",
       "title": "Choosing a model: data size, interpretability, and speed",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Selecting the right model for a client means balancing predictive accuracy against dataset size, latency and compute budgets, regulatory explainability requirements, and the engineering team's ability to maintain the system in production.\n\nIt is like advising a logistics firm on vehicle purchases; a Formula One car is fastest on a track, but a reliable estate car is what actually delivers parcels on budget.\n\nWhen a hospital or bank requires transparent scorecards or sub-millisecond responses on modest hardware, a well-regularised linear model or compact tree ensemble often beats a marginal accuracy gain from a heavyweight ensemble.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Ew-EQGn9gkjF_1",
+          "type": "multiple_choice",
+          "prompt": "When advising a regulated financial client who must explain every rejected loan application in plain terms and has only 2,000 historical rows, what should guide model choice?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Prefer an interpretable, low-variance model such as regularised logistic regression or shallow trees over a complex black-box architecture"
+            },
+            {
+              "id": "b",
+              "text": "Always deploy the largest deep neural network available regardless of sample size or audit rules"
+            },
+            {
+              "id": "c",
+              "text": "Choose k-nearest neighbours with k=1 because it never overfits small datasets"
+            },
+            {
+              "id": "d",
+              "text": "Skip validation splits so all 2,000 rows can be memorised by a thousand-layer network"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Small sample sizes favour low-variance models that resist overfitting, and regulatory constraints require transparent feature attributions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

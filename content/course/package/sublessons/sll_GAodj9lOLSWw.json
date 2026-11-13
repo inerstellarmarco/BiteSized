@@ -5,86 +5,282 @@
     {
       "id": "bit_CATY-yMSb40X",
       "title": "EU AI Act, Canadian AI and privacy law",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The EU AI Act and Canadian privacy and AI governance rules represent two major legal landscapes that AI consultants frequently navigate for international clients. The EU AI Act is a comprehensive, risk-based regulation governing AI across the European market, while Canada relies on federal and provincial privacy laws alongside sector guidance and voluntary codes.\n\nJust as GDPR forced companies outside Europe to upgrade their data practices if they served European customers, the EU AI Act applies extra-territorially whenever an AI system's output is used within the EU.\n\nBecause enforcement timelines, national implementation rules, and cross-border agreements evolve rapidly, always check the current details and consult qualified legal counsel for client compliance.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_CATY-yMSb40X_1",
+          "type": "multiple_choice",
+          "prompt": "When does the EU AI Act apply to a company based outside the European Union, such as in Canada or the UK?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only if the company builds its own physical semiconductor fabs inside Brussels"
+            },
+            {
+              "id": "b",
+              "text": "Never, because European technology regulations only apply to government agencies"
+            },
+            {
+              "id": "c",
+              "text": "Whenever the company places an AI system on the EU market or the system's output is used within the EU"
+            },
+            {
+              "id": "d",
+              "text": "Only when the company's AI system is written in a European programming language"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Like the GDPR, the EU AI Act has extra-territorial reach and applies to providers and deployers outside the EU if their AI systems or outputs are used inside the Union.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_XxZY075I62k-",
       "title": "NIST AI RMF, ISO 42001",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The NIST AI Risk Management Framework (AI RMF) and ISO/IEC 42001 are the two most widely adopted international standards for structuring enterprise AI governance. NIST AI RMF is a voluntary framework from the US National Institute of Standards and Technology organised around four core functions (Govern, Map, Measure, Manage), while ISO 42001 is a formal, certifiable international standard for an AI Management System.\n\nThink of NIST AI RMF as a practical architectural blueprint for managing risk, and ISO 42001 as the formal inspection certificate that an independent auditor can stamp to prove your organisation follows a disciplined management process.\n\nCheck the current details of companion profiles, such as the NIST Generative AI Profile, when setting up a client's governance programme.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XxZY075I62k-_1",
+          "type": "multiple_choice",
+          "prompt": "What is a key practical distinction between the NIST AI RMF and ISO/IEC 42001 for an enterprise client?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "NIST AI RMF applies only to robotics hardware, whereas ISO/IEC 42001 applies only to chatbots"
+            },
+            {
+              "id": "b",
+              "text": "NIST AI RMF is mandatory under criminal law worldwide, whereas ISO/IEC 42001 is an informal blog post"
+            },
+            {
+              "id": "c",
+              "text": "NIST AI RMF forbids the use of generative AI, whereas ISO/IEC 42001 requires open-sourcing all code"
+            },
+            {
+              "id": "d",
+              "text": "NIST AI RMF is a voluntary risk management framework, whereas ISO/IEC 42001 is a certifiable management system standard"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Organisations use the NIST AI RMF (Govern, Map, Measure, Manage) as practical voluntary guidance, while ISO/IEC 42001 allows organisations to undergo formal third-party audits and achieve certification.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_y7nA7iplbmZN",
       "title": "Risk tiers: more risk means more obligations",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Risk-tiered regulation scales legal and governance obligations to match the potential harm of the AI use case, rather than regulating every algorithm the same way. Under the EU AI Act's pyramid, unacceptable-risk practices like social scoring are banned outright, high-risk systems like recruitment or medical tools face heavy conformity duties, limited-risk tools like chatbots require transparency notices, and minimal-risk tools like spam filters face almost no new rules.\n\nIt is like regulating transport: bicycles need basic road safety, family cars need seatbelts and licences, and commercial airliners require exhaustive flight recorders, certified pilots, and regulatory sign-off.\n\nA single foundation model can sit in different risk tiers depending on the specific client workflow you build with it, so always check the current details of the classification rules.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_y7nA7iplbmZN_1",
+          "type": "multiple_choice",
+          "prompt": "Under a risk-tiered framework like the EU AI Act, what determines whether an AI application faces strict high-risk obligations or light transparency rules?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The total number of lines of Python code written by the engineering team"
+            },
+            {
+              "id": "b",
+              "text": "The specific use case and the potential harm the system could cause to health, safety, or fundamental rights"
+            },
+            {
+              "id": "c",
+              "text": "Whether the user interface uses a dark colour theme or a light colour theme"
+            },
+            {
+              "id": "d",
+              "text": "The physical weight of the servers running the inference workload"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Risk-based frameworks classify systems according to how they are deployed and the severity of potential harm to individuals, rather than applying identical heavy rules to benign tasks like spam filtering.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Cc8bdV5Z1LZc",
       "title": "EU AI Act: high-risk deadlines have been deferred under the Digital Omnibus agreement; check the current dates",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The EU AI Act introduces rules in phased stages, beginning with prohibitions on unacceptable practices and obligations for general-purpose AI models, followed later by strict conformity requirements for high-risk systems. Under the European Digital Omnibus agreement, enforcement deadlines for high-risk AI obligations have been deferred to give standards bodies and enterprises more time to prepare; check the current details and official dates before advising clients.\n\nIt is like a city announcing a new low-emission zone well in advance, enforcing bans on the worst polluters first while extending the transition deadline for delivery fleets to retrofit their engines.\n\nEven when formal high-risk enforcement dates shift, clients building recruitment, credit, or medical tools should design for compliance from day one rather than waiting for the final deadline.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Cc8bdV5Z1LZc_1",
+          "type": "multiple_choice",
+          "prompt": "Why must an AI consultant verify current enforcement timelines when advising a client on the EU AI Act?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The entire EU AI Act is automatically repealed and rewritten from scratch every Monday morning"
+            },
+            {
+              "id": "b",
+              "text": "The regulation only applies during leap years and is suspended in all other years"
+            },
+            {
+              "id": "c",
+              "text": "Obligations roll out in phases and high-risk enforcement deadlines have been deferred under the Digital Omnibus agreement"
+            },
+            {
+              "id": "d",
+              "text": "Individual software developers are allowed to pick their own personal compliance dates"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "The EU AI Act uses a phased rollout and its high-risk enforcement dates have been adjusted under the Digital Omnibus package, making it essential to verify current official deadlines.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ePcBQZ7Wy17e",
       "title": "Canada has no federal AI act: AIDA died in 2025 and a national AI strategy followed in 2026; privacy law (PIPEDA) still applies",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Canada currently has no standalone federal AI statute because the proposed Artificial Intelligence and Data Act (AIDA, part of Bill C-27) died on the Order Paper when Parliament was prorogued in early 2025, and the federal government shifted toward a refreshed national AI strategy in 2026. However, the absence of a federal AI act does not mean Canadian AI projects are unregulated; existing privacy law under PIPEDA and provincial equivalents like Quebec's Law 25 strictly govern how personal data is collected and used.\n\nA Canadian retailer deploying an AI personalisation engine still faces binding legal rules on customer consent, automated decision transparency in Quebec, and human rights laws against discrimination.\n\nAlways check the current details of Canadian federal and provincial rules when advising Canadian organisations.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ePcBQZ7Wy17e_1",
+          "type": "multiple_choice",
+          "prompt": "What is the legal reality for a company deploying an AI system in Canada in 2026 after the federal AIDA bill died in 2025?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "There are no laws of any kind governing personal data, privacy, or discrimination in Canada"
+            },
+            {
+              "id": "b",
+              "text": "Canadian companies are required to shut down all AI applications until a new federal bill passes"
+            },
+            {
+              "id": "c",
+              "text": "Existing federal and provincial privacy laws (such as PIPEDA and Quebec's Law 25) and human rights laws still strictly apply to AI systems"
+            },
+            {
+              "id": "d",
+              "text": "Only the US government has jurisdiction over databases hosted in Toronto or Montreal"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Although AIDA died in 2025, Canadian AI deployments remain bound by existing privacy legislation (PIPEDA and provincial laws), human rights statutes, and sector-specific regulations.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_aMMAEsP9EmNW",
       "title": "Privacy basics: consent, purpose, and retention",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Consent, purpose limitation, and data retention are the three privacy pillars every AI consultant must address whenever a system touches personal information. You must have a valid legal basis or meaningful user consent to process the data, use it only for the specific purpose the person was told about, and delete raw personal records and conversation logs once that purpose is fulfilled.\n\nIt is like borrowing a client's house keys to water their plants while they are on holiday: you may not copy the keys, host a party in their living room, or keep the keys a year later.\n\nBe especially careful with model provider settings so that client personal data is never silently retained to train public foundation models.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_aMMAEsP9EmNW_1",
+          "type": "multiple_choice",
+          "prompt": "How does the privacy principle of purpose limitation apply to a client's AI project?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "An AI agent is only allowed to answer one question per user before locking their account"
+            },
+            {
+              "id": "b",
+              "text": "A company may only use AI for a single department such as marketing and nowhere else"
+            },
+            {
+              "id": "c",
+              "text": "Prompts sent to a language model must be limited to fewer than fifty words"
+            },
+            {
+              "id": "d",
+              "text": "Personal data collected for one specific service cannot be repurposed for unrelated AI training or features without a valid new legal basis or consent"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Purpose limitation means personal data must only be processed for the clear, specified legitimate purposes communicated to the individual at the time of collection.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_KdJXhm7W-WsE",
       "title": "Copyright questions for training data and generated content",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Copyright law raises two separate questions for AI systems: whether foundation model providers had the right to train on copyrighted works, and whether the text, code, or images generated by AI are protected by copyright or infringe someone else's work. In most jurisdictions, purely AI-generated output without meaningful human creative authorship cannot be registered for copyright protection by your client, and generated outputs that closely reproduce protected works can trigger infringement claims.\n\nIf a marketing agency uses an image generator to create a mascot without substantial human artistic editing, a competitor might legally copy that mascot because purely machine-generated art lacks copyright ownership.\n\nCheck the current details of major provider copyright indemnities and ongoing court rulings when advising clients on commercial content workflows.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KdJXhm7W-WsE_1",
+          "type": "multiple_choice",
+          "prompt": "What are the two distinct copyright risks a business must consider when using generative AI?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whether the programming language used to call the API is copyrighted, and whether JSON files are legal"
+            },
+            {
+              "id": "b",
+              "text": "Whether the model outputs infringe existing copyrighted works, and whether purely AI-generated outputs lack copyright protection of their own"
+            },
+            {
+              "id": "c",
+              "text": "Whether the user's computer monitor resolution is patented, and whether keyboard shortcuts are trademarked"
+            },
+            {
+              "id": "d",
+              "text": "Whether open-source vector databases charge royalties per query, and whether embeddings are considered music"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Businesses face both inbound risk (generated text, code, or images infringing a third party's copyright) and outbound protection limits (purely machine-generated works typically cannot be copyrighted).",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

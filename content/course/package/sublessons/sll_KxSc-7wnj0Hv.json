@@ -5,32 +5,88 @@
     {
       "id": "bit_pfg_BSpbISOy",
       "title": "Docker images and Docker Compose",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A **Docker image** packages your application code, its exact Python or Node runtime, system libraries and dependencies into a single self-contained snapshot. **Docker Compose** lets you define and run multi-container setups (such as your FastAPI backend, a Postgres + pgvector database and a Redis queue worker) together with one command (`docker compose up`). Check the current details in the Docker documentation.\n\nWithout containers, you hit the classic \"it works on my laptop\" failure when the production server has a different Python version or a missing PDF parsing library.\n\nIt is packing a whole mobile kitchen into a shipping container so every pan and stove is in the exact same place wherever the lorry parks.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_pfg_BSpbISOy_1",
+          "type": "multiple_choice",
+          "prompt": "What problem do Docker images and Docker Compose solve for AI applications?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They package the exact runtime, system libraries and supporting services together so the app runs identically on every machine"
+            },
+            {
+              "id": "b",
+              "text": "They make language models ten times smarter without changing the prompt"
+            },
+            {
+              "id": "c",
+              "text": "They eliminate the need to pay cloud hosting bills"
+            },
+            {
+              "id": "d",
+              "text": "They automatically write unit tests for your prompts"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Containerisation eliminates environment drift between laptops, test servers and cloud production.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_3d91dWJEPO-t",
       "title": "Packaging agents so they run anywhere",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Once your agent service is packaged as a standard container image with a clear `Dockerfile`, you are no longer locked into a single hosting company.\n\nThat exact same container can run on your laptop today, on a cheap virtual server tomorrow, on AWS ECS or Google Cloud Run next month, or inside a corporate client's private Azure network next quarter. For an AI consultant, delivering a clean containerised service means the client's IT team can deploy and run your work using their standard tools without learning AI-specific quirks.\n\nIt is a standard mains plug that fits any wall socket in the country, regardless of who wired the building.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3d91dWJEPO-t_1",
+          "type": "multiple_choice",
+          "prompt": "Why is packaging an agent service as a standard Docker container especially helpful in client consulting work?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The client's IT team can deploy the container on whichever cloud or private server they already use without custom machine setup"
+            },
+            {
+              "id": "b",
+              "text": "Docker containers do not need any CPU or RAM to run"
+            },
+            {
+              "id": "c",
+              "text": "Containers bypass all corporate firewall rules automatically"
+            },
+            {
+              "id": "d",
+              "text": "A Dockerfile replaces the need for source code"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A clean container image gives you portable deployment across any cloud provider or client-hosted environment.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_VDHIPI4ITqCX",
       "title": "Environment variables and secrets kept outside the image",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Never hard-code API keys (`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, database passwords) in your source code or bake them into a Docker image with `COPY .env`.\n\nAnyone who pulls that image or reads its layer history can extract your secret keys in seconds. Instead, build the image with code only, and inject configuration and secrets at **runtime** through environment variables supplied by your cloud secret manager (such as AWS Secrets Manager, Google Secret Manager or Azure Key Vault). Add `.env` to both `.gitignore` and `.dockerignore`.\n\nIt is building a safe with the combination set at installation by the owner, rather than painting the code on the door at the factory.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,19 +99,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_VDHIPI4ITqCX_1",
+          "type": "multiple_choice",
+          "prompt": "How should API keys and database passwords be passed to a containerised AI service?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Injected at runtime via environment variables from a secret manager, never baked into the Docker image or committed to Git"
+            },
+            {
+              "id": "b",
+              "text": "Written directly at the top of `main.py` so they are easy to find"
+            },
+            {
+              "id": "c",
+              "text": "Copied into the Docker image during `docker build` and pushed to Docker Hub"
+            },
+            {
+              "id": "d",
+              "text": "Sent in the URL query string of every user request"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Keeping secrets in runtime environment variables prevents leaks through Git repositories or container registries and lets you rotate keys without rebuilding.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_obXfOvnp7bIs",
       "title": "The same container in testing and production",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a healthy deployment pipeline, you build the Docker image once from a specific Git commit hash (for example, `myapp:3ab783c`), run your automated unit and evaluation tests against that exact image in staging, and then promote that **exact same image** to production by changing only its environment variables.\n\nIf you rebuild from scratch in production with unpinned dependencies (`pip install langchain`), a library update released five minutes ago can silently break production even though staging passed.\n\nIt is testing a batch of medicine in the lab and shipping bottles from that exact tested batch, not mixing a new batch on the lorry.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_obXfOvnp7bIs_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you promote the exact same built container image from testing to production rather than rebuilding it with unpinned dependencies?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So you know the exact code and library versions that passed your tests are what runs in production, with no surprise package updates"
+            },
+            {
+              "id": "b",
+              "text": "Because building an image twice costs a million pounds"
+            },
+            {
+              "id": "c",
+              "text": "Because production servers cannot run `pip install`"
+            },
+            {
+              "id": "d",
+              "text": "So that test database data is copied to real customers"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Pinning dependencies in lockfiles and promoting the tested image artifact guarantees that production matches what passed staging.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

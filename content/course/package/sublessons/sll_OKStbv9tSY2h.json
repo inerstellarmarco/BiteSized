@@ -5,8 +5,8 @@
     {
       "id": "bit_GCdbqBLrbCex",
       "title": "Access control and retention rules for client data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Client data must only be accessible to the specific people and bots that need it, and temporary copies should be deleted after an agreed retention period. Leaving old customer files sitting in test folders or log tables indefinitely creates an unnecessary data breach risk.\n\nFor an accountancy client, the workflow might allow the extraction bot to read uploaded tax forms, restrict human viewing to two senior bookkeepers, and automatically purge raw uploads from the staging bucket after thirty days.\n\nAlways align your retention settings with the client's legal obligations, such as tax record rules or data protection policies, and verify that automated cleanup jobs actually run.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GCdbqBLrbCex_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an AI system combine strict access controls with automatic data retention limits?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because language models forget how to read documents that are more than a month old"
+            },
+            {
+              "id": "b",
+              "text": "To force the client to re-type all of their company records every Monday morning"
+            },
+            {
+              "id": "c",
+              "text": "To ensure only authorised roles see sensitive records and old copies do not linger as a breach risk"
+            },
+            {
+              "id": "d",
+              "text": "Because deleting active financial ledgers every hour is required by accounting law"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Limiting who can view data and purging temporary processing files on schedule reduces security exposure while respecting compliance rules.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_F0Y4XPuv_x_a",
       "title": "Vendor contracts and where client data is stored",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When your system sends client information to an AI model provider, database host, or automation tool, you must check each vendor's terms on data residency, privacy, and model training. Many business clients require data to stay within the UK or European Union under UK GDPR rules, so always check the current details of each vendor's terms.\n\nIt is like hiring a specialist document shredding contractor: before handing over confidential boxes, you check where their depot is located and sign a binding agreement that they will not photocopy the pages.\n\nAlways use commercial API tiers that explicitly state client prompts and outputs are not used to train public models. Keep a list of sub-processors ready for client compliance checks.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,43 +66,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_F0Y4XPuv_x_a_1",
+          "type": "multiple_choice",
+          "prompt": "What must a consultant verify before sending client data to an external AI model provider?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "That the vendor offers a free consumer chat account with no contract required"
+            },
+            {
+              "id": "b",
+              "text": "That the model provider will publish the client's documents on a public benchmark leaderboard"
+            },
+            {
+              "id": "c",
+              "text": "That the vendor's commercial terms forbid training on client data and meet the client's geographic storage rules"
+            },
+            {
+              "id": "d",
+              "text": "Only that the API responds in less than two seconds during a weekend test"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Using business-grade APIs with clear data residency and no-training guarantees protects client confidentiality and regulatory compliance.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_22KBekkMhIJm",
       "title": "Use the client's own accounts and keys where possible",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Whenever practical, set up cloud hosting, automation platforms, and model API keys inside the client's own company accounts rather than running everything on your personal credit card. You can manage the system through delegated administrator access without holding their core infrastructure hostage.\n\nIt is like an electrician wiring a fuse board attached to the homeowner's own electricity meter, rather than running an extension cable from the electrician's van down the street.\n\nUsing the client's own accounts keeps billing transparent, avoids messy liability if a vendor suspends an account, and reassures the client that they control their own business continuity.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_22KBekkMhIJm_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it good practice to set up model API keys and cloud services inside the client's own accounts?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It allows the consultant to use the client's API key for ten other unrelated companies"
+            },
+            {
+              "id": "b",
+              "text": "It removes the need to set spend limits or alerts on the language model account"
+            },
+            {
+              "id": "c",
+              "text": "It gives the client clear ownership and billing continuity while you manage the system via delegated access"
+            },
+            {
+              "id": "d",
+              "text": "Cloud vendors never charge usage fees when an account is owned by a small business"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Provisioning services in the client's own accounts separates vendor billing cleanly and guarantees business continuity.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2SBQHejTpOpF",
       "title": "Offboarding: return or delete data when the engagement ends",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every consulting engagement will eventually end or change hands, and you need a clean offboarding checklist ready from day one. Offboarding means handing over agreed exports, revoking your staff and service-account access, and permanently deleting any client data stored on your own machines or staging servers.\n\nWhen a six-month contract with a property agency finishes, you export their prompt registry and logs to their drive, remove your agency login, and wipe your local test samples with written confirmation.\n\nHandling offboarding professionally protects you from lingering security liability and leaves a strong final impression that often leads to future referrals.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2SBQHejTpOpF_1",
+          "type": "multiple_choice",
+          "prompt": "What should a consultant do with client data and credentials when an engagement ends?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Keep a quiet copy of all customer databases on your laptop in case they return next year"
+            },
+            {
+              "id": "b",
+              "text": "Hand over agreed exports, revoke all consultant access, and delete any remaining client copies on your systems"
+            },
+            {
+              "id": "c",
+              "text": "Delete the client's live production database without warning on the final afternoon"
+            },
+            {
+              "id": "d",
+              "text": "Leave your administrator login active indefinitely so you can check on them uninvited"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Cleanly returning deliverables, revoking credentials, and wiping your copies closes out security risks and honours client trust.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_eDZcQQ7n1BU_",
       "title": "Written agreement on who owns outputs and prompts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before work starts, your contract must state clearly who owns the generated outputs, the custom business data, the tailored prompts, and your underlying reusable templates. Ambiguity over intellectual property causes bitter disputes when a client later wants to bring maintenance in-house.\n\nA fair standard agreement gives the client full ownership of their data, generated outputs, and business-specific prompts, while you retain ownership of your pre-existing component library and grant them a licence to use it.\n\nWrite this in plain language inside your statement of work and have a qualified solicitor check your standard terms so both sides can collaborate with confidence.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_eDZcQQ7n1BU__1",
+          "type": "multiple_choice",
+          "prompt": "How do consulting contracts typically split intellectual property between the client and the consultant?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The consultant owns all of the client's customer records and generated business letters forever"
+            },
+            {
+              "id": "b",
+              "text": "The client automatically takes exclusive ownership of every tool the consultant has ever built for anyone"
+            },
+            {
+              "id": "c",
+              "text": "Neither side owns anything, so no written agreement is needed before starting work"
+            },
+            {
+              "id": "d",
+              "text": "The client owns their data and tailored outputs, while the consultant keeps their reusable library and grants a usage licence"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Separating client-specific assets from your reusable component library protects the client's business while letting you serve future clients.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

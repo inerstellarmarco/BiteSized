@@ -5,62 +5,202 @@
     {
       "id": "bit_zBrGJoeT3Ag1",
       "title": "Dropout, weight decay, batch/layer norm",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Dropout randomly zeroes a fraction of hidden neuron activations during each training step so neurons cannot co-adapt lazily; weight decay shrinks weights slightly toward zero on every update; and batch or layer normalisation standardises intermediate activations so each layer receives stable mean and variance distributions.\n\nIt is like running office fire drills where random staff are absent so everyone learns the whole workflow (dropout), enforcing a tidy desk policy (weight decay), and keeping room temperature steady between floors (normalisation).\n\nCrucially, you must switch the model to evaluation mode during validation and production inference so dropout turns off and batch normalisation uses saved running statistics instead of current batch statistics.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_zBrGJoeT3Ag1_1",
+          "type": "multiple_choice",
+          "prompt": "Why must you switch a neural network from training mode to evaluation mode before running validation or production inference?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So that dropout stops randomly zeroing activations and batch normalisation uses stable running statistics instead of single-batch statistics"
+            },
+            {
+              "id": "b",
+              "text": "So that the model deletes its final classification layer and outputs raw input features"
+            },
+            {
+              "id": "c",
+              "text": "So that backpropagation runs twice as fast on the test labels"
+            },
+            {
+              "id": "d",
+              "text": "So that weight decay multiplies all weights by zero before making a prediction"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Leaving training mode active during inference adds random dropout noise to predictions and makes outputs depend on whichever other rows happen to share the inference batch.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TcB7PW7Jeac6",
       "title": "Early stopping and checkpointing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Checkpointing saves snapshots of the model weights and optimiser state to disk during training, and early stopping monitors the validation metric after each epoch, halting training when validation performance fails to improve for a set number of patience epochs and restoring the best saved checkpoint.\n\nIt is like saving versions of a client slide deck every hour and reverting to Tuesday's version when Wednesday's extra edits start making the story cluttered.\n\nWithout restoring the best checkpoint, stopping after ten epochs of worsening validation loss leaves you with an already overfitted model rather than the peak performer.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TcB7PW7Jeac6_1",
+          "type": "multiple_choice",
+          "prompt": "When early stopping halts training after validation loss has worsened for 5 consecutive patience epochs, which model weights should you deploy?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The saved checkpoint from 5 epochs earlier when validation performance was at its best"
+            },
+            {
+              "id": "b",
+              "text": "The final weights from the very last epoch when training halted"
+            },
+            {
+              "id": "c",
+              "text": "The initial random weights from before epoch 1 began"
+            },
+            {
+              "id": "d",
+              "text": "The average of the worst validation epoch and the random initialisation"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Early stopping pairs a patience counter with model checkpointing so you roll back to the epoch that achieved the best validation score.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_aMOoHM-mE7td",
       "title": "Gradient clipping",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Gradient clipping caps the norm or individual values of the gradient vector whenever they exceed a chosen threshold right before the optimiser step, preventing a single freak batch or steep cliff on the loss surface from hurling the weights into a ruined region.\n\nIt is like a power surge protector on an office server rack that lets normal electrical current pass untouched while clamping a sudden lightning spike to a safe maximum voltage.\n\nClipping is standard practice when training recurrent networks and large transformers, though it only masks occasional spikes and will not fix a learning rate that is fundamentally ten times too large.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_aMOoHM-mE7td_1",
+          "type": "multiple_choice",
+          "prompt": "At what point in the training step is gradient clipping applied, and what does it prevent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "After `backward()` and before `optimizer.step()`, to prevent occasional huge gradient spikes from catapulting weights out of a good region"
+            },
+            {
+              "id": "b",
+              "text": "Before the forward pass, to round all input features to integers between -1 and +1"
+            },
+            {
+              "id": "c",
+              "text": "After the test set evaluation, to delete misclassified rows from the report"
+            },
+            {
+              "id": "d",
+              "text": "During weight initialisation, to set all bias terms to infinity"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Clipping inspects the newly computed gradients before they are applied to the parameters, rescaling any abnormally large gradient vector to a safe maximum norm.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4NwKNxw89ayp",
       "title": "Data augmentation as regularization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Data augmentation applies realistic label-preserving transformations to training inputs on the fly, such as random horizontal flips, crops, and colour jitter for images, or background noise for audio, multiplying dataset diversity and regularising the model against memorising exact pixel positions.\n\nIt is like training a quality-control inspector to recognise scratched glass under warm light, cool light, and slight camera angles so they do not rely on one studio shadow.\n\nEvery augmentation must preserve the true label in the client's domain; flipping a street photo horizontally is fine, whereas flipping an asymmetrical serial number can change its meaning.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4NwKNxw89ayp_1",
+          "type": "multiple_choice",
+          "prompt": "When can a standard image augmentation like random vertical or horizontal flipping actually harm model accuracy?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whenever the training dataset contains more than a hundred images"
+            },
+            {
+              "id": "b",
+              "text": "Whenever the model uses convolutional layers instead of linear regression"
+            },
+            {
+              "id": "c",
+              "text": "Data augmentation always improves accuracy regardless of the transformation or domain"
+            },
+            {
+              "id": "d",
+              "text": "When the orientation carries essential domain meaning, such as reading digits like 6 versus 9 or diagnosing asymmetric medical scans"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Augmentations teach invariance to the applied transformation, which helps only when that transformation never changes the true target meaning in production.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-bS825tG9uTb",
       "title": "Debugging a loss that will not fall",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When training loss refuses to budge from its starting value, a systematic consultant checks five common culprits in order: inputs and labels accidentally mismatched or corrupted, learning rate far too low or so high that activations saturated, forgetting to zero or apply gradients, wrong loss function for the output layer, or dead activations from bad initialisation.\n\nIt is like troubleshooting a car that will not start by checking fuel, battery, and ignition switch in a calm checklist before rebuilding the engine.\n\nStrip away regularisation, data augmentation, and complex schedules first, and verify that a simple configuration can overfit a single tiny batch before adding complexity back one piece at a time.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-bS825tG9uTb_1",
+          "type": "multiple_choice",
+          "prompt": "What is the best troubleshooting strategy when a complex deep learning model's training loss stays completely flat from epoch 1?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Immediately double the number of layers and train for 500 epochs on the full cluster"
+            },
+            {
+              "id": "b",
+              "text": "Turn off regularisation and augmentation, try to overfit a single tiny batch, and check learning rate, label alignment, and gradient flow step by step"
+            },
+            {
+              "id": "c",
+              "text": "Evaluate the untrained model on the locked test set and report that score to the client"
+            },
+            {
+              "id": "d",
+              "text": "Add stronger dropout and weight decay to force the loss downward"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Simplifying to a single-batch sanity check without regularisation isolates whether the core forward-loss-backward-update loop is working at all.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

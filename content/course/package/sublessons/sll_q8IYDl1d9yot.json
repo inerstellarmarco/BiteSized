@@ -5,62 +5,202 @@
     {
       "id": "bit_Z8Jg2IHCX4lV",
       "title": "Roles, goals, and backstories",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "CrewAI organises multi-agent teams around human-style job descriptions. Check the current details for recent CrewAI releases. Each agent is defined by three prompt fields: a role, a goal and a backstory.\n\nThe role titles the agent's job, such as \"Senior Financial Analyst\". The goal states what it is trying to achieve on this run. The backstory gives a short paragraph of context on how it approaches work, such as being sceptical of unverified projections and preferring tables over prose.\n\nIt is briefing an actor on their character's job, motivation and personality before a scene begins.\n\nUnder the hood, the framework combines these three fields into the agent's system prompt.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Z8Jg2IHCX4lV_1",
+          "type": "multiple_choice",
+          "prompt": "How does CrewAI use an agent's role, goal and backstory?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It sends them to HR to register the agent as an employee"
+            },
+            {
+              "id": "b",
+              "text": "It uses them to encrypt the database connection"
+            },
+            {
+              "id": "c",
+              "text": "It combines them into the agent's system prompt to shape its focus, tone and decision-making"
+            },
+            {
+              "id": "d",
+              "text": "It ignores them during execution and only shows them in documentation"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Role, goal and backstory are a structured way of authoring each specialist agent's system prompt.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_O_wbiuNYmpfa",
       "title": "Sequential vs. hierarchical processes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When you assemble a crew of agents and tasks in CrewAI, you choose how the work is coordinated, most commonly a sequential process or a hierarchical process. Check the current details in the CrewAI documentation.\n\nIn a sequential process, tasks run in the exact order you listed them, and the output of Task 1 is passed as context into Task 2. In a hierarchical process, a manager agent sits above the crew, decides which worker should tackle each task, reviews the output and asks for revisions if needed.\n\nIt is the difference between a fixed relay race and a football captain calling plays on the pitch.\n\nStart with sequential whenever the task order is known up front; it is cheaper and far easier to debug.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_O_wbiuNYmpfa_1",
+          "type": "multiple_choice",
+          "prompt": "When should you prefer a sequential process over a hierarchical manager process?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When you have no idea which tasks exist until halfway through"
+            },
+            {
+              "id": "b",
+              "text": "Whenever the order of tasks is known in advance, because sequential execution is simpler, cheaper and more predictable"
+            },
+            {
+              "id": "c",
+              "text": "When you want to maximise the number of extra manager API calls"
+            },
+            {
+              "id": "d",
+              "text": "Never, because sequential processes cannot pass context between tasks"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Fixed sequential order avoids the extra token cost and unpredictability of a manager LLM deciding every handoff.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-x24bu_DfI2B",
       "title": "Tasks: what is expected and what a good output looks like",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In role-based frameworks, defining the agent persona is only half the job. The task definition is what actually tells the agent what to produce right now.\n\nEvery task definition should state two things explicitly: `description` (the work to do and the inputs to use) and `expected_output` (a concrete description or schema of the finished artefact, such as \"a markdown table of the top five risks with likelihood, impact and mitigation owner\").\n\nIt is the difference between hiring a skilled carpenter (the agent) and handing them the measured drawing for the bookshelf you want built today (the task).\n\nVague `expected_output` fields produce rambling essays instead of usable deliverables.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-x24bu_DfI2B_1",
+          "type": "multiple_choice",
+          "prompt": "Why is the `expected_output` field on a task definition so important?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It sets the password for the database"
+            },
+            {
+              "id": "b",
+              "text": "It tells the agent the exact structure, scope and format the finished work must have"
+            },
+            {
+              "id": "c",
+              "text": "It stops the agent from reading the task description"
+            },
+            {
+              "id": "d",
+              "text": "It tells the provider which data centre to use"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Even a well-prompted specialist agent needs a clear specification of what the finished output for this step looks like.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Q1xxLWdqd1Ju",
       "title": "Manager agents that assign and review work",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a hierarchical team, a manager agent coordinates the specialists.\n\nThe manager breaks the high-level objective into assignments, picks which specialist should handle each one, reads the returned work and checks whether it meets the `expected_output`. If a specialist missed a requirement, the manager sends it back with feedback before moving on.\n\nIt is a project manager who briefs the designer and the copywriter, checks their drafts against the client brief and signs off the final pack.\n\nBecause the manager makes an extra LLM call before and after every worker step, give the manager a strong, capable model and keep the team small so coordination overhead does not dwarf the actual work.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Q1xxLWdqd1Ju_1",
+          "type": "multiple_choice",
+          "prompt": "What is a key cost consideration when using a manager agent in a hierarchical team?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Manager agents always run for free without consuming tokens"
+            },
+            {
+              "id": "b",
+              "text": "A manager agent deletes the tools of all other agents"
+            },
+            {
+              "id": "c",
+              "text": "Hierarchical teams can only use one worker"
+            },
+            {
+              "id": "d",
+              "text": "The manager makes extra model calls to delegate and review every step, adding latency and token cost"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Every delegation and review pass by a manager agent is another LLM call, so the coordination tax grows with team size.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_9B84bQtzuaHo",
       "title": "Role prompts shape behaviour but do not guarantee it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Writing \"You are a world-class cybersecurity auditor with 20 years of experience who never misses a vulnerability\" in a backstory feels reassuring. It does not magically give the model new knowledge or stop it from making mistakes.\n\nPersona and role prompts steer tone, priorities and style. They do not replace the things that actually make an agent reliable: the right tools, clean source data, structured output schemas and deterministic verification checks.\n\nIt is putting a surgeon's white coat on an actor: they will sound the part, but you still need real instruments and medical checks in the operating theatre.\n\nTreat role backstories as helpful framing, never as a substitute for tools and validation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9B84bQtzuaHo_1",
+          "type": "multiple_choice",
+          "prompt": "What can a role and backstory prompt realistically achieve on its own?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It guarantees zero hallucinations without needing any source data"
+            },
+            {
+              "id": "b",
+              "text": "It gives the model live access to private company databases automatically"
+            },
+            {
+              "id": "c",
+              "text": "It steers the agent's tone, focus and style, but cannot replace real tools, data and verification checks"
+            },
+            {
+              "id": "d",
+              "text": "It replaces schema validation and unit tests"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Persona wording guides how the model approaches and phrases its work, while tools and checks provide actual capability and reliability.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

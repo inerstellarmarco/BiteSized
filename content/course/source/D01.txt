@@ -1,0 +1,455 @@
+// D1 D1 Biology & Genomics Primer
+
+@@ sll_pFHWo9Lyoa3_ | D1.1 Molecular Biology Basics > The Central Dogma
+
+## DNA, RNA, and protein
+DNA, RNA, and protein are the three primary molecular layers that store, transmit, and execute biological instructions inside living cells. DNA holds the permanent genetic archive, RNA acts as a temporary working message or functional molecule, and proteins perform the structural and catalytic work that keeps the organism alive.
+
+It is like a corporate engineering archive where master blueprints stay locked in a vault, photocopies go to the factory floor, and assembled machines carry out daily operations.
+
+As an AI consultant scoping a biotech project, remember that measuring one molecule does not automatically tell you the state of the others.
+
+?? What are the respective roles of DNA, RNA, and protein in a cell?
++ DNA stores genetic instructions, RNA carries or executes messages, and proteins perform cellular work
+- RNA stores permanent genetic instructions, DNA builds cell membranes, and proteins only store energy
+- Proteins copy DNA directly into lipid molecules without using RNA intermediates
+- DNA and RNA are identical molecules that only exist outside the cell nucleus
+= DNA serves as the long-term genetic archive, RNA acts as the intermediary or functional transcript, and proteins carry out most cellular functions.
+
+## Transcription, translation, and regulation
+Transcription, translation, and regulation are the core cellular processes that convert static genetic code into active biological machinery at the right time and place. Transcription copies a DNA segment into RNA, translation reads messenger RNA to assemble a protein chain, and regulation controls the rate and timing of both steps.
+
+It is like a publishing house that selects which manuscripts to print, translates approved texts for assembly teams, and adjusts print runs based on seasonal demand.
+
+When building predictive models for life-science clients, ignoring regulatory steps leads to poor predictions because gene presence alone does not guarantee protein production.
+
+?? How do transcription, translation, and regulation work together in a cell?
++ Transcription copies DNA to RNA, translation builds protein from RNA, and regulation controls when and how much is made
+- Translation copies DNA into chromosomes, while transcription destroys excess proteins
+- Regulation converts proteins back into DNA sequences during cell division
+- Transcription and translation happen simultaneously on the outer surface of the cell membrane
+= Transcription produces RNA from DNA, translation synthesises proteins from messenger RNA, and regulatory mechanisms govern the timing and level of both processes.
+
+## DNA is copied into RNA, and RNA is read to make protein
+The directional flow of genetic information from DNA to RNA to protein is the foundational principle known as the central dogma of molecular biology. Cellular enzymes first transcribe a specific gene sequence from DNA into messenger RNA, and ribosomes then read that RNA template to link amino acids into a functional protein.
+
+It is like a chef copying a single recipe from a master cookbook onto a kitchen notepad and then following that notepad to prepare a dish.
+
+A crucial caveat for data analysis is that exceptions exist, such as retroviruses that copy RNA back into DNA using reverse transcriptase.
+
+?? What is the standard directional flow of genetic information described by the central dogma?
++ Information flows from DNA into RNA through transcription, and from RNA into protein through translation
+- Information flows from protein into RNA, which is then archived permanently as DNA
+- DNA is converted directly into amino acids without any RNA intermediate
+- Ribosomes read double-stranded DNA directly to fold lipid bilayers
+= In standard cellular flow, genetic information is transcribed from DNA into RNA and then translated from RNA into protein.
+
+## Codons: three letters code for one amino acid
+A codon is a sequence of three consecutive nucleotide letters in DNA or messenger RNA that specifies a single amino acid or a stop signal during protein synthesis. Because four nucleotide bases can form sixty-four distinct triplets but cells use only twenty standard amino acids, multiple codons often encode the same amino acid.
+
+It is like a warehouse lookup table where several three-letter product codes all map to the exact same replacement part on the shelf.
+
+When advising clients on variant effect prediction, remember that synonymous changes alter a codon letter without changing the resulting amino acid, though they can still affect splicing or translation speed.
+
+?? Why can a single nucleotide change inside a protein-coding region sometimes leave the amino acid sequence unchanged?
++ The genetic code is redundant, meaning multiple three-letter codons map to the same amino acid
+- Ribosomes only read every fourth nucleotide letter when assembling a protein chain
+- Amino acids are determined by intron lengths rather than nucleotide triplets
+- Cells automatically repair every single-letter change before translation begins
+= Because sixty-four triplets encode twenty amino acids plus stop signals, several different codons specify the exact same amino acid.
+
+## Regulation decides which genes are on, in which cell, and when
+Gene regulation is the system of molecular switches, transcription factors, and chemical markers that determines which genes are actively expressed in a specific cell type at a given moment. Every nucleated cell in a human body carries nearly identical DNA, yet a liver cell behaves completely differently from a neuron because each activates a distinct subset of genes.
+
+It is like an international hotel chain that distributes the same master operations manual to every property, while each local manager activates only the chapters relevant to their climate and guests.
+
+For AI consultants, this means genomic sequence models must account for tissue context and environmental state rather than treating DNA as a static script.
+
+?? Why do a human neuron and a human liver cell have different structures and behaviours despite sharing nearly identical DNA?
++ Gene regulation activates different subsets of genes in each cell type and at different times
+- Neurons delete all liver-related genes from their chromosomes during early development
+- Liver cells use proteins to store genetic information instead of DNA
+- Each cell type uses a completely different set of nucleotide bases in its genome
+= Cell identity and state depend on gene regulation, which controls which genes are turned on or off in a given tissue and condition.
+
+## Not every gene makes a protein: some make functional RNA
+Non-coding genes are DNA segments that are transcribed into RNA molecules that perform biological roles directly without ever being translated into proteins. These functional RNAs include ribosomal RNAs, transfer RNAs, microRNAs, and long non-coding RNAs that build cellular machinery or regulate other genes.
+
+It is like a factory where some blueprints describe retail products shipped to customers, while others produce jigs and calibration templates used exclusively on the assembly line.
+
+If a client pipeline filters out all non-coding transcripts as noise, your team may miss critical disease biomarkers and regulatory drivers, so always verify whether non-coding regions matter for the biological question.
+
+?? What happens to the transcripts of functional non-coding genes?
++ They perform structural, catalytic, or regulatory roles directly as RNA molecules without being translated into protein
+- They are immediately degraded as transcriptional mistakes before leaving the nucleus
+- They are translated into miniature proteins that only exist inside mitochondria
+- They are converted back into chromosomal DNA to thicken the nuclear envelope
+= Many genes produce functional RNA molecules that act directly in the cell rather than serving as templates for protein synthesis.
+
+@@ sll_XW_-sHEoCSi- | D1.1 Molecular Biology Basics > Genes & Genomes
+
+## Genes, exons, introns, non-coding RNA (incl. miRNA)
+A eukaryotic gene is a functional unit of heredity composed of coding or functional segments called exons interspersed with non-coding intervening sequences called introns, alongside regulatory regions and non-coding RNA loci such as microRNAs. Together, these elements form a complex genomic architecture where only a small fraction of DNA directly encodes protein sequences.
+
+It is like a filmed television episode that contains both the scenes shown to viewers and raw clapperboard footage that editors remove before broadcast.
+
+When scoping genomic AI models for a pharma client, ensure the feature engineering distinguishes exons, splice junctions, introns, and microRNA genes rather than treating whole gene coordinates uniformly.
+
+?? How are exons and introns arranged within a typical eukaryotic gene?
++ Exons are the segments retained in mature RNA, while introns are intervening sequences located between exons
+- Introns code for amino acids, while exons are protective caps at the ends of chromosomes
+- Exons only appear in bacterial genomes, whereas introns only appear in viruses
+- Introns and exons are separate chromosomes that never occur within the same gene
+= Eukaryotic genes contain exons interspersed with introns, and the introns are removed during RNA processing to leave the mature transcript.
+
+## Mutations and genetic variation
+Genetic variation refers to differences in DNA sequences among individuals or cells, arising from mutations that range from inherited population polymorphisms to newly acquired cellular changes. These sequence differences drive normal human diversity as well as inherited disorders and cancer progression.
+
+It is like regional editions of a legal contract where most wording stays identical, a few clauses have harmless spelling variations, and an occasional altered word changes a financial liability.
+
+AI consultants building clinical decision support systems must remember that mutation rates and background variation differ across populations, making diverse training cohorts essential to avoid biased predictions.
+
+?? What is genetic variation in a biological population?
++ Differences in DNA sequences between individuals or cells arising from inherited or acquired mutations
+- Changes in cellular protein levels caused exclusively by diet without any alteration to DNA
+- The temporary folding of messenger RNA during normal ribosome translation
+- The complete replacement of DNA with RNA as an organism ages
+= Genetic variation encompasses the DNA sequence differences across individuals or cell populations produced by mutational processes.
+
+## Exons are kept; introns are spliced out
+RNA splicing is the post-transcriptional editing process in which the cellular spliceosome removes introns from a primary RNA transcript and joins the remaining exons together to form mature messenger RNA. Through alternative splicing, a single gene can combine different subsets of exons to produce multiple distinct protein isoforms across tissues.
+
+It is like a modular training course where an instructor removes internal notes and combines selected chapters to create tailored workbooks for different client teams.
+
+A key caveat for bioinformatics pipelines is that mutations inside introns near splice boundaries can disrupt exon joining and cause severe disease even though no coding codon was directly altered.
+
+?? How can a single human gene produce several different protein variants across different tissues?
++ Alternative splicing joins different combinations of exons together while splicing out introns
+- Ribosomes randomly skip individual nucleotide bases to invent new codons
+- Cells rewrite their chromosomal DNA sequences every time they need a new protein
+- Introns are translated into separate proteins that fuse with exons outside the cell
+= During RNA processing, introns are spliced out and exons can be combined in different arrangements through alternative splicing to yield distinct isoforms.
+
+## miRNAs fine-tune gene expression by blocking or degrading messenger RNA
+MicroRNAs (miRNAs) are short non-coding RNA molecules, typically around twenty-two nucleotides long, that post-transcriptionally regulate gene expression by binding to complementary sequences on target messenger RNAs. Once bound, an miRNA either blocks ribosomes from translating the messenger RNA or recruits cellular machinery to degrade the transcript early.
+
+It is like a warehouse supervisor placing a hold tag on outgoing work orders to either slow down fulfilment or cancel excess production runs before assembly starts.
+
+Because a single miRNA can modestly dampen hundreds of different transcripts and multiple miRNAs can target one gene, predicting their net biological impact requires network-level modelling rather than simple one-to-one rules.
+
+?? How do microRNAs (miRNAs) regulate protein production in cells?
++ They bind to target messenger RNAs to block their translation or accelerate their degradation
+- They permanently delete target genes from the nuclear DNA sequence
+- They act as ribosomes that speed up amino acid assembly during translation
+- They transport completed proteins across the outer cell membrane
+= MicroRNAs base-pair with target messenger RNAs to inhibit translation or trigger transcript degradation, fine-tuning gene expression levels.
+
+## Variant types: single-letter changes, insertions, deletions, and larger structural changes
+Genomic variants are categorised by size and mechanism into single nucleotide variants (SNVs), short insertions or deletions (indels), and large structural variants such as copy-number changes, inversions, or translocations. Each class alters the DNA sequence at a different scale, from swapping a single base letter to rearranging millions of nucleotides.
+
+It is like document edits that range from a single typo or a deleted word to duplicating or swapping entire paragraphs across chapters.
+
+When designing variant-calling workflows for clients, remember that no single algorithm or sequencing assay detects all variant classes equally well, so small-variant callers often miss large structural rearrangements.
+
+?? How do single nucleotide variants (SNVs), indels, and structural variants differ from one another?
++ They differ in scale and mechanism, ranging from single-letter substitutions to short insertions or deletions and large chromosomal rearrangements
+- SNVs only occur in RNA, indels only occur in proteins, and structural variants only occur in lipids
+- Structural variants are single-base changes, while SNVs involve duplicating whole chromosomes
+- Indels and structural variants are identical terms for single-letter silent changes
+= Genomic variants span single-base substitutions (SNVs), small insertions and deletions (indels), and larger structural rearrangements of DNA segments.
+
+## Most variants are harmless; interpreting them is the hard part
+Variant interpretation is the analytical process of distinguishing rare disease-causing mutations from the millions of benign genetic differences present in every individual genome. While sequencing machines can list variants rapidly, classifying whether an unfamiliar variant actually disrupts biology remains a major clinical bottleneck, leaving many changes labelled as variants of uncertain significance.
+
+It is like scanning a massive codebase diff where thousands of formatting and comment changes are harmless, and pinpointing the one subtle change that breaks production requires deep domain testing.
+
+AI tools can score evolutionary conservation and protein structure to aid triage, but clinical diagnostic decisions still require curated human evidence and strict regulatory validation.
+
+?? Why is variant interpretation considered a major bottleneck in genomic medicine?
++ Every genome contains millions of mostly harmless variants, leaving many rare changes with uncertain clinical impact
+- Sequencing instruments can only read three nucleotides per week
+- Every single genetic variant found in a patient automatically causes a severe disease
+- Human genomes have no variation between individuals except in tumour cells
+= Sequencing easily identifies millions of variants per person, most of which are benign, making it difficult to prove whether a specific rare variant causes disease.
+
+## Reference genome versions (e.g., GRCh38): always note which one you used
+~m
+A reference genome build, such as GRCh37 (hg19), GRCh38 (hg38), or the Telomere-to-Telomere T2T-CHM13 assembly, is a standardised coordinate map used to report genomic positions and align sequencing reads. Because each new release closes gaps and shifts base coordinates, a genomic position only makes sense when paired with its exact assembly version, so check the current details for your consortium standards.
+
+It is like citing a street address alongside the edition year of a city map after major road realignments have renumbered the avenues.
+
+In consulting engagements, mixing GRCh37 annotations with GRCh38 alignments silently corrupts every downstream variant lookup, so enforce build checks at ingestion.
+
+?? Why must bioinformaticians always record the exact reference genome build (such as GRCh37 or GRCh38) used in an analysis?
++ Genomic coordinates shift between assembly versions, so mixing builds causes variants and annotations to map to the wrong positions
+- Older reference genomes use amino acid letters instead of nucleotide bases
+- Reference genome versions expire every month and delete stored sequencing files
+- GRCh38 only contains mitochondrial DNA whereas GRCh37 only contains sex chromosomes
+= Different reference builds have shifted coordinate systems and sequence updates, meaning positions cannot be compared across builds without coordinate liftover.
+
+@@ sll_aMyeAE4FdVxJ | D1.2 Genomics Concepts > Sequencing Technologies
+
+## Short-read (Illumina) vs. long-read (PacBio, Nanopore)
+~m
+Short-read sequencing platforms like Illumina generate millions of fragments typically between 100 and 300 bases long, while long-read platforms from PacBio and Oxford Nanopore read continuous stretches spanning ten thousand to hundreds of thousands of bases. Because instrument chemistries, throughput, and per-gigabase pricing evolve rapidly, always check the current details when preparing client infrastructure estimates.
+
+It is like reconstructing a novel either from millions of crisp three-word paper strips or from slightly smudged whole pages that preserve chapter order.
+
+Neither platform replaces the other in every use case: short reads excel at economical high-depth counting and small-variant detection, whereas long reads resolve complex structural variants and phasing.
+
+?? What is the primary difference between short-read platforms (like Illumina) and long-read platforms (like PacBio and Oxford Nanopore)?
++ Short-read platforms sequence fragments of a few hundred bases at high throughput, while long-read platforms sequence fragments spanning thousands of bases
+- Short-read platforms only sequence proteins, while long-read platforms only sequence metabolites
+- Long-read platforms cannot sequence human DNA and are restricted to viral genomes
+- Short-read platforms require intact living tissues and cannot read extracted DNA
+= Short-read sequencing produces massive numbers of 100 to 300 base reads, whereas long-read technologies read continuous DNA or RNA fragments of many kilobases.
+
+## Bulk vs. single-cell vs. spatial assays
+Bulk, single-cell, and spatial sequencing assays measure molecular activity at three different levels of biological resolution across a tissue sample. Bulk assays homogenise millions of cells into a single pooled measurement, single-cell assays dissociate tissue to profile individual cells separately, and spatial assays measure molecules while recording their physical coordinates inside intact tissue sections.
+
+It is like analysing retail sales as a single national total, breaking transactions down by individual customer profiles, or mapping every purchase onto a store floor plan.
+
+Higher resolution carries a steep trade-off: single-cell and spatial experiments cost substantially more per sample and suffer from sparser per-cell capture than bulk sequencing.
+
+?? How do bulk, single-cell, and spatial assays differ in how they profile a tissue sample?
++ Bulk averages across all cells, single-cell profiles individual dissociated cells, and spatial preserves physical tissue coordinates
+- Bulk measures DNA, single-cell measures only lipids, and spatial measures only blood pressure
+- Single-cell assays are far cheaper and capture deeper per-gene coverage than bulk assays
+- Spatial assays blend the entire organ into a liquid soup before sequencing
+= Bulk sequencing measures a pooled average, single-cell captures profiles per cell after dissociation, and spatial assays retain the physical location of measurements in tissue.
+
+## Short reads: accurate and cheap; long reads span repeats and structural changes
+Choosing between short and long reads involves balancing per-base economy against the ability to map repetitive genomic regions and large structural rearrangements. Short reads deliver high base-level accuracy at low cost per sample, but when a repetitive element is longer than the read itself, aligners cannot tell which copy the read came from.
+
+It is like matching a short phrase that appears twenty times in a contract versus holding a full page that shows the surrounding paragraphs on both sides.
+
+Long reads span right across repetitive stretches and complex insertions, though they generally require higher reagent spend and careful DNA extraction to keep molecules intact.
+
+?? Why do short reads struggle in repetitive regions of the genome where long reads succeed?
++ When a repeat is longer than a short read, the read maps ambiguously to multiple locations, whereas a long read spans across the repeat into unique flanking DNA
+- Short-read sequencers chemically dissolve whenever they encounter repeated nucleotide letters
+- Repetitive regions contain no nucleotide bases for short-read instruments to detect
+- Long reads automatically delete repetitive sequences from the sample before basecalling
+= Short reads shorter than a repeat unit cannot be anchored uniquely, while long reads bridge the entire repeat into unique flanking sequence.
+
+## Coverage: how many times each position is read
+Sequencing coverage, or depth, is the average number of independent sequencing reads that align to and cover a given nucleotide position in the reference genome. For example, a 30x whole-genome sequencing run means each base in the genome is read an average of thirty times across overlapping fragments.
+
+It is like having thirty independent proofreaders inspect overlapping paragraphs of a manuscript so that a random smudge on one page is easily overruled by the other twenty-nine copies.
+
+Keep in mind that average coverage is never uniform across the genome: GC-rich or repetitive regions often suffer from dropouts with much lower local depth than the reported mean.
+
+?? What does 30x coverage mean in a whole-genome sequencing experiment?
++ Each nucleotide position in the reference genome is covered by an average of thirty overlapping sequencing reads
+- The genome was sequenced on thirty different hardware platforms across thirty laboratories
+- Only thirty percent of the chromosomes in the sample were loaded into the sequencer
+- Each sequencing read is exactly thirty nucleotides long
+= Sequencing depth or coverage measures how many independent reads overlap each base position on average, providing statistical confidence against random sequencing errors.
+
+## Bulk averages across cells; single-cell shows cell types; spatial keeps location
+Selecting the right assay resolution depends on whether a client's biological hypothesis hinges on average sample state, rare cell populations, or cell-to-cell neighbourhood interactions. Bulk sequencing masks rare cell populations inside a tissue average, single-cell sequencing reveals distinct cell types and states, and spatial profiling shows which cell types sit next to each other.
+
+It is like evaluating a smoothie by tasting the blended drink, sorting the fruit bowl by species before blending, or photographing the exact arrangement of fruit on a platter.
+
+When advising clients, discourage defaulting to expensive spatial or single-cell assays if a well-powered bulk study across more patients would better answer a clinical biomarker question.
+
+?? When would a researcher need a spatial assay instead of standard single-cell sequencing?
++ When the biological question depends on knowing which cells are physically adjacent or organised in tissue microenvironments
+- When the goal is simply to lower reagent costs below bulk sequencing prices
+- When tissue dissociation is desired to remove all positional information
+- When measuring purified cell-free DNA circulating in liquid blood plasma
+= Standard single-cell sequencing dissociates tissue and loses physical coordinates, whereas spatial assays preserve the location and neighbourhood context of cells.
+
+## Each technology has its own error patterns
+~m
+Every sequencing platform exhibits systematic error signatures shaped by its underlying biochemistry and signal detection method. Illumina short reads primarily make single-base substitution errors toward the ends of reads, whereas PacBio HiFi and Oxford Nanopore reads historically show more insertion and deletion errors inside homopolymer runs of identical letters; check the current details for error rates on the latest chemistries and basecallers.
+
+It is like comparing an optical scanner that occasionally confuses the letters c and e against a voice transcriber that miscounts how many times someone stutters on the same syllable.
+
+Downstream AI variant callers must be trained and calibrated specifically for the error profile of the sequencing technology that generated the input reads.
+
+?? Why must variant-calling pipelines be tailored to the specific sequencing technology used?
++ Different platforms produce distinct systematic error patterns, such as substitution errors versus homopolymer indels
+- All sequencing technologies produce zero errors, so pipelines only change file extensions
+- Short-read platforms only misread adenine, while long-read platforms only misread thymine
+- Error patterns depend solely on the operating system of the analysis server
+= Because short-read and long-read chemistries generate different types of systematic artefacts, analysis tools must model platform-specific error profiles to avoid false variant calls.
+
+@@ sll_6w5oHq1IZbpL | D1.2 Genomics Concepts > Omics Layers
+
+## Genomics, transcriptomics, proteomics, metabolomics
+Genomics, transcriptomics, proteomics, and metabolomics are the four major molecular profiling layers that measure DNA sequence, RNA transcripts, protein abundance, and small-molecule metabolites respectively. Together they capture the cascade from inherited genetic potential through active cellular expression to real-time biochemical state and phenotype.
+
+It is like auditing a manufacturing business by inspecting its engineering patents, daily production schedules, active factory machinery, and finished goods inventory.
+
+Each layer requires distinct laboratory instruments, such as nucleotide sequencers for genomics and transcriptomics versus mass spectrometers or affinity panels for proteomics and metabolomics, each with different dynamic ranges and missing-value behaviours.
+
+?? What do genomics, transcriptomics, proteomics, and metabolomics respectively measure?
++ DNA sequences, RNA transcripts, proteins, and small-molecule metabolites
+- Cell size, tissue weight, organ temperature, and blood flow velocity
+- Bacterial genomes, viral genomes, fungal genomes, and plant genomes
+- Exons, introns, telomeres, and centromeres within a single chromosome
+= Each omics layer targets a specific class of biological molecule: DNA (genomics), RNA (transcriptomics), proteins (proteomics), and metabolites (metabolomics).
+
+## Multi-omics integration (intuition)
+Multi-omics integration is the computational combination of two or more molecular layers, such as genomics, transcriptomics, and proteomics, from the same biological samples or cohorts to build a unified model of disease or cell behaviour. By linking genetic variants to expression changes and downstream protein or metabolite shifts, analysts can trace causal pathways and stratify patients more accurately.
+
+It is like combining satellite weather radar, ground temperature sensors, and barometric pressure readings to forecast a storm far better than any single sensor could alone.
+
+A major practical limit in client projects is sample drop-off and high dimensionality: adding more features across sparse cohorts easily triggers overfitting unless carefully regularised.
+
+?? What is the primary goal of multi-omics integration in biomedical analysis?
++ Combining measurements across multiple molecular layers to connect genetic drivers with downstream expression and functional states
+- Replacing all wet-lab experiments with a single synthetic simulation of DNA
+- Compressing FASTQ and BAM files into a smaller archive format for cloud storage
+- Averaging unrelated patient cohorts from different species into one dataset
+= Multi-omics integration links complementary molecular layers from the same samples or systems to uncover biological mechanisms and improve predictive biomarkers.
+
+## DNA is the blueprint; RNA shows what is active; proteins do the work
+Across the omics hierarchy, DNA represents the static genetic blueprint of what a cell could potentially produce, RNA reveals which genetic programmes are actively being transcribed right now, and proteins execute the actual enzymatic, signalling, and structural work. Measuring only one layer answers only part of a clinical or drug-discovery question.
+
+It is like a commercial kitchen where the recipe binder lists every dish the restaurant knows, the ticket rail shows current orders in progress, and the plated dishes on the pass represent what diners actually consume.
+
+When advising pharma clients on drug targets, remember that most therapeutics bind to proteins, even though RNA is much easier and cheaper to measure at genome scale.
+
+?? Why is measuring DNA alone often insufficient for understanding how a tissue responds to a drug treatment?
++ DNA remains mostly static as a blueprint, whereas RNA and proteins dynamically change to reflect active cellular responses and functional work
+- Drug treatments immediately erase chromosomes from treated cells
+- DNA can only be sequenced from hair follicles and not from diseased organs
+- Proteins and RNA carry no relationship to the genes encoded in DNA
+= While DNA shows static genetic risk and mutations, dynamic treatment responses are captured by active RNA transcription and functional protein activity.
+
+## The layers do not line up perfectly: RNA levels do not equal protein levels
+Messenger RNA abundance frequently correlates only moderately with the actual abundance or activity of the corresponding protein in a cell. Factors such as translation efficiency, microRNA inhibition, variable protein half-lives, and post-translational modifications like phosphorylation mean that high RNA counts do not guarantee high active protein levels.
+
+It is like comparing the number of job requisitions posted by a company against the actual headcount working on the floor, which also depends on hiring speed and staff turnover.
+
+AI consultants training models on transcriptomic data to predict drug response must warn stakeholders that RNA is an imperfect proxy for target protein engagement.
+
+?? Why do messenger RNA levels often fail to match protein abundance in the same sample?
++ Translation rates, RNA stability, and protein degradation half-lives vary widely across genes and conditions
+- Ribosomes translate introns instead of exons whenever RNA levels are high
+- Mass spectrometers convert proteins back into RNA during measurement
+- Every messenger RNA molecule is destroyed before it can ever be translated
+= Post-transcriptional regulation, translation efficiency, and differing protein turnover rates break any simple one-to-one proportionality between mRNA and protein levels.
+
+## Samples, batches, and metadata matter as much as the measurements
+Biological sample quality, processing batches, and clinical metadata are just as decisive for downstream AI modelling as the molecular measurements themselves. Batch effects, which are systematic non-biological differences introduced by reagent lots, technicians, sequencing centres, or sample storage times, can easily overwhelm true biological signals if experimental design confounds disease status with processing day.
+
+It is like training a credit-risk model where all defaulting loans were scanned on one dark photocopier and all repaid loans on a bright scanner, causing the model to learn page brightness instead of financial risk.
+
+No normalisation algorithm can rescue a dataset where all case samples were processed in Batch A and all controls in Batch B.
+
+?? Why is it dangerous to process all disease samples in one laboratory batch and all healthy control samples in a separate batch?
++ Technical batch effects become completely confounded with disease status, making it impossible to separate lab artefacts from true biology
+- Sequencing machines refuse to start unless healthy and diseased samples are mixed in the same tube
+- Healthy control DNA degrades twice as fast when sequenced on a Tuesday
+- Batch numbers overwrite the reference genome coordinates inside BAM files
+= When experimental condition aligns perfectly with processing batch, technical variation cannot be statistically disentangled from the biological difference of interest.
+
+@@ sll_MJ1D0R-5W0KS | D1.3 Biological Databases > Key Resources
+
+## NCBI, Ensembl, UniProt, PDB
+~m
+NCBI, Ensembl, UniProt, and the Protein Data Bank (PDB) are the foundational public repositories that organise global reference data across sequences, genomes, proteins, and three-dimensional molecular structures. Because database schemas, APIs, and cross-reference releases are updated continuously, check the current details when building automated data ingestion connectors.
+
+It is like a financial intelligence stack where one agency maintains company filings, another maps corporate subsidiaries, a third tracks executive biographies, and a fourth stores architectural blueprints of their factories.
+
+When advising clients on biological foundation models, remember that UniProt combines manually curated Swiss-Prot entries with unreviewed TrEMBL predictions of much lower certainty.
+
+?? Which public database is the primary global repository for experimentally determined three-dimensional macromolecular structures?
++ PDB (Protein Data Bank)
+- Ensembl Genome Browser
+- NCBI dbSNP
+- GEO (Gene Expression Omnibus)
+= The Protein Data Bank (PDB) archives three-dimensional structural data of proteins and nucleic acids, whereas NCBI and Ensembl focus on genomes/sequences and UniProt focuses on protein sequence and functional annotation.
+
+## TCGA, GEO, and other public datasets
+~m
+The Cancer Genome Atlas (TCGA) and the Gene Expression Omnibus (GEO) are flagship public repositories that host thousands of multi-omics cancer profiles and functional genomics experiments contributed by researchers worldwide. Because repository portals, such as the NCI Genomic Data Commons, update cohort harmonisation pipelines regularly, check the current details before downloading data for a project.
+
+It is like a public economic archive where TCGA represents a standardised national census across major industries and GEO represents thousands of independent local market surveys uploaded in varying formats.
+
+While TCGA offers deeply characterised tumour-normal cohorts, consultants must account for clinical survival biases and heterogeneous treatment histories across contributing hospitals.
+
+?? How do TCGA and GEO differ in the structure of the public data they provide?
++ TCGA provides a large, systematically harmonised multi-omics cancer cohort, while GEO archives diverse user-submitted functional genomics studies from many experimental designs
+- GEO only stores three-dimensional crystal structures, while TCGA only stores bacterial genomes
+- TCGA requires no ethical oversight for raw patient reads, while GEO bans all gene expression matrices
+- GEO and TCGA are commercial software packages for basecalling Nanopore reads
+= TCGA is a flagship consortium dataset profiling cancer types under uniform standards, whereas GEO is a broad repository archiving varied expression and epigenomic studies from independent labs.
+
+## What each resource holds: sequences, genes, proteins, and structures
+~m
+Navigating biological databases requires knowing which repository holds the authoritative record for each molecular entity: raw and assembled nucleotide sequences live in GenBank, ENA, and DDBJ, gene models and genomic coordinates live in Ensembl and RefSeq, protein sequences and functional domains live in UniProt, and atomic 3D structures live in the PDB. Because database cross-referencing tools evolve, check the current details for identifier mapping services.
+
+It is like an enterprise data architecture where raw clickstream logs, cleaned customer tables, product catalogues, and CAD engineering drawings each reside in dedicated systems of record.
+
+A critical pitfall in client knowledge-graph projects is identifier drift: mapping a gene symbol to a protein ID to a 3D structure often involves one-to-many relationships across isoforms.
+
+?? Why can mapping a single gene identifier from Ensembl to UniProt and the PDB return multiple records instead of a one-to-one match?
++ A single gene can produce multiple splice isoforms and proteins, and each protein may have several partial or conformational structures in the PDB
+- Biological databases randomly duplicate identifiers to fill storage quotas
+- Ensembl only indexes bacterial genes while UniProt only indexes plant proteins
+- Every single nucleotide in a gene is assigned its own separate PDB structure file
+= Alternative splicing, multiple transcript annotations, and multiple experimental structures per protein create one-to-many mappings across gene, protein, and structure databases.
+
+## Accession IDs and versions: cite them exactly
+~m
+An accession identifier with its explicit version suffix, such as `NM_000546.6` for a RefSeq transcript or `ENSG00000141510.18` in Ensembl, uniquely pinpoints the exact state of a biological sequence or annotation record at a specific release. Human-friendly gene symbols like `TP53` change over time and can be shared across different genomic builds, so check the current details for HGNC nomenclature standards.
+
+It is like citing an immutable software commit hash or semantic version tag (`v2.4.1`) in an audit report rather than just writing "the latest main branch".
+
+When building reproducible AI pipelines for regulated healthcare clients, always store versioned accession IDs rather than bare gene symbols that spreadsheet software might even autocorrect into calendar dates.
+
+?? Why should bioinformatics pipelines store versioned accession IDs (like `NM_000546.6`) instead of bare gene symbols?
++ Versioned accession IDs uniquely identify an exact sequence revision, whereas gene symbols can be ambiguous, change over time, or get corrupted by spreadsheets
+- Bare gene symbols take up gigabytes of disk space compared to accession IDs
+- Linux command-line tools cannot read alphabetic characters in gene symbols
+- Accession IDs automatically correct sequencing errors inside raw FASTQ files
+= Versioned accessions provide an immutable reference to a specific sequence record and revision, avoiding the ambiguity and instability of informal gene names.
+
+## Controlled-access data needs approval (e.g., dbGaP)
+~m
+Controlled-access repositories such as NCBI dbGaP and the European Genome-phenome Archive (EGA) restrict individual-level human genomic and phenotypic data to authorised researchers who submit a formal Data Access Request and ethics approval. Because raw germline DNA sequences are inherently identifiable and cannot be fully anonymised by stripping names, check the current details on institutional signing rules and security standards before planning timelines.
+
+It is like accessing unredacted personal tax returns at a central bank: summary tables are public, but row-level records require vetted legal clearance and audited secure enclaves.
+
+Never upload controlled-access patient data to public cloud buckets or third-party commercial LLM APIs, as doing so violates legal data-use agreements.
+
+?? Why are raw human whole-genome sequencing reads stored in controlled-access repositories like dbGaP rather than open public servers?
++ Individual-level genomic sequences are inherently identifiable and sensitive, requiring ethical oversight and data-use agreements to protect participant privacy
+- Raw sequencing files are too small to be indexed by standard web search engines
+- Controlled-access databases charge a per-base royalty to sequence manufacturers
+- Open public servers cannot store binary files like BAM or CRAM
+= Because a person's germline DNA uniquely identifies them and their biological relatives, raw human sequencing data requires controlled access to safeguard privacy and honour participant consent.
+
+## Check licences and consent terms
+~m
+Every biological database and patient cohort is governed by specific licence terms and participant consent restrictions that dictate whether data may be used for commercial AI training, redistributed, or applied to particular disease areas. For instance, some datasets permit only non-commercial academic research or restrict analysis to a single disease via Disease-Specific (DS) consent codes; check the current details for every dataset licence in your pipeline.
+
+It is like licensing stock photography where a standard editorial licence allows news reporting but prohibits using the images in a commercial advertising campaign or model weights.
+
+As an AI consultant, always audit dataset licences and consent ontologies before training proprietary models for a corporate client.
+
+?? Why must an AI consultant review both dataset licences and participant consent codes before training a commercial model on biomedical data?
++ Some datasets restrict commercial use or legally limit analysis to specific disease areas agreed to by participants during informed consent
+- Licences determine the Phred quality score threshold of the sequencing reads
+- Consent codes specify whether the genome was aligned to GRCh37 or GRCh38
+- All biological data is automatically in the public domain with zero restrictions worldwide
+= Database licences and human subject consent agreements legally bound permissible uses, often prohibiting commercial redistribution, model training, or off-topic research.
+
+## Public data has batch effects and missing metadata
+~m
+Aggregating public datasets from repositories like GEO or the Sequence Read Archive (SRA) gives AI teams massive sample counts, but these collections suffer heavily from cross-study batch effects, inconsistent preprocessing, and incomplete clinical metadata. Different labs use different extraction kits, platforms, reference builds, and free-text labels, so check the current details on repository metadata standards before ingestion.
+
+It is like merging CRM spreadsheets from fifty acquired businesses where every branch used different currency units, date formats, and custom status codes without a data dictionary.
+
+Before training foundation models or classifiers on pooled public data, allocate substantial consulting budget to metadata harmonisation, ontology mapping, and cross-study validation so models do not simply memorise lab identity.
+
+?? What is the main risk of training a machine learning classifier directly on pooled public datasets from multiple laboratories without careful curation?
++ The model may learn laboratory-specific batch effects and inconsistent preprocessing differences rather than true biological signals, while unstandardised metadata causes mislabelling
+- Public datasets contain too few genes to train a linear regression model
+- Public repositories automatically strip all nucleotide sequences from uploaded files
+- Every study in a public repository uses the exact same sequencing machine and reagent lot
+= Pooled public studies vary in wet-lab protocols, platforms, processing pipelines, and metadata naming, which can easily confound machine learning models if not harmonised and validated across independent cohorts.

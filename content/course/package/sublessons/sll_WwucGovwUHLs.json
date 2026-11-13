@@ -5,8 +5,8 @@
     {
       "id": "bit_O-byXvL-1YrK",
       "title": "Leakage across patients and batches",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Data leakage occurs when information from the validation or test set inadvertently influences model training, producing artificially inflated performance metrics. In omics projects, leakage frequently happens when biological replicates from the same patient or samples from a shared technical batch straddle the train-test boundary.\n\nIt is like letting a student preview the exact exam questions during a revision session and then mistaking their high mark for deep subject mastery.\n\nA model exploiting leaked batch or patient identity will collapse as soon as a client deploys it in a new hospital. Always audit the full sample hierarchy before splitting any biomedical dataset.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_O-byXvL-1YrK_1",
+          "type": "multiple_choice",
+          "prompt": "How does data leakage distort the evaluation of an omics classifier?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It allows training models to exploit shared patient or batch information, inflating test scores"
+            },
+            {
+              "id": "b",
+              "text": "It reduces the computational speed of matrix multiplication on graphics processors"
+            },
+            {
+              "id": "c",
+              "text": "It causes laboratory instruments to misread fluorescent labels during sequencing"
+            },
+            {
+              "id": "d",
+              "text": "It forces cross-validation loops to underestimate the true generalisation accuracy"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "When test information leaks into training via shared patients or batches, evaluation metrics reflect memorised shortcuts rather than real-world performance.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_zwUwCFxiOnur",
       "title": "External validation cohorts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An external validation cohort is an entirely independent set of patient samples collected at different clinical centres, processed in separate runs, and held back solely to test a locked model. It provides the gold-standard evidence that a biomarker signature generalises beyond the discovery laboratory.\n\nIt is like testing a new retail demand forecast in a completely different city before rolling the software out across the whole country.\n\nEven well-designed internal cross-validation shares the discovery cohort's population quirks, inclusion habits, and laboratory pipelines. When advising healthcare investors or pharmaceutical teams, treat any model lacking external cohort validation as an early exploratory hypothesis rather than a clinical product.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,49 +66,161 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_zwUwCFxiOnur_1",
+          "type": "multiple_choice",
+          "prompt": "Why is an external validation cohort essential before trusting a clinical omics model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It increases the number of candidate genes available during initial feature selection"
+            },
+            {
+              "id": "b",
+              "text": "It allows the data scientist to tune hyperparameters one final time before publication"
+            },
+            {
+              "id": "c",
+              "text": "It tests whether the locked model generalises across independent patient populations and laboratories"
+            },
+            {
+              "id": "d",
+              "text": "It eliminates the need to collect informed consent from discovery study participants"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Only an independent cohort from separate centres or runs reveals whether a model survives real-world shifts in demographics and sample handling.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_N_evNsp8EnDh",
       "title": "Split by patient, never by sample",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In clinical studies, researchers often collect multiple biopsies, longitudinal blood draws, or technical replicates from the same individual. Splitting by patient means assigning every sample from a given person exclusively to either the training set or the test set.\n\nIt is like testing a handwriting recogniser on a new writer rather than on a second page written by someone already in the training folder.\n\nIf two samples from the same patient sit on opposite sides of the split, the algorithm simply recognises the individual's baseline genetics instead of the disease state. Consultants must enforce grouped splitting by patient identifier in every validation script.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_N_evNsp8EnDh_1",
+          "type": "multiple_choice",
+          "prompt": "Why must multi-sample clinical datasets be split at the patient level rather than the sample level?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Patient identifiers require less memory to index than laboratory barcode strings"
+            },
+            {
+              "id": "b",
+              "text": "Samples from the same person share baseline biology, which leaks identity across the split"
+            },
+            {
+              "id": "c",
+              "text": "Splitting by sample violates hospital firewall rules for database partitioning"
+            },
+            {
+              "id": "d",
+              "text": "Machine learning libraries cannot calculate loss functions when sample counts are uneven"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Keeping all samples from an individual together prevents the model from inflating accuracy by recognising patient-specific baseline profiles.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_DtSNgwlW9Ogz",
       "title": "Do feature selection inside the cross-validation loop",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In high-dimensional omics workflows, researchers usually narrow tens of thousands of candidate genes down to a small panel before fitting a classifier. Doing feature selection inside the cross-validation loop means re-running that gene ranking from scratch using only the training folds on each iteration.\n\nIt is like picking your fantasy football squad before seeing the weekend's match scores rather than selecting players after watching the highlights.\n\nSelecting the top genes across the whole dataset before splitting leaks test labels directly into the feature set and can make random noise look ninety percent accurate. Always verify that preprocessing, normalisation parameters, and gene selection sit strictly inside each fold.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DtSNgwlW9Ogz_1",
+          "type": "multiple_choice",
+          "prompt": "What happens if you select the top fifty differentially expressed genes using the entire dataset before running cross-validation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The classifier becomes unable to converge because fifty features are too few for gradient descent"
+            },
+            {
+              "id": "b",
+              "text": "The resulting gene signature becomes completely immune to batch effects in external hospitals"
+            },
+            {
+              "id": "c",
+              "text": "The cross-validation accuracy becomes severely overestimated because test labels shaped the feature set"
+            },
+            {
+              "id": "d",
+              "text": "The computational runtime of the cross-validation loop increases by a factor of ten thousand"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Selecting features on the full dataset leaks test outcomes into training, guaranteeing optimistic performance even on purely random data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_13aIavZEKxZQ",
       "title": "Internal results are optimistic; external cohorts tell the truth",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Internal validation metrics derived from cross-validation or a single random hold-out split almost always overestimate how well an omics model will perform in clinical practice. Even without technical leakage, internal splits share identical inclusion criteria, specimen handling SOPs, and patient demographics.\n\nIt is like a delivery drone flying flawlessly inside an indoor warehouse test track before facing crosswinds and rain on real streets.\n\nWhen the locked model meets an external hospital cohort, accuracy routinely drops by ten to twenty percentage points. As an AI consultant, prepare client leadership for this drop early and build external cohort acquisition into the project budget from day one.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_13aIavZEKxZQ_1",
+          "type": "multiple_choice",
+          "prompt": "Why do internal cross-validation scores usually exceed performance on external clinical cohorts?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "External cohorts always contain fewer biological features than internal discovery datasets"
+            },
+            {
+              "id": "b",
+              "text": "Cross-validation algorithms intentionally add a positive bias constant to every fold score"
+            },
+            {
+              "id": "c",
+              "text": "External hospitals refuse to measure the genes selected during the discovery phase"
+            },
+            {
+              "id": "d",
+              "text": "Internal splits share identical sample handling, demographics, and pipeline conditions that vary in the real world"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Shared local conditions make internal splits artificially homogeneous, whereas external cohorts expose the model to real demographic and technical variation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_LErZGDITy5v_",
       "title": "Report confidence intervals, not one number",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A point estimate such as an area under the curve of 0.85 hides how uncertain that measurement is when evaluated on a modest clinical sample size. A confidence interval provides the plausible range of values within which the true population performance lies.\n\nIt is like quoting a project delivery window of four to six weeks rather than promising completion at noon on a single Tuesday.\n\nWith only fifty test patients, an apparent accuracy of eighty percent has a wide margin of error that may overlap with a weak baseline. Consultants should require bootstrap confidence intervals on every metric so stakeholders do not over-interpret small numerical gains.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -93,7 +233,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_LErZGDITy5v__1",
+          "type": "multiple_choice",
+          "prompt": "Why should an AI consultant report confidence intervals alongside point estimates for omics classifiers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Regulatory bodies forbid reporting area under the curve values as decimal numbers"
+            },
+            {
+              "id": "b",
+              "text": "Small clinical test sets create substantial sampling uncertainty that a single number hides"
+            },
+            {
+              "id": "c",
+              "text": "Confidence intervals automatically correct for batch confounding in the training set"
+            },
+            {
+              "id": "d",
+              "text": "Bootstrap intervals increase the statistical power of the underlying laboratory assay"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Reporting confidence intervals shows decision-makers the uncertainty around performance metrics, preventing overconfidence when test cohorts are small.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

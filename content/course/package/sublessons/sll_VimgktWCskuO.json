@@ -5,8 +5,8 @@
     {
       "id": "bit_hGO_yd7_NMBh",
       "title": "ESM embeddings as protein latent space",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Protein language models such as Meta's Evolutionary Scale Modeling (ESM) family convert amino acid sequences into rich numerical vectors called embeddings that organise proteins in a continuous latent space. Because new open-weight and commercial protein models appear regularly, check the current details on model sizes and licences.\n\nIt is like a library map where books on similar topics automatically cluster on nearby shelves even if their titles share no words.\n\nIn this latent space, distances and directions reflect evolutionary, structural, and functional similarity learned from hundreds of millions of natural sequences. Consultants can use frozen ESM embeddings as plug-and-play feature vectors for client classifiers when labelled experimental datasets hold only a few hundred examples.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,25 +19,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hGO_yd7_NMBh_1",
+          "type": "multiple_choice",
+          "prompt": "What do the numerical embeddings produced by a protein language model such as ESM represent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Exact laboratory protocols for purifying the protein using liquid chromatography columns"
+            },
+            {
+              "id": "b",
+              "text": "Raw electrical current traces recorded directly from nanopore DNA sequencing devices"
+            },
+            {
+              "id": "c",
+              "text": "Compact vector representations that capture structural, functional, and evolutionary properties of amino acid sequences"
+            },
+            {
+              "id": "d",
+              "text": "Financial valuations of pharmaceutical patents associated with a given therapeutic target"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Protein language models map sequences into a dense vector space where geometric proximity reflects shared evolutionary and biophysical traits.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_cdxoxr2n2k5s",
       "title": "Variant-effect prediction from embeddings",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Variant-effect prediction uses machine learning models to estimate whether a single amino acid substitution is benign or likely to disrupt protein function and cause disease. Protein language models score variants by comparing the probability the model assigns to the wild-type amino acid versus the mutant residue in its sequence context.\n\nIt is like a spellchecker flagging a word that looks unnatural in a sentence because it never appears there across millions of books.\n\nWhile zero-shot embedding scores correlate impressively with deep mutational scanning assays, a model only sees evolutionary conservation and cannot tell whether a mutation causes a loss of function or a toxic gain of function. Clinical variant classification must always follow clinical genetics standards alongside computational scores.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cdxoxr2n2k5s_1",
+          "type": "multiple_choice",
+          "prompt": "How can a protein language model estimate the effect of a missense mutation without supervised training on disease labels?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By physically synthesising the mutant protein inside a cloud-hosted robotic wet laboratory"
+            },
+            {
+              "id": "b",
+              "text": "By querying hospital electronic health records for patients carrying the exact variant name"
+            },
+            {
+              "id": "c",
+              "text": "By comparing the model's learned likelihood for the mutant amino acid against the wild-type residue in context"
+            },
+            {
+              "id": "d",
+              "text": "By counting how many letters exist in the gene symbol assigned by the nomenclature committee"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Trained across millions of natural sequences, protein language models flag substitutions that violate evolutionary patterns as likely deleterious.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6D-Z2_VlXJCj",
       "title": "Transfer learning from protein models to new tasks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Transfer learning in protein engineering means taking a foundation model pre-trained on millions of natural sequences and adapting its representations to predict a specific property such as thermostability, solubility, or binding affinity. Instead of training a deep network from scratch, a team trains a lightweight regression head on top of pre-computed embeddings.\n\nIt is like hiring an experienced chef who already masters knife skills and sauces, then spending just one afternoon teaching them your restaurant's signature dish.\n\nThis approach drastically reduces how many wet-lab measurements a biotech client needs to start an optimisation loop. However, if the client's engineered protein family sits far outside natural evolutionary space, pre-trained representations can lose accuracy and require fine-tuning.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,43 +106,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6D-Z2_VlXJCj_1",
+          "type": "multiple_choice",
+          "prompt": "Why is transfer learning from pre-trained protein embeddings valuable for biotech teams with small experimental budgets?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It removes the need to measure any experimental data whatsoever during lead optimisation"
+            },
+            {
+              "id": "b",
+              "text": "It allows standard office spreadsheets to run molecular dynamics without graphics processors"
+            },
+            {
+              "id": "c",
+              "text": "A lightweight model trained on rich pre-trained embeddings can learn accurate property predictors from very few wet-lab measurements"
+            },
+            {
+              "id": "d",
+              "text": "It guarantees that every predicted protein sequence will express at hundred-percent yield in bacteria"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Pre-trained embeddings already encode general biophysics and folding rules, allowing supervised heads to generalise from small numbers of labelled lab assays.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_nDprPllIx8Qg",
       "title": "Protein language models learn from sequences alone",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "During pre-training, masked protein language models are fed hundreds of millions of raw amino acid sequences from genomic databases without any experimental 3D coordinates or functional labels. By learning to fill in masked residues from surrounding sequence context, the network implicitly discovers secondary structure, long-range contacts, and active sites.\n\nIt is like learning the rules of grammar and world facts simply by filling in blanked-out words across an entire national library.\n\nBecause sequence databases grow far faster and more cheaply than structure databases, sequence-only pre-training scales across the tree of life. Still, sequence databases are heavily biased toward well-studied bacteria and model organisms, which can skew model performance on rare branches of life.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_nDprPllIx8Qg_1",
+          "type": "multiple_choice",
+          "prompt": "How do masked protein language models learn structural and functional patterns without being given 3D crystal structures during training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They secretly download X-ray coordinates from protein data banks during every forward pass"
+            },
+            {
+              "id": "b",
+              "text": "Amino acid letters are alphabetically ordered by their three-dimensional atomic radii"
+            },
+            {
+              "id": "c",
+              "text": "Predicting masked amino acids across millions of evolved sequences forces the model to learn the biophysical constraints that link residues"
+            },
+            {
+              "id": "d",
+              "text": "Human curators manually label every residue's catalytic role before pre-training begins"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Co-evolutionary patterns across natural sequences reflect which residues touch or cooperate in 3D space, which the model captures through masked sequence modelling.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_StwwZAIzgiL9",
       "title": "Scoring how much a mutation disrupts a protein",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a protein language model scores a point mutation through its log-likelihood ratio, it estimates how strongly that change destabilises the protein's fold or disrupts a conserved functional motif. Large negative scores indicate that evolution has consistently avoided placing that amino acid at that position.\n\nIt is like replacing a steel bolt in an aircraft wing with soft plastic: every engineering blueprint in history warns against that substitution.\n\nFor an AI consultant advising an enzyme engineering team or rare-disease group, this score is a fast, zero-cost filter to rank thousands of candidate variants before ordering DNA synthesis. Remember that a mutation needed to engineer a brand-new industrial substrate specificity might look evolutionary forbidden yet be desirable in the lab.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_StwwZAIzgiL9_1",
+          "type": "multiple_choice",
+          "prompt": "Why might an enzyme engineer intentionally test a mutation that a protein language model scores as evolutionarily unfavourable?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Evolutionary log-likelihood scores only apply to human antibodies and never to bacterial enzymes"
+            },
+            {
+              "id": "b",
+              "text": "Active-site changes that create novel industrial activity often break natural evolutionary conservation without destroying the fold"
+            },
+            {
+              "id": "c",
+              "text": "Mutations with strongly negative evolutionary scores are guaranteed to increase protein melting temperature"
+            },
+            {
+              "id": "d",
+              "text": "Language models assign identical scores to every amino acid substitution at active sites"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Natural evolution optimises for organism fitness rather than industrial goals, so beneficial active-site mutations for synthetic substrates can appear unnatural to a sequence model.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_PpibSM-KnrN5",
       "title": "Check against experimental data before trusting predictions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "No matter how impressive a protein foundation model looks on published leaderboards, zero-shot predictions often correlate only moderately with the specific assay conditions of a client's laboratory. Differences in buffer pH, temperature, host expression system, and assay readout can shift real-world behaviour away from computational rankings.\n\nIt is like using a driving simulator to shortlist racing drivers, then running timed laps on a real wet circuit before signing a contract.\n\nBefore a client orders ten thousand variants or commits £200,000 to a screening campaign, advise them to benchmark candidate models against a small pilot plate of 50 to 100 experimentally measured variants from their exact target protein.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PpibSM-KnrN5_1",
+          "type": "multiple_choice",
+          "prompt": "What should an AI consultant recommend before a biotech client relies on a protein language model to select thousands of variants for synthesis?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Trust the model's published average benchmark score without running any baseline laboratory checks"
+            },
+            {
+              "id": "b",
+              "text": "Train a brand-new foundation model from scratch using only twelve sequences from the client's lab notebook"
+            },
+            {
+              "id": "c",
+              "text": "Replace the client's wet-lab assay entirely with synthetic labels generated by a chatbot"
+            },
+            {
+              "id": "d",
+              "text": "Benchmark the model's predictions against a small pilot set of wet-lab measurements on the client's specific protein and assay"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Evaluating candidate models on a small target-specific wet-lab pilot verifies that computational scores actually correlate with the client's real assay readout.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

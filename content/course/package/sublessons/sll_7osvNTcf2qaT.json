@@ -5,74 +5,242 @@
     {
       "id": "bit_I_rl4wbsO9q6",
       "title": "Scaling, encoding, feature creation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Feature engineering transforms raw client tables into numerical inputs that algorithms can digest, combining numerical scaling (standardisation or min-max scaling), categorical encoding, and domain-specific feature creation such as ratios or rolling averages.\n\nIt is like a chef washing, peeling, and dicing raw market vegetables into uniform pieces so they cook evenly in the pan.\n\nEvery scaling statistic or category mapping must be fitted solely on the training split and then applied unchanged to validation, test, and live data to avoid data leakage.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_I_rl4wbsO9q6_1",
+          "type": "multiple_choice",
+          "prompt": "When standardising features by subtracting the mean and dividing by the standard deviation, how should the validation and test sets be scaled?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Using the mean and standard deviation calculated separately on the test set"
+            },
+            {
+              "id": "b",
+              "text": "Using the combined mean and standard deviation of the entire dataset before splitting"
+            },
+            {
+              "id": "c",
+              "text": "Using the mean and standard deviation calculated from the training set only"
+            },
+            {
+              "id": "d",
+              "text": "Leaving the validation and test sets unscaled while scaling only the training set"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Fitting scalers on the training split alone prevents information from the validation or test distributions from leaking into training.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_KbF_LpI06Xei",
       "title": "Feature selection methods",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Feature selection removes irrelevant or redundant inputs using filter methods (such as correlation or mutual information scores), wrapper methods (such as recursive feature elimination), or embedded methods (such as lasso penalties or tree importances).\n\nIt is like packing for a consulting trip by laying out only the tools needed for the client workshop and leaving duplicate cables and heavy books behind.\n\nDropping noisy or collinear columns speeds up inference, reduces data maintenance costs, and lowers variance, though aggressive automated filtering can accidentally discard a feature that only works in combination with another.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KbF_LpI06Xei_1",
+          "type": "multiple_choice",
+          "prompt": "How do wrapper methods for feature selection differ from simple univariate filter methods?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Wrapper methods never train a model and only check whether column names are spelled correctly"
+            },
+            {
+              "id": "b",
+              "text": "Filter methods require deep neural networks whereas wrapper methods only work on text files"
+            },
+            {
+              "id": "c",
+              "text": "Wrapper methods evaluate subsets of features by actually training and scoring a model, capturing feature interactions that single-feature filters miss"
+            },
+            {
+              "id": "d",
+              "text": "Wrapper methods always keep every column in the dataset without removing anything"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Filter methods score each feature rapidly in isolation, whereas wrapper methods test how combinations of features perform inside a chosen algorithm.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_InHB1qao6LlD",
       "title": "Scaling matters for distance-based and gradient-based models",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Models that measure distances between points (such as k-nearest neighbours, k-means, and support vector machines) or optimise weights via gradients and penalties (such as linear models with regularisation and neural networks) are sensitive to feature scales.\n\nIt is like calculating the distance between two houses by adding differences in annual household income in pounds to differences in bedroom count; the thousands of pounds completely drown out the bedrooms.\n\nStandardising features puts every axis on comparable footing and keeps loss surfaces rounder so gradient descent converges smoothly instead of zigzagging.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_InHB1qao6LlD_1",
+          "type": "multiple_choice",
+          "prompt": "Why does failing to scale features harm a k-nearest neighbours (k-NN) model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Features measured in large numerical units dominate the distance calculation, making small-unit features almost invisible"
+            },
+            {
+              "id": "b",
+              "text": "Decision splits inside k-NN require all input numbers to be negative integers"
+            },
+            {
+              "id": "c",
+              "text": "Unscaled numbers cause the tree depth of k-NN to grow to infinity"
+            },
+            {
+              "id": "d",
+              "text": "Distance formulas cannot be computed whenever two columns have different means"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Euclidean and similar distance metrics sum squared differences across coordinates, so a feature spanning thousands will overwhelm a feature spanning zero to one.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ImQFgBNTF1nu",
       "title": "One-hot encoding for categories",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "One-hot encoding turns a categorical column with discrete text labels (such as city or contract tier) into several binary zero-or-one indicator columns, preventing the model from assuming a false numerical order between categories.\n\nIt is like replacing a single \"payment method\" column containing card, cash, or invoice with three separate tick-boxes so no algorithm thinks invoice is three times larger than card.\n\nWhen a column has thousands of unique values like postcodes or product IDs, one-hot encoding creates a huge sparse table, so grouping rare categories or using target encoding is wiser.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ImQFgBNTF1nu_1",
+          "type": "multiple_choice",
+          "prompt": "Why is one-hot encoding preferred over assigning arbitrary integers (1, 2, 3...) to unordered categories in a linear model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "One-hot encoding reduces the total number of columns in the dataframe to one"
+            },
+            {
+              "id": "b",
+              "text": "Linear models can read raw text strings directly without any numeric conversion"
+            },
+            {
+              "id": "c",
+              "text": "Assigning integers 1, 2, 3 causes the computer to run out of disk space immediately"
+            },
+            {
+              "id": "d",
+              "text": "Arbitrary integers trick a linear model into treating the categories as having a meaningful numeric order and spacing"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A single numeric column imposes an artificial linear ordering where category 3 is treated as halfway between 2 and 4, whereas binary indicators give each category its own weight.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_3euAuNezl3iw",
       "title": "Missing-value strategies and missing-value indicators",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When client records contain missing values, you can drop incomplete rows if they are rare, impute missing entries using the training median, mean, or a model-based estimate, and add a binary indicator column flagging that the value was originally missing.\n\nIt is like filling in a blank income box on a loan form with the typical applicant's income while clipping a note to the page saying the applicant chose not to answer.\n\nIn business data, missingness is rarely random; a blank credit score or skipped survey question is often a strong predictive signal in its own right.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3euAuNezl3iw_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it often helpful to add a binary missing-value indicator column alongside median imputation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Median imputation deletes the row unless a binary column is appended next to it"
+            },
+            {
+              "id": "b",
+              "text": "Adding an indicator column guarantees that all features follow a normal distribution"
+            },
+            {
+              "id": "c",
+              "text": "The fact that a value was not recorded often carries genuine predictive signal about customer or system behaviour"
+            },
+            {
+              "id": "d",
+              "text": "Gradient boosting algorithms crash if every column contains valid numbers without a binary flag"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "In real datasets, missing entries often reflect deliberate user choices or specific system pathways, so an indicator preserves that signal after imputation fills the gap.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_YeoI43wY0CjJ",
       "title": "Domain features often beat clever models",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Domain features are engineered variables crafted from business knowledge, such as debt-to-income ratios in lending, days since last login in software subscriptions, or price relative to category average in retail.\n\nIt is like giving a junior analyst a pre-calculated profit-margin ratio instead of expecting them to discover division from raw revenue and cost columns on their own.\n\nSpending a day interviewing client subject-matter experts to build three thoughtful domain features regularly delivers larger accuracy gains than weeks of hyperparameter tuning on raw tables.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YeoI43wY0CjJ_1",
+          "type": "multiple_choice",
+          "prompt": "Why does crafting domain-specific features such as ratios or time-since-last-event often outperform switching to a fancier algorithm?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Domain features allow you to evaluate the model on the training set instead of a test set"
+            },
+            {
+              "id": "b",
+              "text": "Fancier algorithms are mathematically incapable of reading floating-point numbers"
+            },
+            {
+              "id": "c",
+              "text": "Adding domain features removes the need to check for data leakage across time"
+            },
+            {
+              "id": "d",
+              "text": "Domain features directly express the business relationships that matter, making the predictive pattern much easier for any model to learn"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Expressing domain knowledge explicitly in the inputs reduces the complexity of the function the model has to approximate from limited data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,32 +5,88 @@
     {
       "id": "bit_d_Pz-KX_tqmB",
       "title": "Generator plus critic loop",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The evaluator-optimizer workflow splits creation and judgement into two separate components that run in a loop.\n\nThe generator (the optimizer) produces a candidate output, such as a marketing email, a SQL query or a translated paragraph. The evaluator (the critic) grades that output against explicit criteria and returns structured feedback. If the output fails any criterion, the generator receives the draft plus the feedback and produces an improved version.\n\nIt is a designer creating a poster and an art director marking up the layout until it meets the brand guidelines.\n\nKeeping the two roles in separate prompts stops the generator from marking its own homework leniently.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_d_Pz-KX_tqmB_1",
+          "type": "multiple_choice",
+          "prompt": "How do the two roles in an evaluator-optimizer workflow interact?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Both prompts write separate drafts and throw both away"
+            },
+            {
+              "id": "b",
+              "text": "The evaluator writes the first draft and the generator deletes it"
+            },
+            {
+              "id": "c",
+              "text": "Neither role reads what the other wrote"
+            },
+            {
+              "id": "d",
+              "text": "The generator creates or revises a draft, and the evaluator checks it against criteria and returns feedback until it passes"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Separating generation from evaluation lets one prompt focus on creating and the other on strict checking.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_oGvZg3aSOLxP",
       "title": "Stopping criteria and quality thresholds",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An evaluator-optimizer loop stops when one of two conditions is met: the evaluator marks every required check as passed, or the loop hits its maximum number of attempts.\n\nTo make the pass condition reliable, ask the evaluator for structured fields rather than a vague paragraph: boolean flags like `all_citations_valid: true` and `tone_matches_brief: true`, or a rubric score that must reach a set threshold.\n\nIt is an MOT car test with a printed pass/fail sheet for brakes, lights and tyres, plus a rule that after two failed retests the car goes off the road.\n\nIf the loop hits the attempt limit without passing, return the best version so far with a warning or hand it to a person.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oGvZg3aSOLxP_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an evaluator return structured pass/fail fields or rubric scores rather than free text alone?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Models cannot write free text and booleans in the same response"
+            },
+            {
+              "id": "b",
+              "text": "Structured fields make the generator ignore the feedback"
+            },
+            {
+              "id": "c",
+              "text": "Structured fields let your code decide cleanly when the quality threshold is met and the loop should stop"
+            },
+            {
+              "id": "d",
+              "text": "Free text is illegal in API responses"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Explicit pass/fail flags let your code control the loop reliably without guessing whether a paragraph of critique means \"pass\".",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4reUGZafIaVZ",
       "title": "A critic needs clear criteria",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Telling an evaluator prompt to \"check whether this draft is good and suggest improvements\" guarantees useless, fussy feedback.\n\nGive the critic a concrete rubric. For a client proposal, the rubric might state: must be under 400 words, must quote the exact fee from the pricing table, must not promise delivery dates under two weeks, and must use British spelling. Anything outside the rubric is none of the critic's business.\n\nIt is giving an examiner a marking scheme with exact points per question instead of asking them to grade on vibes.\n\nA tight rubric makes the critic consistent across runs and stops it inventing new complaints on every pass.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,19 +99,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4reUGZafIaVZ_1",
+          "type": "multiple_choice",
+          "prompt": "What happens if you give an evaluator prompt a vague instruction like \"make this better\" instead of a clear rubric?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It always passes the first draft without reading it"
+            },
+            {
+              "id": "b",
+              "text": "It invents shifting, fussy complaints on every round and never settles on a clear pass"
+            },
+            {
+              "id": "c",
+              "text": "It runs ten times faster than a rubric prompt"
+            },
+            {
+              "id": "d",
+              "text": "It automatically writes unit tests in Python"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Without explicit criteria, a critic prompt nitpicks endlessly because \"better\" has no finish line.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_QvA8SwOtxJ2j",
       "title": "Works when feedback clearly improves the result",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The evaluator-optimizer pattern only makes sense when two things are true: you can evaluate an output more easily than you can generate it right the first time, and written feedback actually helps the generator fix the flaw.\n\nFor example, it is hard for a model to write a complex paragraph that hits an exact word limit and includes five mandatory disclosures on try one. It is very easy for a critic (or code) to count the words, list the missing disclosure and tell the generator what to trim and add.\n\nIt is tailoring a suit: pinning the sleeves once the jacket is on is much easier than cutting it to the millimetre from measurements alone.\n\nIf the critic cannot tell right from wrong any better than the generator, the loop just adds cost and noise.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_QvA8SwOtxJ2j_1",
+          "type": "multiple_choice",
+          "prompt": "Under what condition does an evaluator-optimizer loop add real value?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When verifying the output and pointing out flaws is easier and more reliable than generating a perfect draft in one shot"
+            },
+            {
+              "id": "b",
+              "text": "When the evaluator has no way to tell whether the answer is right or wrong"
+            },
+            {
+              "id": "c",
+              "text": "When the task is a one-word classification"
+            },
+            {
+              "id": "d",
+              "text": "When you want to triple latency without changing the output"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A revision loop only helps when the evaluator can reliably spot concrete defects that the generator can then fix.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

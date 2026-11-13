@@ -5,20 +5,48 @@
     {
       "id": "bit_MjDt36gHREWn",
       "title": "FastAPI services and inference streaming",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "FastAPI is the standard Python web framework for wrapping AI logic and agents behind clean HTTP endpoints. Check the current details for recent FastAPI releases.\n\nUnlike ordinary database endpoints that return a tiny JSON object in twenty milliseconds, an LLM call generates tokens over several seconds. FastAPI supports **Server-Sent Events (SSE)** and streaming responses out of the box, letting your server yield each token or agent status event to the browser the instant it arrives from the model provider.\n\nIt is turning on a tap so water flows immediately, rather than waiting for a bucket to fill to the brim before pouring a drop.\n\nAutomatic Pydantic validation on every request and response keeps your API contract strict.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_MjDt36gHREWn_1",
+          "type": "multiple_choice",
+          "prompt": "Why is response streaming (such as Server-Sent Events) important in an AI backend service?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It sends tokens and status updates to the user's screen as they are generated, rather than making the user stare at a blank screen for seconds"
+            },
+            {
+              "id": "b",
+              "text": "It makes the model generate fewer tokens overall"
+            },
+            {
+              "id": "c",
+              "text": "It allows FastAPI to run without Python installed"
+            },
+            {
+              "id": "d",
+              "text": "It encrypts the database schema"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Streaming starts displaying output within a second, making a multi-second model call feel responsive.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NMR7xhgjriis",
       "title": "Async processing and queues",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A single AI worker spends most of its time waiting: waiting for the model API to reply, waiting for a vector search, or waiting for a third-party webhook.\n\nIf your web server handles requests synchronously, one slow ten-second agent call blocks that worker thread from serving anyone else. Using `async`/`await` in Python or TypeScript lets a single server handle dozens of concurrent waits efficiently. For heavier background jobs, a **task queue** (such as Celery, BullMQ, Redis queues or cloud queues) holds incoming jobs safely and feeds them to worker processes at a controlled pace.\n\nIt is a busy deli counter handing out numbered tickets so the server does not freeze when twenty customers walk in at once.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,25 +59,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NMR7xhgjriis_1",
+          "type": "multiple_choice",
+          "prompt": "What are the roles of `async`/`await` and task queues in an AI backend?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They make language models run without an internet connection"
+            },
+            {
+              "id": "b",
+              "text": "Task queues delete any request that takes more than one millisecond"
+            },
+            {
+              "id": "c",
+              "text": "Async code is only used for styling buttons in CSS"
+            },
+            {
+              "id": "d",
+              "text": "Async code handles many concurrent network waits without blocking threads, while task queues buffer and distribute heavier background jobs safely"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Non-blocking async I/O and durable task queues keep your web server responsive when many users trigger slow model calls at once.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Ntdw7RS_MDzI",
       "title": "Long jobs run in the background, not inside a web request",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Standard web requests, load balancers and serverless functions impose strict timeouts, often between 30 and 120 seconds. A deep research agent, a batch contract review or a multi-step workflow can easily take three minutes.\n\nNever run a multi-minute agent loop directly inside the HTTP request that the user's browser is waiting on. Instead, have the `POST /jobs` endpoint validate the input, write a job row to the database, push the job ID onto a background worker queue and immediately return `202 Accepted` with the `job_id`. The frontend then polls or subscribes to updates for that ID.\n\nIt is dropping your suit at the dry cleaner's and taking a claim ticket, rather than standing at the counter while it washes and dries.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Ntdw7RS_MDzI_1",
+          "type": "multiple_choice",
+          "prompt": "How should an API handle an agent task that takes three minutes to complete?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Hold the initial HTTP request open for three minutes and hope the load balancer does not cut the connection"
+            },
+            {
+              "id": "b",
+              "text": "Enqueue the job for a background worker, return a job ID immediately and let the client track progress asynchronously"
+            },
+            {
+              "id": "c",
+              "text": "Refuse any task that takes longer than two seconds"
+            },
+            {
+              "id": "d",
+              "text": "Ask the user to refresh the page every second"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Decoupling long agent runs into background jobs prevents HTTP timeouts and lets runs survive browser refreshes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wyjO_vRvud8a",
       "title": "Login and per-user data separation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The moment your prototype moves from your laptop to real users, authentication and tenant isolation become non-negotiable.\n\nEvery API request must verify who the user is via a signed session cookie or token, and resolve their `user_id` and `organisation_id` on the server. Pass those verified IDs directly into every database query, vector search filter and tool call in code. Never let the language model choose which `organisation_id` to query based on a prompt, or one user will be able to ask for another client's confidential files.\n\nIt is a bank cash machine checking your card and PIN before showing only your own account balance.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -62,7 +146,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wyjO_vRvud8a_1",
+          "type": "multiple_choice",
+          "prompt": "How must per-user and per-client data separation be enforced in an AI application?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By asking the model nicely in the system prompt only to read the current user's rows"
+            },
+            {
+              "id": "b",
+              "text": "By filtering every database query, vector search and tool call in server code using the authenticated session's user and organisation IDs"
+            },
+            {
+              "id": "c",
+              "text": "By putting every client's documents into one unfiltered vector collection"
+            },
+            {
+              "id": "d",
+              "text": "By letting the user type their `organisation_id` into the chat box"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Enforcing tenant filters in backend code from the authenticated session makes cross-client data leaks impossible via prompt tricks.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

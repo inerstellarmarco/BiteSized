@@ -5,8 +5,8 @@
     {
       "id": "bit_cOR2Hg8-ps-6",
       "title": "Updating one bot without breaking the team",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Changing one bot's prompt or tools can unexpectedly break downstream bots that rely on its exact output style or field meanings. Treat every bot's input and output format as a strict contract with the rest of the team.\n\nIt is like replacing a gearbox in a car: you can upgrade the internal parts, but the bolts and shaft connections must still match the engine and wheels.\n\nWhen you improve a specialist bot, run tests not only on that bot in isolation, but also on the full chain that follows it. If the output schema must change, update and test the receiving bots in the same release.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cOR2Hg8-ps-6_1",
+          "type": "multiple_choice",
+          "prompt": "What is the safest way to update a single bot inside a multi-bot workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Edit the prompt directly in live production and wait to see if any staff complain"
+            },
+            {
+              "id": "b",
+              "text": "Rewrite every bot in the team from scratch whenever one small rule changes"
+            },
+            {
+              "id": "c",
+              "text": "Turn off all validation schemas so downstream bots accept any text format"
+            },
+            {
+              "id": "d",
+              "text": "Keep its output contract stable and test both the individual bot and the downstream chain"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Treating handoff formats as contracts and testing the full chain stops an isolated tweak from breaking downstream bots.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_js13LH-kGFvH",
       "title": "Model upgrades: re-run evals on every bot",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a model provider releases a new version or retires an old one, you must re-run your evaluation suite across every bot before switching over. A newer model is not automatically better for every narrow role in your team.\n\nFor instance, upgrading a triage bot to a newer, more talkative model might cause it to add polite explanations around its JSON output, breaking the parser for the next step.\n\nPin specific model versions in production rather than pointing to a floating \"latest\" tag that changes without warning. Only migrate a bot after its scorecard confirms that quality, cost, and speed still meet the client's targets.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,43 +66,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_js13LH-kGFvH_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you pin specific model versions and re-run evaluations before upgrading a bot?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Newer language models are always slower and less accurate than older versions"
+            },
+            {
+              "id": "b",
+              "text": "A newer model can alter output formatting, tone, or cost in ways that break a specific role"
+            },
+            {
+              "id": "c",
+              "text": "Model providers never retire old versions once they have been released to the public"
+            },
+            {
+              "id": "d",
+              "text": "Re-running evaluations automatically writes a new contract with the client's suppliers"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Pinning versions prevents surprise changes, and running evaluations verifies that an upgrade genuinely helps each specific bot role.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_0PGLJYQB2LLj",
       "title": "A human owner for every bot team",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every bot team deployed at a client organisation needs a named human owner on the client side who understands what the team does and holds authority over its business rules. The consultant builds and supports the system, but day-to-day operational ownership belongs within the business.\n\nIn a mid-sized wholesaler, the head of customer service owns the support bot team, decides when holiday return rules change, and reviews the weekly scorecard.\n\nWithout an internal owner, a bot team becomes an orphan whenever your consulting project ends. Staff stop trusting it, nobody updates its knowledge when products change, and the system is eventually switched off.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0PGLJYQB2LLj_1",
+          "type": "multiple_choice",
+          "prompt": "What happens when a bot team has no named human owner inside the client organisation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Nobody updates its business rules as the company changes, and the system gradually loses trust and value"
+            },
+            {
+              "id": "b",
+              "text": "The bots automatically promote one of themselves to become the company director"
+            },
+            {
+              "id": "c",
+              "text": "The system runs forever without needing any new product information or policy updates"
+            },
+            {
+              "id": "d",
+              "text": "Cloud hosting fees drop to zero as soon as the consultant hands over the project"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A named client owner keeps the bot team aligned with changing business policies and accountable for its daily results.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_sNmbqC-AmarH",
       "title": "Retiring a bot: handover and cleanup",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Bots are not permanent fixtures; when a business process changes or two steps merge, an old bot must be retired cleanly. Proper decommissioning means draining its active task queue, redirecting upstream handoffs, revoking its API keys, and archiving its logs.\n\nThink of when an employee leaves a firm: you hand their open files to a colleague, cancel their security pass, and store their records rather than leaving their desk piled with live mail.\n\nNever simply delete a bot while upstream tasks still point to it, or jobs will vanish silently. Keep the archived logs and specification for the agreed retention period in case an audit question arises later.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_sNmbqC-AmarH_1",
+          "type": "multiple_choice",
+          "prompt": "Which steps are essential when retiring a bot from a live workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Delete its prompt immediately during peak office hours without telling the team owner"
+            },
+            {
+              "id": "b",
+              "text": "Drain its open tasks, reroute upstream handoffs, revoke its credentials, and archive its logs"
+            },
+            {
+              "id": "c",
+              "text": "Leave its API keys and service account active forever in case someone wants them later"
+            },
+            {
+              "id": "d",
+              "text": "Erase all historical audit logs so there is no record that the bot ever existed"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Clean retirement prevents dropped tasks, closes security credentials, and preserves audit history for the client.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_0nZr19yghVx3",
       "title": "Documenting each bot's purpose and version",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Maintain a lightweight registry that records every bot's purpose, current version number, prompt history, model choice, tool permissions, and human owner. Whenever you change a prompt or rule, increment the version and write a one-line note explaining why.\n\nIf a client's invoice accuracy suddenly drops on a Tuesday, a clear version log lets you see immediately that version 1.4 of the matcher bot went live on Monday afternoon and roll it back in seconds.\n\nKeep this registry right beside the configuration files so updating it takes moments. Long, separate manuals quickly fall out of date, whereas a simple version log saves hours during an incident.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0nZr19yghVx3_1",
+          "type": "multiple_choice",
+          "prompt": "How does a versioned registry of each bot's prompt and configuration help during an incident?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It prevents human staff from ever asking questions about how the bots work"
+            },
+            {
+              "id": "b",
+              "text": "It replaces the need for automated testing, approval gates, or spend limits"
+            },
+            {
+              "id": "c",
+              "text": "It shows exactly what changed and when, allowing you to roll back to a known working version quickly"
+            },
+            {
+              "id": "d",
+              "text": "It convinces the language model to fix its own bugs without human intervention"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Tracking purpose and version history lets you connect sudden performance shifts to recent edits and restore a stable state fast.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

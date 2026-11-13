@@ -5,8 +5,8 @@
     {
       "id": "bit_FpjKlKBUPypb",
       "title": "Model routing and cascades",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Two related patterns cut model spend dramatically without sacrificing quality on hard questions: **routing** and **cascades**.\n\nIn **routing**, a fast classifier or tiny model inspects the request up front and sends easy questions to a small, cheap model and complex ones to a frontier model. In a **cascade**, you try the small, cheap model first on every request, and run a fast verification check on its output (such as schema validation, SQL execution or citation check). Only if the check fails or confidence is low do you escalate the request to the expensive frontier model.\n\nIt is a helpdesk where Tier 1 resolves 80% of tickets in two minutes and passes only the knotty 20% up to Tier 2 engineers.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FpjKlKBUPypb_1",
+          "type": "multiple_choice",
+          "prompt": "How does a model cascade differ from upfront routing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A cascade always calls the most expensive model first and then calls the cheap model"
+            },
+            {
+              "id": "b",
+              "text": "A cascade tries the cheap model first and escalates to the stronger model only if a verification check or confidence rule fails"
+            },
+            {
+              "id": "c",
+              "text": "Routing calls every model in the world at the same time"
+            },
+            {
+              "id": "d",
+              "text": "Cascades cannot use verification checks"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Cascades work brilliantly when you have a fast check (like code execution or schema validation) that tells you immediately whether the cheap model succeeded.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_EajPlA8lApnW",
       "title": "Prompt caching, semantic caching, and batching",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Three caching and batching levers can cut token bills by 50% to 90% with zero drop in output quality.\n\n**Prompt (prefix) caching** reuses the static prefix of your prompt (system instructions, few-shot examples, tool schemas and long reference documents) across calls on the provider's servers at a steep discount; always put static content at the **top** of the prompt and dynamic user input at the **bottom** so the prefix stays identical. **Semantic caching** stores answers to frequent questions and serves them when a near-identical question arrives. **Batch APIs** process non-urgent workloads overnight for roughly 50% off standard token prices.\n\nIt is keeping standard forms pre-printed on the shelf (prefix cache) rather than typesetting the header from scratch for every customer.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,37 +66,121 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_EajPlA8lApnW_1",
+          "type": "multiple_choice",
+          "prompt": "Where must you place static instructions, tool definitions and few-shot examples in your prompt to get the benefit of provider prompt caching?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "At the very beginning (prefix) of the prompt, with changing user inputs placed at the end"
+            },
+            {
+              "id": "b",
+              "text": "Mixed randomly with timestamps on the very first line of the prompt"
+            },
+            {
+              "id": "c",
+              "text": "At the very end of the prompt after the user's question"
+            },
+            {
+              "id": "d",
+              "text": "Inside the user's browser cookies"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Provider KV-prefix caching matches from the first token onwards, so keeping the static prefix byte-for-byte identical at the top maximises cache hits.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_DFAyI_seo7AO",
       "title": "Shorter prompts and smaller tool results",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every token you stop sending is a token you neither pay for nor wait for.\n\nTwo places accumulate silent bloat over a project's life. First, **system prompts**: teams keep pasting new paragraphs of rules until a simple step carries a 4,000-token essay of repetitive instructions; tightening and deduplicating it often improves accuracy while halving input cost. Second, **tool results**: a naive tool returns all 60 columns of a database row or a raw 30,000-token HTML page when the agent only needed 4 fields (`id`, `name`, `status`, `amount`) and the top 20 matching rows.\n\nIt is trimming the outer cabbage leaves before weighing and cooking, rather than putting the whole crate in the pot.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DFAyI_seo7AO_1",
+          "type": "multiple_choice",
+          "prompt": "What is one of the highest-impact ways to shrink input token usage in tool-using agents?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Remove all error messages when a tool fails"
+            },
+            {
+              "id": "b",
+              "text": "Rename variables in your Python code to single letters"
+            },
+            {
+              "id": "c",
+              "text": "Increase the model's maximum output token limit"
+            },
+            {
+              "id": "d",
+              "text": "Have tools return only the specific fields and filtered rows the agent needs rather than dumping entire raw API payloads or HTML pages"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Filtering and projecting tool outputs in code before returning them to the model saves thousands of input tokens on every subsequent loop turn.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_jysjf3Ay9Lwq",
       "title": "Batch jobs for work that can wait",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Most major model providers offer a **Batch API** alongside their synchronous live endpoints: you upload a file or list of requests, the provider processes them within a window (typically up to 24 hours, often finishing much sooner) during off-peak GPU capacity, and charges roughly **50% less** per input and output token, with much higher separate rate limits. Check the current details for each provider's batch SLA and discount.\n\nBatch APIs are ideal for nightly document indexing, classifying yesterday's call transcripts, generating weekly client digests, or running large offline evaluation suites.\n\nIt is sending non-urgent freight on an overnight goods train at half the price of a daytime express courier.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_jysjf3Ay9Lwq_1",
+          "type": "multiple_choice",
+          "prompt": "Which workload is best suited to a provider's discounted Batch API?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A live customer-support chat window where the user is typing right now"
+            },
+            {
+              "id": "b",
+              "text": "Nightly classification of call transcripts, bulk document extraction or large offline evaluation runs that do not have a user waiting live"
+            },
+            {
+              "id": "c",
+              "text": "A real-time voice conversation"
+            },
+            {
+              "id": "d",
+              "text": "An autocomplete dropdown that must appear in 150 milliseconds"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Whenever no human is waiting synchronously on the screen, batch APIs halve your token bill and avoid eating into your live rate limits.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_8d4vYd_2Exrm",
       "title": "Cut cost only while evals still pass",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Cost reduction without an evaluation suite is just breaking your product cheaply.\n\nWhenever you switch a step to a smaller model, shorten a prompt, trim retrieval from top-10 to top-4 chunks or quantise an open-weight model, run your evaluation suite before and after. Treat your quality and safety thresholds as hard constraints: a change that cuts cost by 60% while keeping eval pass rates flat (say 91% -> 91%) is a clear win to ship immediately; a change that cuts cost by 60% while dropping faithfulness from 95% to 78% is a rejected experiment.\n\nIt is insulating a house to cut the heating bill while keeping the thermostat at a comfortable 20°C, not simply turning the boiler off in January.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -81,7 +193,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8d4vYd_2Exrm_1",
+          "type": "multiple_choice",
+          "prompt": "What rule should govern every cost-optimisation experiment on an AI system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Always pick whichever change makes the API bill smallest, regardless of accuracy"
+            },
+            {
+              "id": "b",
+              "text": "Never measure accuracy when changing models"
+            },
+            {
+              "id": "c",
+              "text": "Only test cost changes on a single two-word prompt"
+            },
+            {
+              "id": "d",
+              "text": "Only ship a cost reduction after verifying on your evaluation suite that accuracy and safety still meet your required thresholds"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Pairing every cost experiment with your eval suite lets you cut waste aggressively while proving to the client that quality stayed intact.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

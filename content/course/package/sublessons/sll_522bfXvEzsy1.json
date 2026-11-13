@@ -5,86 +5,282 @@
     {
       "id": "bit_vJht9xLc3Gio",
       "title": "Mixed precision training",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Mixed precision training runs most forward and backward matrix multiplications in 16-bit floating-point numbers while keeping a master copy of the weights and critical reductions in 32-bit precision. Modern accelerator hardware processes 16-bit operations much faster and uses roughly half the memory bandwidth compared to full 32-bit arithmetic.\n\nIt is like doing your rough daily project estimates in whole pounds for speed, while the accounting ledger still records the final balance to the exact penny.\n\nIf updates are calculated only in 16-bit format, tiny weight adjustments can round down to zero and stall learning. Keeping 32-bit master weights ensures those small steps accumulate accurately over thousands of batches, cutting cloud GPU training costs for clients without sacrificing model accuracy.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vJht9xLc3Gio_1",
+          "type": "multiple_choice",
+          "prompt": "Why does mixed precision training maintain a 32-bit master copy of the model weights?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because GPU hardware cannot store 16-bit numbers in main device memory"
+            },
+            {
+              "id": "b",
+              "text": "To double the latency of every forward pass during production inference"
+            },
+            {
+              "id": "c",
+              "text": "Because activation functions only accept 32-bit integer inputs"
+            },
+            {
+              "id": "d",
+              "text": "So small gradient updates can accumulate accurately without rounding to zero in 16-bit precision"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Small weight updates often fall below the precision floor of 16-bit floats, so applying them to 32-bit master weights preserves training quality.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_N-Y1VZ5AxPZN",
       "title": "Gradient accumulation and distributed training",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Gradient accumulation simulates a large batch size on limited hardware by running several small micro-batches forward and backward, summing their gradients in memory, and updating the weights only once at the end. When a single GPU is still too slow, distributed training spreads those micro-batches across multiple accelerators working in parallel.\n\nImagine a removals team loading boxes into a van: one person can carry four boxes in four trips (gradient accumulation), or four people can carry one box each at the same time (distributed training).\n\nMathematically, accumulating four micro-batches of eight items gives the same gradient as one batch of thirty-two, unless layers like batch normalisation depend on per-micro-batch statistics. Gradient accumulation saves memory so a project fits on cheaper GPUs, though it takes more wall-clock time than true parallel execution.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_N-Y1VZ5AxPZN_1",
+          "type": "multiple_choice",
+          "prompt": "What does gradient accumulation allow an engineer to do when GPU memory is limited?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Train with a large effective batch size by summing gradients over several smaller steps before updating weights"
+            },
+            {
+              "id": "b",
+              "text": "Compress the training dataset on disk so it takes up less cloud storage space"
+            },
+            {
+              "id": "c",
+              "text": "Skip the backward pass entirely on three out of every four training batches"
+            },
+            {
+              "id": "d",
+              "text": "Train a neural network without storing any activations during the forward pass"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "By accumulating gradients across multiple micro-batches before calling the optimiser, you achieve the stability of a large batch within a small memory footprint.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_KPCdHfVYI3Rc",
       "title": "Half-precision formats (fp16, bf16) and their trade-offs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Half-precision formats store numbers in 16 bits instead of 32-bit single precision (fp32) under the IEEE 754 standard; check the current details for hardware support on your cloud instances. Classic fp16 uses 5 exponent bits and 10 mantissa bits, giving fine precision but a narrow range that easily overflows or underflows. Brain floating point (bf16), designed by Google Brain, uses 8 exponent bits and 7 mantissa bits, matching the dynamic range of fp32.\n\nThink of fp16 as a short ruler marked in millimetres, while bf16 is a long tape measure marked in centimetres.\n\nBecause fp16 has a narrow range, it needs dynamic loss scaling to stop small gradients from vanishing. On modern GPUs and TPUs, engineers prefer bf16 because it avoids overflow without loss scaling.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KPCdHfVYI3Rc_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main advantage of bf16 over fp16 when training deep neural networks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It provides more mantissa bits for high-precision scientific physics simulations"
+            },
+            {
+              "id": "b",
+              "text": "It keeps the wide exponent range of 32-bit floats, avoiding gradient underflow and overflow"
+            },
+            {
+              "id": "c",
+              "text": "It uses only 8 bits of memory per parameter instead of 16 bits"
+            },
+            {
+              "id": "d",
+              "text": "It runs on legacy CPUs without needing any specialised matrix hardware"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "By allocating 8 bits to the exponent just like fp32, bf16 handles wide-ranging gradients cleanly without needing manual loss scaling.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5dStmE8ckKI7",
       "title": "Data parallel: copy the model, split the data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Data parallelism is the simplest way to scale training across multiple GPUs: every GPU holds a complete copy of the model, receives a different slice of the training batch, and computes gradients on its own data. Before the optimiser updates the weights, the GPUs communicate via an all-reduce operation to average their gradients so every replica stays identical.\n\nIt is like giving four proofreaders copies of the same style guide and splitting a long report into four sections so they can mark edits simultaneously, then merging their notes at the end.\n\nData parallelism scales almost linearly when communication across the interconnect is fast compared to computation. However, it only works if a single model copy and its optimiser states can fit inside the memory of one GPU, or if you shard those states across devices.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5dStmE8ckKI7_1",
+          "type": "multiple_choice",
+          "prompt": "How do GPUs stay synchronised during standard data-parallel training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They take turns running one layer at a time while the other GPUs remain idle"
+            },
+            {
+              "id": "b",
+              "text": "They send the entire training dataset to a central CPU after every single token"
+            },
+            {
+              "id": "c",
+              "text": "They average their locally computed gradients across all devices before updating their model copies"
+            },
+            {
+              "id": "d",
+              "text": "They train independent models and only average the final predictions at test time"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "An all-reduce step averages gradients across all worker GPUs on every step, ensuring each replica applies the exact same weight update.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ihpj0N9nwSWr",
       "title": "Model and pipeline parallel: split the model across GPUs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a model is too large to fit on a single GPU even with a batch size of one, model parallelism splits the network itself across multiple devices. Tensor parallelism slices individual weight matrices across GPUs within a fast node, while pipeline parallelism assigns consecutive groups of layers to different GPUs like stations on an assembly line.\n\nThink of building a commercial airliner: one hangar cannot hold the whole process, so different teams build the wings, fuselage, and tail in separate bays and pass assemblies down the line.\n\nSplitting a model introduces communication overhead and idle waiting time called pipeline bubbles, where later GPUs wait for earlier GPUs to finish their forward pass. Splitting micro-batches and overlapping communication with computation keeps hardware utilisation high, which is vital when advising clients on multi-node cluster budgets.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ihpj0N9nwSWr_1",
+          "type": "multiple_choice",
+          "prompt": "When must an engineering team move beyond simple data parallelism to model or pipeline parallelism?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When the model parameters and states are too large to fit into a single GPU's memory"
+            },
+            {
+              "id": "b",
+              "text": "When the training dataset contains fewer than a thousand labelled examples"
+            },
+            {
+              "id": "c",
+              "text": "When the team wants to avoid any network communication between GPUs"
+            },
+            {
+              "id": "d",
+              "text": "When the model consists of a single linear regression layer with ten features"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Model and pipeline parallelism partition the layers or weight tensors across devices so massive models can be trained despite per-GPU memory limits.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_FkiOlI1QmzVA",
       "title": "Memory budget: weights, gradients, optimizer state, and activations",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "During training, GPU memory is consumed by four buckets: model weights, gradients, optimiser states, and intermediate forward activations saved for the backward pass. With mixed precision and AdamW, a one-billion-parameter model needs roughly 2 gigabytes for 16-bit weights and 2 gigabytes for 16-bit gradients, plus up to 12 gigabytes for 32-bit master weights and Adam's two moment states.\n\nIt is like budgeting for an office refurbishment: the furniture (weights) is only part of the invoice once you add delivery, storage, and scaffolding (states and activations).\n\nActivation memory grows directly with batch size and sequence length. Consultants sizing cloud hardware must account for all four buckets to avoid out-of-memory crashes.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FkiOlI1QmzVA_1",
+          "type": "multiple_choice",
+          "prompt": "Which four components make up the main GPU memory budget during neural network training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Disk checkpoints, evaluation metrics, raw dataset files, and Python source code"
+            },
+            {
+              "id": "b",
+              "text": "Model weights, gradients, optimiser states, and intermediate forward activations"
+            },
+            {
+              "id": "c",
+              "text": "CPU cache lines, network ethernet packets, power supply buffers, and cooling logs"
+            },
+            {
+              "id": "d",
+              "text": "Tokeniser vocabularies, hyperparameter config files, learning rate schedules, and loss plots"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Training requires storing the parameters themselves, their gradients, the optimiser's per-parameter tracking variables, and the activations needed by backpropagation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_WTv8RjK2d-Q1",
       "title": "Gradient checkpointing trades compute for memory",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Gradient checkpointing (also called activation checkpointing) drastically cuts activation memory by discarding most intermediate layer outputs during the forward pass instead of saving every single one. During the backward pass, whenever backpropagation needs the missing activations for a segment of layers, the GPU recomputes them on the fly from the nearest saved checkpoint.\n\nThink of a hiker who takes a photo only at major trail junctions rather than filming every footstep, knowing they can easily retrace the short path between two junctions if needed.\n\nThis technique typically adds around twenty to thirty per cent more compute time because portions of the forward pass run twice, but it reduces activation memory from scaling linearly with depth to scaling far more gently. In practice, that freed memory allows much larger batch sizes or longer context lengths on the same GPU.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WTv8RjK2d-Q1_1",
+          "type": "multiple_choice",
+          "prompt": "What is the core trade-off made by gradient checkpointing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It performs extra forward-pass calculations during backpropagation in exchange for much lower activation memory"
+            },
+            {
+              "id": "b",
+              "text": "It reduces the precision of model weights to 4-bit integers in exchange for slower disk loading"
+            },
+            {
+              "id": "c",
+              "text": "It deletes half of the training dataset in exchange for finishing the epoch twice as fast"
+            },
+            {
+              "id": "d",
+              "text": "It disables the optimiser's momentum state in exchange for a higher learning rate"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "By saving activations only at selected boundary layers and recomputing intermediate ones during the backward pass, you trade a modest compute overhead for large memory savings.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,50 +5,162 @@
     {
       "id": "bit_kzbhu0I4nxH1",
       "title": "Voting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Voting runs the same question through multiple parallel calls and picks the answer that appears most often.\n\nSuppose you need to classify a tricky support ticket or solve a multi-step calculation where a single run gets it right 80 per cent of the time. Running three independent calls and taking the majority answer pushes accuracy noticeably higher, because two runs are less likely to make the exact same random slip at once.\n\nIt is asking three surveyors to measure a boundary and trusting the figure that two or three of them agree on.\n\nVoting works best when the output is a discrete choice, a number or a clear category that code can compare.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kzbhu0I4nxH1_1",
+          "type": "multiple_choice",
+          "prompt": "Why does majority voting across several runs improve accuracy on hard tasks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model charges nothing for the second and third runs"
+            },
+            {
+              "id": "b",
+              "text": "Voting turns a free-text essay into a database table automatically"
+            },
+            {
+              "id": "c",
+              "text": "A single model run always gives the wrong answer on purpose"
+            },
+            {
+              "id": "d",
+              "text": "Independent runs are less likely to make the exact same mistake at the same time"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "When single runs succeed most of the time, taking the majority vote filters out occasional random slips.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_U2Rp4IpfRX6k",
       "title": "Ensembles to reduce hallucination",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An ensemble combines several model runs to cross-check claims and strip out hallucinations.\n\nIn a high-stakes medical or legal summary, you might ask three calls to extract the key facts from a document, then keep only the facts that appear in at least two of the three outputs, or have a verifier check any claim where the runs disagree.\n\nIt is a newsroom rule requiring two independent sources before printing a sensitive story.\n\nDisagreement between runs is itself a valuable signal. When three runs give three different numbers for the same invoice total, your code knows immediately to flag that invoice for a human rather than guessing.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_U2Rp4IpfRX6k_1",
+          "type": "multiple_choice",
+          "prompt": "What does disagreement across an ensemble of model runs tell your system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "That the answer is uncertain and should be verified or flagged for human review"
+            },
+            {
+              "id": "b",
+              "text": "That all three answers are definitely correct"
+            },
+            {
+              "id": "c",
+              "text": "That the source document is empty"
+            },
+            {
+              "id": "d",
+              "text": "That the user should be billed three times"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "When multiple runs disagree on a fact or figure, it is a strong warning signal not to trust any single output blindly.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__CSBQkxEGBBM",
       "title": "Different models or prompts give more independent votes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "If you run the exact same prompt three times on the exact same model at low temperature, you will get the exact same mistake three times. That is not a real vote.\n\nTo get genuinely independent opinions, vary the setup across the ensemble. Use models from different families, or give each call a differently worded prompt and persona, such as one cautious financial analyst and one sceptical legal reviewer.\n\nIt is asking three people from different departments to check a plan, rather than asking one person the same question three times in a row.\n\nTrue diversity reduces correlated blind spots, where one model family consistently misreads a particular phrasing.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__CSBQkxEGBBM_1",
+          "type": "multiple_choice",
+          "prompt": "Why is calling two different models better for voting than calling the same model twice at temperature zero?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Different models are always free to call"
+            },
+            {
+              "id": "b",
+              "text": "Identical calls at temperature zero share the same biases and repeat the exact same mistake"
+            },
+            {
+              "id": "c",
+              "text": "Temperature zero produces completely random text"
+            },
+            {
+              "id": "d",
+              "text": "Calling two models takes zero network time"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Votes only protect against errors when the voters are independent enough not to fail in the exact same way.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_VYdOjTaZqtJi",
       "title": "When the cost of several runs is worth it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Running three or five models for one answer multiplies your token bill by three or five. For everyday chat or internal notes, that is pure waste.\n\nConsensus patterns earn their keep where a single mistake costs far more than a few pence of API calls: extracting figures from financial filings, screening contracts for dangerous clauses, grading high-stakes assessments, or generating gold-standard labels for an evaluation dataset.\n\nIt is paying for a second medical opinion before major surgery, not before buying plasters for a grazed knee.\n\nEven in high-stakes workflows, you can save money by running a second vote only when the first model's output triggers a risk rule.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_VYdOjTaZqtJi_1",
+          "type": "multiple_choice",
+          "prompt": "In which situation is the extra cost of a multi-model consensus workflow justified?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "High-stakes tasks where the business cost of a single error is much greater than the extra API calls"
+            },
+            {
+              "id": "b",
+              "text": "Generating casual greetings at the start of a chat"
+            },
+            {
+              "id": "c",
+              "text": "Reformatting a shopping list for personal use"
+            },
+            {
+              "id": "d",
+              "text": "Every single turn of a free public chatbot"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Multi-run consensus multiplies token cost, so save it for decisions where mistakes are expensive or dangerous.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

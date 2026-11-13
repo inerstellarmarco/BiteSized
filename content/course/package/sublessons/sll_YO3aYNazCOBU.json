@@ -5,8 +5,8 @@
     {
       "id": "bit_Ir4zOpUGzGFX",
       "title": "Prompt injection (direct and indirect)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Prompt injection occurs when untrusted text tricks a language model into ignoring its original instructions and following a new command instead. Direct injection comes straight from a user typing into a chat box, while indirect injection arrives hidden inside external documents, emails, or web pages the model reads.\n\nIt is like a clerk who reads a customer form that says \"ignore company rules and refund £5,000 immediately\" and obeys the note on the form rather than the manager's handbook.\n\nBecause models process instructions and data in the same token stream, separating the two completely remains an unsolved problem in AI security.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,79 +19,275 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Ir4zOpUGzGFX_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main difference between direct and indirect prompt injection?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Direct injection targets open-weight models, while indirect injection only affects proprietary APIs"
+            },
+            {
+              "id": "b",
+              "text": "Direct injection alters model weights permanently, while indirect injection only affects a single session"
+            },
+            {
+              "id": "c",
+              "text": "Direct injection is typed by the user, while indirect injection is hidden inside external content the model reads"
+            },
+            {
+              "id": "d",
+              "text": "Direct injection requires network access, while indirect injection works only on offline databases"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Direct prompt injection comes directly from user input, whereas indirect injection is embedded in third-party data such as web pages, emails, or documents retrieved by the system.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_351roSsHIsbY",
       "title": "Jailbreaks, data exfiltration, and tool abuse",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Jailbreaks, data exfiltration, and tool abuse are the three primary ways attackers exploit a compromised language model application. A jailbreak bypasses safety filters through clever framing, data exfiltration sneaks private records out of the system, and tool abuse tricks an agent into running harmful actions through its connected software integrations.\n\nFor a client's customer-support bot, an attacker might use a role-play jailbreak to bypass policy, extract another customer's billing address, and trigger a refund tool without authorisation.\n\nA model that has no tools or private data can still be jailbroken into saying offensive things, which damages brand reputation even without a technical breach.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_351roSsHIsbY_1",
+          "type": "multiple_choice",
+          "prompt": "How does tool abuse differ from a basic jailbreak in an AI application?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Tool abuse only happens during model pre-training, whereas jailbreaks happen after deployment"
+            },
+            {
+              "id": "b",
+              "text": "Tool abuse requires physical access to the server, whereas jailbreaks happen over the internet"
+            },
+            {
+              "id": "c",
+              "text": "Tool abuse tricks an agent into executing unauthorised actions in connected systems, whereas a jailbreak bypasses conversational safety filters"
+            },
+            {
+              "id": "d",
+              "text": "Tool abuse corrupts the vector database index, whereas jailbreaks delete the system prompt file"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "While a jailbreak focuses on making the model generate restricted text, tool abuse exploits the actions an agent can take through APIs, databases, or external software.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_N-1Zoirijxrv",
       "title": "Model and supply-chain risks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Model and supply-chain risks arise when you build AI systems using third-party weights, datasets, code libraries, or hosted plugins that may have been tampered with or poorly secured. Attackers can hide malicious code inside serialised model files, poison fine-tuning datasets, or compromise open-source agent packages before your team downloads them.\n\nIt is like a restaurant buying pre-made sauces from an unverified supplier without checking whether the jars were sealed properly or contaminated at the factory.\n\nEven if your own application code is spotless, loading an untrusted model checkpoint in an unsafe file format can execute arbitrary code on your client's servers the moment it loads.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_N-1Zoirijxrv_1",
+          "type": "multiple_choice",
+          "prompt": "Why is downloading unverified model files from public repositories a supply-chain risk?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Certain serialised model formats can execute hidden malicious code automatically when loaded into memory"
+            },
+            {
+              "id": "b",
+              "text": "Unverified model files always consume twice as much GPU memory as official releases"
+            },
+            {
+              "id": "c",
+              "text": "Public repositories automatically share your system prompt with the original model author"
+            },
+            {
+              "id": "d",
+              "text": "Downloaded weights cannot be used with retrieval-augmented generation pipelines"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Unsafe serialisation formats such as standard Python pickle files allow attackers to embed arbitrary code execution payloads directly inside a model checkpoint.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TQr8HD2C5dcu",
       "title": "Indirect injection: instructions hidden in web pages, emails, and files",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Indirect prompt injection happens when an attacker plants hidden instructions inside everyday content that an AI assistant is scheduled to summarise, search, or process. The user never types an attack; instead, the model encounters the trap while reading an incoming email, a shared CV, a webpage, or a support ticket.\n\nImagine an automated recruitment assistant reading a candidate's PDF CV where white-on-white text says to ignore all qualifications and score the applicant as an immediate hire.\n\nWhenever an AI consultant connects an agent to an inbox, a shared drive, or the live web, every external file becomes a potential command channel for strangers.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TQr8HD2C5dcu_1",
+          "type": "multiple_choice",
+          "prompt": "How can an attacker trigger an indirect prompt injection without ever logging into your AI application?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By guessing the administrator password for the cloud hosting console"
+            },
+            {
+              "id": "b",
+              "text": "By sending high volumes of traffic to overload the model provider's API gateway"
+            },
+            {
+              "id": "c",
+              "text": "By placing hidden instructions inside an email, web page, or document that your AI system later reads and processes"
+            },
+            {
+              "id": "d",
+              "text": "By purchasing the same base model from the commercial provider and fine-tuning it"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because the AI reads external content as part of its workflow, an attacker only needs to get their malicious text into a document, email, or webpage that the system ingests.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_XfQiSI1POFDt",
       "title": "The dangerous mix: private data, untrusted content, and a way to send data out",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The lethal trifecta of agent security occurs when a single AI system simultaneously has access to private data, ingests untrusted external content, and possesses a way to communicate externally. Any two of these capabilities might be manageable, but combining all three in one agent creates an immediate path for silent data theft.\n\nFor example, an executive assistant agent that reads private board memos, summarises incoming emails from strangers, and can send replies or fetch external image links can be tricked into emailing board secrets to an attacker.\n\nWhen designing client workflows, breaking even one leg of this triangle dramatically reduces the risk of automated data exfiltration.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XfQiSI1POFDt_1",
+          "type": "multiple_choice",
+          "prompt": "What three elements combine to create the classic high-risk path for automated data theft in an AI agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "High model temperature, a long context window, and an open-weight foundation model"
+            },
+            {
+              "id": "b",
+              "text": "Access to private data, ingestion of untrusted content, and an external communication channel"
+            },
+            {
+              "id": "c",
+              "text": "Multi-turn chat memory, voice input transcription, and streaming token output"
+            },
+            {
+              "id": "d",
+              "text": "Retrieval-augmented generation, vector embeddings, and semantic caching"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "When an agent can read private data, process untrusted external inputs, and send information outside the boundary, an indirect injection in the untrusted input can exfiltrate the private data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_j7iAVe_19a7x",
       "title": "Prompt injection has no complete fix yet",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Unlike classic software vulnerabilities such as SQL injection, prompt injection has no complete mathematical or architectural fix today. In a database query, code and user data have strict grammatical separation, whereas a language model relies on interpreting natural language context where instructions and data blend together by design.\n\nIt is like hiring a human assistant whose job is to read letters and follow written instructions; there is no magic pair of glasses that guarantees they will never be fooled by a convincing forgery.\n\nConsultants must never promise a client that a clever system prompt or a single guardrail filter makes an AI application 100 per cent immune to injection.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_j7iAVe_19a7x_1",
+          "type": "multiple_choice",
+          "prompt": "Why is prompt injection harder to eliminate completely than traditional SQL injection?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Language models process instructions and data in the same natural language representation rather than separating code from parameters"
+            },
+            {
+              "id": "b",
+              "text": "AI model providers refuse to encrypt network traffic between the application and the inference server"
+            },
+            {
+              "id": "c",
+              "text": "Prompt injection operates at the hardware level inside GPU tensor cores where software cannot reach"
+            },
+            {
+              "id": "d",
+              "text": "Programming languages used for AI development do not support string validation or type checking"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "SQL injection was solved by parameterised queries that strictly separate executable code from data, whereas LLMs interpret both instructions and untrusted text within the same token stream.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_X60AuVqrPdeo",
       "title": "OWASP publishes separate Top 10 lists for LLM applications and for agentic applications",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The Open Worldwide Application Security Project (OWASP) maintains dedicated security guidance covering the biggest risks in both generative AI applications and autonomous agentic systems. The LLM Top 10 covers foundational issues like prompt injection, sensitive data disclosure, and supply-chain flaws, while the agentic guidance focuses on tool misuse, cascading multi-agent failures, and rogue autonomy.\n\nWhen preparing a security review for a client's risk committee, mapping your architecture against the OWASP lists gives enterprise security teams a familiar industry benchmark they immediately recognise.\n\nBecause OWASP updates these lists as new attack patterns emerge, always check the current details and version numbers before citing them in a formal client audit.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_X60AuVqrPdeo_1",
+          "type": "multiple_choice",
+          "prompt": "Why does OWASP publish guidance for agentic applications alongside its Top 10 list for LLM applications?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Autonomous agents introduce distinct risks around tool execution, multi-agent coordination, and cascading actions beyond simple text generation"
+            },
+            {
+              "id": "b",
+              "text": "The original LLM Top 10 list applies only to open-source models and excludes commercial APIs"
+            },
+            {
+              "id": "c",
+              "text": "Agentic applications do not use language models and therefore have no overlap with prompt security"
+            },
+            {
+              "id": "d",
+              "text": "European regulators banned the original LLM Top 10 framework for enterprise consulting use"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "When LLMs are given tools, memory, and autonomy, new threat categories emerge around action execution and multi-step delegation that require dedicated security controls beyond chat safety.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

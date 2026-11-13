@@ -5,74 +5,242 @@
     {
       "id": "bit_5jsG-TUW_6Y1",
       "title": "AlphaFold and the protein folding problem",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "AlphaFold is a deep learning system developed by Google DeepMind that predicts a protein's three-dimensional atomic coordinates directly from its primary amino acid sequence. Because newer versions such as AlphaFold 3 expand into complexes and ligands with specific licence terms, check the current details before deploying them in commercial drug discovery.\n\nIt is like a piece of software that reads a flat list of flat-pack furniture parts and instantly renders the fully assembled three-dimensional cabinet.\n\nDespite near-experimental accuracy on many single chains, predicted structures can still struggle with novel binding pockets, point mutations, and multi-state conformational switches. Consultants should position folding models as rapid structural hypotheses rather than replacements for wet-lab structural biology.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5jsG-TUW_6Y1_1",
+          "type": "multiple_choice",
+          "prompt": "What breakthrough did AlphaFold achieve for structural biology?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It replaced all wet-lab clinical trials by simulating whole-human organ toxicity in real time"
+            },
+            {
+              "id": "b",
+              "text": "It eliminated the need to sequence DNA before identifying genetic variants in hospital patients"
+            },
+            {
+              "id": "c",
+              "text": "It predicted three-dimensional protein structures from amino acid sequences at near-experimental accuracy for most single chains"
+            },
+            {
+              "id": "d",
+              "text": "It proved that every protein adopts only a single rigid shape regardless of cellular environment"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "AlphaFold solved the long-standing challenge of accurately inferring 3D atomic coordinates from primary protein sequences across hundreds of millions of proteins.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_EP75Vln87oA6",
       "title": "Interpreting confidence (pLDDT, PAE)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Structure prediction models output built-in confidence metrics alongside atomic coordinates, notably the predicted local distance difference test (pLDDT) and the predicted aligned error (PAE). If your team uses AlphaFold, ESMFold, or Boltz pipelines, check the current details on how each tool scales and formats these confidence arrays.\n\nIt is like a weather forecast that not only predicts tomorrow's temperature for each town, but also states how certain it is about the wind patterns between two valleys.\n\nAn AI consultant must never let a client feed raw predicted coordinates into a molecular docking programme without first filtering by both local pLDDT and inter-domain PAE scores.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_EP75Vln87oA6_1",
+          "type": "multiple_choice",
+          "prompt": "Why must downstream drug-discovery workflows inspect pLDDT and PAE scores before using a predicted structure?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They indicate the exact financial cost in pounds required to synthesise the protein in a laboratory"
+            },
+            {
+              "id": "b",
+              "text": "They reveal which local regions and relative domain orientations are trustworthy and which are uncertain"
+            },
+            {
+              "id": "c",
+              "text": "They measure the mRNA transcription rate of the gene inside human liver tissue"
+            },
+            {
+              "id": "d",
+              "text": "They automatically re-refine low-resolution X-ray crystallography diffraction patterns"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Confidence metrics tell researchers whether local geometry and global domain packing are reliable enough for tasks such as virtual screening.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_iYT4TP_V4en1",
       "title": "Sequence determines structure; predicting it was a long-standing challenge",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A protein begins as a linear chain of amino acids that folds into a complex three-dimensional shape governed by physical and chemical interactions. Understanding this shape is vital because a protein's three-dimensional surface largely determines which molecules it binds and what biological function it performs.\n\nIt is like how the exact sequence of creases in origami paper determines whether the folded sheet becomes a crane or a box.\n\nFor fifty years, determining a single structure by X-ray crystallography or cryo-electron microscopy could take months of painstaking laboratory work and tens of thousands of pounds. Deep learning models unlocked structure-guided analysis across entire proteomes, though challenging membrane complexes and unusual chemistries still require experimental confirmation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_iYT4TP_V4en1_1",
+          "type": "multiple_choice",
+          "prompt": "Why was predicting protein structure from sequence such an important milestone for biotechnology?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A protein's three-dimensional shape governs its biological function, and experimental structure determination is slow and costly"
+            },
+            {
+              "id": "b",
+              "text": "Knowing a protein's shape removes the need to test drug candidates for off-target toxicity in cells"
+            },
+            {
+              "id": "c",
+              "text": "Amino acid sequences cannot be stored in computer databases until they are converted into 3D coordinates"
+            },
+            {
+              "id": "d",
+              "text": "Experimental crystallography can only be performed on synthetic polymers and never on human proteins"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because function follows 3D structure and wet-lab structural biology is expensive, accurate sequence-to-structure prediction accelerated target assessment across biology.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_cPtW8DMkvZn7",
       "title": "pLDDT: confidence for each residue; PAE: confidence in relative positions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In AlphaFold outputs, pLDDT scores each individual amino acid residue from 0 to 100 on how well its local environment matches expected atomic distances, whereas PAE estimates the positional error in angstroms between any pair of residues; check the current details in your structure viewer documentation.\n\nIt is like knowing both that two rooms in a house are each built solidly on their own, and whether the corridor connecting them is fixed or flexible.\n\nA multi-domain protein can display high pLDDT above 90 inside each separate domain while showing poor PAE between them, meaning the domains are well folded individually but connected by a floppy linker. Always inspect the two-dimensional PAE heatmap before modelling cross-domain interactions.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cPtW8DMkvZn7_1",
+          "type": "multiple_choice",
+          "prompt": "What does it mean when two protein domains each have high pLDDT scores but high predicted aligned error (PAE) between them?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Each domain is folded with high local confidence, but their relative orientation to one another is uncertain"
+            },
+            {
+              "id": "b",
+              "text": "Both domains are completely unfolded chains that lack any secondary structure"
+            },
+            {
+              "id": "c",
+              "text": "The amino acid sequence contains a sequencing artefact that corrupted the entire file"
+            },
+            {
+              "id": "d",
+              "text": "The two domains are covalently fused into a single rigid crystal lattice"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "High intra-domain pLDDT with high inter-domain PAE indicates well-structured individual domains whose relative spatial arrangement is flexible or unverified.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_A3FMoYw9pidp",
       "title": "Low-confidence regions are often disordered, not merely wrong",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a protein structure model assigns a very low pLDDT score below 50 to a long ribbon-like loop, beginners often assume the neural network simply failed. In reality, many of these low-confidence segments correspond to intrinsically disordered regions that never adopt a single fixed shape in solution unless bound to a partner.\n\nIt is like photographing a spinning bicycle wheel: the blur is not a broken camera lens, but a faithful clue that the spokes are moving rapidly.\n\nIntrinsically disordered regions play crucial roles in cell signalling and phase separation. Consultants should advise clients not to force rigid-body drug docking onto disordered ribbons, and instead recognise low pLDDT as a useful predictor of structural flexibility.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_A3FMoYw9pidp_1",
+          "type": "multiple_choice",
+          "prompt": "How should a biologist interpret a long ribbon-like region with very low pLDDT in a predicted protein structure?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It proves the underlying gene is a non-coding pseudogene that is never translated into protein"
+            },
+            {
+              "id": "b",
+              "text": "It shows the exact rigid catalytic pocket where small-molecule inhibitors bind most tightly"
+            },
+            {
+              "id": "c",
+              "text": "It means the graphics card ran out of memory halfway through coordinate generation"
+            },
+            {
+              "id": "d",
+              "text": "It often indicates an intrinsically disordered or flexible region rather than a simple modelling failure"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Low pLDDT scores frequently mark intrinsically disordered segments that remain dynamic in physiological conditions rather than adopting a single static fold.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__GEesBN9lBWr",
       "title": "Predictions are static models, not full dynamics",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Standard structure prediction networks output a single static snapshot or a small set of poses rather than the continuous thermal motion a protein experiences inside a living cell. In reality, proteins breathe, flex, open cryptic pockets, and shift conformation when drugs, ions, or partner proteins bind.\n\nIt is like looking at a single postcard photo of a busy drawbridge and assuming barges can never pass underneath because the bridge appears closed.\n\nRelying on one frozen apo-state prediction can cause a computational chemist to miss an allosteric druggable pocket that opens only transiently. When clients need conformational ensembles or binding kinetics, consultants should combine structure predictions with molecular dynamics simulations or wet-lab biophysical assays.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__GEesBN9lBWr_1",
+          "type": "multiple_choice",
+          "prompt": "What is a key limitation of treating a single predicted protein structure as the complete biological truth?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Static coordinate files cannot be visualised on standard desktop computers without quantum hardware"
+            },
+            {
+              "id": "b",
+              "text": "Predicted structures only include hydrogen atoms and omit all carbon and nitrogen backbones"
+            },
+            {
+              "id": "c",
+              "text": "Proteins are dynamic molecules that shift between conformations, whereas standard predictions represent static snapshots"
+            },
+            {
+              "id": "d",
+              "text": "Static models always show the protein in its fully denatured, boiled state"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because proteins fluctuate across ensembles of states to perform their functions, a single static coordinate file can miss cryptic pockets and conformational changes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

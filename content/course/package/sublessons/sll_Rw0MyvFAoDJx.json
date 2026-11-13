@@ -5,8 +5,8 @@
     {
       "id": "bit_x7OwKUoJXGjZ",
       "title": "Data modelling basics: tables, keys, and relationships",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Relational data modelling organises business records into separate tables for items, suppliers, orders, and order lines, linked together by unique primary keys and foreign keys. This structure ensures every piece of information is stored once and referenced reliably.\n\nThink of a library catalogue where each author has a unique ID card and each book record points to that author ID, so changing an author's biography updates every book entry automatically.\n\nNever store a purchase order with ten items by cramming all ten part numbers into a single comma-separated text box. Keep an orders header table and a linked order lines table so queries and agents can sum quantities cleanly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,37 +19,121 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_x7OwKUoJXGjZ_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an order management database separate order headers and order line items into linked tables?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the database impossible for human accountants to read"
+            },
+            {
+              "id": "b",
+              "text": "Storing all items inside a single comma-separated text cell is faster to sum in SQL"
+            },
+            {
+              "id": "c",
+              "text": "It allows each line item to be queried, summed, and validated cleanly using primary and foreign keys"
+            },
+            {
+              "id": "d",
+              "text": "Separate tables remove the need for unique item part numbers"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Proper relational tables with keys prevent data duplication and allow exact filtering and aggregation across orders and items.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_m3OoMmDPD0SE",
       "title": "Calculations run in code; the LLM orchestrates and explains",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a reliable operations architecture, deterministic code and database queries execute every arithmetic calculation and planning rule, while the language model orchestrates tool calls and explains the results in plain English.\n\nIt is like a courtroom where the forensic accountant calculates the exact tax figures on a spreadsheet, and the barrister presents those verified numbers clearly to the jury.\n\nIf a user asks for the total value of late purchase orders, the LLM should invoke a verified SQL tool or API endpoint rather than trying to add seventy invoice lines inside its own context window.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_m3OoMmDPD0SE_1",
+          "type": "multiple_choice",
+          "prompt": "In an AI-assisted ERP workflow, what should perform the arithmetic and what should the language model do?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The language model calculates all financial totals in its prompt while code only changes screen colours"
+            },
+            {
+              "id": "b",
+              "text": "Deterministic code runs the arithmetic and rules, while the language model calls tools and explains the results"
+            },
+            {
+              "id": "c",
+              "text": "Both the database and the language model guess the totals and average their two answers"
+            },
+            {
+              "id": "d",
+              "text": "Neither system performs calculations because users must add invoice lines on pocket calculators"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Separating exact code calculation from natural-language orchestration prevents arithmetic hallucinations in business data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_vGnl9GTnyrk3",
       "title": "Why: models slip on arithmetic and rules; code does not",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Language models predict the next likely token based on patterns rather than executing exact mathematical logic, which means they periodically fumble multi-step arithmetic, rounding rules, and date calculations. Standard code executes the same formula identically a million times in a row.\n\nImagine asking a talented poet to multiply four-digit numbers in their head during a noisy dinner party; they might get several right, but you would never bet the company payroll on their mental sums.\n\nEven when a frontier model gets 98 percent of test sums right, a 2 percent error rate in inventory balances or VAT calculations will corrupt an ERP ledger within days.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vGnl9GTnyrk3_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a 98 percent mental arithmetic accuracy rate from a language model unacceptable for core ERP calculations?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "ERP databases reject any number that takes less than five seconds to calculate"
+            },
+            {
+              "id": "b",
+              "text": "Language models only make arithmetic mistakes on leap years"
+            },
+            {
+              "id": "c",
+              "text": "Standard SQL code has a lower accuracy rate than unassisted token prediction"
+            },
+            {
+              "id": "d",
+              "text": "Even a tiny percentage of arithmetic slips will quickly corrupt stock balances, tax figures, and financial ledgers"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Core operational and financial records require 100 percent deterministic consistency, which only code and database engines provide.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_uFU9z815Czgs",
       "title": "Audit trail for every change an agent makes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An audit trail is an immutable log that records every database insert, update, or status change made by a user or an AI agent, capturing who or what made the change, the timestamp, the old value, and the new value.\n\nIt is like the flight data recorder in an aircraft cockpit, preserving the exact sequence of instrument inputs and autopilot actions so investigators can reconstruct any incident step by step.\n\nNever let an AI agent share a generic login with a human manager. Give every agent its own distinct service identity in the audit log so staff can immediately filter which records were touched by automation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -62,13 +146,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_uFU9z815Czgs_1",
+          "type": "multiple_choice",
+          "prompt": "Why should every AI agent have its own distinct identity in the ERP audit log rather than sharing a human user's login?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because database servers run twice as fast when usernames contain the word agent"
+            },
+            {
+              "id": "b",
+              "text": "So the human manager can avoid paying income tax on their salary"
+            },
+            {
+              "id": "c",
+              "text": "Because audit logs only record changes made on weekends"
+            },
+            {
+              "id": "d",
+              "text": "So administrators can see exactly which changes were made by the agent, when they happened, and what the previous values were"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A separate agent identity alongside before-and-after values ensures full accountability and fast troubleshooting when an automated edit goes wrong.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_o8BlxuHQgKzC",
       "title": "Permissions: who and what can change which records",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Role-based permissions restrict each human user and AI agent to the minimum set of tables and actions required for their specific job. An agent that drafts warehouse pick lists has no business reading employee salaries or editing bank details.\n\nThink of hotel keycards; a guest's card opens their bedroom and the gym door, a cleaner's card opens the linen cupboards on Floor 3, and neither card opens the manager's cash safe.\n\nEnforce permissions inside the database or API layer itself, not inside the system prompt. Telling a model in a prompt \"please do not update the supplier bank account table\" is a polite wish, not a security control.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -81,19 +193,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_o8BlxuHQgKzC_1",
+          "type": "multiple_choice",
+          "prompt": "Where must access permissions for an AI agent be enforced to protect an ERP system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only inside the system prompt by asking the model politely not to touch financial tables"
+            },
+            {
+              "id": "b",
+              "text": "At the API or database layer using strict role-based credentials, not merely inside the text of the prompt"
+            },
+            {
+              "id": "c",
+              "text": "By hiding the computer monitor when the agent runs at night"
+            },
+            {
+              "id": "d",
+              "text": "Permissions are unnecessary if the agent only runs inside a private company network"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Prompt instructions can be bypassed or ignored, whereas database and API credentials enforce hard boundaries on what an agent can read or write.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NZpreb5cjvNz",
       "title": "Backups and a way to undo changes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Automated backups and transaction rollback procedures ensure that if an integration bug or rogue agent corrupts records, the business can restore clean data quickly without losing days of operations.\n\nIt is like a carpenter clamping a scrap piece of wood for a test cut and keeping the original timber safely stacked until the joint fits, while also having an undo button on a CNC router.\n\nBefore deploying any agent with write access, test how you would reverse fifty bad updates made in ten seconds. Combining regular database snapshots with an application-level undo script for agent batches turns a potential crisis into a five-minute recovery.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NZpreb5cjvNz_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an AI consultant build a batch-undo mechanism alongside standard database backups when giving an agent write access?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It lets administrators cleanly reverse a specific batch of bad agent updates without wiping out valid human work done at the same time"
+            },
+            {
+              "id": "b",
+              "text": "It allows the company to cancel paid supplier invoices after the goods have already been sold"
+            },
+            {
+              "id": "c",
+              "text": "Database backups alone automatically prevent agents from ever writing invalid text"
+            },
+            {
+              "id": "d",
+              "text": "Undo scripts eliminate the need to test integrations in a sandbox environment"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "While full backups protect against total disaster, targeted rollback logs let you undo faulty agent changes without losing concurrent human transactions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,74 +5,242 @@
     {
       "id": "bit_AXmjEbnxV7iA",
       "title": "HIPAA, PIPEDA, Alberta HIA, GDPR",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Health and biomedical data are governed by strict privacy statutes, including HIPAA in the United States, PIPEDA and provincial laws like the Alberta Health Information Act in Canada, and the GDPR in the UK and Europe. Each statute defines protected data, security duties, and penalties differently; check the current details with legal counsel before moving data.\n\nThink of these laws as national electrical wiring codes: a plug wired for a hospital in Calgary cannot simply be jammed into a socket in London or Boston without proper compliance adapters.\n\nFor AI consultants, complying with one framework never automatically guarantees compliance with another, especially regarding cross-border cloud training.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AXmjEbnxV7iA_1",
+          "type": "multiple_choice",
+          "prompt": "Why must an international bio-AI project evaluate frameworks like HIPAA, PIPEDA, Alberta HIA, and GDPR separately?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "All four statutes are word-for-word identical and enforced by the same global court"
+            },
+            {
+              "id": "b",
+              "text": "Privacy laws only apply to paper files and exclude digital machine learning datasets"
+            },
+            {
+              "id": "c",
+              "text": "Complying with US HIPAA automatically grants full legal immunity under European GDPR"
+            },
+            {
+              "id": "d",
+              "text": "Each law has distinct definitions of protected health data, consent rules, and cross-border restrictions"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Health privacy regimes differ substantially in scope, legal bases for processing, and data transfer rules, requiring jurisdiction-specific compliance checks.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_EXJW9qOg4S7X",
       "title": "De-identification and genomic re-identification risk",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "De-identification is the process of removing or obscuring direct personal identifiers, such as names, addresses, and national health numbers, from a dataset to protect patient privacy. Re-identification risk is the danger that an adversary can still link those stripped records back to a named individual by cross-referencing other attributes.\n\nIt is like cutting the name tag off a bespoke suit: if the measurements, fabric, and repairs are unusual enough, a tailor with a customer ledger can still work out exactly whose suit it is.\n\nIn biomedicine, combining rare diagnoses, admission dates, postcodes, and genetic markers makes naive de-identification dangerously easy to reverse.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_EXJW9qOg4S7X_1",
+          "type": "multiple_choice",
+          "prompt": "Why is simply deleting patient names and health numbers often insufficient to anonymise clinical datasets?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Machine learning algorithms refuse to train on tables that lack a patient name column"
+            },
+            {
+              "id": "b",
+              "text": "Combinations of indirect traits like admission dates, rare conditions, and genetics can still identify individuals"
+            },
+            {
+              "id": "c",
+              "text": "Deleting names automatically corrupts all laboratory blood test measurements"
+            },
+            {
+              "id": "d",
+              "text": "Hospital databases automatically restore deleted names after twenty-four hours"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Quasi-identifiers and biological data create unique fingerprints that can be linked against external databases to re-identify individuals even when names are removed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_RaGA7Tp_qHY-",
       "title": "Which law applies depends on who holds the data and where",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Determining which health privacy law governs an AI project depends on both the geography of the patients and the legal status of the organisation holding the data. Because jurisdictional rules and adequacy agreements shift, always check the current details before designing a data pipeline.\n\nFor example, under US HIPAA, a hospital is a regulated covered entity, whereas a consumer wellness app collecting the exact same heart-rate data directly from users in California may fall under state consumer privacy laws instead; meanwhile, GDPR applies broadly to anyone processing European residents' data.\n\nConsultants must map data provenance, custody, and residency before standing up cloud training environments.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RaGA7Tp_qHY-_1",
+          "type": "multiple_choice",
+          "prompt": "What determines which data protection laws apply to a biomedical dataset?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The file format used to compress the genomic sequences on disk"
+            },
+            {
+              "id": "b",
+              "text": "Where the individuals and organisations are located and the legal role of the entity holding the data"
+            },
+            {
+              "id": "c",
+              "text": "The brand of laboratory microscope used to capture the cell images"
+            },
+            {
+              "id": "d",
+              "text": "The personal nationality of the machine learning engineer writing the Python script"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Privacy jurisdiction hinges on where data subjects reside, where processing occurs, and whether the organisation is a regulated healthcare custodian, contractor, or commercial controller.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_mTfeovVqbpIX",
       "title": "Consent scope: what participants agreed to",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Consent scope defines the specific purposes, users, and boundaries that patients or research participants agreed to when they allowed their biological samples or health records to be collected. Having a dataset legally sitting on a server does not mean you have permission to use it for every conceivable project.\n\nIt is like lending your car to a neighbour so they can drive to the supermarket: they have the keys in their hand, but they do not have permission to enter your car in a demolition derby or rent it out for profit.\n\nTraining a commercial foundation model on academic biobank data collected solely for non-profit heart research violates consent scope and invites regulatory and ethical sanctions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_mTfeovVqbpIX_1",
+          "type": "multiple_choice",
+          "prompt": "What risk arises when a company trains a commercial AI product on clinical data without checking the original patient consent forms?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The neural network weights will mathematically fail to converge without digital signatures"
+            },
+            {
+              "id": "b",
+              "text": "Informed consent forms only cover physical surgery and never mention data use"
+            },
+            {
+              "id": "c",
+              "text": "The commercial training may fall outside the agreed consent scope, making the use unlawful or unethical"
+            },
+            {
+              "id": "d",
+              "text": "Patients automatically forfeit all legal rights once their blood sample is frozen"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Data custody does not equal unrestricted usage rights; organisations must verify that secondary AI training and commercial use match what participants actually consented to.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_zzrDVXpOO8t9",
       "title": "Genomes are inherently identifying, even without names",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A human genome sequence is the ultimate biometric identifier because, aside from identical twins, every person's DNA sequence is unique. Even when stripped of all names and hospital numbers, genomic data can be matched against public genealogy databases or used to infer physical traits and family surnames.\n\nPublishing an unnamed whole genome is like publishing a high-resolution photograph of someone's face with their name cropped out: anyone who knows them or has a family photo album can still recognise who they are.\n\nFurthermore, because we share DNA with parents, siblings, and children, a genome leak compromises the privacy of an entire biological family across generations.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_zzrDVXpOO8t9_1",
+          "type": "multiple_choice",
+          "prompt": "Why does human genomic data require stricter protection than ordinary clinical blood test results?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "DNA sequences are uniquely identifying on their own and reveal sensitive information about biological relatives"
+            },
+            {
+              "id": "b",
+              "text": "Genomic files are small enough to be memorised at a glance by casual passers-by"
+            },
+            {
+              "id": "c",
+              "text": "DNA sequences change completely every week depending on what a patient eats"
+            },
+            {
+              "id": "d",
+              "text": "Standard encryption algorithms cannot encrypt text files containing the letters A, C, G, and T"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A genome acts as a permanent biological fingerprint that can be cross-linked via genealogy records and exposes hereditary health risks for both the individual and their relatives.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_JWEB-MZNkCx_",
       "title": "Data sharing agreements and access controls",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Data sharing agreements are legally binding contracts that specify exactly who may access a biomedical dataset, for what approved purpose, under what security safeguards, and when the data must be destroyed. Technical access controls enforce those legal promises through role-based permissions, secure enclaves, audit logs, and encryption.\n\nThink of a pharmaceutical partnership using a trusted research environment: the contract is the rulebook signed by both executives, while the secure cloud enclave is the locked vault where researchers can analyse data without downloading raw records onto their laptops.\n\nGood governance requires both layers; a contract without technical locks invites accidental leaks, and locks without clear legal terms create compliance confusion.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_JWEB-MZNkCx__1",
+          "type": "multiple_choice",
+          "prompt": "How do data sharing agreements and technical access controls work together in bio-AI collaborations?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The agreement sets the legal rules for permitted use, while technical controls enforce and audit those boundaries"
+            },
+            {
+              "id": "b",
+              "text": "Technical encryption replaces the need for any written contracts or patient consent"
+            },
+            {
+              "id": "c",
+              "text": "Data sharing agreements allow researchers to post raw patient records on public code repositories"
+            },
+            {
+              "id": "d",
+              "text": "Access controls are used solely to slow down database queries and increase cloud bills"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Legal contracts define permissible purposes, liability, and retention limits, while technical controls such as secure enclaves and audit logs ensure those commitments are upheld in practice.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

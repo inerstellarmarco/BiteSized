@@ -5,8 +5,8 @@
     {
       "id": "bit_Sza9v8hj7M6D",
       "title": "Choosing workflow vs. agent vs. multi-agent",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Choosing between a fixed workflow, a single agent, and a multi-agent system is the foundational architectural decision in any AI project. A deterministic workflow follows a fixed sequence of code steps with model calls at specific points, a single agent decides its own next steps and tool calls in a loop, and a multi-agent system divides complex work across distinct specialist agents.\n\nIt is like choosing between a factory conveyor belt for identical parcels, a skilled craftsperson handling custom repairs at one bench, or a full film crew with separate lighting, sound, and camera teams.\n\nAlways start with the simplest pattern that solves the client's problem, because every jump up in autonomy adds latency, token cost, and harder debugging.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,55 +19,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Sza9v8hj7M6D_1",
+          "type": "multiple_choice",
+          "prompt": "When should an AI architect choose a fixed workflow over an autonomous agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When the sequence of steps is predictable and known in advance, requiring reliable, low-cost execution"
+            },
+            {
+              "id": "b",
+              "text": "When the task is completely open-ended and requires inventing a new plan for every request"
+            },
+            {
+              "id": "c",
+              "text": "When the client wants to spend as many tokens as possible on every API call"
+            },
+            {
+              "id": "d",
+              "text": "When the engineering team does not know how to write basic conditional statements in code"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Fixed workflows excel when the process steps are well-defined and predictable, delivering lower cost, lower latency, and much higher predictability than open-ended agent loops.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_RaYgN89xlvDG",
       "title": "State, memory, and tool boundaries",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "State, memory, and tool boundaries define what an agent knows right now, what it remembers across sessions, and what external actions it is permitted to execute. Working state tracks the current task's step-by-step progress, long-term memory stores durable user facts or past lessons, and tool boundaries enforce strict schemas and permissions on every software integration.\n\nThink of a doctor's consultation: the clipboard on the desk holds today's examination state, the patient's medical file is long-term memory, and the prescription pad has strict rules on what drugs can be ordered.\n\nBlurring these boundaries leads to bloated context windows, stale memories polluting new tasks, or agents calling dangerous tools with malformed parameters.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RaYgN89xlvDG_1",
+          "type": "multiple_choice",
+          "prompt": "How does working state differ from long-term memory in an agent architecture?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Working state tracks the progress and variables of the current task, while long-term memory stores facts that persist across separate sessions"
+            },
+            {
+              "id": "b",
+              "text": "Working state is stored on paper, while long-term memory is stored only inside GPU registers"
+            },
+            {
+              "id": "c",
+              "text": "Working state is shared publicly with all internet users, while long-term memory is deleted after every token"
+            },
+            {
+              "id": "d",
+              "text": "Working state controls the user interface font size, while long-term memory controls network bandwidth"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Working state holds the short-term scratchpad, tool outputs, and step status for the active run, whereas long-term memory retains durable knowledge across days or months.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_fIX0PjTOOe71",
       "title": "Start from the task and its risks, not from a framework",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Starting from the task and its risks means mapping the client's real business workflow, data sensitivity, latency budget, and failure consequences before picking any orchestration library or agent framework. Many weak projects fail because developers fall in love with a trendy multi-agent library first and try to force a simple business problem into its abstractions.\n\nIt is like an architect surveying the soil, local weather, and family needs before deciding whether to build a brick cottage or a steel skyscraper.\n\nOnce you understand the task and its risk profile clearly, you often find that fifty lines of plain code and structured API calls beat a heavy framework.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_fIX0PjTOOe71_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it a mistake to choose an agent software framework before analysing the client's task and risks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Agent frameworks are illegal to install before signing a cloud hosting contract"
+            },
+            {
+              "id": "b",
+              "text": "Frameworks prevent language models from generating text in British English"
+            },
+            {
+              "id": "c",
+              "text": "Choosing a framework first automatically deletes the client's existing databases"
+            },
+            {
+              "id": "d",
+              "text": "You may introduce unnecessary complexity, latency, and opaque abstractions for a problem that simple code and workflow steps could solve cleanly"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Designing from the task and its risks ensures your architecture matches real business constraints around latency, cost, and safety rather than forcing the problem into an over-complicated tool.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Yqn00FL_4Wvj",
       "title": "What must be exact code and what can be model judgment",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Separating exact code from model judgement means deciding which parts of a workflow require 100 per cent deterministic rules and which parts benefit from flexible language understanding. Calculations, permission checks, tax rates, schema validation, and database writes belong in deterministic code, while classifying messy emails, summarising reports, and drafting replies belong in the language model.\n\nIf a client's billing assistant calculates VAT and invoice totals inside a language model prompt instead of a coded calculator function, a single rounding hallucination can corrupt the company's financial ledger.\n\nEven the strongest frontier model should never replace an `if` statement or a maths formula when the business rule is exact and unambiguous.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Yqn00FL_4Wvj_1",
+          "type": "multiple_choice",
+          "prompt": "Which of the following tasks should always be handled by deterministic code rather than language model judgement?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Summarising the tone and main themes of a long, unstructured customer complaint email"
+            },
+            {
+              "id": "b",
+              "text": "Drafting three creative subject-line options for a seasonal marketing newsletter"
+            },
+            {
+              "id": "c",
+              "text": "Translating a conversational support reply from English into conversational French"
+            },
+            {
+              "id": "d",
+              "text": "Enforcing user access permissions and calculating exact financial totals or tax rates"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Exact rules, access control checks, and mathematical calculations require 100 per cent determinism in code, whereas nuanced language interpretation and drafting suit an LLM.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_IqgBSQa6DI4y",
       "title": "Designing for failure: what happens when a step goes wrong",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Designing for failure means planning explicitly for what your system will do when an API times out, a tool returns an error, a model outputs invalid JSON, or an agent gets stuck in a loop. Production architectures wrap every external call with bounded retries, clear timeout limits, loop counters, and a graceful fallback path to a simpler model or a human queue.\n\nIt is like a modern lift that does not simply plummet when a cable sensor trips, but engages mechanical brakes, switches to backup battery lighting, and rings the building engineer.\n\nWithout hard step limits and fallbacks, a single broken third-party API can cause an autonomous agent to burn £500 in retry tokens overnight while achieving nothing.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IqgBSQa6DI4y_1",
+          "type": "multiple_choice",
+          "prompt": "What is an essential safeguard when designing an agent loop to handle tool or API failures gracefully?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Instructing the agent to retry failed API calls infinitely until the server responds"
+            },
+            {
+              "id": "b",
+              "text": "Setting a strict maximum step and retry limit along with a clean fallback path to a human operator or safe error state"
+            },
+            {
+              "id": "c",
+              "text": "Hiding all tool errors from the engineering logs so the dashboard always looks green"
+            },
+            {
+              "id": "d",
+              "text": "Automatically doubling the model's context window every time a network timeout occurs"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Bounded retries, maximum step counts, and graceful escalation prevent infinite token-burning loops and ensure users get a safe fallback when dependencies fail.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

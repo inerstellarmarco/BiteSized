@@ -5,56 +5,168 @@
     {
       "id": "bit_SIWd2fCW9VmR",
       "title": "Agentic router",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A router is a component at the front of a workflow that reads an incoming request, classifies what kind of job it is and sends it down the appropriate path.\n\nWhen a customer messages a bank's assistant, a billing dispute, a lost card and a mortgage enquiry need completely different prompts, tools and safety rules. The router decides which lane the message belongs to and hands it over.\n\nIt is a hospital triage nurse who assesses each patient at the door and directs them to X-ray, minor injuries or resuscitation.\n\nWithout a router, one bloated prompt has to carry instructions and tools for every possible topic.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_SIWd2fCW9VmR_1",
+          "type": "multiple_choice",
+          "prompt": "What does a router do at the start of an AI workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It classifies the incoming request and directs it to the prompt, tools or workflow built for that case"
+            },
+            {
+              "id": "b",
+              "text": "It answers every question itself without using any other step"
+            },
+            {
+              "id": "c",
+              "text": "It deletes messages that arrive outside office hours"
+            },
+            {
+              "id": "d",
+              "text": "It trains a new foundation model for each user"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Routing separates classification from execution so each downstream path stays focused on one job.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_z9d71dqtTvDt",
       "title": "Multi-provider routing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Multi-provider routing means your router can send requests not just to different prompts, but to models from different AI providers.\n\nYou might route long-document analysis to a model with a huge context window, coding tasks to the strongest code model, and high-volume classification to a fast, cheap model hosted by another provider. It also gives you a live fallback if one provider suffers an outage.\n\nIt is a logistics manager who sends overnight parcels with one courier and heavy pallets with another.\n\nKeep a thin adapter layer in code so switching a route's provider is a configuration change, not a rewrite.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_z9d71dqtTvDt_1",
+          "type": "multiple_choice",
+          "prompt": "What are two practical benefits of multi-provider routing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Paying twice for every single token"
+            },
+            {
+              "id": "b",
+              "text": "Forcing users to create accounts with five AI companies"
+            },
+            {
+              "id": "c",
+              "text": "Removing the need for API keys"
+            },
+            {
+              "id": "d",
+              "text": "Matching each task to the provider best suited to it and falling back cleanly when one provider has an outage"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Multi-provider routing lets you pick the best model per task and keeps your service running if one vendor goes down.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_mvVuZSQckw9H",
       "title": "Classifier vs. LLM-based routers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Not every router needs to be a generative language model.\n\nIf you have ten fixed categories and thousands of past examples, a small traditional classifier or an embedding similarity check can route requests in a few milliseconds for a fraction of a penny. An LLM router is slower and dearer, but works straight away with zero training data and handles nuanced instructions or brand-new categories easily.\n\nIt is an automatic coin sorter versus a human cashier: the machine is faster for standard coins, while the person handles foreign notes and damaged cheques.\n\nMany teams start with an LLM router on day one, then distil high-volume routes into a small classifier later.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_mvVuZSQckw9H_1",
+          "type": "multiple_choice",
+          "prompt": "When is a small traditional classifier a better router than a full LLM call?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "On day one when you have no examples and the categories keep changing"
+            },
+            {
+              "id": "b",
+              "text": "When the router also needs to write a three-page essay"
+            },
+            {
+              "id": "c",
+              "text": "When latency and cost do not matter at all"
+            },
+            {
+              "id": "d",
+              "text": "When categories are fixed, traffic is high and you have labelled examples to train a fast, cheap model"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A dedicated classifier is much faster and cheaper at scale once categories are stable and training data exists.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_mhe6MDOX3Stv",
       "title": "Sending each request to the right specialist",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Once the router picks a category, the request goes to a specialist prompt or agent built solely for that category.\n\nA refund specialist prompt knows your return policy, has the order-lookup and refund tools, and speaks in a calm service tone. A technical troubleshooting specialist has the product manual search tool and asks diagnostic questions. Neither specialist is distracted by the other's rules or tools.\n\nIt is being transferred to the claims department rather than explaining your car accident to the renewals clerk.\n\nSpecialist prompts are shorter, cheaper per call, easier to test and much less likely to call the wrong tool.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_mhe6MDOX3Stv_1",
+          "type": "multiple_choice",
+          "prompt": "Why do specialist downstream prompts perform better than one general prompt for everything?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Specialist prompts do not need to read the user's message"
+            },
+            {
+              "id": "b",
+              "text": "Each specialist carries only the instructions, examples and tools relevant to its specific job"
+            },
+            {
+              "id": "c",
+              "text": "They run without an internet connection"
+            },
+            {
+              "id": "d",
+              "text": "One specialist can only answer one user per week"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Stripping out irrelevant rules and tools keeps each specialist prompt sharp, cheap and easy to test.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__zn3AUQoH9yU",
       "title": "Easy requests to cheap models, hard ones to strong models",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Routing is one of the easiest ways to cut a client's AI bill without hurting quality.\n\nIn most business workloads, 70 to 80 per cent of incoming items are straightforward: standard invoices, routine FAQs or simple status checks. A small, fast model handles these just as well as a frontier model at a tenth of the price. The router sends only the tricky 20 per cent, such as disputed contracts or ambiguous complaints, to the expensive model.\n\nIt is a GP surgery where routine blood-pressure checks go to the practice nurse and complex diagnoses go to the senior partner.\n\nMeasure accuracy on both tiers so you know the cheap route is genuinely safe.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -67,19 +179,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__zn3AUQoH9yU_1",
+          "type": "multiple_choice",
+          "prompt": "How does difficulty-based routing reduce cost without lowering overall quality?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A fast, cheap model handles the routine majority of requests while the expensive model is reserved for hard cases"
+            },
+            {
+              "id": "b",
+              "text": "Every request is sent to the cheapest model regardless of difficulty"
+            },
+            {
+              "id": "c",
+              "text": "The expensive model is called twice on every easy question"
+            },
+            {
+              "id": "d",
+              "text": "Hard requests are thrown away without an answer"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Matching model price and power to the difficulty of each request saves budget for the cases that actually need a top model.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_j4pgaW01SVfV",
       "title": "A fallback route for requests that fit nowhere",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Real users will always send messages that fit none of your neat categories: gibberish, two questions in one, a topic your product does not cover, or a prompt-injection attempt.\n\nIf you force the router to pick one of five specialist lanes anyway, the message lands in the wrong specialist and produces a baffling reply. Always give the router an explicit `other` or `unclear` route.\n\nIt is the enquiries desk at a council office for visitors whose problem does not match any of the numbered queues.\n\nThe fallback route can ask a polite clarifying question, state what the assistant can help with, or hand the conversation to a human.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_j4pgaW01SVfV_1",
+          "type": "multiple_choice",
+          "prompt": "Why must every router have an explicit fallback or \"other\" route?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So requests that are unclear or out of scope are handled gracefully instead of being forced into the wrong specialist"
+            },
+            {
+              "id": "b",
+              "text": "Because routers require an even number of categories to run"
+            },
+            {
+              "id": "c",
+              "text": "So the system can silently ignore half of all users"
+            },
+            {
+              "id": "d",
+              "text": "To make every prompt twice as long"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "An explicit fallback stops out-of-scope or ambiguous messages from being misrouted to a specialist that cannot handle them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

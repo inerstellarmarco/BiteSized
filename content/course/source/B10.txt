@@ -1,0 +1,902 @@
+// B10 Multi-Agent Orchestration & Frameworks
+@@ sll_tlSbCJC9tj-w | B10.1 Graph-Based Architectures > LangGraph Fundamentals
+## Nodes, edges, and shared state
+~m
+LangGraph models an agent workflow as a graph made of three building blocks: nodes, edges and shared state. Check the current details for recent API changes.
+
+Shared state is a single typed data record that holds the progress of the run. Nodes are functions that read that state, do one piece of work and write updates back to the state. Edges are the arrows connecting nodes, defining which node runs next.
+
+It is a board game where the board is the graph, the counters and score sheet are the shared state, and each square tells you what action to take next.
+
+This structure turns messy agent logic into an explicit map you can inspect and test.
+?? What are the three core building blocks of a LangGraph workflow?
++ Nodes that do work, edges that connect them and a shared state object they read and update
+- Tables, rows and foreign keys in a spreadsheet
+- HTML tags, CSS rules and browser cookies
+- Random prompts with no shared data
+= A graph workflow combines processing steps (nodes), transitions (edges) and a single shared state record.
+## Cyclical workflows
+Traditional data pipelines are directed acyclic graphs (DAGs): data flows strictly forward from start to finish and never loops back.
+
+Agent work is different. An agent writes code, runs a test, sees an error, edits the code and runs the test again. That requires a cycle, an arrow that points back to an earlier step until a check passes. Graph-based agent frameworks are built specifically to support these controlled loops.
+
+It is a chef tasting a sauce, adding salt and tasting again, rather than serving whatever came out on the first stir.
+
+Cycles give agents the ability to retry and self-correct inside a predictable structure.
+?? Why do agent workflows often need cycles rather than a strictly one-way pipeline?
++ Agents frequently need to try an action, inspect the result and loop back to revise until a check passes
+- Cycles allow the workflow to skip reading the user's input
+- One-way pipelines cannot call language models at all
+- A cycle guarantees the run uses zero tokens
+= Retry, tool-use and revision loops all require returning to an earlier step when the work is not yet complete.
+## Why graphs: agent work as steps and decisions you can draw
+When agent control logic is buried inside nested `if` statements and prompt instructions, nobody on the team can tell what paths the system might take.
+
+Representing the workflow as a graph forces you to draw every step and every decision point explicitly. You can render the graph as a diagram, show it to a client, and trace exactly which node ran and which branch was taken on any failed run.
+
+It is a London Underground map: you can see every station and every interchange at a glance instead of guessing where the tunnel goes.
+
+If you cannot draw your agent's control flow on a whiteboard, it is probably too tangled to debug in production.
+?? What is a practical advantage of modelling an agent workflow as an explicit graph?
++ Every possible step and branch is visible, making the workflow easier to explain, test and debug
+- It removes the need to write any functions
+- It lets the model invent new database tables at random
+- It hides the control flow from developers
+= An explicit graph makes the allowed steps and transitions visible both in code and as a diagram.
+## Nodes: one step of work (an LLM call, a tool, or plain code)
+A node in a graph is just a regular function that takes the current state as input and returns the fields it wants to update.
+
+Crucially, not every node has to call a language model. One node might call an LLM to draft a SQL query. The next node might be ten lines of plain Python that validate the query syntax. The third node might execute the query against Postgres.
+
+It is a relay race where some runners are AI models and others are fast, deterministic code functions handing the baton along.
+
+Mixing plain-code nodes with model nodes keeps the workflow fast, cheap and predictable wherever AI is not needed.
+?? What can a node in an agent graph contain?
++ An LLM call, a tool execution or plain deterministic code that reads and updates the state
+- Only a frontier language model call and nothing else
+- Only user-interface styling rules
+- A complete copy of the operating system
+= Because a node is simply a function over state, you can freely mix model calls, tool calls and ordinary code steps.
+## Edges: what runs next; conditional edges choose a path
+Edges control the order of execution between nodes. They come in two kinds: normal edges and conditional edges.
+
+A normal edge is a fixed arrow: when Node A finishes, always go to Node B. A conditional edge is a decision function that inspects the current state and chooses which node to visit next. For example, if `state.error` is present, route to the `fix_query` node; otherwise route to the `summarise_results` node.
+
+It is a railway points switch that checks the signal and directs the train onto platform one or platform two.
+
+Putting routing logic in conditional edges keeps navigation in testable code rather than inside a node's prompt.
+?? What is the difference between a normal edge and a conditional edge in a graph?
++ A normal edge always goes to the same next node, while a conditional edge inspects the state to choose the path
+- A normal edge costs tokens, while a conditional edge is free
+- Conditional edges can only point backwards
+- Normal edges delete the shared state
+= Conditional edges read the state after a node finishes and branch to different nodes based on what happened.
+## Shared state: the single record every node reads and updates
+Instead of passing long chains of function arguments from step to step, a graph workflow keeps one shared state object for the run.
+
+When a node finishes, it returns only the fields it changed, such as `{"sql_query": "SELECT ..."}` or appending a new item to `messages`. The graph merges those updates into the shared state before calling the next node.
+
+It is a patient's medical chart on the end of a hospital bed: each nurse or doctor reads the chart, performs their check and writes their entry on the same record.
+
+Having one source of truth makes it easy to inspect the exact state of the run at any step.
+?? How do nodes share information in a graph-based workflow?
++ Each node reads what it needs from the single shared state object and returns updates to merge back into it
+- Every node emails a spreadsheet to the user
+- Nodes guess what earlier nodes did without reading any data
+- Each node overwrites the entire database from scratch
+= The shared state acts as the single record for the run, updated cleanly after each node finishes.
+## Loops need an exit: step limits and stop conditions
+Any graph with a cycle can loop forever if the exit condition is never met.
+
+You protect against runaway loops in two places. First, in the conditional edge: track a counter such as `revision_count` in the shared state and route to an exit or fallback node once it reaches three. Second, at the graph runner level: set a hard recursion or step limit (such as 25 total node visits) so the framework stops the run automatically if a bug creates an endless cycle.
+
+It is fitting both a thermostat and a fuse to a heater: one stops it in normal use, and the other cuts the power if the first fails.
+
+Never deploy a cyclical graph without both checks in place.
+?? What two safeguards prevent a cyclical agent graph from running forever?
++ A stop condition in the conditional edge (such as a retry counter) and a hard maximum step limit on the graph run
+- Asking the model nicely not to loop
+- Removing all conditional edges from the graph
+- Using a larger font in the system prompt
+= Combining an explicit retry counter in state with a framework-level step cap guarantees every loop terminates.
+
+@@ sll_3F2GPF28FO0C | B10.1 Graph-Based Architectures > State-Driven Control
+## State-driven transitions between agents
+In a multi-agent graph, each specialist agent is simply a node, and transitions between agents are driven by fields in the shared state.
+
+When the `research_agent` node finishes gathering facts, it writes `{"research_complete": true, "findings": [...]}` to the state. The conditional edge reads that flag and routes control to the `writer_agent` node. If `findings` is empty, it routes to `clarify_with_user` instead.
+
+It is an office workflow where moving a ticket's status column from "Research" to "Ready for Drafting" automatically assigns it to the copywriter.
+
+Agents do not need to know how to call each other directly; they only update the state.
+?? How does control move from one specialist agent to another in a state-driven graph?
++ The finishing agent updates the shared state, and a conditional edge reads those state fields to pick the next agent
+- Each agent opens a raw network socket to the next agent's server
+- The user must copy and paste the text between agents manually
+- Agents compete to see who responds fastest
+= Decoupling agents through shared state lets your graph edges control who runs next based on clear flags and data.
+## State machine routing
+A finite state machine is a classic engineering pattern: the system is always in one known state (such as `gathering_details`, `awaiting_approval`, `executing` or `done`), and clear rules define which transitions are legal from each state.
+
+Applying state machine routing to agents means an agent in `gathering_details` cannot jump straight to `executing` without passing through `awaiting_approval`. Your code enforces the legal transitions, even if a prompt injection tries to trick the model into skipping ahead.
+
+It is an online checkout that will not let you reach the "Order Confirmed" screen until the "Payment Authorised" step has succeeded.
+
+This makes compliance and safety rules enforceable in code rather than hoped for in prompts.
+?? Why is state machine routing valuable for safety and compliance in agent workflows?
++ Code enforces which transitions are legal, so an agent cannot skip required steps like approval even if prompted to
+- It allows any step to jump to any other step at random
+- It replaces all code checks with a single system prompt
+- It hides the current state of the workflow from logs
+= Enforcing legal state transitions in code prevents the model from bypassing mandatory checks or approvals.
+## The state decides who acts next, not the last speaker
+In early chat-based multi-agent setups, the last agent to speak was asked to name the next speaker in prose. Models frequently misspelled agent names, picked the wrong colleague or chatted back and forth politely without doing the work.
+
+In state-driven control, the routing function inspects objective fields in the state: is `sql_validated` true, is `review_status` set to `needs_changes`, is `attempt_count` under the limit? Code then picks the next node deterministically whenever possible.
+
+It is air traffic control assigning the runway from radar data rather than letting pilots vote over the radio on who lands next.
+
+Reserve LLM routing decisions for genuine ambiguity, and use state fields for everything else.
+?? Why is routing from state fields more reliable than asking the last agent to name the next speaker in prose?
++ Code can check objective state flags deterministically, avoiding misspelled names or polite loops between agents
+- Prose routing is too deterministic and never makes mistakes
+- State fields cannot store strings or booleans
+- Models refuse to run unless they choose the next speaker
+= Deterministic checks on state fields eliminate unnecessary LLM routing errors whenever the next step follows clear rules.
+## Keeping state small: only what the next step needs
+It is tempting to tip every raw search result, every intermediate draft and every agent's internal scratchpad into the shared state. Within ten steps the state balloons to fifty thousand tokens, slowing every node and muddling the prompts.
+
+Keep the shared state lean. Store distilled outputs, structured fields and references (such as document IDs or file paths) rather than giant raw blobs. Each node should read only the slice of state its job requires.
+
+It is passing a colleague a one-page handover form rather than forwarding your entire email inbox from the past six months.
+
+A small, tidy state keeps every node call fast, cheap and focused.
+?? What happens if every agent dumps all of its raw tool outputs and scratchpads into the shared state?
++ The state bloats rapidly, making downstream prompts slow, expensive and harder for models to follow
+- Later agents run faster because they have more tokens to read
+- API providers stop charging for input tokens once state is large
+- The database automatically deletes old tables
+= Keeping only distilled results and needed fields in shared state prevents context bloat across the team.
+## Typed state: catching bad data between agents
+When Agent A passes data to Agent B through shared state, a missing field or a number formatted as a string can cause Agent B to fail halfway through its turn.
+
+Defining your shared state with a strict type schema, such as a Pydantic model or TypedDict in Python or a Zod schema in TypeScript, catches bad data at the boundary. If Node A tries to write an invalid status value or omits a required list, validation fails immediately right at Node A.
+
+It is standard shipping containers that must fit the crane hooks at every port, so a misshapen crate is rejected before the ship sails.
+
+Typed state turns mysterious downstream agent failures into clear, immediate schema errors.
+?? How does a typed state schema help in a multi-agent workflow?
++ It validates updates at the moment a node writes them, catching missing or malformed data before the next agent runs
+- It lets agents write any data shape they like without checking
+- It removes the need for any error handling
+- It translates English text into French automatically
+= Validating state updates against a schema catches broken handoffs at the source rather than three steps later.
+## Checkpoints: pause, resume, and replay a run
+A checkpoint saves a snapshot of the shared state to a database after every node completes.
+
+Checkpoints unlock three powerful capabilities for production agents. First, fault tolerance: if a server restarts on step seven of ten, the run resumes from step six instead of starting over. Second, human-in-the-loop: the graph can pause before a sensitive action, wait hours for a manager to click Approve, and resume from the exact saved state. Third, debugging: you can load the checkpoint from step four and replay from there to test a fix.
+
+It is saving your progress in a video game before a hard level so you do not restart from the opening scene.
+?? What three capabilities does saving state checkpoints after each node give you?
++ Resuming after crashes, pausing for human approval and replaying from an earlier step to debug
+- Free API calls, faster network cables and larger monitors
+- Running without a database, skipping authentication and deleting logs
+- Training a new model after every turn
+= Persisting state at each step lets a workflow pause for hours, recover from failures and be replayed from any node.
+
+@@ sll_q8IYDl1d9yot | B10.2 Role-Based Teams > CrewAI Crews
+## Roles, goals, and backstories
+~m
+CrewAI organises multi-agent teams around human-style job descriptions. Check the current details for recent CrewAI releases. Each agent is defined by three prompt fields: a role, a goal and a backstory.
+
+The role titles the agent's job, such as "Senior Financial Analyst". The goal states what it is trying to achieve on this run. The backstory gives a short paragraph of context on how it approaches work, such as being sceptical of unverified projections and preferring tables over prose.
+
+It is briefing an actor on their character's job, motivation and personality before a scene begins.
+
+Under the hood, the framework combines these three fields into the agent's system prompt.
+?? How does CrewAI use an agent's role, goal and backstory?
++ It combines them into the agent's system prompt to shape its focus, tone and decision-making
+- It sends them to HR to register the agent as an employee
+- It uses them to encrypt the database connection
+- It ignores them during execution and only shows them in documentation
+= Role, goal and backstory are a structured way of authoring each specialist agent's system prompt.
+## Sequential vs. hierarchical processes
+~m
+When you assemble a crew of agents and tasks in CrewAI, you choose how the work is coordinated, most commonly a sequential process or a hierarchical process. Check the current details in the CrewAI documentation.
+
+In a sequential process, tasks run in the exact order you listed them, and the output of Task 1 is passed as context into Task 2. In a hierarchical process, a manager agent sits above the crew, decides which worker should tackle each task, reviews the output and asks for revisions if needed.
+
+It is the difference between a fixed relay race and a football captain calling plays on the pitch.
+
+Start with sequential whenever the task order is known up front; it is cheaper and far easier to debug.
+?? When should you prefer a sequential process over a hierarchical manager process?
++ Whenever the order of tasks is known in advance, because sequential execution is simpler, cheaper and more predictable
+- When you have no idea which tasks exist until halfway through
+- When you want to maximise the number of extra manager API calls
+- Never, because sequential processes cannot pass context between tasks
+= Fixed sequential order avoids the extra token cost and unpredictability of a manager LLM deciding every handoff.
+## Tasks: what is expected and what a good output looks like
+In role-based frameworks, defining the agent persona is only half the job. The task definition is what actually tells the agent what to produce right now.
+
+Every task definition should state two things explicitly: `description` (the work to do and the inputs to use) and `expected_output` (a concrete description or schema of the finished artefact, such as "a markdown table of the top five risks with likelihood, impact and mitigation owner").
+
+It is the difference between hiring a skilled carpenter (the agent) and handing them the measured drawing for the bookshelf you want built today (the task).
+
+Vague `expected_output` fields produce rambling essays instead of usable deliverables.
+?? Why is the `expected_output` field on a task definition so important?
++ It tells the agent the exact structure, scope and format the finished work must have
+- It sets the password for the database
+- It stops the agent from reading the task description
+- It tells the provider which data centre to use
+= Even a well-prompted specialist agent needs a clear specification of what the finished output for this step looks like.
+## Manager agents that assign and review work
+In a hierarchical team, a manager agent coordinates the specialists.
+
+The manager breaks the high-level objective into assignments, picks which specialist should handle each one, reads the returned work and checks whether it meets the `expected_output`. If a specialist missed a requirement, the manager sends it back with feedback before moving on.
+
+It is a project manager who briefs the designer and the copywriter, checks their drafts against the client brief and signs off the final pack.
+
+Because the manager makes an extra LLM call before and after every worker step, give the manager a strong, capable model and keep the team small so coordination overhead does not dwarf the actual work.
+?? What is a key cost consideration when using a manager agent in a hierarchical team?
++ The manager makes extra model calls to delegate and review every step, adding latency and token cost
+- Manager agents always run for free without consuming tokens
+- A manager agent deletes the tools of all other agents
+- Hierarchical teams can only use one worker
+= Every delegation and review pass by a manager agent is another LLM call, so the coordination tax grows with team size.
+## Role prompts shape behaviour but do not guarantee it
+Writing "You are a world-class cybersecurity auditor with 20 years of experience who never misses a vulnerability" in a backstory feels reassuring. It does not magically give the model new knowledge or stop it from making mistakes.
+
+Persona and role prompts steer tone, priorities and style. They do not replace the things that actually make an agent reliable: the right tools, clean source data, structured output schemas and deterministic verification checks.
+
+It is putting a surgeon's white coat on an actor: they will sound the part, but you still need real instruments and medical checks in the operating theatre.
+
+Treat role backstories as helpful framing, never as a substitute for tools and validation.
+?? What can a role and backstory prompt realistically achieve on its own?
++ It steers the agent's tone, focus and style, but cannot replace real tools, data and verification checks
+- It guarantees zero hallucinations without needing any source data
+- It gives the model live access to private company databases automatically
+- It replaces schema validation and unit tests
+= Persona wording guides how the model approaches and phrases its work, while tools and checks provide actual capability and reliability.
+
+@@ sll_lGCBgmL8ip-u | B10.2 Role-Based Teams > Team Design
+## Specialist agents (researcher, writer, editor)
+A classic multi-agent pattern divides a complex content or analysis job across three distinct roles: a researcher, a writer and an editor.
+
+The researcher has search and database tools, and its only job is to gather verified facts and source citations. The writer has no search tools; it takes the researcher's notes and turns them into a clear draft that follows the style guide. The editor checks the draft against the source notes and the client rubric.
+
+It is how a newspaper works: reporters gather the facts, feature writers craft the piece and sub-editors check accuracy and house style.
+
+Each prompt stays short and focused on one skill instead of juggling three at once.
+?? Why does separating researcher, writer and editor roles often beat a single all-in-one prompt?
++ Each agent focuses on one clear objective with its own tailored prompt and tools, reducing conflicting instructions
+- Three agents always cost a third of the tokens of one agent
+- The writer can invent facts freely without the editor checking them
+- None of the agents need to read the user's request
+= Splitting gathering, drafting and checking keeps each prompt focused and lets the editor audit the writer against the researcher's facts.
+## Applying single responsibility to teams
+In software engineering, the single-responsibility principle says each module should have one clear job and one reason to change. The same rule applies to agent teams.
+
+When one agent is responsible for SQL queries, policy interpretation, customer tone and refund approval, tweaking the prompt to fix a SQL bug often breaks the customer tone. When each agent has a single responsibility, you can improve and test the SQL agent without touching the customer-service writer.
+
+It is keeping the kitchen separate from the front-of-house staff so changing the oven does not muddle the table bookings.
+
+Give each agent one clear job whose output you can test on its own.
+?? How does the single-responsibility principle help when maintaining a multi-agent system?
++ You can improve and test one specialist agent's prompt or tools without accidentally breaking unrelated behaviours
+- It forces all agents to share a single giant system prompt
+- It means the whole team can only answer one question per day
+- It removes the need for any evaluation tests
+= Narrow, well-bounded responsibilities make individual agents much easier to tune, test and debug in isolation.
+## Start from the work, not the org chart: list the tasks first
+A common mistake when building a multi-agent system is starting by inventing a grand company org chart: a CEO agent, a VP of Strategy agent, a Marketing Director agent and an Intern agent.
+
+Models do not need middle management. Start instead by listing the concrete tasks required to turn the input into the output, the tools each task needs and the checks between them. Only group tasks into separate agents when they genuinely need different tools, different context or an independent review perspective.
+
+It is designing a workshop around the machines and steps needed to build a chair, not hiring five vice-presidents first.
+
+If two agents have the same tools and run back-to-back on the same context, they should almost certainly be one agent.
+?? What is the right way to decide which agents a team needs?
++ List the concrete tasks, tools and checks first, and create separate agents only where tools, context or review roles differ
+- Copy the client's human organisation chart including every middle-management layer
+- Always create exactly ten agents for every project
+- Create one agent per word in the user's prompt
+= Agent boundaries should follow real differences in tools, context isolation or verification, not human job titles.
+## Each agent gets only the tools its job needs
+If your system has twenty tools in total and you hand all twenty to every agent in the team, every agent pays the token cost of twenty tool definitions and risks calling a tool it has no business touching.
+
+Scope tools strictly per agent. Give the research agent the read-only search and database lookup tools. Give the writer agent no external tools at all. Give the action agent the email or CRM-update tool only after the approval step has passed.
+
+It is hotel keycards: the cleaner's card opens the linen cupboards, the guest's card opens Room 304, and only the duty manager's card opens the safe.
+
+Least-privilege tool access improves both accuracy and security.
+?? Why should each agent in a team receive only the tools required for its specific role?
++ It reduces tool-selection mistakes, saves prompt tokens and prevents an agent from taking actions outside its remit
+- Models refuse to run if they see more than two tools
+- Giving every agent every tool makes the system safer
+- Tool definitions do not use any context tokens
+= Scoping tools per agent applies least privilege, shrinks prompts and keeps each specialist focused on the right actions.
+## A reviewer agent that checks work before it leaves the team
+Before a multi-agent team hands its final output to the user or triggers an external action, a dedicated reviewer step acts as the quality gate at the door.
+
+The reviewer agent does not write content from scratch. It checks the candidate output against a strict checklist: are all claims supported by the research notes, are any confidential fields leaked, does the JSON match the schema, and was every part of the user's question answered?
+
+It is the dispatch inspector at a factory who checks the finished product against the order sheet before the box is sealed.
+
+Combine deterministic code checks with the reviewer agent so mechanical rules are checked by code and judgement rules by the model.
+?? What is the role of a reviewer agent at the end of a team workflow?
++ To audit the draft output against accuracy, safety and completeness criteria before it reaches the user
+- To rewrite the user's original question so it matches the wrong answer
+- To delete all source citations from the report
+- To run before any research or drafting has started
+= A final reviewer acts as an internal quality gate, catching unsupported claims or missed requirements before delivery.
+## The smallest team that passes your evals
+Every extra agent you add to a team introduces another prompt to maintain, another handoff that can lose nuance, more latency and higher token bills.
+
+Treat team size as a cost to minimise, not a badge of sophistication. Build your evaluation suite first. Try a single well-prompted agent with good tools. Add a second agent (such as a verifier or a specialist) only if your eval scores prove that the extra agent fixes a real failure mode that one agent could not handle.
+
+It is hiring staff for a small shop: you bring in a second person when the queue out the door proves one person cannot keep up.
+
+The best team is the smallest one that passes your evals reliably.
+?? How should you decide whether to add another agent to your system?
++ Only add an agent when your evaluations show it solves a failure mode that a simpler setup cannot
+- Add more agents whenever you want the architecture diagram to look impressive
+- Always start with at least eight agents before writing any tests
+- Add an agent every time a prompt has a spelling mistake
+= Every additional agent adds latency, cost and handoff risk, so justify each one with measured gains on your eval suite.
+
+@@ sll_xZwcXknNZwo1 | B10.2 Role-Based Teams > Team Topologies
+## Pipeline: work passes down a fixed line
+A pipeline topology arranges agents in a fixed straight line: Agent A finishes and passes its output to Agent B, which passes its output to Agent C.
+
+For example, an RFP response pipeline might run `requirements_extractor` -> `knowledge_base_matcher` -> `draft_writer` -> `compliance_checker`. The order never varies, and no agent needs to decide who speaks next.
+
+It is a car wash tunnel where every car goes through pre-rinse, soap, brushes, wax and dryer in the exact same order.
+
+Pipelines are the easiest multi-agent topology to build, test, time and budget because the path is completely predictable.
+?? What makes a pipeline topology the simplest multi-agent structure to manage?
++ Agents run in a fixed, predetermined sequence, so the path, cost and timing are easy to predict and test
+- Any agent can call any other agent at random
+- It requires a central manager LLM call after every token
+- It skips all intermediate steps and runs only the last agent
+= When every job follows the same stages, a fixed pipeline avoids routing overhead and makes testing straightforward.
+## Supervisor: one agent delegates and collects results
+In a supervisor topology, a single central supervisor agent sits at the hub while specialist worker agents sit on the spokes.
+
+Workers never talk directly to each other. The user's request comes to the supervisor. The supervisor calls Worker A, reads the result, decides whether Worker B is needed next, calls Worker B, and finally writes the response to the user.
+
+It is a general practitioner (GP) who refers you to a cardiologist for a scan, reads the specialist report when it comes back and explains the treatment plan to you.
+
+Because every handoff goes through the hub, you have one clear place to log progress, enforce budgets and maintain the overall goal.
+?? How do worker agents communicate in a supervisor topology?
++ They do not talk directly to each other; each worker reports back to the central supervisor, which decides the next step
+- Every worker broadcasts messages to every other worker continuously
+- Workers message the end user directly in separate chat windows
+- The supervisor runs once at the start and then shuts down before workers finish
+= Routing all delegation and results through a central supervisor keeps control in one place and prevents chaotic cross-talk.
+## Hierarchy: supervisors of supervisors for large jobs
+When a system grows beyond five or six tools and specialists, a single supervisor starts picking the wrong worker because its prompt is crowded with too many options.
+
+A hierarchical topology solves this by grouping specialists into teams, each with its own team-lead supervisor, underneath a top-level supervisor. For instance, the top supervisor routes between a `Data Team` supervisor and a `Content Team` supervisor, and each team supervisor manages its own three specialists.
+
+It is a large hospital where the clinical director coordinates department heads for surgery, radiology and pharmacy, rather than scheduling every nurse personally.
+
+Only introduce a second layer of supervisors when a single supervisor's routing accuracy measurably drops.
+?? When does a hierarchical (supervisor-of-supervisors) topology become useful?
++ When there are too many specialists or tools for a single supervisor to route accurately on its own
+- On a simple two-step task with one tool
+- When you want to minimise the number of model calls
+- When no specialists exist in the system
+= Grouping specialists under mid-level supervisors keeps each routing decision limited to a small, clear set of choices.
+## Network: agents hand off to each other freely
+In a network (or mesh) topology, there is no central boss. Any agent can decide to hand control directly to any other agent in the group.
+
+For example, a `sales_agent` chatting with a customer can transfer directly to the `technical_architect_agent` for a deep integration question, which can then hand off directly to the `pricing_agent` to build a quote.
+
+It is a small workshop where craftspeople pass a job directly across the bench to whoever is needed next without asking a manager first.
+
+Networks cut out the middleman call of a supervisor, but they are the hardest topology to control: two agents can easily ping-pong a task back and forth if their handoff rules overlap.
+?? What is the main risk of a network topology where any agent can hand off to any other agent?
++ Agents can bounce a task back and forth in loops if their handoff boundaries are not tightly defined
+- It requires too many central manager calls
+- Agents are unable to pass any context at all
+- It can only run in a fixed straight line
+= Without a central coordinator, peer-to-peer handoffs need strict guardrails and loop limits to avoid endless ping-ponging.
+## Choosing a topology: predictability vs. flexibility
+Choosing a team topology is a trade-off along a spectrum from predictable control to open-ended flexibility.
+
+At the predictable end sits the **pipeline**: fixed steps, lowest overhead, easiest to test, but unable to adapt when a request needs a different order of steps. In the middle sits the **supervisor**: flexible routing across specialists while keeping one hub in charge. At the flexible end sits the **network**: direct peer handoffs, but hardest to bound and debug.
+
+It is transport: a train on rails is predictable, a bus route with a dispatcher adapts to traffic, and taxis go anywhere at a higher cost.
+
+Always start as close to the pipeline end as your problem allows.
+?? What is the sensible default rule when choosing a multi-agent topology for a client project?
++ Start with the simplest, most predictable structure (like a pipeline or single supervisor) that fits the problem
+- Always start with a free-form peer-to-peer network of ten agents
+- Pick whichever topology uses the most API calls
+- Avoid pipelines even when the steps are identical every time
+= More flexible topologies cost more to run and test, so only move away from a fixed pipeline where runtime routing is genuinely needed.
+
+@@ sll_6ZdrjuYxjEOE | B10.3 Agent-to-Agent Communication > Handoffs
+## Transferring control between agents
+A handoff is the moment one agent finishes its part of a conversation or workflow and transfers active control to another agent.
+
+In code, a handoff is often implemented as a special tool call, such as `transfer_to_billing_agent()`, or as a state update that changes `active_agent = "billing"`. From the next turn onwards, the new agent's system prompt and tools take over the conversation.
+
+It is a receptionist saying "I'll put you through to accounts now" and transferring your phone call to the right extension.
+
+Make handoffs explicit in your logs so you can always see which agent was in charge at every turn.
+?? How is a handoff between agents typically triggered in code?
++ By a structured tool call or state update that switches which agent's prompt and tools handle the next step
+- By asking the user to close the app and open a different website
+- By restarting the database server
+- By changing the font colour in the chat window
+= Implementing handoffs as explicit tool calls or state changes makes transfers clean, testable and easy to log.
+## Passing context during handoffs
+Nothing frustrates a user more than being transferred to a second agent and having to repeat their name, order number and problem all over again.
+
+When Agent A hands off to Agent B, it must pass a structured handover note along with control. That note carries the key entities already collected (such as `customer_id`, `order_id` and `verified_status`) and a brief summary of what has happened so far.
+
+It is a paramedic handing a patient to the A&E doctor with a concise handover sheet of vital signs and treatments already given.
+
+Validate the handover payload with a schema so the receiving agent never starts blind.
+?? Why must a structured context summary be passed during an agent handoff?
++ So the receiving agent has the facts and identifiers already gathered and does not force the user or system to repeat work
+- Because the receiving agent is not allowed to read any text
+- To make the user repeat their account number three times for security
+- To erase everything learned in the first half of the conversation
+= Passing verified identifiers and a brief summary lets the new agent pick up smoothly where the previous one left off.
+## Handoff vs. delegation: giving away the task vs. asking for help
+Handoff and delegation look similar, but they differ in who stays in charge afterwards.
+
+In a **handoff**, Agent A transfers ownership of the task to Agent B and steps out of the way; Agent B now owns the rest of the interaction. In **delegation**, Agent A stays in charge, calls Agent B as a helper to answer one specific sub-question, receives Agent B's reply and continues its own work.
+
+It is the difference between a GP transferring you to a hospital ward (handoff) versus ordering a lab blood test that comes back to the GP's desk (delegation).
+
+Use delegation when the first agent needs a specialist fact to finish its job; use a handoff when the whole job belongs to another specialist.
+?? What is the difference between a handoff and delegation?
++ A handoff transfers ownership of the task to the new agent, whereas delegation calls a helper and returns the result to the original agent
+- They are two words for the exact same thing
+- Delegation deletes the original agent's context window
+- A handoff requires the user to pay twice
+= In delegation the calling agent remains the owner and receives the sub-result; in a handoff the new agent takes over completely.
+## What to pass: the goal, work done so far, and what is still open
+A good handover packet between agents answers three questions clearly and briefly.
+
+First, **the goal**: what the user or workflow is ultimately trying to achieve. Second, **work done so far**: the facts confirmed, actions already taken and constraints discovered. Third, **what is still open**: the specific job the receiving agent needs to complete next and any unanswered questions.
+
+It is a shift handover between two factory supervisors at 6 p.m.: what today's target is, which batches are finished and which machine still needs checking.
+
+Structuring every handover around these three fields prevents both duplicated work and dropped requirements.
+?? Which three items belong in every agent-to-agent handover packet?
++ The overall goal, the work completed so far and what still needs to be done next
+- The full training dataset of the model, the server IP address and a random joke
+- Only the last word the user typed
+- The system prompts of every other agent in the company
+= Stating the goal, completed facts and remaining work gives the receiving agent clear bearings without noise.
+## Too much context confuses; too little forces rework
+When passing context to another agent, both extremes cause failures.
+
+Pass **too little** (for example, just "help the user with their invoice") and the second agent has to re-run database queries or re-ask the user questions that were already answered two minutes ago. Pass **too much** (dumping forty turns of raw tool JSON and failed search attempts) and the second agent gets distracted by stale errors and wastes tokens reading dead ends.
+
+It is packing for a business trip: bring the presentation and a clean suit, not an empty briefcase and not your entire wardrobe.
+
+Pass distilled facts, verified IDs and the current state, leaving the raw scratchpad behind.
+?? What happens if you pass either too little or too much context during a handoff?
++ Too little forces the next agent to repeat lookups or questions, while too much buries key facts in stale noise
+- Passing forty pages of failed tool calls always improves accuracy
+- Passing zero context is ideal because models remember other conversations automatically
+- Context size has no effect on token cost or latency
+= The sweet spot is a distilled handover: verified facts, IDs and open tasks, stripped of raw tool clutter.
+## Handing off to a human as a normal option
+The most important specialist in any business workflow is a human colleague.
+
+Design human handoff as a first-class route with its own clear trigger rules: high monetary value, low confidence, angry customer sentiment, policy exceptions or explicit user request ("let me speak to a person"). When triggered, the agent packages the same clean handover summary (goal, facts checked, why it escalated) onto the human's support ticket.
+
+It is a self-service supermarket till smoothly calling the attendant over with the exact item flagged on screen when an ID check is needed.
+
+A well-prepared human handoff saves the staff member five minutes of reading and makes the customer feel looked after.
+?? Why should handing off to a human include a structured summary of what the agent already checked?
++ So the human colleague can step in immediately with the facts and reason for escalation without making the user start over
+- So the human has to read ten pages of raw JSON logs
+- Because human agents are not allowed to see the customer's name
+- To stop the human from answering the question
+= Treating a human colleague like a top-tier specialist with a clean handover packet makes escalation fast and painless for everyone.
+
+@@ sll_eMSSn7UqySVm | B10.3 Agent-to-Agent Communication > Protocols & Messages
+## Structured messages between agents
+When two agents live in the same code repository, letting them pass free-form English paragraphs to each other is a recipe for brittle parsing and silent misunderstandings.
+
+Inside a system, agents should communicate with structured messages: JSON objects with agreed fields for the task type, input parameters, status, findings, citations and any error codes. A short natural-language summary can sit inside one field for nuance, while the control fields stay strictly typed.
+
+It is air traffic controllers using standard callsigns and altitude numbers instead of chatting in long descriptive sentences.
+
+Structured messages let your code validate, log and route every exchange cleanly.
+?? Why should agents communicate using structured message objects rather than free-text paragraphs alone?
++ Structured fields can be validated, logged and routed reliably by code without guessing what a paragraph means
+- Models cannot read or write JSON objects
+- Free text uses fewer tokens than a boolean field
+- Structured messages prevent agents from sharing facts
+= Typed fields for status, inputs and outputs keep agent-to-agent communication predictable and machine-checkable.
+## Agent-to-agent (A2A) protocol
+~m
+The Agent2Agent (A2A) protocol, introduced by Google in 2025 and now an open standard, lets agents built by different teams, on different frameworks or hosted by different vendors collaborate over HTTP. Check the current details for the latest specification version.
+
+Without a common protocol, connecting a LangGraph travel agent in your company to a partner's Salesforce agent requires custom glue code for every pair. A2A defines a standard way for one agent to discover another agent's capabilities, send it a task, stream progress updates and receive the finished artefacts.
+
+It is international postal standards that let Royal Mail hand a parcel to a courier in Japan without custom paperwork for every town.
+?? What problem does the Agent2Agent (A2A) protocol solve?
++ It provides a standard way for agents built on different frameworks or by different organisations to discover each other and exchange tasks
+- It replaces all databases with text files
+- It only works when both agents run in the same Python file
+- It trains language models without GPUs
+= A2A standardises cross-framework and cross-organisation agent communication over standard web protocols.
+## Message schemas: sender, task, inputs, and expected output
+Whether you use an open protocol or an internal bus, every task message sent from one agent to another needs a clear envelope schema.
+
+A solid message schema includes: a unique `task_id` and `correlation_id` for tracing, who sent it (`sender`), who it is for (`recipient`), the `task_type` or instruction, the structured `inputs` and context, the `expected_output` schema, and a `deadline` or budget limit.
+
+It is a laboratory request form from a hospital ward: patient ID, requesting doctor, test required, sample details and how urgently the result is needed.
+
+If any required field is missing, reject the message at the boundary before spending tokens.
+?? What is the purpose of a `correlation_id` or `task_id` in an agent message schema?
++ To trace a request and its replies across multiple agents and logs from start to finish
+- To set the model's temperature
+- To hide which agent sent the message
+- To make the message larger so it costs more
+= Unique IDs in the message envelope let you tie every sub-task, retry and log line back to the original request.
+## MCP connects agents to tools; A2A connects agents to agents
+~m
+Students and clients often ask how the Model Context Protocol (MCP) and the Agent2Agent (A2A) protocol relate to each other. They solve two different connections that work together. Check the current details as both ecosystems mature.
+
+**MCP** is for connecting an agent to **tools, data sources and resources**: databases, file systems, APIs and prompt templates. Tools are deterministic functions with fixed inputs and outputs. **A2A** is for connecting an agent to **another autonomous agent** that has its own reasoning loop, memory and multi-turn task lifecycle.
+
+It is a carpenter using MCP to pick up a power drill (a tool), and using A2A to hire an electrician (another specialist) to wire the room.
+?? How do MCP and A2A complement each other in an agent system?
++ MCP connects an agent to tools and data sources, while A2A connects an agent to other autonomous agents
+- MCP is only for images and A2A is only for audio
+- They are competing names for the exact same database driver
+- Neither protocol can be used over a network
+= Use MCP when calling tools and reading resources, and A2A when delegating a task to another reasoning agent.
+## Both are open standards hosted by the Linux Foundation
+~m
+Both MCP (started by Anthropic) and A2A (started by Google) were contributed to the Linux Foundation (under the Agentic AI Foundation) so that no single AI vendor owns the plumbing of the agent ecosystem. Check the current details for member lists and governance updates.
+
+For an AI consultant advising a client, open governance matters. It means a client can expose internal tools via MCP or specialist agents via A2A today without locking their architecture to a single model provider or cloud platform.
+
+It is USB-C: because the connector is an open standard, your charger, monitor and laptop do not all have to come from the same manufacturer.
+?? Why does it matter to clients that protocols like MCP and A2A are open standards under neutral governance?
++ Clients can connect tools and agents across different clouds and model providers without vendor lock-in
+- It means the Linux Foundation pays the client's API bills
+- Open standards never need security authentication
+- It forces every company to make their private customer data public
+= Vendor-neutral open standards let organisations swap models and frameworks without rebuilding their integrations.
+## Agent cards: how an agent advertises what it can do
+~m
+In the A2A protocol, each remote agent publishes an **Agent Card**, typically a JSON document hosted at a well-known URL such as `/.well-known/agent.json`. Check the current details in the A2A specification.
+
+The Agent Card states who the agent is, what skills and tasks it supports, what input and output modes it accepts, its endpoint URL and what authentication scheme callers must use. A client or orchestrator agent reads these cards to discover which remote agent can handle a sub-task.
+
+It is a tradesperson's business card listing their qualifications, services, phone number and call-out hours.
+
+Clear capability descriptions on the card help orchestrators route work accurately.
+?? What is an Agent Card in the A2A protocol?
++ A machine-readable JSON metadata document where an agent advertises its skills, endpoint and authentication requirements
+- A physical credit card given to the AI to buy software
+- A birthday card sent to users by a chatbot
+- A graphics card inside a server rack
+= An Agent Card lets other agents and orchestrators discover what a remote agent can do and how to call it securely.
+
+@@ sll_fOeK8pgq7Ze0 | B10.3 Agent-to-Agent Communication > Shared Work & Coordination
+## Shared memory vs. private memory for each agent
+In a multi-agent system, memory splits into two layers: a **shared space** visible to the team and a **private scratchpad** belonging to each individual agent.
+
+The shared space holds agreed team artefacts: the user's goal, verified facts, the task board and finished sections. Each agent's private memory holds its own noisy working: raw search snippets, intermediate tool retries and draft thoughts that other agents never need to see.
+
+It is a project team with one shared whiteboard in the meeting room for agreed milestones, while each person keeps their own rough notepad on their desk.
+
+Keeping working notes private stops one agent's clutter from polluting every other agent's context.
+?? Why should each agent have private working memory alongside the team's shared memory?
++ So raw tool outputs and rough scratchpad notes stay inside the agent that used them instead of cluttering the whole team's context
+- So agents can hide completed deliverables from the user
+- Because shared memory cannot store text
+- To double the size of every prompt sent to every agent
+= Separating private working notes from shared team artefacts keeps shared state clean and focused on verified outputs.
+## A shared task board: who is doing what
+When several agents work on a job together, they need a shared task board in state or in a database to coordinate their efforts.
+
+Each item on the board records the task ID, description, status (`todo`, `in_progress`, `blocked`, `done`), the assigned agent (`owner`) and the output reference once finished. Before starting work, an agent claims a task by marking itself as the owner; when finished, it posts the result and flips the status to `done`.
+
+It is a kitchen ticket rail where chefs call out and clip their name to each order so two chefs never cook the same table's steak twice.
+
+A visible task board prevents duplicated effort and makes stalled tasks easy to spot.
+?? What problem does a shared task board with task owners and statuses solve?
++ It stops two agents doing the same job twice and shows clearly which tasks are finished, in progress or blocked
+- It allows agents to run without any prompts
+- It hides which agent is working on which step
+- It replaces the need for any database
+= Tracking ownership and status in one place coordinates parallel workers and shows real-time progress.
+## Isolated context: why sub-agents start with a clean slate
+When an orchestrator calls a sub-agent to research a question or review a file, the sub-agent should start with a fresh, empty message history containing only its system prompt and the specific brief for that sub-task.
+
+If you copy the orchestrator's entire fifty-turn conversation into every sub-agent, you pay for all fifty turns over and over again, and the sub-agent gets distracted by unrelated earlier topics.
+
+It is sending a lab technician a labelled blood sample and the test request, rather than wheeling the patient's entire ten-year hospital archive into the lab.
+
+Isolated contexts are one of the biggest practical reasons to use sub-agents at all: they let heavy reading happen in a disposable window.
+?? What is the main benefit of starting each sub-agent with a clean, isolated context window?
++ Heavy reading and tool calls happen in a small, disposable context without paying for or being distracted by the full conversation history
+- The sub-agent has to guess what the task is without any brief
+- Isolated contexts always use ten times more input tokens
+- It prevents the sub-agent from returning an answer
+= Context isolation keeps sub-agent calls small, focused and cheap, even when the parent task is very long.
+## Returning a summary, not the full transcript
+When a sub-agent finishes its isolated run, its internal transcript might contain twenty tool calls and thirty thousand tokens of web pages or database rows.
+
+Only the final distilled output should cross the boundary back to the parent agent: a concise summary, structured fields and source citations. Keep the full sub-agent transcript in your observability logs for debugging, not in the parent agent's prompt.
+
+It is a scout returning to camp to report where the bridge is, rather than describing every bush they walked past on the three-hour hike.
+
+This compression is what allows a team of agents to read far more material than could ever fit into one context window.
+?? What should cross the boundary from a finished sub-agent back into the parent agent's context?
++ Only the distilled result, structured findings and citations, while the full raw transcript stays in the logs
+- Every raw HTML page and tool error the sub-agent encountered
+- Nothing at all
+- Only the sub-agent's system prompt
+= Returning distilled results lets the parent agent combine findings from many sub-agents without blowing its own context window.
+## Conflicts: two agents changing the same thing
+The moment two agents can run at the same time and write to the same shared state, file or database row, you will hit write conflicts.
+
+Suppose Agent A and Agent B both read `customer_notes`, each adds a paragraph and both write the whole field back: whichever agent finishes second silently overwrites the first agent's work. Prevent this in code: give each parallel worker its own distinct output key or file, use append-only reducer functions when merging state, or use database locks and version checks (`optimistic concurrency`).
+
+It is two people editing offline copies of the same spreadsheet and saving over each other's changes on the shared drive.
+
+Never let parallel agents overwrite the same field without a merge rule.
+?? How can you prevent two parallel agents from overwriting each other's work in shared state?
++ Give each worker its own output key or use a state reducer that appends and merges updates safely
+- Hope that one agent always finishes ten minutes before the other
+- Tell the models in the prompt to be careful with memory addresses
+- Delete whichever update arrives second
+= Partitioning output keys or using deterministic merge reducers in code stops concurrent writes from clobbering each other.
+
+@@ sll_1pXdoaztGNcB | B10.4 Advanced Orchestration > Swarm Intelligence
+## Many simple agents solving a problem together
+Swarm intelligence takes inspiration from ant colonies and bee hives: instead of one giant, complicated brain directing everything, many simple agents follow local rules and coordinate through a shared environment or message board.
+
+In an AI swarm, you might spawn twenty lightweight workers that each explore a different lead, post short findings to a shared board, read promising leads posted by peers and converge on an answer.
+
+It is a search-and-rescue team fanning out across a hillside in grid squares and calling out on the radio when someone spots a footprint.
+
+Each individual agent stays simple; the power comes from parallel coverage and shared signals.
+?? How does a swarm architecture differ from a single complex agent?
++ Many lightweight agents work in parallel following simple rules and sharing findings, rather than one agent doing everything sequentially
+- A swarm uses only one model call with a very long prompt
+- Swarm agents are not allowed to share any information
+- Every agent in a swarm must be a different human being
+= Swarms trade central planning for broad parallel exploration by many simple workers.
+## Emergent behaviour and its risks
+Emergent behaviour is a pattern that appears when many agents interact, even though no single agent was programmed to behave that way.
+
+Sometimes emergence is helpful, such as agents naturally clustering around the most fruitful data source. Often in business systems it is a headache: one agent posts a speculative guess to the shared board, three other agents cite that guess as confirmation, and within two rounds the whole swarm is confidently building on a rumour it invented itself.
+
+It is an echo chamber in a group chat where a rumour gets repeated by three people and suddenly sounds like an established fact.
+
+Guard against herd cascades by requiring primary source citations on every shared post.
+?? What is a dangerous emergent behaviour when swarm agents read each other's outputs?
++ An unverified guess from one agent can be repeated by others until the swarm treats its own rumour as confirmed fact
+- Agents suddenly stop consuming any electricity
+- The database automatically upgrades its hardware
+- Every agent starts speaking in medieval Latin
+= Without strict source-citation rules, a swarm can amplify a single hallucination into an apparent consensus.
+## Parallel swarms for search and research tasks
+Where swarms genuinely shine is broad, embarrassingly parallel discovery work: scanning fifty competitor websites, auditing every file in a large codebase for a security pattern, or triaging a backlog of five hundred support tickets.
+
+In these tasks, a coordinator slices the search space into independent shards, assigns one worker per shard, and collects their structured reports. Because the workers barely need to depend on each other during the search phase, the job finishes in a fraction of the time a single agent would take.
+
+It is twenty stocktakers each counting one aisle of a supermarket at the same time on Sunday evening.
+
+Keep inter-agent chatter minimal during the scan and merge results cleanly at the end.
+?? On which type of workload is a parallel swarm most effective?
++ Broad search, audit or research tasks that split cleanly into many independent slices
+- Writing a single three-sentence apology email
+- Sequential tasks where step two cannot start until step one finishes
+- Real-time voice calls that must reply in under 200 milliseconds
+= Swarms excel when a large search space can be sharded across many workers running concurrently.
+## Why swarms are hard to predict, test, and budget
+Free-form swarms look exciting in demos, but they are difficult to run safely in client production systems.
+
+First, **budget**: ten agents chatting and spawning helpers can burn through a hundred model calls in seconds. Second, **testing**: because parallel messages arrive in slightly different orders on every run, the same input can produce different paths and outputs, making regression testing hard. Third, **accountability**: when the final answer is wrong, untangling fifty interleaved board messages takes ages.
+
+It is releasing a flock of sheep vs driving a delivery van: the van stays on the road and arrives at a known time.
+
+Only use a swarm where bounded parallel fan-out is not enough, and enforce strict per-run token and agent caps.
+?? Why are free-form agent swarms difficult to run in production business systems?
++ Non-deterministic message ordering, rapidly multiplying token costs and tangled traces make them hard to test, debug and budget
+- Swarms can only run on computers from the 1990s
+- They never use more than one API call
+- Providers refuse to sell tokens for parallel requests
+= Because execution order and call counts vary from run to run, swarms require tight caps and are harder to verify than structured workflows.
+
+@@ sll_q0o2LAhxAvO_ | B10.4 Advanced Orchestration > Orchestration Platforms
+## n8n and low-code orchestration
+~m
+Low-code workflow platforms such as n8n, Make and Zapier let you wire together triggers, APIs, databases and AI agent nodes on a visual canvas. Check the current details for each platform's AI agent features.
+
+In a couple of hours, a consultant can build a working workflow that watches a shared inbox, extracts invoice fields with an LLM node, checks the supplier in Xero or HubSpot, posts an approval button in Slack and logs the result to Google Sheets.
+
+It is building with Lego bricks: the connectors for hundreds of business apps are already moulded and ready to snap together.
+
+Low-code tools are brilliant for fast prototypes, internal automations and client teams without full-time software engineers.
+?? What is the main strength of low-code orchestration platforms like n8n for an AI consultant?
++ Ready-made integrations and a visual canvas let you connect business apps and AI steps quickly without writing boilerplate plumbing
+- They train new frontier language models from scratch
+- They never require API keys or authentication
+- They replace the need for any testing or error handling
+= Low-code platforms excel at rapid integration with SaaS tools and visual workflows that non-developers can inspect.
+## Custom Python orchestration
+When a workflow needs complex state management, custom evaluation suites, strict version control in Git, high-throughput concurrency or intricate retry and branching logic, visual canvases start to feel cramped.
+
+Writing the orchestration in Python (or TypeScript), either with plain async code or a code-first framework like LangGraph or PydanticAI, gives you the full power of software engineering: unit tests, code review, type checking, custom data structures and deployment in your own containers.
+
+It is a bespoke joinery workshop compared with flat-pack furniture: it takes more skill to set up, but you can build any shape to exact tolerances.
+
+Production products with heavy traffic or tricky logic usually end up in code.
+?? When is custom code orchestration in Python or TypeScript preferable to a visual low-code canvas?
++ When you need Git version control, automated test suites, complex state logic or high-scale production control
+- When nobody on the client team can read or maintain code and the workflow is a simple two-step Slack alert
+- When you want to avoid writing any tests
+- Never, because Python cannot call web APIs
+= Code-first orchestration gives you proper software engineering practices: type safety, unit tests, diffs in Git and full control over execution.
+## Framework comparison
+~m
+Every few months a new agent framework trends on social media. Beneath the marketing, most code frameworks fall into a few recognisable styles. Check the current details as frameworks evolve rapidly.
+
+**Graph and state-machine frameworks** (such as LangGraph) focus on explicit control flow, checkpoints and cycles. **Role and crew frameworks** (such as CrewAI) focus on persona-driven multi-agent teams and quick setup. **Typed single-agent libraries** (such as PydanticAI or the OpenAI and Anthropic Agent SDKs) focus on clean tool loops and strict schema validation with minimal magic.
+
+It is choosing kitchen equipment: a food processor, a stand mixer and a sharp chef's knife each suit different recipes.
+
+Remember that plain code with the provider SDK is always a valid option too.
+?? Why should you include "plain code with the provider SDK" when comparing agent frameworks?
++ Many workflows need only a simple loop and tool calls, where plain code has zero framework lock-in and nothing hidden
+- Provider SDKs cannot call tools or return JSON
+- Frameworks are required by law for all AI applications
+- Plain code costs twice as much per token at the API
+= A thin loop in plain code is often easier to understand and maintain than a heavy framework when the control flow is simple.
+## Triggers, webhooks, and schedules that start agent work
+Not every agent starts because a human typed a message into a chat box. Many of the most valuable business agents run in the background, started by an event or a clock.
+
+There are three common starters. A **webhook** fires the instant an external event happens, such as a new support ticket in Zendesk or a new lead in HubSpot. A **schedule** (cron job) runs at set times, such as every weekday at 7 a.m. to prepare the morning briefing. A **queue or database trigger** wakes a worker when a new file lands in storage.
+
+It is a burglar alarm (event webhook) versus a central-heating timer (schedule).
+
+Background agents need even stricter budgets and alerting than chat agents because nobody is watching the screen while they run.
+?? Why do background agents triggered by webhooks or schedules need especially strict budgets and alerts?
++ Because no human is watching them live in a chat window to notice if they loop or fail
+- Because webhook requests do not use any tokens
+- Because scheduled tasks can only run on Sundays
+- Because background agents cannot call tools
+= Unattended runs need hard caps, dead-letter queues and alerts so a broken webhook does not quietly burn budget overnight.
+## Mixing both: low-code for plumbing, code for the agent logic
+You do not have to choose exclusively between n8n and custom Python. One of the cleanest consulting patterns combines both.
+
+Use the low-code platform for what it does best: OAuth logins, watching Gmail or Slack, timers, webhooks and writing rows to Salesforce or Notion. When the workflow reaches the hard AI step, have the low-code node call your own Python service over a single HTTP endpoint, which runs the tested, version-controlled agent and returns clean JSON.
+
+It is using standard plumbing pipes to bring water to the house, and a specialist espresso machine on the counter to brew the coffee.
+
+This split keeps SaaS connectors easy and core AI logic properly engineered.
+?? How can you combine low-code tools and custom code effectively in a client architecture?
++ Use low-code for SaaS triggers, OAuth and notifications, and call a version-controlled code service for the core agent logic
+- Write every step twice in both systems and throw one away
+- Put all database passwords in public chat messages
+- Use custom Python only for sending Slack emojis and n8n for training neural networks
+= Letting low-code handle third-party app connectors while code handles the complex, tested agent logic gives you the best of both worlds.
+## Frameworks merge and retire: Microsoft Agent Framework replaced AutoGen and Semantic Kernel, which moved to maintenance mode
+~m
+The agent framework landscape consolidates quickly. A clear example happened in the Microsoft ecosystem: after running two overlapping libraries for years, Microsoft introduced the unified **Microsoft Agent Framework**, while earlier projects **AutoGen** and **Semantic Kernel** moved into maintenance mode. Check the current details for the latest roadmap and migration guides.
+
+Teams that had tightly coupled every business rule to internal quirks of an early framework faced painful rewrites. Teams that kept their prompts, tool functions and schemas in clean, framework-agnostic code swapped the outer runner in a few days.
+
+It is keeping your recipes in a notebook so you are not stuck when you change your brand of oven.
+?? What architectural lesson comes from frameworks like AutoGen and Semantic Kernel being superseded by Microsoft Agent Framework?
++ Keep your prompts, schemas and tool functions in clean, portable code so you can swap the orchestration framework without a full rewrite
+- Never use any software written after 2020
+- Rewrite your entire database every week
+- Put all business logic inside undocumented framework internals
+= Isolating your core prompts, tools and schemas from framework glue protects your client when frameworks merge or retire.
+## Comparison criteria: control, debugging, state handling, and lock-in
+When evaluating an orchestration framework for a client, ignore the five-minute "hello world" demo. Every framework makes a three-line demo look easy.
+
+Judge it instead on four production criteria. **Control**: can you enforce exact branching and hard step caps in code? **Debugging**: when step four fails, do you see the exact prompt and tool call, or a wall of thirty internal framework stack frames? **State handling**: how cleanly does it checkpoint, pause for humans and resume? **Lock-in**: how hard is it to take your tools and prompts out if you leave?
+
+It is test-driving a car on a wet roundabout and checking the boot space, not just admiring the paint in the showroom.
+?? Why is a framework's five-minute demo a poor guide for choosing it on a client project?
++ Demos hide how the framework behaves when you need strict control, clear stack traces, state checkpoints and an exit path
+- Demos always take several weeks to run
+- Every framework fails on the first line of a demo
+- Clients only care about how few characters the import statement has
+= Evaluate frameworks on control, debuggability, state persistence and portability under real failure conditions, not demo brevity.
+
+@@ sll_X9fC3k9XLTpw | B10.4 Advanced Orchestration > When Multi-Agent Goes Wrong
+## Cost multiplies: every agent adds tokens and calls
+A single-agent call sends one system prompt, the user input and its tool definitions.
+
+Now split that same job across a four-agent team with a supervisor. The supervisor reads the input and writes a brief. Worker 1 reads its system prompt and the brief, calls tools and writes a report. The supervisor reads the report and briefs Worker 2. Worker 2 runs its turns. The supervisor reads both reports and calls the Reviewer. One user question has quietly turned into twelve LLM calls and tens of thousands of repeated context tokens.
+
+It is calling a meeting with six people for a decision one person could have made at their desk in five minutes.
+
+Always calculate the token multiplier per user request before proposing a multi-agent design.
+?? Why does a multi-agent team often cost several times more tokens than a single agent for the same request?
++ Every delegation, handoff and review repeats system prompts and context across multiple separate LLM calls
+- Providers charge a special penalty fee whenever two agents have different names
+- Multi-agent systems are required to use the most expensive model for every step
+- Single agents do not pay for input tokens
+= Each agent turn and coordinator handoff resends prompts and context, multiplying both call count and token spend.
+## Errors compound: one bad handoff spoils everything after it
+In a chain of agents, each agent trusts the structured output or summary handed to it by the previous agent.
+
+If Agent 1 misreads a date as 2024 instead of 2025, or drops a crucial constraint when summarising the user's request, Agent 2 and Agent 3 never see the original source to notice the slip. They build elaborate, polished analysis on top of a false premise.
+
+It is the party game Whisper Down the Lane: a tiny slip between the first two players turns the message into nonsense by the end of the line.
+
+Validate key facts and pass references to original source IDs across handoffs so later agents or gates can verify critical figures.
+?? How can a small mistake in the first agent spoil the work of an entire multi-agent team?
++ Downstream agents work from the first agent's summary or handoff without seeing the original input, so they build on the mistake
+- Later agents always delete the first agent's output
+- Errors automatically cancel each other out across three agents
+- Only the last agent in a chain can make mistakes
+= Information loss or distortion at a handoff propagates forward unless key facts are checked against original sources.
+## Agents that loop, stall, or argue
+Put two or more autonomous agents in a conversation without tight rules and they can fail in uniquely comical ways.
+
+Two agents can fall into a **politeness loop** ("Thank you!" / "You're welcome, let me know if you need anything else!" / "Thanks again!"). A generator and an overly strict critic can **argue** for ten rounds as fixing one rule breaks another. Or a supervisor can **stall**, repeatedly calling the same search worker that keeps returning "no results found".
+
+It is two people holding a door for each other in a corridor, both saying "After you" while nobody walks through.
+
+Prevent these with structured outputs instead of chatty prose, state progress checks and hard turn limits.
+?? What is a common cause of two agents getting stuck in a loop?
++ Unstructured chat handoffs or conflicting critic rules with no progress check or turn cap
+- Setting a strict maximum step count on the workflow
+- Using structured JSON fields to signal completion
+- Running deterministic code between steps
+= Replacing free-form chat between agents with structured state updates and hard iteration limits stops polite or argumentative loops.
+## Tracing a failure back to the agent that caused it
+When a user reports that the final report contained a wrong figure, a multi-agent system gives you a mystery: did the researcher fetch the wrong document, did the analyst miscalculate the percentage, did the writer misquote the analyst, or did the editor change the number during polishing?
+
+To answer that in two minutes instead of two hours, your tracing system must record a hierarchical span for every agent run, every handoff payload and every tool call under a single `trace_id`.
+
+It is food traceability on a supermarket pack that tells you the exact farm, batch and packing line a box of strawberries came from.
+
+Without end-to-end traces, teams waste days blaming the wrong prompt.
+?? What do you need in place to quickly find which agent in a team introduced a wrong fact?
++ End-to-end tracing that records every agent's inputs, tool calls and handoff payloads under one shared trace ID
+- A single log line that prints only the final answer shown to the user
+- Guessing which agent is usually worst and editing its prompt at random
+- Deleting all intermediate state as soon as each node finishes
+= Hierarchical traces let you inspect the exact input and output of each agent in the chain to pinpoint where the fact went wrong.
+## Evaluating the team and each agent separately
+Testing a multi-agent system requires two levels of evaluation: **end-to-end team evals** and **component-level agent evals**.
+
+End-to-end evals test whether the whole system turns a user request into a good final result. Component evals test each agent in isolation with fixed test inputs: given this exact research brief, does the researcher find the right three facts; given these exact facts, does the writer produce an accurate draft?
+
+It is testing a racing car both by timing a full lap of the circuit and by testing the brakes and engine on a workshop rig on their own.
+
+If an end-to-end test fails, component evals tell you which specialist broke.
+?? Why do you need both end-to-end team evaluations and isolated per-agent evaluations?
++ End-to-end evals measure overall user outcome, while per-agent evals isolate which specialist or handoff caused a regression
+- Per-agent evals replace the need to ever test the whole workflow together
+- End-to-end evals cost zero tokens to run
+- You cannot pass test inputs to a single agent on its own
+= Component evals let you test and tune each specialist quickly and deterministically, while end-to-end evals verify that the handoffs work together.
+## A single agent is the baseline to beat
+Before you build a five-agent crew, build the best single agent (or simple prompt chain) you can and measure it on your evaluation set.
+
+Modern frontier models have large context windows, strong reasoning and reliable tool calling. A huge proportion of tasks that needed a complex multi-agent setup two years ago are now handled faster, cheaper and more accurately by one well-structured agent or two chained calls with code checks in between.
+
+It is checking whether one skilled tradesperson can finish the job in an afternoon before hiring a general contractor and four subcontractors.
+
+If a multi-agent team does not clearly beat your single-agent baseline on quality, speed or cost, keep the single agent.
+?? What should always be your baseline before committing to a complex multi-agent architecture?
++ A single well-prompted agent or simple prompt chain measured on the same evaluation suite
+- A team of twenty agents with no tools
+- A human typing answers by hand with no AI
+- Having no evaluation suite at all
+= A single agent or simple chain is cheaper, faster and easier to debug, so a multi-agent design must earn its complexity on the evals.

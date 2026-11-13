@@ -5,8 +5,8 @@
     {
       "id": "bit_XHtFoYKMR90F",
       "title": "Encoder (BERT), decoder (GPT), encoder-decoder (T5)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Transformers fall into three classic architectural families originated by landmark models like Google's BERT, OpenAI's GPT series, and Google's T5; check the current details for newer model releases in each family. Encoder-only models use bidirectional attention so every token sees the whole input at once. Decoder-only models use a causal mask so tokens only see past context and generate text token by token. Encoder-decoder models pair a bidirectional encoder that reads the input with a causal decoder that generates the output via cross-attention.\n\nThink of an encoder as an analyst who reads an entire dossier before filing a classification code, a decoder as a speaker improvising a speech word by word, and an encoder-decoder as a translator reading a French page while writing an English page.\n\nToday, decoder-only architectures dominate general-purpose large language models because they unify reading and generation in one simple pipeline.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,25 +19,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XHtFoYKMR90F_1",
+          "type": "multiple_choice",
+          "prompt": "Which transformer family uses full bidirectional self-attention across the entire input without a causal mask?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Encoder-only models such as BERT"
+            },
+            {
+              "id": "b",
+              "text": "Decoder-only models such as GPT"
+            },
+            {
+              "id": "c",
+              "text": "Purely recurrent LSTM networks without attention"
+            },
+            {
+              "id": "d",
+              "text": "Speculative draft decoders during streaming generation"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Encoder-only transformers allow every token to attend to both left and right context simultaneously, making them compact and fast for embedding and classification tasks.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_EM-82Yq6Q8uB",
       "title": "Mixture-of-experts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A Mixture-of-Experts (MoE) transformer replaces the single dense feed-forward network in each layer with a pool of many separate feed-forward \"expert\" networks plus a lightweight learned router gate. For each incoming token, the router inspects the token's vector and sends it to only a small top-k subset of experts (for example, 2 out of 16 experts), summing their weighted outputs.\n\nIt is like a large consulting firm with two hundred partners across specialised practices, where each client query is staffed by just the two most relevant specialists rather than billing the entire firm for every meeting.\n\nThis sparse activation decouples total parameter count from per-token compute cost, allowing a model to hold vast knowledge while generating tokens at the speed of a much smaller dense model.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_EM-82Yq6Q8uB_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main architectural change that turns a standard dense transformer into a Mixture-of-Experts (MoE) model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Training eight completely separate chatbots and asking a human user to pick the best answer"
+            },
+            {
+              "id": "b",
+              "text": "Splitting the vocabulary so that different GPUs only know words starting with specific letters"
+            },
+            {
+              "id": "c",
+              "text": "Replacing the dense feed-forward block with multiple expert networks and a router that activates only a few experts per token"
+            },
+            {
+              "id": "d",
+              "text": "Removing all self-attention layers and replacing them with k-means clustering"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "MoE models substitute dense FFN layers with sparsely gated expert blocks so only a fraction of parameters compute on any single token.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_o_Zs4E1Fwpba",
       "title": "Reasoning models",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Reasoning models (such as OpenAI's o-series or DeepSeek-R1; check the current details for current reasoning model benchmarks and APIs) are large language models specifically trained with reinforcement learning to generate an extended internal chain of thought before producing their final user-visible response. During this thinking phase, the model breaks down complex problems, tests hypotheses, spots its own arithmetic or logic mistakes, and backtracks when an approach hits a dead end.\n\nIt is like the difference between blurting out an instant gut estimate in a client meeting and taking five minutes with a notepad to work through the cash-flow numbers and double-check the totals first.\n\nWhile reasoning models dramatically outperform standard single-pass chat models on coding, mathematics, and multi-constraint planning, those extra thinking tokens increase both latency and per-call API costs.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,43 +106,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_o_Zs4E1Fwpba_1",
+          "type": "multiple_choice",
+          "prompt": "How do dedicated reasoning models differ at inference time from standard chat models?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They bypass the transformer layers entirely and run a symbolic SQL database query"
+            },
+            {
+              "id": "b",
+              "text": "They always respond in fewer than ten tokens to minimise network latency"
+            },
+            {
+              "id": "c",
+              "text": "They generate a sequence of intermediate reasoning tokens to plan, verify, and backtrack before emitting the final answer"
+            },
+            {
+              "id": "d",
+              "text": "They update their permanent pretrained weights on disk after every user question"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Reasoning models allocate extra test-time compute by generating an internal chain of thought that explores and checks steps before committing to a final output.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BRNWvstL3BuB",
       "title": "Encoders for understanding, decoders for generation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When designing a production AI system for a client, choosing between a compact encoder model and a generative decoder model is one of the highest-leverage cost decisions you will make. Bidirectional encoders (commonly 100 million to 1 billion parameters) read the whole input in one pass and excel at high-volume tasks like generating search embeddings, routing support tickets, extracting named entities, and scoring relevance in rerankers.\n\nThink of hiring a high-speed mail-sorting machine (an encoder) to route ten thousand letters an hour into the right trays, and reserving your skilled copywriters (a decoder) to draft the actual replies.\n\nUsing a 70-billion-parameter generative decoder just to classify sentiment into three buckets wastes huge amounts of GPU time and money when a fine-tuned encoder can run in a few milliseconds per document.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BRNWvstL3BuB_1",
+          "type": "multiple_choice",
+          "prompt": "Why do consultants often recommend a small bidirectional encoder rather than a large generative decoder for high-volume document classification or embedding?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Decoders are mathematically incapable of outputting classification labels in a prompt"
+            },
+            {
+              "id": "b",
+              "text": "Encoders do not require any GPU memory to store their model weights"
+            },
+            {
+              "id": "c",
+              "text": "Decoders can only process inputs written in programming languages like Python"
+            },
+            {
+              "id": "d",
+              "text": "Encoders process the whole input in a single bidirectional forward pass at a tiny fraction of the compute cost and latency"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Because classification and embedding do not require token-by-token generation, a compact bidirectional encoder delivers strong accuracy at vastly lower latency and cost.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_A4kK6qVGWpmv",
       "title": "Mixture-of-experts: many experts, only a few active per token",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a Mixture-of-Experts model, it is crucial to distinguish between total parameters (which determine how much GPU memory you need to hold the model) and active parameters (which determine how many floating-point operations run per token). For instance, a model with 120 billion total parameters that routes each token to 16 billion active parameters needs the VRAM of a 120B model, but computes each single token roughly as fast as a 16B dense model.\n\nIt is like keeping a massive encyclopaedia set on your office shelves: you need a large bookcase to store all thirty volumes, but answering any single question only requires pulling down two books.\n\nDuring training, MoE models also need an auxiliary load-balancing mechanism so the router does not lazily send every token to the same two popular experts while leaving the other experts untrained.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_A4kK6qVGWpmv_1",
+          "type": "multiple_choice",
+          "prompt": "If a Mixture-of-Experts model has 100 billion total parameters and 12 billion active parameters per token, what determines its GPU memory footprint when loaded?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "All 100 billion total parameters must sit in memory because any expert might be called for the next token"
+            },
+            {
+              "id": "b",
+              "text": "Only 12 billion parameters need to be stored in memory at any point during serving"
+            },
+            {
+              "id": "c",
+              "text": "The memory footprint is zero because experts are generated from random noise on the fly"
+            },
+            {
+              "id": "d",
+              "text": "Only the router gate parameters need to be loaded onto the GPU"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Even though a single token activates only a small subset of experts, every expert's weights must remain resident in fast GPU memory to avoid catastrophic disk-swapping stalls across tokens or batches.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ctMa5nUZ5sVh",
       "title": "Reasoning models spend extra tokens thinking before answering",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Test-time compute scaling is the principle that you can trade extra inference tokens at run time for higher accuracy on hard problems, rather than relying solely on a bigger pretrained base model. Each thinking token a reasoning model generates is billed and decoded just like a visible output token, even if the API hides or summarises the raw reasoning trace in the user interface.\n\nThink of paying an engineering consultancy by the hour: a routine safety check takes ten minutes, while a complex structural stress analysis requires forty hours of calculations behind the scenes before you receive the one-page certificate.\n\nFor an AI consultant, this means routing matters: use fast, non-reasoning models (or low reasoning effort settings) for straightforward extraction and formatting, and reserve deep reasoning tokens for complex multi-step synthesis or code debugging.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ctMa5nUZ5sVh_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main operational caveat when deploying a reasoning model in a high-throughput client workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Reasoning models cannot read prompts longer than five hundred tokens"
+            },
+            {
+              "id": "b",
+              "text": "Reasoning models lose the ability to output valid JSON or structured text"
+            },
+            {
+              "id": "c",
+              "text": "The extra internal thinking tokens increase end-to-end response latency and billed token consumption"
+            },
+            {
+              "id": "d",
+              "text": "The model must be retrained from scratch after every hundred API requests"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Generating hundreds or thousands of hidden reasoning tokens before the first visible word appears adds substantial time-to-first-token latency and per-request token cost.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

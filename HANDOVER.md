@@ -4,7 +4,7 @@ Written 13 November 2026 for the next agent taking over this task. Read this who
 
 ## 1. The job in one paragraph
 
-The owner (not a developer; checks changes on their phone through the Vercel preview of the `dev` branch) wants **every card ("bite") in the whole course written**, with one multiple-choice question each. The course has 5 tracks, 50 modules, 330 sub-lessons and 1,794 cards. **630 cards are written and pushed. 1,164 are still empty** (modules B9 to B16, all of C, D and E). When all are written, build a zip the owner uploads with the **Import package** button on the **Family** page.
+The owner (not a developer; checks changes on their phone through the Vercel preview of the `dev` branch) wanted **every card ("bite") in the whole course written**, with one multiple-choice question each. The course has 5 tracks, 50 modules, 330 sub-lessons and 1,794 cards. **All 1,794 cards are now written, built into `content/course/package`, verified by tests and pushed** (`0 still empty`, `1,805 questions`). Import zips have also been generated in `C:\Users\D'Souza Family\Downloads\bitesized-import` for the owner to upload with the **Import package** button on the **Family** page.
 
 ## 2. Links
 
@@ -124,26 +124,16 @@ Notes for this Windows machine:
 | A6 | `A6a.txt`, `A6b.txt` | written, pushed |
 | B1 to B7 | `B01.txt` ... `B07.txt` | written, pushed |
 | B8 | `B08a.txt`, `B08b.txt` | written, pushed |
+| B9 to B16 | `B09.txt` ... `B16.txt` | written, pushed |
+| C1 to C9 | `C01.txt` ... `C09.txt` | written, pushed |
+| D1 to D9 | `D01.txt` ... `D09.txt` | written, pushed |
+| E1 to E10 | `E01.txt` ... `E10.txt` | written, pushed |
 
-Everything the previous agent wrote is pushed; nothing is held back anywhere else. **Start at B9.**
+All 50 modules (330 sub-lessons, 1,794 cards, 1,805 questions) are written and built.
 
 ## 9. What is left (sub-lessons / cards)
 
-| Track B | | Track C | | Track D | | Track E | |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| B8 | done | C1 | 7 / 42 | D1 | 5 / 31 | E1 | 3 / 19 |
-| B9 | 6 / 28 | C2 | 6 / 38 | D2 | 4 / 25 | E2 | 3 / 17 |
-| B10 | 11 / 63 | C3 | 7 / 37 | D3 | 6 / 36 | E3 | 3 / 16 |
-| B11 | 6 / 29 | C4 | 6 / 37 | D4 | 5 / 30 | E4 | 4 / 22 |
-| B12 | 8 / 40 | C5 | 6 / 37 | D5 | 5 / 28 | E5 | 4 / 23 |
-| B13 | 8 / 33 | C6 | 6 / 38 | D6 | 5 / 30 | E6 | 4 / 24 |
-| B14 | 7 / 32 | C7 | 6 / 34 | D7 | 4 / 22 | E7 | 9 / 48 |
-| B15 | 8 / 39 | C8 | 6 / 32 | D8 | 4 / 25 | E8 | 8 / 43 |
-| B16 | 10 / 39 | C9 | 6 / 33 | D9 | 4 / 22 | E9 | 7 / 37 |
-| | | | | | | E10 | 7 / 35 |
-| **303 cards** | | **328 cards** | | **249 cards** | | **284 cards** | |
-
-Total left: 1,164 cards. Name the files with two digits so they sort correctly: `B09.txt` ... `B16.txt`, `C01.txt` ... `E10.txt`.
+Nothing — 0 empty cards remain across the entire course.
 
 ## 10. Finishing, once every card is written
 

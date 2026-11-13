@@ -5,86 +5,282 @@
     {
       "id": "bit_rx_-N0uV1xCb",
       "title": "Genes, exons, introns, non-coding RNA (incl. miRNA)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A eukaryotic gene is a functional unit of heredity composed of coding or functional segments called exons interspersed with non-coding intervening sequences called introns, alongside regulatory regions and non-coding RNA loci such as microRNAs. Together, these elements form a complex genomic architecture where only a small fraction of DNA directly encodes protein sequences.\n\nIt is like a filmed television episode that contains both the scenes shown to viewers and raw clapperboard footage that editors remove before broadcast.\n\nWhen scoping genomic AI models for a pharma client, ensure the feature engineering distinguishes exons, splice junctions, introns, and microRNA genes rather than treating whole gene coordinates uniformly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rx_-N0uV1xCb_1",
+          "type": "multiple_choice",
+          "prompt": "How are exons and introns arranged within a typical eukaryotic gene?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Introns code for amino acids, while exons are protective caps at the ends of chromosomes"
+            },
+            {
+              "id": "b",
+              "text": "Exons only appear in bacterial genomes, whereas introns only appear in viruses"
+            },
+            {
+              "id": "c",
+              "text": "Exons are the segments retained in mature RNA, while introns are intervening sequences located between exons"
+            },
+            {
+              "id": "d",
+              "text": "Introns and exons are separate chromosomes that never occur within the same gene"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Eukaryotic genes contain exons interspersed with introns, and the introns are removed during RNA processing to leave the mature transcript.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6NO6Sy8C4P0C",
       "title": "Mutations and genetic variation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Genetic variation refers to differences in DNA sequences among individuals or cells, arising from mutations that range from inherited population polymorphisms to newly acquired cellular changes. These sequence differences drive normal human diversity as well as inherited disorders and cancer progression.\n\nIt is like regional editions of a legal contract where most wording stays identical, a few clauses have harmless spelling variations, and an occasional altered word changes a financial liability.\n\nAI consultants building clinical decision support systems must remember that mutation rates and background variation differ across populations, making diverse training cohorts essential to avoid biased predictions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6NO6Sy8C4P0C_1",
+          "type": "multiple_choice",
+          "prompt": "What is genetic variation in a biological population?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Differences in DNA sequences between individuals or cells arising from inherited or acquired mutations"
+            },
+            {
+              "id": "b",
+              "text": "Changes in cellular protein levels caused exclusively by diet without any alteration to DNA"
+            },
+            {
+              "id": "c",
+              "text": "The temporary folding of messenger RNA during normal ribosome translation"
+            },
+            {
+              "id": "d",
+              "text": "The complete replacement of DNA with RNA as an organism ages"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Genetic variation encompasses the DNA sequence differences across individuals or cell populations produced by mutational processes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_zXzsB9qWWW6v",
       "title": "Exons are kept; introns are spliced out",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "RNA splicing is the post-transcriptional editing process in which the cellular spliceosome removes introns from a primary RNA transcript and joins the remaining exons together to form mature messenger RNA. Through alternative splicing, a single gene can combine different subsets of exons to produce multiple distinct protein isoforms across tissues.\n\nIt is like a modular training course where an instructor removes internal notes and combines selected chapters to create tailored workbooks for different client teams.\n\nA key caveat for bioinformatics pipelines is that mutations inside introns near splice boundaries can disrupt exon joining and cause severe disease even though no coding codon was directly altered.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_zXzsB9qWWW6v_1",
+          "type": "multiple_choice",
+          "prompt": "How can a single human gene produce several different protein variants across different tissues?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Ribosomes randomly skip individual nucleotide bases to invent new codons"
+            },
+            {
+              "id": "b",
+              "text": "Cells rewrite their chromosomal DNA sequences every time they need a new protein"
+            },
+            {
+              "id": "c",
+              "text": "Introns are translated into separate proteins that fuse with exons outside the cell"
+            },
+            {
+              "id": "d",
+              "text": "Alternative splicing joins different combinations of exons together while splicing out introns"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "During RNA processing, introns are spliced out and exons can be combined in different arrangements through alternative splicing to yield distinct isoforms.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_G-iS1Z0HlzBS",
       "title": "miRNAs fine-tune gene expression by blocking or degrading messenger RNA",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "MicroRNAs (miRNAs) are short non-coding RNA molecules, typically around twenty-two nucleotides long, that post-transcriptionally regulate gene expression by binding to complementary sequences on target messenger RNAs. Once bound, an miRNA either blocks ribosomes from translating the messenger RNA or recruits cellular machinery to degrade the transcript early.\n\nIt is like a warehouse supervisor placing a hold tag on outgoing work orders to either slow down fulfilment or cancel excess production runs before assembly starts.\n\nBecause a single miRNA can modestly dampen hundreds of different transcripts and multiple miRNAs can target one gene, predicting their net biological impact requires network-level modelling rather than simple one-to-one rules.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_G-iS1Z0HlzBS_1",
+          "type": "multiple_choice",
+          "prompt": "How do microRNAs (miRNAs) regulate protein production in cells?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They permanently delete target genes from the nuclear DNA sequence"
+            },
+            {
+              "id": "b",
+              "text": "They act as ribosomes that speed up amino acid assembly during translation"
+            },
+            {
+              "id": "c",
+              "text": "They transport completed proteins across the outer cell membrane"
+            },
+            {
+              "id": "d",
+              "text": "They bind to target messenger RNAs to block their translation or accelerate their degradation"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "MicroRNAs base-pair with target messenger RNAs to inhibit translation or trigger transcript degradation, fine-tuning gene expression levels.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_l2DghlRxrjjo",
       "title": "Variant types: single-letter changes, insertions, deletions, and larger structural changes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Genomic variants are categorised by size and mechanism into single nucleotide variants (SNVs), short insertions or deletions (indels), and large structural variants such as copy-number changes, inversions, or translocations. Each class alters the DNA sequence at a different scale, from swapping a single base letter to rearranging millions of nucleotides.\n\nIt is like document edits that range from a single typo or a deleted word to duplicating or swapping entire paragraphs across chapters.\n\nWhen designing variant-calling workflows for clients, remember that no single algorithm or sequencing assay detects all variant classes equally well, so small-variant callers often miss large structural rearrangements.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_l2DghlRxrjjo_1",
+          "type": "multiple_choice",
+          "prompt": "How do single nucleotide variants (SNVs), indels, and structural variants differ from one another?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "SNVs only occur in RNA, indels only occur in proteins, and structural variants only occur in lipids"
+            },
+            {
+              "id": "b",
+              "text": "Structural variants are single-base changes, while SNVs involve duplicating whole chromosomes"
+            },
+            {
+              "id": "c",
+              "text": "Indels and structural variants are identical terms for single-letter silent changes"
+            },
+            {
+              "id": "d",
+              "text": "They differ in scale and mechanism, ranging from single-letter substitutions to short insertions or deletions and large chromosomal rearrangements"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Genomic variants span single-base substitutions (SNVs), small insertions and deletions (indels), and larger structural rearrangements of DNA segments.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rT4-c6QbGgCJ",
       "title": "Most variants are harmless; interpreting them is the hard part",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Variant interpretation is the analytical process of distinguishing rare disease-causing mutations from the millions of benign genetic differences present in every individual genome. While sequencing machines can list variants rapidly, classifying whether an unfamiliar variant actually disrupts biology remains a major clinical bottleneck, leaving many changes labelled as variants of uncertain significance.\n\nIt is like scanning a massive codebase diff where thousands of formatting and comment changes are harmless, and pinpointing the one subtle change that breaks production requires deep domain testing.\n\nAI tools can score evolutionary conservation and protein structure to aid triage, but clinical diagnostic decisions still require curated human evidence and strict regulatory validation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rT4-c6QbGgCJ_1",
+          "type": "multiple_choice",
+          "prompt": "Why is variant interpretation considered a major bottleneck in genomic medicine?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Sequencing instruments can only read three nucleotides per week"
+            },
+            {
+              "id": "b",
+              "text": "Every genome contains millions of mostly harmless variants, leaving many rare changes with uncertain clinical impact"
+            },
+            {
+              "id": "c",
+              "text": "Every single genetic variant found in a patient automatically causes a severe disease"
+            },
+            {
+              "id": "d",
+              "text": "Human genomes have no variation between individuals except in tumour cells"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Sequencing easily identifies millions of variants per person, most of which are benign, making it difficult to prove whether a specific rare variant causes disease.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_n2XhsCLJ5KV4",
       "title": "Reference genome versions (e.g., GRCh38): always note which one you used",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A reference genome build, such as GRCh37 (hg19), GRCh38 (hg38), or the Telomere-to-Telomere T2T-CHM13 assembly, is a standardised coordinate map used to report genomic positions and align sequencing reads. Because each new release closes gaps and shifts base coordinates, a genomic position only makes sense when paired with its exact assembly version, so check the current details for your consortium standards.\n\nIt is like citing a street address alongside the edition year of a city map after major road realignments have renumbered the avenues.\n\nIn consulting engagements, mixing GRCh37 annotations with GRCh38 alignments silently corrupts every downstream variant lookup, so enforce build checks at ingestion.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_n2XhsCLJ5KV4_1",
+          "type": "multiple_choice",
+          "prompt": "Why must bioinformaticians always record the exact reference genome build (such as GRCh37 or GRCh38) used in an analysis?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Older reference genomes use amino acid letters instead of nucleotide bases"
+            },
+            {
+              "id": "b",
+              "text": "Reference genome versions expire every month and delete stored sequencing files"
+            },
+            {
+              "id": "c",
+              "text": "GRCh38 only contains mitochondrial DNA whereas GRCh37 only contains sex chromosomes"
+            },
+            {
+              "id": "d",
+              "text": "Genomic coordinates shift between assembly versions, so mixing builds causes variants and annotations to map to the wrong positions"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Different reference builds have shifted coordinate systems and sequence updates, meaning positions cannot be compared across builds without coordinate liftover.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

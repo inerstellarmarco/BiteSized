@@ -5,32 +5,88 @@
     {
       "id": "bit_-mURxHf4t2D4",
       "title": "Structured messages between agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When two agents live in the same code repository, letting them pass free-form English paragraphs to each other is a recipe for brittle parsing and silent misunderstandings.\n\nInside a system, agents should communicate with structured messages: JSON objects with agreed fields for the task type, input parameters, status, findings, citations and any error codes. A short natural-language summary can sit inside one field for nuance, while the control fields stay strictly typed.\n\nIt is air traffic controllers using standard callsigns and altitude numbers instead of chatting in long descriptive sentences.\n\nStructured messages let your code validate, log and route every exchange cleanly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-mURxHf4t2D4_1",
+          "type": "multiple_choice",
+          "prompt": "Why should agents communicate using structured message objects rather than free-text paragraphs alone?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Structured fields can be validated, logged and routed reliably by code without guessing what a paragraph means"
+            },
+            {
+              "id": "b",
+              "text": "Models cannot read or write JSON objects"
+            },
+            {
+              "id": "c",
+              "text": "Free text uses fewer tokens than a boolean field"
+            },
+            {
+              "id": "d",
+              "text": "Structured messages prevent agents from sharing facts"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Typed fields for status, inputs and outputs keep agent-to-agent communication predictable and machine-checkable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qRYyiMgTmpOD",
       "title": "Agent-to-agent (A2A) protocol",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The Agent2Agent (A2A) protocol, introduced by Google in 2025 and now an open standard, lets agents built by different teams, on different frameworks or hosted by different vendors collaborate over HTTP. Check the current details for the latest specification version.\n\nWithout a common protocol, connecting a LangGraph travel agent in your company to a partner's Salesforce agent requires custom glue code for every pair. A2A defines a standard way for one agent to discover another agent's capabilities, send it a task, stream progress updates and receive the finished artefacts.\n\nIt is international postal standards that let Royal Mail hand a parcel to a courier in Japan without custom paperwork for every town.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qRYyiMgTmpOD_1",
+          "type": "multiple_choice",
+          "prompt": "What problem does the Agent2Agent (A2A) protocol solve?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It replaces all databases with text files"
+            },
+            {
+              "id": "b",
+              "text": "It only works when both agents run in the same Python file"
+            },
+            {
+              "id": "c",
+              "text": "It trains language models without GPUs"
+            },
+            {
+              "id": "d",
+              "text": "It provides a standard way for agents built on different frameworks or by different organisations to discover each other and exchange tasks"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A2A standardises cross-framework and cross-organisation agent communication over standard web protocols.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_D4j2xgHE5pgb",
       "title": "Message schemas: sender, task, inputs, and expected output",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Whether you use an open protocol or an internal bus, every task message sent from one agent to another needs a clear envelope schema.\n\nA solid message schema includes: a unique `task_id` and `correlation_id` for tracing, who sent it (`sender`), who it is for (`recipient`), the `task_type` or instruction, the structured `inputs` and context, the `expected_output` schema, and a `deadline` or budget limit.\n\nIt is a laboratory request form from a hospital ward: patient ID, requesting doctor, test required, sample details and how urgently the result is needed.\n\nIf any required field is missing, reject the message at the boundary before spending tokens.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,13 +99,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_D4j2xgHE5pgb_1",
+          "type": "multiple_choice",
+          "prompt": "What is the purpose of a `correlation_id` or `task_id` in an agent message schema?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To set the model's temperature"
+            },
+            {
+              "id": "b",
+              "text": "To hide which agent sent the message"
+            },
+            {
+              "id": "c",
+              "text": "To make the message larger so it costs more"
+            },
+            {
+              "id": "d",
+              "text": "To trace a request and its replies across multiple agents and logs from start to finish"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Unique IDs in the message envelope let you tie every sub-task, retry and log line back to the original request.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_9-XSGOTLi924",
       "title": "MCP connects agents to tools; A2A connects agents to agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Students and clients often ask how the Model Context Protocol (MCP) and the Agent2Agent (A2A) protocol relate to each other. They solve two different connections that work together. Check the current details as both ecosystems mature.\n\n**MCP** is for connecting an agent to **tools, data sources and resources**: databases, file systems, APIs and prompt templates. Tools are deterministic functions with fixed inputs and outputs. **A2A** is for connecting an agent to **another autonomous agent** that has its own reasoning loop, memory and multi-turn task lifecycle.\n\nIt is a carpenter using MCP to pick up a power drill (a tool), and using A2A to hire an electrician (another specialist) to wire the room.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -62,31 +146,115 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9-XSGOTLi924_1",
+          "type": "multiple_choice",
+          "prompt": "How do MCP and A2A complement each other in an agent system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "MCP connects an agent to tools and data sources, while A2A connects an agent to other autonomous agents"
+            },
+            {
+              "id": "b",
+              "text": "MCP is only for images and A2A is only for audio"
+            },
+            {
+              "id": "c",
+              "text": "They are competing names for the exact same database driver"
+            },
+            {
+              "id": "d",
+              "text": "Neither protocol can be used over a network"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Use MCP when calling tools and reading resources, and A2A when delegating a task to another reasoning agent.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Bq9RaMrTbTp2",
       "title": "Both are open standards hosted by the Linux Foundation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Both MCP (started by Anthropic) and A2A (started by Google) were contributed to the Linux Foundation (under the Agentic AI Foundation) so that no single AI vendor owns the plumbing of the agent ecosystem. Check the current details for member lists and governance updates.\n\nFor an AI consultant advising a client, open governance matters. It means a client can expose internal tools via MCP or specialist agents via A2A today without locking their architecture to a single model provider or cloud platform.\n\nIt is USB-C: because the connector is an open standard, your charger, monitor and laptop do not all have to come from the same manufacturer.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Bq9RaMrTbTp2_1",
+          "type": "multiple_choice",
+          "prompt": "Why does it matter to clients that protocols like MCP and A2A are open standards under neutral governance?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It means the Linux Foundation pays the client's API bills"
+            },
+            {
+              "id": "b",
+              "text": "Open standards never need security authentication"
+            },
+            {
+              "id": "c",
+              "text": "It forces every company to make their private customer data public"
+            },
+            {
+              "id": "d",
+              "text": "Clients can connect tools and agents across different clouds and model providers without vendor lock-in"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Vendor-neutral open standards let organisations swap models and frameworks without rebuilding their integrations.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_DaTeGcuFTE7K",
       "title": "Agent cards: how an agent advertises what it can do",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In the A2A protocol, each remote agent publishes an **Agent Card**, typically a JSON document hosted at a well-known URL such as `/.well-known/agent.json`. Check the current details in the A2A specification.\n\nThe Agent Card states who the agent is, what skills and tasks it supports, what input and output modes it accepts, its endpoint URL and what authentication scheme callers must use. A client or orchestrator agent reads these cards to discover which remote agent can handle a sub-task.\n\nIt is a tradesperson's business card listing their qualifications, services, phone number and call-out hours.\n\nClear capability descriptions on the card help orchestrators route work accurately.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DaTeGcuFTE7K_1",
+          "type": "multiple_choice",
+          "prompt": "What is an Agent Card in the A2A protocol?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A physical credit card given to the AI to buy software"
+            },
+            {
+              "id": "b",
+              "text": "A machine-readable JSON metadata document where an agent advertises its skills, endpoint and authentication requirements"
+            },
+            {
+              "id": "c",
+              "text": "A birthday card sent to users by a chatbot"
+            },
+            {
+              "id": "d",
+              "text": "A graphics card inside a server rack"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "An Agent Card lets other agents and orchestrators discover what a remote agent can do and how to call it securely.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

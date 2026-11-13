@@ -5,44 +5,128 @@
     {
       "id": "bit_MBcg-5R3R02I",
       "title": "Writing an agent architecture spec",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent architecture specification is the master design document that explains how an entire AI system will work end to end before the team builds it. It covers the business problem, user journey, chosen pattern (workflow, single agent, or multi-agent), model choices, retrieval sources, tool permissions, guardrails, evaluation metrics, and operational runbooks.\n\nThink of it as the complete charter for an expedition, showing the route, supplies, radio frequencies, and rescue plan so the client's engineering, security, and legal teams can all sign off together.\n\nWriting this document exposes missing data sources or unapproved tool permissions in week one, when changing the design costs an afternoon rather than a three-month rewrite.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_MBcg-5R3R02I_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary business value of writing an agent architecture spec before starting implementation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It allows the consulting team to skip building any evaluations or guardrails later in the project"
+            },
+            {
+              "id": "b",
+              "text": "It automatically trains a custom foundation model using the words in the document"
+            },
+            {
+              "id": "c",
+              "text": "It aligns engineering, security, and business stakeholders early and uncovers missing data, permission risks, or design flaws while changes are still cheap"
+            },
+            {
+              "id": "d",
+              "text": "It guarantees that the model provider will never deprecate an API version in the future"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "An upfront architecture spec surfaces hidden integration hurdles, security gaps, and misaligned expectations on paper before expensive engineering time is spent.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_oa5VcTGKZFhN",
       "title": "Threat modelling and failure analysis",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Threat modelling and failure analysis systematically ask two questions of your architecture design: how could a malicious attacker abuse this system, and how could the system fail accidentally under normal use? You walk through every input, retrieval store, model step, and tool call to list potential prompt injections, data leaks, hallucinations, rate-limit crashes, and runaway loops, along with the specific control that mitigates each one.\n\nIt is like a bridge engineer calculating both what happens during an accidental fifty-year storm and how to secure the maintenance hatches against deliberate vandalism.\n\nPutting a clear threat and failure table inside your design document gives enterprise security reviewers immediate confidence that you take safety seriously.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oa5VcTGKZFhN_1",
+          "type": "multiple_choice",
+          "prompt": "How do threat modelling and failure analysis complement each other in an agent design document?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Threat modelling is done only after a breach occurs, while failure analysis is done only for hardware servers"
+            },
+            {
+              "id": "b",
+              "text": "Threat modelling examines how malicious attackers could exploit the system, while failure analysis examines how components could break or misbehave accidentally"
+            },
+            {
+              "id": "c",
+              "text": "Threat modelling measures token cost, while failure analysis measures user interface colour contrast"
+            },
+            {
+              "id": "d",
+              "text": "Threat modelling applies only to open-weight models, while failure analysis applies only to closed APIs"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A resilient design must account for both adversarial abuse (such as prompt injection and data theft) and non-malicious operational failures (such as API timeouts, hallucinations, and runaway loops).",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_I5G1JQYhqd7f",
       "title": "Diagrams: components, data flows, and trust boundaries",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Architecture diagrams show visually how components connect, which direction data flows at each step, and where trust boundaries sit between untrusted inputs, the language model, and privileged internal systems. Marking trust boundaries with a clear dotted line makes it obvious where untrusted external text enters the pipeline and where deterministic permission checks or human approvals must stand guard.\n\nIt is like a castle floor plan that clearly marks the public outer courtyard, the guarded drawbridge, and the locked inner treasury so everyone can see where visitors are stopped and searched.\n\nA single clear diagram showing components, data arrows, and trust boundaries communicates more in five seconds to a client CTO than ten pages of dense prose.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_I5G1JQYhqd7f_1",
+          "type": "multiple_choice",
+          "prompt": "Why is drawing explicit trust boundaries on an agent architecture diagram so valuable during a design review?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the slide deck look more colourful for the marketing department"
+            },
+            {
+              "id": "b",
+              "text": "Cloud providers automatically read architecture diagrams to configure firewall rules without code"
+            },
+            {
+              "id": "c",
+              "text": "Trust boundaries reduce the number of vector dimensions needed in the embedding database"
+            },
+            {
+              "id": "d",
+              "text": "It visually highlights every point where untrusted data or unverified model outputs cross into privileged systems, showing exactly where security controls are needed"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Marking trust boundaries shows reviewers immediately where untrusted external content enters the system and where deterministic validation or human gates must sit before privileged actions execute.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_s8ls-34cu4iz",
       "title": "Cost and latency estimates before building",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Estimating cost and latency on paper before building prevents the painful surprise of launching an agent that works accurately in a demo but is too slow or expensive for real client traffic. You estimate latency by adding up the sequential model calls, average input and output tokens, and tool response times along the critical path, and estimate cost by multiplying expected token volumes and tool fees by daily request counts.\n\nFor example, if a multi-agent workflow makes eight sequential frontier-model calls taking four seconds and £0.08 each, a customer waiting 32 seconds on a live phone line or a client processing 100,000 daily tickets at £8,000 a day will reject the design immediately.\n\nDoing this five-minute back-of-the-envelope calculation early tells you whether you need parallel steps, caching, or smaller models from the start.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,7 +139,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_s8ls-34cu4iz_1",
+          "type": "multiple_choice",
+          "prompt": "How do you estimate the end-to-end latency of an agentic workflow before writing the code?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Sum the expected duration of the sequential model calls and tool executions along the critical path of a typical request"
+            },
+            {
+              "id": "b",
+              "text": "Multiply the total number of lines in the system prompt by the number of engineers on the team"
+            },
+            {
+              "id": "c",
+              "text": "Divide the monthly cloud budget by the number of customers in the database"
+            },
+            {
+              "id": "d",
+              "text": "Check the clock speed of the user's mobile phone processor"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because sequential steps wait for one another, summing the time to first token, token generation time, and tool execution time across sequential steps reveals whether the workflow fits the user's wait-time budget.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

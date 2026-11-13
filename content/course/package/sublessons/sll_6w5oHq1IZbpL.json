@@ -5,62 +5,202 @@
     {
       "id": "bit_N16ISLfVxfKt",
       "title": "Genomics, transcriptomics, proteomics, metabolomics",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Genomics, transcriptomics, proteomics, and metabolomics are the four major molecular profiling layers that measure DNA sequence, RNA transcripts, protein abundance, and small-molecule metabolites respectively. Together they capture the cascade from inherited genetic potential through active cellular expression to real-time biochemical state and phenotype.\n\nIt is like auditing a manufacturing business by inspecting its engineering patents, daily production schedules, active factory machinery, and finished goods inventory.\n\nEach layer requires distinct laboratory instruments, such as nucleotide sequencers for genomics and transcriptomics versus mass spectrometers or affinity panels for proteomics and metabolomics, each with different dynamic ranges and missing-value behaviours.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_N16ISLfVxfKt_1",
+          "type": "multiple_choice",
+          "prompt": "What do genomics, transcriptomics, proteomics, and metabolomics respectively measure?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Cell size, tissue weight, organ temperature, and blood flow velocity"
+            },
+            {
+              "id": "b",
+              "text": "Bacterial genomes, viral genomes, fungal genomes, and plant genomes"
+            },
+            {
+              "id": "c",
+              "text": "Exons, introns, telomeres, and centromeres within a single chromosome"
+            },
+            {
+              "id": "d",
+              "text": "DNA sequences, RNA transcripts, proteins, and small-molecule metabolites"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Each omics layer targets a specific class of biological molecule: DNA (genomics), RNA (transcriptomics), proteins (proteomics), and metabolites (metabolomics).",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2zLcBsdBHrMT",
       "title": "Multi-omics integration (intuition)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Multi-omics integration is the computational combination of two or more molecular layers, such as genomics, transcriptomics, and proteomics, from the same biological samples or cohorts to build a unified model of disease or cell behaviour. By linking genetic variants to expression changes and downstream protein or metabolite shifts, analysts can trace causal pathways and stratify patients more accurately.\n\nIt is like combining satellite weather radar, ground temperature sensors, and barometric pressure readings to forecast a storm far better than any single sensor could alone.\n\nA major practical limit in client projects is sample drop-off and high dimensionality: adding more features across sparse cohorts easily triggers overfitting unless carefully regularised.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2zLcBsdBHrMT_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary goal of multi-omics integration in biomedical analysis?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Replacing all wet-lab experiments with a single synthetic simulation of DNA"
+            },
+            {
+              "id": "b",
+              "text": "Compressing FASTQ and BAM files into a smaller archive format for cloud storage"
+            },
+            {
+              "id": "c",
+              "text": "Combining measurements across multiple molecular layers to connect genetic drivers with downstream expression and functional states"
+            },
+            {
+              "id": "d",
+              "text": "Averaging unrelated patient cohorts from different species into one dataset"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Multi-omics integration links complementary molecular layers from the same samples or systems to uncover biological mechanisms and improve predictive biomarkers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_8K0H31DJzAHn",
       "title": "DNA is the blueprint; RNA shows what is active; proteins do the work",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Across the omics hierarchy, DNA represents the static genetic blueprint of what a cell could potentially produce, RNA reveals which genetic programmes are actively being transcribed right now, and proteins execute the actual enzymatic, signalling, and structural work. Measuring only one layer answers only part of a clinical or drug-discovery question.\n\nIt is like a commercial kitchen where the recipe binder lists every dish the restaurant knows, the ticket rail shows current orders in progress, and the plated dishes on the pass represent what diners actually consume.\n\nWhen advising pharma clients on drug targets, remember that most therapeutics bind to proteins, even though RNA is much easier and cheaper to measure at genome scale.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8K0H31DJzAHn_1",
+          "type": "multiple_choice",
+          "prompt": "Why is measuring DNA alone often insufficient for understanding how a tissue responds to a drug treatment?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Drug treatments immediately erase chromosomes from treated cells"
+            },
+            {
+              "id": "b",
+              "text": "DNA remains mostly static as a blueprint, whereas RNA and proteins dynamically change to reflect active cellular responses and functional work"
+            },
+            {
+              "id": "c",
+              "text": "DNA can only be sequenced from hair follicles and not from diseased organs"
+            },
+            {
+              "id": "d",
+              "text": "Proteins and RNA carry no relationship to the genes encoded in DNA"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "While DNA shows static genetic risk and mutations, dynamic treatment responses are captured by active RNA transcription and functional protein activity.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_86B5C_kNMAdx",
       "title": "The layers do not line up perfectly: RNA levels do not equal protein levels",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Messenger RNA abundance frequently correlates only moderately with the actual abundance or activity of the corresponding protein in a cell. Factors such as translation efficiency, microRNA inhibition, variable protein half-lives, and post-translational modifications like phosphorylation mean that high RNA counts do not guarantee high active protein levels.\n\nIt is like comparing the number of job requisitions posted by a company against the actual headcount working on the floor, which also depends on hiring speed and staff turnover.\n\nAI consultants training models on transcriptomic data to predict drug response must warn stakeholders that RNA is an imperfect proxy for target protein engagement.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_86B5C_kNMAdx_1",
+          "type": "multiple_choice",
+          "prompt": "Why do messenger RNA levels often fail to match protein abundance in the same sample?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Ribosomes translate introns instead of exons whenever RNA levels are high"
+            },
+            {
+              "id": "b",
+              "text": "Mass spectrometers convert proteins back into RNA during measurement"
+            },
+            {
+              "id": "c",
+              "text": "Every messenger RNA molecule is destroyed before it can ever be translated"
+            },
+            {
+              "id": "d",
+              "text": "Translation rates, RNA stability, and protein degradation half-lives vary widely across genes and conditions"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Post-transcriptional regulation, translation efficiency, and differing protein turnover rates break any simple one-to-one proportionality between mRNA and protein levels.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_WmPhQRBvz17l",
       "title": "Samples, batches, and metadata matter as much as the measurements",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Biological sample quality, processing batches, and clinical metadata are just as decisive for downstream AI modelling as the molecular measurements themselves. Batch effects, which are systematic non-biological differences introduced by reagent lots, technicians, sequencing centres, or sample storage times, can easily overwhelm true biological signals if experimental design confounds disease status with processing day.\n\nIt is like training a credit-risk model where all defaulting loans were scanned on one dark photocopier and all repaid loans on a bright scanner, causing the model to learn page brightness instead of financial risk.\n\nNo normalisation algorithm can rescue a dataset where all case samples were processed in Batch A and all controls in Batch B.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WmPhQRBvz17l_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it dangerous to process all disease samples in one laboratory batch and all healthy control samples in a separate batch?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Technical batch effects become completely confounded with disease status, making it impossible to separate lab artefacts from true biology"
+            },
+            {
+              "id": "b",
+              "text": "Sequencing machines refuse to start unless healthy and diseased samples are mixed in the same tube"
+            },
+            {
+              "id": "c",
+              "text": "Healthy control DNA degrades twice as fast when sequenced on a Tuesday"
+            },
+            {
+              "id": "d",
+              "text": "Batch numbers overwrite the reference genome coordinates inside BAM files"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "When experimental condition aligns perfectly with processing batch, technical variation cannot be statistically disentangled from the biological difference of interest.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

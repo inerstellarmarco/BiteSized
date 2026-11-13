@@ -5,62 +5,202 @@
     {
       "id": "bit_2LoRE3ILGr5z",
       "title": "Rubric design and pairwise comparison",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When an output is open-ended prose and you need to evaluate qualities like faithfulness, completeness or tone, **LLM-as-a-Judge** uses a language model with a grading prompt to score the response.\n\nThere are two main ways to set up the judge. In **direct rubric grading**, the judge evaluates one output against a written checklist and returns pass/fail (or a rubric breakdown). In **pairwise comparison**, the judge is shown two outputs side by side (for example, Prompt v1 vs Prompt v2 on the same input) and asked which better satisfies the rubric.\n\nIt is a wine tasting where a judge either scores one glass against a checklist or tastes two glasses blind to pick the better one.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2LoRE3ILGr5z_1",
+          "type": "multiple_choice",
+          "prompt": "What are the two main ways to structure an LLM-as-a-Judge evaluation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Asking the model to guess the developer's birthday, or counting the vowels"
+            },
+            {
+              "id": "b",
+              "text": "Direct grading of a single output against a rubric, or pairwise comparison of two outputs on the same input"
+            },
+            {
+              "id": "c",
+              "text": "Running the database without indexes, or deleting the prompt"
+            },
+            {
+              "id": "d",
+              "text": "Training a model from scratch on every single test case"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Direct rubric scoring gives an absolute pass rate, while pairwise comparison spots subtle differences between two versions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_vQliAH-fGxqP",
       "title": "Judge bias and calibration with human labels",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "LLM judges have well-documented biases you must guard against.\n\n**Length (verbosity) bias**: judges tend to prefer longer, more detailed-looking answers even when the extra paragraphs are waffle. **Position bias**: in pairwise comparisons, judges often favour whichever answer is shown first. **Self-preference bias**: a model often grades outputs written by its own model family more generously.\n\nIt is an examiner who gets dazzled by neat handwriting and three extra pages of padding.\n\nMitigate position bias by running each pairwise test twice with the order swapped, and **calibrate** your judge prompt against 50 to 100 human-labelled examples until the judge agrees with your human domain experts.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vQliAH-fGxqP_1",
+          "type": "multiple_choice",
+          "prompt": "How do you check whether an LLM judge can be trusted on your task?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Assume any frontier model is 100% unbiased out of the box"
+            },
+            {
+              "id": "b",
+              "text": "Always put your favourite prompt in Position A so it wins"
+            },
+            {
+              "id": "c",
+              "text": "Make outputs twice as long so the judge likes them more"
+            },
+            {
+              "id": "d",
+              "text": "Compare the judge's scores against a set of human-labelled examples and refine the rubric until agreement is high"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Calibrating the judge prompt against human labels exposes verbosity or position bias and proves the judge measures what you care about.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_47QRxt-xVQdG",
       "title": "One criterion per judge works better than one overall score",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "If you ask one judge prompt to \"evaluate this response for factual accuracy, completeness, British spelling, polite tone and conciseness, and give an overall verdict\", the judge muddles the criteria together. A charmingly polite hallucination gets a pass.\n\nSplit distinct criteria into separate, focused checks (or separate boolean fields in a structured schema, each with its own short reasoning step). Have one check verify **faithfulness to the sources**, a second verify **completeness against the user question**, and a third check **tone and policy compliance**.\n\nIt is a car safety inspection that checks brakes, tyres and lights on separate lines of the form rather than asking \"is this car nice overall?\".",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_47QRxt-xVQdG_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an LLM judge evaluate one clear criterion at a time rather than giving a single blended \"quality\" verdict?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Models cannot read more than ten words in a prompt"
+            },
+            {
+              "id": "b",
+              "text": "A single blended score makes it obvious which exact rule failed"
+            },
+            {
+              "id": "c",
+              "text": "Focused criteria prevent a strength in one area (such as polite tone) from masking a failure in another (such as a wrong fact)"
+            },
+            {
+              "id": "d",
+              "text": "Separate criteria allow hallucinations to pass automatically"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Grading each dimension separately gives you reliable verdicts and tells you straight away whether a drop came from accuracy, completeness or tone.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_UQtxZiKWFksp",
       "title": "Pass or fail is easier to trust than a 1-to-10 score",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Ask an LLM judge (or a human) to rate an answer on a scale from 1 to 10 and you will see numbers cluster vaguely around 7 and 8, with no clear difference between a 6 and a 7. Worse, the same prompt run tomorrow may get a 7 instead of an 8.\n\nBinary **pass/fail** decisions (or at most a three-point scale: `pass`, `borderline`, `fail` with explicit definitions for each) are far more consistent and actionable. \"Did the reply state all three required figures from the table without adding unverified claims? `true` or `false`.\"\n\nIt is a driving test: at the end of the hour you either passed or you failed; a score of \"6.4 out of 10\" does not tell you whether you can drive home.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_UQtxZiKWFksp_1",
+          "type": "multiple_choice",
+          "prompt": "Why are binary pass/fail judge criteria generally better than a 1-to-10 numeric scale?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Pass/fail forces a clear boundary definition and produces much more consistent, repeatable scores than vague middle numbers like 6 or 7"
+            },
+            {
+              "id": "b",
+              "text": "Models do not know the numbers between 2 and 9"
+            },
+            {
+              "id": "c",
+              "text": "A 1-to-10 scale is too strict and never gives a 7"
+            },
+            {
+              "id": "d",
+              "text": "Binary scores cannot be aggregated into a percentage pass rate across a dataset"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Clear binary checks per criterion aggregate cleanly into a dataset pass rate (e.g. 92% passed) without noisy 1-to-10 guesswork.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_sy9U_nku-pcl",
       "title": "A judge is a prompt too: version and test it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "It is easy to forget that an LLM judge is itself an AI system made of a prompt, a model and a schema.\n\nIf you silently edit the judge prompt or let the provider auto-update the judge model while you are comparing two versions of your agent, your ruler changed length in the middle of measuring the room. Keep your judge prompts in version control alongside your code, pin the exact judge model version, and maintain a small golden set of known-good and known-bad answers to unit-test the judge itself.\n\nIt is checking your kitchen scales with a known 1 kg weight before weighing the flour for a wedding cake.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_sy9U_nku-pcl_1",
+          "type": "multiple_choice",
+          "prompt": "Why must you version-control your judge prompts and test them against known-good and known-bad examples?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because a change or bug in the judge changes your evaluation scores even if the agent itself did not change"
+            },
+            {
+              "id": "b",
+              "text": "Because judge prompts are sent directly to end users in chat"
+            },
+            {
+              "id": "c",
+              "text": "Because version control makes API calls free"
+            },
+            {
+              "id": "d",
+              "text": "Because a judge never needs a model name"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Treating the judge as versioned, tested code ensures that changes in your eval score reflect real changes in your agent, not drift in your ruler.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

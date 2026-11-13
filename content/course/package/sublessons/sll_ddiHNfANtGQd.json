@@ -5,44 +5,128 @@
     {
       "id": "bit_FHuHdylEq3d6",
       "title": "Dashboards for quality, cost, and latency",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A useful LLMOps dashboard shows the health of your AI system on one screen, grouped into three panels that you can read in thirty seconds.\n\nPanel 1 is **Quality & Safety**: task completion rate, user acceptance/edit rate, thumbs-up/down ratio, guardrail block rate, empty-retrieval rate and sampled judge pass rates. Panel 2 is **Cost & Volume**: requests per hour, total and per-task token spend, cache hit rate and top-spending tenants. Panel 3 is **Latency & Reliability**: TTFT, p50 and p95 end-to-end duration, step counts, provider error/`429` rates and fallback triggers.\n\nIt is a car dashboard showing speed, fuel level and warning lights without burying the driver in fifty dials.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FHuHdylEq3d6_1",
+          "type": "multiple_choice",
+          "prompt": "Why should a latency dashboard show the 95th percentile (`p95`) alongside the median (`p50`)?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The median can look fast even when 1 in 20 users is stuck waiting thirty seconds in a slow multi-step tail"
+            },
+            {
+              "id": "b",
+              "text": "`p95` and `p50` are always the exact same number"
+            },
+            {
+              "id": "c",
+              "text": "Only the fastest single request of the day matters to users"
+            },
+            {
+              "id": "d",
+              "text": "`p95` measures how many tokens are in the system prompt"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Tracking `p95` (and `p99`) exposes the slow tail of multi-step or retried agent runs that average latency hides.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rj_I2HkA3LPR",
       "title": "Alerting and trace-based debugging",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Dashboards are for humans looking at a screen; **alerts** are for waking you up when something breaks while nobody is watching.\n\nConfigure automated alerts on clear symptom thresholds: provider error or fallback rate jumping above 5%, `p95` latency doubling, hourly token spend crossing a budget ceiling, empty-retrieval rate spiking (often a broken index update), or a sudden drop in user acceptance rate. Every alert notification should link directly to a filtered list of the **failing traces** from that time window so the on-call engineer can click straight into the exact span that broke.\n\nIt is a fire alarm control panel that shows which floor and room detector triggered, not just a bell ringing in the street.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rj_I2HkA3LPR_1",
+          "type": "multiple_choice",
+          "prompt": "What makes an operational alert actionable for an engineer responding to an AI incident?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Sending an email every time a single request succeeds normally"
+            },
+            {
+              "id": "b",
+              "text": "Alerting with no timestamp, no metric and no link to logs"
+            },
+            {
+              "id": "c",
+              "text": "Firing on clear symptom thresholds (cost spikes, error/fallback rates, latency or quality drops) with a direct link to the failing traces"
+            },
+            {
+              "id": "d",
+              "text": "Waiting until the monthly invoice arrives to check for runaway loops"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Tying threshold alerts directly to the matching traces cuts time-to-diagnosis from hours to minutes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_IDf3fE12RMkz",
       "title": "Reading real traces every week",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Automated metrics and LLM judges only catch the failure modes you already thought to write checks for. They never notice the new, weird way users started phrasing requests this week or the subtle awkwardness in a new tool's output.\n\nThe single best habit in applied AI is a **weekly trace review**. Block thirty minutes every week to read 20 to 30 real production traces end to end: 10 random runs, 10 runs where the user edited, undid or gave a thumbs-down, and 10 slow or multi-step runs.\n\nIt is a shop owner spending an hour on the shop floor every Friday watching customers browse and listening to questions at the till.\n\nTeams that read real traces every week spot problems weeks before they show up on a chart.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IDf3fE12RMkz_1",
+          "type": "multiple_choice",
+          "prompt": "Why is reading a sample of real production traces every week essential even when you have automated dashboards and LLM judges?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Dashboards cannot display numbers or charts"
+            },
+            {
+              "id": "b",
+              "text": "Automated checks only measure known failure modes, whereas reading real traces uncovers unexpected user behaviour and new failure patterns"
+            },
+            {
+              "id": "c",
+              "text": "Reading twenty traces takes six months of full-time work"
+            },
+            {
+              "id": "d",
+              "text": "LLM judges are 100% omniscient and never miss a new bug"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Regular human eyes on real traces discover the unknown unknowns that you then turn into new automated checks and evals.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Hlc_ZkkSpkSf",
       "title": "After an incident: fix it, then add a test",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a production incident happens (a bad hallucination reaches a client, a prompt injection slips through, or a retry loop burns £200), handle it in three calm steps.\n\nFirst, **stop the bleeding**: flip the feature flag, roll back the prompt/index or tighten the budget cap in minutes. Second, **diagnose from the trace**: find the exact span and input that caused the failure and ship the code, tool or guardrail fix. Third, **lock the door**: add that exact incident trace as a permanent test case in your CI evaluation and security regression suite, and hold a brief blameless review on how to catch that class of issue earlier next time.\n\nIt is repairing a burst pipe, turning the water back on and lagging the pipe so next winter's frost cannot burst it again.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,7 +139,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Hlc_ZkkSpkSf_1",
+          "type": "multiple_choice",
+          "prompt": "What is the final step after mitigating and fixing a production AI incident?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Deleting the incident trace so the dashboard looks clean"
+            },
+            {
+              "id": "b",
+              "text": "Turning off all alerts so you do not get woken up again"
+            },
+            {
+              "id": "c",
+              "text": "Adding the failing scenario from the incident trace into your automated CI evaluation suite so that class of failure cannot silently recur"
+            },
+            {
+              "id": "d",
+              "text": "Blaming the user who typed the request"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Every resolved incident should leave behind a permanent regression test and guardrail so your system gets tougher over time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,535 @@
+// C5 C5 Transformer Internals & LLM Inference
+
+@@ sll_XwWRavHhAknZ | C5.1 Attention in Depth > Self-Attention Mechanics
+
+## Query, key, value matrices
+Self-attention begins by projecting each input token's embedding vector through three separate learned weight matrices to produce three new vectors: a Query (Q), a Key (K), and a Value (V). The Query represents what the current token is looking for, the Key acts as a label describing what each token can offer, and the Value holds the actual content to pass forward when a match is found.
+
+It is like searching a digital library: your search phrase is the Query, the index tags on each book spine are the Keys, and the pages inside the matching books are the Values.
+
+Because the projection matrices are learned during training, the model discovers for itself what kinds of questions to ask and what information to extract for downstream tasks.
+
+?? What are the distinct roles of the Query, Key, and Value vectors in self-attention?
++ The Query searches for relevant context, the Key labels what each token offers, and the Value provides the content to blend
+- The Query stores the final output, the Key encrypts the weights, and the Value deletes unused tokens
+- The Query counts the tokens, the Key sorts them alphabetically, and the Value translates them into integers
+- The Query applies dropout, the Key computes layer normalisation, and the Value updates the learning rate
+= Self-attention compares Queries against Keys to determine relevance weights, then uses those weights to combine the corresponding Values.
+
+## Scaled dot-product attention
+Scaled dot-product attention is the core formula that lets every token in a sequence gather context from every other token in a single matrix operation. It computes the dot product between the Query matrix and the transposed Key matrix, divides by a scaling factor, applies a softmax function to turn raw scores into probabilities, and multiplies those probabilities by the Value matrix.
+
+Think of a committee chair polling specialists around a table, weighting each person's input by how closely their expertise matches the question on the floor, and combining their answers into one briefing note.
+
+Because the entire calculation relies on standard matrix multiplications, GPUs can execute scaled dot-product attention across all tokens in a sequence in parallel during training, unlike older recurrent networks that had to step through words one by one.
+
+?? Why can scaled dot-product attention train much faster on modern GPUs than recurrent neural networks?
++ It computes token-to-token interactions across the whole sequence in parallel using matrix multiplications
+- It ignores all previous tokens in a sentence and only looks at the final word
+- It requires no trainable weight parameters inside the attention block
+- It operates exclusively on 1-bit integer values without any floating-point arithmetic
+= By expressing all pairwise token comparisons as dense matrix operations, self-attention avoids the sequential step-by-step bottleneck of recurrent architectures.
+
+## Attention masks
+An attention mask is a matrix of zeros and negative infinities added to the raw Query-Key attention scores right before the softmax step to control which tokens are allowed to attend to which other tokens. Adding zero leaves a score unchanged, while adding negative infinity drives the post-softmax probability to exact zero so the blocked token contributes nothing to the output.
+
+It is like putting privacy screens between exam desks so a candidate can read only the allowed reference sheets and cannot peek at prohibited pages.
+
+In practice, attention masks serve two everyday engineering purposes: padding masks stop real tokens from attending to dummy pad tokens added to make batch sequences the same length, and causal masks stop autoregressive decoders from looking ahead at future tokens during training.
+
+?? How does an attention mask prevent a token from attending to a forbidden position before the softmax step?
++ It adds negative infinity to the raw attention score at that position so its softmax probability becomes zero
+- It multiplies the Value vector by a random Gaussian noise tensor after the layer finishes
+- It deletes the forbidden token's embedding from the vocabulary matrix permanently
+- It sets the learning rate for that specific token to negative one during backpropagation
+= Because the exponential of negative infinity is zero, masking scores with negative infinity before softmax guarantees zero attention weight on blocked positions.
+
+## Scores are queries times keys, scaled by the square root of the key size
+To measure how strongly token i should attend to token j, self-attention takes the dot product of token i's Query vector and token j's Key vector, and then divides that dot product by the square root of the key dimension ($\sqrt{d_k}$). Without that division, as the vector dimension $d_k$ grows larger, the variance of the dot products grows proportionally, pushing the numbers to extreme positive and negative values.
+
+Imagine a panel of judges where adding more sub-scores makes the total tally balloon; dividing by the scale keeps the final number in a sensible band so one slight lead does not look like a landslide.
+
+If raw dot products become huge, the softmax function saturates into a sharp one-hot peak where gradients vanish to nearly zero. Scaling by $\sqrt{d_k}$ keeps the variance near one and preserves healthy gradients throughout training.
+
+?? Why does scaled dot-product attention divide the Query-Key dot products by the square root of the key dimension?
++ To prevent large dot products from pushing the softmax into regions where gradients vanish
+- To ensure that the output matrix has fewer columns than the input matrix
+- To convert floating-point attention scores into discrete integer token IDs
+- To force every token in the sequence to receive an equal attention weight
+= As dimension $d_k$ increases, dot product magnitudes grow and saturate the softmax; dividing by $\sqrt{d_k}$ keeps scores moderate and gradients informative.
+
+## Softmax turns scores into weights; the output is a weighted sum of values
+Once the scaled Query-Key scores are computed and masked, a row-wise softmax function converts each token's row of arbitrary real numbers into a clean probability distribution where every weight is positive and the whole row sums to 1.0. The layer then multiplies each token's Value vector by its assigned attention weight and sums them up to create the new contextualised representation.
+
+It is like blending a custom paint colour by mixing 70 per cent of tin A, 20 per cent of tin B, and 10 per cent of tin C according to a precise recipe card.
+
+Because the output is a weighted average of Value vectors, a single attention head can either focus sharply on one specific token (a weight near 1.0) or blend context smoothly across several related words in a clause.
+
+?? What property does the row-wise softmax enforce on the attention weights for a given query token?
++ All attention weights in the row are non-negative and sum to exactly 1.0
+- Every weight in the row is either negative one or positive one
+- The weights are sorted in strictly ascending order from left to right
+- The sum of the weights equals the total number of layers in the model
+= Applying softmax across keys turns raw similarity scores into a valid probability distribution that acts as mixing weights over the Value vectors.
+
+## Causal mask: tokens cannot see the future
+A causal mask (also called an autoregressive or look-ahead mask) is an upper-triangular attention mask that blocks every token at position t from attending to any token at position t+1 or later. In matrix form, all entries above the main diagonal are set to negative infinity before the softmax, leaving only the lower triangle and diagonal active.
+
+Think of reading a mystery novel page by page with a bookmark covering the rest of the chapter so you must guess what happens next using only the clues revealed so far.
+
+This triangular mask is the trick that makes decoder training efficient: the model can process an entire training document in a single parallel forward pass and compute next-token loss at every position simultaneously, without any position ever cheating by peeking ahead at the answer token.
+
+?? Why is a causal mask essential when training an autoregressive decoder language model in parallel?
++ It stops each token position from peeking at future tokens that it is supposed to predict
+- It doubles the context window length without using any extra GPU memory
+- It allows the model to read the prompt backwards from the last word to the first
+- It removes the need for positional encodings in the transformer block
+= Without a causal mask, a parallel forward pass would let token t attend directly to token t+1, turning next-token prediction into trivial copying.
+
+## Cost grows with the square of the sequence length
+In standard self-attention, every token in a sequence of length N compares its Query against the Keys of all N tokens, creating an N-by-N attention matrix per head. As a result, both computation and naive attention memory scale quadratically with sequence length ($O(N^2)$): doubling a client's prompt from 4,000 to 8,000 tokens quadruples the work inside the self-attention operation.
+
+It is like clinking glasses at a dinner party: with four guests there are six clinks, with forty guests there are 780, and in a stadium the number of pairs explodes.
+
+While hardware-aware tiled attention kernels avoid writing the full N-by-N matrix to slow GPU main memory by keeping intermediate calculations in fast on-chip SRAM, the underlying compute still grows quadratically with sequence length, making long-context prompts substantially more expensive for clients.
+
+?? If the input sequence length to a standard self-attention layer increases by a factor of four, how does the number of pairwise token comparisons change?
++ It increases by a factor of sixteen because self-attention scales with the square of sequence length
+- It increases by a factor of two because only half the tokens are compared
+- It stays completely unchanged because attention cost depends only on vocabulary size
+- It decreases by a factor of four because longer prompts compress the weight matrices
+= Comparing all N queries against all N keys produces $N^2$ pairs, so quadrupling N multiplies the pairwise attention work by sixteen.
+
+@@ sll_H13dngJMN8Or | C5.1 Attention in Depth > Multi-Head Attention & Positions
+
+## Multi-head attention
+Multi-head attention splits the embedding dimension into several smaller subspaces called heads, runs scaled dot-product attention independently in each head with its own Query, Key, and Value projections, and then concatenates the head outputs and passes them through a final output projection matrix. Rather than computing one single attention pattern over a 4,096-dimensional vector, a model might run 32 parallel heads of 128 dimensions each.
+
+Imagine reviewing a commercial contract with a team of specialists: the lawyer checks liability clauses, the accountant checks payment terms, and the engineer checks delivery dates, before combining their findings into one summary.
+
+Splitting into multiple heads costs roughly the same total compute and parameter count as a single full-width head, but gives the layer far greater expressiveness.
+
+?? How does multi-head attention keep its total computational cost similar to single-head attention of the same model width?
++ It divides the model's hidden dimension across the heads so each head operates on smaller vectors
+- It runs only one randomly chosen head per forward pass and skips the others
+- It forces all attention heads to share the exact same Query and Key weight matrices
+- It drops seventy-five per cent of the input tokens before computing the dot products
+= By setting each head's dimension to the total model dimension divided by the number of heads, the total matrix multiplication work remains constant.
+
+## Positional encodings (sinusoidal, RoPE)
+Because self-attention treats its input as an unordered bag of tokens, positional encodings inject explicit sequence-order signals into the model so it can tell which word came first and how far apart two tokens sit. Early transformers added fixed sinusoidal waves of different frequencies to the input token embeddings at the bottom of the network, while modern large language models typically apply Rotary Position Embeddings (RoPE) directly inside each attention layer.
+
+It is like numbering the pages of a loose-leaf manuscript before handing it to an editor, so even if the sheets are examined side by side, their sequence is unmistakable.
+
+The design of the positional encoding strongly affects whether a model can handle documents longer than the sequences it saw during training.
+
+?? What is the primary purpose of positional encodings in a transformer architecture?
++ To give the model information about token order and relative distance in the sequence
+- To compress the vocabulary size by merging synonyms into a single vector
+- To encrypt user prompts so they cannot be logged by the inference server
+- To replace the feed-forward neural network inside each transformer layer
+= Self-attention is naturally permutation-equivariant, so positional encodings are required to distinguish word order and token spacing.
+
+## Heads attend to different relationships in parallel
+Because each attention head in a layer has its own independent projection matrices, different heads specialise in tracking different linguistic, structural, or logical relationships at the same time. When researchers inspect trained transformers, they find some heads tracking grammar (linking a pronoun like "it" back to the right noun), others attending to the immediately preceding token, and others matching opening and closing brackets in source code.
+
+Think of air traffic controllers watching the same radar screen through different filters: one tracks altitude separation, another monitors runway queues, and a third watches weather fronts.
+
+If a layer had only a single attention head, averaging all those competing softmax distributions together would blur distinct relationships into an unhelpful compromise.
+
+?? Why is having multiple independent softmax distributions per layer useful when processing complex text or code?
++ One token often needs to gather information from several different places for grammar, meaning, and formatting at once
+- Multiple softmax calculations guarantee that the model's output contains zero factual hallucinations
+- Having multiple heads allows the model to skip backpropagation on half of the layers
+- Each head translates the input sentence into a different spoken human language automatically
+= A single softmax distribution tends to focus on one dominant match, whereas parallel heads can simultaneously track syntax, coreference, and long-range context.
+
+## Without position information, word order is lost
+Without positional encodings or a causal mask, a self-attention layer is permutation-equivariant: if you shuffle the order of the words in a prompt, the layer produces the exact same output vectors, merely shuffled in the same way. To an unpositioned attention layer, "The client sued the vendor" and "The vendor sued the client" contain the exact same pairwise dot products and yield identical token representations.
+
+It is like throwing all the words of a contract into a tombola drum: you still have the exact same vocabulary, but you have no idea who owes money to whom.
+
+In business applications where negation, chronology, and clause structure flip the meaning of a sentence completely, preserving precise word order through positional mechanisms is vital.
+
+?? What would happen to the output of an unmasked self-attention layer with no positional encodings if you swapped two words in the input?
++ The output vectors for every token would have the exact same values as before, just in the swapped positions
+- The model would crash with a dimension mismatch error during the Query-Key multiplication
+- The softmax attention weights would all drop to zero across the entire row
+- The feed-forward network would automatically restore the original word order
+= Because dot products and weighted sums do not depend on sequence index, pure self-attention without positional signals cannot distinguish different orderings of the same tokens.
+
+## Rotary encodings (RoPE) and long contexts
+Rotary Position Embeddings (RoPE) encode position by rotating pairs of dimensions in the Query and Key vectors in 2D planes by an angle proportional to each token's absolute position index, right before computing the attention dot product. Because of a neat geometric property of rotations, the dot product between a rotated Query at position m and a rotated Key at position n depends only on their relative distance (m minus n), not on their absolute positions.
+
+Think of two clock hands spinning at the same speed: the angle between the two hands depends only on the time elapsed between them, no matter what hour the clock started at.
+
+Because different dimension pairs rotate at frequencies ranging from fast (for local syntax) to very slow (for document-wide themes), RoPE generalises well and can be rescaled via frequency interpolation to extend a model's context window from 8,000 to over 128,000 tokens.
+
+?? What geometric property makes Rotary Position Embeddings (RoPE) effective for modelling long sequences?
++ Rotating Query and Key vectors by position angles makes their dot product depend cleanly on the relative distance between tokens
+- RoPE converts all floating-point vectors into fixed three-dimensional geographic coordinates
+- RoPE deletes tokens that sit more than a hundred words away from the current query
+- RoPE replaces the attention matrix with a fixed convolutional filter of width three
+= By applying position-dependent rotations to Q and K, RoPE ensures the attention score naturally reflects relative token spacing while decaying smoothly over long distances.
+
+## Residual connections, layer norm, and the feed-forward block
+Attention is only half of a transformer block; the complete block wraps multi-head attention and a position-wise feed-forward network (FFN, or MLP) inside residual skip connections and layer normalisation ( typically RMSNorm applied before each sub-layer in modern architectures). The residual stream acts as a shared communication highway running straight from the bottom of the model to the top, with each attention head and FFN reading from the stream and adding its update back in.
+
+It is like a document travelling along a conveyor belt: attention stations gather relevant footnotes from other pages and clip them on, while FFN stations process each page individually using stored domain knowledge.
+
+In fact, the feed-forward blocks hold roughly two-thirds of a standard transformer's parameters and store much of the factual and pattern knowledge learned during pretraining.
+
+?? How do attention sub-layers and feed-forward (FFN) sub-layers divide the work inside a transformer block?
++ Attention moves contextual information between tokens, while the FFN transforms each token's representation individually using learned weights
+- Attention updates the model weights during inference, while the FFN only runs during training
+- Attention processes only the first half of the prompt, while the FFN processes the second half
+- Attention normalises vector lengths to one, while the FFN computes the causal mask
+= Self-attention routes information across sequence positions, and the position-wise feed-forward network applies non-linear transformations to each token's enriched vector.
+
+@@ sll_DPmOmbkU0hSw | C5.2 Architectures & Pretraining > Model Families
+
+## Encoder (BERT), decoder (GPT), encoder-decoder (T5)
+~m
+Transformers fall into three classic architectural families originated by landmark models like Google's BERT, OpenAI's GPT series, and Google's T5; check the current details for newer model releases in each family. Encoder-only models use bidirectional attention so every token sees the whole input at once. Decoder-only models use a causal mask so tokens only see past context and generate text token by token. Encoder-decoder models pair a bidirectional encoder that reads the input with a causal decoder that generates the output via cross-attention.
+
+Think of an encoder as an analyst who reads an entire dossier before filing a classification code, a decoder as a speaker improvising a speech word by word, and an encoder-decoder as a translator reading a French page while writing an English page.
+
+Today, decoder-only architectures dominate general-purpose large language models because they unify reading and generation in one simple pipeline.
+
+?? Which transformer family uses full bidirectional self-attention across the entire input without a causal mask?
++ Encoder-only models such as BERT
+- Decoder-only models such as GPT
+- Purely recurrent LSTM networks without attention
+- Speculative draft decoders during streaming generation
+= Encoder-only transformers allow every token to attend to both left and right context simultaneously, making them compact and fast for embedding and classification tasks.
+
+## Mixture-of-experts
+A Mixture-of-Experts (MoE) transformer replaces the single dense feed-forward network in each layer with a pool of many separate feed-forward "expert" networks plus a lightweight learned router gate. For each incoming token, the router inspects the token's vector and sends it to only a small top-k subset of experts (for example, 2 out of 16 experts), summing their weighted outputs.
+
+It is like a large consulting firm with two hundred partners across specialised practices, where each client query is staffed by just the two most relevant specialists rather than billing the entire firm for every meeting.
+
+This sparse activation decouples total parameter count from per-token compute cost, allowing a model to hold vast knowledge while generating tokens at the speed of a much smaller dense model.
+
+?? What is the main architectural change that turns a standard dense transformer into a Mixture-of-Experts (MoE) model?
++ Replacing the dense feed-forward block with multiple expert networks and a router that activates only a few experts per token
+- Training eight completely separate chatbots and asking a human user to pick the best answer
+- Splitting the vocabulary so that different GPUs only know words starting with specific letters
+- Removing all self-attention layers and replacing them with k-means clustering
+= MoE models substitute dense FFN layers with sparsely gated expert blocks so only a fraction of parameters compute on any single token.
+
+## Reasoning models
+~m
+Reasoning models (such as OpenAI's o-series or DeepSeek-R1; check the current details for current reasoning model benchmarks and APIs) are large language models specifically trained with reinforcement learning to generate an extended internal chain of thought before producing their final user-visible response. During this thinking phase, the model breaks down complex problems, tests hypotheses, spots its own arithmetic or logic mistakes, and backtracks when an approach hits a dead end.
+
+It is like the difference between blurting out an instant gut estimate in a client meeting and taking five minutes with a notepad to work through the cash-flow numbers and double-check the totals first.
+
+While reasoning models dramatically outperform standard single-pass chat models on coding, mathematics, and multi-constraint planning, those extra thinking tokens increase both latency and per-call API costs.
+
+?? How do dedicated reasoning models differ at inference time from standard chat models?
++ They generate a sequence of intermediate reasoning tokens to plan, verify, and backtrack before emitting the final answer
+- They bypass the transformer layers entirely and run a symbolic SQL database query
+- They always respond in fewer than ten tokens to minimise network latency
+- They update their permanent pretrained weights on disk after every user question
+= Reasoning models allocate extra test-time compute by generating an internal chain of thought that explores and checks steps before committing to a final output.
+
+## Encoders for understanding, decoders for generation
+When designing a production AI system for a client, choosing between a compact encoder model and a generative decoder model is one of the highest-leverage cost decisions you will make. Bidirectional encoders (commonly 100 million to 1 billion parameters) read the whole input in one pass and excel at high-volume tasks like generating search embeddings, routing support tickets, extracting named entities, and scoring relevance in rerankers.
+
+Think of hiring a high-speed mail-sorting machine (an encoder) to route ten thousand letters an hour into the right trays, and reserving your skilled copywriters (a decoder) to draft the actual replies.
+
+Using a 70-billion-parameter generative decoder just to classify sentiment into three buckets wastes huge amounts of GPU time and money when a fine-tuned encoder can run in a few milliseconds per document.
+
+?? Why do consultants often recommend a small bidirectional encoder rather than a large generative decoder for high-volume document classification or embedding?
++ Encoders process the whole input in a single bidirectional forward pass at a tiny fraction of the compute cost and latency
+- Decoders are mathematically incapable of outputting classification labels in a prompt
+- Encoders do not require any GPU memory to store their model weights
+- Decoders can only process inputs written in programming languages like Python
+= Because classification and embedding do not require token-by-token generation, a compact bidirectional encoder delivers strong accuracy at vastly lower latency and cost.
+
+## Mixture-of-experts: many experts, only a few active per token
+In a Mixture-of-Experts model, it is crucial to distinguish between total parameters (which determine how much GPU memory you need to hold the model) and active parameters (which determine how many floating-point operations run per token). For instance, a model with 120 billion total parameters that routes each token to 16 billion active parameters needs the VRAM of a 120B model, but computes each single token roughly as fast as a 16B dense model.
+
+It is like keeping a massive encyclopaedia set on your office shelves: you need a large bookcase to store all thirty volumes, but answering any single question only requires pulling down two books.
+
+During training, MoE models also need an auxiliary load-balancing mechanism so the router does not lazily send every token to the same two popular experts while leaving the other experts untrained.
+
+?? If a Mixture-of-Experts model has 100 billion total parameters and 12 billion active parameters per token, what determines its GPU memory footprint when loaded?
++ All 100 billion total parameters must sit in memory because any expert might be called for the next token
+- Only 12 billion parameters need to be stored in memory at any point during serving
+- The memory footprint is zero because experts are generated from random noise on the fly
+- Only the router gate parameters need to be loaded onto the GPU
+= Even though a single token activates only a small subset of experts, every expert's weights must remain resident in fast GPU memory to avoid catastrophic disk-swapping stalls across tokens or batches.
+
+## Reasoning models spend extra tokens thinking before answering
+Test-time compute scaling is the principle that you can trade extra inference tokens at run time for higher accuracy on hard problems, rather than relying solely on a bigger pretrained base model. Each thinking token a reasoning model generates is billed and decoded just like a visible output token, even if the API hides or summarises the raw reasoning trace in the user interface.
+
+Think of paying an engineering consultancy by the hour: a routine safety check takes ten minutes, while a complex structural stress analysis requires forty hours of calculations behind the scenes before you receive the one-page certificate.
+
+For an AI consultant, this means routing matters: use fast, non-reasoning models (or low reasoning effort settings) for straightforward extraction and formatting, and reserve deep reasoning tokens for complex multi-step synthesis or code debugging.
+
+?? What is the main operational caveat when deploying a reasoning model in a high-throughput client workflow?
++ The extra internal thinking tokens increase end-to-end response latency and billed token consumption
+- Reasoning models cannot read prompts longer than five hundred tokens
+- Reasoning models lose the ability to output valid JSON or structured text
+- The model must be retrained from scratch after every hundred API requests
+= Generating hundreds or thousands of hidden reasoning tokens before the first visible word appears adds substantial time-to-first-token latency and per-request token cost.
+
+@@ sll_WSj-9ieb3lR7 | C5.2 Architectures & Pretraining > Pretraining at Scale
+
+## Tokenizer training (BPE, SentencePiece)
+~m
+Before a language model ever sees text, a tokeniser breaks raw strings into discrete subword units mapped to integer IDs, typically trained using algorithms like Byte-Pair Encoding (BPE) or Google's SentencePiece library; check the current details for the tokeniser vocabulary size of your chosen foundation model. Subword tokenisation strikes a balance between character-level models (which make sequences far too long) and word-level models (which fail on rare words, typos, or compound terms).
+
+It is like packing a modular toolkit: common everyday tools stay as single one-piece items, while rare custom gadgets are assembled from standard nuts, bolts, and brackets that never go out of stock.
+
+A poorly matched tokeniser hurts client workloads directly: if a tokeniser splits a non-English language or domain code into tiny single-byte fragments, every prompt consumes two to three times as many tokens, inflating cost and shrinking effective context length.
+
+?? Why do modern large language models use subword tokenisers instead of pure word-level vocabularies?
++ Subwords keep common words as single tokens while composing rare or unseen words from smaller pieces without out-of-vocabulary failures
+- Subword tokenisers eliminate the need for an embedding table at the input of the transformer
+- Word-level vocabularies cannot represent spaces or punctuation marks in English text
+- Subword tokenisation guarantees that every language on Earth uses the exact same number of tokens per sentence
+= Subword algorithms like BPE handle open vocabularies gracefully by keeping frequent words whole and breaking unfamiliar words into reusable morphemes or byte fallback units.
+
+## Next-token prediction with cross-entropy loss
+Autoregressive language model pretraining uses a remarkably simple self-supervised objective: given a sequence of tokens $t_1, t_2, \dots, t_k$, predict the probability distribution over the entire vocabulary for the very next token $t_{k+1}$, and score the prediction against the true next token using cross-entropy loss. At the output of the final transformer layer, a linear head projects each token's hidden state to a vector of logits matching the vocabulary size (often 32,000 to 256,000 entries).
+
+Think of an experienced touch-typist transcribing a dictation who anticipates the next word from the grammar, subject matter, and tone of the preceding paragraph.
+
+To predict the next token accurately across trillions of examples of code, science, dialogue, and reasoning, the network is forced to compress syntax, world knowledge, and logical rules into its weights.
+
+?? In next-token pretraining, what is the shape of the probability distribution produced at each token position before calculating cross-entropy loss?
++ A vector with one probability for every token in the model's entire vocabulary
+- A single scalar value between zero and one indicating whether the sentence is grammatical
+- A square matrix matching the number of attention heads in the first layer
+- A three-element vector representing positive, neutral, and negative sentiment
+= At every position, the language modelling head projects the hidden vector across the full vocabulary size and applies softmax so cross-entropy can score the probability assigned to the actual next token.
+
+## Scaling laws and training data
+Empirical scaling laws show that a language model's cross-entropy validation loss decreases as a smooth power-law function of three variables: model parameter count, dataset size in tokens, and total training compute budget, spanning more than seven orders of magnitude. Because this relationship forms a straight line on a log-log plot, engineering teams can run small, cheap pilot experiments and accurately extrapolate what loss a massive flagship training run will achieve before spending millions of pounds.
+
+It is like wind-tunnel testing scale models of an aircraft wing to predict fuel burn on a full-size jet before bolting the real airframe together.
+
+However, smooth improvements in overall cross-entropy loss do not always translate linearly to every downstream business task; some multi-step skills appear to jump sharply only once the underlying loss crosses a critical threshold.
+
+?? What practical advantage do empirical scaling laws give AI labs before launching a massive pretraining run?
++ They allow teams to predict the final validation loss of a large run by extrapolating from much smaller, cheaper training experiments
+- They guarantee that a model trained on ten megabytes of text will match a trillion-token model
+- They remove the need to clean or deduplicate the pretraining corpus
+- They allow engineers to calculate the exact weights of the final model without running gradient descent
+= Power-law scaling curves make pretraining predictable, letting researchers optimise architecture and hyperparameter choices at small scale before committing huge compute budgets.
+
+## Byte-pair encoding: merge frequent pairs into tokens
+Byte-Pair Encoding (BPE) builds a subword vocabulary from the bottom up: it starts with a base vocabulary of individual characters or raw UTF-8 bytes, counts every adjacent pair of symbols across a training corpus, and merges the single most frequent pair into a brand-new symbol. It repeats this count-and-merge loop tens of thousands of times until the vocabulary reaches the target size, recording the exact ordered list of merge rules.
+
+Imagine noticing that you type the letters "t" and "h" together constantly, creating a single "th" key, then noticing "th" and "e" appear together most often and creating a single "the" key.
+
+In byte-level BPE (used by most modern LLMs), starting from the 256 raw bytes means the tokeniser can encode any Unicode string, emoji, or symbol without ever emitting an unknown `<unk>` token.
+
+?? How does the Byte-Pair Encoding (BPE) algorithm build its vocabulary during tokeniser training?
++ It starts with basic characters or bytes and iteratively merges the most frequent adjacent pair of tokens until reaching the target vocabulary size
+- It takes an Oxford dictionary and deletes the shortest five thousand words at random
+- It trains a deep convolutional neural network on images of printed text pages
+- It splits every English word into exact three-letter chunks regardless of frequency
+= BPE is a greedy bottom-up compression algorithm that repeatedly combines the most common co-occurring token pair into a single new vocabulary entry.
+
+## Data quality, deduplication, and filtering
+Raw web crawls are mostly rubbish: boilerplate navigation menus, spam farms, SEO keyword stuffing, machine-generated gibberish, and thousands of verbatim copies of the same terms-of-service notices. Modern pretraining pipelines dedicate enormous engineering effort to heuristic filtering, MinHash fuzzy deduplication, classifier-based quality scoring, and synthetic rewriting before a single token reaches the GPU.
+
+It is like refining crude oil or panning for gold: tipping raw river mud straight into a precision engine ruins the machinery, whereas filtering out the grit produces clean fuel.
+
+Deduplication is especially critical because repeated passages cause a model to memorise text verbatim, waste compute budget, and regurgitate copyrighted or private snippets at inference time. Moreover, teams must scrub evaluation benchmark questions from the training corpus to prevent data contamination from inflating test scores.
+
+?? Why is deduplicating the training corpus a critical step in LLM pretraining?
++ It prevents the model from wasting capacity memorising repeated passages and reduces verbatim regurgitation at inference time
+- It increases the total number of tokens in the dataset by a factor of ten
+- It allows the model to train without an attention mask or positional encodings
+- It converts all non-English documents into ASCII numeric codes automatically
+= Removing near-duplicate documents stops the optimiser from overfitting to repeated boilerplate and makes every training step count towards generalisable learning.
+
+## Scaling laws: loss falls predictably with compute, data, and model size
+Power-law scaling curves reveal a crucial constraint: to keep validation loss falling along its ideal trajectory, you must scale model size and training data together rather than scaling only one while starving the other. If you make a model ten times larger but keep the dataset tiny, you quickly hit diminishing returns as the massive network becomes data-bottlenecked; conversely, training a tiny model on trillions of tokens eventually plateaus as the small network runs out of capacity.
+
+Think of expanding a factory: buying ten times as many machines achieves nothing if you do not also order ten times as much raw material to feed them.
+
+As high-quality public human text on the web becomes fully utilised, labs increasingly supplement pretraining mixes with carefully verified synthetic text, code, and mathematical reasoning traces to sustain data scaling.
+
+?? What happens according to scaling laws if you dramatically increase model parameter count while keeping the number of training tokens very small?
++ Improvements quickly hit diminishing returns because the model becomes bottlenecked by insufficient training data
+- The validation loss drops to exact zero within the first hundred steps
+- The inference cost per token decreases proportionally to the parameter increase
+- The model automatically invents new vocabulary tokens without needing a tokeniser
+= Scaling laws show that parameter count and token count must grow in tandem; scaling one while holding the other fixed leads to severe sub-optimality.
+
+## Compute-optimal training balances model size and data
+~m
+In 2022, DeepMind's Chinchilla paper showed that compute-optimal pretraining scales model parameters and training tokens in roughly equal proportions (around 20 tokens per parameter). However, modern production models (such as Llama 3; check the current details for recent token-to-parameter ratios) intentionally train smaller models on far more tokens than the Chinchilla ratio, often 100 to 200+ tokens per parameter.
+
+It is like spending extra money in the factory to build a compact, fuel-efficient van because it will drive millions of miles for customers.
+
+Chinchilla optimises only training cost, whereas in production deployments a smaller 8B model trained on 15 trillion tokens is vastly cheaper and faster to serve than a 70B model.
+
+?? Why do modern model builders often train smaller models on many more tokens than the strict Chinchilla compute-optimal training ratio suggests?
++ Because a smaller, heavily trained model is much cheaper and faster to run at inference time across millions of user requests
+- Because GPU hardware cannot train models with more than ten billion parameters
+- Because training on more tokens shrinks the vocabulary size of the tokeniser
+- Because Chinchilla scaling laws only apply to convolutional image classifiers
+= Optimising purely for training FLOPs ignores serving costs; spending extra pretraining compute to pack capability into fewer parameters pays back many times over during production inference.
+
+@@ sll_juq_ylL--KkI | C5.3 Inference Mechanics > KV Cache
+
+## KV cache mechanics
+During autoregressive generation, a decoder produces one token at a time, appending each new token to the sequence and running another forward pass to predict the next one. Because causal masking stops earlier tokens from ever seeing later tokens, the Key (K) and Value (V) vectors for all previously processed tokens never change as new tokens are added. The KV cache stores those past Key and Value tensors in GPU memory so each new step only needs to compute Q, K, and V for the single newest token.
+
+It is like keeping a running subtotal at the bottom of an invoice page instead of re-adding every single line item from the start of the year whenever a customer buys one more pen.
+
+Without a KV cache, generating a 1,000-token answer would require recomputing the entire prefix a thousand times, turning linear generation work into a sluggish quadratic crawl.
+
+?? Why do the cached Key and Value vectors of earlier tokens remain valid when a new token is appended during decoding?
++ Because the causal mask prevents earlier tokens from attending to future tokens, so their internal representations never change
+- Because the model weights are set to zero after the first token is generated
+- Because Key and Value matrices do not depend on the input tokens at all
+- Because the KV cache runs backpropagation after every generated word to update old keys
+= Under causal self-attention, a token at position t depends only on tokens 1 through t, meaning its K and V projections at every layer are fixed once computed.
+
+## Memory vs. context length
+The KV cache trades GPU memory capacity for inference speed: instead of recomputing past activations, you hold them in high-bandwidth VRAM for the entire duration of the user's request. Unlike model weights, which take up a fixed amount of memory whether you serve one short prompt or ten long ones, KV cache memory scales linearly with both the active batch size (number of concurrent users) and the sequence length of their conversations.
+
+Think of a restaurant where the kitchen equipment (the model weights) takes up fixed floor space, but every diner who sits down for a five-hour banquet (a long-context request) occupies a table that no one else can use.
+
+On long-context workloads like analysing 100-page legal contracts, the KV cache for a handful of concurrent users can easily exceed the memory footprint of the model weights themselves, becoming the primary limit on server throughput.
+
+?? How does KV cache memory consumption behave compared with model weight memory during production serving?
++ Model weight memory stays fixed, while KV cache memory grows dynamically with sequence length and concurrent request batch size
+- KV cache memory is fixed at startup, while model weight memory doubles with every generated token
+- Both model weights and the KV cache shrink as the prompt length increases
+- The KV cache is stored exclusively on the client's web browser rather than on the GPU
+= While weights are shared across all requests as a constant footprint, every active request requires its own dedicated KV cache proportional to its token length.
+
+## Caching keys and values avoids recomputing earlier tokens
+Notice carefully what is cached and what is not: the KV cache stores the Key and Value vectors for every past token at every layer, but it never needs to store past Query vectors. Once token t has used its Query vector $q_t$ to attend to keys $k_1 \dots k_t$ and produce its output, $q_t$ is never needed again by any future token $t+1, t+2, \dots$.
+
+It is like a researcher who asks a question, files the reference notes they gathered into a shared binder (Keys and Values) for future colleagues to consult, and throws away the rough sticky note on which they scribbled the question itself (the Query).
+
+At decoding step $T$, the single new query vector $q_T$ simply attends against the full cached history of keys $[k_1 \dots k_T]$ and blends the cached values $[v_1 \dots v_T]$, turning an $O(T^2)$ matrix-matrix attention step into an $O(T)$ vector-matrix operation.
+
+?? Why does the inference cache store past Key and Value vectors but discard past Query vectors?
++ Future tokens only need to match their new Query against earlier Keys and Values; earlier Queries are never reused
+- Query vectors are ten times larger in dimension than Key and Value vectors
+- GPU hardware does not allow Query tensors to be written to device memory
+- Past Query vectors are identical to the raw integer token IDs in the prompt
+= At step T, only token T's output is needed to predict token T+1, so only $q_T$ is multiplied against all cached keys $k_1 \dots k_T$ and values $v_1 \dots v_T$.
+
+## Cache size grows with layers, heads, and context length
+You can calculate a model's exact KV cache memory per token with a simple arithmetic formula that often comes up in consulting architecture reviews: $2 \times \text{layers} \times \text{KV heads} \times \text{head dimension} \times \text{bytes per element}$. The factor of 2 accounts for storing both Keys and Values. Multiply that per-token figure by the sequence length and the number of concurrent requests in the batch to get total cache memory.
+
+It is like calculating warehouse pallet space by multiplying 2 boxes per item by the number of floors, aisles, shelf width, and total orders in the building.
+
+For example, in a classic 70-billion-parameter model without cache compression (80 layers, 64 KV heads, 128 head dimension, 2 bytes for fp16), a single token takes 2.6 megabytes of KV cache, meaning one 32,000-token request consumes over 80 gigabytes of VRAM by itself!
+
+?? Which set of factors directly determines the total size of the KV cache in GPU memory?
++ Number of layers, number of KV heads, head dimension, numeric precision bytes, sequence length, and batch size
+- Only the vocabulary size of the tokeniser and the learning rate of the optimiser
+- The number of experts in the feed-forward block and the dropout probability
+- The disk storage format of the training corpus and the CPU clock frequency
+= Each token at each layer stores a K and V vector across all KV heads at the chosen byte precision, scaled across sequence length and concurrent batch items.
+
+## Grouped-query and multi-query attention shrink the cache
+To stop the KV cache from exhausting GPU memory, modern transformers use Multi-Query Attention (MQA) or Grouped-Query Attention (GQA). In standard Multi-Head Attention (MHA), every Query head has its own Key and Value head. MQA makes all Query heads share a single Key and Value head. GQA strikes the middle ground: it divides say 32 Query heads into 4 or 8 groups, where each group shares one Key and Value head.
+
+Think of placing one shared reference shelf on each of four team pods (GQA) instead of buying thirty-two separate libraries (MHA).
+
+GQA shrinks the KV cache by 4x to 8x while preserving almost identical accuracy to full multi-head attention.
+
+?? How does Grouped-Query Attention (GQA) reduce the size of the KV cache compared with standard Multi-Head Attention?
++ Multiple Query heads share a single Key head and Value head within each group, reducing the number of K and V tensors stored
+- It deletes the Value matrix entirely and only computes Query-Key dot products
+- It restricts the maximum prompt length of the model to 512 tokens
+- It only caches Key and Value vectors for every tenth layer of the transformer
+= By having groups of Query heads share one K and V projection (for example, 32 Q heads sharing 8 KV heads), GQA cuts KV cache memory and bandwidth by the group ratio.
+
+@@ sll_qyLR_BDETD8o | C5.3 Inference Mechanics > Fast Decoding
+
+## Decoding strategies (greedy, beam, top-k, top-p)
+At each step, the model outputs vocabulary logits scaled by temperature before softmax, and a decoding strategy chooses the next token. Greedy decoding (temperature zero) always picks the single highest-probability token, making outputs deterministic. Beam search tracks several high-probability multi-token paths. Top-k sampling samples from the k most likely tokens, while top-p (nucleus) sampling dynamically chooses from the smallest top set whose cumulative probability exceeds p.
+
+It is like ordering at a restaurant: greedy picks the bestseller every night, top-k rolls a dice among the top five dishes, and top-p picks from tonight's standout specials.
+
+For enterprise extraction or SQL generation, consultants usually set temperature near zero for reliable repeatability.
+
+?? How does top-p (nucleus) sampling decide which tokens are eligible to be sampled at a given decoding step?
++ It sorts tokens by probability and keeps the smallest top set whose cumulative probability reaches the threshold p
+- It always keeps exactly ten tokens regardless of whether the model is confident or uncertain
+- It selects the single lowest-probability token in the vocabulary to maximise creativity
+- It averages the embeddings of the top hundred tokens into a new synthetic word
+= Unlike top-k which keeps a fixed count of tokens, top-p adapts dynamically to model confidence by keeping only the head of the distribution that sums to probability p.
+
+## Speculative decoding
+Speculative decoding accelerates token generation by pairing the large, slow target model with a tiny, fast "draft" model (or lightweight draft heads) that guesses several upcoming tokens in a row cheaply. The large target model then evaluates all of those drafted tokens in a single parallel forward pass, accepts every prefix token that matches its own distribution, and corrects the first token where the draft went wrong.
+
+Think of a busy senior partner whose junior associate rapidly drafts five paragraphs ahead; the partner can read and approve four good paragraphs and rewrite the fifth in one quick sitting, much faster than typing every word from scratch.
+
+Because verifying K drafted tokens in parallel takes almost the same wall-clock time on a GPU as generating just one token, speculative decoding frequently delivers a 2x to 3x speedup while mathematically guaranteeing the exact same output distribution as the large model alone.
+
+?? Why does speculative decoding not degrade the output quality of the large target model?
++ The large target model verifies the drafted tokens in parallel and rejects or corrects any token that diverges from its own distribution
+- The small draft model has more parameters and higher accuracy than the target model
+- Speculative decoding is only applied to whitespace and punctuation characters
+- The target model updates its weights via backpropagation on the draft model's outputs
+= Using an exact acceptance-rejection verification step in a single parallel pass ensures the final emitted tokens follow the target model's true probability distribution.
+
+## Inference streaming
+Inference streaming sends each generated token (or small chunk of characters) over the network to the user's screen via Server-Sent Events (SSE) or WebSockets the instant it is decoded, rather than waiting for the entire response to finish first. This separates two distinct latency metrics that matter in client engagements: Time to First Token (TTFT), which measures how long the user waits before text starts appearing, and Inter-Token Latency (ITL), which measures the pace of words streaming across the screen.
+
+It is like a live news ticker or a colleague speaking to you in real time, rather than waiting in silence for thirty seconds while they write out a full-page memo and slide it across the desk.
+
+Streaming does not reduce total GPU compute time, but since humans read at roughly four to five words per second, a fast TTFT and steady streaming make a ten-second generation feel instantaneous.
+
+?? Which two user-facing latency metrics become critical to distinguish when an LLM application uses inference streaming?
++ Time to First Token (TTFT) and Inter-Token Latency (ITL, or tokens per second during generation)
+- Training epoch duration and validation cross-entropy loss
+- Tokeniser merge count and vocabulary file size on disk
+- GPU power consumption in watts and rack cooling temperature
+= Streaming exposes the initial prompt-processing wait (TTFT) separately from the steady-state generation cadence (ITL), shaping how responsive the product feels to users.
+
+## Prefill vs. decode: two phases with different bottlenecks
+Every LLM inference request splits into two hardware phases: prefill and decode. During prefill, the GPU processes all input prompt tokens in parallel to populate the initial KV cache and emit the first output token; this phase does large matrix-matrix multiplications and is compute-bound. During decode, the model generates subsequent tokens one by one; each step processes a single token per request and is memory-bandwidth-bound.
+
+Imagine a printing press: printing a thousand-page briefing pack at once works the machinery at full power (prefill), whereas printing one single-line label every minute spends most time loading rollers (decode).
+
+Consequently, long input prompts primarily hurt Time to First Token (prefill), whereas long output responses dominate total generation duration (decode).
+
+?? Why do the prefill phase and the single-request decode phase stress completely different parts of a GPU's hardware?
++ Prefill processes all prompt tokens in parallel (compute-bound), whereas decode processes one token at a time and must reload all weights each step (memory-bandwidth-bound)
+- Prefill runs exclusively on the computer's hard drive, whereas decode runs on the network card
+- Prefill uses 4-bit integers, whereas decode converts the model to 64-bit double precision
+- Prefill only executes the first layer of the transformer, whereas decode executes all layers
+= Parallel prompt processing saturates the GPU's arithmetic units, while sequential one-token decoding is starved waiting for weights and KV cache tensors to stream from VRAM.
+
+## Batching requests to use the GPU well
+When serving a single user during the decode phase, the GPU must read every parameter of the model from memory just to multiply it by one tiny vector, leaving more than ninety-five per cent of its compute cores idle. Batching combines multiple concurrent users' requests together so the GPU loads each weight matrix from memory once and multiplies it against all active users' tokens simultaneously, dramatically increasing total system throughput.
+
+It is like running a commuter train: driving an eight-carriage train down the line for a single passenger costs the same fuel and track time as carrying four hundred passengers together.
+
+Modern production serving engines use continuous (in-flight) batching, which slots new incoming requests into the running batch and evicts finished requests at the granularity of individual token steps rather than making fast short requests wait for the longest request in a static batch.
+
+?? How does continuous (in-flight) batching improve over naive static batching when serving LLM requests of varying lengths?
++ Completed requests exit the batch immediately and new requests join at the next token step, avoiding idle padding waits
+- It forces every user on the server to submit the exact same prompt text
+- It truncates every generated answer to exactly ten tokens so all requests finish together
+- It delays all incoming requests until at least ten thousand users are waiting in the queue
+= By scheduling work at the iteration (token) level rather than waiting for the longest sequence in a fixed batch to finish, continuous batching keeps GPU utilisation high and latency low.
+
+## Memory bandwidth, not compute, often limits decoding
+Single-stream token generation speed is governed almost entirely by GPU memory bandwidth (how many gigabytes per second travel from High Bandwidth Memory into the compute cores), not by peak compute FLOPS. To generate just one token from a 70-billion-parameter model in 16-bit precision, the GPU must haul 140 gigabytes of weights across the memory bus, do a few arithmetic operations per weight, and repeat that entire 140-gigabyte transfer for the next token.
+
+Think of a chef who can chop an onion in one second, but has to walk down a long corridor to the pantry to fetch one onion at a time.
+
+This is why quantising weights from 16-bit to 8-bit or 4-bit nearly doubles single-user token generation speed: halving the bytes per weight doubles how fast weights stream from memory.
+
+?? Why does quantising a model's weights from 16-bit to 8-bit often nearly double single-user decoding speed in tokens per second?
++ Decoding is bottlenecked by reading all model weights from GPU memory for every single token, so halving weight bytes halves memory transfer time
+- Quantising weights reduces the sequence length of the user's prompt by fifty per cent
+- 8-bit models skip half of the transformer layers during the forward pass
+- Quantisation removes the causal mask so all output tokens are generated in one step
+= Because autoregressive decoding is memory-bandwidth-bound, reducing the number of bytes transferred per parameter from HBM to SRAM directly speeds up each token step.

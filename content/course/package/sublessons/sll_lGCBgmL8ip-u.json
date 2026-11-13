@@ -5,8 +5,8 @@
     {
       "id": "bit_vV6TGxYPsyA_",
       "title": "Specialist agents (researcher, writer, editor)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A classic multi-agent pattern divides a complex content or analysis job across three distinct roles: a researcher, a writer and an editor.\n\nThe researcher has search and database tools, and its only job is to gather verified facts and source citations. The writer has no search tools; it takes the researcher's notes and turns them into a clear draft that follows the style guide. The editor checks the draft against the source notes and the client rubric.\n\nIt is how a newspaper works: reporters gather the facts, feature writers craft the piece and sub-editors check accuracy and house style.\n\nEach prompt stays short and focused on one skill instead of juggling three at once.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vV6TGxYPsyA__1",
+          "type": "multiple_choice",
+          "prompt": "Why does separating researcher, writer and editor roles often beat a single all-in-one prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Three agents always cost a third of the tokens of one agent"
+            },
+            {
+              "id": "b",
+              "text": "Each agent focuses on one clear objective with its own tailored prompt and tools, reducing conflicting instructions"
+            },
+            {
+              "id": "c",
+              "text": "The writer can invent facts freely without the editor checking them"
+            },
+            {
+              "id": "d",
+              "text": "None of the agents need to read the user's request"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Splitting gathering, drafting and checking keeps each prompt focused and lets the editor audit the writer against the researcher's facts.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_PW7B0PwHFIiD",
       "title": "Applying single responsibility to teams",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In software engineering, the single-responsibility principle says each module should have one clear job and one reason to change. The same rule applies to agent teams.\n\nWhen one agent is responsible for SQL queries, policy interpretation, customer tone and refund approval, tweaking the prompt to fix a SQL bug often breaks the customer tone. When each agent has a single responsibility, you can improve and test the SQL agent without touching the customer-service writer.\n\nIt is keeping the kitchen separate from the front-of-house staff so changing the oven does not muddle the table bookings.\n\nGive each agent one clear job whose output you can test on its own.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,25 +66,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PW7B0PwHFIiD_1",
+          "type": "multiple_choice",
+          "prompt": "How does the single-responsibility principle help when maintaining a multi-agent system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It forces all agents to share a single giant system prompt"
+            },
+            {
+              "id": "b",
+              "text": "It means the whole team can only answer one question per day"
+            },
+            {
+              "id": "c",
+              "text": "You can improve and test one specialist agent's prompt or tools without accidentally breaking unrelated behaviours"
+            },
+            {
+              "id": "d",
+              "text": "It removes the need for any evaluation tests"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Narrow, well-bounded responsibilities make individual agents much easier to tune, test and debug in isolation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NlOMvwJ88Kuh",
       "title": "Start from the work, not the org chart: list the tasks first",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A common mistake when building a multi-agent system is starting by inventing a grand company org chart: a CEO agent, a VP of Strategy agent, a Marketing Director agent and an Intern agent.\n\nModels do not need middle management. Start instead by listing the concrete tasks required to turn the input into the output, the tools each task needs and the checks between them. Only group tasks into separate agents when they genuinely need different tools, different context or an independent review perspective.\n\nIt is designing a workshop around the machines and steps needed to build a chair, not hiring five vice-presidents first.\n\nIf two agents have the same tools and run back-to-back on the same context, they should almost certainly be one agent.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NlOMvwJ88Kuh_1",
+          "type": "multiple_choice",
+          "prompt": "What is the right way to decide which agents a team needs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Copy the client's human organisation chart including every middle-management layer"
+            },
+            {
+              "id": "b",
+              "text": "Always create exactly ten agents for every project"
+            },
+            {
+              "id": "c",
+              "text": "List the concrete tasks, tools and checks first, and create separate agents only where tools, context or review roles differ"
+            },
+            {
+              "id": "d",
+              "text": "Create one agent per word in the user's prompt"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Agent boundaries should follow real differences in tools, context isolation or verification, not human job titles.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_bHRwHGETy04p",
       "title": "Each agent gets only the tools its job needs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "If your system has twenty tools in total and you hand all twenty to every agent in the team, every agent pays the token cost of twenty tool definitions and risks calling a tool it has no business touching.\n\nScope tools strictly per agent. Give the research agent the read-only search and database lookup tools. Give the writer agent no external tools at all. Give the action agent the email or CRM-update tool only after the approval step has passed.\n\nIt is hotel keycards: the cleaner's card opens the linen cupboards, the guest's card opens Room 304, and only the duty manager's card opens the safe.\n\nLeast-privilege tool access improves both accuracy and security.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -69,13 +153,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_bHRwHGETy04p_1",
+          "type": "multiple_choice",
+          "prompt": "Why should each agent in a team receive only the tools required for its specific role?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Models refuse to run if they see more than two tools"
+            },
+            {
+              "id": "b",
+              "text": "It reduces tool-selection mistakes, saves prompt tokens and prevents an agent from taking actions outside its remit"
+            },
+            {
+              "id": "c",
+              "text": "Giving every agent every tool makes the system safer"
+            },
+            {
+              "id": "d",
+              "text": "Tool definitions do not use any context tokens"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Scoping tools per agent applies least privilege, shrinks prompts and keeps each specialist focused on the right actions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__566FNsujMAs",
       "title": "A reviewer agent that checks work before it leaves the team",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before a multi-agent team hands its final output to the user or triggers an external action, a dedicated reviewer step acts as the quality gate at the door.\n\nThe reviewer agent does not write content from scratch. It checks the candidate output against a strict checklist: are all claims supported by the research notes, are any confidential fields leaked, does the JSON match the schema, and was every part of the user's question answered?\n\nIt is the dispatch inspector at a factory who checks the finished product against the order sheet before the box is sealed.\n\nCombine deterministic code checks with the reviewer agent so mechanical rules are checked by code and judgement rules by the model.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -88,13 +200,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__566FNsujMAs_1",
+          "type": "multiple_choice",
+          "prompt": "What is the role of a reviewer agent at the end of a team workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To audit the draft output against accuracy, safety and completeness criteria before it reaches the user"
+            },
+            {
+              "id": "b",
+              "text": "To rewrite the user's original question so it matches the wrong answer"
+            },
+            {
+              "id": "c",
+              "text": "To delete all source citations from the report"
+            },
+            {
+              "id": "d",
+              "text": "To run before any research or drafting has started"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A final reviewer acts as an internal quality gate, catching unsupported claims or missed requirements before delivery.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_8nskyYCsOu8U",
       "title": "The smallest team that passes your evals",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every extra agent you add to a team introduces another prompt to maintain, another handoff that can lose nuance, more latency and higher token bills.\n\nTreat team size as a cost to minimise, not a badge of sophistication. Build your evaluation suite first. Try a single well-prompted agent with good tools. Add a second agent (such as a verifier or a specialist) only if your eval scores prove that the extra agent fixes a real failure mode that one agent could not handle.\n\nIt is hiring staff for a small shop: you bring in a second person when the queue out the door proves one person cannot keep up.\n\nThe best team is the smallest one that passes your evals reliably.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -107,7 +247,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8nskyYCsOu8U_1",
+          "type": "multiple_choice",
+          "prompt": "How should you decide whether to add another agent to your system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Add more agents whenever you want the architecture diagram to look impressive"
+            },
+            {
+              "id": "b",
+              "text": "Always start with at least eight agents before writing any tests"
+            },
+            {
+              "id": "c",
+              "text": "Only add an agent when your evaluations show it solves a failure mode that a simpler setup cannot"
+            },
+            {
+              "id": "d",
+              "text": "Add an agent every time a prompt has a spelling mistake"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Every additional agent adds latency, cost and handoff risk, so justify each one with measured gains on your eval suite.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

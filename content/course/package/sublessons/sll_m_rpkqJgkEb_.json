@@ -5,44 +5,128 @@
     {
       "id": "bit_nzypRVdiFehp",
       "title": "GGUF, AWQ, GPTQ",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "GGUF, AWQ, and GPTQ are popular file formats and quantisation methods used to package compressed language models for inference. GGUF is designed for flexible CPU and Apple silicon execution, whereas AWQ and GPTQ target fast low-bit inference on dedicated graphics cards.\n\nIt is like choosing between a versatile hybrid car for city errands and a specialised track car built solely for paved racing circuits.\n\nBecause open-source tooling evolves rapidly, you should check the current details for your serving engine before committing a client pipeline to a single weight format.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_nzypRVdiFehp_1",
+          "type": "multiple_choice",
+          "prompt": "Which quantisation format is primarily designed for running models across CPUs and Apple silicon laptops?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "AWQ"
+            },
+            {
+              "id": "b",
+              "text": "GPTQ"
+            },
+            {
+              "id": "c",
+              "text": "GGUF"
+            },
+            {
+              "id": "d",
+              "text": "SafeTensors FP32"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "GGUF was built for the llama.cpp ecosystem to run efficiently on consumer CPUs, unified memory Macs, and mixed CPU-GPU setups.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ANak0jPLgArg",
       "title": "Quality loss measurement",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Measuring quality loss after quantisation means comparing the compressed model against the original full-precision model across general language benchmarks and domain-specific tests. Researchers often start with perplexity, which measures how surprised a model is by a reference text, alongside accuracy scores on structured tasks.\n\nIt is like testing a compressed audio file both with laboratory frequency equipment and by having musicians listen for muffled instruments.\n\nHowever, mild perplexity changes can hide severe drops in strict formatting, coding, or maths, so relying on a single summary metric is risky.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ANak0jPLgArg_1",
+          "type": "multiple_choice",
+          "prompt": "What does perplexity measure when evaluating a quantised language model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The exact number of gigabytes saved in graphics memory"
+            },
+            {
+              "id": "b",
+              "text": "The electrical power drawn by the server during peak load"
+            },
+            {
+              "id": "c",
+              "text": "How fast the network connection transfers weights from disk"
+            },
+            {
+              "id": "d",
+              "text": "How well the model predicts the next tokens in a sample text"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Perplexity reflects the model's uncertainty when predicting token sequences, serving as a quick indicator of general degradation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_FxQvGhR7OhiU",
       "title": "GGUF for llama.cpp and local use; AWQ and GPTQ for GPU serving",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Choosing the right quantisation format depends on where the model will run in practice. GGUF pairs with llama.cpp for local workstations, edge devices, and split CPU-GPU setups, while AWQ and GPTQ integrate with high-throughput GPU servers in data centres.\n\nIt is like using portable camping stoves for a field expedition while fitting commercial gas ranges inside a busy restaurant kitchen.\n\nEngine support for low-bit kernels changes frequently across releases, so always check the current details of your chosen inference server before converting weights.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FxQvGhR7OhiU_1",
+          "type": "multiple_choice",
+          "prompt": "When advising a client who wants to serve a 4-bit model to hundreds of concurrent users on data-centre GPUs, which formats are usually preferred over GGUF?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "GGUF running solely on a single laptop processor"
+            },
+            {
+              "id": "b",
+              "text": "AWQ or GPTQ running on a dedicated GPU serving engine"
+            },
+            {
+              "id": "c",
+              "text": "Uncompressed 32-bit text files parsed by a Python script"
+            },
+            {
+              "id": "d",
+              "text": "CSV spreadsheets loaded into a relational database"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "AWQ and GPTQ have optimised GPU kernels in serving engines for high-concurrency batching, whereas GGUF targets local and edge execution.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_YrzjbSl_uWQz",
       "title": "Measure on your task, not only on perplexity",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A quantised model that scores well on general academic benchmarks or perplexity tests can still fail on a client's specific workflow. Subtle degradation often shows up first in multi-step instructions, strict JSON schemas, or domain-specific extraction.\n\nIt is like hiring a translator who passes a basic vocabulary quiz with flying colours but misreads clauses in a commercial property contract.\n\nBefore signing off on a compressed model, an AI consultant must run an evaluation suite built from real examples of the client's production prompts.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,19 +139,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YrzjbSl_uWQz_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a low perplexity degradation score insufficient to approve a quantised model for production?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Perplexity only works on vision models and cannot be calculated for text"
+            },
+            {
+              "id": "b",
+              "text": "Low perplexity means the model has forgotten how to read English words"
+            },
+            {
+              "id": "c",
+              "text": "Perplexity measures hardware temperature rather than model predictions"
+            },
+            {
+              "id": "d",
+              "text": "Task-specific skills like strict JSON formatting or complex reasoning can break even when general fluency looks fine"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "General fluency metrics can mask brittle failures in instruction following, structured output, or domain logic that matter to the business.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_KD-GNHMO4v9s",
       "title": "A smaller model at higher precision vs. a larger model at lower precision",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When hardware memory is fixed, a common design choice is whether to run a smaller model at 16-bit precision or a larger model compressed to 4-bit precision. In practice, a 4-bit version of a large model often outperforms an uncompressed small model that occupies the same memory footprint.\n\nIt is like asking a seasoned senior partner for a quick summary rather than asking a junior trainee for an exhaustive essay.\n\nStill, the larger quantised model may generate tokens more slowly per request, so you must test both accuracy and latency against the client's service targets.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KD-GNHMO4v9s_1",
+          "type": "multiple_choice",
+          "prompt": "Given a fixed 24-gigabyte GPU budget, how does a 4-bit 30-billion-parameter model typically compare in reasoning quality to a 16-bit 8-billion-parameter model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The smaller 16-bit model always beats any model that uses 4-bit weights"
+            },
+            {
+              "id": "b",
+              "text": "Both models produce the exact same token outputs because they use the same memory"
+            },
+            {
+              "id": "c",
+              "text": "The larger 4-bit model usually retains stronger reasoning than the smaller 16-bit model"
+            },
+            {
+              "id": "d",
+              "text": "The 30-billion-parameter model cannot fit into 24 gigabytes even at 4-bit precision"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Across equal memory budgets, extra parameter capacity compressed to 4 bits generally preserves more knowledge and reasoning than a much smaller full-precision model.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

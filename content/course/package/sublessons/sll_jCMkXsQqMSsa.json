@@ -5,8 +5,8 @@
     {
       "id": "bit_4KKwG-SjVB2n",
       "title": "Exact match, BLEU/ROUGE, retrieval metrics",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Classical automated metrics compare a model's output against a reference without calling another LLM.\n\n**Exact match** (after normalising case and whitespace) checks whether a category label, SQL value, extracted ID or yes/no answer equals the ground truth. **BLEU and ROUGE** count overlapping words and short phrases (n-grams) between the generated text and a reference text. **Retrieval metrics** such as Recall@k, Precision@k and Mean Reciprocal Rank (MRR) score whether the right source chunks appeared in the top `k` search results.\n\nIt is marking a multiple-choice sheet with a stencil (exact match) versus checking whether key terms appear in an essay.\n\nExact match and retrieval metrics remain workhorses of modern AI evals.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,43 +19,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4KKwG-SjVB2n_1",
+          "type": "multiple_choice",
+          "prompt": "For which type of output is normalised Exact Match the ideal evaluation metric?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Open-ended creative stories where many wordings are equally good"
+            },
+            {
+              "id": "b",
+              "text": "Audio recordings of background noise"
+            },
+            {
+              "id": "c",
+              "text": "Unlabelled inputs where no ground truth exists"
+            },
+            {
+              "id": "d",
+              "text": "Discrete outputs with one right value, such as classification labels, extracted IDs, numbers or tool names"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "When there is a single expected label, identifier or figure, exact match in code is fast, free and 100% objective.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Neu7E_DcAxep",
       "title": "Task-specific scoring functions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Often the sharpest automated eval is a ten-line function you write specifically for your task's rules.\n\nIf the agent generates a JSON schedule, write a Python function that parses the JSON, checks that no person is double-booked, confirms every shift has a qualified lead and verifies total hours stay under the weekly cap. If the agent writes a SQL query, execute both the agent's query and the reference query against a test database and compare the returned result tables.\n\nIt is checking a crossword solution by verifying that every word fits the grid and matches the clues, regardless of what order the solver filled them in.\n\nTask-specific code checks grade whether the output *works*, not how it is phrased.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Neu7E_DcAxep_1",
+          "type": "multiple_choice",
+          "prompt": "How can you objectively evaluate a SQL-generating agent when two differently written SQL queries can be equally correct?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Count whether both queries have the exact same number of spaces"
+            },
+            {
+              "id": "b",
+              "text": "Run both the generated query and the reference query against a test database and compare the returned result sets"
+            },
+            {
+              "id": "c",
+              "text": "Ask an LLM whether the SQL query looks pretty"
+            },
+            {
+              "id": "d",
+              "text": "Only accept queries written on one line"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Comparing execution results on a known test database grades functional correctness even when the SQL syntax differs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_XhcLkjQm5x5j",
       "title": "Code checks first: cheapest and most reliable",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When designing an evaluation pipeline, always apply deterministic code checks before reaching for an LLM judge.\n\nCode checks run in milliseconds, cost zero tokens, never vary between runs and cannot be sweet-talked by a confident-sounding hallucination. Check format (valid JSON, schema compliance), length (word or character limits), required and forbidden strings (mandatory disclosures, leaked keys, competitor names), valid citations (every cited ID exists in context) and arithmetic totals in plain code first.\n\nIt is passing building plans through an automated geometry and load calculator before asking the planning committee to judge the aesthetics.\n\nOnly invoke an LLM judge on criteria that genuinely require reading comprehension.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XhcLkjQm5x5j_1",
+          "type": "multiple_choice",
+          "prompt": "Why should deterministic code checks always run before LLM-as-a-judge evaluations?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Code checks can evaluate empathy and literary style better than any human"
+            },
+            {
+              "id": "b",
+              "text": "LLM judges are free and take zero milliseconds"
+            },
+            {
+              "id": "c",
+              "text": "Running code checks makes JSON schemas invalid"
+            },
+            {
+              "id": "d",
+              "text": "Code checks are instant, free and 100% consistent for format, schema, citation and maths rules"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Handling objective rules in code saves money and eliminates judge noise, leaving LLM judges for nuance and meaning.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_9AltcXHt7mKU",
       "title": "Word-overlap scores miss meaning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Older text metrics like BLEU and ROUGE were invented for machine translation and summarisation when calling a language model to grade meaning was impossible. They work by counting shared words between the candidate and the reference.\n\nThat creates a huge blind spot for AI assistants. If the reference answer is \"Refunds are allowed within 30 days\" and the model writes \"Refunds are **not** allowed within 30 days\", word-overlap metrics give a nearly perfect score because seven of the eight words match, even though the meaning is the exact opposite. Conversely, \"You have a month to claim your money back\" gets a terrible score despite meaning the same thing.\n\nIt is judging two recipes as identical because they use the same ingredients, even though one bakes the cake and the other throws it in the bin.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9AltcXHt7mKU_1",
+          "type": "multiple_choice",
+          "prompt": "Why can word-overlap metrics like BLEU and ROUGE be misleading when evaluating assistant answers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Adding a single word like \"not\" reverses the meaning while keeping high word overlap, and valid paraphrases score poorly"
+            },
+            {
+              "id": "b",
+              "text": "They are too slow and cost thousands of pounds per sentence"
+            },
+            {
+              "id": "c",
+              "text": "They require a GPU cluster to count words"
+            },
+            {
+              "id": "d",
+              "text": "They only work on numbers and cannot read letters"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Counting shared words misses negation, factual flips and natural paraphrasing, which is why semantic or code checks are needed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

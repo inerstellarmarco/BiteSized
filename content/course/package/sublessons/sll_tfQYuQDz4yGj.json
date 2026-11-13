@@ -5,56 +5,168 @@
     {
       "id": "bit_0ytY9FJkOzaS",
       "title": "Undo, edit, and override controls",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Even a very good agent will sometimes misread a nuance or pick a phrasing the user wants to tweak. Users forgive occasional slips when fixing them is effortless; they abandon the tool when they feel trapped by its choices.\n\nBuild three controls into every agent output. **Edit**: let the user tweak the drafted email, table or parameters inline before or after saving. **Undo / Rollback**: keep a snapshot of the previous record state so a one-click Undo reverses an automated change cleanly. **Override**: let a human pick a different category or value and record a short reason why.\n\nIt is the `Ctrl+Z` shortcut in a word processor: people write faster and more confidently because mistakes are reversible.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0ytY9FJkOzaS_1",
+          "type": "multiple_choice",
+          "prompt": "Why do inline edit, undo and override controls increase user adoption of an agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Users trust and use automation much more readily when they can easily tweak drafts or reverse a mistake in one click"
+            },
+            {
+              "id": "b",
+              "text": "They stop the user from ever changing what the AI wrote"
+            },
+            {
+              "id": "c",
+              "text": "They allow you to skip testing the agent before launch"
+            },
+            {
+              "id": "d",
+              "text": "Undo buttons delete the entire customer database"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Making agent actions easy to edit, override and undo keeps the human in command and removes the fear of pressing Go.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_g8ee4UO1P7WO",
       "title": "Escalation and handoff to humans",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every user-facing agent needs a clear, unhidden escape hatch to reach a human.\n\nNothing destroys trust faster than a bot that traps an upset customer in an endless loop of \"I didn't quite catch that, please rephrase\". Escalate automatically when the agent detects repeated failed attempts, low retrieval confidence, out-of-scope requests, high financial stakes or frustrated language, and always honour a direct request like \"speak to a person\" on the first ask.\n\nIt is the \"Assistance\" button at a railway ticket barrier that immediately connects you to staff when your ticket will not scan.\n\nMake escalation feel like a helpful service step, not a system crash.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_g8ee4UO1P7WO_1",
+          "type": "multiple_choice",
+          "prompt": "When should a customer-facing agent escalate a conversation to a human colleague?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Immediately when the user asks for a person, or automatically when confidence is low, stakes are high or the agent fails to resolve the issue"
+            },
+            {
+              "id": "b",
+              "text": "Only after the user has asked the exact same question ten times in a row"
+            },
+            {
+              "id": "c",
+              "text": "Never, because escalating means the AI project failed"
+            },
+            {
+              "id": "d",
+              "text": "Only on bank holidays"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Prompt, graceful escalation protects customer trust whenever a request goes beyond what the agent can safely handle.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NpK5b1Ag9TO7",
       "title": "Handing over with full context, so nobody repeats themselves",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "We looked earlier at passing context between two AI agents. The exact same rule applies, with even more force, when an AI agent hands over to a human staff member and a real customer is waiting on the line.\n\nWhen the human opens the escalated ticket or live chat, they should see a structured three-bullet summary at the top: who the customer is (already verified), what they asked for, what the agent already checked or tried, and why it handed over. Tell the customer clearly: \"I have passed your order details (#4821) to Sarah in billing so you won't need to repeat them.\"\n\nIt is a doctor reading the nurse's triage notes before calling you into the consulting room.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NpK5b1Ag9TO7_1",
+          "type": "multiple_choice",
+          "prompt": "What makes a bot-to-human handoff feel seamless to both the customer and the staff member?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Wiping the chat history before the human joins so they start fresh"
+            },
+            {
+              "id": "b",
+              "text": "Giving the staff member a concise summary of verified details and checks already done, so the customer never has to repeat themselves"
+            },
+            {
+              "id": "c",
+              "text": "Asking the customer to fill in a new web form with the same details"
+            },
+            {
+              "id": "d",
+              "text": "Hiding the reason the bot escalated"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Passing verified context to the human colleague respects the customer's time and lets the staff member solve the problem straight away.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hD0Mfk_j62yJ",
       "title": "Being clear that it is an AI",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Always make it unmistakable to users that they are interacting with an AI system, not a human pretending to type.\n\nApart from being a legal requirement under transparency rules such as the EU AI Act, honesty sets the right expectations. A user who knows they are talking to an AI assistant writes clearer requests, checks important numbers against the linked sources, and understands why a complex exception is being handed to a human specialist.\n\nIt is a clear \"Automated service\" voice announcement on a phone line rather than pretending a recording is a live receptionist.\n\nState what the assistant can do, what it cannot do and how to reach a person.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hD0Mfk_j62yJ_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an interface clearly disclose that the user is interacting with an AI?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It tricks users into thinking they are chatting with the company founder"
+            },
+            {
+              "id": "b",
+              "text": "It excuses the company from fixing any bugs"
+            },
+            {
+              "id": "c",
+              "text": "It makes the model run without an API key"
+            },
+            {
+              "id": "d",
+              "text": "It meets legal transparency requirements and sets honest expectations about what the assistant can do and when to verify or escalate"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Clear disclosure builds honest trust, satisfies regulatory obligations and helps users interact with the tool effectively.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2ojidHCi1G6s",
       "title": "Collecting feedback from users",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every interaction with your live agent is a chance to learn where it shines and where it stumbles.\n\nCollect two kinds of feedback: **explicit** and **implicit**. Explicit feedback is a quick thumbs-up/thumbs-down or a one-click tag (\"Wrong policy\", \"Missing detail\", \"Great answer\") on the output. Implicit feedback is even richer because every user gives it without trying: did they copy and send the draft as-is, did they heavily edit three paragraphs before sending, did they click Undo, or did they immediately escalate to a human?\n\nIt is a restaurant watching both the comment cards left on the table and which dishes come back to the kitchen half-uneaten.\n\nFeed both signals straight into your evaluation dataset.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -67,7 +179,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2ojidHCi1G6s_1",
+          "type": "multiple_choice",
+          "prompt": "Why are implicit user signals (such as heavy edits to a draft, clicks on Undo or immediate escalations) so valuable?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every user generates them naturally during real work, showing where outputs needed fixing even when nobody clicks a feedback button"
+            },
+            {
+              "id": "b",
+              "text": "Only 100% of users fill in long survey forms after every message"
+            },
+            {
+              "id": "c",
+              "text": "Implicit signals do not need to be logged anywhere"
+            },
+            {
+              "id": "d",
+              "text": "Editing a draft means the user hated the entire product"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Tracking whether users accept, edit or undo an agent's work gives you continuous, unbiased feedback on real-world quality.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

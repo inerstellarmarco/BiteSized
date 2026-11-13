@@ -5,74 +5,242 @@
     {
       "id": "bit_Ng_yZOwKSQuV",
       "title": "Experiment tracking",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Experiment tracking is the practice of systematically recording every training or fine-tuning run, including its configuration settings, input dataset, code commit, and evaluation scores, in a central searchable system. Instead of scattering notes across spreadsheets and terminal logs, teams capture every trial automatically as it runs.\n\nIt is like a bakery development kitchen keeping a numbered recipe logbook where every loaf test records oven temperature, flour batch, baking time, and taste score.\n\nTracking tools only help if the team logs runs consistently; if engineers run quick manual tweaks on their laptops without logging them, the record quickly develops blind spots.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Ng_yZOwKSQuV_1",
+          "type": "multiple_choice",
+          "prompt": "What problem does systematic experiment tracking solve for a machine learning team?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It prevents teams from losing track of which settings, data, and code produced a given model result"
+            },
+            {
+              "id": "b",
+              "text": "It automatically doubles the accuracy of any neural network without changing the data"
+            },
+            {
+              "id": "c",
+              "text": "It removes the need to hold out a test set during model evaluation"
+            },
+            {
+              "id": "d",
+              "text": "It replaces the need for graphics cards during deep learning training"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Recording every run automatically ensures the team always knows what has been tried and how the best result was achieved.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_utAtIeyb7qsR",
       "title": "Model registries",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A model registry is a central repository that stores versioned, trained model artefacts alongside their metadata, validation test results, approval status, and deployment history. It acts as the single handoff point between data scientists who train models and platform engineers who deploy them to production.\n\nIt is like a pharmaceutical dispensary shelf where only tested, batch-numbered, and signed-off medicines are stored ready to be handed to patients.\n\nStoring files in a registry does not by itself guarantee quality unless the organisation enforces automated tests and review gates before a model can be promoted.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_utAtIeyb7qsR_1",
+          "type": "multiple_choice",
+          "prompt": "What role does a model registry play between model training and production serving?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It generates synthetic training data from scratch without needing any human input"
+            },
+            {
+              "id": "b",
+              "text": "It acts as a central catalogue of versioned model artefacts, their metadata, and their approval status for deployment"
+            },
+            {
+              "id": "c",
+              "text": "It replaces the company's customer relationship management database"
+            },
+            {
+              "id": "d",
+              "text": "It automatically rewrites Python training scripts into C++ kernel code"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A registry provides a single source of truth for which specific model binary is approved to run in staging or production.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Zb0vE6B3cQdx",
       "title": "Log parameters, data version, code version, and metrics",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "For an experiment log to be genuinely useful, each run must capture four essential pieces of information: the hyperparameters or prompt settings, the exact version or hash of the training dataset, the Git commit hash of the code, and the resulting evaluation metrics. Leaving out any one of these four pillars makes it guesswork to explain why a score changed.\n\nIt is like a scientific laboratory report that lists the exact chemical concentrations, supplier batch numbers, apparatus setup, and measured yield for a reaction.\n\nLogging large datasets by copying the raw files into every run folder wastes storage, so teams log lightweight cryptographic hashes or dataset version pointers instead.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Zb0vE6B3cQdx_1",
+          "type": "multiple_choice",
+          "prompt": "Which four elements should be logged together for every machine learning experiment run?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Laptop screen brightness, office room temperature, keyboard brand, and mouse speed"
+            },
+            {
+              "id": "b",
+              "text": "Only the final accuracy number without any code or data references"
+            },
+            {
+              "id": "c",
+              "text": "The company logo image, marketing budget, and office postcode"
+            },
+            {
+              "id": "d",
+              "text": "Hyperparameters, data version, code commit version, and evaluation metrics"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Recording settings, data identity, code commit, and output scores together captures every variable that influences model behaviour.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_cJfiEuQmz9pz",
       "title": "Compare runs side by side",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Once experiments are logged in a central tracker, engineers can select multiple runs and compare their hyperparameters, learning curves, latency, and slice metrics side by side in tables and charts. This makes it easy to spot which specific change actually drove an improvement and which changes only added cost.\n\nIt is like laying three insurance quotes next to each other on a desk to compare their excess fees, coverage limits, and monthly premiums line by line.\n\nWhen comparing dozens of runs, watch out for multiple-hypothesis testing: picking a run that happened to score slightly higher by random chance on a tiny test set can lead to disappointment in production.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cJfiEuQmz9pz_1",
+          "type": "multiple_choice",
+          "prompt": "What should an AI consultant watch out for when comparing dozens of experiment runs on a small evaluation set?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Running out of colours on the computer monitor when plotting more than two lines"
+            },
+            {
+              "id": "b",
+              "text": "Causing the model weights to overwrite the operating system kernel during comparison"
+            },
+            {
+              "id": "c",
+              "text": "Selecting a run that looks best purely due to random noise on a small test sample rather than a true improvement"
+            },
+            {
+              "id": "d",
+              "text": "Increasing the parameter count of the model simply by viewing the dashboard"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Over-optimising against a small test set across many trials can reward lucky variance unless validated on a fresh holdout set.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_K9ASzaz5S0VM",
       "title": "A registry holds approved models and their lineage",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Model lineage is the traceable chain connecting a deployed production model back to the exact experiment run, training code commit, parent foundation model, and dataset snapshot that created it. A good model registry stores this lineage alongside the approval sign-offs from technical and compliance reviewers.\n\nIt is like a farm-to-fork food traceability label on a supermarket steak that links the pack back to the exact processing plant, transport lorry, and farm.\n\nWhen a regulator or client auditor asks how a production model was built or whether a disputed dataset was used, clean lineage turns a weeks-long forensic scramble into a two-minute lookup.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_K9ASzaz5S0VM_1",
+          "type": "multiple_choice",
+          "prompt": "Why is model lineage inside a model registry particularly valuable during a client compliance audit?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It encrypts the user interface so auditors cannot read any model outputs"
+            },
+            {
+              "id": "b",
+              "text": "It deletes all historical records older than twenty-four hours to save disk space"
+            },
+            {
+              "id": "c",
+              "text": "It guarantees that the model never makes a prediction error on live traffic"
+            },
+            {
+              "id": "d",
+              "text": "It traces any deployed model directly back to the exact dataset, code commit, parent model, and approval record that produced it"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Complete lineage provides an auditable trail proving exactly what data and code went into any model serving customers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_y8_gQEx81cjp",
       "title": "Reproduce any past result on demand",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Reproducibility in machine learning means being able to take a past experiment record from months ago and re-run the training or evaluation pipeline today to obtain the same model behaviour within expected numerical tolerances. Clients rely on reproducibility to debug production incidents, verify consultant deliverables, and retrain models safely when staff change.\n\nIt is like following a blueprint and parts list to assemble a second machine that runs just like the original prototype built last year.\n\nEven when you fix random seeds, code, and data, subtle differences in GPU hardware or floating-point thread scheduling can still introduce tiny numerical variations, so teams also archive the final trained weight files.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_y8_gQEx81cjp_1",
+          "type": "multiple_choice",
+          "prompt": "Why is fixing random seeds, code commits, and data versions sometimes still not enough for bit-for-bit identical retraining across different servers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Git repositories automatically scramble Python files after thirty days"
+            },
+            {
+              "id": "b",
+              "text": "Hard drives change the spelling of text files whenever they are copied over a network"
+            },
+            {
+              "id": "c",
+              "text": "Non-deterministic GPU floating-point operations and driver differences can introduce slight numerical variations during training"
+            },
+            {
+              "id": "d",
+              "text": "Random seeds only work on Mondays and Tuesdays"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Parallel GPU kernels often sum floating-point numbers in slightly different orders, so archiving the trained artefact alongside reproducible scripts is best practice.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

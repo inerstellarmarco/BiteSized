@@ -5,20 +5,48 @@
     {
       "id": "bit_nDIyqmre4EKE",
       "title": "RNNs, LSTMs, GRUs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Recurrent Neural Networks (RNNs) process sequential data one step at a time by feeding the previous step's hidden state vector alongside the current input, while Long Short-Term Memory (LSTM) and Gated Recurrent Unit (GRU) networks add learnable gates that control what information to keep, update, or forget across steps.\n\nIt is like a doctor reading a patient's medical chart page by page while maintaining a concise notepad summary (the gated state), erasing resolved colds and keeping chronic allergies.\n\nBecause each time step must wait for the previous step's state to be computed, recurrent models cannot parallelise across the sequence length during training.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_nDIyqmre4EKE_1",
+          "type": "multiple_choice",
+          "prompt": "What did LSTM and GRU architectures add to basic recurrent neural networks to improve sequence modelling?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A method for processing all tokens in a thousand-word document in parallel without sequential steps"
+            },
+            {
+              "id": "b",
+              "text": "Learnable gating mechanisms and memory pathways that regulate which information is retained or forgotten across many time steps"
+            },
+            {
+              "id": "c",
+              "text": "Two-dimensional spatial pooling layers designed for high-resolution satellite photography"
+            },
+            {
+              "id": "d",
+              "text": "A rule that resets the hidden state to zero after every second word"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Additive cell states and sigmoid gates allow LSTMs and GRUs to preserve important signals over longer intervals than plain recurrent matrix multiplications.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_FgPdv_s34bBd",
       "title": "Why attention replaced recurrence",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The transformer self-attention mechanism replaced recurrence for language and large sequence modelling because it connects every token directly to every other token in a single step and processes all sequence positions in parallel on modern GPU hardware during training.\n\nIt is like handing a translator the entire printed paragraph on one page so they can cross-reference the first and last words instantly, instead of reading words through a tiny pinhole one at a time.\n\nWhile full self-attention scales quadratically with sequence length, parallel training and direct long-range context win decisively for most consulting workloads.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,43 +59,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FgPdv_s34bBd_1",
+          "type": "multiple_choice",
+          "prompt": "What are the two main reasons transformer self-attention largely replaced RNNs and LSTMs for language modelling?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It requires zero GPU memory regardless of sequence length and uses no matrix multiplications"
+            },
+            {
+              "id": "b",
+              "text": "It restricts the model to looking only at the single immediately preceding word"
+            },
+            {
+              "id": "c",
+              "text": "It eliminates the need for tokenisation, embeddings, or positional information"
+            },
+            {
+              "id": "d",
+              "text": "It processes all sequence tokens in parallel during training and provides a direct path between distant tokens without sequential bottlenecks"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Removing the step-by-step recurrence bottleneck unlocks massive hardware parallelism during training and prevents early tokens from being forgotten down a long chain.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_j2pouyQDGNVs",
       "title": "The hidden state carries memory from step to step",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a recurrent model, the hidden state is a fixed-length vector updated at every time step (`h_t = f(h_{t-1}, x_t)`), acting as the sole summary bottleneck through which all historical information from earlier inputs must pass to influence future predictions.\n\nIt is like a relay runner carrying a single small backpack from station to station; whatever does not fit inside that fixed backpack is lost to the runners further down the road.\n\nForcing an entire complex document or long customer history through one fixed-size vector creates an information bottleneck, which is why attention mechanisms that look back at all past states proved transformative.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_j2pouyQDGNVs_1",
+          "type": "multiple_choice",
+          "prompt": "Why is the fixed-length hidden state vector considered an information bottleneck in a standard recurrent network?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The hidden state grows exponentially in vector length at every time step until memory overflows"
+            },
+            {
+              "id": "b",
+              "text": "Every detail from the entire past sequence must be compressed into that single fixed-size vector to influence later steps"
+            },
+            {
+              "id": "c",
+              "text": "The hidden state can only store integer class labels and cannot hold floating-point numbers"
+            },
+            {
+              "id": "d",
+              "text": "The hidden state is never updated after the very first token of the sequence"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Because later steps in a pure RNN only see the current hidden state, any nuance overwritten or squeezed out of that fixed vector cannot be recovered later.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_aVCyYEgdJ01e",
       "title": "Vanishing gradients limit long memory",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a recurrent network is unrolled across many time steps, backpropagation through time repeatedly multiplies gradients by the same recurrent transition weights at every step, causing gradients from distant past tokens to vanish or explode before teaching the model long-range dependencies.\n\nIt is like trying to steer the front wheel of a hundred-carriage goods train by pushing only on the rear bumper; the force fades across the couplings long before reaching the front.\n\nEven with LSTM or GRU gates and gradient clipping, recurrent networks struggle to link detailed information across hundreds of steps compared with direct self-attention.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_aVCyYEgdJ01e_1",
+          "type": "multiple_choice",
+          "prompt": "Why does backpropagation through time struggle to learn dependencies between tokens separated by hundreds of steps in a plain RNN?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Backpropagation through time only computes derivatives for the first two tokens and skips the rest"
+            },
+            {
+              "id": "b",
+              "text": "Recurrent networks use a different weight matrix at every single time step, exhausting disk space"
+            },
+            {
+              "id": "c",
+              "text": "The loss function is undefined whenever a sequence is longer than ten steps"
+            },
+            {
+              "id": "d",
+              "text": "Repeated multiplication by the recurrent weight matrix across many time steps causes gradients to vanish toward zero or explode"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Unrolling a sequence of length T is equivalent to a T-layer deep network sharing the same weights, so eigenvalues below or above 1 shrink or grow exponentially with T.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_QBsWw7QZhQgi",
       "title": "Still used for small, streaming, or on-device tasks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Despite transformers dominating large language and vision models, compact recurrent models remain practical for low-power edge devices, real-time audio or sensor streaming, and tiny embedded controllers where memory per step must stay strictly constant regardless of how long the stream runs.\n\nIt is like choosing a simple quartz wristwatch for a marathon runner rather than strapping a desktop workstation to their wrist; when battery and memory are tiny, constant-state updates shine.\n\nMatch the architecture to deployment constraints: if a client's vibration sensor runs continuously on a two-pound microcontroller chip, a small GRU is often far more practical than a transformer.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_QBsWw7QZhQgi_1",
+          "type": "multiple_choice",
+          "prompt": "In which business scenario is a compact GRU or LSTM still a strong engineering choice over a standard transformer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Pretraining a frontier multi-billion-parameter general-purpose chat model on a GPU supercomputer"
+            },
+            {
+              "id": "b",
+              "text": "Answering questions across a 100-page legal contract where exact cross-page citations are required"
+            },
+            {
+              "id": "c",
+              "text": "Continuous real-time sensor or audio streaming on a tiny edge microcontroller that requires strictly constant memory per time step"
+            },
+            {
+              "id": "d",
+              "text": "Generating high-resolution marketing photography from text descriptions"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A recurrent model updates a single fixed-size state vector at each tick with constant memory and compute, whereas a standard transformer's key-value cache grows with sequence length.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

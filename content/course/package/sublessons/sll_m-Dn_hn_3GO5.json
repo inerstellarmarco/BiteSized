@@ -5,56 +5,168 @@
     {
       "id": "bit_UEQuf-F5VVBP",
       "title": "Material requirements planning: what to buy, what to make, and when",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Material requirements planning, or MRP, is the deterministic calculation engine that works backwards from customer delivery dates and demand forecasts to schedule exactly which parts to buy, which assemblies to make, and when to launch each order.\n\nIt is like planning a large family roast dinner by starting from the 2:00 pm serving time and calculating when the turkey, potatoes, and yorkshire puddings must each go into the oven.\n\nRemember that standard MRP assumes infinite factory capacity unless paired with capacity scheduling. If your client's machines are already running flat out, an MRP run may schedule more work for Tuesday than the workshop can physically complete.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_UEQuf-F5VVBP_1",
+          "type": "multiple_choice",
+          "prompt": "How does a material requirements planning (MRP) engine calculate order schedules?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It asks a language model to guess random order quantities each morning"
+            },
+            {
+              "id": "b",
+              "text": "It waits until every shelf in the warehouse is completely empty before ordering parts"
+            },
+            {
+              "id": "c",
+              "text": "It copies last year's purchase orders without checking current customer demand"
+            },
+            {
+              "id": "d",
+              "text": "It works backwards from required delivery dates using bills of materials, stock levels, and lead times"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "MRP backward-schedules production and purchasing from target dates so materials arrive just in time for each step.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Zx2-cMBrRw_3",
       "title": "Inputs: demand, stock, open orders, bills of materials, and lead times",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every MRP run relies on five strict inputs: gross demand from sales and forecasts, current stock on hand, open purchase and work orders already in flight, bills of materials, and item lead times. Missing any one input breaks the calculation.\n\nImagine planning a household grocery shop; to avoid buying six extra cartons of milk, you must know what meals are planned, what is already in the fridge, and whether your partner already ordered groceries online.\n\nFor an AI consultant, this means an agent cannot answer \"how many valves should we buy today\" by looking at sales orders alone; it must query all five inputs together from the ERP.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Zx2-cMBrRw_3_1",
+          "type": "multiple_choice",
+          "prompt": "What happens if a planning calculation ignores open purchase orders that are already on their way?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The warehouse stock count for finished goods will automatically drop to zero"
+            },
+            {
+              "id": "b",
+              "text": "Customers will be blocked from placing new orders on the company website"
+            },
+            {
+              "id": "c",
+              "text": "The bill of materials will permanently delete its sub-assembly links"
+            },
+            {
+              "id": "d",
+              "text": "The business will order duplicate stock that is already scheduled to arrive"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Ignoring open orders causes the planner to buy materials twice because it fails to count stock already in transit.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_z_emQ1LhtEfR",
       "title": "Reorder points and safety stock",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A reorder point is the stock threshold that triggers a replenishment order, while safety stock is the extra buffer held above expected lead-time demand to protect against unexpected sales spikes or late supplier deliveries.\n\nIt is like keeping a spare jerrycan of petrol in the garage and refilling your car's tank whenever the gauge hits one quarter full, rather than waiting for the engine to splutter on the motorway.\n\nThe trade-off is that safety stock ties up cash and warehouse space. Holding massive buffers hides every operational problem at the expense of working capital, whereas holding zero buffer leaves the factory fragile to the slightest delay.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_z_emQ1LhtEfR_1",
+          "type": "multiple_choice",
+          "prompt": "What is the purpose of holding safety stock in an inventory system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To fill empty warehouse shelves so the building looks busy during visitor tours"
+            },
+            {
+              "id": "b",
+              "text": "To buffer the business against unexpected demand spikes or supplier delivery delays during the lead time"
+            },
+            {
+              "id": "c",
+              "text": "To avoid ever having to record purchase orders in the accounting system"
+            },
+            {
+              "id": "d",
+              "text": "To guarantee that slow-moving items expire before they can be sold"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Safety stock absorbs variability in supply and demand so minor disruptions do not immediately halt production or sales.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_afZUZwPg-Tba",
       "title": "Lot sizes and minimum order quantities",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Lot sizing rules and minimum order quantities (MOQs) govern the batch increments in which items must be bought or manufactured. Even if a factory only needs twelve custom screws this week, a supplier may enforce a minimum order of one thousand.\n\nThink of buying hamburger buns at a supermarket where rolls come in packs of eight; if you are hosting ten guests, you must buy two packs of eight rather than ten individual buns.\n\nWhen building procurement agents, ensure the system respects supplier MOQs and packaging multiples. Suggesting a purchase order for 43 circuit boards when the vendor only ships in boxes of 50 will cause the supplier to reject the order.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_afZUZwPg-Tba_1",
+          "type": "multiple_choice",
+          "prompt": "Why must an automated purchasing workflow check minimum order quantities and pack multiples?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Ordering in exact pack multiples makes cargo ships travel twice as fast"
+            },
+            {
+              "id": "b",
+              "text": "Suppliers will reject or alter orders that do not match their required batch sizes and minimums"
+            },
+            {
+              "id": "c",
+              "text": "Minimum order quantities only apply to office stationery and never to raw materials"
+            },
+            {
+              "id": "d",
+              "text": "Lot sizes determine the legal tax rate applied to employee wages"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Real-world suppliers and production lines operate in fixed minimums and multiples that every valid order must respect.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_LNI5CDhRGVXz",
       "title": "Demand forecasts feed the plan",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Demand forecasts estimate future customer orders over the coming weeks or months so the business can buy long-lead-time materials before firm sales orders arrive. Whenever supplier lead times are longer than the time customers are willing to wait, forecasting is unavoidable.\n\nFor instance, a garden furniture maker must order aluminium tubing in January based on spring sales forecasts, because waiting until sunny weekends in May would mean missing the entire season.\n\nKeep in mind that every forecast is wrong to some degree. Good planning systems measure forecast error regularly and adjust safety stock accordingly, rather than treating an AI forecast as a guaranteed promise.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -67,19 +179,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_LNI5CDhRGVXz_1",
+          "type": "multiple_choice",
+          "prompt": "Why must a manufacturer rely on demand forecasts when ordering long-lead-time components?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Forecasts are legally required to replace actual sales orders in the company ledger"
+            },
+            {
+              "id": "b",
+              "text": "Forecasting guarantees that customer demand will never fluctuate from week to week"
+            },
+            {
+              "id": "c",
+              "text": "Suppliers give a 90 percent discount whenever an order is based on a forecast"
+            },
+            {
+              "id": "d",
+              "text": "Customers will not wait months for delivery, so parts must be ordered before firm sales orders arrive"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "When cumulative procurement and build times exceed the customer's delivery window, materials must be ordered ahead of confirmed sales.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_LFeqONYX7WY6",
       "title": "Garbage in, garbage out: wrong stock counts or lead times ruin the plan",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Garbage in, garbage out means that even the most mathematically sound MRP engine or intelligent agent will produce disastrous purchase plans if the underlying stock counts, bills of materials, or lead times are wrong.\n\nIt is like using a satellite navigation app when the map database has the wrong bridge closures; the software calculates a route with total confidence and drives you straight into a dead end.\n\nIf a warehouse shelf says 500 bearings are in stock when there are really only 50, the system will refuse to reorder and the production line will grind to a halt. Always audit data accuracy alongside software setup.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_LFeqONYX7WY6_1",
+          "type": "multiple_choice",
+          "prompt": "What happens when an ERP system has phantom inventory showing 500 units on hand when only 50 physically exist?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The planning engine assumes stock is plenty and fails to reorder in time, causing a production stop"
+            },
+            {
+              "id": "b",
+              "text": "The software automatically conducts a physical warehouse count using security cameras"
+            },
+            {
+              "id": "c",
+              "text": "The supplier sends 450 free units without waiting for a purchase order"
+            },
+            {
+              "id": "d",
+              "text": "The unit cost of the remaining 50 units drops to zero in the accounting ledger"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Planning logic trusts the database figures, so overstated stock levels prevent timely reordering and lead directly to shortages.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

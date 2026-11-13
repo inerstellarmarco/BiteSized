@@ -5,8 +5,8 @@
     {
       "id": "bit_IneGuQqG7T9Z",
       "title": "Shared memory vs. private memory for each agent",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a multi-agent system, memory splits into two layers: a **shared space** visible to the team and a **private scratchpad** belonging to each individual agent.\n\nThe shared space holds agreed team artefacts: the user's goal, verified facts, the task board and finished sections. Each agent's private memory holds its own noisy working: raw search snippets, intermediate tool retries and draft thoughts that other agents never need to see.\n\nIt is a project team with one shared whiteboard in the meeting room for agreed milestones, while each person keeps their own rough notepad on their desk.\n\nKeeping working notes private stops one agent's clutter from polluting every other agent's context.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,55 +19,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IneGuQqG7T9Z_1",
+          "type": "multiple_choice",
+          "prompt": "Why should each agent have private working memory alongside the team's shared memory?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So raw tool outputs and rough scratchpad notes stay inside the agent that used them instead of cluttering the whole team's context"
+            },
+            {
+              "id": "b",
+              "text": "So agents can hide completed deliverables from the user"
+            },
+            {
+              "id": "c",
+              "text": "Because shared memory cannot store text"
+            },
+            {
+              "id": "d",
+              "text": "To double the size of every prompt sent to every agent"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Separating private working notes from shared team artefacts keeps shared state clean and focused on verified outputs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_EjBHuRWH09sV",
       "title": "A shared task board: who is doing what",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When several agents work on a job together, they need a shared task board in state or in a database to coordinate their efforts.\n\nEach item on the board records the task ID, description, status (`todo`, `in_progress`, `blocked`, `done`), the assigned agent (`owner`) and the output reference once finished. Before starting work, an agent claims a task by marking itself as the owner; when finished, it posts the result and flips the status to `done`.\n\nIt is a kitchen ticket rail where chefs call out and clip their name to each order so two chefs never cook the same table's steak twice.\n\nA visible task board prevents duplicated effort and makes stalled tasks easy to spot.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_EjBHuRWH09sV_1",
+          "type": "multiple_choice",
+          "prompt": "What problem does a shared task board with task owners and statuses solve?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It allows agents to run without any prompts"
+            },
+            {
+              "id": "b",
+              "text": "It hides which agent is working on which step"
+            },
+            {
+              "id": "c",
+              "text": "It stops two agents doing the same job twice and shows clearly which tasks are finished, in progress or blocked"
+            },
+            {
+              "id": "d",
+              "text": "It replaces the need for any database"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Tracking ownership and status in one place coordinates parallel workers and shows real-time progress.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_puimC5oPRWVi",
       "title": "Isolated context: why sub-agents start with a clean slate",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When an orchestrator calls a sub-agent to research a question or review a file, the sub-agent should start with a fresh, empty message history containing only its system prompt and the specific brief for that sub-task.\n\nIf you copy the orchestrator's entire fifty-turn conversation into every sub-agent, you pay for all fifty turns over and over again, and the sub-agent gets distracted by unrelated earlier topics.\n\nIt is sending a lab technician a labelled blood sample and the test request, rather than wheeling the patient's entire ten-year hospital archive into the lab.\n\nIsolated contexts are one of the biggest practical reasons to use sub-agents at all: they let heavy reading happen in a disposable window.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_puimC5oPRWVi_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main benefit of starting each sub-agent with a clean, isolated context window?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The sub-agent has to guess what the task is without any brief"
+            },
+            {
+              "id": "b",
+              "text": "Heavy reading and tool calls happen in a small, disposable context without paying for or being distracted by the full conversation history"
+            },
+            {
+              "id": "c",
+              "text": "Isolated contexts always use ten times more input tokens"
+            },
+            {
+              "id": "d",
+              "text": "It prevents the sub-agent from returning an answer"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Context isolation keeps sub-agent calls small, focused and cheap, even when the parent task is very long.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_tlmrL4t-qXPf",
       "title": "Returning a summary, not the full transcript",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a sub-agent finishes its isolated run, its internal transcript might contain twenty tool calls and thirty thousand tokens of web pages or database rows.\n\nOnly the final distilled output should cross the boundary back to the parent agent: a concise summary, structured fields and source citations. Keep the full sub-agent transcript in your observability logs for debugging, not in the parent agent's prompt.\n\nIt is a scout returning to camp to report where the bridge is, rather than describing every bush they walked past on the three-hour hike.\n\nThis compression is what allows a team of agents to read far more material than could ever fit into one context window.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_tlmrL4t-qXPf_1",
+          "type": "multiple_choice",
+          "prompt": "What should cross the boundary from a finished sub-agent back into the parent agent's context?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every raw HTML page and tool error the sub-agent encountered"
+            },
+            {
+              "id": "b",
+              "text": "Nothing at all"
+            },
+            {
+              "id": "c",
+              "text": "Only the distilled result, structured findings and citations, while the full raw transcript stays in the logs"
+            },
+            {
+              "id": "d",
+              "text": "Only the sub-agent's system prompt"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Returning distilled results lets the parent agent combine findings from many sub-agents without blowing its own context window.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_429UPs5CBaAT",
       "title": "Conflicts: two agents changing the same thing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The moment two agents can run at the same time and write to the same shared state, file or database row, you will hit write conflicts.\n\nSuppose Agent A and Agent B both read `customer_notes`, each adds a paragraph and both write the whole field back: whichever agent finishes second silently overwrites the first agent's work. Prevent this in code: give each parallel worker its own distinct output key or file, use append-only reducer functions when merging state, or use database locks and version checks (`optimistic concurrency`).\n\nIt is two people editing offline copies of the same spreadsheet and saving over each other's changes on the shared drive.\n\nNever let parallel agents overwrite the same field without a merge rule.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_429UPs5CBaAT_1",
+          "type": "multiple_choice",
+          "prompt": "How can you prevent two parallel agents from overwriting each other's work in shared state?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Give each worker its own output key or use a state reducer that appends and merges updates safely"
+            },
+            {
+              "id": "b",
+              "text": "Hope that one agent always finishes ten minutes before the other"
+            },
+            {
+              "id": "c",
+              "text": "Tell the models in the prompt to be careful with memory addresses"
+            },
+            {
+              "id": "d",
+              "text": "Delete whichever update arrives second"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Partitioning output keys or using deterministic merge reducers in code stops concurrent writes from clobbering each other.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

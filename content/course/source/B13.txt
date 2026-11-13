@@ -1,0 +1,428 @@
+// B13 Deployment & LLMOps
+@@ sll_on5s5wTLHTsj | B13.1 Shipping AI Applications > Backend & APIs
+## FastAPI services and inference streaming
+~m
+FastAPI is the standard Python web framework for wrapping AI logic and agents behind clean HTTP endpoints. Check the current details for recent FastAPI releases.
+
+Unlike ordinary database endpoints that return a tiny JSON object in twenty milliseconds, an LLM call generates tokens over several seconds. FastAPI supports **Server-Sent Events (SSE)** and streaming responses out of the box, letting your server yield each token or agent status event to the browser the instant it arrives from the model provider.
+
+It is turning on a tap so water flows immediately, rather than waiting for a bucket to fill to the brim before pouring a drop.
+
+Automatic Pydantic validation on every request and response keeps your API contract strict.
+?? Why is response streaming (such as Server-Sent Events) important in an AI backend service?
++ It sends tokens and status updates to the user's screen as they are generated, rather than making the user stare at a blank screen for seconds
+- It makes the model generate fewer tokens overall
+- It allows FastAPI to run without Python installed
+- It encrypts the database schema
+= Streaming starts displaying output within a second, making a multi-second model call feel responsive.
+## Async processing and queues
+A single AI worker spends most of its time waiting: waiting for the model API to reply, waiting for a vector search, or waiting for a third-party webhook.
+
+If your web server handles requests synchronously, one slow ten-second agent call blocks that worker thread from serving anyone else. Using `async`/`await` in Python or TypeScript lets a single server handle dozens of concurrent waits efficiently. For heavier background jobs, a **task queue** (such as Celery, BullMQ, Redis queues or cloud queues) holds incoming jobs safely and feeds them to worker processes at a controlled pace.
+
+It is a busy deli counter handing out numbered tickets so the server does not freeze when twenty customers walk in at once.
+?? What are the roles of `async`/`await` and task queues in an AI backend?
++ Async code handles many concurrent network waits without blocking threads, while task queues buffer and distribute heavier background jobs safely
+- They make language models run without an internet connection
+- Task queues delete any request that takes more than one millisecond
+- Async code is only used for styling buttons in CSS
+= Non-blocking async I/O and durable task queues keep your web server responsive when many users trigger slow model calls at once.
+## Long jobs run in the background, not inside a web request
+Standard web requests, load balancers and serverless functions impose strict timeouts, often between 30 and 120 seconds. A deep research agent, a batch contract review or a multi-step workflow can easily take three minutes.
+
+Never run a multi-minute agent loop directly inside the HTTP request that the user's browser is waiting on. Instead, have the `POST /jobs` endpoint validate the input, write a job row to the database, push the job ID onto a background worker queue and immediately return `202 Accepted` with the `job_id`. The frontend then polls or subscribes to updates for that ID.
+
+It is dropping your suit at the dry cleaner's and taking a claim ticket, rather than standing at the counter while it washes and dries.
+?? How should an API handle an agent task that takes three minutes to complete?
++ Enqueue the job for a background worker, return a job ID immediately and let the client track progress asynchronously
+- Hold the initial HTTP request open for three minutes and hope the load balancer does not cut the connection
+- Refuse any task that takes longer than two seconds
+- Ask the user to refresh the page every second
+= Decoupling long agent runs into background jobs prevents HTTP timeouts and lets runs survive browser refreshes.
+## Login and per-user data separation
+The moment your prototype moves from your laptop to real users, authentication and tenant isolation become non-negotiable.
+
+Every API request must verify who the user is via a signed session cookie or token, and resolve their `user_id` and `organisation_id` on the server. Pass those verified IDs directly into every database query, vector search filter and tool call in code. Never let the language model choose which `organisation_id` to query based on a prompt, or one user will be able to ask for another client's confidential files.
+
+It is a bank cash machine checking your card and PIN before showing only your own account balance.
+?? How must per-user and per-client data separation be enforced in an AI application?
++ By filtering every database query, vector search and tool call in server code using the authenticated session's user and organisation IDs
+- By asking the model nicely in the system prompt only to read the current user's rows
+- By putting every client's documents into one unfiltered vector collection
+- By letting the user type their `organisation_id` into the chat box
+= Enforcing tenant filters in backend code from the authenticated session makes cross-client data leaks impossible via prompt tricks.
+
+@@ sll__s5Ei_ddGRiJ | B13.1 Shipping AI Applications > Frontends & Prototypes
+## Streamlit and Gradio prototypes
+~m
+Streamlit and Gradio let you build an interactive web interface for an AI script in a few dozen lines of Python, without writing HTML, CSS or JavaScript. Check the current details for their latest chat and agent components.
+
+In an hour you can put a working demo in front of a client: file upload, chat box, expandable tool traces and a feedback button. That speed is priceless in week one of a consulting engagement because watching a client try three real documents in a live prototype surfaces requirements no meeting ever would.
+
+It is building a cardboard scale model of a kitchen extension so the client can see where the doors go before the bricklayers start.
+?? Why are tools like Streamlit and Gradio so useful at the start of an AI project?
++ They let you wrap Python AI logic in a usable web demo in hours, so stakeholders can test real inputs and give early feedback
+- They are high-throughput database engines for banking transactions
+- They automatically write legal contracts without a model
+- They replace the need for authentication and multi-tenant security in enterprise production
+= Rapid Python UI frameworks turn a notebook or script into something a client can click and test on day one.
+## Production web front ends
+~m
+While Streamlit and Gradio shine for internal tools and early demos, customer-facing products usually outgrow them once you need custom layouts, fine-grained mobile responsiveness, rich inline editing, offline support, custom authentication and sub-second page loads.
+
+Production frontends are typically built with web frameworks such as Next.js, React or Vue, often paired with streaming UI helpers (such as the Vercel AI SDK) that manage message state, partial JSON streaming and tool-call rendering cleanly. Check the current details for your chosen stack.
+
+It is moving from a market stall gazebo to a permanent high-street shopfront once you know what customers are buying.
+?? Why do customer-facing products usually move from prototype frameworks to a full web frontend like Next.js or React?
++ To get full control over custom UX, mobile responsiveness, authentication, rich inline editing and production performance
+- Because Python prototypes cannot display text on a screen
+- Because React makes LLM tokens cost half as much
+- Because prototype frameworks require fifty servers to run
+= Full web frameworks give you complete control over the user experience, branding, security and performance needed for a polished product.
+## Meeting users where they are: chat apps, email, and existing tools
+The best frontend for a client's AI assistant is often no new website at all.
+
+Every new URL and login you ask staff to remember cuts adoption in half. If the sales team lives in Slack and HubSpot all day, deliver the agent as a Slack bot or a side-panel widget inside HubSpot. If an operations team works from a shared inbox, let them forward an email to `triage@company.co.uk` and receive the structured draft reply right in their email thread.
+
+It is putting a water cooler in the office corridor people already walk down, rather than on the roof behind a locked door.
+
+Before designing a new dashboard, ask which screen the user already has open at 9 a.m.
+?? Why does embedding an agent into Slack, Teams, email or the client's CRM often beat launching a standalone web app?
++ Users adopt tools much faster when the assistant sits inside the software they already use every hour, with no extra login or context switch
+- Standalone web apps are impossible to host on the internet
+- Slack and email do not require a backend server to process messages
+- Users love logging into twelve different dashboards every morning
+= Removing friction by meeting users inside their existing daily workflow is one of the easiest ways to drive real adoption.
+## Prototype first; rebuild only what proves useful
+Many AI projects fail by spending three months building a polished production frontend, role-based admin portal and Kubernetes cluster for an AI feature that turns out not to solve the users' real problem.
+
+Follow a disciplined two-step rule. First, build the thinnest possible prototype (a Streamlit page, a Slack slash command or a script that processes twenty real files) and put it in the hands of five real users for a week. Half of your initial assumptions will change. Second, harden and rebuild into production code **only** the workflow that users actually relied on and asked to keep.
+
+It is paving the footpath across a park only after seeing where people actually walk across the grass.
+?? Why should you test a lightweight prototype with real users before building production infrastructure and UI?
++ Real use quickly reveals which features actually help and which assumptions were wrong, saving weeks of wasted engineering
+- Prototypes never need any API keys or prompts
+- Users prefer broken software forever
+- Production code is faster to write when you do not know what the user wants
+= Validating usefulness with a thin prototype first ensures you only invest heavy engineering in features that proved their value.
+
+@@ sll_KxSc-7wnj0Hv | B13.2 Containers & Cloud > Containerization
+## Docker images and Docker Compose
+~m
+A **Docker image** packages your application code, its exact Python or Node runtime, system libraries and dependencies into a single self-contained snapshot. **Docker Compose** lets you define and run multi-container setups (such as your FastAPI backend, a Postgres + pgvector database and a Redis queue worker) together with one command (`docker compose up`). Check the current details in the Docker documentation.
+
+Without containers, you hit the classic "it works on my laptop" failure when the production server has a different Python version or a missing PDF parsing library.
+
+It is packing a whole mobile kitchen into a shipping container so every pan and stove is in the exact same place wherever the lorry parks.
+?? What problem do Docker images and Docker Compose solve for AI applications?
++ They package the exact runtime, system libraries and supporting services together so the app runs identically on every machine
+- They make language models ten times smarter without changing the prompt
+- They eliminate the need to pay cloud hosting bills
+- They automatically write unit tests for your prompts
+= Containerisation eliminates environment drift between laptops, test servers and cloud production.
+## Packaging agents so they run anywhere
+Once your agent service is packaged as a standard container image with a clear `Dockerfile`, you are no longer locked into a single hosting company.
+
+That exact same container can run on your laptop today, on a cheap virtual server tomorrow, on AWS ECS or Google Cloud Run next month, or inside a corporate client's private Azure network next quarter. For an AI consultant, delivering a clean containerised service means the client's IT team can deploy and run your work using their standard tools without learning AI-specific quirks.
+
+It is a standard mains plug that fits any wall socket in the country, regardless of who wired the building.
+?? Why is packaging an agent service as a standard Docker container especially helpful in client consulting work?
++ The client's IT team can deploy the container on whichever cloud or private server they already use without custom machine setup
+- Docker containers do not need any CPU or RAM to run
+- Containers bypass all corporate firewall rules automatically
+- A Dockerfile replaces the need for source code
+= A clean container image gives you portable deployment across any cloud provider or client-hosted environment.
+## Environment variables and secrets kept outside the image
+Never hard-code API keys (`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, database passwords) in your source code or bake them into a Docker image with `COPY .env`.
+
+Anyone who pulls that image or reads its layer history can extract your secret keys in seconds. Instead, build the image with code only, and inject configuration and secrets at **runtime** through environment variables supplied by your cloud secret manager (such as AWS Secrets Manager, Google Secret Manager or Azure Key Vault). Add `.env` to both `.gitignore` and `.dockerignore`.
+
+It is building a safe with the combination set at installation by the owner, rather than painting the code on the door at the factory.
+?? How should API keys and database passwords be passed to a containerised AI service?
++ Injected at runtime via environment variables from a secret manager, never baked into the Docker image or committed to Git
+- Written directly at the top of `main.py` so they are easy to find
+- Copied into the Docker image during `docker build` and pushed to Docker Hub
+- Sent in the URL query string of every user request
+= Keeping secrets in runtime environment variables prevents leaks through Git repositories or container registries and lets you rotate keys without rebuilding.
+## The same container in testing and production
+In a healthy deployment pipeline, you build the Docker image once from a specific Git commit hash (for example, `myapp:3ab783c`), run your automated unit and evaluation tests against that exact image in staging, and then promote that **exact same image** to production by changing only its environment variables.
+
+If you rebuild from scratch in production with unpinned dependencies (`pip install langchain`), a library update released five minutes ago can silently break production even though staging passed.
+
+It is testing a batch of medicine in the lab and shipping bottles from that exact tested batch, not mixing a new batch on the lorry.
+?? Why should you promote the exact same built container image from testing to production rather than rebuilding it with unpinned dependencies?
++ So you know the exact code and library versions that passed your tests are what runs in production, with no surprise package updates
+- Because building an image twice costs a million pounds
+- Because production servers cannot run `pip install`
+- So that test database data is copied to real customers
+= Pinning dependencies in lockfiles and promoting the tested image artifact guarantees that production matches what passed staging.
+
+@@ sll_GbuKiFMrYwCw | B13.2 Containers & Cloud > Cloud Deployment
+## AWS (Lambda, ECS, Bedrock), GCP, Azure
+~m
+Most enterprise clients already have a primary cloud provider, and your agent architecture will usually deploy inside their existing account. Check the current details for each cloud's AI services.
+
+The three big clouds offer equivalent building blocks under different names. For running containers: **AWS ECS / Fargate**, **Google Cloud Run** and **Azure Container Apps**. For short event functions: **AWS Lambda**, **Cloud Functions** and **Azure Functions**. For managed foundation models inside the cloud boundary: **Amazon Bedrock**, **Google Vertex AI** and **Azure AI Foundry**.
+
+It is hiring a car in three countries: the badges on the steering wheel differ, but every car has pedals, gears and headlights in the same places.
+?? Why do enterprise clients often prefer calling models through Amazon Bedrock, Google Vertex AI or Azure AI Foundry rather than a separate consumer API?
++ It keeps traffic, billing, IAM permissions and data-privacy agreements inside the cloud platform their security team has already approved
+- Cloud-hosted models never use tokens
+- Direct APIs cannot return JSON
+- Only cloud platforms support the English language
+= Using the client's existing cloud provider simplifies procurement, billing, private networking and security sign-off.
+## Managed model endpoints
+Sometimes you are not calling a closed frontier API; you are running an open-weight model (such as a fine-tuned Llama, Qwen or Mistral model, or a specialist embedding or reranker model).
+
+Instead of renting raw GPU virtual machines and managing CUDA drivers yourself, **managed model endpoints** (on Bedrock, Vertex AI, Azure, Together AI, Fireworks or Replicate) host the model weights behind a standard HTTP API with autoscaling and monitoring handled for you.
+
+It is booking seats on a scheduled airline versus buying and servicing your own jet for three trips a year.
+
+Only manage your own GPU servers when steady, high-volume traffic makes dedicated hardware substantially cheaper.
+?? When does using a managed model endpoint beat managing your own raw GPU servers?
++ Whenever you want to run open-weight or custom models without the operational burden of managing GPU drivers, scaling and idle hardware costs
+- When you have zero traffic and want to pay for twenty idle GPUs 24 hours a day
+- When you are only writing static HTML pages with no AI
+- Never, because managed endpoints cannot run open-weight models
+= Managed endpoints handle GPU provisioning, inference servers and scaling so your team can focus on the application.
+## Serverless vs. always-on: paying per use or per hour
+Cloud compute comes in two billing models: **serverless (scale-to-zero)** and **always-on**.
+
+Serverless platforms (such as AWS Lambda or Cloud Run with minimum instances set to zero) charge only for the seconds a request is actively running and cost £0 overnight when nobody uses the app. The catch is a **cold start**: the first request after an idle period waits a second or two while a container boots, and requests have hard duration caps. **Always-on** containers or servers cost a steady hourly rate whether busy or quiet, but respond instantly with zero cold start and can run long background workers.
+
+It is taking a taxi per trip versus leasing a van by the month.
+?? What is the trade-off between scale-to-zero serverless hosting and always-on container hosting?
++ Serverless costs nothing when idle but has cold starts and timeout limits, while always-on costs a steady hourly fee for instant responses and long runs
+- Serverless is always more expensive when traffic is zero
+- Always-on servers delete themselves after every request
+- Cold starts only happen on always-on servers
+= Match the compute model to traffic: serverless for spiky or low-volume APIs, and always-on (or min-1 instances) for steady traffic and long background workers.
+## Simple hosting platforms for small projects
+~m
+For a startup, a small business client or an internal tool, setting up enterprise AWS VPCs, IAM roles and Terraform scripts from scratch is overkill.
+
+Modern developer platforms such as **Vercel**, **Railway**, **Render** and **Fly.io** connect directly to your GitHub repository, build your app automatically on every push, provide preview URLs for branches and pair cleanly with managed Postgres services like **Neon** or **Supabase**. Check the current details and limits of each platform.
+
+It is moving into a serviced office where the desks, Wi-Fi and reception are ready on day one, instead of leasing an empty warehouse.
+
+Start on a simple platform when allowed, and move to heavy cloud infrastructure only when scale or enterprise compliance demands it.
+?? Why are platforms like Vercel, Railway or Render with managed Postgres like Neon a strong choice for small and mid-sized projects?
++ They deploy straight from Git with preview environments, SSL and managed databases in minutes, avoiding weeks of cloud infrastructure setup
+- They are the only platforms capable of running HTML
+- They give you unlimited free frontier-model tokens forever
+- They forbid using Git branches
+= PaaS platforms eliminate DevOps overhead so a small team or solo consultant can ship and maintain production apps reliably.
+## Where the data lives: choosing a region
+When a UK, EU or Canadian client asks you to deploy an AI system, one of the first questions their data-protection officer will ask is: **in which geographic region are our database, our application servers and our model inference calls hosted?**
+
+Under GDPR, UK GDPR and sector rules in health, finance and government, keeping customer data and model calls inside a specific region (such as `eu-west-2` London, `eu-central-1` Frankfurt or `ca-central-1` Montreal) is often a contractual requirement. Check both where your database sits **and** which region your model endpoint routes to, as some global model endpoints route across regions unless pinned.
+
+It is checking that a confidential archive is stored in a UK vault rather than shipped overseas without permission.
+?? What must you verify when a client requires data residency in a specific region (such as the UK, EU or Canada)?
++ That the database, file storage, application servers and the pinned model inference endpoint all process and store data in that approved region
+- Only that the company's homepage ends in `.co.uk` or `.ca`
+- That users are only allowed to log in during local daylight hours
+- Nothing, because cloud regions are purely decorative labels
+= True regional residency requires pinning every layer that touches personal data: storage, compute, logs and the LLM endpoint itself.
+
+@@ sll_z5mCHn6y1kLS | B13.3 Gateways & Limits > Model Gateways
+## Multi-provider gateways and fallbacks
+A **model gateway** sits between your application code and the external AI providers (OpenAI, Anthropic, Google, Bedrock, etc.).
+
+Instead of scattering three different vendor SDKs across twenty files, your code calls one unified interface on the gateway. If your primary model returns a `503 Service Unavailable` or hits a rate limit, the gateway automatically retries with exponential backoff and, if the outage persists, falls over to your configured backup model on another provider so users barely notice a blip.
+
+It is an automatic backup generator in a hospital that kicks in within seconds when the main power grid trips.
+?? What are the two main jobs of a multi-provider model gateway?
++ Providing one unified API interface across model vendors and automatically handling retries and failover when a provider is down or rate-limited
+- Training new foundation models and designing CSS stylesheets
+- Replacing your application database with text files
+- Blocking all legitimate users from calling the app
+= A gateway decouples your application code from single-vendor SDK quirks and keeps your app running during provider outages.
+## Routing via LiteLLM / OpenRouter
+~m
+Instead of building a gateway from scratch, many teams use established tools like **LiteLLM** (an open-source Python library and self-hosted proxy server) or hosted services like **OpenRouter** and **Cloudflare AI Gateway**. Check the current details and pricing of each option.
+
+LiteLLM lets you call over a hundred model providers using the standard OpenAI format, either directly in Python or through a central proxy container inside your own cloud. Hosted gateways like OpenRouter give you a single API key and bill across dozens of model families for quick experimentation and fallback routing.
+
+It is a universal travel adapter that lets one plug connect to sockets in a hundred countries.
+?? How does a tool like LiteLLM simplify working with multiple model providers?
++ It translates a single standard API call format into the native format of dozens of different model providers, with built-in retries and fallbacks
+- It runs frontier models directly inside the user's web browser without internet
+- It deletes the need for any prompts
+- It only works with one model from 2021
+= Standardising on a gateway layer means switching or adding a model provider requires changing a config string rather than rewriting call sites.
+## One place for keys, logs, and budgets
+When five projects in a company each hold their own raw OpenAI and Anthropic API keys, nobody knows which feature spent £2,000 last weekend, and rotating a leaked key means updating five deployments in a panic.
+
+Routing all traffic through a central model gateway gives you one control point. The gateway holds the real provider API keys in one secure vault, issues separate internal virtual keys to each app or team, logs every call's token count and latency in a standard format, and enforces hard daily or monthly spend caps per key.
+
+It is a company corporate-card system where every department card has its own limit and itemised statement under one finance account.
+?? Why do engineering teams route internal apps through a central model gateway even when they mostly use one provider?
++ It centralises API key management, unified token and cost logging, and per-team or per-app spend caps in one place
+- It makes every API call take ten minutes longer
+- It hides token spending from the finance team
+- Providers refuse to talk to applications directly
+= Centralising keys, telemetry and budget caps at the gateway prevents runaway spend and makes cost attribution effortless.
+## Fallback models behave differently: test them too
+Configuring `backup_model = "gpt-4o-mini"` behind a Claude or Gemini primary feels safe until the day the primary goes down and you discover your backup model formats tool arguments slightly differently or rejects your system prompt structure.
+
+An untested fallback is a trap waiting to spring during an outage. Every model listed in your fallback chain must be included in your automated CI evaluation suite, and you should periodically test failover in staging to verify that structured schemas, tool calls and tone still pass when the backup takes over.
+
+It is checking that the spare tyre in your boot is actually inflated and fits the wheel nuts before you get a puncture on the motorway at night.
+?? Why must you run your evaluation suite against your fallback model as well as your primary model?
++ Different models respond differently to prompts, schemas and tool definitions, so an untested fallback can fail right when an outage triggers it
+- Fallback models are guaranteed to produce byte-for-byte identical outputs to the primary model
+- Evaluation suites automatically delete fallback configurations
+- Backup models never use system prompts
+= A fallback only provides real resilience if you have verified on your eval suite that your prompts and tools actually work on it.
+
+@@ sll_cykznWp5OZfo | B13.3 Gateways & Limits > Rate Limits & Quotas
+## API rate limiting
+Every model provider enforces **rate limits** on your account, typically measured in **RPM** (requests per minute), **TPM** (tokens per minute) and sometimes **TPD** (tokens per day).
+
+If a sudden burst of users or a parallel batch script exceeds your TPM limit, the provider returns HTTP `429 Too Many Requests`. Your code should handle `429` responses gracefully by reading the `Retry-After` header (if provided) and waiting with **exponential backoff plus random jitter** (for example, wait 1s, then 2s, then 4s, plus a few hundred random milliseconds so twenty waiting requests do not all retry at the exact same instant).
+
+It is motorway slip-road traffic lights that space cars out one by one so the main carriageway does not jam solid.
+?? Why should retry logic add random jitter to exponential backoff when handling `429` rate-limit errors?
++ So multiple requests that were rate-limited at the same moment do not all retry at the exact same second and trigger another `429` spike
+- Because providers require a random number in every prompt body
+- To make failed requests fail immediately without waiting
+- Because jitter reduces the number of tokens in a sentence
+= Exponential backoff with jitter spreads out retries smoothly instead of hammering the API in synchronised waves.
+## Quotas and backpressure
+Retries help with brief two-second spikes, but if ten thousand items flood in while your provider quota only allows a hundred per minute, retrying inside the web server will just pile up thousands of waiting connections until your server runs out of memory.
+
+You need **quotas and backpressure**. Limit concurrency with a semaphore or token-bucket rate limiter before requests ever hit the provider. When the queue is full, apply backpressure: slow down the ingestion job, queue requests neatly with an estimated wait time, or shed low-priority background work first so live interactive users still get served.
+
+It is a nightclub bouncer holding the queue outside behind a rope when the room inside reaches safe capacity.
+?? What is backpressure, and why is it needed alongside simple retries?
++ Controlling incoming concurrency and queuing or slowing new work when downstream capacity is full, preventing retries from overwhelming your server
+- Calling the API ten times faster whenever a `429` error occurs
+- Turning off all rate limits on the database
+- Deleting the user's account if they type too fast
+= Backpressure protects your own system and prioritises live user traffic when demand exceeds downstream API quotas.
+## Per-user and per-client budgets
+Even if your overall company API quota is huge, a single runaway script, an enthusiastic power user or a malicious bot can burn through your entire monthly budget in an afternoon if there are no per-user limits.
+
+Enforce rate limits and token budgets at the **user** and **client tenant** level in your own application database or Redis cache. For example, allow a standard user 30 messages per hour and £2 of token spend per day, and give each client organisation a monthly token allowance tied to their subscription tier, with an alert at 80% usage.
+
+It is a hotel buffet putting out sensible plates rather than letting the first guest tip the entire tray of bacon into a rucksack.
+?? Why do you need per-user and per-client token budgets in your own app even when your provider tier has high limits?
++ To stop a single heavy user, bug or script from consuming the entire shared budget or starving other customers of quota
+- Because providers automatically bill each of your end users' personal credit cards
+- To make sure nobody can use the app more than once a year
+- Because databases cannot count tokens per user
+= Per-user and per-tenant caps protect your margins and prevent one noisy neighbour from degrading the service for everyone else.
+## Failing politely when limits are reached
+Sooner or later, a user will hit their daily cap or a provider outage will exhaust your fallbacks. How your app behaves in that moment defines whether the user stays calm or loses trust.
+
+Never show a raw stack trace, an unhandled `500 Internal Server Error` or a spinning wheel that never stops. Fail politely and specifically: save any work the user typed so nothing is lost, explain clearly what happened ("You've reached today's 20-report limit; your quota resets at midnight, or you can still use standard search"), and offer a degraded non-AI fallback or human contact path where possible.
+
+It is a shop putting up a polite "Back in 10 minutes" sign on the counter rather than slamming the shutter on a customer's fingers.
+?? What should an application do when a user reaches a usage limit or all model providers are temporarily unavailable?
++ Preserve the user's input, show a clear, honest message explaining the limit or outage, and offer a fallback path if one exists
+- Crash with a raw 500 error page and erase what the user typed
+- Pretend the request succeeded and return an empty file
+- Charge the user's card twice without running the task
+= Graceful degradation and clear messaging preserve user trust and prevent lost work when limits or outages occur.
+
+@@ sll_4k9eD99wEwZN | B13.4 LLMOps Lifecycle > Versioning
+## Prompt, model, and config versioning
+In an AI system, your prompts, model identifier, temperature, tool schemas and guardrail thresholds change behaviour just as much as your Python or TypeScript code does.
+
+Treat all of them as **versioned artefacts**. Keep prompts and configurations in Git (or a versioned prompt registry linked to commits) rather than editing live strings in an untracked database table. Every change should have a version identifier, an author, a commit message explaining why it changed, and a link to the evaluation run that approved it.
+
+It is a commercial bakery keeping numbered recipe cards in a binder so everyone knows what changed between Recipe v4 and Recipe v5.
+?? Why should prompts, model identifiers and tool schemas be kept under version control just like application code?
++ Because changes to any of them alter system behaviour, and version history lets you review diffs, run CI evals and roll back cleanly
+- Because models run faster when prompts are stored in Git
+- So that nobody on the team can see what the system prompt says
+- Because databases cannot store strings longer than ten characters
+= Versioning the whole AI configuration bundle (prompt + model + parameters + tools) makes every change auditable and reversible.
+## Data versioning for RAG indexes
+When a RAG answer changes from one week to the next, the culprit is often not the prompt or the model; it is the **retrieval index**. New PDFs were ingested, a chunking script was changed from 500 to 800 tokens, or the embedding model was upgraded.
+
+Version your RAG index alongside your code. Record which source documents (with file hashes and timestamps), which chunking parameters and which embedding model built `index_v2026_11_13`. Build new indexes under a new versioned collection or alias (`kb_v4`), run your retrieval and RAG evals against `kb_v4`, and flip the live alias from `kb_v3` to `kb_v4` only when the scores pass.
+
+It is printing a new edition of a reference textbook and checking the index before replacing the copies in the library.
+?? Why is building a new RAG index under a versioned alias (`kb_v4`) better than overwriting chunks in place inside the live index?
++ You can test the new index on your eval suite before switching traffic, and switch back to `kb_v3` instantly if a problem appears
+- Overwriting in place is the only way to keep a backup
+- Vector databases only allow one collection to exist on a server
+- Embedding models never change their vector dimensions
+= Blue-green index aliases give you safe testing before cutover and an instant rollback if a chunking or ingestion change hurts retrieval.
+## Pinning model versions: providers update and retire models
+~m
+In API calls, model names come in two styles: a floating alias (such as `gpt-4o` or `claude-sonnet-4`) and a **pinned dated snapshot** (such as a specific version string or release snapshot). Check the current details in your provider's model documentation.
+
+If you use a floating alias in production, the day the provider points that alias to a newer snapshot, your production behaviour changes overnight without a single commit in your repository. Always pin the exact snapshot identifier in production configs, test new snapshots on your eval suite in staging first, and upgrade on your own schedule.
+
+It is specifying the exact paint code on a repair order rather than asking for "whatever blue is in the van today".
+?? Why should production configurations pin a specific model snapshot rather than a floating alias?
++ Floating aliases can be updated silently by the provider, changing your production behaviour without your eval suite running first
+- Pinned snapshots cost ten times more per token than floating aliases
+- Providers never update floating aliases
+- Pinned snapshots do not require an API key
+= Pinning the exact model version prevents unexpected behaviour shifts until you have tested the new snapshot yourself.
+## Knowing exactly which version produced an answer
+When a client emails a screenshot of a strange AI answer from last Thursday, your first job is to reproduce it. You cannot do that if you do not know which version of your system wrote that reply.
+
+Every response log and database record produced by your AI should stamp metadata alongside the output: the **Git commit SHA** (or release version), the **prompt version**, the **exact model snapshot returned by the provider**, the **RAG index version** and the **retrieved chunk IDs**.
+
+It is the batch number and date stamped on the lid of a jar of jam: if one jar has a fault, the factory knows the exact vat, recipe and day it came from.
+?? Which pieces of version metadata should be logged alongside every production AI output?
++ The code/release version, prompt version, exact model snapshot, RAG index version and retrieved source IDs
+- Only the day of the week the user logged in
+- The user's favourite colour and screen brightness
+- Nothing, because logs take up too much disk space
+= Stamping exact code, prompt, model and index versions on every trace lets you reproduce and diagnose any historical output immediately.
+
+@@ sll_l8CrcKfNy8nK | B13.4 LLMOps Lifecycle > CI/CD for LLM Apps
+## Eval-gated deployments
+In standard CI/CD, a deployment pipeline blocks a release if a unit test or type check fails. In **LLMOps**, you add an **eval gate** to that same pipeline.
+
+Before a new prompt, tool or model version can deploy to production, the pipeline automatically runs your evaluation suite against the candidate build and compares the scores against your minimum thresholds (for example: faithfulness >= 95%, safety pass rate = 100%, p95 latency <= 6s, cost per task <= £0.04). If any gate fails, the deployment stops automatically and posts the failing test cases on the pull request.
+
+It is an automated passport gate at the airport that only opens the barrier when every check on the chip passes.
+?? What is an eval-gated deployment in LLMOps?
++ An automated deployment pipeline that blocks a release if the candidate version fails accuracy, safety, latency or cost thresholds on the eval suite
+- A manual meeting where managers guess whether a prompt sounds nice
+- Deploying straight to production and running tests a month later
+- Blocking all deployments on Tuesdays
+= Making eval thresholds an automated gate in CI/CD stops regressions from reaching production users.
+## Rollbacks and canary releases
+Even with good offline evals, real production traffic can hit an unexpected snag. Two deployment habits make releases low-stress: **canary releases** and **instant rollbacks**.
+
+A **canary release** routes a tiny slice of live traffic (say 2% or internal staff accounts first) to the new version while watching error rates, latency, guardrails and user feedback. If everything stays green for an hour, traffic ramps to 25% and then 100%. If anything spikes, an **instant rollback** flips traffic back to the previous known-good container, prompt version and index alias in seconds.
+
+It is dipping a toe in the bathwater before jumping in, with the cold tap right in reach.
+?? How do canary releases and instant rollbacks reduce deployment risk?
++ A canary exposes only a small slice of traffic to a new version first, and a rollback switches back to the previous working version immediately if metrics degrade
+- Canary releases send the new version to 100% of users with no monitoring
+- Rollbacks require rewriting all the code from scratch while users wait
+- They remove the need for any logging or alerts
+= Gradual traffic ramping plus one-click rollback limits the blast radius of any surprise production issue to a tiny fraction of requests.
+## Feature flags to switch behaviour without redeploying
+Waiting ten minutes for a full container rebuild and cloud deployment when a provider is having a bad afternoon or a new prompt is misbehaving feels like an eternity.
+
+Put key AI switches behind **runtime feature flags** (or a hot-reloaded configuration table) that you can flip in two seconds without redeploying code: which model and provider a route uses, which prompt version is active, whether a new agent tool is enabled, and what the maximum step cap is. Include a global **kill switch** that cleanly disables an autonomous feature and falls back to human queueing if an emergency occurs.
+
+It is a circuit breaker panel on the wall: you can flip one switch off in a second without calling an electrician to rewire the house.
+?? Why should model selection, prompt versions and autonomous actions be controlled by runtime feature flags?
++ So you can switch models, roll back a prompt or disable a misbehaving tool in seconds without waiting for a full code redeploy
+- Because feature flags make Python code run without a server
+- So end users can edit the company's database schema
+- Because redeploying a container takes half a millisecond
+= Runtime flags and kill switches give operations teams instant control during model outages or unexpected agent behaviour.
+## Planning for model retirement and migration
+Every pinned model snapshot you use today will eventually be retired by its provider, often with three to six months' notice. If your prompts and code are brittle and you have no eval suite, every model retirement becomes an unscheduled crisis.
+
+Turn model migration into a routine, calm two-hour chore. Keep a central inventory of which pinned model versions are used where and their announced deprecation dates. When a replacement snapshot arrives, point a branch at the new model ID, run your offline eval suite, adjust any prompt phrasing where the new model behaves differently, run shadow or canary traffic for a few days, and flip the flag well before the deadline.
+
+It is renewing your passport a month before it expires rather than discovering it is out of date at the airport check-in desk.
+?? What makes migrating to a new model before a provider retirement deadline quick and low-risk?
++ Having model IDs centralised in config and an automated evaluation suite ready to verify and tune prompts against the replacement model
+- Waiting until the day after the old model is turned off to see what breaks
+- Hard-coding the old model name in fifty separate files with no tests
+- Refusing to ever upgrade models
+= Centralised model config plus a solid eval suite turns inevitable model retirements into a routine test-and-switch exercise.

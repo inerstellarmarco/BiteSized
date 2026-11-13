@@ -5,8 +5,8 @@
     {
       "id": "bit_KRXYuIyiJ2rT",
       "title": "API rate limiting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every model provider enforces **rate limits** on your account, typically measured in **RPM** (requests per minute), **TPM** (tokens per minute) and sometimes **TPD** (tokens per day).\n\nIf a sudden burst of users or a parallel batch script exceeds your TPM limit, the provider returns HTTP `429 Too Many Requests`. Your code should handle `429` responses gracefully by reading the `Retry-After` header (if provided) and waiting with **exponential backoff plus random jitter** (for example, wait 1s, then 2s, then 4s, plus a few hundred random milliseconds so twenty waiting requests do not all retry at the exact same instant).\n\nIt is motorway slip-road traffic lights that space cars out one by one so the main carriageway does not jam solid.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,43 +19,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KRXYuIyiJ2rT_1",
+          "type": "multiple_choice",
+          "prompt": "Why should retry logic add random jitter to exponential backoff when handling `429` rate-limit errors?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because providers require a random number in every prompt body"
+            },
+            {
+              "id": "b",
+              "text": "So multiple requests that were rate-limited at the same moment do not all retry at the exact same second and trigger another `429` spike"
+            },
+            {
+              "id": "c",
+              "text": "To make failed requests fail immediately without waiting"
+            },
+            {
+              "id": "d",
+              "text": "Because jitter reduces the number of tokens in a sentence"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Exponential backoff with jitter spreads out retries smoothly instead of hammering the API in synchronised waves.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_G2XE8LlKS_fy",
       "title": "Quotas and backpressure",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Retries help with brief two-second spikes, but if ten thousand items flood in while your provider quota only allows a hundred per minute, retrying inside the web server will just pile up thousands of waiting connections until your server runs out of memory.\n\nYou need **quotas and backpressure**. Limit concurrency with a semaphore or token-bucket rate limiter before requests ever hit the provider. When the queue is full, apply backpressure: slow down the ingestion job, queue requests neatly with an estimated wait time, or shed low-priority background work first so live interactive users still get served.\n\nIt is a nightclub bouncer holding the queue outside behind a rope when the room inside reaches safe capacity.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_G2XE8LlKS_fy_1",
+          "type": "multiple_choice",
+          "prompt": "What is backpressure, and why is it needed alongside simple retries?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Calling the API ten times faster whenever a `429` error occurs"
+            },
+            {
+              "id": "b",
+              "text": "Controlling incoming concurrency and queuing or slowing new work when downstream capacity is full, preventing retries from overwhelming your server"
+            },
+            {
+              "id": "c",
+              "text": "Turning off all rate limits on the database"
+            },
+            {
+              "id": "d",
+              "text": "Deleting the user's account if they type too fast"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Backpressure protects your own system and prioritises live user traffic when demand exceeds downstream API quotas.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_cRnijyLT7aOA",
       "title": "Per-user and per-client budgets",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Even if your overall company API quota is huge, a single runaway script, an enthusiastic power user or a malicious bot can burn through your entire monthly budget in an afternoon if there are no per-user limits.\n\nEnforce rate limits and token budgets at the **user** and **client tenant** level in your own application database or Redis cache. For example, allow a standard user 30 messages per hour and £2 of token spend per day, and give each client organisation a monthly token allowance tied to their subscription tier, with an alert at 80% usage.\n\nIt is a hotel buffet putting out sensible plates rather than letting the first guest tip the entire tray of bacon into a rucksack.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cRnijyLT7aOA_1",
+          "type": "multiple_choice",
+          "prompt": "Why do you need per-user and per-client token budgets in your own app even when your provider tier has high limits?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To stop a single heavy user, bug or script from consuming the entire shared budget or starving other customers of quota"
+            },
+            {
+              "id": "b",
+              "text": "Because providers automatically bill each of your end users' personal credit cards"
+            },
+            {
+              "id": "c",
+              "text": "To make sure nobody can use the app more than once a year"
+            },
+            {
+              "id": "d",
+              "text": "Because databases cannot count tokens per user"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Per-user and per-tenant caps protect your margins and prevent one noisy neighbour from degrading the service for everyone else.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ONhKLhA1pfKg",
       "title": "Failing politely when limits are reached",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sooner or later, a user will hit their daily cap or a provider outage will exhaust your fallbacks. How your app behaves in that moment defines whether the user stays calm or loses trust.\n\nNever show a raw stack trace, an unhandled `500 Internal Server Error` or a spinning wheel that never stops. Fail politely and specifically: save any work the user typed so nothing is lost, explain clearly what happened (\"You've reached today's 20-report limit; your quota resets at midnight, or you can still use standard search\"), and offer a degraded non-AI fallback or human contact path where possible.\n\nIt is a shop putting up a polite \"Back in 10 minutes\" sign on the counter rather than slamming the shutter on a customer's fingers.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ONhKLhA1pfKg_1",
+          "type": "multiple_choice",
+          "prompt": "What should an application do when a user reaches a usage limit or all model providers are temporarily unavailable?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Crash with a raw 500 error page and erase what the user typed"
+            },
+            {
+              "id": "b",
+              "text": "Pretend the request succeeded and return an empty file"
+            },
+            {
+              "id": "c",
+              "text": "Charge the user's card twice without running the task"
+            },
+            {
+              "id": "d",
+              "text": "Preserve the user's input, show a clear, honest message explaining the limit or outage, and offer a fallback path if one exists"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Graceful degradation and clear messaging preserve user trust and prevent lost work when limits or outages occur.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,20 +5,48 @@
     {
       "id": "bit_xrcwxAXlzJUk",
       "title": "Pipeline: work passes down a fixed line",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A pipeline topology arranges agents in a fixed straight line: Agent A finishes and passes its output to Agent B, which passes its output to Agent C.\n\nFor example, an RFP response pipeline might run `requirements_extractor` -> `knowledge_base_matcher` -> `draft_writer` -> `compliance_checker`. The order never varies, and no agent needs to decide who speaks next.\n\nIt is a car wash tunnel where every car goes through pre-rinse, soap, brushes, wax and dryer in the exact same order.\n\nPipelines are the easiest multi-agent topology to build, test, time and budget because the path is completely predictable.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xrcwxAXlzJUk_1",
+          "type": "multiple_choice",
+          "prompt": "What makes a pipeline topology the simplest multi-agent structure to manage?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Any agent can call any other agent at random"
+            },
+            {
+              "id": "b",
+              "text": "It requires a central manager LLM call after every token"
+            },
+            {
+              "id": "c",
+              "text": "Agents run in a fixed, predetermined sequence, so the path, cost and timing are easy to predict and test"
+            },
+            {
+              "id": "d",
+              "text": "It skips all intermediate steps and runs only the last agent"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "When every job follows the same stages, a fixed pipeline avoids routing overhead and makes testing straightforward.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_OAlaRu48v3pS",
       "title": "Supervisor: one agent delegates and collects results",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a supervisor topology, a single central supervisor agent sits at the hub while specialist worker agents sit on the spokes.\n\nWorkers never talk directly to each other. The user's request comes to the supervisor. The supervisor calls Worker A, reads the result, decides whether Worker B is needed next, calls Worker B, and finally writes the response to the user.\n\nIt is a general practitioner (GP) who refers you to a cardiologist for a scan, reads the specialist report when it comes back and explains the treatment plan to you.\n\nBecause every handoff goes through the hub, you have one clear place to log progress, enforce budgets and maintain the overall goal.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,43 +59,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OAlaRu48v3pS_1",
+          "type": "multiple_choice",
+          "prompt": "How do worker agents communicate in a supervisor topology?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every worker broadcasts messages to every other worker continuously"
+            },
+            {
+              "id": "b",
+              "text": "They do not talk directly to each other; each worker reports back to the central supervisor, which decides the next step"
+            },
+            {
+              "id": "c",
+              "text": "Workers message the end user directly in separate chat windows"
+            },
+            {
+              "id": "d",
+              "text": "The supervisor runs once at the start and then shuts down before workers finish"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Routing all delegation and results through a central supervisor keeps control in one place and prevents chaotic cross-talk.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_9X7Ix817ZhTN",
       "title": "Hierarchy: supervisors of supervisors for large jobs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a system grows beyond five or six tools and specialists, a single supervisor starts picking the wrong worker because its prompt is crowded with too many options.\n\nA hierarchical topology solves this by grouping specialists into teams, each with its own team-lead supervisor, underneath a top-level supervisor. For instance, the top supervisor routes between a `Data Team` supervisor and a `Content Team` supervisor, and each team supervisor manages its own three specialists.\n\nIt is a large hospital where the clinical director coordinates department heads for surgery, radiology and pharmacy, rather than scheduling every nurse personally.\n\nOnly introduce a second layer of supervisors when a single supervisor's routing accuracy measurably drops.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9X7Ix817ZhTN_1",
+          "type": "multiple_choice",
+          "prompt": "When does a hierarchical (supervisor-of-supervisors) topology become useful?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When there are too many specialists or tools for a single supervisor to route accurately on its own"
+            },
+            {
+              "id": "b",
+              "text": "On a simple two-step task with one tool"
+            },
+            {
+              "id": "c",
+              "text": "When you want to minimise the number of model calls"
+            },
+            {
+              "id": "d",
+              "text": "When no specialists exist in the system"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Grouping specialists under mid-level supervisors keeps each routing decision limited to a small, clear set of choices.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_huGP0bIUhhvb",
       "title": "Network: agents hand off to each other freely",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a network (or mesh) topology, there is no central boss. Any agent can decide to hand control directly to any other agent in the group.\n\nFor example, a `sales_agent` chatting with a customer can transfer directly to the `technical_architect_agent` for a deep integration question, which can then hand off directly to the `pricing_agent` to build a quote.\n\nIt is a small workshop where craftspeople pass a job directly across the bench to whoever is needed next without asking a manager first.\n\nNetworks cut out the middleman call of a supervisor, but they are the hardest topology to control: two agents can easily ping-pong a task back and forth if their handoff rules overlap.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_huGP0bIUhhvb_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main risk of a network topology where any agent can hand off to any other agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It requires too many central manager calls"
+            },
+            {
+              "id": "b",
+              "text": "Agents can bounce a task back and forth in loops if their handoff boundaries are not tightly defined"
+            },
+            {
+              "id": "c",
+              "text": "Agents are unable to pass any context at all"
+            },
+            {
+              "id": "d",
+              "text": "It can only run in a fixed straight line"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Without a central coordinator, peer-to-peer handoffs need strict guardrails and loop limits to avoid endless ping-ponging.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TjtTBc7S3634",
       "title": "Choosing a topology: predictability vs. flexibility",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Choosing a team topology is a trade-off along a spectrum from predictable control to open-ended flexibility.\n\nAt the predictable end sits the **pipeline**: fixed steps, lowest overhead, easiest to test, but unable to adapt when a request needs a different order of steps. In the middle sits the **supervisor**: flexible routing across specialists while keeping one hub in charge. At the flexible end sits the **network**: direct peer handoffs, but hardest to bound and debug.\n\nIt is transport: a train on rails is predictable, a bus route with a dispatcher adapts to traffic, and taxis go anywhere at a higher cost.\n\nAlways start as close to the pipeline end as your problem allows.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TjtTBc7S3634_1",
+          "type": "multiple_choice",
+          "prompt": "What is the sensible default rule when choosing a multi-agent topology for a client project?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Start with the simplest, most predictable structure (like a pipeline or single supervisor) that fits the problem"
+            },
+            {
+              "id": "b",
+              "text": "Always start with a free-form peer-to-peer network of ten agents"
+            },
+            {
+              "id": "c",
+              "text": "Pick whichever topology uses the most API calls"
+            },
+            {
+              "id": "d",
+              "text": "Avoid pipelines even when the steps are identical every time"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "More flexible topologies cost more to run and test, so only move away from a fixed pipeline where runtime routing is genuinely needed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

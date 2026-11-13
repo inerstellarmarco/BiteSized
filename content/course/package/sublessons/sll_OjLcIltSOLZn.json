@@ -5,32 +5,88 @@
     {
       "id": "bit_JGK36vfnimwu",
       "title": "Mean, variance, confidence intervals",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A sample mean estimates the centre of a population, sample variance estimates its spread, and a confidence interval gives a range of plausible values for the true population parameter based on sample size and variability.\n\nIt is like a retail trial in twenty stores reporting an average sales lift of four percent with a ninety-five percent confidence interval from one percent to seven percent.\n\nA wider interval warns a client that the sample was small or noisy, and a ninety-five percent confidence interval assumes random sampling without systematic bias.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_JGK36vfnimwu_1",
+          "type": "multiple_choice",
+          "prompt": "What causes a confidence interval around a sample mean to become narrower?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Reducing the sample size to only two or three hand-picked records"
+            },
+            {
+              "id": "b",
+              "text": "Adding random measurement noise to every row in the spreadsheet"
+            },
+            {
+              "id": "c",
+              "text": "Increasing the sample size or having lower variance among the observations"
+            },
+            {
+              "id": "d",
+              "text": "Switching from British currency units to raw unscaled ratios"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Standard error shrinks as the square root of the sample size grows and as sample variability decreases, tightening the interval around the estimate.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rfr-NfxZmPJR",
       "title": "Hypothesis testing, p-values, multiple testing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A hypothesis test checks whether an observed difference is larger than we would expect from random chance alone under a no-effect null hypothesis, and the p-value measures how often data at least that extreme would appear by pure luck.\n\nIt is like flipping a coin ten times to test fairness; getting ten heads gives a tiny p-value, whereas testing a hundred coins at once virtually guarantees one lucky streak by accident.\n\nWhen an analytics team tests dozens of client segments or model variants at once without corrections like Bonferroni or false discovery rate control, false discoveries become routine.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rfr-NfxZmPJR_1",
+          "type": "multiple_choice",
+          "prompt": "What is the multiple testing problem in data analysis?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Testing a model on more than one CPU core corrupts the floating-point arithmetic"
+            },
+            {
+              "id": "b",
+              "text": "Using a large test dataset reduces statistical power to zero"
+            },
+            {
+              "id": "c",
+              "text": "Comparing two models on the same validation split is mathematically impossible"
+            },
+            {
+              "id": "d",
+              "text": "Running many hypothesis tests increases the chance of finding at least one false positive purely by random luck"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "At a 5% significance threshold, one in twenty tests of true null hypotheses will cross the threshold by chance, so testing many hypotheses inflates false alarms.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_8crw46g5ADle",
       "title": "Sampling bias and correlation vs. causation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sampling bias happens when the collected data systematically excludes or over-represents parts of the real population, while confusing correlation with causation happens when two variables move together due to a hidden confounding factor rather than one causing the other.\n\nIt is like concluding that hospital beds cause illness because people in hospital beds are sicker, or judging national opinion by polling only luxury airport lounges.\n\nMore rows never fix a biased sample, and predicting what happens when a client actively changes a price or policy requires causal evidence, such as a controlled trial, not just passive correlation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,43 +99,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8crw46g5ADle_1",
+          "type": "multiple_choice",
+          "prompt": "Why can collecting ten times more data fail to fix a model suffering from sampling bias?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because gradient descent cannot process datasets larger than ten thousand rows"
+            },
+            {
+              "id": "b",
+              "text": "Because correlation automatically turns into causation once sample size exceeds a million"
+            },
+            {
+              "id": "c",
+              "text": "Because larger datasets always increase the width of confidence intervals"
+            },
+            {
+              "id": "d",
+              "text": "Because a larger sample drawn through the same flawed collection process simply repeats the same systematic skew with higher confidence"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Sampling bias is a systematic mismatch between the sample and the target population, so scaling up the same collection method just reinforces the distortion.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Z1VHZ-2cgKaf",
       "title": "A p-value is not the probability that the hypothesis is true",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A p-value is the probability of observing a test statistic at least as extreme as the one in your sample assuming the null hypothesis of no real effect is true; it is never the probability that the null hypothesis itself is true.\n\nIt is like noting that if a fire alarm is working properly, a random false ring is rare, which is not the same as calculating the probability that there is no fire once it rings.\n\nBecause p-values do not incorporate how plausible a hypothesis was before the experiment, treating `p = 0.04` as a ninety-six percent guarantee of a real business win misleads executives.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Z1VHZ-2cgKaf_1",
+          "type": "multiple_choice",
+          "prompt": "Which statement accurately defines a p-value in hypothesis testing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The probability that the null hypothesis is true given the observed data"
+            },
+            {
+              "id": "b",
+              "text": "The probability of seeing results at least as extreme as the observed data, assuming the null hypothesis is true"
+            },
+            {
+              "id": "c",
+              "text": "The probability that the alternative hypothesis will generate profit next quarter"
+            },
+            {
+              "id": "d",
+              "text": "The percentage of variance explained by the model on the training split"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A p-value conditions on the null hypothesis being true and measures how unusual the observed sample result would be under pure chance.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TkMEk0SI1YGC",
       "title": "Effect size: significant does not mean large",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Statistical significance only tells you that an observed difference is unlikely to be pure sampling noise, whereas effect size measures the actual magnitude of that difference in practical, business-relevant units.\n\nIt is like running an A/B test on ten million website visits and proving with a tiny p-value that a new button boosts revenue by half a penny per year.\n\nWith massive datasets, tiny and commercially useless differences easily achieve statistical significance, so consultants must always report the effect size alongside its confidence interval and deployment cost.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TkMEk0SI1YGC_1",
+          "type": "multiple_choice",
+          "prompt": "Why must an AI consultant check the effect size even when an A/B test achieves a tiny p-value?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A small p-value means the new model performed worse than the baseline"
+            },
+            {
+              "id": "b",
+              "text": "With a large enough sample size, even a tiny, commercially meaningless improvement can be statistically significant"
+            },
+            {
+              "id": "c",
+              "text": "Effect size is the only way to tell whether the code ran on a GPU or CPU"
+            },
+            {
+              "id": "d",
+              "text": "Statistical significance only applies to unsupervised clustering algorithms"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Significance measures confidence that an effect is non-zero, whereas effect size measures whether the magnitude is large enough to matter in practice.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ZkfTwepW6qEG",
       "title": "Bootstrap: estimating uncertainty by resampling",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The bootstrap estimates the uncertainty of almost any metric by repeatedly drawing random samples of the same size from your observed dataset with replacement, recalculating the metric on each resample, and inspecting the spread of those results.\n\nIt is like shaking and re-drawing hands of cards from your existing sample hundreds of times to see how much a model's F1 score or median error wobbles.\n\nBootstrapping frees you from textbook formula assumptions, but it cannot invent information missing from a tiny or biased original sample, and interdependent rows must be resampled in blocks.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ZkfTwepW6qEG_1",
+          "type": "multiple_choice",
+          "prompt": "How does the bootstrap method estimate a confidence interval for a custom evaluation metric?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By repeatedly sampling rows from the dataset with replacement, computing the metric on each sample, and taking the percentiles of the resulting values"
+            },
+            {
+              "id": "b",
+              "text": "By deleting half the dataset permanently and training a linear regression on the remainder"
+            },
+            {
+              "id": "c",
+              "text": "By assuming the metric follows a Bernoulli distribution with mean zero"
+            },
+            {
+              "id": "d",
+              "text": "By retraining the model from scratch on synthetic text generated by a random word list"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Resampling with replacement mimics drawing repeated samples from the population, letting the empirical spread of the recalculated statistic quantify uncertainty.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

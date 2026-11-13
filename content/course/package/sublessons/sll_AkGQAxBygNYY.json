@@ -5,8 +5,8 @@
     {
       "id": "bit_7DyBL6f8zyhk",
       "title": "Data versioning (DVC)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Data versioning tools such as DVC, LakeFS, or Delta Lake let teams track changes to large datasets over time without cramming gigabytes of raw files directly into a Git repository. DVC stores small text pointer files containing content hashes inside Git while keeping the heavy data files in cloud object storage like Amazon S3 or Google Cloud Storage.\n\nIt is like keeping a lightweight library claim ticket in your wallet while your heavy winter suitcases sit safely in the cloakroom vault.\n\nBecause storage backends and data versioning features evolve across releases, check the current details of your client's data lake or MLOps stack before choosing a tool.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7DyBL6f8zyhk_1",
+          "type": "multiple_choice",
+          "prompt": "How does a tool like DVC version multi-gigabyte training datasets alongside Git without bloating the Git repository?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It prints the entire dataset onto paper rolls and scans them back in on every commit"
+            },
+            {
+              "id": "b",
+              "text": "It commits lightweight pointer files with cryptographic hashes to Git while storing the actual large data files in external object storage"
+            },
+            {
+              "id": "c",
+              "text": "It deletes ninety-nine per cent of the training rows so the file fits inside a standard email"
+            },
+            {
+              "id": "d",
+              "text": "It forces developers to re-type the entire dataset manually before every training run"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Storing small metadata pointers in Git and heavy blobs in remote storage gives teams Git-style branching and history for huge datasets.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_cXISpXIovrxO",
       "title": "Model versioning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every time you retrain, fine-tune, or quantise a model, the resulting weights and configuration files should receive a distinct, immutable version identifier rather than overwriting the previous file in place. Versioning models ensures that production servers, evaluation scripts, and incident logs always refer to an unambiguous artefact.\n\nIt is like publishing software releases as version 1.1 and version 1.2 rather than silently replacing the installer file named latest.zip on a shared drive.\n\nIf a team overwrites model files in place under a single file name, rolling back after a bad deployment or figuring out which model served a customer yesterday becomes nearly impossible.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,43 +66,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cXISpXIovrxO_1",
+          "type": "multiple_choice",
+          "prompt": "What is the danger of overwriting a production model file in place under a generic name like model_latest.bin?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The operating system refuses to load any file that has the word latest in its name"
+            },
+            {
+              "id": "b",
+              "text": "Versioning a model increases its GPU memory footprint by ten times per version"
+            },
+            {
+              "id": "c",
+              "text": "Model weights automatically decay if they are given a numbered version tag"
+            },
+            {
+              "id": "d",
+              "text": "You cannot tell which model handled past requests or roll back cleanly if the new weights perform poorly"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Immutable version identifiers guarantee traceability in logs and allow instant rollback to a known-good artefact.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ACslAPH6j5Hr",
       "title": "Version data like code",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In traditional software engineering, behaviour comes from source code, so versioning code in Git is enough; in machine learning, behaviour comes from both code and data. Versioning data like code means treating datasets as immutable snapshots or logged commits so you can inspect diffs, branch experiments, and roll back when bad data is discovered.\n\nIt is like a legal firm keeping dated, signed drafts of a contract rather than letting everyone scribble over a single shared paper copy in pencil.\n\nWhen a client's data pipeline accidentally ingests corrupted records on a Tuesday, data versioning lets the team revert immediately to Monday's clean snapshot and retrain.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ACslAPH6j5Hr_1",
+          "type": "multiple_choice",
+          "prompt": "Why is versioning source code in Git alone insufficient for reproducing machine learning systems?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Git cannot store Python or configuration files used in machine learning"
+            },
+            {
+              "id": "b",
+              "text": "Source code is never executed during machine learning training runs"
+            },
+            {
+              "id": "c",
+              "text": "A model's behaviour depends heavily on the training and evaluation data, so changes to the data change the resulting model even when code is identical"
+            },
+            {
+              "id": "d",
+              "text": "Machine learning models delete their own source code as soon as training finishes"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because model weights are learned directly from data, tracking dataset snapshots is just as critical as tracking code commits.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_f61-wZnjJ09L",
       "title": "Link each model to the data and code that built it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Storing code versions in Git, data versions in storage, and model versions in a registry only delivers full value when those three records are explicitly linked together by metadata tags. Every registered model version should store the exact data snapshot ID and Git commit SHA that produced it.\n\nIt is like stamping a car's chassis number onto its service book so a mechanic can look up both the exact factory blueprint and the batch of steel used on the assembly line.\n\nWithout automated pipeline links, engineers end up guessing which dataset folder was mounted on the server when a model was trained three months ago.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_f61-wZnjJ09L_1",
+          "type": "multiple_choice",
+          "prompt": "How should a mature MLOps pipeline ensure that a registered model can always be traced back to its inputs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Ask data scientists to remember which dataset they used and explain it verbally at quarterly meetings"
+            },
+            {
+              "id": "b",
+              "text": "Automatically record the exact dataset version hash and Git code commit SHA in the model version's registry metadata during the build"
+            },
+            {
+              "id": "c",
+              "text": "Name every model file after the day of the week it was trained on"
+            },
+            {
+              "id": "d",
+              "text": "Store all code, data, and models inside a single unindexed text document on a laptop"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Writing the data snapshot ID and code commit hash into the model metadata automatically at build time eliminates human bookkeeping errors.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-etueqliwLff",
       "title": "Stage names: experiment, staging, production",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Model registries and deployment pipelines use lifecycle stage labels or aliases, commonly called experiment, staging, and production, to track how mature and trusted a model version is. Newly trained candidates start as experimental runs, move to staging for integration and load testing, and are promoted to production only after passing all checks.\n\nIt is like a theatre company rehearsing a play in a private studio, running a full dress rehearsal on stage, and finally opening the doors to paying audiences.\n\nModern registries often implement these stages using explicit aliases or environment tags coupled with role-based access control so that a junior script cannot accidentally overwrite the live production model.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-etueqliwLff_1",
+          "type": "multiple_choice",
+          "prompt": "What is the purpose of moving a model version through distinct stages such as experiment, staging, and production?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To compress the model weights from 16-bit to 4-bit automatically whenever the label changes"
+            },
+            {
+              "id": "b",
+              "text": "To force customers to test broken experimental models on the main company website"
+            },
+            {
+              "id": "c",
+              "text": "To separate unverified training trials from models undergoing integration tests and models approved to serve live customer traffic"
+            },
+            {
+              "id": "d",
+              "text": "To delete the training dataset as soon as a model reaches the staging environment"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Clear lifecycle stages and access controls ensure only vetted, tested model versions receive real production traffic.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

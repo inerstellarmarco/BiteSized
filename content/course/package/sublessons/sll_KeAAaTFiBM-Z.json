@@ -5,8 +5,8 @@
     {
       "id": "bit_-8PKzY0uoq45",
       "title": "Propagating error backward through layers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Backpropagation computes the gradient of the loss with respect to every weight in the network by starting at the final loss scalar and working backward layer by layer, reusing intermediate derivatives via the calculus chain rule.\n\nIt is like a project post-mortem that starts with the final budget overrun and traces responsibility step by step back through assembly, parts ordering, and initial design.\n\nBecause each layer's backward calculation depends on the activation values saved during the forward pass, training a deep network consumes far more memory than running forward inference alone.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-8PKzY0uoq45_1",
+          "type": "multiple_choice",
+          "prompt": "Why is backward propagation of errors vastly more efficient than nudging each weight one at a time to measure its effect on the loss?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It reuses intermediate derivatives via the chain rule to compute gradients for millions of weights in a single backward pass"
+            },
+            {
+              "id": "b",
+              "text": "It skips the early layers of the network and only updates the final bias scalar"
+            },
+            {
+              "id": "c",
+              "text": "It evaluates the loss function without ever running a forward pass first"
+            },
+            {
+              "id": "d",
+              "text": "It rounds all weights to binary integers so derivatives are not required"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Perturbing millions of weights individually would require millions of forward passes per batch, whereas backpropagation computes all partial derivatives in one reverse pass.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6wmHmLmm7gA7",
       "title": "Autograd in PyTorch",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In PyTorch, the autograd engine automatically builds a dynamic computation graph whenever operations are performed on tensors with gradient tracking enabled (`requires_grad=True`), and calling `.backward()` on the scalar loss populates each parameter's `.grad` attribute.\n\nIt is like an automated accounting ledger that quietly logs every currency conversion and fee as money moves across accounts, ready to calculate exact tax adjustments on command.\n\nWhen running validation or client inference, always wrap the forward pass in a no-gradient context so the engine skips storing graph history and saves memory; check the current details in the framework documentation for the latest inference-mode decorators.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,43 +66,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6wmHmLmm7gA7_1",
+          "type": "multiple_choice",
+          "prompt": "What is the purpose of wrapping validation and inference code in a no-gradient block in PyTorch?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It forces the optimiser to take a double-sized gradient step on the validation data"
+            },
+            {
+              "id": "b",
+              "text": "It deletes the trained model weights from the graphics card after every batch"
+            },
+            {
+              "id": "c",
+              "text": "It stops autograd from recording the computation graph, saving substantial memory and speeding up the forward pass"
+            },
+            {
+              "id": "d",
+              "text": "It converts all floating-point tensors into plain text strings for logging"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "During evaluation you do not call backward(), so disabling graph tracking avoids storing intermediate activations that would otherwise consume memory.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NdIY00Vq9i8d",
       "title": "Tensors, shapes, and devices",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A tensor is a multi-dimensional array of numbers with a defined data type (such as 32-bit or 16-bit floating point), a shape tuple describing the size of each dimension, and a device location (such as system CPU memory or a specific GPU accelerator).\n\nIt is like a shipping container manifest that specifies the crate dimensions, whether the cargo inside is fragile glass or steel, and which warehouse dock currently holds it.\n\nEvery tensor involved in an operation must live on the exact same device; multiplying a batch tensor still sitting on the CPU by a model weight matrix on the GPU is one of the most frequent runtime errors in deep learning code.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NdIY00Vq9i8d_1",
+          "type": "multiple_choice",
+          "prompt": "What happens in a deep learning framework if you try to multiply an input tensor stored on the CPU by a model weight tensor stored on the GPU?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The framework silently deletes the GPU weights and returns a tensor of zeros"
+            },
+            {
+              "id": "b",
+              "text": "The operation runs ten times faster by splitting the matrix rows across the PCIe cable automatically"
+            },
+            {
+              "id": "c",
+              "text": "The framework raises a runtime device-mismatch error because all tensors in an operation must reside on the same device"
+            },
+            {
+              "id": "d",
+              "text": "The tensor shapes automatically transpose themselves to match the CPU cache size"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Operations cannot directly combine memory buffers across separate physical devices without explicitly moving the tensors to the same device first.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_fekFREGgIhH5",
       "title": "One training step in code: forward, loss, backward, step, zero the gradients",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every standard neural network training iteration follows five ordered steps on a mini-batch: run the forward pass to get predictions, compute the scalar loss, zero out any old gradients, run the backward pass to accumulate new gradients, and call the optimiser step to update the weights.\n\nIt is like a whiteboard brainstorming cycle: write the team's proposal, score it, wipe yesterday's correction notes off the margin, write today's critique, and update the master plan.\n\nBecause deep learning frameworks accumulate gradients by adding new ones onto existing `.grad` buffers by default, forgetting to zero the gradients between steps corrupts weight updates with stale slopes from previous batches.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_fekFREGgIhH5_1",
+          "type": "multiple_choice",
+          "prompt": "What bug occurs if you forget to zero the gradients on each training step in a standard training loop?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "New gradients are added on top of the old gradients from previous batches, pointing the weight updates in the wrong direction"
+            },
+            {
+              "id": "b",
+              "text": "The model weights are automatically reset to random initial values after every batch"
+            },
+            {
+              "id": "c",
+              "text": "The backward pass refuses to execute and throws a syntax error"
+            },
+            {
+              "id": "d",
+              "text": "The learning rate drops to exact zero after the first mini-batch"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Gradient buffers accumulate by addition (which is useful when summing across micro-batches), so they must be explicitly cleared before each normal update step.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Rqu7AZeBeLk-",
       "title": "Checking gradients on a tiny example",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before trusting a custom layer or loss function on a large client dataset, you can verify gradient correctness on a tiny toy input by comparing the analytical gradient from autograd against a finite-difference numerical approximation that nudges a weight by a tiny epsilon.\n\nIt is like testing a complex new spreadsheet macro on a three-row example where you can check the sum with a pocket calculator before running it on ten million company transactions.\n\nAlways use 64-bit double precision for finite-difference gradient checks, because standard 32-bit or 16-bit floats suffer from rounding errors when subtracting two nearly identical numbers.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Rqu7AZeBeLk-_1",
+          "type": "multiple_choice",
+          "prompt": "How does a numerical gradient check verify that a custom backward pass is implemented correctly?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It trains the model for a hundred epochs on the full dataset and checks if accuracy reaches 99%"
+            },
+            {
+              "id": "b",
+              "text": "It nudges each parameter by a tiny epsilon, measures the change in loss divided by step size, and compares that slope to the analytical gradient"
+            },
+            {
+              "id": "c",
+              "text": "It counts whether the number of lines of code in the forward and backward functions are equal"
+            },
+            {
+              "id": "d",
+              "text": "It sets all input tensors to zero and checks that the weights become infinite"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Finite differences approximate the definition of a derivative directly from forward evaluations, providing an independent check on the chain-rule implementation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

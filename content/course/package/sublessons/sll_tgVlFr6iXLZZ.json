@@ -5,20 +5,48 @@
     {
       "id": "bit_xW4kid7Up2Mi",
       "title": "Sectioning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sectioning is breaking a task into independent pieces and running them at the same time in separate model calls.\n\nSuppose a compliance tool needs to check a thirty-page contract against four separate rulebooks: data protection, payment terms, liability caps and termination rights. Instead of one huge call checking all four at once, you run four smaller calls in parallel, each checking the contract against one rulebook.\n\nIt is four proofreaders checking the same report at the same time: one for numbers, one for names, one for legal terms and one for layout.\n\nEach call is simpler and more thorough, and the whole check finishes in the time of the slowest single call.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xW4kid7Up2Mi_1",
+          "type": "multiple_choice",
+          "prompt": "What is sectioning in a parallel AI workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Splitting a job into independent aspects or chunks and running them simultaneously in separate calls"
+            },
+            {
+              "id": "b",
+              "text": "Running one prompt four times in a row on the same thread"
+            },
+            {
+              "id": "c",
+              "text": "Deleting three quarters of the input document to save time"
+            },
+            {
+              "id": "d",
+              "text": "Asking the user to split their question into four emails"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Sectioning divides work into separate, focused calls that run concurrently for better speed and attention.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_dnfcxVow9zZ0",
       "title": "Async fan-out and fan-in",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In code, parallelization follows a fan-out and fan-in pattern using asynchronous calls.\n\nFan-out launches all the parallel requests at once without waiting for the first to finish before starting the second. In Python this is `asyncio.gather`; in TypeScript it is `Promise.all`. Fan-in waits until all of those calls return and collects their outputs into a list for the next step.\n\nIt is a waiter taking orders from all six people at a table, sending the tickets to the kitchen together and bringing the plates out when all six are ready.\n\nAlways set a timeout and handle partial failures so one stalled call does not freeze the whole batch.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,43 +59,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_dnfcxVow9zZ0_1",
+          "type": "multiple_choice",
+          "prompt": "What do \"fan-out\" and \"fan-in\" mean in an asynchronous workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Turning the server cooling fans on and off"
+            },
+            {
+              "id": "b",
+              "text": "Launching multiple requests concurrently and then collecting all their results when they finish"
+            },
+            {
+              "id": "c",
+              "text": "Sending one request to the model and deleting the reply"
+            },
+            {
+              "id": "d",
+              "text": "Running every request one after another on a single thread"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Fan-out dispatches independent tasks in parallel, and fan-in gathers their outputs once they complete.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wqPob_Gc_b0C",
       "title": "Only independent tasks can run in parallel",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Parallelization only works when the tasks do not need each other's outputs.\n\nYou can summarise five different interview transcripts in parallel because transcript B does not depend on what was said in transcript A. You cannot run \"extract the customer's question\" and \"draft the answer to that question\" in parallel, because the second step needs the output of the first.\n\nIt is cooking dinner: you can boil the potatoes and roast the carrots at the same time, but you cannot mash the potatoes while they are still raw in the pan.\n\nBefore parallelising, draw the dependency arrows. Only steps with no arrow between them can run side by side.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wqPob_Gc_b0C_1",
+          "type": "multiple_choice",
+          "prompt": "Which pair of tasks can safely run in parallel?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Looking up a customer's email address and sending an email to that address"
+            },
+            {
+              "id": "b",
+              "text": "Summarising five separate customer call transcripts at the same time"
+            },
+            {
+              "id": "c",
+              "text": "Writing a draft report and proofreading that same draft"
+            },
+            {
+              "id": "d",
+              "text": "Running a database query and plotting the numbers it returns"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Tasks can run in parallel only when neither step requires the output produced by the other.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_9VQVAB9r-21b",
       "title": "Merging results into one answer",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "After parallel calls finish, you have a list of separate outputs that need to become one coherent result for the user.\n\nSometimes code alone can merge them: concatenating extracted rows into one table, or taking the `true/false` flags from four guardrails and blocking the message if any flag is `true`. When the outputs are prose, such as four regional summaries, a final synthesis model call reads the four pieces, removes repetition and writes one unified report.\n\nIt is an editor taking reports from four correspondents and weaving them into a single front-page article.\n\nKeep the synthesis prompt strict so it combines the findings without inventing new ones.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9VQVAB9r-21b_1",
+          "type": "multiple_choice",
+          "prompt": "When can your code merge parallel outputs directly without an extra model call?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When four different essay drafts need to be rewritten into one narrative voice"
+            },
+            {
+              "id": "b",
+              "text": "When the outputs are structured items such as table rows, scores or pass/fail flags"
+            },
+            {
+              "id": "c",
+              "text": "Never, because code cannot combine lists"
+            },
+            {
+              "id": "d",
+              "text": "Always, even when contradictory paragraphs must be reconciled in prose"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Structured results like lists, counts and boolean checks can be combined deterministically in code, saving a model call.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_FHAECtPnBXnR",
       "title": "Faster, but not cheaper",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Running five calls in parallel cuts the user's waiting time from fifteen seconds to three, which feels magical in a live app.\n\nHowever, it does not reduce token consumption. Five parallel calls still send five prompts and generate five replies, and if a synthesis call sits at the end, you pay for six calls in total. It can also hit provider rate limits much faster than sequential calls because all requests arrive in the same second.\n\nIt is hiring five painters for one day instead of one painter for five days: the room is ready tonight, but you still pay for five days of labour.\n\nUse concurrency semaphore limits in code so a batch job does not flood your API quota.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FHAECtPnBXnR_1",
+          "type": "multiple_choice",
+          "prompt": "How does running five model calls in parallel affect wall-clock time and total token cost?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes five calls cost the same as one call"
+            },
+            {
+              "id": "b",
+              "text": "It makes the user wait five times longer"
+            },
+            {
+              "id": "c",
+              "text": "It cuts wall-clock wait time down towards a single call's duration, while total token cost stays at five calls or more"
+            },
+            {
+              "id": "d",
+              "text": "It bypasses API rate limits completely"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Parallel execution saves waiting time for the user, but every parallel call still consumes its full share of tokens and rate-limit quota.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

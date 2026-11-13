@@ -1,0 +1,488 @@
+// C7 C7 Model Compression & Self-Hosting
+@@ sll_cpLA-vhnTuwF | C7.1 Quantization > Quantization Basics
+## Precision, memory, and speed
+Model precision describes how many bits a computer uses to store each numerical weight inside a neural network. Lowering this precision reduces the memory needed to hold the model and speeds up inference because the hardware moves less data for every token generated.
+
+It is like saving a high-resolution photograph as a compressed JPEG so it loads faster on a webpage while looking nearly identical to the human eye.
+
+However, pushing precision too low strips away subtle numerical distinctions, which can degrade complex reasoning and factual recall on difficult client tasks.
+
+?? Why does lowering numerical precision usually speed up language model inference?
++ The hardware transfers fewer bytes from memory for each calculation
+- The model automatically skips half of its transformer layers
+- Lower precision increases the context window without extra compute
+- The tokeniser merges words into larger chunks during generation
+= Reducing the number of bits per weight means less data must move between memory and compute units for every token.
+
+## Post-training quantization
+Post-training quantisation converts a fully trained model from high precision, such as 16-bit floating point, into a lower precision format like 8-bit or 4-bit integers without retraining the network from scratch.
+
+It is like packing an already tailored wardrobe into vacuum-sealed travel bags right before a flight rather than remaking the clothes.
+
+While this approach is fast and cheap for an AI consultant to apply, some methods still require a small calibration dataset to measure how activations behave and prevent sharp drops in output quality.
+
+?? What is the main advantage of post-training quantisation for a consultancy team?
++ It compresses an existing model quickly without the cost of full retraining
+- It guarantees that the compressed model will outperform the original model
+- It removes the need for any GPU memory during production serving
+- It permanently deletes biased training examples from the model weights
+= Post-training quantisation shrinks a finished model in hours rather than repeating an expensive training run.
+
+## Fewer bits per weight means less memory
+Storing each model weight with fewer bits directly shrinks the total footprint of the model on disk and in graphics memory. Moving from 16-bit weights to 4-bit weights cuts the space needed for the parameters by roughly four times.
+
+It is like replacing thick hardback books on a library shelf with slim paperback editions that hold the exact same text in a quarter of the space.
+
+Even so, auxiliary components such as embedding tables and normalisation layers often stay at higher precision, so total memory rarely drops by the exact theoretical ratio.
+
+?? Moving a model's weights from 16-bit precision to 4-bit precision reduces weight memory by roughly what factor?
++ About four times
+- About two times
+- About eight times
+- About sixteen times
+= Four bits is one quarter of sixteen bits, so the parameter storage drops to roughly one fourth of its original size.
+
+## Memory needed is roughly parameters times bytes per parameter
+You can estimate the baseline memory required to load a model's weights by multiplying the parameter count by the bytes used per parameter, then adding a small overhead of around twenty per cent. At 16-bit precision each parameter takes two bytes, whereas at 4-bit precision each parameter takes half a byte.
+
+It is like calculating the weight of a shipping pallet by multiplying the number of boxes by the weight of each box, plus the wooden pallet itself.
+
+This quick calculation only covers the static weights and does not include the working memory needed for active user requests.
+
+?? Roughly how much memory is needed just to hold the static weights of a 70-billion-parameter model at 4-bit precision?
++ Around 35 to 42 gigabytes including overhead
+- Around 140 to 168 gigabytes including overhead
+- Around 7 to 9 gigabytes including overhead
+- Around 500 gigabytes including overhead
+= At half a byte per parameter, 70 billion parameters take 35 gigabytes, plus a small margin for metadata and unquantised layers.
+
+## Activations and the KV cache need memory too
+Loading the model weights is only part of the memory budget because the GPU must also store temporary activations and the key-value cache for every active conversation. As prompts grow longer or more users connect at the same time, this working memory expands rapidly.
+
+It is like a chef who not only needs cupboard space for ingredients but also requires clear counter space for every meal being cooked at once.
+
+If a consultant sizes a server for the weights alone, the system will crash with out-of-memory errors as soon as production traffic arrives.
+
+?? What happens to the key-value cache memory as concurrent user requests and prompt lengths increase?
++ It grows larger and can eventually exceed the memory used by the weights
+- It shrinks because the GPU compresses older conversations into the weights
+- It stays completely fixed regardless of traffic or sequence length
+- It moves automatically to the client's web browser to save server RAM
+= Each active sequence stores its own intermediate attention states in the key-value cache, which scales with length and concurrency.
+
+## Outlier values make quantization harder
+Neural networks often develop a small number of weights and activations with extreme numerical values that are much larger than their neighbours. When a simple quantisation scheme stretches its limited bit range to cover those extreme outliers, all the normal values get squashed together into a few coarse buckets.
+
+It is like grading a class on a curve where one billionaire's income sets the scale, making everyone else's salaries look identical at zero.
+
+Modern quantisation algorithms must isolate or rescale these outlier channels separately, or else a 4-bit model can lose its ability to form coherent sentences.
+
+?? Why do extreme outlier values cause trouble during uniform low-bit quantisation?
++ They stretch the quantisation scale so normal values lose fine resolution
+- They cause the GPU cooling fans to spin past their physical limits
+- They force the tokeniser to reject rare words in the user prompt
+- They double the number of transformer layers required at runtime
+= A wide numerical range forced by a few outliers leaves very few distinct bit levels for the tightly clustered majority of values.
+
+@@ sll_m_rpkqJgkEb_ | C7.1 Quantization > Formats & Tools
+## GGUF, AWQ, GPTQ
+~m
+GGUF, AWQ, and GPTQ are popular file formats and quantisation methods used to package compressed language models for inference. GGUF is designed for flexible CPU and Apple silicon execution, whereas AWQ and GPTQ target fast low-bit inference on dedicated graphics cards.
+
+It is like choosing between a versatile hybrid car for city errands and a specialised track car built solely for paved racing circuits.
+
+Because open-source tooling evolves rapidly, you should check the current details for your serving engine before committing a client pipeline to a single weight format.
+
+?? Which quantisation format is primarily designed for running models across CPUs and Apple silicon laptops?
++ GGUF
+- AWQ
+- GPTQ
+- SafeTensors FP32
+= GGUF was built for the llama.cpp ecosystem to run efficiently on consumer CPUs, unified memory Macs, and mixed CPU-GPU setups.
+
+## Quality loss measurement
+Measuring quality loss after quantisation means comparing the compressed model against the original full-precision model across general language benchmarks and domain-specific tests. Researchers often start with perplexity, which measures how surprised a model is by a reference text, alongside accuracy scores on structured tasks.
+
+It is like testing a compressed audio file both with laboratory frequency equipment and by having musicians listen for muffled instruments.
+
+However, mild perplexity changes can hide severe drops in strict formatting, coding, or maths, so relying on a single summary metric is risky.
+
+?? What does perplexity measure when evaluating a quantised language model?
++ How well the model predicts the next tokens in a sample text
+- The exact number of gigabytes saved in graphics memory
+- The electrical power drawn by the server during peak load
+- How fast the network connection transfers weights from disk
+= Perplexity reflects the model's uncertainty when predicting token sequences, serving as a quick indicator of general degradation.
+
+## GGUF for llama.cpp and local use; AWQ and GPTQ for GPU serving
+~m
+Choosing the right quantisation format depends on where the model will run in practice. GGUF pairs with llama.cpp for local workstations, edge devices, and split CPU-GPU setups, while AWQ and GPTQ integrate with high-throughput GPU servers in data centres.
+
+It is like using portable camping stoves for a field expedition while fitting commercial gas ranges inside a busy restaurant kitchen.
+
+Engine support for low-bit kernels changes frequently across releases, so always check the current details of your chosen inference server before converting weights.
+
+?? When advising a client who wants to serve a 4-bit model to hundreds of concurrent users on data-centre GPUs, which formats are usually preferred over GGUF?
++ AWQ or GPTQ running on a dedicated GPU serving engine
+- GGUF running solely on a single laptop processor
+- Uncompressed 32-bit text files parsed by a Python script
+- CSV spreadsheets loaded into a relational database
+= AWQ and GPTQ have optimised GPU kernels in serving engines for high-concurrency batching, whereas GGUF targets local and edge execution.
+
+## Measure on your task, not only on perplexity
+A quantised model that scores well on general academic benchmarks or perplexity tests can still fail on a client's specific workflow. Subtle degradation often shows up first in multi-step instructions, strict JSON schemas, or domain-specific extraction.
+
+It is like hiring a translator who passes a basic vocabulary quiz with flying colours but misreads clauses in a commercial property contract.
+
+Before signing off on a compressed model, an AI consultant must run an evaluation suite built from real examples of the client's production prompts.
+
+?? Why is a low perplexity degradation score insufficient to approve a quantised model for production?
++ Task-specific skills like strict JSON formatting or complex reasoning can break even when general fluency looks fine
+- Perplexity only works on vision models and cannot be calculated for text
+- Low perplexity means the model has forgotten how to read English words
+- Perplexity measures hardware temperature rather than model predictions
+= General fluency metrics can mask brittle failures in instruction following, structured output, or domain logic that matter to the business.
+
+## A smaller model at higher precision vs. a larger model at lower precision
+When hardware memory is fixed, a common design choice is whether to run a smaller model at 16-bit precision or a larger model compressed to 4-bit precision. In practice, a 4-bit version of a large model often outperforms an uncompressed small model that occupies the same memory footprint.
+
+It is like asking a seasoned senior partner for a quick summary rather than asking a junior trainee for an exhaustive essay.
+
+Still, the larger quantised model may generate tokens more slowly per request, so you must test both accuracy and latency against the client's service targets.
+
+?? Given a fixed 24-gigabyte GPU budget, how does a 4-bit 30-billion-parameter model typically compare in reasoning quality to a 16-bit 8-billion-parameter model?
++ The larger 4-bit model usually retains stronger reasoning than the smaller 16-bit model
+- The smaller 16-bit model always beats any model that uses 4-bit weights
+- Both models produce the exact same token outputs because they use the same memory
+- The 30-billion-parameter model cannot fit into 24 gigabytes even at 4-bit precision
+= Across equal memory budgets, extra parameter capacity compressed to 4 bits generally preserves more knowledge and reasoning than a much smaller full-precision model.
+
+@@ sll_tm6An2W2nEhQ | C7.2 Distillation > Teacher-Student Training
+## Distillation
+Knowledge distillation is a technique where a compact student model is trained to reproduce the behaviour of a much larger, more capable teacher model. The goal is to capture the teacher's skill inside a smaller network that is far cheaper and faster to run in production.
+
+It is like an experienced master chef coaching an apprentice on how to season a single signature dish until the apprentice can cook it reliably during the dinner rush.
+
+A distilled student excels on the narrow tasks it was taught, but it loses the broad general world knowledge of the giant teacher.
+
+?? What is the main goal of knowledge distillation in machine learning?
++ Transferring task capability from a large expensive model into a smaller, faster model
+- Increasing the parameter count of a small model until it matches a frontier model
+- Encrypting model weights so competitors cannot inspect the architecture
+- Converting text training data into high-resolution synthetic audio files
+= Distillation trains a compact student network to mimic a strong teacher so deployment costs and latency drop sharply.
+
+## Distilling behaviour from large models
+When distilling behaviour from a frontier language model, you collect how the large model solves a specific class of business problems and use those demonstrations to fine-tune a smaller open-weight model. Instead of paying frontier API rates on every production call, you pay for the large model only during data preparation.
+
+It is like hiring a specialist architect to draw standard blueprints once, then having a local building crew construct dozens of houses from those plans.
+
+If the teacher has systematic blind spots or hallucinations on the domain, the student will faithfully learn and repeat those same mistakes.
+
+?? How does distilling a frontier model's behaviour change the cost structure of an AI application?
++ It shifts frontier model spending from ongoing production calls to a one-off training phase
+- It eliminates all compute costs during both training and production serving
+- It requires calling both the teacher and the student on every live user request
+- It forces the organisation to purchase custom silicon chips from the model vendor
+= You pay the expensive teacher once to generate training examples, then run the cheap student model for everyday traffic.
+
+## The student learns from the teacher's outputs, not only from labels
+In classical distillation, the student learns either from the teacher's full probability distribution over tokens or from the teacher's rich step-by-step explanations rather than bare one-word answers. These rich signals show the student which alternatives are plausible and how the answer was reached.
+
+It is like learning far more from a maths tutor who writes out the full working on the whiteboard than from an answer key that only prints the final number.
+
+When using commercial APIs that hide internal token probabilities, practitioners rely on generating detailed reasoning traces and verified completions instead.
+
+?? Why do a teacher model's rich outputs or token probabilities help a student learn better than bare ground-truth labels alone?
++ They reveal the teacher's reasoning patterns and how closely related different candidate answers are
+- They reduce the vocabulary size of the student tokeniser to just ten words
+- They allow the student model to train without using any graphics cards
+- They automatically remove all copyright restrictions from the training corpus
+= Soft probabilities and detailed outputs carry richer structural information about the task than a single hard label.
+
+## Synthetic data from a strong model to train a small one
+When a client lacks enough labelled examples to train a small specialist model, you can prompt a strong teacher model to generate realistic synthetic inputs and high-quality target responses. Filtering and curating these synthetic pairs creates a tailored dataset at a fraction of the cost of human annotation.
+
+It is like using a flight simulator to expose a trainee pilot to hundreds of rare weather scenarios before flying a real passenger plane.
+
+Synthetic data can suffer from low diversity and subtle factual errors, so you must validate a sample with human domain experts and automated quality checks.
+
+?? What is a critical risk when training a small student model purely on unfiltered synthetic data from a teacher model?
++ The student can inherit repetitive phrasing, narrow coverage, and factual hallucinations from the teacher
+- The synthetic text files will physically corrupt the server's solid-state drives
+- The student model will spontaneously grow more parameters than the teacher
+- Synthetic data cannot be tokenised by standard open-weight language models
+= Without filtering and human validation, errors and stylistic blind spots in the teacher's synthetic outputs transfer directly into the student.
+
+## Check licence terms before using model outputs for training
+~m
+Many commercial model providers include clauses in their terms of service that restrict using their model outputs to train, distil, or improve a competing or external model. Ignoring these contractual rules can expose a client to legal liability or account termination.
+
+It is like buying a ticket to watch a cinema film, which allows you to enjoy the show but does not grant the right to record the screen and sell DVDs.
+
+Because vendor policies and open-weight licences change frequently, an AI consultant must check the current details of the provider's terms before generating synthetic training data.
+
+?? Why must an AI consultant review a model provider's terms of service before running a distillation project?
++ Many commercial providers restrict using their outputs to train or fine-tune other models
+- Terms of service specify the exact learning rate required for gradient descent
+- Licences determine how many gigabytes of GPU memory a model will consume
+- Providers require consultants to publish all client customer data on public websites
+= Commercial API terms and model licences frequently prohibit or limit using generated outputs to train downstream models.
+
+@@ sll_lPvDgjAK9Ld9 | C7.2 Distillation > Benchmarking
+## Before vs. after comparisons
+Whenever you compress a model through quantisation or replace a large teacher with a distilled student, you must run a structured before-and-after comparison. This means recording quality, latency, and cost metrics for the baseline model first, then measuring the compressed candidate under identical conditions.
+
+It is like taking a patient's blood pressure both before and after prescribing a new medication to prove the treatment actually works.
+
+Without a recorded baseline, teams often rely on casual spot-checks and miss gradual regressions that frustrate end users in production.
+
+?? What is the purpose of a structured before-and-after comparison when compressing or distilling a model?
++ To verify objectively how quality, latency, and cost changed relative to the original baseline
+- To increase the number of parameters in the original teacher model
+- To avoid having to collect any test prompts from the client's domain
+- To ensure the new model uses the exact same file format as the old one
+= A controlled comparison against a recorded baseline proves whether the compressed model meets business goals without hidden regressions.
+
+## Cost-quality tradeoffs
+Model compression and distillation rarely give you something for nothing; instead, they trace a curve between inference cost and output quality. Cutting cost by eighty per cent might reduce task accuracy by only one per cent, or it might cause a steep drop depending on how hard the task is.
+
+It is like choosing delivery shipping options where standard post is much cheaper and nearly as fast for routine letters, while urgent medical supplies still need a courier.
+
+A consultant's job is to map out several points along this tradeoff curve so the client can make an informed commercial decision.
+
+?? How should an AI consultant present the cost-quality tradeoff of model compression to a client?
++ By showing measured accuracy, latency, and unit cost across several candidate model sizes and precisions
+- By promising that the cheapest model will always achieve one hundred per cent accuracy
+- By recommending the largest possible frontier model regardless of the client's budget
+- By hiding accuracy metrics and only reporting the reduction in monthly server bills
+= Plotting real performance and cost numbers across a few options lets stakeholders pick the right balance for their use case.
+
+## Use the same eval set before and after
+For a comparison between a baseline model and a compressed model to be valid, both models must be tested on the exact same held-out evaluation dataset with the same scoring rules. Changing the test questions or grading criteria mid-experiment makes it impossible to tell whether the model or the test caused a score change.
+
+It is like timing two sprinters on the exact same hundred-metre track rather than making one run uphill in the rain.
+
+You must also keep this evaluation set strictly separate from any synthetic training or calibration data so the compressed model cannot cheat by memorising answers.
+
+?? Why must the evaluation dataset remain identical and separate from training data when comparing a baseline model and a distilled model?
++ So any change in score reflects true model capability rather than a different test or memorised examples
+- Because evaluation scripts crash if they read the same JSON file more than once
+- So the teacher model can copy answers directly from the student during inference
+- Because smaller models can only read prompts that have fewer than ten words
+= Using a fixed, uncontaminated test set ensures an honest apples-to-apples comparison between before and after.
+
+## Look at failures, not only averages
+An overall average score of ninety-two per cent can hide dangerous failure modes in the remaining eight per cent of cases. When benchmarking a quantised or distilled model, you must inspect the individual prompts where the compressed model failed while the baseline succeeded.
+
+It is like a bridge inspection where an average safety score looks high, even though one critical support cable has rusted through completely.
+
+Often you will discover that the smaller model struggles with a specific pattern, such as negation or multi-currency tables, which you can then fix with targeted training data.
+
+?? Why should you manually inspect individual failure cases rather than relying solely on average benchmark scores?
++ Averages can hide concentrated, high-risk failure patterns that affect specific types of user requests
+- Inspecting failures automatically upgrades a 4-bit model back to 16-bit precision
+- Average scores are mathematically impossible to calculate for language models
+- Individual failures always prove that the evaluation dataset was corrupted
+= Reviewing actual errors reveals whether the compressed model fails gracefully or breaks down on critical business edge cases.
+
+## Decide the minimum acceptable quality first
+Before running compression experiments, agree with the client on the minimum acceptable quality threshold and the maximum latency or cost per request. Setting this bar upfront turns model selection into a clear engineering gate rather than an endless debate.
+
+It is like agreeing on the safety load rating a warehouse floor must support before comparing quotes from different concrete suppliers.
+
+If no compressed or distilled model meets that agreed threshold, you have clear evidence that the workflow still needs a larger model or a simpler task design.
+
+?? Why is it important to agree on a minimum acceptable quality threshold with the client before compressing a model?
++ It provides a clear pass-or-fail decision rule when trading off cost savings against small drops in accuracy
+- It allows the consultant to skip running any evaluation benchmarks afterward
+- It guarantees that a 4-bit model will run without needing a graphics card
+- It prevents users from sending long prompts to the production API
+= Defining the quality floor beforehand stops teams from shipping an overly degraded model just because it looks cheap.
+
+@@ sll_USNUqjgnT47z | C7.3 Self-Hosting Models > Serving Engines
+## vLLM and TGI
+~m
+vLLM and Text Generation Inference, known as TGI, are dedicated open-source serving engines built to host large language models for multiple concurrent users on GPUs. Unlike basic local scripts that process one prompt at a time, these engines manage memory, batching, and network APIs for production traffic.
+
+It is like running a professional airport air-traffic control tower instead of having pilots take turns landing by waving from the cockpit window.
+
+Because open-source serving software moves quickly, check the current details on hardware compatibility and supported model architectures when planning a deployment.
+
+?? What is the primary role of a dedicated serving engine like vLLM in a production deployment?
++ Managing GPU memory and concurrent user requests efficiently for high-throughput inference
+- Training a new foundation model from scratch on petabytes of web text
+- Designing the visual user interface and CSS styles for a client's website
+- Labelling raw audio recordings with human-verified transcriptions
+= Serving engines handle request scheduling, memory management, and batching so GPUs can serve many users simultaneously.
+
+## Quantized models in production
+Running quantised models in a production serving engine allows an organisation to fit capable models onto smaller, cheaper GPUs or handle more concurrent users on the same hardware. The serving engine loads the low-bit weights directly and uses specialised GPU kernels to compute responses quickly.
+
+It is like running fuel-efficient delivery vans across a city fleet so you can complete more routes per day on the same fuel budget.
+
+However, not every serving engine supports every quantisation format at top speed, so a mismatch between weight format and engine kernel can actually slow inference down.
+
+?? What must you verify when deploying a quantised model inside a production serving engine?
++ That the serving engine has optimised GPU kernels for that specific quantisation format and hardware
+- That the quantised model file has been converted back into plain uncompressed text
+- That every user connects to the server from the exact same operating system
+- That the model is retrained from scratch after every single user query
+= Without matching low-bit compute kernels for your GPU and format, the engine may dequantise weights slowly or fail to load them.
+
+## Continuous batching keeps GPUs busy
+In naive batching, a GPU waits until every request in a batch finishes generating its longest answer before starting any new requests, leaving compute cores idle whenever short answers finish early. Continuous batching solves this by slotting a new incoming request into the batch the moment an earlier request completes.
+
+It is like a restaurant that seats a new party at a table as soon as the previous diners leave, rather than waiting for the entire dining room to empty first.
+
+While continuous batching dramatically boosts overall throughput, heavy concurrent load can still increase time-to-first-token if the queue grows too long.
+
+?? How does continuous batching improve GPU utilisation compared to static batching?
++ It inserts new requests into the active batch as soon as finished requests free up slots
+- It forces every user response to be the exact same number of tokens
+- It waits until midnight to process all customer chat messages at once
+- It turns off half of the GPU cores whenever a short prompt arrives
+= By swapping completed sequences out and new sequences in at each generation step, the GPU avoids waiting around for the slowest request.
+
+## Paged attention manages the KV cache efficiently
+Paged attention is a memory management technique that breaks the key-value cache of each conversation into small fixed-size blocks rather than reserving one huge contiguous slab of GPU memory per request. Because the engine never knows in advance how long an answer will be, contiguous reservation wastes massive amounts of memory.
+
+It is like a notebook with numbered loose-leaf pages where you only clip in a fresh sheet when you actually fill the previous one.
+
+By eliminating memory fragmentation, paged attention lets a single GPU hold far more concurrent requests in flight at the same time.
+
+?? What problem does paged attention solve during language model serving?
++ It prevents GPU memory waste and fragmentation by allocating the key-value cache in small blocks as needed
+- It translates prompts from English into French before the model reads them
+- It compresses 16-bit model weights down to 1-bit weights during training
+- It replaces the transformer architecture with a classical decision tree
+= Allocating key-value cache memory in non-contiguous pages on demand eliminates the wasted space of over-reserving contiguous buffers.
+
+## Load testing: throughput and latency under real traffic
+Before launching a self-hosted model, you must run load tests that simulate realistic concurrent users, prompt lengths, and output lengths. Load testing measures both throughput, which is total tokens generated per second across all users, and latency, including time to first token and speed per token.
+
+It is like driving heavy lorries across a new bridge at rush hour rather than judging its strength after a single cyclist rides across.
+
+Testing with short synthetic prompts often gives overly optimistic results that collapse when real users paste long documents into the chat window.
+
+?? Why must load testing for a self-hosted LLM use realistic prompt and output lengths?
++ Long prompts and long outputs consume much more compute and key-value cache memory than short test strings
+- Short prompts cause the GPU drivers to uninstall themselves automatically
+- Serving engines charge higher software licence fees when prompts exceed fifty words
+- Network routers block traffic unless every HTTP request is at least ten megabytes
+= Memory usage and attention compute scale with sequence length, so toy prompts hide bottlenecks that appear under real workloads.
+
+## OpenAI-compatible endpoints make swapping easy
+~m
+Most modern serving engines, including vLLM, SGLang, and llama.cpp servers, expose an HTTP endpoint that matches the standard OpenAI chat completions format. Because the request and response JSON schemas look identical, application code can switch between a hosted API and a self-hosted model simply by changing the base URL and model name.
+
+It is like using a standard electrical wall socket so you can unplug one brand of kettle and plug in another without rewiring the kitchen.
+
+Even so, subtle vendor extensions or tool-calling quirks can differ between engines, so check the current details and run integration tests when switching providers.
+
+?? How does exposing an OpenAI-compatible HTTP endpoint from a self-hosted server help an engineering team?
++ Application code can switch between commercial APIs and self-hosted models with minimal code changes
+- It gives the self-hosted model automatic access to proprietary frontier weights for free
+- It removes the need for any GPU hardware on the self-hosted server
+- It encrypts the model weights so they never have to be loaded into memory
+= Standardising on a shared API contract lets teams swap backend models or providers by updating configuration rather than rewriting client code.
+
+## TGI is in maintenance mode; vLLM and SGLang are the usual choices for new projects
+~m
+In the open-source serving landscape, Hugging Face's Text Generation Inference has shifted into maintenance mode, while vLLM and SGLang have become the standard engines for new production GPU deployments. Both vLLM and SGLang receive active optimisations for new model architectures, structured outputs, and prefix caching.
+
+It is like choosing a modern, actively supported operating system for a new company server while keeping an older system running only on legacy machines.
+
+Because open-source infrastructure shifts over time, always check the current details of community support and hardware benchmarks before advising a client on their stack.
+
+?? When starting a new self-hosted GPU serving project in 2026, why do consultants usually pick vLLM or SGLang over TGI?
++ TGI is in maintenance mode, whereas vLLM and SGLang are actively developed for new models and hardware
+- TGI can only run on mobile phones and never supported data-centre GPUs
+- vLLM and SGLang do not require any electricity or memory to host models
+- TGI is a commercial accounting spreadsheet rather than a model serving engine
+= With TGI in maintenance mode, active development and support for the latest models and optimisations are centred on vLLM and SGLang.
+
+@@ sll_HqeVyYbwo-DX | C7.3 Self-Hosting Models > Hardware & Scaling
+## GPU sizing
+Sizing GPUs for self-hosting means selecting the type and number of graphics cards needed to hold the model weights, fit the key-value cache for expected concurrency, and meet latency targets. Both total video memory capacity and memory bandwidth determine whether a card can run a model fast enough for users.
+
+It is like choosing a commercial oven based on both how many trays fit inside at once and how quickly the heating elements reach baking temperature.
+
+Splitting a large model across multiple smaller GPUs via tensor parallelism works well inside one server, but slow interconnects between separate machines can bottleneck performance.
+
+?? Which two GPU hardware specs matter most when sizing a server for language model inference?
++ Total video memory capacity and memory bandwidth
+- Screen display resolution and audio jack count
+- Hard-drive spin speed and motherboard colour
+- Keyboard layout and USB port version
+= Video memory capacity determines whether the weights and cache fit, while memory bandwidth largely sets how fast tokens are generated.
+
+## Serverless GPUs and autoscaling
+Serverless GPU platforms run your model containers on demand and automatically scale the number of GPU replicas up when traffic spikes and down to zero when traffic stops. Instead of paying twenty-four hours a day for idle dedicated servers, you pay only for the seconds or minutes the GPUs are active.
+
+It is like hiring taxis only when your staff need to travel to a client meeting rather than leasing a fleet of company cars that sit in the car park overnight.
+
+However, scaling up from zero takes time to load multi-gigabyte model weights, which can frustrate users if traffic arrives in sudden bursts.
+
+?? When is a serverless GPU setup usually more cost-effective than renting dedicated round-the-clock GPU servers?
++ When traffic is spiky, intermittent, or low-volume with long idle periods
+- When the servers are running at ninety-five per cent utilisation twenty-four hours a day
+- When the model requires zero milliseconds of startup delay after sitting idle all night
+- When the organisation wants to train a trillion-parameter model continuously for six months
+= Serverless billing shines when demand fluctuates or drops to zero for hours, avoiding fixed hourly charges for idle hardware.
+
+## Rule of thumb: model memory plus cache must fit in GPU memory
+A reliable rule of thumb for GPU sizing is that the static model weights, the key-value cache for all concurrent requests, and a small runtime overhead buffer must all fit comfortably inside total GPU video memory. If the combined footprint spills over into standard system RAM, generation speed drops to a crawl.
+
+It is like packing for a flight with a strict cabin-bag limit where exceeding the allowance forces your bag into the slow cargo hold.
+
+When memory is tight, you can either quantise the weights, cap the maximum context length, or add more GPU capacity.
+
+?? What happens if the combined memory of model weights and the active key-value cache exceeds available GPU memory?
++ Requests fail with out-of-memory errors or slow down drastically if offloaded to system RAM
+- The model automatically deletes half of its vocabulary to save space
+- Generation speed doubles because system RAM is faster than GPU memory
+- The GPU upgrades its own physical memory chips over the internet
+= Keeping both weights and working cache inside fast GPU memory is essential to avoid crashes or severe offloading slowdowns.
+
+## Cold starts on serverless GPUs
+A cold start happens when a request arrives at a serverless GPU endpoint that currently has zero active instances, forcing the platform to allocate a GPU, start the container, and load gigabytes of model weights into memory before answering. For large models, this delay can last from several seconds to over a minute.
+
+It is like waiting for an espresso machine to heat up from stone cold in the morning before it can pour the first cup of coffee.
+
+Teams mitigate cold starts by keeping at least one warm replica running during business hours or using fast network storage with pre-cached weight snapshots.
+
+?? Why are cold starts noticeably slower for self-hosted language models than for typical lightweight web microservices?
++ Tens of gigabytes of model weights must be transferred into GPU memory before the first token can be generated
+- Language models require a human operator to type a password on every server boot
+- Serverless GPUs must retrain the model from scratch every time a container starts
+- Web browsers block connections to GPU servers for the first sixty seconds
+= Loading massive model files from storage into GPU memory takes far longer than booting a tiny stateless web container.
+
+## Self-hosting beats an API at steady high volume or under strict data rules
+Deciding between calling a commercial API and self-hosting an open-weight model comes down to traffic volume, latency control, and data governance. At low or unpredictable volume, pay-per-token APIs are almost always cheaper and simpler, whereas at steady high volume, dedicated GPUs can lower the cost per million tokens.
+
+It is like buying cups of coffee from a high-street cafe when you live alone, versus leasing a commercial machine once an office has two hundred daily drinkers.
+
+Strict regulatory rules that forbid sending sensitive customer records outside a private network can also make self-hosting mandatory regardless of volume.
+
+?? Under which two conditions does self-hosting an open-weight model typically make more sense than using a third-party pay-per-token API?
++ When token volume is high and steady, or when strict data residency rules forbid external APIs
+- When the team has no operations staff and only sends ten prompts per week
+- When the application requires a frontier model with proprietary closed weights
+- When the project is a two-day prototype with zero budget for infrastructure setup
+= High sustained utilisation amortises fixed GPU rental costs, and strict privacy or compliance mandates often require keeping data in-house.
+
+## Self-hosting adds operations work: updates, monitoring, and security
+While self-hosting removes per-token vendor fees, it shifts the burden of reliability, security patching, GPU driver updates, scaling, and uptime monitoring onto your own engineering team. An idle or broken GPU cluster still costs money every hour, and an unpatched server is a security risk.
+
+It is like owning a boat instead of booking a ferry ticket: you control the schedule, but you also have to maintain the engine and pay for mooring.
+
+As an AI consultant, you must include this hidden engineering and maintenance labour in any total-cost-of-ownership calculation for a client.
+
+?? What hidden cost do organisations often overlook when comparing self-hosted GPU rental prices against commercial API token prices?
++ The ongoing engineering labour required for monitoring, scaling, patching, and maintaining the serving infrastructure
+- The fact that open-weight models charge a mandatory royalty fee on every vowel generated
+- The requirement to buy new graphics cards every single week as weights wear out
+- The cost of posting paper transcripts of every prompt to the government
+= Total cost of ownership includes not just raw GPU bills but also the DevOps time needed to keep self-hosted servers secure and reliable.

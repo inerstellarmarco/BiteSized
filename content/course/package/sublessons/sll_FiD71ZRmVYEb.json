@@ -5,8 +5,8 @@
     {
       "id": "bit_7nvEagrqCjdj",
       "title": "Setup fees, monthly fees, and usage-based costs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "AI consulting engagements usually combine three pricing elements: a one-off setup fee for discovery and building, a recurring monthly fee for maintenance and support, and usage-based charges for model tokens or volume. Each part covers a different kind of work and expense.\n\nFor a local estate agency, you might charge £2,500 to build and test an enquiry assistant, £300 a month to monitor and tune it, plus the monthly API usage bill.\n\nSeparating these three lines stops a popular system from bankrupting you with surprise token bills, and gives the client a clear path from initial build to ongoing care.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,55 +19,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7nvEagrqCjdj_1",
+          "type": "multiple_choice",
+          "prompt": "Why does it make sense to separate setup fees, monthly retainers, and usage-based costs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Charging three separate fees confuses the client so they never ask about return on investment"
+            },
+            {
+              "id": "b",
+              "text": "Monthly fees are only required when the consultant fails to finish the initial setup properly"
+            },
+            {
+              "id": "c",
+              "text": "Usage-based costs are always zero for language models once the setup fee is paid"
+            },
+            {
+              "id": "d",
+              "text": "Each fee matches a distinct cost: initial build effort, ongoing maintenance, and variable model consumption"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Matching one-off work, ongoing support, and variable API traffic to separate fee lines keeps margins healthy as usage grows.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hxJjHSDVrFPm",
       "title": "Work out your cost per client per month first",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before quoting a monthly price to a client, calculate your true monthly cost to serve them. Include model API calls, hosting, third-party tool subscriptions, evaluation runs, and the realistic hours you will spend answering questions and fixing drift.\n\nIt is like a bakery working out the cost of flour, butter, oven electricity, and baker wages for a loaf of bread before painting a price on the shop window.\n\nMany new consultants count only the raw token cost of a single prompt and forget retries, test runs, logging storage, and support calls, which quickly turns a cheap retainer into a loss.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hxJjHSDVrFPm_1",
+          "type": "multiple_choice",
+          "prompt": "What mistake do new AI consultants often make when calculating their monthly cost to serve a client?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They overestimate API costs by a factor of a thousand on every small project"
+            },
+            {
+              "id": "b",
+              "text": "They count only a single happy-path token call and forget retries, hosting, logging, and support time"
+            },
+            {
+              "id": "c",
+              "text": "They include the client's office rent and staff salaries inside their own agency costs"
+            },
+            {
+              "id": "d",
+              "text": "They assume that support time takes up ninety-nine per cent of the initial setup week"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Honest unit economics must include all infrastructure, retry tokens, monitoring, and human support hours needed each month.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_iyg9e_IkPF9e",
       "title": "Price on value delivered, not hours alone",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Value-based pricing anchors your fee to the financial benefit the system creates for the client rather than just the hours you spend typing prompts. As you build reusable components, you work faster, and hourly billing punishes you for that efficiency.\n\nIf an automated quote preparation tool saves a specialist engineering firm £4,000 a month in senior estimator time, a £3,500 build fee is an easy decision even if it takes you only fifteen hours.\n\nStill, track your internal hours carefully so you know your own floor price, and never invent exaggerated savings numbers that the client does not believe.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_iyg9e_IkPF9e_1",
+          "type": "multiple_choice",
+          "prompt": "Why is pricing solely by the hour a trap as an AI consultant becomes more experienced?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Clients in the United Kingdom are legally forbidden from paying hourly rates to consultants"
+            },
+            {
+              "id": "b",
+              "text": "Hourly pricing requires you to give away all software hosting and API tokens for free"
+            },
+            {
+              "id": "c",
+              "text": "Working faster always reduces the quality and reliability of the final AI system"
+            },
+            {
+              "id": "d",
+              "text": "Reusable templates let you deliver faster, so hourly billing shrinks your pay even when client value stays high"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Tying price to business value rewards your expertise and speed while still leaving the client with a strong return.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_u3Yk1bDsptFi",
       "title": "Pass-through model costs vs. bundled pricing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "You can handle variable API and hosting costs in two ways: pass-through pricing, where the client pays the exact vendor bill at cost, or bundled pricing, where your monthly fee includes an agreed allowance of tasks. Each suits a different buyer.\n\nIt is like renting a flat either with utility bills paid directly by the tenant to the energy supplier, or with bills included in a fixed monthly rent up to a fair-use cap.\n\nIf you choose bundled pricing, always write a clear volume cap and overage rate into the contract so a sudden spike in client traffic does not wipe out your profit.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_u3Yk1bDsptFi_1",
+          "type": "multiple_choice",
+          "prompt": "What must you always include in a contract if you offer bundled monthly pricing for an AI system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A promise of unlimited model usage at a fixed price regardless of traffic spikes"
+            },
+            {
+              "id": "b",
+              "text": "A clause allowing you to turn off the client's system without warning on busy days"
+            },
+            {
+              "id": "c",
+              "text": "A clear usage allowance cap and an agreed rate for extra volume above that limit"
+            },
+            {
+              "id": "d",
+              "text": "A requirement that the client's staff write their own prompts whenever traffic doubles"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A fair-use cap and overage rate give the client predictable budgeting while protecting the consultant from runaway API bills.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_oW0fEIX6QNgI",
       "title": "Fixed-scope pilots with a clear end",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sell your initial engagement as a fixed-scope, fixed-price pilot that runs for a short period, such as four weeks, and ends with a clear decision review. A defined finish line lowers the buyer's risk and keeps both sides focused on proving the core metric.\n\nFor a regional wholesaler, a four-week pilot tests automated order entry on one product line for £2,000, ending with a meeting on a set Friday to review accuracy and sign off phase two.\n\nWithout a firm end date and pre-agreed rollout criteria, pilots drift on for months in limbo without turning into a proper production contract.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oW0fEIX6QNgI_1",
+          "type": "multiple_choice",
+          "prompt": "Why should a pilot engagement have a fixed scope, a fixed price, and a set review date?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It allows the consultant to abandon the project halfway through if the data looks messy"
+            },
+            {
+              "id": "b",
+              "text": "Fixed-scope pilots never need to measure accuracy or hours saved at the end"
+            },
+            {
+              "id": "c",
+              "text": "It lowers the client's buying risk and forces a clear decision on moving to production"
+            },
+            {
+              "id": "d",
+              "text": "Clients prefer pilots that drift indefinitely without any scheduled review meetings"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A bounded pilot with a scheduled review meeting creates momentum and turns successful trials into long-term retainers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

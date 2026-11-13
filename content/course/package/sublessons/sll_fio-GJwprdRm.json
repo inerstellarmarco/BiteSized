@@ -5,8 +5,8 @@
     {
       "id": "bit_O6nF9_OzyxKM",
       "title": "Brand voice, audiences, and past results as shared context",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Shared brand memory is a structured knowledge base containing the client's tone of voice, ideal customer profiles, product facts, value propositions, and historical campaign lessons that every marketing agent reads before doing work.\n\nThink of a repertoire book handed to every musician joining an orchestra, ensuring the strings, brass, and percussion play in the same key and tempo from the first rehearsal.\n\nWithout shared context, an email agent, a social media agent, and an ad copy agent will sound like three strangers working for different companies. Centralising brand context keeps every touchpoint coherent.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_O6nF9_OzyxKM_1",
+          "type": "multiple_choice",
+          "prompt": "What problem does a shared brand memory solve across a team of marketing agents?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It ensures every agent writes with consistent tone, accurate product facts, and aligned audience insights"
+            },
+            {
+              "id": "b",
+              "text": "It eliminates the need for the company to have a website or CRM database"
+            },
+            {
+              "id": "c",
+              "text": "It allows agents to copy competitor trademarks into paid advertisements legally"
+            },
+            {
+              "id": "d",
+              "text": "It compresses image files so social media graphics load without an internet connection"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Giving every agent access to the same core voice, audience, and product memory prevents fragmented, contradictory messaging.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_N05EigC8yCUh",
       "title": "Retrieval over brand guidelines",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Retrieval over brand guidelines means storing the company's style guide, approved terminology, forbidden claims, and product sheets in a searchable repository so agents pull the exact relevant rules into their prompt before drafting or reviewing content.\n\nIt works like a journalist checking the newspaper's official stylebook before filing an article on medical research, verifying the exact rules on statistics and terminology rather than relying on memory.\n\nDo not stuff a 60-page brand PDF into every single prompt if only two pages apply to an email newsletter. Retrieve the specific channel rules and product sheet needed for the current task so the model stays focused.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,43 +66,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_N05EigC8yCUh_1",
+          "type": "multiple_choice",
+          "prompt": "Why is targeted retrieval over brand guidelines better than pasting an entire 60-page manual into every prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Language models refuse to read prompts that contain more than two sentences"
+            },
+            {
+              "id": "b",
+              "text": "Brand guidelines are only needed when designing physical roadside billboards"
+            },
+            {
+              "id": "c",
+              "text": "Retrieval systems automatically rewrite the company's legal disclaimers into poetry"
+            },
+            {
+              "id": "d",
+              "text": "Fetching only the relevant channel rules and product facts keeps the agent focused and reduces token cost and distraction"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Pulling the exact style, product, and compliance rules for the task at hand improves accuracy while keeping prompts lean.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_n7dRnYcVrDx9",
       "title": "Examples of approved and rejected content teach more than rules",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Providing concrete examples of past drafts that the client loved alongside rejected drafts with short notes explaining why they failed teaches a language model the brand voice far better than abstract adjectives ever could.\n\nImagine telling a baker \"make the bread artisanal and warm\" versus showing them two loaves on the counter: one with the exact crust colour you want, and one that was pulled from the oven five minutes too early.\n\nEvery company says its brand voice is \"professional, friendly, and innovative.\" Those words mean nothing to a model until you show five real paragraphs that hit the mark and five that sounded too stiff or pushy.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_n7dRnYcVrDx9_1",
+          "type": "multiple_choice",
+          "prompt": "Why do paired examples of approved and rejected drafts improve a copywriting agent more than abstract adjectives like \"friendly and professional\"?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Language models cannot read adjectives unless they are translated into French first"
+            },
+            {
+              "id": "b",
+              "text": "Concrete examples show the exact sentence rhythm, vocabulary, and boundaries the client actually expects in practice"
+            },
+            {
+              "id": "c",
+              "text": "Abstract rules take up more hard-drive space than sample paragraphs"
+            },
+            {
+              "id": "d",
+              "text": "Showing rejected drafts causes the model to publish those exact mistakes on purpose"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Real before-and-after examples anchor the model to specific phrasing choices that vague tone adjectives fail to capture.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_UXxhXFImclgw",
       "title": "One source of truth that every agent reads",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Maintaining one source of truth for brand memory means storing product specs, pricing tiers, and style examples in a single central location referenced by all workflows, rather than hardcoding separate copies inside twenty different prompt templates.\n\nIt is like a restaurant chain updating the allergen chart on one central kitchen portal so every branch prints the safe menu immediately, rather than phoning fifty managers and hoping they all scribble the note down.\n\nWhen a consultant hardcodes product prices inside twelve separate agent prompts, the day the client changes a price from £49 to £59, at least three forgotten agents will carry on advertising the old £49 figure.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_UXxhXFImclgw_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main risk of hardcoding product facts and prices inside twenty separate agent prompts instead of reading from one central source?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Centralised files cannot be read by more than one agent per week"
+            },
+            {
+              "id": "b",
+              "text": "When a price or product detail changes, forgotten prompts will continue publishing outdated and inaccurate claims"
+            },
+            {
+              "id": "c",
+              "text": "Hardcoding text into prompts makes the model forget how to write in English"
+            },
+            {
+              "id": "d",
+              "text": "Marketing teams never change their prices or offers once a business launches"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Reading from a single source of truth guarantees that one update immediately reaches every agent across the system.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_sDWgNJz8aV__",
       "title": "Update memory when the brand or the offer changes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Shared brand memory is a living asset that must be updated whenever the client launches a new feature, retires a seasonal promotion, shifts target audiences, or learns from a recent campaign test.\n\nThink of a shop window display on the high street; leaving Christmas decorations and winter coat prices up in the middle of July tells every passer-by that nobody is minding the store.\n\nBuild a simple monthly habit with the client's marketing lead to review and refresh the shared memory folder, archiving expired offers so agents never resurrect last quarter's discount codes.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_sDWgNJz8aV___1",
+          "type": "multiple_choice",
+          "prompt": "Why must a client's shared brand memory be reviewed and updated on a regular schedule?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because text files stored on a server automatically scramble their letters after thirty days"
+            },
+            {
+              "id": "b",
+              "text": "Updating the memory file is the only way to reset the company's monthly electricity bill"
+            },
+            {
+              "id": "c",
+              "text": "Agents refuse to run if the file modification date is more than forty-eight hours old"
+            },
+            {
+              "id": "d",
+              "text": "So retired promotions, outdated positioning, and old prices are archived before agents reuse them in new campaigns"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Keeping shared memory current prevents agents from referencing expired offers or outdated product details.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

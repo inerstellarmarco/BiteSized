@@ -5,44 +5,128 @@
     {
       "id": "bit_r6OGnP2gpYCS",
       "title": "State-driven transitions between agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a multi-agent graph, each specialist agent is simply a node, and transitions between agents are driven by fields in the shared state.\n\nWhen the `research_agent` node finishes gathering facts, it writes `{\"research_complete\": true, \"findings\": [...]}` to the state. The conditional edge reads that flag and routes control to the `writer_agent` node. If `findings` is empty, it routes to `clarify_with_user` instead.\n\nIt is an office workflow where moving a ticket's status column from \"Research\" to \"Ready for Drafting\" automatically assigns it to the copywriter.\n\nAgents do not need to know how to call each other directly; they only update the state.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_r6OGnP2gpYCS_1",
+          "type": "multiple_choice",
+          "prompt": "How does control move from one specialist agent to another in a state-driven graph?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Each agent opens a raw network socket to the next agent's server"
+            },
+            {
+              "id": "b",
+              "text": "The user must copy and paste the text between agents manually"
+            },
+            {
+              "id": "c",
+              "text": "Agents compete to see who responds fastest"
+            },
+            {
+              "id": "d",
+              "text": "The finishing agent updates the shared state, and a conditional edge reads those state fields to pick the next agent"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Decoupling agents through shared state lets your graph edges control who runs next based on clear flags and data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_R46sB_9kMQgr",
       "title": "State machine routing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A finite state machine is a classic engineering pattern: the system is always in one known state (such as `gathering_details`, `awaiting_approval`, `executing` or `done`), and clear rules define which transitions are legal from each state.\n\nApplying state machine routing to agents means an agent in `gathering_details` cannot jump straight to `executing` without passing through `awaiting_approval`. Your code enforces the legal transitions, even if a prompt injection tries to trick the model into skipping ahead.\n\nIt is an online checkout that will not let you reach the \"Order Confirmed\" screen until the \"Payment Authorised\" step has succeeded.\n\nThis makes compliance and safety rules enforceable in code rather than hoped for in prompts.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_R46sB_9kMQgr_1",
+          "type": "multiple_choice",
+          "prompt": "Why is state machine routing valuable for safety and compliance in agent workflows?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Code enforces which transitions are legal, so an agent cannot skip required steps like approval even if prompted to"
+            },
+            {
+              "id": "b",
+              "text": "It allows any step to jump to any other step at random"
+            },
+            {
+              "id": "c",
+              "text": "It replaces all code checks with a single system prompt"
+            },
+            {
+              "id": "d",
+              "text": "It hides the current state of the workflow from logs"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Enforcing legal state transitions in code prevents the model from bypassing mandatory checks or approvals.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_VRC6Buvy-ef4",
       "title": "The state decides who acts next, not the last speaker",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In early chat-based multi-agent setups, the last agent to speak was asked to name the next speaker in prose. Models frequently misspelled agent names, picked the wrong colleague or chatted back and forth politely without doing the work.\n\nIn state-driven control, the routing function inspects objective fields in the state: is `sql_validated` true, is `review_status` set to `needs_changes`, is `attempt_count` under the limit? Code then picks the next node deterministically whenever possible.\n\nIt is air traffic control assigning the runway from radar data rather than letting pilots vote over the radio on who lands next.\n\nReserve LLM routing decisions for genuine ambiguity, and use state fields for everything else.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_VRC6Buvy-ef4_1",
+          "type": "multiple_choice",
+          "prompt": "Why is routing from state fields more reliable than asking the last agent to name the next speaker in prose?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Code can check objective state flags deterministically, avoiding misspelled names or polite loops between agents"
+            },
+            {
+              "id": "b",
+              "text": "Prose routing is too deterministic and never makes mistakes"
+            },
+            {
+              "id": "c",
+              "text": "State fields cannot store strings or booleans"
+            },
+            {
+              "id": "d",
+              "text": "Models refuse to run unless they choose the next speaker"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Deterministic checks on state fields eliminate unnecessary LLM routing errors whenever the next step follows clear rules.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_RBm0RIHLIqN2",
       "title": "Keeping state small: only what the next step needs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "It is tempting to tip every raw search result, every intermediate draft and every agent's internal scratchpad into the shared state. Within ten steps the state balloons to fifty thousand tokens, slowing every node and muddling the prompts.\n\nKeep the shared state lean. Store distilled outputs, structured fields and references (such as document IDs or file paths) rather than giant raw blobs. Each node should read only the slice of state its job requires.\n\nIt is passing a colleague a one-page handover form rather than forwarding your entire email inbox from the past six months.\n\nA small, tidy state keeps every node call fast, cheap and focused.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,13 +139,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RBm0RIHLIqN2_1",
+          "type": "multiple_choice",
+          "prompt": "What happens if every agent dumps all of its raw tool outputs and scratchpads into the shared state?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Later agents run faster because they have more tokens to read"
+            },
+            {
+              "id": "b",
+              "text": "API providers stop charging for input tokens once state is large"
+            },
+            {
+              "id": "c",
+              "text": "The database automatically deletes old tables"
+            },
+            {
+              "id": "d",
+              "text": "The state bloats rapidly, making downstream prompts slow, expensive and harder for models to follow"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Keeping only distilled results and needed fields in shared state prevents context bloat across the team.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_IJoLWqcFDhz2",
       "title": "Typed state: catching bad data between agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When Agent A passes data to Agent B through shared state, a missing field or a number formatted as a string can cause Agent B to fail halfway through its turn.\n\nDefining your shared state with a strict type schema, such as a Pydantic model or TypedDict in Python or a Zod schema in TypeScript, catches bad data at the boundary. If Node A tries to write an invalid status value or omits a required list, validation fails immediately right at Node A.\n\nIt is standard shipping containers that must fit the crane hooks at every port, so a misshapen crate is rejected before the ship sails.\n\nTyped state turns mysterious downstream agent failures into clear, immediate schema errors.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -74,13 +186,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IJoLWqcFDhz2_1",
+          "type": "multiple_choice",
+          "prompt": "How does a typed state schema help in a multi-agent workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It validates updates at the moment a node writes them, catching missing or malformed data before the next agent runs"
+            },
+            {
+              "id": "b",
+              "text": "It lets agents write any data shape they like without checking"
+            },
+            {
+              "id": "c",
+              "text": "It removes the need for any error handling"
+            },
+            {
+              "id": "d",
+              "text": "It translates English text into French automatically"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Validating state updates against a schema catches broken handoffs at the source rather than three steps later.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2KaLWCwHqv4o",
       "title": "Checkpoints: pause, resume, and replay a run",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A checkpoint saves a snapshot of the shared state to a database after every node completes.\n\nCheckpoints unlock three powerful capabilities for production agents. First, fault tolerance: if a server restarts on step seven of ten, the run resumes from step six instead of starting over. Second, human-in-the-loop: the graph can pause before a sensitive action, wait hours for a manager to click Approve, and resume from the exact saved state. Third, debugging: you can load the checkpoint from step four and replay from there to test a fix.\n\nIt is saving your progress in a video game before a hard level so you do not restart from the opening scene.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -93,7 +233,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2KaLWCwHqv4o_1",
+          "type": "multiple_choice",
+          "prompt": "What three capabilities does saving state checkpoints after each node give you?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Resuming after crashes, pausing for human approval and replaying from an earlier step to debug"
+            },
+            {
+              "id": "b",
+              "text": "Free API calls, faster network cables and larger monitors"
+            },
+            {
+              "id": "c",
+              "text": "Running without a database, skipping authentication and deleting logs"
+            },
+            {
+              "id": "d",
+              "text": "Training a new model after every turn"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Persisting state at each step lets a workflow pause for hours, recover from failures and be replayed from any node.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,20 +5,48 @@
     {
       "id": "bit_vFYQ2YQNWKSM",
       "title": "Pausing for approval before critical actions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Human-in-the-loop (HITL) approval means the agent does the legwork up to the brink of an important action, then pauses and waits for a person to click Approve, Edit or Reject before the action actually executes.\n\nFor instance, an accounts-payable agent can read an invoice, match it to the purchase order, check the supplier's bank details and prepare the payment instruction, then pause for the finance manager's one-click sign-off.\n\nIt is a junior solicitor preparing the contract and placing it on the partner's desk with a \"Sign here\" tab before it goes to the client.\n\nYou capture 90 per cent of the time savings while keeping human accountability on the final trigger.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vFYQ2YQNWKSM_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main advantage of pausing an agent for human approval right before a critical action?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The human has to do all the research and typing from scratch"
+            },
+            {
+              "id": "b",
+              "text": "It removes the need for the agent to use any tools"
+            },
+            {
+              "id": "c",
+              "text": "The action runs before the human sees it"
+            },
+            {
+              "id": "d",
+              "text": "The agent still does the time-consuming preparation, while a human verifies and owns the final high-stakes action"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Pre-action approval combines the speed of AI preparation with human judgement at the moment of commitment.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_zmsVjxyrPIfX",
       "title": "Interrupts, checkpoints, and resumable state",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A human reviewer might approve an action in ten seconds, or they might be at lunch and approve it four hours later. You cannot hold an HTTP request or a Python `sleep()` open in memory for four hours waiting for them.\n\nProper approval workflows use **checkpoints and interrupts**. Before running the sensitive tool, the framework saves the full workflow state to the database, emits a notification (in the app, Slack or email) and exits cleanly, freeing the server. When the reviewer clicks Approve hours later, a webhook loads the saved checkpoint, injects the approval decision and resumes from that exact step.\n\nIt is bookmarking a page and closing the book until you come back this evening.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,43 +59,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_zmsVjxyrPIfX_1",
+          "type": "multiple_choice",
+          "prompt": "How should an agent architecture wait for a human approval that might take several hours?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Keep an HTTP connection and a `while True` loop spinning in memory for hours"
+            },
+            {
+              "id": "b",
+              "text": "Save a state checkpoint to a database, stop the process cleanly and resume from the saved checkpoint when the approval webhook arrives"
+            },
+            {
+              "id": "c",
+              "text": "Re-run the entire workflow from the beginning every thirty seconds"
+            },
+            {
+              "id": "d",
+              "text": "Cancel the task if the user does not click within two seconds"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Checkpointing state to persistent storage lets workflows pause indefinitely at zero compute cost and resume reliably.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_7FbkUvvZRKgK",
       "title": "Which actions need approval: money, messages, and deletions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "You do not need human approval when an agent searches a knowledge base, summarises a PDF or writes a private draft. Those actions are read-only or easily discarded.\n\nRequire approval for actions that cross an external boundary or are hard to reverse. The big three in almost every business are **money** (issuing refunds, placing orders, changing prices or paying invoices), **external messages** (sending emails, SMS or public posts to customers and partners) and **destructive writes** (deleting records, revoking access or overwriting live configurations).\n\nIt is the difference between pencilling notes in a margin and posting a signed cheque in the postbox.\n\nClassify every tool by reversibility and blast radius before launch.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7FbkUvvZRKgK_1",
+          "type": "multiple_choice",
+          "prompt": "Which group of agent actions should almost always require human approval (or strict caps) before executing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Searching an internal FAQ document"
+            },
+            {
+              "id": "b",
+              "text": "Moving money, sending external messages to customers and deleting or overwriting important records"
+            },
+            {
+              "id": "c",
+              "text": "Counting rows in a read-only analytics table"
+            },
+            {
+              "id": "d",
+              "text": "Formatting a draft note that only the current user can see"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Actions that are irreversible, externally visible or financially binding carry high cost if the agent makes a mistake.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ErW1jDwp_XTF",
       "title": "Showing the reviewer exactly what will happen",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An approval prompt that says \"Agent wants to run `update_record`. Approve?\" is useless. The human has no idea what record is changing or whether the new values are right.\n\nDesign the approval card so a busy reviewer can verify it in five seconds. Show **what will happen** in plain language (\"Send £340 refund to Jane Doe\"), the **before-and-after diff** of any fields changing, the **reason and source evidence** the agent relied on (\"Order #4821 returned to warehouse on 12 Nov\"), and buttons to **Approve, Edit parameters or Reject**.\n\nIt is a banking app showing the payee name, sort code and amount on the confirmation screen before you scan your thumbprint.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ErW1jDwp_XTF_1",
+          "type": "multiple_choice",
+          "prompt": "What must a good human-approval screen show the reviewer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only the internal function name and a raw hexadecimal memory address"
+            },
+            {
+              "id": "b",
+              "text": "A 50-page log of every token the model generated"
+            },
+            {
+              "id": "c",
+              "text": "The exact action and parameters, a clear before-and-after diff and the source evidence behind the recommendation"
+            },
+            {
+              "id": "d",
+              "text": "Just a green button with no details"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Reviewers can only catch mistakes quickly when the exact target, values, diff and supporting evidence are clearly presented.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_PYFA4Y2XrpFP",
       "title": "Approval fatigue: too many prompts get rubber-stamped",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "If you ask a human to approve twenty low-risk steps on every task, by Tuesday afternoon they will stop reading the cards and click Approve on autopilot. When a genuinely dangerous mistake appears on card twenty-one, they will rubber-stamp that too.\n\nThis is **approval fatigue**, the same problem that made browser cookie banners pointless. Protect human attention fiercely. Let read-only lookups, Reversible drafts and low-value actions (such as refunds under £15 that pass all fraud checks) run automatically, so that when an approval prompt does appear, the reviewer knows it actually matters.\n\nIt is a car dashboard that only lights a red warning lamp when something truly needs the driver's attention.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PYFA4Y2XrpFP_1",
+          "type": "multiple_choice",
+          "prompt": "What causes approval fatigue in human-in-the-loop systems, and how do you prevent it?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Showing too much clear evidence on high-risk actions"
+            },
+            {
+              "id": "b",
+              "text": "Letting read-only search tools run without a popup"
+            },
+            {
+              "id": "c",
+              "text": "Asking humans to approve too many routine, low-risk steps causes them to click through blindly; prevent it by automating safe steps and reserving prompts for high-risk actions"
+            },
+            {
+              "id": "d",
+              "text": "Paying reviewers a salary"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Reserving approval prompts for genuinely high-stakes or unusual cases keeps human review attentive and meaningful.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

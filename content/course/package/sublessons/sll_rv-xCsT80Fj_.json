@@ -5,74 +5,242 @@
     {
       "id": "bit_Vfn7IHIDQSUI",
       "title": "Cross-entropy loss in depth",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Cross-entropy loss measures how well a classifier's predicted probability distribution matches the true target label, penalising confident wrong predictions severely. For a single correct class, it equals the negative natural logarithm of the probability the model assigned to that true class after a softmax layer.\n\nIt is like a weather forecaster being scored on rain predictions: saying there is a 99 per cent chance of sunshine on a day that pours with rain earns a massive penalty, whereas saying 50 per cent earns a mild one.\n\nBecause the logarithm approaches negative infinity as the predicted probability approaches zero, a single mislabelled example in a client's dataset can produce a huge gradient spike if the model is confident against it. That steep penalty drives fast learning on clean data, but makes cross-entropy sensitive to noisy human annotations.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Vfn7IHIDQSUI_1",
+          "type": "multiple_choice",
+          "prompt": "How does cross-entropy loss behave when a model assigns a very low probability to the true class?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The loss grows very large because the negative logarithm shoots up near zero probability"
+            },
+            {
+              "id": "b",
+              "text": "The loss drops to zero so the model ignores the difficult example"
+            },
+            {
+              "id": "c",
+              "text": "The loss stays constant at exactly one regardless of the softmax output"
+            },
+            {
+              "id": "d",
+              "text": "The loss becomes negative and rewards the model for being decisive"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because cross-entropy takes the negative log of the predicted probability for the true class, confident mistakes near zero probability incur a steep penalty.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_dEEbj2dJN81y",
       "title": "Contrastive and ranking losses",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Unlike cross-entropy, which classifies inputs into a fixed list of categories, contrastive and ranking losses train a model to compare items and organise them by similarity or relative order. Instead of asking which bucket an item belongs to, these losses ask whether item A is closer to item B than to item C in embedding space.\n\nThink of a librarian who arranges books on a shelf so that related topics sit next to each other, even when new subjects arrive that were never in the original catalogue.\n\nThis approach is essential when the set of target classes changes constantly, such as matching customer support tickets to an evolving knowledge base, verifying faces, or ranking products in e-commerce search. The quality of a ranking model depends heavily on picking informative negative examples that are hard enough to teach fine distinctions.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_dEEbj2dJN81y_1",
+          "type": "multiple_choice",
+          "prompt": "When is a contrastive or ranking loss preferred over standard cross-entropy classification?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When the problem has only two fixed classes and a tiny tabular dataset"
+            },
+            {
+              "id": "b",
+              "text": "When the engineer wants to avoid generating vector embeddings altogether"
+            },
+            {
+              "id": "c",
+              "text": "When the training dataset contains no pairs or relationships between items"
+            },
+            {
+              "id": "d",
+              "text": "When the model needs to measure similarity or order items across open-ended or changing categories"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Contrastive and ranking objectives learn a geometric similarity space, allowing the system to match and rank new items without retraining a fixed classification head.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_fDqLJStC87sW",
       "title": "Label smoothing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Label smoothing is a regularisation technique for classification that replaces hard target probabilities of 1.0 and 0.0 with slightly softened targets, such as 0.9 for the correct class and 0.1 split evenly across the remaining classes. Under standard cross-entropy, a network can only drive loss towards zero by pushing its pre-softmax logits toward infinity, which encourages overconfidence and overfitting.\n\nIt is like a seasoned adviser reminding a junior analyst that even a rock-solid business forecast carries a small chance of unexpected outcomes, so they should never bet the entire company on certainty.\n\nBy setting a finite target probability, label smoothing keeps logits bounded, improves probability calibration, and often boosts generalisation on noisy datasets. However, you should double-check whether label smoothing helps or hurts if the trained model's representations will later be compressed via knowledge distillation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_fDqLJStC87sW_1",
+          "type": "multiple_choice",
+          "prompt": "What problem does label smoothing prevent during classification training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It prevents the data loader from reading duplicate images from the hard drive"
+            },
+            {
+              "id": "b",
+              "text": "It eliminates the need to run a softmax function during inference"
+            },
+            {
+              "id": "c",
+              "text": "It guarantees that training loss reaches exact zero within the first epoch"
+            },
+            {
+              "id": "d",
+              "text": "It stops the model from pushing logits to extreme values and becoming overconfident in its predictions"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "By replacing hard 0 and 1 targets with softened probabilities, label smoothing discourages runaway logits and improves model calibration.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_jo-VlLzvwg_a",
       "title": "Class weights for imbalance",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Class weighting modifies the loss function so mistakes on rare categories count much more heavily in the total gradient than mistakes on common categories. In real business datasets, such as manufacturing defect detection or payment fraud screening, positive cases may represent less than one per cent of all records.\n\nImagine a hospital triage system: missing a rare life-threatening condition is far costlier than misfiling a routine check-up, so the training signal must reflect that priority.\n\nWithout adjustment, a model can achieve 99 per cent accuracy simply by predicting the majority class every time while failing completely at the client's actual goal. Setting class weights inversely proportional to class frequency forces the model to pay attention to minority examples, though extreme weights can increase false positives and require threshold tuning on a validation set.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_jo-VlLzvwg_a_1",
+          "type": "multiple_choice",
+          "prompt": "Why do engineers apply class weights to the loss function on imbalanced datasets?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To delete ninety per cent of the minority class examples before training begins"
+            },
+            {
+              "id": "b",
+              "text": "To make the neural network run faster by skipping matrix multiplications on rare items"
+            },
+            {
+              "id": "c",
+              "text": "To force the model to output identical probabilities for every single input row"
+            },
+            {
+              "id": "d",
+              "text": "To prevent the majority class from dominating gradients and ensure the model learns rare classes"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Scaling the loss higher for underrepresented classes amplifies their gradients so the optimiser cannot ignore minority cases.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_sbBFUlfn3YVE",
       "title": "Contrastive pairs: pull matches together, push others apart",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Contrastive learning trains an encoder by feeding it positive pairs (two items that belong together) and negative pairs (two items that do not), then adjusting weights so positive embeddings move closer and negative embeddings move further apart. Closeness is usually measured by cosine similarity or Euclidean distance in the embedding space.\n\nIt is like seating guests at a wedding reception: you place close friends at the same table and seat people with nothing in common on opposite sides of the hall.\n\nIf the objective only pulled positive pairs together without pushing negatives apart, the network would take a lazy shortcut called representation collapse and map every input in the world to the exact same constant vector. Balancing attractive forces with repulsive forces from a diverse pool of negatives keeps the embedding space informative and well spread out.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_sbBFUlfn3YVE_1",
+          "type": "multiple_choice",
+          "prompt": "What happens if a pair-based embedding model pulls positive pairs together without any mechanism to separate negatives or maintain variance?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model collapses by mapping every input to the same constant vector to achieve zero loss trivially"
+            },
+            {
+              "id": "b",
+              "text": "The embedding dimension automatically doubles after every training batch"
+            },
+            {
+              "id": "c",
+              "text": "The model memorises the exact pixel values of the images but cannot compute cosine similarity"
+            },
+            {
+              "id": "d",
+              "text": "The training loss increases to infinity on the very first forward pass"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Without a repulsive force on negative pairs or an explicit variance constraint, mapping all inputs to a single point satisfies the positive-pair distance objective with zero effort.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_9ma0atXiIARF",
       "title": "Triplet and InfoNCE losses (concept)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Triplet loss and InfoNCE loss are two classic ways to formulate contrastive training. Triplet loss takes an anchor, a positive match, and one negative example, penalising the model until the anchor-positive distance is smaller than the anchor-negative distance by a safety margin. InfoNCE generalises this by framing the task as softmax classification where the anchor must pick its true positive out of a large batch of negative distractors.\n\nThink of triplet loss as comparing two candidates head-to-head, whereas InfoNCE is like picking your friend out of a line-up of a hundred strangers.\n\nInfoNCE powers modern embedding models because comparing against many negatives simultaneously yields a richer gradient signal, though it requires large batch sizes.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9ma0atXiIARF_1",
+          "type": "multiple_choice",
+          "prompt": "How does InfoNCE loss extend the basic idea of triplet loss?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It removes the need for positive pairs and trains using only unlabelled negative examples"
+            },
+            {
+              "id": "b",
+              "text": "It restricts the embedding vector to have a length of exactly three dimensions"
+            },
+            {
+              "id": "c",
+              "text": "It contrasts each positive pair against many negative examples simultaneously using a softmax formulation"
+            },
+            {
+              "id": "d",
+              "text": "It replaces cosine similarity with a decision tree classifier at the output layer"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "InfoNCE treats contrastive learning as selecting the true positive match from a large pool of negatives in the batch, yielding stronger representations than comparing one negative at a time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

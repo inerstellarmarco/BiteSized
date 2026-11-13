@@ -5,8 +5,8 @@
     {
       "id": "bit_0CCWFadQII06",
       "title": "Strategist, copywriter, designer, and analyst agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Splitting a marketing system into specialised agent roles such as strategist, copywriter, designer, analyst, and reviewer produces far better results than asking one giant mega-prompt to plan, write, illustrate, check, and measure an entire campaign at once.\n\nIt is like a magazine newsroom where the commissioning editor, feature writer, photo director, data researcher, and sub-editor each focus on their craft with focused tools and clear instructions.\n\nEach role gets only the context, examples, and tools it needs for its step, making the system easier to test, debug, and improve whenever one link in the chain underperforms.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,37 +19,121 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0CCWFadQII06_1",
+          "type": "multiple_choice",
+          "prompt": "Why does splitting marketing work across specialised agent roles outperform using a single giant all-in-one prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Each specialist agent receives focused instructions, examples, and tools, making outputs sharper and errors easy to isolate"
+            },
+            {
+              "id": "b",
+              "text": "Cloud providers charge ten times less per token whenever an agent has a job title in its name"
+            },
+            {
+              "id": "c",
+              "text": "A single prompt is physically incapable of generating more than fifty words of text"
+            },
+            {
+              "id": "d",
+              "text": "Splitting roles allows the company to skip human approval before publishing ads"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Modular role separation keeps prompts focused, prevents instruction overload, and lets you refine one step without breaking the rest.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_sXaS6n8B3e5w",
       "title": "Strategist: plans campaigns from goals and data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The strategist agent takes a high-level business goal, target audience, budget constraint, and historical performance summary, then turns them into a structured campaign brief with key angles, channel allocation, and target metrics.\n\nThink of an expedition leader who studies the weather reports, terrain maps, and team fitness before drawing the route plan that the climbers will follow up the mountain.\n\nKeep the strategist grounded in real client data. A strategist agent with no access to past CRM conversion rates or product margins will propose generic textbook ideas that ignore what actually sells for this specific business.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_sXaS6n8B3e5w_1",
+          "type": "multiple_choice",
+          "prompt": "What inputs does a strategist agent need to produce a practical campaign brief rather than generic advice?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The client's specific commercial goal, audience segments, product margins, and past campaign performance data"
+            },
+            {
+              "id": "b",
+              "text": "Only a single dictionary word describing the industry sector"
+            },
+            {
+              "id": "c",
+              "text": "The personal holiday schedules of the company's warehouse delivery drivers"
+            },
+            {
+              "id": "d",
+              "text": "A list of random social media trends from unrelated consumer industries"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Grounding the strategist role in real historical results and commercial constraints ensures the resulting brief fits the business.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_I5YZcDWViDkY",
       "title": "Copywriter: drafts in the brand voice",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The copywriter agent takes a structured brief from the strategist, retrieves the relevant brand voice examples and product sheets, and produces channel-specific copy variations for emails, landing pages, or social posts.\n\nIt acts like a skilled staff writer who takes the editor's assignment card and the house style guide, then turns out three crisp headline options and a clean body draft ready for review.\n\nInstruct the copywriter agent to stick strictly to facts present in the brief and retrieved product memory. If a needed proof point is missing, the agent should insert a visible `[NEEDS FACT CHECK]` flag rather than inventing a statistic.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_I5YZcDWViDkY_1",
+          "type": "multiple_choice",
+          "prompt": "What should a well-configured copywriter agent do when a campaign brief calls for a product statistic that is not in the brand memory?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Invent a believable percentage such as 87 percent so the sentence reads smoothly"
+            },
+            {
+              "id": "b",
+              "text": "Cancel the entire marketing campaign and delete the shared brand memory"
+            },
+            {
+              "id": "c",
+              "text": "Copy a statistic from a competitor's website and attribute it to the client"
+            },
+            {
+              "id": "d",
+              "text": "Insert a clear placeholder flag like `[NEEDS FACT CHECK]` so a human supplies the verified figure"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Flagging missing facts prominently rather than guessing prevents hallucinations from slipping into polished marketing copy.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hRKRyxEbuJMK",
       "title": "Designer: briefs or generates visuals",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The designer agent translates the campaign brief and copy into visual asset specifications, layout templates, or generated imagery that match the brand's colour palette, typography, and composition rules.\n\nThink of an art director preparing a storyboard and selecting brand-approved photo frames so every visual asset looks unmistakably like the same company across web, email, and social feeds.\n\nFor most business clients, programmatic HTML/CSS templates or structured design tools produce far cleaner, on-brand promotional graphics than raw unconstrained image generation, which often mangles product packaging and text labels.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -62,37 +146,121 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hRKRyxEbuJMK_1",
+          "type": "multiple_choice",
+          "prompt": "Why is combining programmatic templates with brand assets often better than raw unconstrained image generation for product marketing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Image generation models can only produce black-and-white line drawings"
+            },
+            {
+              "id": "b",
+              "text": "Customers refuse to buy products shown inside clean HTML or template layouts"
+            },
+            {
+              "id": "c",
+              "text": "Using design templates removes the need to check copyright on stock photos"
+            },
+            {
+              "id": "d",
+              "text": "Templates preserve exact brand fonts, logos, and real product photography without distorting packaging or text"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Structured templates keep real product photos, typography, and brand colours crisp while using AI for layout variations and background concepts.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1F3R1uyaT-9C",
       "title": "Analyst: pulls results and recommends changes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The analyst agent queries campaign analytics, CRM conversion tables, and ad platform metrics on a regular schedule, summarises what worked and what underperformed, and proposes specific hypotheses for the next cycle.\n\nIt is like a sports performance coach who reviews match statistics on Monday morning, spots that the team lost possession in the final twenty minutes, and recommends a targeted drill for Wednesday's training.\n\nEnsure all conversion rates, cost-per-lead figures, and statistical comparisons are calculated by deterministic Python or SQL scripts called by the analyst agent, leaving the model to interpret patterns and write the narrative summary.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1F3R1uyaT-9C_1",
+          "type": "multiple_choice",
+          "prompt": "How should an analyst agent compute metrics like cost per lead and conversion rate across campaigns?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Call deterministic code or SQL queries to calculate the exact numbers, then use the model to summarise patterns and recommendations"
+            },
+            {
+              "id": "b",
+              "text": "Estimate the percentages by scanning raw CSV rows inside the language model prompt alone"
+            },
+            {
+              "id": "c",
+              "text": "Round every campaign metric up to the nearest hundred so the report looks encouraging"
+            },
+            {
+              "id": "d",
+              "text": "Ignore CRM sales data and judge success purely by how long the copy was"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Using code for the math and the language model for synthesis ensures the performance report is both mathematically accurate and easy to act on.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_tPlTHm4i593c",
       "title": "Reviewer: checks brand, facts, and rules before approval",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The reviewer agent acts as an automated quality gate that inspects every draft produced by the copywriter and designer against a strict checklist: brand tone, factual accuracy against product sheets, legal disclaimers, and platform policy rules.\n\nThink of a pre-flight safety inspector walking around an aircraft with a clipboard before the pilot ever starts the engines, catching a loose latch early on the tarmac.\n\nA reviewer agent does not replace final human approval; instead, it catches 90 percent of avoidable mistakes automatically and hands the human approver a clean draft accompanied by a structured verification scorecard.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_tPlTHm4i593c_1",
+          "type": "multiple_choice",
+          "prompt": "What role does a reviewer agent play in a multi-agent marketing pipeline?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It replaces legal counsel and publishes campaigns directly to the public without human sign-off"
+            },
+            {
+              "id": "b",
+              "text": "It checks drafts against brand, factual, and compliance rules before handing a scored draft to the human approver"
+            },
+            {
+              "id": "c",
+              "text": "It rewrites the company's financial statements to match the marketing promises"
+            },
+            {
+              "id": "d",
+              "text": "It deletes any draft that uses fewer than five exclamation marks"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Automated pre-review catches routine factual and style slips early so human reviewers can focus their attention on high-level judgement.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wRaRz3VVrGHs",
       "title": "One orchestrator with clear handoffs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An orchestrator is the control workflow that coordinates the specialist agents in sequence, passing structured JSON or markdown artefacts from strategist to copywriter, designer, reviewer, and human approval queue without losing state.\n\nIt is like a theatre stage manager calling cues from the prompt desk so the lighting crew, sound engineer, and actors enter in the right order rather than talking over each other.\n\nKeep the orchestration logic in deterministic code or a workflow engine rather than letting five agents chat freely in an open-ended group loop, which wastes tokens and frequently gets stuck in polite circles.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
@@ -105,7 +273,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wRaRz3VVrGHs_1",
+          "type": "multiple_choice",
+          "prompt": "Why should the handoffs between marketing agents be controlled by deterministic workflow code rather than an open-ended multi-agent chat loop?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Agents in an open chat loop always finish their work in zero seconds"
+            },
+            {
+              "id": "b",
+              "text": "Workflow code prevents humans from ever viewing intermediate campaign drafts"
+            },
+            {
+              "id": "c",
+              "text": "Deterministic handoffs enforce a predictable sequence, validate inputs between steps, and avoid runaway token loops"
+            },
+            {
+              "id": "d",
+              "text": "Language models cannot read structured JSON or markdown handoff files"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Code-driven orchestration keeps multi-agent pipelines predictable, cheap to run, and easy to pause at human approval gates.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

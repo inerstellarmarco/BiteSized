@@ -5,8 +5,8 @@
     {
       "id": "bit_wyVeQuIaVuHW",
       "title": "Approval gates and spend limits for each bot",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An approval gate pauses a bot workflow before a sensitive action until a human clicks approve, whilst a spend limit caps how much money or token budget a bot can consume. Both controls are enforced by the surrounding software, not by asking the bot nicely in its prompt.\n\nFor a wholesale distributor, a bot can draft a credit note up to £50, but anything higher pauses at a gate for the finance director, and each bot has a £10 daily API cap.\n\nSet thresholds carefully with the client. If every tiny action requires human approval, staff suffer alert fatigue and start clicking approve without reading.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wyVeQuIaVuHW_1",
+          "type": "multiple_choice",
+          "prompt": "Why must approval gates and spend limits be enforced in code rather than inside the bot's prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A bot can ignore or misinterpret prompt instructions, whereas code controls enforce hard boundaries"
+            },
+            {
+              "id": "b",
+              "text": "Prompts cannot contain numbers or currency symbols like pounds and pence"
+            },
+            {
+              "id": "c",
+              "text": "Code-level gates make the language model run twice as fast on every request"
+            },
+            {
+              "id": "d",
+              "text": "Clients prefer not to see any limits written down in the system documentation"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Hard code boundaries guarantee that a bot cannot exceed its budget or trigger restricted actions, even if it hallucinates.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_OKLp8U2yEKFa",
       "title": "Start with fewer bots: every bot adds cost and failure points",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In live operations, every extra bot multiplies your failure modes, slows down response times, and increases API bills. When three bots pass a task along a chain, small inaccuracies in the first bot can snowball into a completely wrong answer by the third.\n\nThink of the children's game of whispered messages around a circle, where a simple sentence gets more distorted with each person who passes it on.\n\nIf you see two bots simply rephrasing each other's work, merge them or replace the handoff with a code template. Only keep a separate bot when it brings a genuinely distinct toolset, permission boundary, or evaluation step.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,13 +66,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OKLp8U2yEKFa_1",
+          "type": "multiple_choice",
+          "prompt": "What happens when a bot team has more bots than the workflow truly needs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Costs and latency rise, and small errors from early bots can compound across handoffs"
+            },
+            {
+              "id": "b",
+              "text": "The accuracy of the final answer is guaranteed to reach one hundred per cent"
+            },
+            {
+              "id": "c",
+              "text": "Each individual bot uses zero tokens because the workload is shared out"
+            },
+            {
+              "id": "d",
+              "text": "The system becomes immune to network outages and API rate limits"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Every extra link in a bot chain adds delay, expense, and another chance for errors to snowball.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1nJJcCwvDRhY",
       "title": "A kill switch for the whole team",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A kill switch is an emergency control that immediately pauses all bots in a team, revokes their active job queues, and stops outgoing actions. Every client deployment needs a clear, one-click way for a non-technical manager to halt the system if it starts misbehaving.\n\nIt is like the big red emergency stop button on a factory packing line that any supervisor can press the moment boxes start jamming.\n\nWhen the kill switch is pressed, in-flight tasks should fail safely into a human review queue rather than vanishing silently. Test the switch regularly so you know it stops runaway loops and scheduled background jobs alike.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -57,25 +113,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1nJJcCwvDRhY_1",
+          "type": "multiple_choice",
+          "prompt": "What should happen to in-flight tasks when a manager presses the bot team's kill switch?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "All automated actions should stop immediately and unfinished tasks should move safely to a human queue"
+            },
+            {
+              "id": "b",
+              "text": "All customer records currently being processed should be permanently deleted"
+            },
+            {
+              "id": "c",
+              "text": "The bots should speed up to finish their entire backlog before shutting down"
+            },
+            {
+              "id": "d",
+              "text": "Only the consultant should receive an email while the bots keep running for another week"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A good kill switch halts automation right away without losing customer work, routing open items to people for safe handling.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_HhvP4lz0a58l",
       "title": "Separate identities: each bot has its own account and logs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every bot in a team should authenticate with its own service account, API key, and identity rather than sharing a single login or borrowing a human employee's credentials. Every action a bot takes must be recorded in an audit log under its own name.\n\nIf a support bot and a billing bot share the office manager's email account, nobody can tell which bot sent a mistaken refund promise or whether a human typed it.\n\nSeparate identities let you revoke one misbehaving bot's access without shutting down the rest of the business. Just remember to rotate keys and manage those accounts alongside normal staff onboarding and security reviews.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_HhvP4lz0a58l_1",
+          "type": "multiple_choice",
+          "prompt": "Why must each bot have its own service account instead of using a human employee's login?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Software vendors give a fifty per cent discount for every extra account created"
+            },
+            {
+              "id": "b",
+              "text": "Bots cannot read emails or database rows when logged in as a human user"
+            },
+            {
+              "id": "c",
+              "text": "Using separate accounts removes the need to keep activity logs for the system"
+            },
+            {
+              "id": "d",
+              "text": "It creates a clear audit trail of which bot did what and allows one bot's access to be revoked cleanly"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Individual bot accounts make auditing straightforward and let administrators isolate or disable a single bot without disrupting staff.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_A0wrGsxanSke",
       "title": "Test the team in shadow mode before it acts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Shadow mode means running the new bot team on real live inputs alongside human staff, whilst blocking the bots from sending anything to customers or changing live databases. Instead, the bots save their proposed actions to a log for comparison.\n\nIt is like a learner pilot sitting in the cockpit working out every control move while the experienced captain actually flies the aeroplane.\n\nRunning in shadow mode for a couple of weeks exposes strange real-world inputs that never appeared in your test spreadsheet. Still, shadow mode cannot test how customers react to the bot's replies, so treat the first live week with extra supervision.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -88,7 +200,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_A0wrGsxanSke_1",
+          "type": "multiple_choice",
+          "prompt": "How does shadow mode protect a client when launching a new bot team?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The bots run only between midnight and dawn when no customers are awake"
+            },
+            {
+              "id": "b",
+              "text": "Shadow mode hides all errors from the client so the project looks successful"
+            },
+            {
+              "id": "c",
+              "text": "It replaces real customer enquiries with five synthetic test sentences forever"
+            },
+            {
+              "id": "d",
+              "text": "Bots process real inputs and log proposed actions for review without touching customers or live records"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Shadow mode tests the team against messy live traffic with zero operational risk before switching on real external actions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

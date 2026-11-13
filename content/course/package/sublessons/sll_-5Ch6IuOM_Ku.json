@@ -5,74 +5,242 @@
     {
       "id": "bit_64bM8em2GWXN",
       "title": "Nextflow and nf-core",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Nextflow is a reactive workflow engine designed for scalable and reproducible scientific pipelines, and nf-core is a global community initiative that publishes peer-reviewed, standardised Nextflow pipelines for bioinformatics. Nextflow separates workflow logic from execution environments so the same pipeline runs across local servers, HPC schedulers, and cloud batch platforms; check the current details on Nextflow DSL2 syntax and nf-core release catalogues.\n\nIt is like an automated factory control system paired with a library of certified assembly-line blueprints that any manufacturing plant can download and run immediately.\n\nWhen advising biotech clients, verify that custom module modifications do not break nf-core schema validation or container pinning.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_64bM8em2GWXN_1",
+          "type": "multiple_choice",
+          "prompt": "How do Nextflow and nf-core relate to one another in bioinformatics?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Nextflow is an Illumina DNA sequencer, and nf-core is the wet-lab reagent kit used to extract RNA"
+            },
+            {
+              "id": "b",
+              "text": "nf-core is a Linux operating system kernel, and Nextflow is a relational database for clinical trials"
+            },
+            {
+              "id": "c",
+              "text": "Nextflow is the workflow execution engine, and nf-core is a community collection of peer-reviewed, standardised bioinformatics pipelines built in Nextflow"
+            },
+            {
+              "id": "d",
+              "text": "Nextflow and nf-core are competing variant callers that only run on Windows laptops"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Nextflow provides the language and runtime engine for orchestrating pipelines, while nf-core curates best-practice community workflows written in Nextflow.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_AayUZmK8tCpa",
       "title": "Snakemake rules and workflows",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Snakemake is a Python-based workflow management system that defines data analyses as a set of rules specifying how to create output files from input files using shell commands, scripts, or wrappers. By matching filename wildcards backwards from the desired final targets, Snakemake builds a directed acyclic graph (DAG) of jobs and executes only the steps that are missing or outdated; check the current details in the Snakemake documentation for executor plugins.\n\nIt is like a smart spreadsheet where updating one input cell automatically recalculates only the dependent formulas downstream without redoing unrelated sheets.\n\nOne caveat is that complex wildcard patterns can occasionally cause ambiguous rule-matching errors if output directory paths are not cleanly separated.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AayUZmK8tCpa_1",
+          "type": "multiple_choice",
+          "prompt": "How does Snakemake determine which rules to execute and in what order when running a workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It runs every rule in alphabetical order regardless of which input files exist"
+            },
+            {
+              "id": "b",
+              "text": "It resolves filename wildcards backwards from the requested target outputs to build a directed acyclic graph (DAG) of dependencies"
+            },
+            {
+              "id": "c",
+              "text": "It requires the user to manually click each step in a web browser after every file finishes"
+            },
+            {
+              "id": "d",
+              "text": "It executes all steps simultaneously before any input files are generated"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Snakemake works backwards from target filenames, matching input and output patterns across rules to construct and schedule a dependency graph.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Me44uhV86Jeh",
       "title": "Pipelines describe inputs, steps, and outputs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A computational bioinformatics pipeline is a formalised graph of processing steps in which each task declares its required input files, the exact software command or script to run, and the resulting output files. Instead of chaining fragile manual bash scripts together, a workflow engine tracks file lineage, manages temporary directories, and parallelises independent samples automatically across hundreds of patients.\n\nIt is like an industrial recipe card system where every station logs which raw ingredients enter, which machine settings run, and which labelled containers move to the next conveyor belt.\n\nEven the cleanest pipeline structure will still produce garbage results if sample sheet metadata maps the wrong FASTQ files to patient identifiers.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Me44uhV86Jeh_1",
+          "type": "multiple_choice",
+          "prompt": "Why do bioinformatics teams use formal workflow pipelines instead of running ad-hoc manual shell scripts for each sample?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Workflow engines compress DNA sequences so they no longer require disk storage"
+            },
+            {
+              "id": "b",
+              "text": "Workflow pipelines formally declare inputs, steps, and outputs so the engine can automate parallel execution, track provenance, isolate failures, and guarantee identical processing across cohorts"
+            },
+            {
+              "id": "c",
+              "text": "Manual shell scripts cannot execute standard command-line utilities like samtools or bcftools"
+            },
+            {
+              "id": "d",
+              "text": "Workflow engines eliminate the need for quality control or biological replicates"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Defining explicit inputs, tasks, and outputs allows workflow managers to parallelise sample processing reliably and reproduce results without manual human error.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_W4V64VY61jgM",
       "title": "nf-core provides community-tested pipelines",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Rather than building common genomic workflows from scratch, teams can adopt off-the-shelf pipelines from nf-core such as `nf-core/rnaseq`, `nf-core/sarek` for variant calling, or `nf-core/scrnaseq` for single-cell analysis. Each pipeline includes continuous integration tests, pre-built software containers, standardised MultiQC reporting, and detailed parameter documentation; check the current details on the nf-core website for available pipelines and release versions.\n\nIt is like deploying an audited enterprise ERP module for payroll rather than paying consultants to code a bespoke tax calculator from zero.\n\nHowever, consultants must still tune pipeline parameters to match the client's specific wet-lab library kit, strandedness, and reference genome rather than blindly running default flags.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_W4V64VY61jgM_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main business and scientific advantage of starting a client project with an established nf-core pipeline like `nf-core/rnaseq` or `nf-core/sarek`?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It provides a peer-reviewed, containerised, and continuously tested workflow with standardised QC reports, saving months of custom pipeline engineering"
+            },
+            {
+              "id": "b",
+              "text": "It guarantees that wet-lab samples with degraded RNA will automatically yield perfect biological discoveries"
+            },
+            {
+              "id": "c",
+              "text": "It bypasses all institutional data-privacy and controlled-access regulations"
+            },
+            {
+              "id": "d",
+              "text": "It runs without requiring any CPU, memory, or disk resources on the host server"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Community-maintained nf-core pipelines embed best-practice toolchains, pinned containers, and automated testing, reducing engineering overhead and improving auditability.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_j_yvLrlFqv1f",
       "title": "Resume runs without redoing finished steps",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Modern workflow engines cache the execution state and input hashes of every completed task so that an interrupted pipeline can be resumed (for example, using Nextflow `-resume` or Snakemake `--rerun-incomplete`) from the exact point of failure. When a forty-hour whole-genome run fails at the final annotation step due to a transient network timeout or memory limit, resuming skips all finished alignment and variant-calling tasks and re-runs only the failed step; check the current details for cache-directive settings in your engine.\n\nIt is like saving checkpoints in a video game before a boss battle instead of restarting from the opening tutorial every time you lose.\n\nBe careful on shared scratch storage: if an automated cleanup policy deletes the hidden work or cache directory, the workflow engine loses its task history and must recompute everything from scratch.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_j_yvLrlFqv1f_1",
+          "type": "multiple_choice",
+          "prompt": "How does a workflow engine's resume feature save time and compute budget during large genomics projects?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It skips variant calling completely whenever a compute node runs out of memory"
+            },
+            {
+              "id": "b",
+              "text": "It reuses cached outputs from already completed steps whose inputs and parameters have not changed, re-running only failed or modified downstream tasks"
+            },
+            {
+              "id": "c",
+              "text": "It lowers the Phred quality threshold to zero so failed alignments pass automatically"
+            },
+            {
+              "id": "d",
+              "text": "It deletes all raw FASTQ files as soon as the first step starts running"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Task caching allows pipelines to recover from late-stage failures or parameter tweaks in downstream steps without repeating expensive upstream compute like read alignment.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_9FdmZClj1T_Q",
       "title": "Run the same pipeline locally, on a cluster, or in the cloud",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Portable workflow engines decouple the scientific pipeline definition from the underlying compute infrastructure through configuration profiles and executor plugins. The exact same pipeline code can test a tiny dataset on a laptop, submit thousands of jobs to an on-premise Slurm cluster, or autoscale spot instances on AWS Batch or Google Cloud Batch by changing a single configuration flag; check the current details for your cloud provider's executor setup.\n\nIt is like shipping goods in standard intermodal freight containers that fit seamlessly onto a local delivery lorry, a freight train, or an ocean cargo ship without repacking the boxes inside.\n\nIn practice, moving to the cloud still requires adapting file paths to object storage URIs (`s3://` or `gs://`) and tuning instance disk mounts so heavy I/O steps do not bottleneck.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9FdmZClj1T_Q_1",
+          "type": "multiple_choice",
+          "prompt": "How do workflow engines like Nextflow and Snakemake allow the same pipeline to run on a laptop, an HPC cluster, or the cloud without rewriting the analysis steps?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They emulate a full supercomputer inside a web browser tab using JavaScript"
+            },
+            {
+              "id": "b",
+              "text": "They separate the workflow logic from the execution environment, using configuration profiles and executors to translate tasks into local processes, Slurm jobs, or cloud batch calls"
+            },
+            {
+              "id": "c",
+              "text": "Cloud providers and HPC clusters all use the exact same hardware and local hard drive paths"
+            },
+            {
+              "id": "d",
+              "text": "They email the raw FASTQ files to a manual operator who runs the commands by hand"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "By abstracting job submission and environment management into configuration profiles, workflow managers keep pipeline code independent of the underlying compute platform.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

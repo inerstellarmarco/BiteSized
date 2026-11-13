@@ -5,8 +5,8 @@
     {
       "id": "bit_Y3mVIrC_ZBzJ",
       "title": "Prompting vs. RAG vs. fine-tuning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When adapting a foundation model to a client's business problem, you have three main levers: prompt engineering, Retrieval-Augmented Generation (RAG), and fine-tuning. Prompt engineering gives instructions and a few examples inside the context window at zero training cost. RAG dynamically fetches relevant documents from an external search index and pastes them into the prompt. Fine-tuning updates the model's weights on curated task examples to change its default behaviour, tone, or skill.\n\nIt is like preparing a consultant for a pitch: prompting is handing them a one-page brief, RAG is giving them access to the client's dataroom, and fine-tuning is sending them on an intensive training programme.\n\nThese approaches are complementary rather than mutually exclusive; many production systems combine a fine-tuned model with a RAG pipeline and a structured system prompt.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,49 +19,161 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Y3mVIrC_ZBzJ_1",
+          "type": "multiple_choice",
+          "prompt": "How do Retrieval-Augmented Generation (RAG) and fine-tuning differ in how they adapt a language model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "RAG permanently changes the model's weights on disk, whereas fine-tuning only edits the user's text prompt"
+            },
+            {
+              "id": "b",
+              "text": "Fine-tuning requires a live vector database at inference time, whereas RAG deletes the context window"
+            },
+            {
+              "id": "c",
+              "text": "RAG can only work with image classifiers, whereas fine-tuning only works with audio models"
+            },
+            {
+              "id": "d",
+              "text": "RAG supplies fresh external facts inside the prompt at run time, whereas fine-tuning updates model weights to teach skills, tone, or formats"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "RAG injects up-to-date reference documents into the context window dynamically, while fine-tuning modifies parameters to internalise consistent behaviour and formatting.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_AQ97WOi455vU",
       "title": "Cost, data, and maintenance tradeoffs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Choosing between prompting, RAG, and fine-tuning requires weighing upfront engineering effort against ongoing per-request inference cost and maintenance burden. Prompting needs zero training data and launches in hours, but stuffing twenty long few-shot examples into every API call inflates token bills and latency at scale. Fine-tuning requires collecting hundreds or thousands of clean examples and managing training runs, but lets you use a much shorter prompt and often a smaller, cheaper model in production.\n\nThink of renting a furnished serviced office by the day versus signing a lease and fitting out your own custom workspace: the custom fit-out costs upfront effort, but saves money every month once you have high volume.\n\nHowever, every fine-tuned model becomes a custom software artefact that your client's team must version, evaluate, host, and periodically retrain.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AQ97WOi455vU_1",
+          "type": "multiple_choice",
+          "prompt": "When does fine-tuning a smaller model often become more economical than few-shot prompting a frontier model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When the client only needs to run five queries per month and has zero training examples"
+            },
+            {
+              "id": "b",
+              "text": "When the underlying business facts change every thirty seconds throughout the working day"
+            },
+            {
+              "id": "c",
+              "text": "When the team has no evaluation dataset and no way to test whether outputs are accurate"
+            },
+            {
+              "id": "d",
+              "text": "When request volume is high enough that savings on per-call prompt tokens and model size outweigh upfront training and maintenance costs"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Baking task instructions and examples into the weights of a compact model slashes prompt length and per-token serving costs on high-throughput workloads.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_fADYEjxZCFUK",
       "title": "Fine-tune for style, format, and narrow skills, not for new facts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A golden rule for AI consultants is that fine-tuning teaches form, behaviour, and specialised task patterns, whereas RAG teaches rapidly changing facts. Fine-tuning excels when you need a model to write in a brand's exact house voice, emit complex domain-specific JSON schemas reliably, classify tricky support categories, or translate legacy code idioms.\n\nIt is like sending a barrister to advocacy training: the course sharpens how they structure arguments and cross-examine witnesses, but they still read the specific case bundle before walking into court.\n\nIf you try to use fine-tuning to teach a model your client's latest quarterly product catalogue or daily policy updates, the model will hallucinate plausible-sounding outdated prices and mix up details, because gradient updates are a lossy, unreliable way to store a changing database.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_fADYEjxZCFUK_1",
+          "type": "multiple_choice",
+          "prompt": "Why is fine-tuning a poor choice for keeping an assistant updated on a company's daily inventory and pricing changes?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Fine-tuning automatically deletes all numerical digits from the model's vocabulary"
+            },
+            {
+              "id": "b",
+              "text": "Fine-tuned models are blocked from accepting user prompts longer than ten words"
+            },
+            {
+              "id": "c",
+              "text": "Gradient descent can only update the first layer of a transformer when given pricing tables"
+            },
+            {
+              "id": "d",
+              "text": "Weight updates store facts lossily and cannot be updated instantaneously or cited reliably like a retrieval database"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Dynamic factual knowledge belongs in an external retrieval index (RAG) that can be updated in seconds and cited verbatim, whereas fine-tuning shapes skill and style.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_SaOcWvJ2BsY1",
       "title": "Try a better prompt and retrieval first",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every well-run consulting engagement starts by pushing prompting and retrieval as far as they can reasonably go before spending a single pound on fine-tuning. Building a clean prompt with clear instructions, a few well-chosen examples, and structured output constraints takes hours rather than weeks, and immediately establishes a working baseline and an initial pipeline of real user queries.\n\nThink of tuning up a car's tyre pressure and wheel alignment before deciding to strip down and rebuild the entire gearbox.\n\nEven when you eventually do fine-tune, the work done during the prompting and RAG phase is never wasted: the failure cases you uncover define what data you need to collect, and the high-performing frontier-model prompts can be used to generate and label synthetic training examples for your smaller fine-tuned model.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_SaOcWvJ2BsY1_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an engineering team build a strong prompting or RAG baseline before starting a fine-tuning project?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because cloud GPU providers block fine-tuning jobs unless a RAG database is attached to the training script"
+            },
+            {
+              "id": "b",
+              "text": "Because prompting permanently modifies the base model's weights on the vendor's server"
+            },
+            {
+              "id": "c",
+              "text": "Because a fine-tuned model cannot be evaluated on the same test set as a prompted model"
+            },
+            {
+              "id": "d",
+              "text": "It solves many problems cheaply, clarifies failure modes, and establishes a benchmark that any fine-tuned model must beat"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Starting with prompting and retrieval validates the use case quickly and provides both the baseline score and the diagnostic data needed to justify fine-tuning.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_w4HFnpADHtFm",
       "title": "Evals decide whether fine-tuning helped",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "You should never launch a fine-tuning run until you have built an automated evaluation suite (\"eval\") that scores outputs on a representative held-out test set of client examples. Judging a fine-tuned model by chatting with it for ten minutes (\"vibe checking\") is notoriously deceptive: a tweak that fixes one obvious formatting bug often quietly degrades accuracy on three other edge cases.\n\nIt is like adjusting a factory machine without a quality gauge: eyeing two finished parts by hand will not tell you whether the overall defect rate just climbed by five per cent.\n\nYour evaluation suite should combine fast deterministic checks (such as JSON schema validity, regex constraints, and exact classification accuracy) with calibrated rubric grading or human review for open-ended tone and completeness, comparing the fine-tuned checkpoint directly against the un-tuned baseline.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -74,19 +186,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_w4HFnpADHtFm_1",
+          "type": "multiple_choice",
+          "prompt": "What is the most reliable way to verify that a fine-tuning run actually improved performance on a client's task?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Check whether the training loss on the training set decreased between the first and last step"
+            },
+            {
+              "id": "b",
+              "text": "Ask the project sponsor to try three ad-hoc prompts in a chat playground"
+            },
+            {
+              "id": "c",
+              "text": "Run an automated evaluation suite on a held-out test set and compare scores against the pre-tuning baseline"
+            },
+            {
+              "id": "d",
+              "text": "Count how many gigabytes of disk space the new checkpoint occupies"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Only a systematic comparison on held-out test cases using task-specific metrics proves that the fine-tuned model beats the baseline without regressions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_G_FkASV2VJ5e",
       "title": "Maintenance: retraining when the base model changes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Fine-tuning creates an ongoing maintenance commitment because weight updates and LoRA adapters are tied to the exact architecture and weight space of one specific base model version. When a model provider deprecates a hosted base model or releases a much stronger next-generation foundation model six months later, you cannot simply copy your old fine-tuned weights over to the new architecture.\n\nIt is like tailoring a bespoke suit to a specific person's measurements: if you hire a new presenter with a different build, the suit has to be tailored all over again from the cloth pattern.\n\nTo make model upgrades painless for your client, the real asset you must hand over is not just the final weight checkpoint, but the version-controlled training dataset, data-cleaning scripts, and automated evaluation suite so they can fine-tune the next base model in an afternoon.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_G_FkASV2VJ5e_1",
+          "type": "multiple_choice",
+          "prompt": "When a foundation model provider releases a new generation of base model, how do you migrate a fine-tuned assistant to it?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Copy and paste the old LoRA adapter matrices directly onto the new model's layers without retraining"
+            },
+            {
+              "id": "b",
+              "text": "Average the weights of the old fine-tuned model with the weights of the new base model"
+            },
+            {
+              "id": "c",
+              "text": "Re-run your training pipeline and evaluation suite on the curated dataset using the new base model"
+            },
+            {
+              "id": "d",
+              "text": "Rename the weight file extension to match the new model's release date"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because fine-tuned weights depend on the exact parameter geometry of their original base model, upgrading to a new model family requires retraining from your saved dataset and eval pipeline.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

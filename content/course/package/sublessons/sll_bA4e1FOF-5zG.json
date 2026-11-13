@@ -5,50 +5,162 @@
     {
       "id": "bit_neo-QUSHL6uX",
       "title": "Audio classification",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Audio classification models listen to a sound clip and assign it to one or more predefined categories, such as detecting glass breaking in a security system, identifying coughing in a health monitor, or flagging angry tone and hold music in call-centre analytics. Unlike speech-to-text, the goal is to label the type of sound or acoustic event rather than transcribe words.\n\nIt is like a seasoned mechanic listening to a car engine hum for five seconds and recognising the rattle of a loose fan belt without anyone speaking.\n\nModels trained in quiet studio conditions often produce false alarms when deployed in noisy factories or busy streets unless calibrated on real site recordings.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_neo-QUSHL6uX_1",
+          "type": "multiple_choice",
+          "prompt": "How does audio classification differ from speech-to-text transcription?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Audio classification converts written PDF documents into spoken audiobooks"
+            },
+            {
+              "id": "b",
+              "text": "Audio classification only works on silent video files with no audio track"
+            },
+            {
+              "id": "c",
+              "text": "Audio classification labels the type of sound event or acoustic category rather than writing down spoken words"
+            },
+            {
+              "id": "d",
+              "text": "Audio classification rewrites software source code using a text prompt"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Audio classifiers categorise acoustic events, environments, or conditions rather than producing a word-by-word transcript.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4VKaFaYryFc9",
       "title": "Speaker diarization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Speaker diarization is the process of partitioning an audio recording into homogeneous segments according to who is speaking when, labelling turns such as Speaker A and Speaker B. When combined with speech-to-text, it turns an undifferentiated wall of words into a clear script showing which participant said each line.\n\nIt is like a court reporter tagging every line in a hearing transcript with the name of the barrister or witness who spoke it.\n\nDiarization accuracy drops sharply when multiple people talk over one another at the same time or sit far from a single shared conference-room microphone.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4VKaFaYryFc9_1",
+          "type": "multiple_choice",
+          "prompt": "What question does speaker diarization answer in an audio processing pipeline?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "How many gigabytes of disk space the audio file occupies"
+            },
+            {
+              "id": "b",
+              "text": "Whether the speaker's claims are legally and financially accurate"
+            },
+            {
+              "id": "c",
+              "text": "Who spoke when during the recording"
+            },
+            {
+              "id": "d",
+              "text": "Which brand of microphone was used to record the meeting"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Diarization segments the audio timeline by speaker identity so transcripts attribute statements to the right participant.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_UdkuLIVD8wPv",
       "title": "Noise, accents, and phone-line quality hurt accuracy",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Benchmark scores for speech recognition are often measured on clean studio recordings of standard accents, which look far better than real-world performance on compressed telephone lines, noisy warehouses, or diverse regional accents. Narrowband phone audio strips away high-frequency consonant sounds that help distinguish similar words.\n\nIt is like trying to understand directions shouted across a windy train platform over a crackly walkie-talkie compared with chatting in a quiet living room.\n\nAn AI consultant should always test speech pipelines on real audio samples recorded from the client's actual phone system and customer demographic before promising accuracy targets.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_UdkuLIVD8wPv_1",
+          "type": "multiple_choice",
+          "prompt": "Why do speech recognition models often perform worse on customer support phone calls than on public studio benchmarks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Telephone wires physically scramble the alphabetical order of spoken sentences"
+            },
+            {
+              "id": "b",
+              "text": "Speech models automatically turn off half their layers whenever they detect a phone call"
+            },
+            {
+              "id": "c",
+              "text": "Telephone audio compression, background noise, and diverse regional accents degrade acoustic clarity compared to clean benchmark recordings"
+            },
+            {
+              "id": "d",
+              "text": "Studio benchmarks only test single-letter words whereas phone calls use two-letter words"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Compressed narrowband telephony audio, environmental noise, and underrepresented accents make real-world speech harder to decode than clean test sets.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_elROgYLu0Vtx",
       "title": "Consent and recording laws for voice data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Recording phone calls or meetings and feeding human voices into AI pipelines triggers strict legal duties under wiretapping statutes and data protection frameworks such as UK GDPR and EU GDPR. Depending on the jurisdiction, organisations may need one-party or all-party consent, clear upfront disclosure, and strict retention limits, especially since voiceprints used to identify individuals are often treated as biometric data.\n\nIt is like placing a visible CCTV sign at a shop entrance and locking the footage in a secure vault rather than filming visitors in secret.\n\nBecause telemarketing, wiretapping, and privacy laws vary by country and state, always check the current details with the client's legal and compliance team before recording or storing voice data.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_elROgYLu0Vtx_1",
+          "type": "multiple_choice",
+          "prompt": "Why does processing customer voice recordings with AI require careful legal and privacy review?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Audio files are exempt from all privacy laws as long as they are converted into MP3 format"
+            },
+            {
+              "id": "b",
+              "text": "Data protection rules forbid companies from ever answering customer telephone calls"
+            },
+            {
+              "id": "c",
+              "text": "Recording laws often mandate upfront consent, and voice data or voiceprints are protected under data privacy rules"
+            },
+            {
+              "id": "d",
+              "text": "Voice recordings automatically become public domain property the moment an AI transcribes them"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Call recording consent rules and data protection regulations strictly govern how personal voice recordings and biometric voiceprints may be collected and retained.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

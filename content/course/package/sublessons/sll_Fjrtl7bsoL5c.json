@@ -5,56 +5,168 @@
     {
       "id": "bit_5_teuLSk9YSN",
       "title": "Video understanding and generation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Video understanding models analyse sequences of frames and audio over time to summarise events, find specific moments in security or training footage, and answer questions about actions, while video generation models synthesise new moving clips from text or image prompts. Understanding temporal order is what separates video AI from static image analysis.\n\nIt is like the difference between looking at a single still photograph of a football match and watching a ten-second replay to see whether a player was offside before the pass was kicked.\n\nGenerated videos can still suffer from physics glitches, morphing objects over long clips, and heavy compute costs, so commercial use often focuses on short b-roll clips or storyboard pre-visualisation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5_teuLSk9YSN_1",
+          "type": "multiple_choice",
+          "prompt": "What capability distinguishes video understanding from static single-image understanding?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Reading the pixel colour of the top-left corner of a picture"
+            },
+            {
+              "id": "b",
+              "text": "Converting a written text prompt into an embeddings vector"
+            },
+            {
+              "id": "c",
+              "text": "Tracking how actions, objects, and events unfold across a sequence of frames over time"
+            },
+            {
+              "id": "d",
+              "text": "Running without any graphics memory or processor cores"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Video models reason across time so they can recognise motion, cause and effect, and temporal sequences that a single frame cannot show.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_0HFxzDefaPI0",
       "title": "Sensor and time-series inputs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Beyond text, images, and audio, many industrial and financial AI systems process time-series and sensor streams, such as factory vibration readings, smart-meter energy usage, heart-rate monitors, or daily retail sales figures. These inputs consist of ordered numerical measurements recorded over time rather than words or pixels.\n\nIt is like a hospital bedside monitor plotting a patient's pulse and temperature every minute to spot a fever developing early.\n\nFeeding raw sheets of ten thousand sensor numbers straight into a general language model tokeniser is usually slow and inaccurate compared with using dedicated time-series models or pre-computed statistical features.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0HFxzDefaPI0_1",
+          "type": "multiple_choice",
+          "prompt": "Why is pasting thousands of raw millisecond sensor numbers directly into a standard language model prompt usually a poor design?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Language models are physically incapable of reading any character between zero and nine"
+            },
+            {
+              "id": "b",
+              "text": "Sensor numbers automatically erase the system prompt from the model's context window"
+            },
+            {
+              "id": "c",
+              "text": "Language model tokenisers handle long raw number streams inefficiently and less accurately than specialised time-series tools or summary features"
+            },
+            {
+              "id": "d",
+              "text": "Cloud APIs charge a one-thousand-pound penalty whenever a prompt contains a decimal point"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Purpose-built time-series models or aggregated statistical features capture numerical patterns far more cheaply and reliably than raw text tokenisation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_elqdo-Ld-8uH",
       "title": "Sampling frames: video costs many tokens",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A raw video file recorded at thirty frames per second contains eighteen hundred images every single minute. Passing every single frame into a vision-language model would consume hundreds of thousands of visual tokens per minute, blowing through context limits and budgets almost instantly.\n\nIt is like flipping through a security flipbook by checking one snapshot every second rather than inspecting all thirty nearly identical frames in between.\n\nIn practice, video pipelines sample frames at a low rate, such as one frame per second or only when the scene changes, and increase the frame rate only for short clips that require fast motion analysis.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_elqdo-Ld-8uH_1",
+          "type": "multiple_choice",
+          "prompt": "How do production video understanding pipelines keep token costs and latency manageable on long recordings?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By converting the entire video into a single one-pixel black square before analysis"
+            },
+            {
+              "id": "b",
+              "text": "By sampling keyframes at a lower rate, such as one frame per second or on scene changes, rather than encoding every frame"
+            },
+            {
+              "id": "c",
+              "text": "By asking users to only upload videos that are less than thirty milliseconds long"
+            },
+            {
+              "id": "d",
+              "text": "By printing every video frame on paper and posting it to the cloud provider"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Because adjacent video frames are largely redundant, sampling a small subset of frames per second cuts token usage dramatically while preserving most meaning.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Ix-Z5dG7FoOb",
       "title": "Time series: windows, trends, and seasonality",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Analysing time-series data relies on breaking a continuous stream into rolling time windows and separating long-term trends from repeating seasonal cycles. A trend captures gradual upward or downward movement over months, whereas seasonality captures predictable patterns that repeat every day, week, or year.\n\nIt is like a high-street retailer noticing both that online orders are growing steadily year on year and that sales always spike every Friday afternoon and every December.\n\nIf a forecasting model confuses a temporary seasonal holiday spike with a permanent upward trend, a client can end up ordering far too much warehouse inventory.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Ix-Z5dG7FoOb_1",
+          "type": "multiple_choice",
+          "prompt": "In time-series analysis, what is the difference between a trend and seasonality?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A trend only occurs during summer months, whereas seasonality only occurs during winter months"
+            },
+            {
+              "id": "b",
+              "text": "A trend is measured in text tokens, whereas seasonality is measured in image pixels"
+            },
+            {
+              "id": "c",
+              "text": "A trend is a long-term directional shift over time, whereas seasonality is a regular pattern that repeats at fixed calendar intervals"
+            },
+            {
+              "id": "d",
+              "text": "A trend means sensor data is missing, whereas seasonality means the database has crashed"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Separating long-term trajectory from recurring daily, weekly, or annual cycles prevents businesses from misreading normal calendar swings.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_aSY5xC_iac-w",
       "title": "Combining sensor data with text for operations use",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In real industrial and operations workflows, maximum value comes from combining structured sensor anomalies or time-series forecasts with unstructured text such as maintenance logs, technician shift notes, and equipment manuals. A classical anomaly detector or time-series model flags the numerical spike, and a language model retrieves the matching manual procedures and past repair tickets to draft an actionable diagnostic summary.\n\nIt is like a car dashboard warning light turning on from an engine sensor while the onboard screen pulls up the exact page of the owner's manual explaining what the mechanic should inspect.\n\nKeeping the numerical maths in deterministic code or time-series models while using the language model for synthesis and retrieval gives clients both reliable numbers and clear human explanations.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -67,7 +179,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_aSY5xC_iac-w_1",
+          "type": "multiple_choice",
+          "prompt": "In an industrial maintenance assistant, what is the most reliable way to combine vibration sensor streams with written repair manuals?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Convert the written repair manuals into random vibration noise and feed them into a thermometer"
+            },
+            {
+              "id": "b",
+              "text": "Delete all sensor readings and ask the LLM to guess when a machine will break based on the company logo"
+            },
+            {
+              "id": "c",
+              "text": "Use a dedicated time-series or statistical detector to flag sensor anomalies, then pass those structured findings to an LLM with RAG over the repair manuals"
+            },
+            {
+              "id": "d",
+              "text": "Paste fifty gigabytes of raw millisecond vibration numbers directly into a chat window with no pre-processing"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Pairing specialised numerical detection on the sensor stream with language retrieval over manuals combines mathematical precision with readable operational guidance.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

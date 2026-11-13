@@ -5,74 +5,242 @@
     {
       "id": "bit_94u_9PdY9-Cj",
       "title": "Quality control and trimming",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Quality control (QC) and read trimming are the initial preprocessing steps applied to raw FASTQ reads to assess sequencing run health and remove synthetic adapter sequences or low-quality base tails before alignment. During sequencing, base call confidence naturally degrades toward the 3-prime end of reads, and if the DNA insert is shorter than the read length, the machine reads right into the synthetic adapter ligated at the end.\n\nIt is like inspecting incoming timber deliveries for rot and sawing off the stamped shipping brackets on the ends of each plank before feeding the wood into precision carpentry machines.\n\nNote that some modern splice-aware aligners and variant callers handle low-quality tails internally via soft-clipping, so overly aggressive quality trimming can counterproductively shorten reads too much.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_94u_9PdY9-Cj_1",
+          "type": "multiple_choice",
+          "prompt": "Why do raw sequencing reads sometimes contain synthetic adapter sequences at their 3-prime ends that must be trimmed?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Cells naturally transcribe Illumina adapter sequences at the end of every human exon"
+            },
+            {
+              "id": "b",
+              "text": "When a DNA or RNA fragment is shorter than the sequencing read length, the instrument reads past the biological insert into the ligated synthetic adapter"
+            },
+            {
+              "id": "c",
+              "text": "Aligners inject adapter sequences into FASTQ files to mark high-quality bases"
+            },
+            {
+              "id": "d",
+              "text": "Adapter sequences only appear when a FASTQ file is compressed with gzip"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "If the library insert fragment is shorter than the number of sequencing cycles, the read extends through the biological DNA into the flanking synthetic adapter oligonucleotide.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NU-CDOd4Qb8w",
       "title": "Read alignment and quantification",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Read alignment and quantification are the core steps that translate raw sequencing reads into genomic coordinates and molecular abundance counts. In DNA sequencing, an aligner maps reads to a reference genome so variant callers can inspect pileups; in RNA sequencing, reads are either aligned with a splice-aware mapper and counted per gene or quantified directly against reference transcripts to produce a sample-by-gene count matrix.\n\nIt is like sorting millions of returned postal ballots by constituency address on a national map and then tallying the vote totals for each candidate per district.\n\nWhen scoping compute resources for clients, remember that coordinate alignment produces huge BAM files and takes substantial CPU and RAM, whereas lightweight transcript quantification skips BAM generation entirely.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NU-CDOd4Qb8w_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary output of the read alignment and quantification stage in an RNA-seq workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A three-dimensional crystal structure of every protein in the sample"
+            },
+            {
+              "id": "b",
+              "text": "Uncalibrated electrical signal traces from the sequencing flow cell"
+            },
+            {
+              "id": "c",
+              "text": "A list of clinical patient diagnoses approved by regulatory agencies"
+            },
+            {
+              "id": "d",
+              "text": "Genomic alignment records (or transcript mappings) and a quantitative count matrix recording how many reads originated from each gene or transcript per sample"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Alignment maps reads to their genomic or transcriptomic origins, and quantification aggregates those mapped reads into an expression count matrix across genes or transcripts.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_6OfT_3ENYaJ8",
       "title": "FastQC and MultiQC summaries: read quality, adapters, and duplication",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "`FastQC` is the standard tool for generating quality-control profiles of individual FASTQ files, and `MultiQC` scans an entire project directory to aggregate logs from `FastQC`, aligners, and variant callers into a single interactive HTML dashboard. Together they reveal per-base quality drops, adapter contamination, GC content shifts, and PCR duplication rates across hundreds of samples at a glance; check the current details on supported MultiQC module plugins.\n\nIt is like combining individual vehicle inspection sheets (`FastQC`) into a fleet-wide executive dashboard (`MultiQC`) so a logistics manager can immediately spot which three lorries in a hundred have failing brakes.\n\nA vital caveat is that `FastQC` warning flags assume a uniform whole-genome library: RNA-seq, amplicon, and bisulfite datasets naturally trigger \"fail\" warnings on duplication or GC distribution even when the experiment worked perfectly.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6OfT_3ENYaJ8_1",
+          "type": "multiple_choice",
+          "prompt": "Why can a healthy, high-quality RNA-seq sample trigger duplication or per-base sequence content warnings in `FastQC`?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Any red warning in `FastQC` proves the sequencing machine suffered a hardware failure and the data must be deleted"
+            },
+            {
+              "id": "b",
+              "text": "`FastQC` thresholds assume a random whole-genome library, whereas RNA-seq naturally over-represents highly expressed transcripts and has hexamer priming biases at read starts"
+            },
+            {
+              "id": "c",
+              "text": "`FastQC` can only read BAM files and corrupts compressed FASTQ inputs"
+            },
+            {
+              "id": "d",
+              "text": "RNA molecules do not contain guanine or cytosine bases"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Because `FastQC` evaluates metrics against expectations for uniform genomic DNA, specialised assays like RNA-seq, ChIP-seq, or methylation sequencing routinely trigger expected warnings that require assay-aware interpretation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_YD95gZOdiqJj",
       "title": "Trim adapters and low-quality ends",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Tools such as `fastp`, `Cutadapt`, and `Trim Galore` scan raw FASTQ reads to clip residual synthetic adapter sequences, trim low-Phred-score bases from the 3-prime tails, and discard reads that become too short after trimming. In paired-end sequencing, the trimmer must process Read 1 and Read 2 together so that if one mate is discarded, the paired FASTQ files stay strictly synchronised line-for-line; check the current details in the `fastp` documentation for poly-G tail trimming on two-colour Illumina platforms.\n\nIt is like editing a two-camera interview where cutting ten corrupted frames from Camera A requires syncing the exact same cut on Camera B so the audio and video never drift out of alignment.\n\nIf R1 and R2 files fall out of sync after careless single-file filtering, downstream aligners will fail or mismatch mate pairs across the entire sample.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YD95gZOdiqJj_1",
+          "type": "multiple_choice",
+          "prompt": "Why must paired-end FASTQ files (`R1` and `R2`) always be trimmed together in paired mode rather than trimmed as two independent single-end files?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Paired mode doubles the length of every DNA sequence by fusing `R1` and `R2` into chromosomes"
+            },
+            {
+              "id": "b",
+              "text": "`R2` files do not contain Phred quality scores unless `R1` is present in the same command"
+            },
+            {
+              "id": "c",
+              "text": "If a read is discarded from `R1` without removing or separating its mate in `R2`, the two files lose their line-by-line synchronisation and corrupt downstream paired alignment"
+            },
+            {
+              "id": "d",
+              "text": "Trimming files independently converts paired-end Illumina reads into Nanopore long reads"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Aligners rely on mate pairs appearing at identical line offsets in `R1` and `R2` files, so paired-aware trimming keeps mate records synchronised when low-quality reads are dropped.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ha0XSuOOL2MI",
       "title": "Aligners map reads to a reference; some tools skip alignment and quantify directly",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Classical aligners, such as `BWA-MEM2` or `minimap2` for DNA and splice-aware `STAR` or `HISAT2` for RNA, compute base-by-base alignments of reads against the reference genome. By contrast, lightweight pseudoalignment or selective-alignment tools like `Salmon` and `kallisto` skip genome-wide base-level alignment and match $k$-mers directly against a reference transcriptome to estimate transcript abundance in a fraction of the time and memory; check the current details on decoy-aware transcriptome indexing for `Salmon`.\n\nIt is like sorting books either by verifying every word on every page against the Library of Congress master edition (base-level alignment) or by scanning unique barcode phrases to tally inventory counts instantly (pseudoalignment).\n\nWhile `Salmon` and `kallisto` are ideal for fast gene expression matrices, they do not produce genomic BAM files for novel splice-junction discovery or DNA variant calling.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ha0XSuOOL2MI_1",
+          "type": "multiple_choice",
+          "prompt": "When would a bioinformatician choose a full splice-aware genome aligner like `STAR` over a fast lightweight quantifier like `Salmon` or `kallisto`?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When the project requires base-level genomic BAM alignments to inspect novel splice junctions, call RNA sequence variants, or visualise read pileups across introns and exons"
+            },
+            {
+              "id": "b",
+              "text": "When the goal is simply to minimise RAM usage and run quantification on a standard laptop"
+            },
+            {
+              "id": "c",
+              "text": "When working with proteomics mass spectrometry spectra instead of nucleotide sequences"
+            },
+            {
+              "id": "d",
+              "text": "When the organism has no reference genome or transcriptome of any kind"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Lightweight quantifiers like `Salmon` and `kallisto` rapidly estimate expression of known transcripts, whereas full splice-aware aligners like `STAR` generate coordinate BAMs needed for novel splicing, variant detection, and genome browser inspection.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_AOL-zX9GiCzx",
       "title": "Check alignment rates and look for unexpected contamination",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "After alignment, inspecting overall mapping rates, uniquely mapped percentages, unmapped reads, and taxonomic screening reports (using tools like `Kraken2` or `FastQ Screen`) verifies that the library actually captured the intended biological target. High fractions of unmapped reads, multi-mapping ribosomal RNA, mycoplasma bacteria, or cross-species carryover indicate wet-lab issues that can bias downstream AI models; check the current details for updated `Kraken2` microbial reference databases.\n\nIt is like testing a municipal water sample after filtration: if half the volume turns out to be industrial runoff instead of drinking water, you halt distribution before running taste panels.\n\nIn RNA-seq, if ribosomal RNA (rRNA) depletion failed in the lab, 70% of your reads may map to rRNA loci, leaving too few messenger RNA reads to quantify gene expression reliably.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AOL-zX9GiCzx_1",
+          "type": "multiple_choice",
+          "prompt": "What does it typically indicate in an RNA-seq experiment if overall genome alignment is 90%, but uniqueness is low because 75% of all reads map to ribosomal RNA (rRNA) loci?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The reference genome FASTA file is missing all protein-coding chromosomes"
+            },
+            {
+              "id": "b",
+              "text": "The sample has exceptionally high coverage across every transcription factor in the genome"
+            },
+            {
+              "id": "c",
+              "text": "Wet-lab rRNA depletion or poly-A selection failed, leaving insufficient sequencing depth on protein-coding messenger RNAs"
+            },
+            {
+              "id": "d",
+              "text": "The sequencing instrument used Phred Q40 scores instead of Q30 scores"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Ribosomal RNA makes up the vast majority of cellular RNA; if wet-lab rRNA removal or poly-A capture fails, rRNA dominates the sequencing run and starves messenger RNA coverage.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

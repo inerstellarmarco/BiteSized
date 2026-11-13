@@ -5,8 +5,8 @@
     {
       "id": "bit_CZVV_2g_7v-H",
       "title": "Gated assembly-line pipelines",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A prompt chain is a fixed sequence of model calls where the output of step one becomes the input to step two, with code checks (\"gates\") between them.\n\nSuppose a client wants weekly customer call summaries turned into CRM notes and follow-up emails. Step one extracts the agreed actions from the transcript. A gate checks that the JSON is valid and every action has an owner. Step two drafts the follow-up email from those verified actions.\n\nIt is a factory assembly line where each station does one job and inspects the part before passing it along.\n\nUnlike an open-ended agent, the path is fixed in code.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,43 +19,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_CZVV_2g_7v-H_1",
+          "type": "multiple_choice",
+          "prompt": "How does a gated prompt chain work?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "One model call decides at random which tools to invent"
+            },
+            {
+              "id": "b",
+              "text": "Every step runs at the same time without sharing data"
+            },
+            {
+              "id": "c",
+              "text": "The user writes the code between each step by hand"
+            },
+            {
+              "id": "d",
+              "text": "A fixed sequence of model steps runs in order, with code checks inspecting each output before the next step runs"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Prompt chaining links focused model calls in a set order, with gates verifying intermediate results.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_sakK-fH_XwHL",
       "title": "When chaining beats a single prompt",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "You might wonder why not put all the instructions into one big prompt and make a single call.\n\nWhen a prompt tries to extract data, check compliance rules, translate terminology and polish tone all at once, the model drops rules in the middle. Splitting the job into a chain gives each call one narrow focus, a shorter instruction list and only the context that step actually needs.\n\nIt is asking a colleague to first agree the numbers for a proposal, and only then write the cover letter, instead of doing both in one rushed draft.\n\nChaining also lets you use a cheap model for easy steps and a stronger model only where needed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_sakK-fH_XwHL_1",
+          "type": "multiple_choice",
+          "prompt": "Why does splitting a complex job into a prompt chain often beat one giant prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Each call gets a narrow focus and shorter instructions, so fewer rules are dropped along the way"
+            },
+            {
+              "id": "b",
+              "text": "Three calls always run faster than one call"
+            },
+            {
+              "id": "c",
+              "text": "Models refuse prompts longer than a hundred words"
+            },
+            {
+              "id": "d",
+              "text": "Chaining removes the need for any instructions"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Narrow steps follow instructions more reliably and let you match the model size to each step's difficulty.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hme88jYcqSfC",
       "title": "Gates: checks between steps that stop bad work early",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A gate is a check in your code that sits between two steps in a chain and decides whether the output is good enough to pass forward.\n\nGates are usually simple, deterministic rules: did the JSON parse, are all required fields present, do the quoted figures exist in the source text, is the draft within the word limit? If a gate fails, your code can retry that single step, fall back to a safer path or stop early before wasting money on later steps.\n\nIt is airport security checking your boarding pass before you walk all the way to the departure gate.\n\nStopping a bad output at step one saves every downstream step from building on rubbish.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hme88jYcqSfC_1",
+          "type": "multiple_choice",
+          "prompt": "What is the role of a gate between two steps in a prompt chain?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To slow the pipeline down so users wait longer"
+            },
+            {
+              "id": "b",
+              "text": "To encrypt the database password"
+            },
+            {
+              "id": "c",
+              "text": "To verify the output of one step before spending time and money on the next step"
+            },
+            {
+              "id": "d",
+              "text": "To replace all model calls with random numbers"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Gates catch malformed or invalid intermediate outputs early, so errors do not cascade down the chain.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_QOKEdpc0_-Q3",
       "title": "The trade-off: more reliable, but slower",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Prompt chaining is not free. Because step two cannot start until step one finishes, the waiting times add up.\n\nFour sequential calls that each take three seconds mean the user waits at least twelve seconds for an answer. You also pay for input tokens on every step, although each prompt is usually smaller and cleaner than one giant mega-prompt.\n\nIt is sending a document through three people for sign-off: the result is safer, but it will not be back on your desk in five minutes.\n\nUse a chain when reliability and inspectable intermediate outputs matter more than an instant reply.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_QOKEdpc0_-Q3_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main drawback of a sequential prompt chain?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes every step impossible to test on its own"
+            },
+            {
+              "id": "b",
+              "text": "It cannot produce structured outputs"
+            },
+            {
+              "id": "c",
+              "text": "Latency adds up across steps because each call must wait for the previous one to finish"
+            },
+            {
+              "id": "d",
+              "text": "It always lowers accuracy compared with a single prompt"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Running steps one after another increases total wait time, trading speed for reliability and control.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,20 +5,48 @@
     {
       "id": "bit_IMzYfqn_Zzm6",
       "title": "Deep-research and coding agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Deep-research and coding agents are the two most mature categories of long-horizon autonomous agents in enterprise use today. A deep-research agent breaks a complex question into sub-queries, searches dozens of internal and web sources, cross-checks facts, and synthesises a cited report, while a coding agent explores a repository, edits multiple files, runs tests, and iterates on compiler errors until the task is complete.\n\nFor a management consulting firm, a deep-research agent can spend fifteen minutes compiling a competitor dossier from filings and news, doing the legwork that used to take an analyst half a day.\n\nBoth patterns succeed because their intermediate steps, such as reading search results or running compiler tests, give the agent concrete feedback to guide its next move.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IMzYfqn_Zzm6_1",
+          "type": "multiple_choice",
+          "prompt": "What common advantage makes both deep-research agents and coding agents effective over many autonomous steps?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Both require zero tokens of context memory because they only run a single prompt"
+            },
+            {
+              "id": "b",
+              "text": "Both are guaranteed never to hallucinate or make mistakes on any task"
+            },
+            {
+              "id": "c",
+              "text": "Both work without calling any external tools, files, or search indexes"
+            },
+            {
+              "id": "d",
+              "text": "Both operate in environments where intermediate actions return concrete feedback, such as search results or test output, allowing the agent to self-correct"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Having rich feedback loops, whether verifying sources across documents or running compilers and unit tests, lets these agents check their own progress and recover from mistakes over multi-step runs.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_KWvvlOZbny3I",
       "title": "Durable, resumable long-running tasks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Durable, resumable execution ensures that a long-running agent task that takes minutes, hours, or days can survive server restarts, network blips, rate-limit pauses, or overnight human approval waits without losing its place. Instead of holding the agent's progress only in temporary RAM, a durable runtime saves the state of every completed step and tool result to persistent storage.\n\nIt is like playing a long video game that automatically saves your progress at every doorway so that if the power cuts out, you resume right outside the boss room rather than back at level one.\n\nWithout durable state, a thirty-minute research or migration agent that hits a network glitch at minute twenty-nine wastes all the time and money spent so far.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,13 +59,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KWvvlOZbny3I_1",
+          "type": "multiple_choice",
+          "prompt": "Why is durable, checkpointed execution critical for agent tasks that run for thirty minutes or wait for human sign-off?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It makes the language model generate tokens ten times faster than standard API calls"
+            },
+            {
+              "id": "b",
+              "text": "It eliminates the need to authenticate users before they start a task"
+            },
+            {
+              "id": "c",
+              "text": "It compresses all output files into encrypted audio recordings"
+            },
+            {
+              "id": "d",
+              "text": "It persists completed steps to disk or a database so the workflow can resume from the last checkpoint after a crash, timeout, or approval pause without starting over"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Storing state durably after each step prevents costly restarts when network errors happen and allows workflows to pause cleanly for hours while waiting for a human to click approve.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_POsFL1MNfJ8A",
       "title": "Staying on track over hours: plans, notes, and checkpoints",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When an agent works across dozens or hundreds of steps, stuffing every raw tool output and dead end into a single growing chat history quickly overwhelms the context window and causes the model to lose track of its goal. Long-horizon agents stay on track by maintaining an explicit written plan, writing concise structured notes to an external scratchpad file or database, and compacting old history at regular checkpoints.\n\nThink of a detective investigating a six-month case who updates a clean case board and summary notebook every evening rather than carrying every scrap of receipts and transcripts in their hands at all times.\n\nPeriodic checkpoint summaries keep the active context crisp, relevant, and focused on the remaining items in the plan.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,19 +106,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_POsFL1MNfJ8A_1",
+          "type": "multiple_choice",
+          "prompt": "How should a long-running agent manage its context across a task that requires one hundred tool calls?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Append every full web page and raw tool log into a single conversation array until the context limit crashes"
+            },
+            {
+              "id": "b",
+              "text": "Delete the original user goal after step five so the prompt stays short"
+            },
+            {
+              "id": "c",
+              "text": "Maintain an explicit plan and structured notes while periodically compacting older step logs so the active context stays clean and focused"
+            },
+            {
+              "id": "d",
+              "text": "Switch to a random new foundation model after every third tool call"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Externalising plans and notes while summarising completed phases prevents context rot, where irrelevant historical noise degrades the model's reasoning on later steps.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_O_iS9KTsNsAq",
       "title": "Environments where agents can test their own work",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An agent improves dramatically when you give it a safe environment where it can test, inspect, and verify its own outputs before handing them to a human. Depending on the task, that verification environment might be a sandboxed code runner with unit tests, a SQL syntax validator, a headless browser that renders generated UI code, or a schema linter for structured documents.\n\nIt is like a chef tasting a soup in the kitchen and adjusting the seasoning before the waiter carries the bowl out to the customer's table.\n\nWhen an agent can see the exact error message from a compiler, linter, or test suite inside an isolated sandbox, it can fix most of its own mistakes in a second or third turn without bothering the user.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_O_iS9KTsNsAq_1",
+          "type": "multiple_choice",
+          "prompt": "Why does giving an agent access to a sandboxed test runner or validator improve its final output quality?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Sandboxed test runners permanently rewrite the weights of the foundation model in the cloud"
+            },
+            {
+              "id": "b",
+              "text": "Validators allow the agent to skip reading the user's instructions altogether"
+            },
+            {
+              "id": "c",
+              "text": "Running tests inside a sandbox removes all token costs from the model provider's bill"
+            },
+            {
+              "id": "d",
+              "text": "The agent can observe concrete error messages or failed assertions and fix its own mistakes before returning the final result to the user"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Closed-loop verification lets an agent catch syntax errors, broken logic, or formatting violations immediately and iterate until the output passes objective checks.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

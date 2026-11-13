@@ -5,86 +5,282 @@
     {
       "id": "bit_NLA-3bB8P-oa",
       "title": "Analytical vs. clinical validity and utility",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Evaluating a medical diagnostic or AI biomarker requires proving three distinct levels of evidence: analytical validity, clinical validity, and clinical utility. Together, they test whether the tool measures its target accurately, connects meaningfully to a health condition, and actually helps doctors improve patient care.\n\nImagine a smart home smoke detector: analytical validity means its sensor accurately detects smoke particles, clinical validity means those particles reliably indicate a house fire, and clinical utility means the alarm wakes the family in time to escape safely.\n\nMany healthcare AI startups fail commercially because they stop after proving technical accuracy without demonstrating real clinical utility for hospitals.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NLA-3bB8P-oa_1",
+          "type": "multiple_choice",
+          "prompt": "Why must a healthcare AI team distinguish between analytical validity, clinical validity, and clinical utility?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Proving analytical validity automatically satisfies all hospital reimbursement and clinical utility requirements"
+            },
+            {
+              "id": "b",
+              "text": "A tool can measure a signal accurately and correlate with disease yet still fail to improve patient outcomes"
+            },
+            {
+              "id": "c",
+              "text": "Regulators only care about software speed and never examine patient health outcomes"
+            },
+            {
+              "id": "d",
+              "text": "Clinical utility is calculated purely from the number of parameters in a neural network"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Technical measurement accuracy and disease association do not guarantee that using the tool in practice actually leads to better treatment decisions or patient outcomes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_GVYuSTSKCcGv",
       "title": "Study design and real-world evidence",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Clinical study design defines the rules, patient selection, and comparison groups used to test whether a medical intervention or diagnostic works. Real-world evidence is clinical evidence derived from analysing routine healthcare data, such as electronic health records and disease registries, outside traditional trials.\n\nFor a pharmaceutical client, a randomised controlled trial is like testing a recipe in a tightly controlled laboratory kitchen, whereas real-world evidence observes how thousands of busy home cooks actually fare with it every evening.\n\nWhile real-world data captures broader patient diversity, it is full of confounding biases and missing entries that careless machine learning analysis can mistake for treatment effects.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GVYuSTSKCcGv_1",
+          "type": "multiple_choice",
+          "prompt": "What is a major challenge when using real-world evidence from routine hospital records?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Confounding factors and incomplete recording can create misleading statistical associations"
+            },
+            {
+              "id": "b",
+              "text": "Real-world datasets only include healthy volunteers and never contain sick patients"
+            },
+            {
+              "id": "c",
+              "text": "Routine electronic health records are always formatted identically across every country"
+            },
+            {
+              "id": "d",
+              "text": "Real-world data is legally forbidden from being analysed by statisticians"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because routine care is not randomised, differences in who receives a test or treatment can confound results unless study design and analysis account for those biases.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_7WxDXwYw-2M7",
       "title": "Analytical validity: does the test measure correctly?",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Analytical validity is the ability of an assay or software pipeline to measure the specific technical signal or analyte it claims to measure, accurately and reproducibly. It focuses on precision, detection limits, and consistency across batches, instruments, and laboratories.\n\nIf an AI pathology tool claims to count dividing cells on a biopsy slide, analytical validity tests whether it gives the same accurate count regardless of which scanner digitised the glass slide.\n\nA model with poor analytical validity will break down as soon as a hospital changes its staining chemical supplier or upgrades its imaging camera, even if its original training metrics looked impressive.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7WxDXwYw-2M7_1",
+          "type": "multiple_choice",
+          "prompt": "What does analytical validity assess in a computational diagnostic tool?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whether health insurers will agree to pay £500 per test in private clinics"
+            },
+            {
+              "id": "b",
+              "text": "Whether the tool accurately and reproducibly measures its target technical signal across conditions"
+            },
+            {
+              "id": "c",
+              "text": "Whether the target biomarker is causally responsible for curing the patient's illness"
+            },
+            {
+              "id": "d",
+              "text": "Whether hospital doctors prefer reading PDF reports over interactive dashboards"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Analytical validity is concerned strictly with measurement performance: accuracy, repeatability, and robustness across technical variations like instruments or batches.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_2BhiYHCEavDF",
       "title": "Clinical validity: does the result relate to the disease?",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Clinical validity measures how reliably a test result classifies the presence, absence, or future risk of a specific clinical condition in patients. It is quantified using metrics such as sensitivity, specificity, and positive and negative predictive values in a defined patient population.\n\nIt is like checking whether a high credit-risk score actually corresponds to borrowers defaulting on their loans in the real economy, rather than just verifying that the calculator added the numbers up properly.\n\nCrucially, positive and negative predictive values shift dramatically when disease prevalence changes. A model validated in a specialist cancer centre can produce mostly false positives when deployed for general population screening.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_2BhiYHCEavDF_1",
+          "type": "multiple_choice",
+          "prompt": "Why can a diagnostic model's positive predictive value drop sharply when moved from a specialist clinic to general screening?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The underlying software code automatically deletes its weights outside hospital walls"
+            },
+            {
+              "id": "b",
+              "text": "General practitioners use different laws of probability than hospital specialists"
+            },
+            {
+              "id": "c",
+              "text": "Lower disease prevalence in the general population means false positives outnumber true cases"
+            },
+            {
+              "id": "d",
+              "text": "Healthy people have no DNA or proteins for the assay to measure"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Predictive values depend heavily on how common the condition is in the tested group; when a disease is rare, even a specific test generates many false alarms relative to true cases.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_bWW16MFS9qUX",
       "title": "Clinical utility: does using it improve patient outcomes?",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Clinical utility is proof that incorporating a test or AI prediction into routine medical care leads to better health outcomes for patients compared with standard care. It asks what actionable decision a clinician makes with the result and whether that action helps the patient live longer or feel better.\n\nConsider an AI model that accurately predicts which intensive care patients will deteriorate within six hours. If doctors already know those patients are critically ill or have no effective treatment to change their trajectory, the model has high clinical validity but zero clinical utility.\n\nPayers and health technology bodies rarely fund new diagnostics unless clear clinical utility is demonstrated.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_bWW16MFS9qUX_1",
+          "type": "multiple_choice",
+          "prompt": "When does an accurate disease prediction model lack clinical utility?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When it runs on standard hospital servers instead of quantum computers"
+            },
+            {
+              "id": "b",
+              "text": "When it achieves less than one hundred per cent sensitivity in validation"
+            },
+            {
+              "id": "c",
+              "text": "When it is developed by an academic university rather than a listed company"
+            },
+            {
+              "id": "d",
+              "text": "When its predictions do not lead to a clinical action that improves patient health outcomes"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Even an accurate prediction adds no clinical value if there is no effective intervention triggered by the result or if clinicians already make the same decision without it.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lxyIF1fWCESr",
       "title": "Prospective vs. retrospective studies",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A retrospective study trains and evaluates a model using historical patient data that has already been collected in the past. A prospective study enrols patients going forward in time, generating predictions in real clinical workflows and observing actual outcomes as they unfold.\n\nTesting retrospectively is like predicting yesterday's football scores using archived match statistics; testing prospectively means placing your predictions before kick-off on Saturday and waiting for the final whistle.\n\nRetrospective studies frequently inflate AI performance because subtle data leakage, cleaned records, and hindsight selection hide real-world operational messy realities. Prospective evaluation is the gold standard for proving a clinical model truly works.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lxyIF1fWCESr_1",
+          "type": "multiple_choice",
+          "prompt": "Why do retrospective studies often overestimate the real-world performance of clinical AI models?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Curated historical datasets can contain hindsight biases and data leakage that disappear in live care"
+            },
+            {
+              "id": "b",
+              "text": "Historical patient records are always completely free of measurement noise"
+            },
+            {
+              "id": "c",
+              "text": "Prospective studies allow data scientists to peek at future outcomes before making predictions"
+            },
+            {
+              "id": "d",
+              "text": "Patients in past decades had simpler biology than modern hospital patients"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Retrospective evaluations benefit from cleaned cohorts and subtle temporal leakage, whereas prospective studies test the model under live clinical conditions before outcomes occur.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_eayIUtO7qo0D",
       "title": "Real-world evidence supports trials but rarely replaces them",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Real-world evidence plays a growing role in post-market safety monitoring, label expansions, and building external control arms for rare diseases where recruiting a control group is unethical or impossible. It complements traditional clinical trials by showing how therapies perform across diverse everyday populations.\n\nThink of crash-test ratings versus motorway accident reports: real-world driving data reveals crucial long-term safety patterns across millions of journeys, yet regulators still require controlled crash tests before a new car model can be sold.\n\nBecause observational health data cannot fully eliminate unmeasured confounding, regulators generally treat real-world evidence as a supplement to randomised trials rather than a wholesale replacement.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_eayIUtO7qo0D_1",
+          "type": "multiple_choice",
+          "prompt": "How is real-world evidence most commonly used alongside randomised clinical trials?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To replace all human testing before a brand-new chemical entity is approved"
+            },
+            {
+              "id": "b",
+              "text": "To prove that randomisation is mathematically unnecessary in common illnesses"
+            },
+            {
+              "id": "c",
+              "text": "To monitor post-market safety, assess broader populations, or support rare-disease control arms"
+            },
+            {
+              "id": "d",
+              "text": "To eliminate the need for informed patient consent in hospital research"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Real-world evidence strengthens regulatory and clinical understanding after or alongside trials, especially for safety surveillance and rare conditions, without replacing core randomised trials.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

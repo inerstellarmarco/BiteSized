@@ -5,8 +5,8 @@
     {
       "id": "bit_cMOk3McAWMcw",
       "title": "SHAP for biomarkers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "SHAP (SHapley Additive exPlanations) is a game-theoretic explainability method that breaks down an individual prediction by assigning each biomarker a contribution score toward the model's output. Because explainability libraries update frequently, check the current details when choosing an explainer for tree or deep models.\n\nIt is like splitting a team sales bonus by calculating how much each team member added across every possible combination of colleagues.\n\nSHAP enables a consultant to show a clinician both the global importance of genes across a cohort and why a specific patient received a high risk score. However, when genes are strongly correlated, some SHAP estimators can split credit awkwardly or evaluate unrealistic combinations.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,67 +19,235 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cMOk3McAWMcw_1",
+          "type": "multiple_choice",
+          "prompt": "How does SHAP help interpret a complex omics classification model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It proves through laboratory intervention that knocking out a top gene will cure the patient's disease"
+            },
+            {
+              "id": "b",
+              "text": "It quantifies how much each molecular feature contributed to shifting a prediction away from the baseline"
+            },
+            {
+              "id": "c",
+              "text": "It removes technical batch effects from raw mass spectrometry files prior to model training"
+            },
+            {
+              "id": "d",
+              "text": "It replaces cross-validation by guaranteeing that high-scoring features will generalise externally"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "SHAP attributes the difference between the base rate and an individual or cohort prediction to specific input features using game-theoretic principles.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_8hKEPw6m9sQh",
       "title": "Pathway enrichment analysis",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Pathway enrichment analysis is a statistical technique that tests whether a selected list of biomarker genes overlaps with known biological processes or signalling pathways more than expected by chance. Instead of staring at a hundred disconnected gene symbols, researchers see coherent functional themes such as immune activation or cell division.\n\nIt is like noticing that twenty items bought in a supermarket basket mostly belong to the baking aisle rather than random shelves.\n\nOne critical caveat is that statistical enrichment depends heavily on the background gene universe you specify; using the whole genome instead of the genes actually measured by the assay inflates significance. Always set the proper background list and apply multiple-testing correction.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8hKEPw6m9sQh_1",
+          "type": "multiple_choice",
+          "prompt": "Why must pathway enrichment analysis use the set of actually measured genes as the statistical background universe?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Using the entire genome when the assay only measured a subset biases the overlap test and inflates false positives"
+            },
+            {
+              "id": "b",
+              "text": "Pathway databases refuse to run queries containing fewer than twenty thousand background identifiers"
+            },
+            {
+              "id": "c",
+              "text": "Measuring a subset of genes automatically deletes all immune pathways from the reference genome"
+            },
+            {
+              "id": "d",
+              "text": "Background gene lists are only used to convert human gene symbols into mouse identifiers"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The hypergeometric or enrichment test asks whether selected genes are enriched relative to what could have been selected from the assay's measured features.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_kKo9eai0hvKN",
       "title": "SHAP shows what drove predictions, not what causes disease",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Explainability scores such as SHAP values reveal how a trained mathematical model uses input variables to compute an output, not how the underlying human biology works. A biomarker can strongly drive a model's risk score simply because it is a downstream consequence of disease, a medication side effect, or a hospital artefact.\n\nIt is like a model predicting rain accurately because commuters carry umbrellas; umbrellas drive the prediction, but taking them away will not clear the sky.\n\nWhen presenting SHAP plots to medical directors, an AI consultant must clearly separate model auditing from causal biology. Treat top-ranked features as observational associations that explain the software's behaviour rather than proven drug targets.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kKo9eai0hvKN_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it wrong to claim that a gene with the highest SHAP value is a causal driver of the disease?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "SHAP values are randomly generated numbers used only to test graphics rendering speed"
+            },
+            {
+              "id": "b",
+              "text": "Causal disease genes are always assigned negative SHAP values of exactly zero by tree models"
+            },
+            {
+              "id": "c",
+              "text": "SHAP only evaluates features from the test set that failed quality control checks"
+            },
+            {
+              "id": "d",
+              "text": "SHAP only measures how much a feature influences the model's mathematical output, which may reflect downstream effects or confounding"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Explainability tools describe the internal logic of the fitted model; they cannot distinguish causal disease mechanisms from correlated biomarkers or confounders.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_PbBRyjgRxCQO",
       "title": "Enrichment: do the selected genes cluster in known pathways?",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Checking whether model-selected features cluster in established biological pathways helps domain experts judge whether a classifier has captured plausible biology or random noise. When fifteen out of twenty top transcripts belong to interferon signalling in a viral infection model, domain confidence rises substantially.\n\nIt is like a detective finding that six seemingly unrelated clues all connect to the same shipping warehouse on a city map.\n\nStill, biology is incomplete and pleiotropic: a valid novel biomarker might not sit in a classic textbook pathway, while a batch artefact affecting ribosomal genes can also produce a tidy enrichment hit. Use pathway clustering as a structured sanity check rather than absolute proof.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PbBRyjgRxCQO_1",
+          "type": "multiple_choice",
+          "prompt": "How can pathway clustering assist an AI consultant and a domain biologist during model review?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It shows whether selected features align with coherent biological processes or suspicious technical artefacts"
+            },
+            {
+              "id": "b",
+              "text": "It mathematically guarantees that the classifier will achieve ninety-nine percent specificity in clinical trials"
+            },
+            {
+              "id": "c",
+              "text": "It eliminates the need to hold out an independent test set during cross-validation"
+            },
+            {
+              "id": "d",
+              "text": "It automatically re-sequences patient samples that exhibit atypical gene expression profiles"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Grouping selected genes into functional pathways helps experts spot biologically plausible mechanisms as well as technical artefacts like stress responses from sample handling.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_-M7QpyR6V8dX",
       "title": "Pathway databases (e.g., GO, KEGG, Reactome) differ and change",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Pathway knowledge bases such as Gene Ontology (GO), KEGG, and Reactome curate how genes and proteins group into functional modules and metabolic reactions. Because curation rules, licence terms, and gene annotations evolve continuously, check the current details and database versions before running an analysis.\n\nIt is like consulting three different city guidebooks that draw neighbourhood boundaries differently and update their maps every year.\n\nA gene list that appears strongly enriched in Reactome might look unremarkable in KEGG simply because the two teams define pathway boundaries at different granularity. Consultants should record exact database version dates in client deliverables so biological interpretations remain reproducible years later.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-M7QpyR6V8dX_1",
+          "type": "multiple_choice",
+          "prompt": "Why can running pathway enrichment on the exact same gene list yield different results across GO, KEGG, and Reactome?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "KEGG only stores bacterial DNA sequences whereas Reactome only stores plant lipids"
+            },
+            {
+              "id": "b",
+              "text": "Gene Ontology randomly shuffles gene identifiers every time a user submits a web query"
+            },
+            {
+              "id": "c",
+              "text": "Each database uses different curation boundaries, granularity levels, and update cycles to define pathways"
+            },
+            {
+              "id": "d",
+              "text": "Pathway databases modify the raw gene expression matrices of the training cohort"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because human curators define pathway boundaries and evidence rules differently across databases and releases, enrichment outputs vary by source and version.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_X-9ZRA6N5qi5",
       "title": "Biological follow-up: literature first, then lab validation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a machine learning pipeline highlights a promising biomarker or candidate target, the disciplined translation workflow begins with a thorough literature and database triage before committing to wet-lab experiments. Computational predictions should be cross-checked against public expression atlases, genetic association studies, and published pathology papers.\n\nIt is like checking land registry records and geological surveys in the office before hiring an expensive drilling crew to dig a well.\n\nComputational metrics alone never prove that a biomarker can be measured reliably by a clinical assay or that perturbing a target alters disease cells. Guide clients to use dry-lab evidence to filter out obvious dead ends so £50,000 lab budgets focus on the strongest candidates.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_X-9ZRA6N5qi5_1",
+          "type": "multiple_choice",
+          "prompt": "Why should teams perform literature and database review before launching wet-lab validation of machine learning biomarkers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Literature triage cheaply filters out known artefacts and checks biological plausibility before expensive lab work begins"
+            },
+            {
+              "id": "b",
+              "text": "Reading published papers replaces the regulatory requirement for clinical assay validation"
+            },
+            {
+              "id": "c",
+              "text": "Wet-lab experiments cannot measure genes that have never been mentioned in prior literature"
+            },
+            {
+              "id": "d",
+              "text": "Computational cross-validation already proves causal mechanism without any laboratory testing"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Reviewing existing literature and public atlases is a fast, low-cost filter that helps teams prioritise which computational hits merit costly wet-lab experiments.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

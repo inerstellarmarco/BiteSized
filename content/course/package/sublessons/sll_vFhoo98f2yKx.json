@@ -5,74 +5,242 @@
     {
       "id": "bit_IIDtjdmNJQBD",
       "title": "Workflow orchestrators (Airflow, Prefect)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Workflow orchestrators such as Apache Airflow, Prefect, Dagster, and Kubeflow Pipelines coordinate multi-step data and machine learning jobs across cloud infrastructure. They schedule when pipelines start, pass outputs from one step to the next, manage compute resources, and record a central dashboard of which jobs succeeded or failed.\n\nIt is like a railway signaller who coordinates dozens of trains across shared tracks and junctions so each train departs only when the line ahead is clear.\n\nEach orchestrator has different strengths around dynamic workflows, data asset tracking, and Kubernetes integration, so check the current details of your client's existing data platform before introducing a new tool.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IIDtjdmNJQBD_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary job of a workflow orchestrator like Airflow or Prefect in an MLOps stack?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Designing the neural network attention mechanism inside a language model"
+            },
+            {
+              "id": "b",
+              "text": "Scheduling, coordinating, and monitoring multi-step data and training pipelines in the right dependency order"
+            },
+            {
+              "id": "c",
+              "text": "Providing a consumer chat interface for mobile phone users"
+            },
+            {
+              "id": "d",
+              "text": "Physically cooling graphics cards inside a server room with liquid nitrogen"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Orchestrators manage task dependencies, schedules, retries, and execution state across complex multi-step data and ML workflows.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Z1S7K5wqQV1q",
       "title": "Feature stores",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A feature store is a centralised data management layer that computes, stores, documents, and serves curated machine learning features for both offline model training and online real-time predictions. It typically combines a large offline table for historical batch training with a fast low-latency key-value store for live user requests.\n\nIt is like a commercial central kitchen that chops and preps standard sauces in bulk for banquet catering while keeping small portion pots at the front counter for instant takeaway orders.\n\nNot every project needs a dedicated feature store; if a model only runs weekly batch predictions or reads raw text prompts directly, a feature store adds unnecessary infrastructure overhead.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Z1S7K5wqQV1q_1",
+          "type": "multiple_choice",
+          "prompt": "When is a dedicated feature store most useful for a client's machine learning platform?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When the team is building a single stateless chatbot that only sends raw user text to an LLM API"
+            },
+            {
+              "id": "b",
+              "text": "When the dataset consists of just fifty rows in a static CSV file that never changes"
+            },
+            {
+              "id": "c",
+              "text": "When the company has no production models and only wants to draw static bar charts"
+            },
+            {
+              "id": "d",
+              "text": "When multiple models share engineered tabular features and need both historical batch training data and low-latency online serving values"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Feature stores shine when engineered tabular signals must be shared across teams and served at low latency online without recomputing history from scratch.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_XR3OOGSZOMup",
       "title": "Pipelines as steps with dependencies",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Orchestrators represent a pipeline as a directed acyclic graph, or DAG, where each node is a self-contained step and each arrow defines which upstream step must finish before the next step can begin. For example, data validation and feature computation must both succeed before the model training step is allowed to start.\n\nIt is like building a house where the concrete foundations must be poured and cured before the bricklayers can build the walls, and the walls must stand before the roof goes on.\n\nBreaking a monolithic script into modular steps with clear dependencies means that if the final evaluation step fails, you can re-run just that step without repeating hours of upstream data processing.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XR3OOGSZOMup_1",
+          "type": "multiple_choice",
+          "prompt": "Why do orchestrators structure machine learning pipelines as a directed acyclic graph of independent steps rather than one giant script?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because Python refuses to execute any file that contains more than fifty lines of code"
+            },
+            {
+              "id": "b",
+              "text": "So that the training step can run before the training data has been downloaded"
+            },
+            {
+              "id": "c",
+              "text": "Because directed acyclic graphs automatically compress GPU memory by ninety per cent"
+            },
+            {
+              "id": "d",
+              "text": "So downstream steps only run after their upstream inputs succeed, and failed steps can be retried without re-running the entire pipeline from the start"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Explicit step dependencies prevent running tasks on incomplete inputs and allow independent caching, parallelism, and partial retries.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_B0ItxJj7Gtr0",
       "title": "Retries and alerts when steps fail",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In real cloud environments, pipeline steps frequently fail for transient reasons that have nothing to do with your machine learning logic, such as a brief network timeout, a rate-limited API, or a pre-empted spot GPU instance. Orchestrators handle this by automatically retrying failed steps with a backoff delay and sending an alert to engineers only if retries are exhausted.\n\nIt is like redialling a busy phone line twice before leaving a voicemail for the manager to step in.\n\nFor automatic retries to be safe, each pipeline step must be idempotent, meaning that running the same step twice produces the exact same clean state without duplicating database rows or double-charging customers.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_B0ItxJj7Gtr0_1",
+          "type": "multiple_choice",
+          "prompt": "What property must a pipeline step have so that an orchestrator can safely retry it after a transient network failure?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "High perplexity, meaning the step generates random text on every execution"
+            },
+            {
+              "id": "b",
+              "text": "Zero latency, meaning the step finishes in less than one nanosecond"
+            },
+            {
+              "id": "c",
+              "text": "Idempotency, meaning running the step multiple times produces the same clean result without creating duplicate records"
+            },
+            {
+              "id": "d",
+              "text": "Manual intervention, meaning a human must click a confirmation box on every line of code"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Idempotent steps safely overwrite or deduplicate their outputs so automated retries never corrupt downstream tables.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_oBOxQNPcaYGS",
       "title": "Feature stores keep the same features in training and serving",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Without a shared feature layer, data scientists often write one calculation for a feature in Python pandas during offline training, while backend engineers rewrite the supposedly identical calculation in Java or SQL for the live web application. A feature store eliminates this duplication by defining the feature transformation once and serving it to both offline training and online inference.\n\nIt is like using the exact same calibrated digital scale both in the factory quality lab and at the shipping loading bay.\n\nEven with a feature store, teams must ensure that offline training queries use point-in-time joins so historical training rows never peek at future feature values that would not have existed at prediction time.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oBOxQNPcaYGS_1",
+          "type": "multiple_choice",
+          "prompt": "How does a feature store prevent discrepancies between offline model training and live online inference?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By disabling all feature calculations during live customer traffic and substituting zeros"
+            },
+            {
+              "id": "b",
+              "text": "By using a single shared feature definition to populate both historical training datasets and low-latency online serving lookups"
+            },
+            {
+              "id": "c",
+              "text": "By training a brand new model from scratch on every single HTTP web request"
+            },
+            {
+              "id": "d",
+              "text": "By converting all numerical tabular features into random image pixels"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Defining feature logic once and synchronising offline and online stores guarantees that the model sees identically calculated inputs in both environments.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wPk3pfPBgbba",
       "title": "Training-serving skew: a quiet cause of poor performance",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Training-serving skew occurs when the feature values or input formatting fed to a model in live production differ subtly from the inputs the model saw during training and evaluation. For example, training on clean historical averages while serving live requests where missing values are filled with minus one will cause predictions to degrade silently without throwing any software error.\n\nIt is like a student revising all term with metric measurements in centimetres and kilogrammes, only to sit an exam written entirely in inches and pounds.\n\nBecause the model still outputs numbers without crashing, training-serving skew is notoriously hard to spot unless you log live production feature distributions and compare them against the training baseline.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wPk3pfPBgbba_1",
+          "type": "multiple_choice",
+          "prompt": "Why is training-serving skew often described as a silent killer of machine learning performance?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model continues returning predictions without crashing, even though subtly mismatched input features make those predictions wrong"
+            },
+            {
+              "id": "b",
+              "text": "It causes the server hardware to emit a loud alarm siren before shutting down immediately"
+            },
+            {
+              "id": "c",
+              "text": "It prevents the model file from compiling during the continuous integration build"
+            },
+            {
+              "id": "d",
+              "text": "It deletes the source code repository whenever a user logs into the website"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Mismatched feature calculations or preprocessing between training and serving corrupt prediction accuracy without triggering any runtime software exceptions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

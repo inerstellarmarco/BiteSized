@@ -5,74 +5,242 @@
     {
       "id": "bit_-TNK7obVq6WT",
       "title": "Germline vs. somatic variant calling",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Germline variant calling and somatic variant calling are two fundamentally different analytical workflows designed for inherited genetics versus acquired mutations (primarily in cancer or mosaic tissues). Germline callers assume a diploid genome where true variants appear in roughly 50% (heterozygous) or 100% (homozygous) of reads covering a site, whereas somatic callers must detect mutations present in only a fraction of cells within a heterogeneous sample; check the current details for caller benchmarks across `DeepVariant` and `GATK`.\n\nIt is like checking whether a factory printing press has a permanent crack in its master plate that marks every single banknote (germline) versus spotting a tiny ink smudge that appeared halfway through Tuesday's print run on only 4% of the notes (somatic).\n\nApplying a germline caller like `GATK HaplotypeCaller` or `DeepVariant` to a tumour biopsy will systematically discard low-frequency cancer driver mutations as noise.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_-TNK7obVq6WT_1",
+          "type": "multiple_choice",
+          "prompt": "Why do standard germline variant callers fail to detect many clinically important cancer mutations in tumour biopsies?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Germline callers can only read FASTA files and cannot process aligned BAM files"
+            },
+            {
+              "id": "b",
+              "text": "Germline callers expect variants to follow diploid inheritance ratios (around 50% or 100% allele fraction) and dismiss low-frequency somatic mutations as sequencing errors"
+            },
+            {
+              "id": "c",
+              "text": "Cancer cells use RNA instead of DNA as their hereditary material"
+            },
+            {
+              "id": "d",
+              "text": "Germline callers only inspect mitochondrial DNA and ignore all nuclear chromosomes"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Because germline algorithms model diploid genotypes (0%, 50%, or 100% variant allele frequency), they filter out subclonal tumour mutations that occur at low allele fractions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_e4X4lST_4gq1",
       "title": "Annotation and filtering",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Raw VCF files produced by variant callers contain thousands to millions of candidate calls mixed with sequencing and alignment artefacts, requiring systematic filtering followed by functional annotation. Filtering removes technical false positives using quality metrics or machine learning models, while annotation links each surviving variant to affected genes, amino acid changes, population allele frequencies, and clinical significance databases.\n\nIt is like a fraud detection pipeline that first strips out corrupted sensor pings (technical filtering) and then enriches each real transaction with merchant category, customer history, and watchlist matches (annotation).\n\nNever confuse technical filtering with clinical prioritisation: a variant can be 100% real at the DNA level (`FILTER=PASS`) yet completely benign clinically because 40% of the healthy population carries it.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_e4X4lST_4gq1_1",
+          "type": "multiple_choice",
+          "prompt": "What is the difference between technical variant filtering and functional variant annotation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Technical filtering deletes exons from the reference genome, whereas annotation converts VCF files into FASTQ files"
+            },
+            {
+              "id": "b",
+              "text": "Annotation happens inside the wet-lab sequencer before alignment, while filtering only applies to proteomics"
+            },
+            {
+              "id": "c",
+              "text": "Technical filtering and functional annotation are identical terms for coordinate sorting a BAM file"
+            },
+            {
+              "id": "d",
+              "text": "Technical filtering removes false-positive sequencing or alignment artefacts, whereas functional annotation enriches true variants with biological context like gene impact and population frequency"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Filtering distinguishes real genetic variants from technical artefacts, while annotation maps those variants onto transcripts, protein consequences, and external knowledge bases.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_O3IJxVrewVar",
       "title": "Germline: inherited variants; somatic: variants acquired in tumours",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Germline variants are present in the fertilised egg and therefore exist in virtually every nucleated cell of a person's body and can be passed to offspring, whereas somatic variants arise during an individual's lifetime in specific cells, such as UV-induced mutations in skin melanoma or smoking-induced mutations in lung tumours, and are restricted to that clone of cells.\n\nIt is like the difference between a structural design change written into the original architectural blueprint of an entire housing estate (germline) and a kitchen remodel carried out years later inside one specific house (somatic).\n\nIn clinical oncology consulting, distinguishing germline from somatic status matters immensely: finding a `BRCA1` mutation in a tumour could be an acquired somatic event or an inherited germline risk that also affects the patient's family members.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_O3IJxVrewVar_1",
+          "type": "multiple_choice",
+          "prompt": "If a DNA mutation arises in a patient's lung cell due to tobacco smoke exposure and drives a lung tumour, what type of variant is it and will it be present in a normal blood sample?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It is a germline variant that will immediately rewrite the DNA of every cell in the patient's body and all their children"
+            },
+            {
+              "id": "b",
+              "text": "It is a somatic variant acquired during life, so it will be present in the lung tumour cells but absent from normal blood leukocytes"
+            },
+            {
+              "id": "c",
+              "text": "It is a reference genome build artefact caused by aligning reads to GRCh38"
+            },
+            {
+              "id": "d",
+              "text": "It is an intronic splice junction that only exists as a lipid metabolite"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Mutations acquired in body tissues after conception are somatic variants confined to the descendant clone of cells (such as the tumour) and are absent from unrelated normal tissues.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4-wI_GZ31Ua9",
       "title": "Somatic calling is harder: low allele fractions and a normal-tissue comparison",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Somatic variant calling is analytically much harder than germline calling because biopsy samples contain an unknown mixture of tumour cells, healthy stromal and immune cells (lowering tumour purity), and genetically distinct tumour subclones. To separate rare acquired tumour mutations from the patient's millions of inherited germline variants and systematic sequencing noise, gold-standard somatic pipelines (such as `GATK Mutect2` or `Strelka2`) sequence a matched normal sample, typically blood or adjacent healthy tissue, alongside the tumour; check the current details on somatic caller best practices and Panel of Normals (PoN) construction.\n\nIt is like trying to spot three newly painted graffiti marks on a brick wall from a blurry photograph by comparing it side-by-side against a baseline photo of the exact same wall taken before the incident.\n\nWhen no matched normal sample exists (tumour-only sequencing), pipelines must rely heavily on population databases and panels of normals, leaving rare private germline variants hard to separate from somatic mutations.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4-wI_GZ31Ua9_1",
+          "type": "multiple_choice",
+          "prompt": "Why does gold-standard somatic variant calling sequence a matched normal sample (such as blood) alongside the patient's tumour biopsy, and require higher sequencing depth?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The matched normal sample provides the reference genome FASTA sequence because human tumours have no chromosomes"
+            },
+            {
+              "id": "b",
+              "text": "Somatic callers average the tumour and blood reads together to reduce coverage to 5x"
+            },
+            {
+              "id": "c",
+              "text": "Sequencing blood automatically cures technical batch effects in single-cell RNA-seq"
+            },
+            {
+              "id": "d",
+              "text": "Higher depth is needed to detect variants at low allele fractions due to impure tumour samples and subclones, while the matched normal subtracts the patient's inherited germline variants"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Tumour biopsies have variable purity and subclonal heterogeneity requiring deep coverage to catch low variant allele fractions, and the matched normal tissue distinguishes acquired tumour changes from inherited germline polymorphisms.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1Qkow5x0Oe_i",
       "title": "Filter by depth, quality, and population frequency",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Effective variant prioritisation combines technical quality thresholds, such as read depth (`DP`), genotype quality (`GQ`), strand bias, and mapping quality, with biological filters based on population allele frequencies from large cohorts like gnomAD. Variants supported by only two reads or appearing solely on reverse-strand reads are usually technical artefacts, while variants present in 5% of the general population are too common to cause a rare severe Mendelian disorder; check the current details for gnomAD population frequency thresholds.\n\nIt is like screening insurance claims by first rejecting illegible forms with missing signatures (depth and quality) and then excluding routine seasonal wear-and-tear (common population polymorphisms) when investigating a rare catastrophic failure.\n\nAlways match ancestry awareness when filtering by population frequency, and remember that recessive disease carriers can still appear at modest frequencies in healthy control databases.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1Qkow5x0Oe_i_1",
+          "type": "multiple_choice",
+          "prompt": "Why do rare-disease genomics pipelines filter out variants that have a high allele frequency (for example, >1% or >5%) in population databases like gnomAD?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "High-frequency population variants are always technical sequencing errors caused by Illumina adapters"
+            },
+            {
+              "id": "b",
+              "text": "A genetic variant that is common in the general population cannot be the sole cause of a rare, highly penetrant Mendelian disorder"
+            },
+            {
+              "id": "c",
+              "text": "Variants present in gnomAD only occur in bacterial genomes and never in humans"
+            },
+            {
+              "id": "d",
+              "text": "Common variants cannot be stored inside standard VCF files"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "If a genetic disorder affects 1 in 50,000 people, a variant found in 5% of the population is far too common to be the primary pathogenic driver of that rare condition.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_UqlwBG4dpyKn",
       "title": "Annotation predicts effects on genes and links to databases",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Variant annotation tools such as `Ensembl VEP` (Variant Effect Predictor), `SnpEff`, and `ANNOVAR` overlay called variants onto reference transcript models to predict molecular consequences (such as missense, nonsense/stop-gained, frameshift, or splice-site disruption) and attach external database identifiers. Common annotation sources include `gnomAD` for population frequencies, `ClinVar` for curated clinical pathogenicity assertions, `COSMIC` for somatic cancer mutations, and AI missense predictors like `AlphaMissense` or `REVEL`; check the current details for database release versions and licence terms.\n\nIt is like enriching a list of building structural cracks with engineering lookup tables that state whether each crack hits a decorative partition wall (synonymous/intronic) or severs a main load-bearing steel beam (frameshift/stop-gained), plus whether inspectors have seen that exact failure before (`ClinVar`).\n\nRemember that the exact same genomic coordinate can be annotated as missense on one transcript isoform and intronic on another, so clinical labs standardise on canonical sets like MANE Select.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_UqlwBG4dpyKn_1",
+          "type": "multiple_choice",
+          "prompt": "What kind of information do variant annotation tools like `Ensembl VEP` or `SnpEff` add to a VCF file?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Per-base Phred quality scores and raw flow-cell cluster coordinates from the sequencer"
+            },
+            {
+              "id": "b",
+              "text": "Three-dimensional tissue coordinates from spatial transcriptomics slides"
+            },
+            {
+              "id": "c",
+              "text": "Automated wet-lab PCR primer sequences that repair the mutation in vivo"
+            },
+            {
+              "id": "d",
+              "text": "Predicted functional consequences on transcripts and proteins (such as missense or frameshift) along with links to external resources like `gnomAD`, `ClinVar`, and `COSMIC`"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Variant annotators map coordinate changes onto gene models to predict coding/splicing impacts and cross-reference population and clinical databases.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

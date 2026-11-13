@@ -5,86 +5,282 @@
     {
       "id": "bit_bIiTWRPCjqrV",
       "title": "Quantification and normalization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In RNA-seq analysis, quantification counts how many sequencing reads map to each gene or transcript, and normalisation adjusts those raw integers to account for technical differences such as sequencing library depth and gene length. A raw count of 500 reads for a gene has no standalone biological meaning without knowing whether the total sample was sequenced to 5 million reads or 50 million reads, and whether the gene is 500 bases or 10,000 bases long; check the current details in `DESeq2` and `edgeR` input documentation.\n\nIt is like comparing retail sales across branches: before declaring one store more productive, you must adjust raw receipt counts for how many hours the store stayed open (library depth) and the square footage of its showroom (gene length).\n\nNote that within-sample metrics like TPM (Transcripts Per Million) adjust for both length and depth, whereas differential expression tools (`DESeq2`, `edgeR`) require raw unnormalised integer counts as input and apply their own cross-sample normalisation factors internally.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_bIiTWRPCjqrV_1",
+          "type": "multiple_choice",
+          "prompt": "Why do longer genes naturally accumulate more sequencing reads than shorter genes expressed at the exact same molecular copy number in standard fragmented RNA-seq?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Longer transcripts break into more cDNA fragments during library preparation, creating more opportunities for reads to be sampled per transcript molecule"
+            },
+            {
+              "id": "b",
+              "text": "Sequencing instruments selectively amplify long genes and destroy short genes during basecalling"
+            },
+            {
+              "id": "c",
+              "text": "Short genes do not contain adenine or thymine bases"
+            },
+            {
+              "id": "d",
+              "text": "Aligners multiply the read count of every gene by its exon count automatically"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because standard short-read RNA-seq fragments transcripts before sequencing, a 10 kb transcript yields roughly ten times as many fragments per molecule as a 1 kb transcript at the same molar abundance.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qs_n2nL78Omn",
       "title": "Differential expression analysis",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Differential expression (DE) analysis statistically tests each gene across experimental groups (such as drug-treated versus vehicle control, or tumour versus normal) to identify genes whose transcript abundance changed significantly beyond random biological and technical noise. Standard tools like `DESeq2`, `edgeR`, and `limma-voom` model gene counts using negative binomial or precision-weighted linear models that account for mean-variance relationships across replicates; check the current details in their Bioconductor vignettes for design formula syntax.\n\nIt is like comparing monthly revenue across two groups of franchise stores after a marketing campaign to determine which product lines showed a genuine sales lift versus random weekly fluctuation.\n\nAlways include known covariates like sex, patient age, or processing batch in the DE regression formula (`~ batch + condition`) so technical confounders do not masquerade as disease biology.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qs_n2nL78Omn_1",
+          "type": "multiple_choice",
+          "prompt": "Why do differential expression tools like `DESeq2` and `edgeR` use specialised count distributions (such as the negative binomial distribution) instead of a simple Student's t-test on raw counts?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Student's t-tests can only be computed on protein structures and never on nucleotide data"
+            },
+            {
+              "id": "b",
+              "text": "The negative binomial distribution allows differential expression to be calculated with zero biological replicates"
+            },
+            {
+              "id": "c",
+              "text": "Raw RNA-seq counts are always negative numbers between -100 and 0"
+            },
+            {
+              "id": "d",
+              "text": "RNA-seq counts are discrete, skewed integers whose variance increases nonlinearly with mean expression (overdispersion), which violates standard t-test assumptions especially at small sample sizes"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Sequencing count data exhibits overdispersion (variance exceeds the mean) and discrete skew, which negative binomial generalised linear models handle accurately even with modest replicate counts.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_XbmJTsZMg_9Q",
       "title": "Counts depend on sequencing depth: normalize before comparing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Because raw read counts scale directly with the total number of reads sequenced in a library, comparing raw counts between Sample A (sequenced to 20 million reads) and Sample B (sequenced to 60 million reads) will falsely make almost every gene appear three times higher in Sample B. Furthermore, library composition biases occur when a few hyper-expressed genes consume a huge share of total reads, depressing the apparent relative counts of all other genes; check the current details on normalisation methods in `DESeq2` and `edgeR`.\n\nIt is like comparing the number of faulty items found in two factory inspections where Inspector A checked 100 boxes and Inspector B checked 1,000 boxes: without dividing by inspection volume and accounting for product mix, the raw defect counts cannot be compared.\n\nRobust normalisation methods like `DESeq2` median-of-ratios or `edgeR` TMM (Trimmed Mean of M-values) correct for both total depth and composition bias across samples.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XbmJTsZMg_9Q_1",
+          "type": "multiple_choice",
+          "prompt": "What is \"library composition bias\" in RNA-seq normalisation, and why can simple total-count scaling (like CPM) fail when it occurs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "If a few highly expressed genes dramatically increase in one condition and consume a large fraction of the total sequencing reads, simple total-count scaling artificially makes all other unchanging genes look downregulated"
+            },
+            {
+              "id": "b",
+              "text": "Composition bias means the GC content of the reference genome changes between Tuesday and Wednesday"
+            },
+            {
+              "id": "c",
+              "text": "Simple total-count scaling deletes all genes with fewer than ten exons"
+            },
+            {
+              "id": "d",
+              "text": "Composition bias only occurs when sequencing DNA on Oxford Nanopore devices"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because sequencing measures relative proportions from a fixed read pool, extreme upregulation of a few abundant genes shrinks the remaining read share for all other genes unless robust methods like TMM or median-of-ratios are used.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_bVlkWCGHXIuh",
       "title": "Replicates are essential for statistics",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Biological replicates, which are independent samples obtained from distinct patients, animals, or independently grown cell cultures, are mandatory for estimating natural biological variance and performing valid statistical inference in transcriptomics. Technical replicates, which simply re-sequence the exact same extracted RNA tube twice, measure only instrument noise and cannot tell you whether a gene difference reflects the treatment or random individual-to-individual variation.\n\nIt is like surveying voter opinion before an election: interviewing one single citizen ten times (technical replicates) tells you nothing about the wider public, whereas interviewing ten different citizens once each (biological replicates) estimates population variance.\n\nAs an AI consultant, if a client brings an $n = 1$ per group experiment asking for p-values, explain clearly that without biological replicates you cannot separate treatment effect from biological noise.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_bVlkWCGHXIuh_1",
+          "type": "multiple_choice",
+          "prompt": "What is the critical difference between biological replicates and technical replicates in an RNA-seq experiment?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Technical replicates come from different human patients, whereas biological replicates are copies of the same FASTQ file on disk"
+            },
+            {
+              "id": "b",
+              "text": "Technical replicates are required by `DESeq2` to compute p-values, while biological replicates should be discarded"
+            },
+            {
+              "id": "c",
+              "text": "Biological replicates always produce identical read counts down to the last integer"
+            },
+            {
+              "id": "d",
+              "text": "Biological replicates are independent biological samples that capture natural sample-to-sample variance needed for statistical testing, whereas technical replicates repeatedly measure the same single sample and only capture assay noise"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Valid statistical generalisation about a condition or treatment requires biological replicates to quantify biological variability across independent individuals or cultures.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_q20dkLsLu-RT",
       "title": "Differential expression: log fold change and adjusted p-value",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every differential expression table summarises each gene using two complementary metrics: the log2 fold change ($\\log_2\\text{FC}$), which measures the magnitude and direction of the expression shift, and the adjusted p-value, which measures the statistical confidence against a false positive. A $\\log_2\\text{FC}$ of $+1$ means expression doubled ($2^1 = 2\\times$), $-1$ means expression halved ($2^{-1} = 0.5\\times$), and $0$ means no change.\n\nIt is like evaluating an investment strategy by looking at both the percentage return (effect size / fold change) and the consistency of that return across years (statistical significance): a tiny 0.1% gain might be statistically consistent yet commercially trivial, while a volatile 500% spike in one week might just be luck.\n\nAnalysts typically plot both axes together in a volcano plot and require genes to pass both an adjusted p-value threshold and a minimum $\\log_2\\text{FC}$ magnitude.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_q20dkLsLu-RT_1",
+          "type": "multiple_choice",
+          "prompt": "If a gene has a $\\log_2$ fold change ($\\log_2\\text{FC}$) of $-2.0$ in treated samples compared to untreated controls, how has its expression changed?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Its expression decreased by exactly two sequencing reads per sample"
+            },
+            {
+              "id": "b",
+              "text": "Its expression increased two-fold ($2\\times$) compared to controls"
+            },
+            {
+              "id": "c",
+              "text": "Its expression decreased four-fold (to one-quarter, or $2^{-2} = 0.25\\times$, of the control level)"
+            },
+            {
+              "id": "d",
+              "text": "The gene was deleted from two chromosomes in the reference genome"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because fold change is expressed on a base-2 logarithmic scale, $\\log_2\\text{FC} = -2$ corresponds to $2^{-2} = 1/4$ ($0.25\\times$), a four-fold reduction in expression.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_J79MvxmfXehO",
       "title": "Multiple testing correction (false discovery rate)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a differential expression analysis tests 20,000 human genes simultaneously using a naive raw p-value cutoff of $p < 0.05$, pure chance alone will produce roughly $20,000 \\times 0.05 = 1,000$ false-positive hits even when zero true biological differences exist. Multiple testing correction methods, most commonly the Benjamini-Hochberg procedure that controls the False Discovery Rate (FDR, reported as `padj` or $q$-value), adjust p-values upward to bound the expected proportion of false discoveries among the called hits; check the current details on independent hypothesis weighting (`IHW`) in `DESeq2`.\n\nIt is like flipping a fair coin across twenty thousand contestants: hundreds will land heads five times in a row purely by luck unless you adjust the winning threshold for the size of the crowd.\n\nIn client reports, never rank or filter genome-wide omics results by unadjusted raw p-values.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_J79MvxmfXehO_1",
+          "type": "multiple_choice",
+          "prompt": "Why must you filter differential expression results using the adjusted p-value (FDR / `padj`) rather than the raw p-value when testing 20,000 genes?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Raw p-values are only calculated for introns, whereas adjusted p-values are calculated for exons"
+            },
+            {
+              "id": "b",
+              "text": "Adjusted p-values convert negative fold changes into positive numbers"
+            },
+            {
+              "id": "c",
+              "text": "Using raw p-values causes `samtools` to corrupt the underlying BAM files"
+            },
+            {
+              "id": "d",
+              "text": "Testing 20,000 hypotheses at a raw $p < 0.05$ cutoff yields around 1,000 false positives by random chance alone, whereas FDR correction controls the expected proportion of false discoveries"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Simultaneous hypothesis testing across thousands of genes inflates false positives exponentially unless multiple testing correction (such as Benjamini-Hochberg FDR) is applied.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ibhDCXQHfzs_",
       "title": "miRNA-seq specifics: short reads and small-RNA databases",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "MicroRNA sequencing (miRNA-seq or small RNA-seq) requires specialised wet-lab size selection and bioinformatic processing because mature microRNAs are only about 19 to 25 nucleotides long, which is much shorter than standard 50 to 150 base Illumina sequencing reads. Because every read runs past the tiny miRNA into the 3-prime adapter, precise adapter trimming and length filtering (keeping reads around 18 to 26 nt) are mandatory before mapping to dedicated small-RNA references like `miRBase` or `MirGeneDB`; check the current details for curated `MirGeneDB` and `miRBase` release versions.\n\nIt is like shipping tiny jewellery rings inside standard shoeboxes: you must unpack and remove the foam padding (adapter sequence) from every single box before weighing the ring inside.\n\nAlso beware that standard `miRBase` releases contain some historical false-positive annotations, so high-precision clinical workflows often cross-check against `MirGeneDB`.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ibhDCXQHfzs__1",
+          "type": "multiple_choice",
+          "prompt": "Why is adapter trimming even more critical in miRNA-seq than in standard mRNA-seq?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "miRNA molecules are over 10,000 nucleotides long and span multiple chromosomes"
+            },
+            {
+              "id": "b",
+              "text": "miRNA-seq instruments do not output FASTQ quality scores unless adapters are removed first"
+            },
+            {
+              "id": "c",
+              "text": "Mature miRNAs are only ~22 nucleotides long, so standard 50 to 150 cycle sequencing reads always read past the miRNA into the 3-prime adapter, preventing alignment if untrimmed"
+            },
+            {
+              "id": "d",
+              "text": "Adapter trimming converts microRNAs into messenger RNAs for ribosome translation"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because mature microRNAs (~22 nt) are shorter than the read length of standard sequencers, virtually every raw read contains trailing 3-prime adapter sequence that will block alignment to short miRNA references unless clipped.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

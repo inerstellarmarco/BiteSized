@@ -5,44 +5,128 @@
     {
       "id": "bit_mrmQ6CeUawxc",
       "title": "LoRA",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Low-Rank Adaptation (LoRA) is the standard Parameter-Efficient Fine-Tuning (PEFT) method used across modern LLM projects. It works on the insight that when you adapt a large pretrained weight matrix $W$ to a downstream task, the change in weights ($\\Delta W$) has a very low \"intrinsic rank\", meaning it can be represented accurately as the product of two tiny, narrow matrices $B$ and $A$ rather than a massive full-size matrix.\n\nThink of adjusting a giant high-resolution projection screen: instead of rebuilding the millions of pixels in the main projector, you slip a thin, lightweight corrective lens in front of the beam to shift the focus cleanly.\n\nBy training only those tiny adapter matrices $A$ and $B$ (often less than one per cent of the base model's parameter count), LoRA slashes memory and compute costs while matching full fine-tuning quality on most enterprise tasks.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_mrmQ6CeUawxc_1",
+          "type": "multiple_choice",
+          "prompt": "What core hypothesis makes Low-Rank Adaptation (LoRA) effective for fine-tuning large language models?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The weight updates needed to adapt a pretrained model to a task have a low intrinsic rank and can be factored into two small matrices"
+            },
+            {
+              "id": "b",
+              "text": "Only the first ten tokens of any user prompt ever affect a language model's answer"
+            },
+            {
+              "id": "c",
+              "text": "Pretrained transformer weight matrices contain mostly zeros that can be deleted before training"
+            },
+            {
+              "id": "d",
+              "text": "Updating the tokeniser vocabulary is more effective than updating neural network weights"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "LoRA decomposes the weight update $\\Delta W$ into two narrow low-rank matrices $B \\times A$, drastically cutting the number of trainable parameters.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_YXZkShz2D56c",
       "title": "QLoRA",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "QLoRA (Quantised Low-Rank Adaptation) takes LoRA's memory savings one step further by compressing the frozen base model weights down to 4-bit NormalFloat (NF4) precision in GPU memory, while keeping the small trainable LoRA adapter matrices in 16-bit precision (such as bf16). During the forward and backward pass, sections of the 4-bit base weights are dequantised on the fly to 16-bit floats just long enough to multiply with the activations.\n\nIt is like storing your massive reference library in vacuum-packed archive boxes that take up a quarter of the room, opening one box on your desk when you need to read a chapter, and writing your new notes on a fresh notepad (the 16-bit LoRA adapters).\n\nBecause both the base weights are compressed 4x and the optimiser states exist only for the tiny LoRA adapters, QLoRA lets consultants fine-tune a 70-billion-parameter model on a single high-memory GPU workstation rather than an expensive multi-node cluster.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YXZkShz2D56c_1",
+          "type": "multiple_choice",
+          "prompt": "How does QLoRA achieve much lower GPU memory usage than standard 16-bit LoRA?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It freezes the base model in a compressed 4-bit format while training the small LoRA adapters in 16-bit precision"
+            },
+            {
+              "id": "b",
+              "text": "It quantises the trainable LoRA adapter gradients to 1-bit binary values and deletes the base model"
+            },
+            {
+              "id": "c",
+              "text": "It offloads the entire training dataset onto the user's mobile phone over Wi-Fi"
+            },
+            {
+              "id": "d",
+              "text": "It trains only on prompts that contain fewer than four words"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "By storing the massive frozen base model in 4-bit NormalFloat and maintaining 16-bit weights and optimiser states only for the tiny LoRA adapters, QLoRA slashes VRAM requirements.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_HXBrMdlCnesB",
       "title": "Adapter merging and hot-swapping",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Because a LoRA update is just a linear addition to the original weight matrix ($W_{\\text{new}} = W_0 + \\frac{\\alpha}{r} B A$), you have two flexible deployment choices at inference time. If you are deploying a single dedicated model, you can mathematically multiply $B$ and $A$ together and add them directly into the base weights $W_0$ once offline, resulting in zero extra inference latency compared to the base model. Alternatively, in a multi-tenant server, you can keep one shared base model $W_0$ in GPU memory and hot-swap tiny 50-megabyte LoRA adapters per request.\n\nIt is like a camera with interchangeable lenses: you can either weld one favourite lens permanently onto a dedicated body, or carry one camera body and click different small lenses on and off in a second for different clients.\n\nNote that if you merge an adapter directly into a 4-bit QLoRA base model, you must first dequantise the base weights to 16-bit or re-quantise after merging so precision is not lost.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_HXBrMdlCnesB_1",
+          "type": "multiple_choice",
+          "prompt": "Why does merging a trained LoRA adapter into a 16-bit base model introduce zero extra latency at inference time?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Merging deletes half of the layers in the base transformer to compensate for the adapter"
+            },
+            {
+              "id": "b",
+              "text": "The low-rank matrix product $B A$ is added directly into the base weight matrix $W_0$ ahead of time, leaving the exact same matrix dimensions as before"
+            },
+            {
+              "id": "c",
+              "text": "Merged models skip the self-attention step and only run the feed-forward layers"
+            },
+            {
+              "id": "d",
+              "text": "Merging converts the model into a static lookup table that needs no GPU calculations"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Because $W_0 + \\Delta W$ has the exact same shape as $W_0$, folding the adapter into the base weights offline leaves the forward-pass computation completely unchanged.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_UPewfljJ8EVx",
       "title": "LoRA trains small low-rank matrices and freezes the base model",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Consider a single linear layer during LoRA training where a pretrained weight matrix $W_0$ has dimensions $4096 \\times 4096$ (16.7 million parameters). LoRA freezes $W_0$ completely so it receives no gradients and needs zero Adam optimiser states. Alongside $W_0$, LoRA attaches matrix $A$ of shape $r \\times 4096$ and matrix $B$ of shape $4096 \\times r$ (at rank $r = 16$, just 131,072 parameters, under one per cent of $W_0$).\n\nThink of keeping a historic building's stone walls untouched while running lightweight modular wiring channels along the skirting boards.\n\nAt step zero, matrix $A$ is initialised with small random values and matrix $B$ is initialised to all zeros, ensuring $\\Delta W = B A = 0$ so the model starts out identical to the base model.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,43 +139,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_UPewfljJ8EVx_1",
+          "type": "multiple_choice",
+          "prompt": "Why is one of the two LoRA matrices ($B$) initialised to all zeros at the very start of training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because GPUs cannot multiply two matrices if both contain non-zero numbers on the first step"
+            },
+            {
+              "id": "b",
+              "text": "To force the gradients of both $A$ and $B$ to stay permanently at zero throughout training"
+            },
+            {
+              "id": "c",
+              "text": "To erase the pretrained weights $W_0$ when the two matrices are added together"
+            },
+            {
+              "id": "d",
+              "text": "So the initial adapter contribution $B A$ is zero and the network begins training from the exact behaviour of the pretrained base model"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Initialising $B = 0$ while $A$ is random ensures $B A = 0$ at step zero without creating a symmetry deadlock, so training starts smoothly from the base model's exact predictions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_PssSHmw7GXIG",
       "title": "QLoRA adds a 4-bit quantized base to save memory",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When you use QLoRA, it is important to understand the compute-versus-memory trade-off: QLoRA saves a huge amount of GPU memory during training, but it does not make each training step faster than 16-bit LoRA. Because GPU tensor cores do their training arithmetic in 16-bit precision (bf16 or fp16), QLoRA must unpack and dequantise each 4-bit base weight block into 16-bit floats during every forward pass and again during every backward pass.\n\nIt is like working from compressed ZIP files on a small laptop drive: zipping the archives lets you fit a massive project onto your disk, but unzipping each file every time you read a page adds a small CPU overhead.\n\nIn practice, that on-the-fly dequantisation makes QLoRA slightly slower per batch than 16-bit LoRA if both fit in memory, but QLoRA wins whenever it lets you fit a job onto one affordable GPU instead of renting four.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PssSHmw7GXIG_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main trade-off of using 4-bit QLoRA instead of 16-bit LoRA during training?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It dramatically reduces GPU memory usage, at the cost of a modest compute overhead from dequantising 4-bit base weights to 16-bit on the fly"
+            },
+            {
+              "id": "b",
+              "text": "It makes training ten times faster per batch, but doubles the GPU memory required"
+            },
+            {
+              "id": "c",
+              "text": "It allows the base model weights to be updated directly in 4-bit without using any adapters"
+            },
+            {
+              "id": "d",
+              "text": "It removes the need for backpropagation, but only works on datasets with fewer than ten rows"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "QLoRA trades a small speed penalty from on-the-fly dequantisation during forward and backward passes for a massive reduction in static base-model VRAM footprint.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Sw2vacRcBfcY",
       "title": "Rank and alpha: the main settings",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When configuring a LoRA run, the main settings are target modules, rank $r$, and scaling factor $\\alpha$ (alpha). Modern best practice applies LoRA to all linear layers in the transformer block (both attention projections and feed-forward MLP layers). The rank $r$ (commonly 8, 16, 32, or 64) sets the width of the bottleneck matrices $A$ and $B$, while $\\alpha$ scales the adapter output via the multiplier $\\frac{\\alpha}{r}$.\n\nThink of rank $r$ as the number of sliders on an audio mixing desk, and $\\alpha$ as the master volume knob controlling how strongly that mix blends in.\n\nKeeping $\\alpha$ proportional to $r$ (such as $\\alpha = 2r$) stabilises the effective update magnitude so you rarely need to retune the learning rate when changing ranks.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Sw2vacRcBfcY_1",
+          "type": "multiple_choice",
+          "prompt": "In a LoRA configuration, what do the hyperparameters rank ($r$) and alpha ($\\alpha$) control?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Rank $r$ sets the inner dimension (capacity) of the low-rank matrices, while $\\alpha$ scales how strongly the adapter output is added to the base layer"
+            },
+            {
+              "id": "b",
+              "text": "Rank $r$ sets the number of GPUs in the cluster, while $\\alpha$ sets the dropout probability on the input tokens"
+            },
+            {
+              "id": "c",
+              "text": "Rank $r$ limits the maximum number of words in a prompt, while $\\alpha$ sets the vocabulary size"
+            },
+            {
+              "id": "d",
+              "text": "Rank $r$ chooses the validation split ratio, while $\\alpha$ chooses the random seed for shuffling"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Rank $r$ determines how many parameters are in $A$ and $B$, and the ratio $\\frac{\\alpha}{r}$ scales the magnitude of $\\Delta W$ added to the frozen base weights.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_8LAJzddbXrDN",
       "title": "One base model, many adapters for different clients or tasks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "One of the strongest commercial advantages of LoRA for an AI consultancy or SaaS platform is multi-adapter serving. Suppose your platform needs specialised models for legal extraction, SQL generation, medical coding, and twenty client-specific brand voices. With full fine-tuning, hosting twenty-three separate 70B models would require dozens of expensive GPUs running continuously.\n\nIt is like a coffee shop that keeps one commercial espresso machine hot all day and clicks in different flavour syrups per order, instead of buying twenty-three separate machines.\n\nWith LoRA, a single GPU node holds one copy of the frozen 70B base model in VRAM and dynamically batches requests across dozens of tiny adapters simultaneously, slashing hosting costs.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8LAJzddbXrDN_1",
+          "type": "multiple_choice",
+          "prompt": "Why is LoRA particularly attractive for a platform that serves dozens of specialised tasks or enterprise clients?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Each LoRA adapter includes its own complete copy of the base model weights so no GPU is needed"
+            },
+            {
+              "id": "b",
+              "text": "LoRA allows different clients' private prompts to be merged into a single shared training dataset automatically"
+            },
+            {
+              "id": "c",
+              "text": "A single shared base model can stay loaded in GPU memory while lightweight task-specific adapters are applied dynamically per request"
+            },
+            {
+              "id": "d",
+              "text": "Multi-adapter serving removes the need for a KV cache during autoregressive decoding"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because every adapter is only tens of megabytes and attaches to the exact same frozen base weights, one base model instance in VRAM can serve many custom skills simultaneously.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,62 +5,202 @@
     {
       "id": "bit_7QQuXfOxazX1",
       "title": "Generative models for small molecules",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Generative models for small molecules use architectures such as transformers, diffusion models, or graph neural networks to propose entirely new chemical structures rather than merely searching existing catalogues. They learn the grammar of chemical bonds and design compounds tailored to a target profile.\n\nIt is the difference between browsing a rack of ready-made suits in a shop and having a bespoke tailor cut a new suit to your exact measurements.\n\nDespite the hype, chemical space is vast and mostly empty of viable medicines. Generative models only add value when paired with reliable scoring functions and medicinal chemists who can judge whether the output makes sense.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7QQuXfOxazX1_1",
+          "type": "multiple_choice",
+          "prompt": "How do generative chemistry models differ from traditional virtual screening?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They eliminate the need to check for toxicity or metabolic stability"
+            },
+            {
+              "id": "b",
+              "text": "They physically manufacture pills using desktop 3D printers in the clinic"
+            },
+            {
+              "id": "c",
+              "text": "They design brand-new chemical structures rather than only searching catalogues of existing compounds"
+            },
+            {
+              "id": "d",
+              "text": "They only work on large protein antibodies and cannot represent carbon rings"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "While virtual screening searches predefined libraries, generative models construct novel molecular graphs or strings aimed at desired properties.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TCLvTwqLlDDc",
       "title": "Multi-objective optimization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Multi-objective optimisation is the process of steering molecule generation or selection to satisfy several competing criteria at the same time. Instead of maximising a single score, the algorithm searches for a balanced compromise across all required drug traits.\n\nIt is like buying a family car where you must balance fuel economy, boot space, safety ratings, and purchase price rather than just picking the fastest engine on the market.\n\nIf a scoring function omits a critical constraint, reinforcement learning will ruthlessly exploit that blind spot, producing bizarre molecules that score brilliantly on paper while failing basic chemistry principles.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TCLvTwqLlDDc_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main hazard of poorly specified scoring functions in multi-objective molecule optimisation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The computer refuses to output any structures until all objectives reach one hundred per cent"
+            },
+            {
+              "id": "b",
+              "text": "The algorithm automatically deletes the client's historical assay database"
+            },
+            {
+              "id": "c",
+              "text": "The generated molecules become too cheap and straightforward for chemists to synthesise"
+            },
+            {
+              "id": "d",
+              "text": "The model exploits gaps in the score to propose unrealistic molecules that only look good on paper"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Generative optimisers perform reward hacking when constraints are missing, maximising the mathematical score by inventing chemically flawed or impractical structures.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_nveWXjE_rd83",
       "title": "Balance potency, selectivity, safety, and ease of synthesis",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Developing a viable drug candidate requires balancing potency against the target, selectivity over off-target proteins, safety in healthy tissues, and ease of chemical synthesis. A molecule that binds its target tightly is useless if it also blocks vital heart channels or takes thirty steps to make.\n\nIn a lead optimisation programme, an AI tool might suggest a slightly less potent analogue because it avoids a toxic liver metabolite and cuts synthesis costs by £50,000 per batch.\n\nBecause each property is predicted with uncertainty, errors compound when combining multiple models. Teams must track uncertainty estimates rather than trusting a single combined composite score blindly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_nveWXjE_rd83_1",
+          "type": "multiple_choice",
+          "prompt": "Why might a medicinal chemistry team choose a candidate with slightly lower target potency?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because it offers a better overall balance of selectivity, safety, and synthetic feasibility"
+            },
+            {
+              "id": "b",
+              "text": "Because lower potency drugs are exempt from regulatory approval pathways"
+            },
+            {
+              "id": "c",
+              "text": "Because high potency molecules cannot be represented in digital chemical formats"
+            },
+            {
+              "id": "d",
+              "text": "Because patients always prefer taking larger and more frequent doses of medicine"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Drug discovery is a compromise across multiple traits; a slightly weaker binder that is safe, selective, and practical to make is far more valuable than a toxic or unmakeable potent hit.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_aYFDnZiXCxml",
       "title": "Generated molecules may be hard or impossible to make",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Synthetic accessibility is the practical measure of how easily a proposed chemical structure can be built from available starting materials using real chemical reactions. Generative algorithms frequently invent valid-looking molecular graphs that contain strained rings, unstable functional groups, or baffling stereochemistry.\n\nIt is like an architect drawing a stunning building with floating staircases that obey the drawing software's rules but defy real-world gravity and construction budgets.\n\nTo prevent wasted effort, AI pipelines constrain generation using reaction-based templates or retrosynthesis planners. Even then, experienced bench chemists must review candidate lists before ordering synthesis.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_aYFDnZiXCxml_1",
+          "type": "multiple_choice",
+          "prompt": "How do discovery teams reduce the risk that generative models propose unmakeable molecules?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By training the model exclusively on fictional molecules from science textbooks"
+            },
+            {
+              "id": "b",
+              "text": "By removing all carbon and nitrogen atoms from the generative vocabulary"
+            },
+            {
+              "id": "c",
+              "text": "By constraining generation with reaction rules, retrosynthesis models, and chemist reviews"
+            },
+            {
+              "id": "d",
+              "text": "By asking the algorithm to maximise molecular complexity at every step"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Incorporating synthetic accessibility scores, reaction templates, and human medicinal chemist oversight keeps generated structures grounded in practical chemistry.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hFk1TEEJeKHH",
       "title": "Novelty vs. staying near known drug-like space",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every generative chemistry project faces a tension between structural novelty and staying close to known drug-like chemical space. Novel structures can unlock fresh intellectual property and hit tough biological targets, whereas familiar scaffolds have predictable behaviour and well-tested synthesis routes.\n\nIt is like a film studio deciding between a bold original screenplay and a sequel to an established franchise: the original offers a breakthrough hit, while the sequel carries much lower commercial risk.\n\nVenturing too far from known space means both ADMET predictors and synthesis planners lose accuracy at the exact moment you rely on them to guide the search.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hFk1TEEJeKHH_1",
+          "type": "multiple_choice",
+          "prompt": "What trade-off arises when pushing generative models toward highly novel chemical scaffolds?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Novel scaffolds are guaranteed to be free of toxic side effects in humans"
+            },
+            {
+              "id": "b",
+              "text": "Familiar drug-like molecules cannot be tested in standard wet-lab assays"
+            },
+            {
+              "id": "c",
+              "text": "Predictive models become more accurate the further a molecule sits from training data"
+            },
+            {
+              "id": "d",
+              "text": "Greater patent freedom comes at the cost of less reliable property predictions and harder synthesis"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Moving into uncharted chemical space creates opportunities for new patents, but predictive models become less trustworthy and synthesis becomes less predictable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

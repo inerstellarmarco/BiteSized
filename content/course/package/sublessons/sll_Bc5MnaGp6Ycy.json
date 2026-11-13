@@ -5,38 +5,122 @@
     {
       "id": "bit_6M8tQT1K6AHe",
       "title": "Fixing vulnerabilities and retesting",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Fixing vulnerabilities and retesting is the disciplined loop of turning red-team findings into concrete architectural improvements and then running the exact same attacks again to prove the fix works. Depending on the flaw, a fix might mean tightening a tool's parameter schema, stripping external image tags from chat output, adding an input classifier, or removing an unnecessary database permission.\n\nIt is like a plumber replacing a leaky valve and then turning the water mains back on at full pressure to verify that not a single drop escapes.\n\nBecause language models are non-deterministic, retesting an attack just once is never enough; you must run the attack multiple times and test variations around it to confirm the hole is genuinely closed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6M8tQT1K6AHe_1",
+          "type": "multiple_choice",
+          "prompt": "Why must you run an attack multiple times and with slight variations when retesting a vulnerability fix in an LLM system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because cloud servers take several hours to compile changes to a system prompt"
+            },
+            {
+              "id": "b",
+              "text": "Because automated testing tools charge a flat fee for batches of one hundred requests"
+            },
+            {
+              "id": "c",
+              "text": "Because security auditors require every test log file to exceed one megabyte in size"
+            },
+            {
+              "id": "d",
+              "text": "Because language models are probabilistic and a single passing run might succeed by chance or fail on a slightly reworded prompt"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Non-deterministic generation and sensitivity to phrasing mean a brittle fix might pass once on the exact original attack string while still failing on a minor variation or a second run.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hFBGFHXC-dIs",
       "title": "Security regression suites",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A security regression suite is an automated collection of past red-team attacks, prompt injections, and safety edge cases that runs automatically whenever you change prompts, swap models, or update application code. Every time a red teamer discovers a new way to break the system, that attack is turned into a permanent test case in the suite.\n\nIt is like an airline adding a new check to its pre-flight inspection checklist after a maintenance incident so the same fault can never slip past unnoticed again.\n\nWithout an automated regression suite, a routine prompt tweak made to improve helpfulness six months later can silently undo an important security defence.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hFBGFHXC-dIs_1",
+          "type": "multiple_choice",
+          "prompt": "What should happen whenever a red-teaming exercise uncovers a new vulnerability in your AI system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Delete all records of the attack prompt so that junior developers cannot copy it"
+            },
+            {
+              "id": "b",
+              "text": "Freeze the application permanently and refuse all future model or prompt updates"
+            },
+            {
+              "id": "c",
+              "text": "After fixing the flaw, convert the successful attack into a permanent automated test in your security regression suite"
+            },
+            {
+              "id": "d",
+              "text": "Publicly post the client's vulnerability details on social media the same day"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Turning every discovered exploit into an automated regression test ensures that future prompt edits, code changes, or model upgrades do not accidentally reintroduce the same vulnerability.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_7R8EL2cxyMfh",
       "title": "Ranking fixes by likelihood and damage",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Ranking fixes by likelihood and damage helps engineering teams prioritise which security findings to address immediately before launch and which ones to schedule for later. Likelihood measures how easily and frequently an attack or failure can happen in the real world, while damage measures the financial, legal, operational, or reputational harm if it succeeds.\n\nFor instance, an indirect injection that lets any anonymous email sender trigger a bank transfer has both high likelihood and catastrophic damage, whereas a 20-turn puzzle that makes an internal tool write a rude poem has low likelihood and minimal impact.\n\nConsultants use this simple risk matrix to keep clients focused on real business threats rather than chasing harmless theoretical curiosities.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7R8EL2cxyMfh_1",
+          "type": "multiple_choice",
+          "prompt": "How should an AI consultant prioritise a list of twenty vulnerabilities found during red teaming?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Fix them in alphabetical order based on the name of the engineer who wrote the component"
+            },
+            {
+              "id": "b",
+              "text": "Fix only the issues that can be solved by editing the system prompt in under five minutes"
+            },
+            {
+              "id": "c",
+              "text": "Rank each vulnerability by combining how likely it is to occur with the severity of the business damage it would cause"
+            },
+            {
+              "id": "d",
+              "text": "Delay all security fixes until the company's annual financial audit takes place"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Prioritising by likelihood and impact ensures that engineering effort goes first to flaws that are practical to exploit and capable of causing serious financial, legal, or operational harm.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,8 +5,8 @@
     {
       "id": "bit_lrPiNqk-87vM",
       "title": "Email, social, ads, and CRM through APIs and MCP",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Channel connectors link your marketing workflow to external email service providers, social scheduling tools, advertising networks, and CRM databases using REST APIs or Model Context Protocol (MCP) servers. Because platform APIs and MCP servers evolve rapidly, check the current details when building connectors.\n\nThink of standardised shipping containers that can be lifted smoothly from a factory lorry onto a train or cargo ship without unpacking the goods at every terminal.\n\nKeep read tools and write tools strictly separated in your connectors so an analysis agent can pull campaign performance stats freely without possessing the credentials to launch a paid ad campaign.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,25 +19,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lrPiNqk-87vM_1",
+          "type": "multiple_choice",
+          "prompt": "Why should channel connectors separate read tools from write tools when exposing marketing platforms to agents?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because social media APIs delete all historical posts whenever a read request is made"
+            },
+            {
+              "id": "b",
+              "text": "So reporting and research agents can pull performance metrics safely without having the credentials to publish posts or spend ad budget"
+            },
+            {
+              "id": "c",
+              "text": "Separating tools makes the company's website invisible to search engines"
+            },
+            {
+              "id": "d",
+              "text": "CRM systems only allow one API key to exist per country"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Splitting read and write permissions ensures analysis workflows cannot accidentally trigger public messages or ad spend.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_k5ZkxKqglvw0",
       "title": "Draft mode by default; publish mode behind approval",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Configuring channel connectors in draft mode by default means that when an agent finishes an email campaign, blog post, or ad set, the connector creates the asset inside the target platform as an unpublished draft or staged queue item.\n\nIt is like a ghostwriter placing a typed letter inside the managing director's outbox folder ready for a signature, rather than dropping it straight into the street postbox.\n\nStaff love draft-mode integrations because the content appears right inside their familiar email or social dashboard with formatting intact, ready for a quick check and a single click to schedule.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_k5ZkxKqglvw0_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main advantage of having channel connectors save assets as unpublished drafts inside the target platform?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Unpublished drafts are immediately emailed to every customer in the CRM database"
+            },
+            {
+              "id": "b",
+              "text": "Saving a draft costs ten times more in platform fees than publishing immediately"
+            },
+            {
+              "id": "c",
+              "text": "The human reviewer can inspect the exact final formatting in their familiar tool and publish with one click"
+            },
+            {
+              "id": "d",
+              "text": "Draft mode prevents the marketing manager from editing a headline before launch"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Staging assets in draft mode removes tedious copy-pasting while keeping the final publish button firmly in human hands.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Rq-fYUfaVVLs",
       "title": "Publishing only after human approval",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Enforcing publishing only after human approval means the technical workflow physically blocks the outbound publish API call until a verified human user clicks approve on that specific version of the asset.\n\nImagine a dual-key bank vault where the clerk's key prepares the drawer, but the lock cannot turn until the branch manager inserts the second key and confirms the amount.\n\nBuild this gate in your application code, not inside an LLM prompt. When the human approves Draft v3, record their user ID and timestamp, and pass that exact approved text payload to the publishing API without letting a model rewrite it on the way out.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,25 +106,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Rq-fYUfaVVLs_1",
+          "type": "multiple_choice",
+          "prompt": "Why must the human approval gate be enforced in application code rather than inside an agent's prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Prompt instructions are legally binding contracts that never fail in production"
+            },
+            {
+              "id": "b",
+              "text": "Code guarantees the exact approved text payload is published only after a verified sign-off event, with no risk of a model bypassing the check"
+            },
+            {
+              "id": "c",
+              "text": "Enforcing approval in code requires hiring a full-time software engineer for every single email sent"
+            },
+            {
+              "id": "d",
+              "text": "Human approvers prefer reading raw database binary files rather than formatted previews"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Hardcoding the approval check and locking the approved payload ensures nothing reaches the public without verified human sign-off.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_RsDys55FdBcs",
       "title": "Scheduling and rate limits for each platform",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every marketing channel has both technical API rate limits and practical audience frequency caps that govern when and how often messages should go out. Sending three emails in ten minutes to the same prospect looks like a system glitch and triggers spam complaints.\n\nIt is like watering greenhouse plants; a steady measured trickle at dawn helps them grow, whereas tipping a fifty-litre bucket over a seedling all at once washes the soil away.\n\nBuild a central send-frequency check into your outbound connector so that even if two different campaign workflows target the same customer on Tuesday, the system spaces the messages sensibly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RsDys55FdBcs_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an outbound marketing connector enforce audience frequency caps alongside technical API rate limits?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Frequency caps trick email providers into hiding the unsubscribe link from recipients"
+            },
+            {
+              "id": "b",
+              "text": "Social media platforms ban accounts that post fewer than fifty times an hour"
+            },
+            {
+              "id": "c",
+              "text": "It prevents multiple automated workflows from bombarding the same contact with several messages on the same day"
+            },
+            {
+              "id": "d",
+              "text": "Technical rate limits only apply when sending messages on Sunday afternoons"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Controlling both technical request speed and per-contact message frequency protects API stability and audience goodwill.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_HAogpg_vztPz",
       "title": "Audit log of what was posted and who approved it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An outbound marketing audit log records every published email, social post, or ad update alongside the exact content snapshot, the campaign brief ID, the agents that drafted and reviewed it, the human who approved it, and the publication timestamp.\n\nThink of a pharmaceutical batch record that links every bottle on the pharmacy shelf back to the exact ingredients, quality test results, and pharmacist signature from the day it was made.\n\nIf a customer or regulator ever questions a promotional claim six months later, the client can pull up the exact approved copy, the source product sheet used, and the sign-off record in seconds.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -81,19 +193,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_HAogpg_vztPz_1",
+          "type": "multiple_choice",
+          "prompt": "What should be captured in the audit log whenever a marketing asset is published?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The exact published content snapshot, the source brief and product facts used, the agent checks, the human approver ID, and the timestamp"
+            },
+            {
+              "id": "b",
+              "text": "Only the first name of the software developer who installed the database two years ago"
+            },
+            {
+              "id": "c",
+              "text": "A random summary generated six months later from memory"
+            },
+            {
+              "id": "d",
+              "text": "The personal passwords of every subscriber who opened the email"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A complete publication audit trail provides instant accountability for compliance reviews and post-campaign debugging.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_9izh5g9xTLOJ",
       "title": "Platform API rules change: check before building",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Social networks, email providers, and ad platforms regularly deprecate API endpoints, tighten permission scopes, or change pricing tiers for automated access. Because developer terms shift frequently, always check the current details in the official platform documentation before quoting or building a connector.\n\nIt is like checking tide tables and harbour repair notices before charting a ferry service; a pier that was open to commercial boats last summer may be restricted to foot passengers this year.\n\nDesign your system so channel connectors are thin, swappable adapters at the edge of the workflow. That way, if one social platform restricts its posting API, your core drafting and review pipeline keeps working smoothly via draft exports.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9izh5g9xTLOJ_1",
+          "type": "multiple_choice",
+          "prompt": "How should you architect a marketing system so sudden changes to a social platform's API rules do not break the whole workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Hardcode the social platform's API calls inside every single agent prompt across the system"
+            },
+            {
+              "id": "b",
+              "text": "Keep channel connectors as thin, modular adapters at the edge so the core drafting and review pipeline still works if an API changes"
+            },
+            {
+              "id": "c",
+              "text": "Promise the client in writing that third-party social networks never change their developer rules"
+            },
+            {
+              "id": "d",
+              "text": "Build your own global social media network from scratch before writing any marketing copy"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Isolating platform APIs inside modular edge connectors protects your core content pipeline when external vendors change their rules.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

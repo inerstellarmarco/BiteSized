@@ -5,8 +5,8 @@
     {
       "id": "bit_EPCC3LdMMeWq",
       "title": "Virtual cells and multi-omics foundation models",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A virtual cell is an ambitious computational model designed to simulate how a living cell responds to genetic perturbations, drugs, or environmental shifts across multiple molecular layers. Multi-omics foundation models pre-train on vast collections of DNA, RNA, protein, and epigenomic profiles to learn a unified representation of cellular state.\n\nThink of it as a digital twin of a city's transport network that lets planners test how closing one bridge affects traffic, buses, and trains before placing a single road cone.\n\nToday, fully predictive virtual cells remain an active research frontier rather than a finished turnkey product. Models capture broad correlations well but frequently miss causal regulatory dynamics.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,55 +19,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_EPCC3LdMMeWq_1",
+          "type": "multiple_choice",
+          "prompt": "What is the overarching goal of building virtual cell and multi-omics foundation models?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Simulating how cells respond across molecular layers to genetic changes or candidate drugs"
+            },
+            {
+              "id": "b",
+              "text": "Replacing all hospital beds with virtual reality headsets for outpatient consultations"
+            },
+            {
+              "id": "c",
+              "text": "Compressing DNA sequencing text files so they fit onto floppy disks"
+            },
+            {
+              "id": "d",
+              "text": "Eliminating the need for any future laboratory experiments in biology"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Virtual cell models aim to integrate multi-omics layers to predict how cells change state when perturbed by mutations or therapeutics, though true causal accuracy remains an active frontier.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TTwVTvD1HR54",
       "title": "Spatial omics and spatial AI",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Spatial omics technologies measure molecular activity, such as gene expression or protein abundance, directly inside intact tissue slices rather than grinding the tissue into a soup of isolated cells. Spatial AI combines computer vision with graph and sequence models to analyse how cells interact with their physical neighbours.\n\nIt is the difference between having a list of every shop in a town and having a street map showing which shops sit next to the train station or the school.\n\nIn oncology, seeing whether immune cells actually infiltrate a tumour core or sit trapped on its border often matters far more than their total count. However, spatial assays remain costly and trade off resolution against gene coverage.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TTwVTvD1HR54_1",
+          "type": "multiple_choice",
+          "prompt": "What crucial biological information does spatial omics preserve that standard single-cell sequencing loses?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The full name and home address of the patient who donated the biopsy"
+            },
+            {
+              "id": "b",
+              "text": "The retail cost of the sequencing reagents used in the hospital laboratory"
+            },
+            {
+              "id": "c",
+              "text": "The exact physical location and neighbourhood relationships of cells within intact tissue"
+            },
+            {
+              "id": "d",
+              "text": "The exact time of day the machine learning engineer started the training run"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Standard single-cell protocols dissociate tissue into loose cells, whereas spatial omics retains tissue architecture so models can study cell-to-cell microenvironments.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_oP6AIawMynpJ",
       "title": "Models trained on millions of cells aim to generalize across tissues",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Single-cell foundation models are pre-trained on atlases containing tens of millions of individual cell profiles collected across dozens of human organs, developmental stages, and diseases. By learning universal gene co-expression patterns at scale, they aim to transfer knowledge to rare tissues or small patient cohorts where training from scratch would fail.\n\nIt is like a polyglot who has mastered six Romance languages picking up basic Italian in a weekend, whereas a beginner has to memorise every verb from scratch.\n\nEven so, technical batch effects across laboratories can fool foundation models into learning lab-specific artefacts rather than transferable human biology.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oP6AIawMynpJ_1",
+          "type": "multiple_choice",
+          "prompt": "Why do researchers pre-train single-cell foundation models on tens of millions of cells across diverse organs?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To learn generalisable representations of gene regulation that can transfer to smaller downstream studies"
+            },
+            {
+              "id": "b",
+              "text": "To ensure every human organ expresses the exact same set of proteins at all times"
+            },
+            {
+              "id": "c",
+              "text": "To avoid having to normalise or clean raw sequencing reads before analysis"
+            },
+            {
+              "id": "d",
+              "text": "To guarantee that zero wet-lab validation is needed for new drug targets"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Large-scale pre-training across diverse cell types aims to capture shared biological rules that can be fine-tuned on smaller, disease-specific cohorts.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_KHJaoujpiTKX",
       "title": "The claims are early: compare against simple baselines",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The rapid rise of biological foundation models has brought bold marketing claims about zero-shot discovery and emergent biological reasoning. Independent benchmarks, however, frequently show that heavily publicised deep models barely match or even trail well-tuned linear models, logistic regression, or gradient-boosted trees on practical tasks like perturbation prediction.\n\nAs an AI consultant, treat a startup's hundred-million-parameter cell model like an expensive sports car in city traffic: always time it against a humble bicycle on the client's actual commute before signing the lease.\n\nInsist on rigorous comparisons against simple baselines on held-out biological batches before approving high compute and licensing costs.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KHJaoujpiTKX_1",
+          "type": "multiple_choice",
+          "prompt": "How should an AI consultant evaluate a vendor's claim that a biological foundation model outperforms existing methods?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Accept the vendor's marketing deck if the model has more than one billion parameters"
+            },
+            {
+              "id": "b",
+              "text": "Check only whether the model achieved low training loss on its pre-training dataset"
+            },
+            {
+              "id": "c",
+              "text": "Assume that larger GPU training budgets always produce superior biological accuracy"
+            },
+            {
+              "id": "d",
+              "text": "Benchmark it directly against simple linear or tree-based baselines on properly held-out biological batches"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Independent evaluations show that simple baselines often rival or beat complex biological foundation models, making strict head-to-head benchmarking essential.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_YwOA0-WwbBNz",
       "title": "Spatial data keeps tissue location together with gene activity",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Spatial transcriptomics and proteomics generate multimodal datasets that pair high-resolution microscopy images of stained tissue with coordinate-mapped molecular readouts. Analysing these datasets allows AI models to link morphological features visible under a microscope directly to the underlying gene programmes driving them.\n\nFor a pathology client, this bridges two worlds: a model can learn how subtle changes in cell shape on a routine hospital slide reflect deep molecular pathways discovered through spatial sequencing.\n\nThe main operational bottleneck is data engineering: aligning gigapixel images, segmenting packed cell boundaries accurately, and normalising sparse transcripts across tissue sections require careful quality control.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YwOA0-WwbBNz_1",
+          "type": "multiple_choice",
+          "prompt": "Why is accurate cell segmentation an important step when analysing high-resolution spatial omics data?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Errors in drawing cell boundaries assign molecular transcripts to the wrong neighbouring cells"
+            },
+            {
+              "id": "b",
+              "text": "Cell segmentation automatically encrypts patient identifiers for regulatory compliance"
+            },
+            {
+              "id": "c",
+              "text": "Microscopes cannot focus on glass slides unless segmentation software is deleted first"
+            },
+            {
+              "id": "d",
+              "text": "Segmenting cells converts RNA molecules into solid gold nanoparticles"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "In packed tissues, imprecise boundary segmentation mixes transcripts between adjacent cells, creating false hybrid cell profiles that mislead downstream AI models.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

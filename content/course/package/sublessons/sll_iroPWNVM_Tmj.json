@@ -5,8 +5,8 @@
     {
       "id": "bit_WrB0Go2BfKjF",
       "title": "Reusing pretrained models on new tasks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Transfer learning takes a neural network already pretrained on a massive general dataset (such as millions of web images or text documents) and adapts its learned feature representations to a specific client task by replacing the final head and training on the client's smaller dataset.\n\nIt is like hiring a qualified accountant and teaching them your client's specific chart of accounts in a week, rather than teaching someone arithmetic from nursery school upward.\n\nTransfer learning slashes data, time, and compute costs across vision, audio, and language projects, though it helps least when the client's data looks nothing like the pretraining domain.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,55 +19,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WrB0Go2BfKjF_1",
+          "type": "multiple_choice",
+          "prompt": "Why does starting from a pretrained backbone dramatically outperform training from random weights on a client dataset of 1,000 labelled images?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Pretrained models do not contain any numerical weights and therefore cannot overfit"
+            },
+            {
+              "id": "b",
+              "text": "Training from random weights is mathematically forbidden when a dataset has fewer than 1,000,000 rows"
+            },
+            {
+              "id": "c",
+              "text": "Pretrained models automatically label the client's test set without needing any training examples"
+            },
+            {
+              "id": "d",
+              "text": "The pretrained backbone already knows how to extract general visual features like edges, textures, and shapes learned from millions of images"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Reusing rich representations learned on a massive corpus lets the small client dataset focus on learning the task-specific decision boundary rather than basic perception from scratch.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5ASvlDNtRwhJ",
       "title": "Freezing layers vs. full fine-tuning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When adapting a pretrained model, you can either freeze the backbone weights (`requires_grad=False`) so only the new classification head updates as a fast feature extractor, or unfreeze part or all of the backbone for full fine-tuning so the underlying features adapt to the client's domain.\n\nIt is like buying an off-the-shelf shop mannequin and only changing the jacket on top (freezing) versus adjusting the mannequin's joints to match a specialised sport (fine-tuning).\n\nFull fine-tuning reaches higher accuracy when you have sufficient domain data, but on a tiny dataset it can quickly overwrite pretrained knowledge and overfit unless regularised carefully.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5ASvlDNtRwhJ_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main advantage of freezing the pretrained backbone and training only the new output head when you have a very small dataset and limited compute?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It allows the early layers of the backbone to learn completely new pixel filters from scratch"
+            },
+            {
+              "id": "b",
+              "text": "It trains rapidly with low memory and avoids overfitting or destroying the pretrained features on a tiny sample"
+            },
+            {
+              "id": "c",
+              "text": "It increases the total number of trainable parameters by a factor of ten"
+            },
+            {
+              "id": "d",
+              "text": "It removes the need to run a forward pass through the frozen backbone layers"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Freezing the backbone reduces trainable parameters to just the small head, preventing overfitting on tiny datasets and skipping backward gradient storage for frozen layers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Etm14DfF07_a",
       "title": "Lower learning rates for pretrained layers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When you unfreeze pretrained backbone layers during fine-tuning, you should use a much smaller learning rate (typically ten to a hundred times smaller than for the newly attached head) so you gently nudge the well-formed representations rather than shattering them on the first few batches.\n\nIt is like tuning an antique grandfather clock with a jeweller's screwdriver while using a normal spanner on the newly built wooden bracket holding it to the wall.\n\nGiving the randomly initialised head a higher rate and the pretrained body a tiny rate prevents large initial errors from corrupting the backbone.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Etm14DfF07_a_1",
+          "type": "multiple_choice",
+          "prompt": "Why should pretrained layers be fine-tuned with a much smaller learning rate than a newly attached, randomly initialised output head?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Pretrained weights are stored as integers that can only change by 0.0001 at a time"
+            },
+            {
+              "id": "b",
+              "text": "A small learning rate makes the randomly initialised head converge in zero epochs"
+            },
+            {
+              "id": "c",
+              "text": "Larger learning rates cause the GPU to skip the forward pass on pretrained layers"
+            },
+            {
+              "id": "d",
+              "text": "A large learning rate would cause big gradient steps that destroy the useful representations already learned by the pretrained weights"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "The pretrained weights already sit in a well-structured region of parameter space, whereas the random head starts with large errors that would send disruptive gradients into the backbone under a high learning rate.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_C9k0bmzLKj2v",
       "title": "Match the preprocessing the pretrained model expects",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When you use a pretrained vision, audio, or language model, you must apply the exact same input preprocessing pipeline used during its original pretraining, including the same channel order, pixel normalisation mean and standard deviation, image resolution, audio sample rate, or exact tokeniser vocabulary.\n\nIt is like plugging an appliance designed for 230-volt British sockets into the wall; feeding it 110 volts or the wrong plug pinout makes a good machine malfunction silently.\n\nFeeding raw 0-to-255 images into a backbone pretrained on inputs normalised around zero with unit variance will produce garbage activations and poor accuracy without throwing a code error.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_C9k0bmzLKj2v_1",
+          "type": "multiple_choice",
+          "prompt": "What happens if you feed raw 0-to-255 pixel values into a pretrained vision backbone that was trained on images normalised to mean 0 and standard deviation 1?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The code runs without a syntax error, but internal activations saturate or shift out of distribution, severely degrading accuracy"
+            },
+            {
+              "id": "b",
+              "text": "The Python interpreter refuses to compile the script and deletes the image folder"
+            },
+            {
+              "id": "c",
+              "text": "The pretrained backbone automatically rewrites its own preprocessing code to divide by 255"
+            },
+            {
+              "id": "d",
+              "text": "The model accuracy improves because larger numbers always produce stronger gradients"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Neural network weights are tuned to the exact numerical distribution of their training inputs, so mismatched scaling or channel ordering silently corrupts the feature maps.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ODhibrTn2UZZ",
       "title": "Little data: freeze most layers; more data: unfreeze more",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "How much of a pretrained network you unfreeze depends on two factors: how much labelled client data you have and how closely the client domain resembles the pretraining corpus.\n\nIt is like relocating an office: if you have a tiny budget and a one-month lease, you keep the walls fixed and only rearrange the desks; if you have a large budget and a ten-year factory contract, you remodel the interior walls too.\n\nWith only a few hundred examples, freeze the backbone and train the linear head (or lightweight adapters like LoRA); with thousands of domain-specific examples (such as satellite or industrial microscopy images), progressively unfreeze the top blocks or the full network with a low learning rate.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ODhibrTn2UZZ_1",
+          "type": "multiple_choice",
+          "prompt": "Suppose a manufacturing client has only 300 labelled photos of common packages (similar to standard web photos) to classify into 3 bins. Which transfer-learning strategy fits best?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Unfreeze all 50 million parameters of the backbone and train with a high learning rate for 200 epochs"
+            },
+            {
+              "id": "b",
+              "text": "Throw away the pretrained model and train a Vision Transformer from random weights on the 300 photos"
+            },
+            {
+              "id": "c",
+              "text": "Freeze the pretrained vision backbone and train only a small classification head on top of the extracted features"
+            },
+            {
+              "id": "d",
+              "text": "Train only the very first pixel convolution layer while freezing the final classification head"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "When the dataset is tiny and the domain is close to the pretraining distribution, freezing the backbone prevents overfitting while leveraging existing features.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

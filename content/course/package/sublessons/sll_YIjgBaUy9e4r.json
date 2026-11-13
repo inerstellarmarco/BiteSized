@@ -5,62 +5,202 @@
     {
       "id": "bit_89-9gyq1uG0f",
       "title": "Noise: results differ from run to run with no change at all",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Even with low temperature, running the exact same evaluation suite twice on the exact same system will often give slightly different scores, such as 84% on run one and 86% on run two.\n\nThis **run-to-run noise** comes from floating-point non-determinism on GPUs, dynamic batching on provider servers, live tool latencies and small variations in both the agent and the LLM judge. If you see a 2% jump after editing a prompt and celebrate without knowing your baseline noise level, you may just be celebrating a coin flip.\n\nIt is stepping on bathroom scales three times in a minute and seeing a half-pound difference before you have eaten anything.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_89-9gyq1uG0f_1",
+          "type": "multiple_choice",
+          "prompt": "Why can two identical evaluation runs on the exact same code and prompt produce slightly different pass rates?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "GPU sampling noise, server batching and judge variance create natural run-to-run variation even when nothing in your code changed"
+            },
+            {
+              "id": "b",
+              "text": "Somebody secretly edited your database between the two runs"
+            },
+            {
+              "id": "c",
+              "text": "Language models are 100% deterministic at all times"
+            },
+            {
+              "id": "d",
+              "text": "Evaluation scripts randomly delete half the test cases"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Understanding baseline run-to-run variance stops you mistaking random noise for a genuine improvement or regression.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qqiDda1J1JWt",
       "title": "Confidence intervals on pass rates",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A single pass rate like \"80% passed\" hides how certain that number is. 8 out of 10 is 80%, and 800 out of 1,000 is also 80%, yet the first could easily be 55% or 95% on the next batch of questions.\n\nA **confidence interval** (such as `80% ± 4%` at 95% confidence) states the plausible range for the true pass rate given your sample size. When comparing two versions, if their confidence intervals overlap heavily and the difference is smaller than the margin of error, you do not yet have strong statistical evidence that one is better.\n\nIt is an opinion poll reporting \"48% (±3%)\" so readers know a 1-point lead is a statistical tie.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qqiDda1J1JWt_1",
+          "type": "multiple_choice",
+          "prompt": "What does a confidence interval around an evaluation pass rate tell you?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The exact token cost of the run in pounds and pence"
+            },
+            {
+              "id": "b",
+              "text": "How confident the model felt emotionally while writing the answer"
+            },
+            {
+              "id": "c",
+              "text": "The plausible range of the true pass rate given your test set size, showing how much uncertainty surrounds the headline percentage"
+            },
+            {
+              "id": "d",
+              "text": "The maximum number of users your server can handle"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Confidence intervals show whether a score difference is larger than the statistical uncertainty of your sample size.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_F1mjqL9eFaLm",
       "title": "Sample size: how many test cases are enough",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "How many test cases you need depends on how small an improvement you want to detect reliably.\n\nWith **20 to 30 test cases**, you can easily spot big leaps or bad breakages, such as a pass rate jumping from 60% to 85% or dropping to 40%. To reliably distinguish an 88% prompt from a 91% prompt, you need **200 to 500 test cases**, because on a 25-item set a 3% difference is less than a single question changing from fail to pass.\n\nIt is flipping a coin: ten flips are enough to spot a two-headed coin, while spotting a coin weighted 52/48 takes hundreds of flips.\n\nGrow your test set as your system matures and the gains you chase become smaller.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_F1mjqL9eFaLm_1",
+          "type": "multiple_choice",
+          "prompt": "Why can a 25-case evaluation set catch a major regression but not reliably prove a 2% improvement?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Twenty-five cases are too large for a computer to calculate percentages on"
+            },
+            {
+              "id": "b",
+              "text": "Improvements under 10% are impossible in AI systems"
+            },
+            {
+              "id": "c",
+              "text": "On 25 cases, a single question equals 4%, so a 2% difference is smaller than one item flipping by chance"
+            },
+            {
+              "id": "d",
+              "text": "Larger test sets always have wider margins of error than smaller ones"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Small test sets have wide margins of error that catch big shifts quickly, while detecting small percentage gains requires hundreds of cases.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_XHvohn1Bj4Al",
       "title": "Paired tests when comparing two versions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When you compare Prompt A and Prompt B, do not test Prompt A on fifty random questions and Prompt B on fifty *different* questions. One batch might simply happen to contain easier questions.\n\nAlways run a **paired comparison** on the exact same test items, and inspect the four cells of the paired table: how many items passed in both, failed in both, **improved** (failed in A, passed in B) and **regressed** (passed in A, failed in B). Even if the overall score went from 80% to 84%, seeing that 6 items improved while 2 critical cases regressed tells you exactly what to inspect before shipping.\n\nIt is testing two pairs of running shoes with the same runner on the same track, not two different runners on different hills.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XHvohn1Bj4Al_1",
+          "type": "multiple_choice",
+          "prompt": "Why is looking at individual wins (failed -> passed) and regressions (passed -> failed) across paired test items so informative?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It cancels out differences in question difficulty and reveals whether an overall gain hid new regressions on previously working cases"
+            },
+            {
+              "id": "b",
+              "text": "It lets you use completely different questions for each version"
+            },
+            {
+              "id": "c",
+              "text": "It guarantees that zero items ever regress"
+            },
+            {
+              "id": "d",
+              "text": "It removes the need to run Prompt A at all"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Paired item-by-item comparison gives much higher statistical sensitivity and highlights exact regressions even when the headline average goes up.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_tqbdFaJdZauc",
       "title": "Agreement with human judges (e.g., Cohen's kappa)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When you compare an LLM judge against human labellers (or two humans against each other), raw percentage agreement can flatter a lazy judge.\n\nSuppose 90% of your test outputs are good. A broken judge that blindly says `pass` on every single item without reading it will achieve 90% raw agreement with humans just by chance! Statistics like **Cohen's kappa** adjust for the agreement you would get by random guessing given the class balance, and checking **precision and recall on the `fail` class** shows whether the judge actually catches the bad 10%.\n\nIt is a weather forecaster in the Sahara who predicts \"sunny\" every day: 98% accuracy, yet useless on the one day it rains.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_tqbdFaJdZauc_1",
+          "type": "multiple_choice",
+          "prompt": "Why can raw percentage agreement between an LLM judge and human labels be misleading on an unbalanced dataset?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Raw percentages cannot be calculated when datasets have more than ten rows"
+            },
+            {
+              "id": "b",
+              "text": "Cohen's kappa always equals 100% on every dataset"
+            },
+            {
+              "id": "c",
+              "text": "If 90% of answers pass, a judge that rubber-stamps \"pass\" on everything gets 90% agreement while catching zero failures"
+            },
+            {
+              "id": "d",
+              "text": "Human labellers always mark every answer as a fail"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Chance-corrected metrics like Cohen's kappa and failure-detection recall check whether your judge actually spots the bad cases rather than agreeing by default.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

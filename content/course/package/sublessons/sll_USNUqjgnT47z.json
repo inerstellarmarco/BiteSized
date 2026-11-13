@@ -5,8 +5,8 @@
     {
       "id": "bit_lbM64kXS_B1z",
       "title": "vLLM and TGI",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "vLLM and Text Generation Inference, known as TGI, are dedicated open-source serving engines built to host large language models for multiple concurrent users on GPUs. Unlike basic local scripts that process one prompt at a time, these engines manage memory, batching, and network APIs for production traffic.\n\nIt is like running a professional airport air-traffic control tower instead of having pilots take turns landing by waving from the cockpit window.\n\nBecause open-source serving software moves quickly, check the current details on hardware compatibility and supported model architectures when planning a deployment.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,79 +19,275 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lbM64kXS_B1z_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary role of a dedicated serving engine like vLLM in a production deployment?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Training a new foundation model from scratch on petabytes of web text"
+            },
+            {
+              "id": "b",
+              "text": "Designing the visual user interface and CSS styles for a client's website"
+            },
+            {
+              "id": "c",
+              "text": "Managing GPU memory and concurrent user requests efficiently for high-throughput inference"
+            },
+            {
+              "id": "d",
+              "text": "Labelling raw audio recordings with human-verified transcriptions"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Serving engines handle request scheduling, memory management, and batching so GPUs can serve many users simultaneously.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_bh0_esWxfeeE",
       "title": "Quantized models in production",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Running quantised models in a production serving engine allows an organisation to fit capable models onto smaller, cheaper GPUs or handle more concurrent users on the same hardware. The serving engine loads the low-bit weights directly and uses specialised GPU kernels to compute responses quickly.\n\nIt is like running fuel-efficient delivery vans across a city fleet so you can complete more routes per day on the same fuel budget.\n\nHowever, not every serving engine supports every quantisation format at top speed, so a mismatch between weight format and engine kernel can actually slow inference down.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_bh0_esWxfeeE_1",
+          "type": "multiple_choice",
+          "prompt": "What must you verify when deploying a quantised model inside a production serving engine?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "That the quantised model file has been converted back into plain uncompressed text"
+            },
+            {
+              "id": "b",
+              "text": "That every user connects to the server from the exact same operating system"
+            },
+            {
+              "id": "c",
+              "text": "That the serving engine has optimised GPU kernels for that specific quantisation format and hardware"
+            },
+            {
+              "id": "d",
+              "text": "That the model is retrained from scratch after every single user query"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Without matching low-bit compute kernels for your GPU and format, the engine may dequantise weights slowly or fail to load them.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_0JlnkfyKOjQX",
       "title": "Continuous batching keeps GPUs busy",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In naive batching, a GPU waits until every request in a batch finishes generating its longest answer before starting any new requests, leaving compute cores idle whenever short answers finish early. Continuous batching solves this by slotting a new incoming request into the batch the moment an earlier request completes.\n\nIt is like a restaurant that seats a new party at a table as soon as the previous diners leave, rather than waiting for the entire dining room to empty first.\n\nWhile continuous batching dramatically boosts overall throughput, heavy concurrent load can still increase time-to-first-token if the queue grows too long.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0JlnkfyKOjQX_1",
+          "type": "multiple_choice",
+          "prompt": "How does continuous batching improve GPU utilisation compared to static batching?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It inserts new requests into the active batch as soon as finished requests free up slots"
+            },
+            {
+              "id": "b",
+              "text": "It forces every user response to be the exact same number of tokens"
+            },
+            {
+              "id": "c",
+              "text": "It waits until midnight to process all customer chat messages at once"
+            },
+            {
+              "id": "d",
+              "text": "It turns off half of the GPU cores whenever a short prompt arrives"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "By swapping completed sequences out and new sequences in at each generation step, the GPU avoids waiting around for the slowest request.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Tp9swb98eX9F",
       "title": "Paged attention manages the KV cache efficiently",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Paged attention is a memory management technique that breaks the key-value cache of each conversation into small fixed-size blocks rather than reserving one huge contiguous slab of GPU memory per request. Because the engine never knows in advance how long an answer will be, contiguous reservation wastes massive amounts of memory.\n\nIt is like a notebook with numbered loose-leaf pages where you only clip in a fresh sheet when you actually fill the previous one.\n\nBy eliminating memory fragmentation, paged attention lets a single GPU hold far more concurrent requests in flight at the same time.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Tp9swb98eX9F_1",
+          "type": "multiple_choice",
+          "prompt": "What problem does paged attention solve during language model serving?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It translates prompts from English into French before the model reads them"
+            },
+            {
+              "id": "b",
+              "text": "It compresses 16-bit model weights down to 1-bit weights during training"
+            },
+            {
+              "id": "c",
+              "text": "It replaces the transformer architecture with a classical decision tree"
+            },
+            {
+              "id": "d",
+              "text": "It prevents GPU memory waste and fragmentation by allocating the key-value cache in small blocks as needed"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Allocating key-value cache memory in non-contiguous pages on demand eliminates the wasted space of over-reserving contiguous buffers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_06tH30EKlFGh",
       "title": "Load testing: throughput and latency under real traffic",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before launching a self-hosted model, you must run load tests that simulate realistic concurrent users, prompt lengths, and output lengths. Load testing measures both throughput, which is total tokens generated per second across all users, and latency, including time to first token and speed per token.\n\nIt is like driving heavy lorries across a new bridge at rush hour rather than judging its strength after a single cyclist rides across.\n\nTesting with short synthetic prompts often gives overly optimistic results that collapse when real users paste long documents into the chat window.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_06tH30EKlFGh_1",
+          "type": "multiple_choice",
+          "prompt": "Why must load testing for a self-hosted LLM use realistic prompt and output lengths?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Short prompts cause the GPU drivers to uninstall themselves automatically"
+            },
+            {
+              "id": "b",
+              "text": "Long prompts and long outputs consume much more compute and key-value cache memory than short test strings"
+            },
+            {
+              "id": "c",
+              "text": "Serving engines charge higher software licence fees when prompts exceed fifty words"
+            },
+            {
+              "id": "d",
+              "text": "Network routers block traffic unless every HTTP request is at least ten megabytes"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Memory usage and attention compute scale with sequence length, so toy prompts hide bottlenecks that appear under real workloads.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_o7cLIMGCyeDQ",
       "title": "OpenAI-compatible endpoints make swapping easy",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Most modern serving engines, including vLLM, SGLang, and llama.cpp servers, expose an HTTP endpoint that matches the standard OpenAI chat completions format. Because the request and response JSON schemas look identical, application code can switch between a hosted API and a self-hosted model simply by changing the base URL and model name.\n\nIt is like using a standard electrical wall socket so you can unplug one brand of kettle and plug in another without rewiring the kitchen.\n\nEven so, subtle vendor extensions or tool-calling quirks can differ between engines, so check the current details and run integration tests when switching providers.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_o7cLIMGCyeDQ_1",
+          "type": "multiple_choice",
+          "prompt": "How does exposing an OpenAI-compatible HTTP endpoint from a self-hosted server help an engineering team?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It gives the self-hosted model automatic access to proprietary frontier weights for free"
+            },
+            {
+              "id": "b",
+              "text": "Application code can switch between commercial APIs and self-hosted models with minimal code changes"
+            },
+            {
+              "id": "c",
+              "text": "It removes the need for any GPU hardware on the self-hosted server"
+            },
+            {
+              "id": "d",
+              "text": "It encrypts the model weights so they never have to be loaded into memory"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Standardising on a shared API contract lets teams swap backend models or providers by updating configuration rather than rewriting client code.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_15Is-Y8e5PtO",
       "title": "TGI is in maintenance mode; vLLM and SGLang are the usual choices for new projects",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In the open-source serving landscape, Hugging Face's Text Generation Inference has shifted into maintenance mode, while vLLM and SGLang have become the standard engines for new production GPU deployments. Both vLLM and SGLang receive active optimisations for new model architectures, structured outputs, and prefix caching.\n\nIt is like choosing a modern, actively supported operating system for a new company server while keeping an older system running only on legacy machines.\n\nBecause open-source infrastructure shifts over time, always check the current details of community support and hardware benchmarks before advising a client on their stack.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_15Is-Y8e5PtO_1",
+          "type": "multiple_choice",
+          "prompt": "When starting a new self-hosted GPU serving project in 2026, why do consultants usually pick vLLM or SGLang over TGI?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "TGI can only run on mobile phones and never supported data-centre GPUs"
+            },
+            {
+              "id": "b",
+              "text": "vLLM and SGLang do not require any electricity or memory to host models"
+            },
+            {
+              "id": "c",
+              "text": "TGI is in maintenance mode, whereas vLLM and SGLang are actively developed for new models and hardware"
+            },
+            {
+              "id": "d",
+              "text": "TGI is a commercial accounting spreadsheet rather than a model serving engine"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "With TGI in maintenance mode, active development and support for the latest models and optimisations are centred on vLLM and SGLang.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

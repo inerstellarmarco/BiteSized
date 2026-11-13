@@ -5,8 +5,8 @@
     {
       "id": "bit_czc-Xx606E8Q",
       "title": "Indexing images, tables, and slides",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Real enterprise knowledge bases are rarely plain text; crucial facts often live inside architecture diagrams, slide decks, scanned charts, and complex tables. Indexing these multimodal assets for retrieval-augmented generation means extracting or embedding their visual and structural content so a search query can find the exact slide or figure that answers a user's question.\n\nIt is like building a library catalogue that indexes the maps, wiring diagrams, and tables inside engineering manuals rather than only listing the chapter titles.\n\nIf a standard RAG pipeline strips out every image and flattens tables into broken text lines during ingestion, the assistant will fail whenever an answer depends on a chart or diagram.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_czc-Xx606E8Q_1",
+          "type": "multiple_choice",
+          "prompt": "What happens when a naive text-only RAG pipeline ingests a slide deck full of visual charts and diagrams without multimodal handling?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Crucial information locked inside visual diagrams and table layouts is lost or garbled during indexing"
+            },
+            {
+              "id": "b",
+              "text": "The text-only pipeline automatically converts every diagram into a 3D hologram"
+            },
+            {
+              "id": "c",
+              "text": "The vector database refuses to store any text that came from a presentation file"
+            },
+            {
+              "id": "d",
+              "text": "The retrieval system runs ten times slower on plain text than on high-resolution video"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Stripping away images and spatial table layouts leaves the retrieval index blind to information that was communicated visually.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NIZAzoJ2FMyK",
       "title": "Cross-modal retrieval",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Cross-modal retrieval allows a system to search across different data types, such as typing a text query to find the most relevant product photograph, technical diagram, or slide image. Instead of relying on someone having manually typed tags for every picture file, the search matches the meaning of the text against the visual content itself.\n\nIt is like describing a missing piece of luggage to an airport clerk in words and having them spot the matching suitcase on a security monitor.\n\nCross-modal search works well for visual concepts and layouts, though combining it with keyword search over captions and surrounding text usually gives the best recall on technical documents.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,43 +66,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NIZAzoJ2FMyK_1",
+          "type": "multiple_choice",
+          "prompt": "What does cross-modal retrieval allow a user to do in a multimodal knowledge base?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Encrypt database passwords using an audio file as the cryptographic key"
+            },
+            {
+              "id": "b",
+              "text": "Train a language model without using any text or image data"
+            },
+            {
+              "id": "c",
+              "text": "Convert a relational SQL database into a physical printed book automatically"
+            },
+            {
+              "id": "d",
+              "text": "Use a text query to search and retrieve relevant images or slide pages directly by their visual meaning"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Cross-modal retrieval maps queries in one modality, such as text, to matching items in another modality, such as images.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Uy1MT5y3O55y",
       "title": "Two approaches: convert to text first, or embed the images directly",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "There are two main patterns for building multimodal RAG over documents with visuals. In the first approach, you use a vision-language model at ingestion time to write rich text summaries and structured tables for every chart and image, then index those text descriptions in a standard text retriever; in the second, you embed the page or image directly into a multimodal vector space.\n\nIt is like either having an art historian write detailed catalogue cards for every painting in a vault, or hanging all the paintings in a gallery organised by visual similarity.\n\nConverting to text summaries works seamlessly with existing hybrid text search, whereas direct page-image embeddings avoid losing visual nuances that a summary might overlook.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Uy1MT5y3O55y_1",
+          "type": "multiple_choice",
+          "prompt": "In the summarise-to-text approach for multimodal RAG, how are charts and images indexed?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A vision-language model generates detailed text descriptions or tables during ingestion, which are then indexed like normal text"
+            },
+            {
+              "id": "b",
+              "text": "Every image is deleted during ingestion and replaced with a random number"
+            },
+            {
+              "id": "c",
+              "text": "Users must upload a drawing instead of typing a question when they search"
+            },
+            {
+              "id": "d",
+              "text": "Images are printed on paper and filed in a physical cabinet until a user calls support"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Summarising visual elements into text at ingestion lets you store and search them using standard text embeddings and keyword indexes.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hUNChTWaZT85",
       "title": "Shared embedding spaces such as CLIP match text to images",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Models such as CLIP and newer late-interaction visual document retrievers like ColPali train an image encoder and a text encoder together so that a picture and its matching text description land close to one another in the same mathematical vector space. At search time, you embed the user's text question and find the nearest image or page vectors using cosine similarity or late interaction.\n\nIt is like assigning GPS coordinates on the same world map to both written postcards and travel photographs taken at the exact same landmark.\n\nGeneral web-trained models like CLIP can struggle with dense text inside scanned business pages, so check the current details on specialised document vision retrievers when building enterprise search.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hUNChTWaZT85_1",
+          "type": "multiple_choice",
+          "prompt": "How does a shared multimodal embedding model like CLIP enable text-to-image search?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It maps both text strings and images into the same vector space where matching concepts sit close together"
+            },
+            {
+              "id": "b",
+              "text": "It renames every image file on the hard drive to a five-hundred-word essay"
+            },
+            {
+              "id": "c",
+              "text": "It translates English search queries into SQL table joins without using vectors"
+            },
+            {
+              "id": "d",
+              "text": "It compresses JPEG images into MP3 audio files for faster storage"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "By training text and image encoders jointly, related words and pictures receive nearby vector representations that can be compared directly.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5IuSYOxzPr5j",
       "title": "Keep the page image alongside the extracted text for checking",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Even when you extract text or generate descriptions from complex PDF pages for search indexing, you should store a link to the original rendered page image and pass that image to the vision-language model at answer generation time. That way, the generator can inspect the actual visual table or chart directly and the user interface can display the original page for human verification.\n\nIt is like an accountant attaching a scan of the original paper receipt to every expense spreadsheet row so the auditor can check the figures at a glance.\n\nKeeping and sending page images increases storage and inference token costs slightly, so teams typically send only the top few retrieved page images to the final generator.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5IuSYOxzPr5j_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it good practice in multimodal RAG to store the original page image alongside extracted text and show it at answer time?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Both the vision-language model and the human user can verify the exact visual layout, charts, and numbers on the source page"
+            },
+            {
+              "id": "b",
+              "text": "Storing duplicate images makes the solid-state drive spin faster"
+            },
+            {
+              "id": "c",
+              "text": "Vision-language models refuse to answer any prompt that does not include at least ten megabytes of images"
+            },
+            {
+              "id": "d",
+              "text": "Keeping the page image automatically removes all copyright restrictions from the document"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Passing the retrieved source page image to the model and UI prevents transcription errors from hiding visual details and lets users verify citations.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

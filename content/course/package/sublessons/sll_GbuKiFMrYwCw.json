@@ -5,62 +5,202 @@
     {
       "id": "bit_5fHFdSAwBeDS",
       "title": "AWS (Lambda, ECS, Bedrock), GCP, Azure",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Most enterprise clients already have a primary cloud provider, and your agent architecture will usually deploy inside their existing account. Check the current details for each cloud's AI services.\n\nThe three big clouds offer equivalent building blocks under different names. For running containers: **AWS ECS / Fargate**, **Google Cloud Run** and **Azure Container Apps**. For short event functions: **AWS Lambda**, **Cloud Functions** and **Azure Functions**. For managed foundation models inside the cloud boundary: **Amazon Bedrock**, **Google Vertex AI** and **Azure AI Foundry**.\n\nIt is hiring a car in three countries: the badges on the steering wheel differ, but every car has pedals, gears and headlights in the same places.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5fHFdSAwBeDS_1",
+          "type": "multiple_choice",
+          "prompt": "Why do enterprise clients often prefer calling models through Amazon Bedrock, Google Vertex AI or Azure AI Foundry rather than a separate consumer API?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Cloud-hosted models never use tokens"
+            },
+            {
+              "id": "b",
+              "text": "It keeps traffic, billing, IAM permissions and data-privacy agreements inside the cloud platform their security team has already approved"
+            },
+            {
+              "id": "c",
+              "text": "Direct APIs cannot return JSON"
+            },
+            {
+              "id": "d",
+              "text": "Only cloud platforms support the English language"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Using the client's existing cloud provider simplifies procurement, billing, private networking and security sign-off.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_WvB_of6xf6KN",
       "title": "Managed model endpoints",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sometimes you are not calling a closed frontier API; you are running an open-weight model (such as a fine-tuned Llama, Qwen or Mistral model, or a specialist embedding or reranker model).\n\nInstead of renting raw GPU virtual machines and managing CUDA drivers yourself, **managed model endpoints** (on Bedrock, Vertex AI, Azure, Together AI, Fireworks or Replicate) host the model weights behind a standard HTTP API with autoscaling and monitoring handled for you.\n\nIt is booking seats on a scheduled airline versus buying and servicing your own jet for three trips a year.\n\nOnly manage your own GPU servers when steady, high-volume traffic makes dedicated hardware substantially cheaper.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WvB_of6xf6KN_1",
+          "type": "multiple_choice",
+          "prompt": "When does using a managed model endpoint beat managing your own raw GPU servers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When you have zero traffic and want to pay for twenty idle GPUs 24 hours a day"
+            },
+            {
+              "id": "b",
+              "text": "Whenever you want to run open-weight or custom models without the operational burden of managing GPU drivers, scaling and idle hardware costs"
+            },
+            {
+              "id": "c",
+              "text": "When you are only writing static HTML pages with no AI"
+            },
+            {
+              "id": "d",
+              "text": "Never, because managed endpoints cannot run open-weight models"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Managed endpoints handle GPU provisioning, inference servers and scaling so your team can focus on the application.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_oeyBgD8V0wFh",
       "title": "Serverless vs. always-on: paying per use or per hour",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Cloud compute comes in two billing models: **serverless (scale-to-zero)** and **always-on**.\n\nServerless platforms (such as AWS Lambda or Cloud Run with minimum instances set to zero) charge only for the seconds a request is actively running and cost £0 overnight when nobody uses the app. The catch is a **cold start**: the first request after an idle period waits a second or two while a container boots, and requests have hard duration caps. **Always-on** containers or servers cost a steady hourly rate whether busy or quiet, but respond instantly with zero cold start and can run long background workers.\n\nIt is taking a taxi per trip versus leasing a van by the month.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_oeyBgD8V0wFh_1",
+          "type": "multiple_choice",
+          "prompt": "What is the trade-off between scale-to-zero serverless hosting and always-on container hosting?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Serverless costs nothing when idle but has cold starts and timeout limits, while always-on costs a steady hourly fee for instant responses and long runs"
+            },
+            {
+              "id": "b",
+              "text": "Serverless is always more expensive when traffic is zero"
+            },
+            {
+              "id": "c",
+              "text": "Always-on servers delete themselves after every request"
+            },
+            {
+              "id": "d",
+              "text": "Cold starts only happen on always-on servers"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Match the compute model to traffic: serverless for spiky or low-volume APIs, and always-on (or min-1 instances) for steady traffic and long background workers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_iON6IDJoPyWi",
       "title": "Simple hosting platforms for small projects",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "For a startup, a small business client or an internal tool, setting up enterprise AWS VPCs, IAM roles and Terraform scripts from scratch is overkill.\n\nModern developer platforms such as **Vercel**, **Railway**, **Render** and **Fly.io** connect directly to your GitHub repository, build your app automatically on every push, provide preview URLs for branches and pair cleanly with managed Postgres services like **Neon** or **Supabase**. Check the current details and limits of each platform.\n\nIt is moving into a serviced office where the desks, Wi-Fi and reception are ready on day one, instead of leasing an empty warehouse.\n\nStart on a simple platform when allowed, and move to heavy cloud infrastructure only when scale or enterprise compliance demands it.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_iON6IDJoPyWi_1",
+          "type": "multiple_choice",
+          "prompt": "Why are platforms like Vercel, Railway or Render with managed Postgres like Neon a strong choice for small and mid-sized projects?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They deploy straight from Git with preview environments, SSL and managed databases in minutes, avoiding weeks of cloud infrastructure setup"
+            },
+            {
+              "id": "b",
+              "text": "They are the only platforms capable of running HTML"
+            },
+            {
+              "id": "c",
+              "text": "They give you unlimited free frontier-model tokens forever"
+            },
+            {
+              "id": "d",
+              "text": "They forbid using Git branches"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "PaaS platforms eliminate DevOps overhead so a small team or solo consultant can ship and maintain production apps reliably.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_yQVOErqhV8pF",
       "title": "Where the data lives: choosing a region",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a UK, EU or Canadian client asks you to deploy an AI system, one of the first questions their data-protection officer will ask is: **in which geographic region are our database, our application servers and our model inference calls hosted?**\n\nUnder GDPR, UK GDPR and sector rules in health, finance and government, keeping customer data and model calls inside a specific region (such as `eu-west-2` London, `eu-central-1` Frankfurt or `ca-central-1` Montreal) is often a contractual requirement. Check both where your database sits **and** which region your model endpoint routes to, as some global model endpoints route across regions unless pinned.\n\nIt is checking that a confidential archive is stored in a UK vault rather than shipped overseas without permission.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_yQVOErqhV8pF_1",
+          "type": "multiple_choice",
+          "prompt": "What must you verify when a client requires data residency in a specific region (such as the UK, EU or Canada)?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only that the company's homepage ends in `.co.uk` or `.ca`"
+            },
+            {
+              "id": "b",
+              "text": "That users are only allowed to log in during local daylight hours"
+            },
+            {
+              "id": "c",
+              "text": "That the database, file storage, application servers and the pinned model inference endpoint all process and store data in that approved region"
+            },
+            {
+              "id": "d",
+              "text": "Nothing, because cloud regions are purely decorative labels"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "True regional residency requires pinning every layer that touches personal data: storage, compute, logs and the LLM endpoint itself.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

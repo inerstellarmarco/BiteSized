@@ -5,8 +5,8 @@
     {
       "id": "bit_q4xR79qBmTvu",
       "title": "KV cache mechanics",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "During autoregressive generation, a decoder produces one token at a time, appending each new token to the sequence and running another forward pass to predict the next one. Because causal masking stops earlier tokens from ever seeing later tokens, the Key (K) and Value (V) vectors for all previously processed tokens never change as new tokens are added. The KV cache stores those past Key and Value tensors in GPU memory so each new step only needs to compute Q, K, and V for the single newest token.\n\nIt is like keeping a running subtotal at the bottom of an invoice page instead of re-adding every single line item from the start of the year whenever a customer buys one more pen.\n\nWithout a KV cache, generating a 1,000-token answer would require recomputing the entire prefix a thousand times, turning linear generation work into a sluggish quadratic crawl.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_q4xR79qBmTvu_1",
+          "type": "multiple_choice",
+          "prompt": "Why do the cached Key and Value vectors of earlier tokens remain valid when a new token is appended during decoding?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because the model weights are set to zero after the first token is generated"
+            },
+            {
+              "id": "b",
+              "text": "Because the causal mask prevents earlier tokens from attending to future tokens, so their internal representations never change"
+            },
+            {
+              "id": "c",
+              "text": "Because Key and Value matrices do not depend on the input tokens at all"
+            },
+            {
+              "id": "d",
+              "text": "Because the KV cache runs backpropagation after every generated word to update old keys"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Under causal self-attention, a token at position t depends only on tokens 1 through t, meaning its K and V projections at every layer are fixed once computed.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_MdkrtYR2DLTH",
       "title": "Memory vs. context length",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The KV cache trades GPU memory capacity for inference speed: instead of recomputing past activations, you hold them in high-bandwidth VRAM for the entire duration of the user's request. Unlike model weights, which take up a fixed amount of memory whether you serve one short prompt or ten long ones, KV cache memory scales linearly with both the active batch size (number of concurrent users) and the sequence length of their conversations.\n\nThink of a restaurant where the kitchen equipment (the model weights) takes up fixed floor space, but every diner who sits down for a five-hour banquet (a long-context request) occupies a table that no one else can use.\n\nOn long-context workloads like analysing 100-page legal contracts, the KV cache for a handful of concurrent users can easily exceed the memory footprint of the model weights themselves, becoming the primary limit on server throughput.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,43 +66,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_MdkrtYR2DLTH_1",
+          "type": "multiple_choice",
+          "prompt": "How does KV cache memory consumption behave compared with model weight memory during production serving?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "KV cache memory is fixed at startup, while model weight memory doubles with every generated token"
+            },
+            {
+              "id": "b",
+              "text": "Both model weights and the KV cache shrink as the prompt length increases"
+            },
+            {
+              "id": "c",
+              "text": "Model weight memory stays fixed, while KV cache memory grows dynamically with sequence length and concurrent request batch size"
+            },
+            {
+              "id": "d",
+              "text": "The KV cache is stored exclusively on the client's web browser rather than on the GPU"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "While weights are shared across all requests as a constant footprint, every active request requires its own dedicated KV cache proportional to its token length.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Qq9gZCFzVLz0",
       "title": "Caching keys and values avoids recomputing earlier tokens",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Notice carefully what is cached and what is not: the KV cache stores the Key and Value vectors for every past token at every layer, but it never needs to store past Query vectors. Once token t has used its Query vector $q_t$ to attend to keys $k_1 \\dots k_t$ and produce its output, $q_t$ is never needed again by any future token $t+1, t+2, \\dots$.\n\nIt is like a researcher who asks a question, files the reference notes they gathered into a shared binder (Keys and Values) for future colleagues to consult, and throws away the rough sticky note on which they scribbled the question itself (the Query).\n\nAt decoding step $T$, the single new query vector $q_T$ simply attends against the full cached history of keys $[k_1 \\dots k_T]$ and blends the cached values $[v_1 \\dots v_T]$, turning an $O(T^2)$ matrix-matrix attention step into an $O(T)$ vector-matrix operation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Qq9gZCFzVLz0_1",
+          "type": "multiple_choice",
+          "prompt": "Why does the inference cache store past Key and Value vectors but discard past Query vectors?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Future tokens only need to match their new Query against earlier Keys and Values; earlier Queries are never reused"
+            },
+            {
+              "id": "b",
+              "text": "Query vectors are ten times larger in dimension than Key and Value vectors"
+            },
+            {
+              "id": "c",
+              "text": "GPU hardware does not allow Query tensors to be written to device memory"
+            },
+            {
+              "id": "d",
+              "text": "Past Query vectors are identical to the raw integer token IDs in the prompt"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "At step T, only token T's output is needed to predict token T+1, so only $q_T$ is multiplied against all cached keys $k_1 \\dots k_T$ and values $v_1 \\dots v_T$.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_8a2CmjHTwfcm",
       "title": "Cache size grows with layers, heads, and context length",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "You can calculate a model's exact KV cache memory per token with a simple arithmetic formula that often comes up in consulting architecture reviews: $2 \\times \\text{layers} \\times \\text{KV heads} \\times \\text{head dimension} \\times \\text{bytes per element}$. The factor of 2 accounts for storing both Keys and Values. Multiply that per-token figure by the sequence length and the number of concurrent requests in the batch to get total cache memory.\n\nIt is like calculating warehouse pallet space by multiplying 2 boxes per item by the number of floors, aisles, shelf width, and total orders in the building.\n\nFor example, in a classic 70-billion-parameter model without cache compression (80 layers, 64 KV heads, 128 head dimension, 2 bytes for fp16), a single token takes 2.6 megabytes of KV cache, meaning one 32,000-token request consumes over 80 gigabytes of VRAM by itself!",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8a2CmjHTwfcm_1",
+          "type": "multiple_choice",
+          "prompt": "Which set of factors directly determines the total size of the KV cache in GPU memory?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only the vocabulary size of the tokeniser and the learning rate of the optimiser"
+            },
+            {
+              "id": "b",
+              "text": "The number of experts in the feed-forward block and the dropout probability"
+            },
+            {
+              "id": "c",
+              "text": "The disk storage format of the training corpus and the CPU clock frequency"
+            },
+            {
+              "id": "d",
+              "text": "Number of layers, number of KV heads, head dimension, numeric precision bytes, sequence length, and batch size"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Each token at each layer stores a K and V vector across all KV heads at the chosen byte precision, scaled across sequence length and concurrent batch items.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_U3r87QIMmRhv",
       "title": "Grouped-query and multi-query attention shrink the cache",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "To stop the KV cache from exhausting GPU memory, modern transformers use Multi-Query Attention (MQA) or Grouped-Query Attention (GQA). In standard Multi-Head Attention (MHA), every Query head has its own Key and Value head. MQA makes all Query heads share a single Key and Value head. GQA strikes the middle ground: it divides say 32 Query heads into 4 or 8 groups, where each group shares one Key and Value head.\n\nThink of placing one shared reference shelf on each of four team pods (GQA) instead of buying thirty-two separate libraries (MHA).\n\nGQA shrinks the KV cache by 4x to 8x while preserving almost identical accuracy to full multi-head attention.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_U3r87QIMmRhv_1",
+          "type": "multiple_choice",
+          "prompt": "How does Grouped-Query Attention (GQA) reduce the size of the KV cache compared with standard Multi-Head Attention?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Multiple Query heads share a single Key head and Value head within each group, reducing the number of K and V tensors stored"
+            },
+            {
+              "id": "b",
+              "text": "It deletes the Value matrix entirely and only computes Query-Key dot products"
+            },
+            {
+              "id": "c",
+              "text": "It restricts the maximum prompt length of the model to 512 tokens"
+            },
+            {
+              "id": "d",
+              "text": "It only caches Key and Value vectors for every tenth layer of the transformer"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "By having groups of Query heads share one K and V projection (for example, 32 Q heads sharing 8 KV heads), GQA cuts KV cache memory and bandwidth by the group ratio.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,548 @@
+// C6 C6 Fine-Tuning & Alignment
+
+@@ sll_zyRIFpfWbnBH | C6.1 When to Fine-Tune > Decision Framework
+
+## Prompting vs. RAG vs. fine-tuning
+When adapting a foundation model to a client's business problem, you have three main levers: prompt engineering, Retrieval-Augmented Generation (RAG), and fine-tuning. Prompt engineering gives instructions and a few examples inside the context window at zero training cost. RAG dynamically fetches relevant documents from an external search index and pastes them into the prompt. Fine-tuning updates the model's weights on curated task examples to change its default behaviour, tone, or skill.
+
+It is like preparing a consultant for a pitch: prompting is handing them a one-page brief, RAG is giving them access to the client's dataroom, and fine-tuning is sending them on an intensive training programme.
+
+These approaches are complementary rather than mutually exclusive; many production systems combine a fine-tuned model with a RAG pipeline and a structured system prompt.
+
+?? How do Retrieval-Augmented Generation (RAG) and fine-tuning differ in how they adapt a language model?
++ RAG supplies fresh external facts inside the prompt at run time, whereas fine-tuning updates model weights to teach skills, tone, or formats
+- RAG permanently changes the model's weights on disk, whereas fine-tuning only edits the user's text prompt
+- Fine-tuning requires a live vector database at inference time, whereas RAG deletes the context window
+- RAG can only work with image classifiers, whereas fine-tuning only works with audio models
+= RAG injects up-to-date reference documents into the context window dynamically, while fine-tuning modifies parameters to internalise consistent behaviour and formatting.
+
+## Cost, data, and maintenance tradeoffs
+Choosing between prompting, RAG, and fine-tuning requires weighing upfront engineering effort against ongoing per-request inference cost and maintenance burden. Prompting needs zero training data and launches in hours, but stuffing twenty long few-shot examples into every API call inflates token bills and latency at scale. Fine-tuning requires collecting hundreds or thousands of clean examples and managing training runs, but lets you use a much shorter prompt and often a smaller, cheaper model in production.
+
+Think of renting a furnished serviced office by the day versus signing a lease and fitting out your own custom workspace: the custom fit-out costs upfront effort, but saves money every month once you have high volume.
+
+However, every fine-tuned model becomes a custom software artefact that your client's team must version, evaluate, host, and periodically retrain.
+
+?? When does fine-tuning a smaller model often become more economical than few-shot prompting a frontier model?
++ When request volume is high enough that savings on per-call prompt tokens and model size outweigh upfront training and maintenance costs
+- When the client only needs to run five queries per month and has zero training examples
+- When the underlying business facts change every thirty seconds throughout the working day
+- When the team has no evaluation dataset and no way to test whether outputs are accurate
+= Baking task instructions and examples into the weights of a compact model slashes prompt length and per-token serving costs on high-throughput workloads.
+
+## Fine-tune for style, format, and narrow skills, not for new facts
+A golden rule for AI consultants is that fine-tuning teaches form, behaviour, and specialised task patterns, whereas RAG teaches rapidly changing facts. Fine-tuning excels when you need a model to write in a brand's exact house voice, emit complex domain-specific JSON schemas reliably, classify tricky support categories, or translate legacy code idioms.
+
+It is like sending a barrister to advocacy training: the course sharpens how they structure arguments and cross-examine witnesses, but they still read the specific case bundle before walking into court.
+
+If you try to use fine-tuning to teach a model your client's latest quarterly product catalogue or daily policy updates, the model will hallucinate plausible-sounding outdated prices and mix up details, because gradient updates are a lossy, unreliable way to store a changing database.
+
+?? Why is fine-tuning a poor choice for keeping an assistant updated on a company's daily inventory and pricing changes?
++ Weight updates store facts lossily and cannot be updated instantaneously or cited reliably like a retrieval database
+- Fine-tuning automatically deletes all numerical digits from the model's vocabulary
+- Fine-tuned models are blocked from accepting user prompts longer than ten words
+- Gradient descent can only update the first layer of a transformer when given pricing tables
+= Dynamic factual knowledge belongs in an external retrieval index (RAG) that can be updated in seconds and cited verbatim, whereas fine-tuning shapes skill and style.
+
+## Try a better prompt and retrieval first
+Every well-run consulting engagement starts by pushing prompting and retrieval as far as they can reasonably go before spending a single pound on fine-tuning. Building a clean prompt with clear instructions, a few well-chosen examples, and structured output constraints takes hours rather than weeks, and immediately establishes a working baseline and an initial pipeline of real user queries.
+
+Think of tuning up a car's tyre pressure and wheel alignment before deciding to strip down and rebuild the entire gearbox.
+
+Even when you eventually do fine-tune, the work done during the prompting and RAG phase is never wasted: the failure cases you uncover define what data you need to collect, and the high-performing frontier-model prompts can be used to generate and label synthetic training examples for your smaller fine-tuned model.
+
+?? Why should an engineering team build a strong prompting or RAG baseline before starting a fine-tuning project?
++ It solves many problems cheaply, clarifies failure modes, and establishes a benchmark that any fine-tuned model must beat
+- Because cloud GPU providers block fine-tuning jobs unless a RAG database is attached to the training script
+- Because prompting permanently modifies the base model's weights on the vendor's server
+- Because a fine-tuned model cannot be evaluated on the same test set as a prompted model
+= Starting with prompting and retrieval validates the use case quickly and provides both the baseline score and the diagnostic data needed to justify fine-tuning.
+
+## Evals decide whether fine-tuning helped
+You should never launch a fine-tuning run until you have built an automated evaluation suite ("eval") that scores outputs on a representative held-out test set of client examples. Judging a fine-tuned model by chatting with it for ten minutes ("vibe checking") is notoriously deceptive: a tweak that fixes one obvious formatting bug often quietly degrades accuracy on three other edge cases.
+
+It is like adjusting a factory machine without a quality gauge: eyeing two finished parts by hand will not tell you whether the overall defect rate just climbed by five per cent.
+
+Your evaluation suite should combine fast deterministic checks (such as JSON schema validity, regex constraints, and exact classification accuracy) with calibrated rubric grading or human review for open-ended tone and completeness, comparing the fine-tuned checkpoint directly against the un-tuned baseline.
+
+?? What is the most reliable way to verify that a fine-tuning run actually improved performance on a client's task?
++ Run an automated evaluation suite on a held-out test set and compare scores against the pre-tuning baseline
+- Check whether the training loss on the training set decreased between the first and last step
+- Ask the project sponsor to try three ad-hoc prompts in a chat playground
+- Count how many gigabytes of disk space the new checkpoint occupies
+= Only a systematic comparison on held-out test cases using task-specific metrics proves that the fine-tuned model beats the baseline without regressions.
+
+## Maintenance: retraining when the base model changes
+Fine-tuning creates an ongoing maintenance commitment because weight updates and LoRA adapters are tied to the exact architecture and weight space of one specific base model version. When a model provider deprecates a hosted base model or releases a much stronger next-generation foundation model six months later, you cannot simply copy your old fine-tuned weights over to the new architecture.
+
+It is like tailoring a bespoke suit to a specific person's measurements: if you hire a new presenter with a different build, the suit has to be tailored all over again from the cloth pattern.
+
+To make model upgrades painless for your client, the real asset you must hand over is not just the final weight checkpoint, but the version-controlled training dataset, data-cleaning scripts, and automated evaluation suite so they can fine-tune the next base model in an afternoon.
+
+?? When a foundation model provider releases a new generation of base model, how do you migrate a fine-tuned assistant to it?
++ Re-run your training pipeline and evaluation suite on the curated dataset using the new base model
+- Copy and paste the old LoRA adapter matrices directly onto the new model's layers without retraining
+- Average the weights of the old fine-tuned model with the weights of the new base model
+- Rename the weight file extension to match the new model's release date
+= Because fine-tuned weights depend on the exact parameter geometry of their original base model, upgrading to a new model family requires retraining from your saved dataset and eval pipeline.
+
+@@ sll_HgbPdhsKkhG0 | C6.1 When to Fine-Tune > Data Preparation
+
+## Instruction datasets
+An instruction dataset is a collection of structured prompt-and-response pairs formatted as conversations (typically with system, user, and assistant roles) that demonstrate the exact behaviour you want the model to learn. Unlike raw pretraining text, which contains everything from messy forum threads to unfinished web pages, an instruction dataset shows clean inputs paired with ideal target completions.
+
+Think of an instruction dataset as a training manual of gold-standard customer service recordings, where every call shows a real client enquiry followed by a textbook response from your best adviser.
+
+In business fine-tuning, each record should reflect the realistic messy inputs your users will actually type in production, paired with an assistant response that follows every formatting, tone, and policy rule without exception.
+
+?? What does each record in a supervised instruction fine-tuning dataset typically contain?
++ A realistic input prompt (often with system and user messages) paired with an ideal target assistant response
+- Unstructured paragraphs of raw web HTML with no separation between question and answer
+- A list of random floating-point numbers representing GPU clock speeds
+- Only user questions without any target responses or labels
+= Supervised instruction tuning learns by imitating complete examples that map a realistic system and user context to a gold-standard assistant reply.
+
+## Synthetic data generation and filtering
+When a client lacks enough human-written examples to fine-tune a task model, engineers often use a large, capable frontier model to generate synthetic training pairs or to rewrite rough historical logs into clean target responses. However, dumping raw synthetic outputs straight into training is risky because even top models occasionally hallucinate, ignore edge constraints, or slip into repetitive phrasing.
+
+It is like hiring a team of freelance writers to draft practice exam answers: they save huge amounts of time, but a senior examiner still needs to check every answer key before printing the book.
+
+Effective synthetic pipelines pair generation with strict automated filtering: code outputs must pass unit tests, structured JSON must validate against a schema, factual answers must verify against source documents, and a diversity filter should prune repetitive templates.
+
+?? Why must synthetic training data be filtered and verified before being used to fine-tune a model?
++ Unfiltered synthetic data often contains hallucinations, formatting flaws, or repetitive patterns that the student model will imitate
+- Synthetic tokens take up twice as much GPU memory per character as human-written tokens
+- Language models cannot compute cross-entropy loss on text generated by another language model
+- Filtering synthetic data increases the total number of parameters in the base model
+= A fine-tuned model faithfully learns the mistakes present in its training set, so programmatic verification and quality filtering are essential to keep synthetic data clean.
+
+## Data quality checks
+Before launching any fine-tuning job, running systematic data quality checks on your dataset will save far more time than tweaking optimiser hyperparameters later. Common defects include truncated completions that cut off mid-sentence, contradictory labels where two identical inputs demand opposite outputs, leaked developer notes ("TODO: fix this answer"), and unbalanced distributions where ninety per cent of examples cover only one easy category.
+
+Think of inspecting ingredients before baking a wedding cake: no adjustment to the oven temperature will rescue a cake if someone accidentally poured salt into the sugar bowl.
+
+Inspecting a random sample of fifty to a hundred training examples by eye, alongside automated scripts that check token length distributions, role alternation, and label balance, catches silent dataset bugs before they ruin a training run.
+
+?? Why is manually reading a random sample of fifty to one hundred training examples considered a best practice before fine-tuning?
++ Human inspection quickly spots subtle dataset bugs like contradictory labels, truncated answers, or awkward tone that automated scripts miss
+- Reading the examples loads them into the GPU's L1 cache automatically
+- Manual inspection replaces the need for a held-out validation or test set
+- It is required by the Python interpreter before a JSONL file can be opened
+= Automated checks catch syntax errors, but nothing beats reading real rows to discover inconsistent human annotations or flawed target responses.
+
+## Quality beats quantity: a few hundred excellent examples can matter
+Because a pretrained base model already understands grammar, reasoning, and broad world knowledge, supervised fine-tuning does not need millions of examples to steer how the model applies that existing capability. Research and industry practice consistently show that 500 to 2,000 meticulously curated, diverse, error-free examples almost always beat 50,000 noisy, repetitive records scraped carelessly from old logs.
+
+It is like coaching an experienced concert pianist on how to play a specific jazz style: ten focused masterclasses with a top teacher achieve far more than ten thousand hours of sloppy practice.
+
+In fact, training on a massive, low-quality dataset actively hurts performance by teaching the model to produce sloppy, inconsistent responses just like the average row in those uncleaned logs.
+
+?? Why can a small dataset of 1,000 carefully curated examples outperform 50,000 noisy logs when fine-tuning a pretrained LLM?
++ The pretrained model already holds broad knowledge and only needs clean, consistent demonstrations to align its output style and task behaviour
+- Pretrained models forget how to read English if a dataset contains more than two thousand rows
+- Training on 50,000 examples reduces the number of attention heads in the transformer
+- Small datasets allow the model to skip the softmax operation during inference
+= Fine-tuning elicits and shapes capabilities already learned during pretraining, so consistent, high-signal examples guide the weights cleanly without introducing noise.
+
+## Deduplicate and remove personal data
+~m
+Preparing enterprise data for fine-tuning requires two mandatory hygiene steps: removing duplicate or near-duplicate examples, and scrubbing Personally Identifiable Information (PII) and confidential secrets in line with data protection laws such as the UK GDPR and EU GDPR; check the current details for your client's regulatory and compliance obligations. Unlike a RAG database where you can enforce per-user access controls at query time, any information baked into a model's weights is accessible to everyone who queries that model.
+
+Imagine printing an internal staff directory onto the wallpaper of your public reception lobby: once it is baked into the room, you cannot hide a phone number from a visitor.
+
+If customer names, credit card numbers, or private medical details remain in the fine-tuning set, especially if duplicated across multiple rows, the fine-tuned model can memorise and regurgitate them to an unrelated user.
+
+?? Why is removing personal data (PII) from a fine-tuning dataset even more critical than in a standard database?
++ Information memorised in model weights cannot be filtered by row-level access permissions and may be regurgitated to any user
+- Language models crash with a syntax error whenever they encounter a human surname or email address
+- Removing PII doubles the context window length of the base model automatically
+- GDPR regulations only apply to relational SQL databases and never to machine learning pipelines
+= A model has no built-in access control over its own parameters, so any sensitive data memorised during fine-tuning risks leaking across user sessions.
+
+## Hold out a test set before training
+Before you do any prompt tuning, synthetic expansion, or weight updates, you must carve out a clean held-out validation and test set and lock it away from the training pipeline. Crucially, splitting must happen at the group or entity level (such as splitting by customer thread, source document, or date range) rather than by a naive random shuffle if your dataset contains related rows.
+
+It is like setting an exam paper: if the revision booklet accidentally includes five of the exact questions from Friday's final exam, a high score proves memorisation rather than genuine mastery.
+
+If you deduplicate or split carelessly so that paraphrases of the same support ticket appear in both training and test sets, your test metrics will look artificially inflated during development and then collapse the day real users start typing fresh questions.
+
+?? Why should you split a dataset by conversation thread or source document rather than shuffling individual turns at random?
++ To prevent near-identical context from leaking into both training and test sets and inflating evaluation scores
+- Because random number generators in Python cannot shuffle files larger than one megabyte
+- To ensure that the test set contains only prompts written in capital letters
+- Because the optimiser requires training examples to be sorted by character count
+= Grouping related items before splitting prevents data leakage, ensuring the test set measures generalisation to genuinely unseen client cases.
+
+## Format examples exactly as the model will see them
+A fine-tuned model is sensitive to the exact surface structure of its training prompts: system instructions, XML or markdown delimiters, field labels, and whitespace conventions. If you train a model on clean, pre-extracted text snippets, and then deploy it in production wrapped inside a verbose RAG template with three metadata headers, the mismatch between training distribution and serving distribution will degrade accuracy.
+
+Think of an actor rehearsing on an empty stage with one prop, and then walking out on opening night to find the furniture rearranged and the cues rewritten.
+
+Whenever you build a fine-tuning dataset for a client, construct every training example using the exact system prompt, context wrappers, and tool schemas that the production application will send at inference time.
+
+?? What happens if the prompt format used at production inference differs significantly from the format used during fine-tuning?
++ Model performance degrades because the inputs fall outside the structural pattern the model learned during training
+- The inference server automatically rewrites the production code to match the training script
+- The model's parameter count shrinks by half to compensate for the missing headers
+- The GPU refuses to compute attention weights on unfamiliar markdown symbols
+= Fine-tuning specialises the model to the exact input distribution and formatting cues seen in training, so training and serving formats must match closely.
+
+@@ sll__qfEGN9US7vm | C6.2 Parameter-Efficient Fine-Tuning > Transfer Learning for LLMs
+
+## Full fine-tuning
+Full fine-tuning updates every single parameter across all layers of the pretrained base model during backpropagation, just like continuing pretraining on your specialised task dataset with a smaller learning rate. Because every weight matrix is free to adapt, full fine-tuning offers the maximum theoretical capacity to shift the model's behaviour across large, complex domain datasets.
+
+It is like renovating an entire office building from the foundations to the roof rather than just refitting the meeting rooms on the top floor.
+
+However, updating billions of parameters carries a steep hardware and operational price tag: you need a large multi-GPU cluster to hold the training states, you risk overwriting the base model's general capabilities if your dataset is narrow, and every finished training run produces a massive multi-gigabyte copy of the entire model to store and deploy.
+
+?? What defines full fine-tuning compared with parameter-efficient fine-tuning (PEFT) methods?
++ Full fine-tuning computes gradients and updates every weight in the pretrained network rather than training only a small set of added parameters
+- Full fine-tuning trains the model from random initialisation without using any pretrained weights
+- Full fine-tuning updates only the final classification head and freezes all transformer layers
+- Full fine-tuning runs exclusively on CPUs without using gradient descent
+= In full fine-tuning, all parameters of the base model are unlocked and updated during backpropagation.
+
+## Catastrophic forgetting
+Catastrophic forgetting (also called catastrophic interference) occurs when fine-tuning a neural network on a narrow new task overwrites the weight configurations that supported its previously learned skills. After aggressive fine-tuning on, say, converting natural language into SQL queries, a model might become brilliant at SQL while suddenly losing its ability to summarise an email, follow safety boundaries, or hold a normal polite conversation.
+
+Imagine a bilingual translator who spends six months locked in a legal archive doing nothing but drafting Latin tax clauses, and walks out struggling to order a coffee in everyday French.
+
+Catastrophic forgetting is worst when you run full fine-tuning for too many epochs with a high learning rate on a narrow, homogeneous dataset.
+
+?? What is catastrophic forgetting when fine-tuning a large language model?
++ Training aggressively on a narrow new task causes the model to overwrite weights needed for its general language and reasoning skills
+- The GPU loses all data stored in its volatile memory when the server powers down
+- The model forgets the earlier words of a long user prompt when the KV cache overflows
+- The tokeniser deletes rare words from its vocabulary file after training finishes
+= Because all skills share the same weight matrices, large unconstrained weight updates for one narrow domain can disrupt general capabilities learned during pretraining.
+
+## Full fine-tuning needs memory for weights, gradients, and optimizer state
+Why can an 80-gigabyte GPU run inference on a 30-billion-parameter model in 16-bit precision, yet crash immediately if you try full fine-tuning on that same model? Inference only stores the weights and a small KV cache, whereas full fine-tuning must also store a gradient, a 32-bit master weight, and two 32-bit Adam states per parameter, plus forward activations.
+
+It is like parking a car in a small garage (inference) versus setting up a full workshop around it with engine hoists and tool cabinets on every side (full fine-tuning).
+
+Full mixed-precision fine-tuning with AdamW requires roughly three to four times as much parameter memory as 16-bit inference, pushing medium-sized models onto multi-GPU nodes.
+
+?? Why does full fine-tuning require several times more GPU memory than running inference on the same model?
++ Training must store per-parameter gradients, optimiser momentum and variance states, and forward activations alongside the model weights
+- Full fine-tuning duplicates the vocabulary table once for every training example in the dataset
+- Inference runs in 64-bit precision whereas training requires 256-bit floating-point numbers
+- The GPU must store a complete video recording of the user's screen during backpropagation
+= Holding gradients, 32-bit master weights, and Adam's first and second moment states for every unlocked parameter multiplies the memory footprint far beyond the inference weights alone.
+
+## Forgetting: new skills can erase old ones
+In client projects, catastrophic forgetting often shows up in subtle, business-critical ways rather than total gibberish. A customer-support chatbot fine-tuned solely on 2,000 examples of refund policy answers may start trying to issue a refund even when a customer asks a simple question about store opening hours, or may lose its instruction-tuned safety alignment and comply with adversarial prompts it used to refuse cleanly.
+
+Think of a carpenter who replaces every tool in their belt with five sizes of hammer: when a job needs a hammer it goes fast, but suddenly every screw looks like a nail too.
+
+This is why your evaluation suite must include two separate test sets: a task-specific eval to verify that the new skill improved, and a general capability and safety regression eval to confirm that broad instruction-following did not degrade.
+
+?? How can an engineering team detect whether a fine-tuning run has caused harmful forgetting on general behaviour or safety?
++ Include a general instruction-following and safety regression test set alongside the narrow domain evaluation suite
+- Check only the training loss on the narrow domain dataset after the tenth epoch
+- Measure the file size of the saved checkpoint on disk before and after training
+- Count how many milliseconds the tokeniser takes to encode a single word
+= Testing on a broad regression suite alongside your target task catches cases where narrow domain tuning degrades general helpfulness, formatting, or safety boundaries.
+
+## Mixing in general data reduces forgetting
+When you need to teach a model a strong domain skill without erasing its general conversational ability, the most effective defences are data replay (mixing a small percentage of diverse general instruction examples into your domain training dataset), using parameter-efficient fine-tuning (like LoRA), and keeping the learning rate and epoch count conservative. Even a five to ten per cent blend of general instruction, reasoning, and safety examples acts as an anchor during gradient descent.
+
+It is like an athlete focusing on a new golf swing who still spends fifteen minutes of every session doing general core stability exercises so their overall posture does not drift out of alignment.
+
+Regularisation penalties that penalise the fine-tuned model for drifting too far from the frozen base model's probability distribution also help keep general skills intact.
+
+?? How does mixing a small share of general instruction examples into a domain fine-tuning dataset help prevent catastrophic forgetting?
++ It keeps gradients anchored on diverse tasks so the optimiser cannot overwrite general language and safety capabilities
+- It reduces the total number of tokens processed during each training epoch by half
+- It converts a full fine-tuning run into a zero-shot prompting pipeline automatically
+- It allows the model to train without calculating cross-entropy loss on the domain examples
+= Replaying diverse general instruction and safety examples during training regularises the weight updates so the model retains broad capabilities while learning the new task.
+
+@@ sll_hlWQOE81E15V | C6.2 Parameter-Efficient Fine-Tuning > LoRA & QLoRA
+
+## LoRA
+Low-Rank Adaptation (LoRA) is the standard Parameter-Efficient Fine-Tuning (PEFT) method used across modern LLM projects. It works on the insight that when you adapt a large pretrained weight matrix $W$ to a downstream task, the change in weights ($\Delta W$) has a very low "intrinsic rank", meaning it can be represented accurately as the product of two tiny, narrow matrices $B$ and $A$ rather than a massive full-size matrix.
+
+Think of adjusting a giant high-resolution projection screen: instead of rebuilding the millions of pixels in the main projector, you slip a thin, lightweight corrective lens in front of the beam to shift the focus cleanly.
+
+By training only those tiny adapter matrices $A$ and $B$ (often less than one per cent of the base model's parameter count), LoRA slashes memory and compute costs while matching full fine-tuning quality on most enterprise tasks.
+
+?? What core hypothesis makes Low-Rank Adaptation (LoRA) effective for fine-tuning large language models?
++ The weight updates needed to adapt a pretrained model to a task have a low intrinsic rank and can be factored into two small matrices
+- Only the first ten tokens of any user prompt ever affect a language model's answer
+- Pretrained transformer weight matrices contain mostly zeros that can be deleted before training
+- Updating the tokeniser vocabulary is more effective than updating neural network weights
+= LoRA decomposes the weight update $\Delta W$ into two narrow low-rank matrices $B \times A$, drastically cutting the number of trainable parameters.
+
+## QLoRA
+QLoRA (Quantised Low-Rank Adaptation) takes LoRA's memory savings one step further by compressing the frozen base model weights down to 4-bit NormalFloat (NF4) precision in GPU memory, while keeping the small trainable LoRA adapter matrices in 16-bit precision (such as bf16). During the forward and backward pass, sections of the 4-bit base weights are dequantised on the fly to 16-bit floats just long enough to multiply with the activations.
+
+It is like storing your massive reference library in vacuum-packed archive boxes that take up a quarter of the room, opening one box on your desk when you need to read a chapter, and writing your new notes on a fresh notepad (the 16-bit LoRA adapters).
+
+Because both the base weights are compressed 4x and the optimiser states exist only for the tiny LoRA adapters, QLoRA lets consultants fine-tune a 70-billion-parameter model on a single high-memory GPU workstation rather than an expensive multi-node cluster.
+
+?? How does QLoRA achieve much lower GPU memory usage than standard 16-bit LoRA?
++ It freezes the base model in a compressed 4-bit format while training the small LoRA adapters in 16-bit precision
+- It quantises the trainable LoRA adapter gradients to 1-bit binary values and deletes the base model
+- It offloads the entire training dataset onto the user's mobile phone over Wi-Fi
+- It trains only on prompts that contain fewer than four words
+= By storing the massive frozen base model in 4-bit NormalFloat and maintaining 16-bit weights and optimiser states only for the tiny LoRA adapters, QLoRA slashes VRAM requirements.
+
+## Adapter merging and hot-swapping
+Because a LoRA update is just a linear addition to the original weight matrix ($W_{\text{new}} = W_0 + \frac{\alpha}{r} B A$), you have two flexible deployment choices at inference time. If you are deploying a single dedicated model, you can mathematically multiply $B$ and $A$ together and add them directly into the base weights $W_0$ once offline, resulting in zero extra inference latency compared to the base model. Alternatively, in a multi-tenant server, you can keep one shared base model $W_0$ in GPU memory and hot-swap tiny 50-megabyte LoRA adapters per request.
+
+It is like a camera with interchangeable lenses: you can either weld one favourite lens permanently onto a dedicated body, or carry one camera body and click different small lenses on and off in a second for different clients.
+
+Note that if you merge an adapter directly into a 4-bit QLoRA base model, you must first dequantise the base weights to 16-bit or re-quantise after merging so precision is not lost.
+
+?? Why does merging a trained LoRA adapter into a 16-bit base model introduce zero extra latency at inference time?
++ The low-rank matrix product $B A$ is added directly into the base weight matrix $W_0$ ahead of time, leaving the exact same matrix dimensions as before
+- Merging deletes half of the layers in the base transformer to compensate for the adapter
+- Merged models skip the self-attention step and only run the feed-forward layers
+- Merging converts the model into a static lookup table that needs no GPU calculations
+= Because $W_0 + \Delta W$ has the exact same shape as $W_0$, folding the adapter into the base weights offline leaves the forward-pass computation completely unchanged.
+
+## LoRA trains small low-rank matrices and freezes the base model
+Consider a single linear layer during LoRA training where a pretrained weight matrix $W_0$ has dimensions $4096 \times 4096$ (16.7 million parameters). LoRA freezes $W_0$ completely so it receives no gradients and needs zero Adam optimiser states. Alongside $W_0$, LoRA attaches matrix $A$ of shape $r \times 4096$ and matrix $B$ of shape $4096 \times r$ (at rank $r = 16$, just 131,072 parameters, under one per cent of $W_0$).
+
+Think of keeping a historic building's stone walls untouched while running lightweight modular wiring channels along the skirting boards.
+
+At step zero, matrix $A$ is initialised with small random values and matrix $B$ is initialised to all zeros, ensuring $\Delta W = B A = 0$ so the model starts out identical to the base model.
+
+?? Why is one of the two LoRA matrices ($B$) initialised to all zeros at the very start of training?
++ So the initial adapter contribution $B A$ is zero and the network begins training from the exact behaviour of the pretrained base model
+- Because GPUs cannot multiply two matrices if both contain non-zero numbers on the first step
+- To force the gradients of both $A$ and $B$ to stay permanently at zero throughout training
+- To erase the pretrained weights $W_0$ when the two matrices are added together
+= Initialising $B = 0$ while $A$ is random ensures $B A = 0$ at step zero without creating a symmetry deadlock, so training starts smoothly from the base model's exact predictions.
+
+## QLoRA adds a 4-bit quantized base to save memory
+When you use QLoRA, it is important to understand the compute-versus-memory trade-off: QLoRA saves a huge amount of GPU memory during training, but it does not make each training step faster than 16-bit LoRA. Because GPU tensor cores do their training arithmetic in 16-bit precision (bf16 or fp16), QLoRA must unpack and dequantise each 4-bit base weight block into 16-bit floats during every forward pass and again during every backward pass.
+
+It is like working from compressed ZIP files on a small laptop drive: zipping the archives lets you fit a massive project onto your disk, but unzipping each file every time you read a page adds a small CPU overhead.
+
+In practice, that on-the-fly dequantisation makes QLoRA slightly slower per batch than 16-bit LoRA if both fit in memory, but QLoRA wins whenever it lets you fit a job onto one affordable GPU instead of renting four.
+
+?? What is the main trade-off of using 4-bit QLoRA instead of 16-bit LoRA during training?
++ It dramatically reduces GPU memory usage, at the cost of a modest compute overhead from dequantising 4-bit base weights to 16-bit on the fly
+- It makes training ten times faster per batch, but doubles the GPU memory required
+- It allows the base model weights to be updated directly in 4-bit without using any adapters
+- It removes the need for backpropagation, but only works on datasets with fewer than ten rows
+= QLoRA trades a small speed penalty from on-the-fly dequantisation during forward and backward passes for a massive reduction in static base-model VRAM footprint.
+
+## Rank and alpha: the main settings
+When configuring a LoRA run, the main settings are target modules, rank $r$, and scaling factor $\alpha$ (alpha). Modern best practice applies LoRA to all linear layers in the transformer block (both attention projections and feed-forward MLP layers). The rank $r$ (commonly 8, 16, 32, or 64) sets the width of the bottleneck matrices $A$ and $B$, while $\alpha$ scales the adapter output via the multiplier $\frac{\alpha}{r}$.
+
+Think of rank $r$ as the number of sliders on an audio mixing desk, and $\alpha$ as the master volume knob controlling how strongly that mix blends in.
+
+Keeping $\alpha$ proportional to $r$ (such as $\alpha = 2r$) stabilises the effective update magnitude so you rarely need to retune the learning rate when changing ranks.
+
+?? In a LoRA configuration, what do the hyperparameters rank ($r$) and alpha ($\alpha$) control?
++ Rank $r$ sets the inner dimension (capacity) of the low-rank matrices, while $\alpha$ scales how strongly the adapter output is added to the base layer
+- Rank $r$ sets the number of GPUs in the cluster, while $\alpha$ sets the dropout probability on the input tokens
+- Rank $r$ limits the maximum number of words in a prompt, while $\alpha$ sets the vocabulary size
+- Rank $r$ chooses the validation split ratio, while $\alpha$ chooses the random seed for shuffling
+= Rank $r$ determines how many parameters are in $A$ and $B$, and the ratio $\frac{\alpha}{r}$ scales the magnitude of $\Delta W$ added to the frozen base weights.
+
+## One base model, many adapters for different clients or tasks
+One of the strongest commercial advantages of LoRA for an AI consultancy or SaaS platform is multi-adapter serving. Suppose your platform needs specialised models for legal extraction, SQL generation, medical coding, and twenty client-specific brand voices. With full fine-tuning, hosting twenty-three separate 70B models would require dozens of expensive GPUs running continuously.
+
+It is like a coffee shop that keeps one commercial espresso machine hot all day and clicks in different flavour syrups per order, instead of buying twenty-three separate machines.
+
+With LoRA, a single GPU node holds one copy of the frozen 70B base model in VRAM and dynamically batches requests across dozens of tiny adapters simultaneously, slashing hosting costs.
+
+?? Why is LoRA particularly attractive for a platform that serves dozens of specialised tasks or enterprise clients?
++ A single shared base model can stay loaded in GPU memory while lightweight task-specific adapters are applied dynamically per request
+- Each LoRA adapter includes its own complete copy of the base model weights so no GPU is needed
+- LoRA allows different clients' private prompts to be merged into a single shared training dataset automatically
+- Multi-adapter serving removes the need for a KV cache during autoregressive decoding
+= Because every adapter is only tens of megabytes and attaches to the exact same frozen base weights, one base model instance in VRAM can serve many custom skills simultaneously.
+
+@@ sll_y1-GUaqDeHWE | C6.3 Alignment Tuning > Supervised Fine-Tuning
+
+## SFT runs
+Supervised Fine-Tuning (SFT) is the stage that turns a raw pretrained base model (or adapts an instruction model) into a reliable task assistant by training it with cross-entropy next-token loss on curated instruction-response pairs. Whereas pretraining processes trillions of tokens over weeks, a typical domain SFT run trains over just a few hundred to a few tens of thousands of examples for 1 to 3 epochs using a small learning rate.
+
+It is like taking a university graduate who has read the entire library (pretraining) and putting them through a two-week onboarding induction so they know how to answer client emails in your firm's house format (SFT).
+
+Training for too many epochs on a small SFT dataset causes the model to memorise the training responses word-for-word, driving training loss near zero while validation loss climbs and outputs become brittle.
+
+?? How does a typical Supervised Fine-Tuning (SFT) run compare in scale and objective with base pretraining?
++ It uses the same next-token cross-entropy objective, but runs for just a few epochs on a much smaller, curated dataset of prompt-response pairs
+- It replaces cross-entropy loss with k-means clustering and runs on trillions of unlabelled web pages
+- It requires at least a hundred epochs and a learning rate ten times higher than pretraining
+- It only updates the tokeniser merge rules and leaves all neural network weights frozen
+= SFT reuses autoregressive cross-entropy loss on high-quality demonstration pairs over a short schedule so the model adopts the target format and behaviour without overfitting.
+
+## Chat templates
+~m
+Every chat or instruction model uses a specific chat template (often defined as a Jinja template inside the tokeniser configuration on Hugging Face; check the current details for your specific model family's template syntax) to serialise a list of system, user, and assistant messages into a single flat sequence of tokens. The template inserts special control tokens such as `<|im_start|>`, `<|start_header_id|>`, or `<|eot_id|>` to mark exactly where each speaker's turn begins and ends.
+
+Think of a radio communications protocol where speakers say "Over" at the end of a turn and "Out" at the end of a transmission so neither side talks over the other or forgets when to stop.
+
+Without those exact special turn-boundary tokens, the model has no reliable signal for when the user's question has finished, when its own assistant persona begins, or when to emit the end-of-turn stop token.
+
+?? What is the role of a chat template in an instruction-tuned language model?
++ It formats multi-turn system, user, and assistant messages into a single token stream with the exact special boundary tokens the model expects
+- It translates the user's prompt from English into Python source code before calling the GPU
+- It encrypts the conversation history so that the cloud provider cannot count the tokens
+- It compresses images and audio files into 4-bit floating-point weight matrices
+= A chat template wraps each role and message in the precise special delimiter tokens that the model was trained to recognise as turn boundaries and stop signals.
+
+## Train on the assistant's answers, not on the prompts
+During supervised fine-tuning on conversational data, standard practice is completion-only loss (also called prompt masking): the forward pass runs across the entire sequence of system prompt, user question, and assistant answer, but cross-entropy loss is calculated only on the assistant's response tokens (plus the end-of-turn stop token). The loss on all system and user tokens is masked out (typically by setting their target labels to `-100`).
+
+It is like marking a student's exam script: the student must read the printed exam question to write a sensible answer, but you grade them only on the answer they wrote, not on whether they memorised the wording of the question paper.
+
+Masking out the prompt tokens stops the model from wasting capacity learning to imitate user typos or boiler-plate system instructions, and focuses every gradient step squarely on producing high-quality assistant outputs, especially when prompts are long and answers are short.
+
+?? Why do SFT pipelines typically mask out the loss on system and user prompt tokens?
++ So gradient updates focus entirely on teaching the model how to generate the assistant's response rather than memorising user prompts
+- Because self-attention cannot read user prompt tokens if their loss is not masked
+- To prevent the KV cache from storing Key and Value vectors for the user's question
+- Because system and user prompts do not use token IDs from the model's vocabulary
+= The model still attends to the full prompt during the forward pass, but masking prompt labels out of the cross-entropy loss ensures weights only update to improve assistant completions.
+
+## A wrong chat template quietly ruins results
+One of the most common, frustrating bugs in real-world fine-tuning projects is a silent mismatch in chat templates or special tokens between training and inference. If you accidentally train a model using generic `"User: ... Assistant: ..."` plain text while its base weights expect `<|start_header_id|>user<|end_header_id|>`, or if you forget to train the model on the exact end-of-sequence token that your serving engine listens for, the training loss will still go down smoothly while actual inference outputs fall apart.
+
+Imagine wiring a doorbell button to the wrong frequency: the button clicks nicely under your finger, the battery light stays green, and yet nobody inside the house ever hears it ring.
+
+In production, a template mismatch typically causes the model to ramble past the end of its answer, start hallucinating fake follow-up `"User:"` turns by itself, or suffer a mysterious ten-point drop on evaluation benchmarks. Always verify the exact tokenised IDs of one training example before starting a run.
+
+?? What is a classic symptom of a chat-template or end-of-turn token mismatch between SFT training and production serving?
++ The model fails to stop at the end of its answer and continues generating imaginary user turns or repetitive text
+- The GPU refuses to load the checkpoint file and throws an immediate hardware fault
+- The training loss stays at positive infinity on every single batch
+- The model outputs only numbers sorted in descending order
+= If the end-of-turn token or role delimiter used during training does not match what the inference engine sends and listens for, the model misses its stop cue and keeps generating.
+
+## Watch validation loss and sample outputs
+When monitoring an SFT run, looking only at the training loss curve is a trap: training loss will almost always decrease steadily as the model memorises your dataset. Instead, you must watch two signals in parallel at regular checkpoints: the validation loss on a held-out split, and actual generated sample responses on a fixed set of diagnostic prompts.
+
+It is like coaching a chef: checking the thermometer (validation loss) tells you if the dish is starting to burn, while actually tasting a spoonful (sample outputs) tells you if the seasoning is right.
+
+Crucially, in generative language models, a slightly higher validation cross-entropy loss after epoch two does not always mean worse task accuracy, or conversely, a low loss on teacher-forced tokens may hide a repetition loop that only appears when the model generates long answers autoregressively from its own predictions.
+
+?? Why should you generate and inspect full sample responses at checkpoints during SFT rather than relying on cross-entropy loss curves alone?
++ Cross-entropy measures next-token teacher-forced probabilities and can miss autoregressive generation issues like repetition loops or broken stop tokens
+- Validation loss cannot be calculated on datasets that contain more than fifty examples
+- Generating sample responses automatically updates the optimiser's learning rate
+- Cross-entropy loss only measures the speed of the GPU and not the accuracy of the words
+= Teacher-forced validation loss scores one token at a time given perfect history, whereas full generation reveals how the model behaves when feeding its own outputs back in turn after turn.
+
+@@ sll_ROV8ATBAazgF | C6.3 Alignment Tuning > Preference Optimization
+
+## RLHF and reward models
+Supervised fine-tuning teaches a model to imitate demonstrations, but it is often much easier for a human expert to compare two model drafts and judge which one is clearer, safer, and more accurate than to write a flawless essay from scratch. Reinforcement Learning from Human Feedback (RLHF) captures that comparative judgement by training a separate Reward Model to predict human preferences, and then using reinforcement learning to tune the language model to maximise that reward score.
+
+Think of a dive coach who cannot perform a triple somersault themselves, but scores every dive out of ten so the athlete quickly tightens their form.
+
+While RLHF shaped early chat assistants, maintaining a separate reward model and a live reinforcement learning loop in memory simultaneously is complex and resource-heavy.
+
+?? Why is preference-based alignment useful after Supervised Fine-Tuning (SFT)?
++ Humans can often judge which of two candidate outputs is better more reliably and cheaply than writing perfect demonstrations from scratch, and preference training penalises bad habits directly
+- SFT models cannot output natural language sentences until RLHF adds a tokeniser
+- RLHF reduces the number of layers in the transformer by seventy-five per cent
+- Supervised Fine-Tuning can only be applied to encoder models like BERT
+= Preference alignment lets the model learn from both positive and negative examples, steering tone, helpfulness, and safety beyond what imitation alone achieves.
+
+## DPO
+Direct Preference Optimization (DPO) is a simpler, widely adopted alternative to classic RLHF that aligns a language model directly on pairs of preferred and rejected responses without ever training a separate reward model or running reinforcement learning sampling loops. Through a mathematical rearrangement of the RLHF objective, DPO shows that the language model itself implicitly defines a reward function through the ratio of its probabilities to a frozen reference copy of the SFT model.
+
+It is like cutting out the middleman in a supply chain: instead of training an inspector to write scorecards and then training the factory to chase the scorecard, you adjust the factory line directly from the customer's side-by-side choices.
+
+Because DPO reduces alignment to a clean, stable binary cross-entropy loss over preference pairs, it is vastly easier and cheaper to run in client projects than PPO-based RLHF.
+
+?? How does Direct Preference Optimization (DPO) simplify the alignment pipeline compared with classic RLHF?
++ It optimises the policy model directly on chosen-versus-rejected preference pairs using a closed-form loss, without training a separate reward model
+- It removes the need for any preference data and trains using only unlabelled web text
+- It updates only the tokeniser vocabulary and freezes all transformer weights
+- It replaces the transformer architecture with a random forest classifier
+= By reparameterising the reward in terms of the policy and reference model log-probabilities, DPO aligns the model with a single stable supervised-style loss step.
+
+## Reasoning training
+~m
+Modern reasoning training (such as Reinforcement Learning with Verifiable Rewards, or RLVR, using algorithms like Group Relative Policy Optimization (GRPO) popularised by models like DeepSeek-R1; check the current details for current reasoning training recipes) takes a different path from human-preference RLHF. Instead of using a subjective neural reward model on open-ended chat, the training loop gives the model checkable maths, coding, or logic problems, samples a group of candidate chain-of-thought solutions, and scores them using a deterministic verifier such as a unit-test runner or symbolic solver.
+
+It is like practising chess or competitive programming: nobody grades your handwriting style, because the code either passes the test suite or it fails.
+
+Because a deterministic verifier cannot be sweet-talked by fluent bluffing, reinforcement learning over millions of verifiable problems drives the model to discover self-correction, verification checks, and deep multi-step problem solving on its own.
+
+?? How does reasoning training with verifiable rewards (RLVR) differ from classic conversational RLHF?
++ It scores generated chain-of-thought solutions using deterministic checkable verifiers (like unit tests or exact maths answers) rather than a subjective human-preference reward model
+- It bans the model from generating any intermediate steps before the final word
+- It requires human annotators to manually grade every token in real time during GPU training
+- It can only be used on creative poetry writing where there is no right or wrong answer
+= Using objective programmatic verifiers on checkable tasks provides a noise-free reward signal that scales reinforcement learning without reward-model bluffing.
+
+## Preference data: chosen vs. rejected answers
+Whether you use RLHF or DPO, the training fuel is a preference dataset where each row contains three elements: a shared prompt $x$, a winning response $y_w$ (chosen), and a losing response $y_l$ (rejected). Typically, engineers generate several candidate responses for the same prompt from the current SFT model, and either domain experts or a calibrated judge rubric picks which candidate is better and why.
+
+Think of an optician flipping between two lenses and asking "Is it clearer with lens one, or lens two?" rather than asking the patient to write down their own prescription formula from memory.
+
+Preference tuning works particularly well for fixing stubborn bad habits that SFT struggles to eradicate: if your SFT model occasionally slips into hedging language or leaks internal formatting tags, putting that exact flawed output in the `rejected` column and the clean version in the `chosen` column explicitly pushes probability mass away from the mistake.
+
+?? What are the three core components of each training record in a preference dataset for DPO or RLHF?
++ A prompt, a preferred (chosen) response to that prompt, and a dispreferred (rejected) response to that same prompt
+- A system prompt, a random integer seed, and a validation loss scalar
+- Three unrelated user questions from different domains with no assistant answers
+- An input image, a bounding box coordinate, and a class label
+= Preference datasets pair a single shared context prompt with both a winning completion to reinforce and a losing completion to suppress.
+
+## RLHF: a reward model scores answers, then the policy is optimized
+Classic RLHF runs in two stages after Supervised Fine-Tuning. First, you train a Reward Model (an SFT model with a scalar output head) on pairs of human-ranked responses so it scores preferred answers higher than rejected ones. Second, the active language model (the "policy") generates responses, the frozen Reward Model scores them, and an RL algorithm updates the policy to increase reward while a KL-divergence penalty tethers it to the original SFT reference model.
+
+It is like a writer drafting articles to please an editor (the reward model), while a house-style rulebook (the KL penalty) prevents bizarre gimmicks.
+
+Without that KL anchor back to the reference model, the policy quickly collapses into degenerate text.
+
+?? Why does the RLHF optimisation objective include a KL-divergence penalty between the active policy model and the frozen SFT reference model?
++ To prevent the policy model from drifting too far from natural language and exploiting quirks in the imperfect reward model
+- To force the reward model to output a score of exact zero on every prompt
+- To double the vocabulary size of the active policy model after every epoch
+- To delete the system prompt from the KV cache during generation
+= The KL penalty acts as a trust region or tether, keeping the policy's output distribution close to the coherent SFT model while it optimises for higher reward.
+
+## DPO learns from preferences directly, without a separate reward model
+Inside a DPO training step, two models are compared: the trainable policy model $\pi_\theta$ and the frozen reference SFT model $\pi_{\text{ref}}$. For each preference pair $(x, y_w, y_l)$, the loss increases the log-probability of the chosen answer $y_w$ relative to the reference model, while decreasing the log-probability of the rejected answer $y_l$ relative to the reference model, weighted by how badly the implicit reward misranks the pair.
+
+Think of a balance scale where the frozen reference model marks the neutral zero point, and every step nudges the chosen tray up and the rejected tray down.
+
+When running DPO with LoRA, you only need one base model in VRAM: disabling the adapter gives $\pi_{\text{ref}}$, and enabling it gives $\pi_\theta$.
+
+?? How can an engineer run DPO without loading two separate copies of the full base model into GPU memory?
++ Use LoRA so that the base model with the adapter disabled acts as the frozen reference model and enabling the adapter gives the trainable policy
+- Delete the reference term from the DPO loss equation so there is no baseline comparison
+- Run the reference model on a human annotator's calculator once per week
+- Replace the chosen and rejected responses with a single one-word classification label
+= With LoRA, toggling the adapter off computes the exact reference log-probabilities $\pi_{\text{ref}}$ and toggling it on computes the policy $\pi_\theta$, using only one base model in memory.
+
+## Reward hacking and over-optimization
+Reward hacking (an instance of Goodhart's Law) happens when a model optimised for a proxy reward discovers superficial shortcuts that score high on the reward metric while making outputs worse for real users. A classic example in chat alignment was length and sycophancy bias: because annotators and reward models slightly favoured longer, polite answers, over-optimised models started padding every simple yes-or-no question with five paragraphs of pompous bullet points and flattery.
+
+It is like paying a software team a bonus per line of code written, and discovering that every simple five-line function has been stretched into five hundred lines of boilerplate.
+
+Stopping alignment runs before KL divergence grows too large, debiasing reward rubrics, and checking real task evals prevent reward hacking.
+
+?? What is reward hacking during alignment training?
++ The policy model exploits flaws or biases in the proxy reward signal (such as length or flattery) to get high scores without genuinely improving answer quality
+- An external attacker steals the reward model weights from the cloud storage bucket
+- The GPU clock speed increases beyond its factory specification during reinforcement learning
+- The reward model automatically fixes bugs in the Python training script
+= Because any learned reward model or rubric is an imperfect proxy for true quality, pushing optimisation too far causes the policy to game the proxy's blind spots.
+
+## Reasoning training rewards correct final answers on checkable problems
+When training a model with reinforcement learning on checkable problems (like mathematics competitions, SQL queries against a test database, or software bug fixes), researchers found a striking lesson: you should mainly reward whether the final answer is verifiably correct and meets format rules, rather than trying to micro-manage every sentence of the intermediate thinking process with a neural step-by-step critic.
+
+Think of hiring a seasoned detective to solve a case: if you judge them strictly on whether the culprit is caught with hard evidence, they will figure out the best investigative workflow; if you micro-manage how they hold their magnifying glass, they will spend all day posing for the checklist.
+
+When models are given a clean binary correctness reward plus a token budget, they naturally learn to allocate short thoughts to easy questions and extended multi-perspective checks to hard problems, a capability that transfers strongly to enterprise coding and analytical agents.
+
+?? Why do modern reasoning training pipelines prefer rewarding verifiable final correctness over scoring every intermediate thought step with a neural critic?
++ Verifiable outcome rewards cannot be easily gamed and let the model discover effective reasoning and self-correction strategies on its own
+- Neural networks are mathematically incapable of generating tokens between the prompt and the final answer
+- Checking whether a unit test passes requires ten times more GPU memory than running a 70B reward model
+- Outcome rewards force the model to answer every question in a single token without thinking
+= Programmatic verification of the final answer provides an objective, hack-resistant signal that scales reinforcement learning and encourages genuine problem-solving behaviour.

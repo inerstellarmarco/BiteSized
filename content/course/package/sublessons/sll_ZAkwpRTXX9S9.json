@@ -5,50 +5,162 @@
     {
       "id": "bit_fy3HL7k7Txks",
       "title": "ERP ties inventory, purchasing, sales, and accounting together",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Enterprise resource planning, or ERP, is an integrated software system where sales, purchasing, warehouse inventory, production, and financial accounting share a single database. When one department records an event, every connected department sees the update immediately.\n\nThink of the nervous system in a human body; when your hand touches a hot kettle, your eyes, muscles, and brain coordinate instantly rather than sending letters to each other by post.\n\nBecause everything connects, a careless change in one module ripples everywhere. If an AI agent alters an item's unit of measure from boxes to individual pieces in inventory, it can accidentally multiply invoice values across accounting.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_fy3HL7k7Txks_1",
+          "type": "multiple_choice",
+          "prompt": "Why must an AI consultant be cautious when letting an agent modify records inside an ERP system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "ERP systems delete their entire database whenever an external API logs in"
+            },
+            {
+              "id": "b",
+              "text": "Accounting modules can only be updated once a year on the final day of the tax period"
+            },
+            {
+              "id": "c",
+              "text": "Because inventory, purchasing, sales, and accounting share the same data, one bad edit ripples across departments"
+            },
+            {
+              "id": "d",
+              "text": "Changing an inventory record only affects the warehouse and never touches financial numbers"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "In an integrated ERP, operational transactions flow directly into purchasing commitments and financial ledgers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_38yTHKy8A9wW",
       "title": "One system of record prevents conflicting numbers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A single system of record is the authoritative database that the entire company agrees holds the true figure for stock, orders, and balances. Without it, departments waste hours arguing over whose spreadsheet is right in Monday morning meetings.\n\nIt is like having one official scoreboard at a football stadium; the match becomes chaos if the referee, the home fans, and the away bench each keep a different score on paper.\n\nWhen you build AI tools for a client, never let the agent create a separate shadow database that drifts out of sync with the ERP. Always read from and write back to the true system of record.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_38yTHKy8A9wW_1",
+          "type": "multiple_choice",
+          "prompt": "What problem does a single system of record solve for a growing business?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It guarantees that customers will always pay their invoices ahead of the due date"
+            },
+            {
+              "id": "b",
+              "text": "It removes the need to set user permissions or keep database backups"
+            },
+            {
+              "id": "c",
+              "text": "It allows every employee to edit financial statements without an audit trail"
+            },
+            {
+              "id": "d",
+              "text": "It prevents departments from working off conflicting spreadsheets and arguing over which numbers are true"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Having one authoritative source of truth ensures sales, operations, and finance act on the exact same figures.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lZ1YoAqJGq9N",
       "title": "Small companies often start with spreadsheets and grow into ERP",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Most small manufacturers and distributors begin by tracking stock and orders in spreadsheets because spreadsheets are cheap, flexible, and familiar. As order volume and team size grow, manual copy-pasting and broken formulas eventually force a move to structured ERP software.\n\nIt is like running a market stall out of a shoebox of cash receipts; it works fine for twenty sales a Saturday, but collapses once you open three high-street shops with twelve staff.\n\nAs a consultant, recognise where your client sits on this curve. Sometimes a ten-person firm needs a simple structured database first rather than a million-pound enterprise ERP implementation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lZ1YoAqJGq9N_1",
+          "type": "multiple_choice",
+          "prompt": "Why do growing companies eventually outgrow running their core operations on spreadsheets?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Spreadsheet software stops opening once a company hires its tenth employee"
+            },
+            {
+              "id": "b",
+              "text": "Manual copy-pasting, broken formulas, and concurrent edits lead to costly errors as transaction volume rises"
+            },
+            {
+              "id": "c",
+              "text": "Tax authorities forbid businesses from exporting financial reports to spreadsheet files"
+            },
+            {
+              "id": "d",
+              "text": "Spreadsheets cannot perform basic addition or multiplication on inventory counts"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "While spreadsheets are flexible early on, they lack the relational integrity, audit trails, and concurrency controls needed at scale.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_S6OogIpd_2iJ",
       "title": "Where AI helps most: data entry, exceptions, and answering questions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In ERP and MRP environments, AI delivers the highest return in three practical areas: extracting data from messy incoming documents, flagging operational exceptions that need human attention, and answering plain-language questions over structured records.\n\nThink of an AI assistant as a sharp junior clerk who reads the morning post, highlights the three urgent supplier problems in yellow, and fetches files from the cabinet whenever the manager asks, while leaving core accounting math to the calculator.\n\nDo not use language models to replace the deterministic MRP calculation engine itself. Let standard database code calculate stock balances and requirements, and use AI around the edges where unstructured text and human judgement meet.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_S6OogIpd_2iJ_1",
+          "type": "multiple_choice",
+          "prompt": "Which tasks are best suited for AI inside an ERP and MRP environment?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Reading unstructured documents, flagging operational exceptions, and answering plain-language data questions"
+            },
+            {
+              "id": "b",
+              "text": "Replacing deterministic database arithmetic with approximate language model guesses"
+            },
+            {
+              "id": "c",
+              "text": "Deleting audit trails so the database uses less storage space each month"
+            },
+            {
+              "id": "d",
+              "text": "Approving large bank transfers without checking purchase orders or receipts"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "AI excels at bridging unstructured documents and human questions, while deterministic code handles exact calculations and ledger entries.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,44 +5,128 @@
     {
       "id": "bit_KmRCmjbQcnlr",
       "title": "Delegation and synthesis",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In an orchestrator-workers architecture, a central orchestrator model breaks a complex request into sub-tasks, delegates each sub-task to a worker, and then synthesises the workers' results into the final output.\n\nSuppose a consultant asks an agent to compare five vendors across security, pricing and integrations. The orchestrator plans the research, spawns workers to investigate each vendor in parallel, collects their structured findings and writes the comparison matrix.\n\nIt is a partner at a consulting firm dividing a due-diligence study among associates and assembling their sections into the client deck.\n\nUnlike a fixed pipeline, the orchestrator decides at runtime which sub-tasks are needed for this specific request.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KmRCmjbQcnlr_1",
+          "type": "multiple_choice",
+          "prompt": "What makes an orchestrator-workers architecture different from a fixed parallel pipeline?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The sub-tasks are hard-coded in advance and never change"
+            },
+            {
+              "id": "b",
+              "text": "Workers are not allowed to return any text to the orchestrator"
+            },
+            {
+              "id": "c",
+              "text": "It only ever runs a single model call"
+            },
+            {
+              "id": "d",
+              "text": "The orchestrator dynamically decides at runtime how to break down the task and which workers to run"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "An orchestrator plans the sub-tasks on the fly to fit the request, rather than running the same fixed branches every time.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Ib6X55gzY88e",
       "title": "Dynamic vs. fixed worker pools",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Workers can be set up in two ways: a fixed pool of distinct specialists, or a dynamic pool of general workers created on demand.\n\nIn a fixed pool, you define named specialists up front, such as a `sql_analyst`, a `policy_researcher` and a `chart_builder`, each with its own tools and system prompt. In a dynamic pool, the orchestrator spawns as many copies of a general worker as the task needs, such as one worker per competitor or one worker per file in a repository.\n\nIt is the difference between a surgical team with fixed roles and a harvest crew where you hire ten pickers for ten rows of fruit.\n\nMany systems combine both: fixed specialist types that can be spawned in multiple copies when needed.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Ib6X55gzY88e_1",
+          "type": "multiple_choice",
+          "prompt": "When is spawning a dynamic number of workers useful?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When every request always requires the exact same two steps"
+            },
+            {
+              "id": "b",
+              "text": "When the number of sub-tasks depends on the input, such as researching N competitors or reviewing N files"
+            },
+            {
+              "id": "c",
+              "text": "When you want to prevent tasks from running in parallel"
+            },
+            {
+              "id": "d",
+              "text": "When only one model call is allowed per day"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Dynamic worker pools scale to match inputs of varying size, running one worker per item and finishing in parallel.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_e0s9gTbMfgEJ",
       "title": "Briefing a worker: goal, context, and what to return",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A worker starts with a clean context window. It does not automatically see the user's whole conversation or what other workers are doing.\n\nTherefore, the orchestrator's brief to each worker must be self-contained. It needs three things: the specific goal for this worker, the exact background context or identifiers it needs, and the format of what to return. \"Look up Acme Ltd (company number 01234567) and return a JSON object with their 2025 revenue, headcount and main UK office.\"\n\nIt is briefing a freelancer who was not in the client meeting: if you leave out a requirement, they cannot guess it.\n\nVague briefs are the number-one cause of wasted worker calls.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_e0s9gTbMfgEJ_1",
+          "type": "multiple_choice",
+          "prompt": "Why must the orchestrator give each worker a complete, self-contained brief?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Workers automatically read the minds of other workers"
+            },
+            {
+              "id": "b",
+              "text": "Shorter briefs cost ten times more tokens"
+            },
+            {
+              "id": "c",
+              "text": "Each worker runs in its own isolated context and only knows what the orchestrator passes to it"
+            },
+            {
+              "id": "d",
+              "text": "Workers cannot read system prompts"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because workers do not share the orchestrator's full history, they need the goal, key facts and output format spelled out.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_EYxJX1Exi41S",
       "title": "Workers return summaries, not everything they read",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A worker might read ten web pages, three long PDFs and a thousand database rows while doing its job. If five workers each dump all of that raw material back into the orchestrator's context, the orchestrator's context window overflows and its reasoning degrades.\n\nWorkers exist to compress information as well as find it. Each worker should digest its raw sources and return a concise, structured summary plus citations to the source IDs.\n\nIt is an analyst bringing the board a one-page briefing note with source references, not wheeling a trolley of lever-arch files into the boardroom.\n\nKeep raw tool outputs inside the worker's context and return only the distilled findings.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,19 +139,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_EYxJX1Exi41S_1",
+          "type": "multiple_choice",
+          "prompt": "Why should workers return concise summaries rather than all the raw documents they read?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The orchestrator is not allowed to read structured data"
+            },
+            {
+              "id": "b",
+              "text": "Summaries use more tokens than full PDFs"
+            },
+            {
+              "id": "c",
+              "text": "Dumping raw sources from every worker into the orchestrator bloats its context window and hurts quality"
+            },
+            {
+              "id": "d",
+              "text": "Citations are impossible to include in a summary"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Letting workers filter and distil their findings keeps the orchestrator's context clean, cheap and focused on synthesis.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit___9sTsn3Jkas",
       "title": "The orchestrator checks worker results before using them",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Workers can fail, misunderstand their brief, come back empty-handed or return incomplete data.\n\nA reliable orchestrator does not blindly paste worker outputs together. When the results come back, it checks whether each worker actually answered its brief. If Worker 3 returned an error or missed the pricing figure, the orchestrator can re-run that worker with a clearer brief, try an alternative source, or note the gap explicitly in the final report.\n\nIt is an editor checking that every reporter's section actually covers the assigned question before sending the magazine to print.\n\nChecking at the orchestrator level prevents one weak worker from quietly spoiling the whole deliverable.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q___9sTsn3Jkas_1",
+          "type": "multiple_choice",
+          "prompt": "What should the orchestrator do when a worker returns an incomplete or off-brief result?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Pretend the missing data was zero and carry on silently"
+            },
+            {
+              "id": "b",
+              "text": "Throw away the good results from all the other workers too"
+            },
+            {
+              "id": "c",
+              "text": "Re-run that sub-task with a revised brief or alternative source, or clearly report the missing piece"
+            },
+            {
+              "id": "d",
+              "text": "Crash the entire application"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Inspecting worker outputs lets the orchestrator retry just the failed sub-task or flag the gap honestly before synthesis.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

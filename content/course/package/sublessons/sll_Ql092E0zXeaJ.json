@@ -5,8 +5,8 @@
     {
       "id": "bit_WVH9EdksuV1M",
       "title": "Latent space (intuition)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A latent space is a compressed, hidden coordinate system learned by a model where complex raw inputs such as documents, images, or customer histories are mapped so that items with similar meaning sit close together.\n\nIt is like a sommelier organising thousands of wines not by bottle barcode, but on a two-axis tasting chart of sweetness against body.\n\nBecause the axes of a learned latent space are combinations of many patterns, individual coordinates rarely correspond to neat, human-named business metrics without extra probing.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,25 +19,81 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WVH9EdksuV1M_1",
+          "type": "multiple_choice",
+          "prompt": "What defines a useful latent space in machine learning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every coordinate axis is manually defined by a database administrator before training begins"
+            },
+            {
+              "id": "b",
+              "text": "High-dimensional inputs are mapped into a compact representation where semantically similar items lie near one another"
+            },
+            {
+              "id": "c",
+              "text": "Data points are spread as far apart as possible so no two records share any neighbours"
+            },
+            {
+              "id": "d",
+              "text": "Raw files are stored without compression so that exact byte sequences can be read by eye"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A latent space captures underlying structure in fewer dimensions, grouping items with shared characteristics close together.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_3OHc5f7RfekQ",
       "title": "Eigenvalues and eigenvectors (intuition)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An eigenvector of a square matrix is a special non-zero direction that does not rotate when the matrix transforms space, and its matching eigenvalue is the scalar factor by which that direction gets stretched or flipped.\n\nIt is like the main axle of a spinning globe, which stays pointed along the same line while every other point on the surface swings around it.\n\nNot every matrix has real eigenvectors, and in noisy business data only the eigenvectors with the largest eigenvalues usually carry meaningful signal rather than random jitter.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3OHc5f7RfekQ_1",
+          "type": "multiple_choice",
+          "prompt": "How do an eigenvector and its eigenvalue behave under a matrix transformation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The eigenvector rotates by ninety degrees while the eigenvalue counts the matrix rows"
+            },
+            {
+              "id": "b",
+              "text": "The eigenvector keeps its direction line while the eigenvalue tells how much it is scaled"
+            },
+            {
+              "id": "c",
+              "text": "Both the eigenvector and eigenvalue reset to zero whenever the matrix is symmetric"
+            },
+            {
+              "id": "d",
+              "text": "The eigenvalue gives the direction in space while the eigenvector gives the scalar length"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "By definition, multiplying a matrix by one of its eigenvectors produces the same vector scaled by its scalar eigenvalue.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_DpF7AiMC7gIJ",
       "title": "SVD and its link to PCA and embeddings",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Singular Value Decomposition, or SVD, factors any rectangular matrix into three simpler matrices representing input directions, singular scaling values, and output directions, which directly powers Principal Component Analysis (PCA) and classical word embeddings.\n\nIt is like breaking a complex orchestral recording into its dominant instruments, their volume levels, and how they blend across speakers.\n\nComputing a full SVD on a massive client table is expensive in memory and time, and its linear components cannot untangle curved relationships in the data.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -50,37 +106,121 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DpF7AiMC7gIJ_1",
+          "type": "multiple_choice",
+          "prompt": "How does Singular Value Decomposition (SVD) relate to Principal Component Analysis (PCA)?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "SVD replaces numerical features with decision trees before PCA sorts the leaves"
+            },
+            {
+              "id": "b",
+              "text": "SVD finds the orthogonal directions and scaling values that capture the greatest variance in a centred data matrix"
+            },
+            {
+              "id": "c",
+              "text": "SVD only works on square identity matrices whereas PCA requires three-dimensional image tensors"
+            },
+            {
+              "id": "d",
+              "text": "SVD adds random noise to prevent PCA from compressing the original feature columns"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Applying SVD to a mean-centred data matrix reveals the principal components and the amount of variance each component explains.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_q9n34JBCIRkD",
       "title": "Eigenvectors: directions a transformation only stretches",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "While almost every vector changes its angle when multiplied by a transformation matrix, eigenvectors lie along the invariant axes of that transformation and experience only pure stretching, shrinking, or sign reversal.\n\nIt is like pulling the corners of a rubber sheet along its weave lines, where threads aligned with your pull stretch straight out while diagonal drawings twist.\n\nWhen two eigenvalues are nearly equal, the individual eigenvector directions become unstable under tiny data perturbations, even though the plane they span stays steady.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_q9n34JBCIRkD_1",
+          "type": "multiple_choice",
+          "prompt": "If a non-zero vector only stretches or shrinks without changing its line of direction when multiplied by matrix M, what is that vector?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A bias vector of matrix M"
+            },
+            {
+              "id": "b",
+              "text": "An eigenvector of matrix M"
+            },
+            {
+              "id": "c",
+              "text": "A one-hot encoding of matrix M"
+            },
+            {
+              "id": "d",
+              "text": "A mini-batch gradient of matrix M"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Vectors whose span is unchanged by a linear transformation are the eigenvectors of that matrix.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_FTC9jO77yxON",
       "title": "Low-rank structure: why a big matrix can be compressed",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A large matrix has low-rank structure when its rows or columns are mostly combinations of a much smaller set of underlying patterns, allowing it to be approximated as the product of two tall-and-thin matrices.\n\nIt is like a retail chain with ten thousand stores whose weekly sales patterns really follow just five regional weather and payday templates.\n\nTruncating small singular values saves huge amounts of memory and compute, but compressing too aggressively discards rare niche signals that may matter for edge cases.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FTC9jO77yxON_1",
+          "type": "multiple_choice",
+          "prompt": "Why can many large matrices in business and machine learning be approximated by two much smaller matrices?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every large matrix consists entirely of zeros except along its main diagonal"
+            },
+            {
+              "id": "b",
+              "text": "Floating-point numbers can store an infinite amount of information inside a single byte"
+            },
+            {
+              "id": "c",
+              "text": "Their rows and columns contain redundant patterns governed by only a few independent factors"
+            },
+            {
+              "id": "d",
+              "text": "Matrix multiplication ignores all columns after the first three during inference"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "When data or weight matrices have low effective rank, most of their variation lies in a low-dimensional subspace that small factor matrices can capture.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qn35jK1K-F96",
       "title": "The link to LoRA: low-rank updates",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Low-Rank Adaptation, or LoRA, fine-tunes a large model by freezing the huge pretrained weight matrix and learning a small change written as the product of two narrow matrices with a tiny inner rank.\n\nIt is like keeping a thousand-page corporate manual locked in print while issuing a slim two-page addendum that updates how staff handle client queries.\n\nLoRA cuts memory and training cost dramatically for domain adaptation, though very low ranks can struggle when a client task demands learning an entirely new language or skill.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -93,7 +233,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qn35jK1K-F96_1",
+          "type": "multiple_choice",
+          "prompt": "How does LoRA reduce the number of trainable parameters during fine-tuning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It deletes ninety percent of the layers in the pretrained model before training starts"
+            },
+            {
+              "id": "b",
+              "text": "It freezes the original weight matrix and trains two small low-rank matrices whose product represents the weight update"
+            },
+            {
+              "id": "c",
+              "text": "It converts all floating-point weights into binary text strings that need no gradients"
+            },
+            {
+              "id": "d",
+              "text": "It trains only the final output bias scalar while discarding the input embeddings"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "By expressing the weight update as the product of two narrow matrices of rank r, LoRA learns far fewer parameters than updating the full matrix.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

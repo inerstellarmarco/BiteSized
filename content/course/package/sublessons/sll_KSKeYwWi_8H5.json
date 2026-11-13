@@ -5,20 +5,48 @@
     {
       "id": "bit_E3zqFr-D0oGm",
       "title": "Convolutions, pooling, feature maps",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A convolutional neural network (CNN) slides small learnable weight grids called filters (or kernels) across an image or signal to produce spatial activation grids called feature maps, often interspersed with pooling layers or strided convolutions that downsample resolution to summarise local regions.\n\nIt is like scanning a magnifying glass shaped to spot corners across every square centimetre of a fabric roll, marking a map wherever that pattern appears.\n\nDownsampling too aggressively in early layers can erase fine spatial details that a client needs, such as tiny hairline cracks on a circuit board or small lesions in medical scans.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_E3zqFr-D0oGm_1",
+          "type": "multiple_choice",
+          "prompt": "What does a single convolutional filter produce as it slides across an input image?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A 2D feature map showing how strongly that filter's learned pattern activates at each spatial location"
+            },
+            {
+              "id": "b",
+              "text": "A single scalar p-value for the entire dataset"
+            },
+            {
+              "id": "c",
+              "text": "A sorted list of SQL table names from the client database"
+            },
+            {
+              "id": "d",
+              "text": "A one-hot encoded vector of the image's filename characters"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "At each spatial position, the filter computes a dot product with the local image patch, building a map of where its target feature (such as an edge or texture) is present.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_M6wbSqYBCXtb",
       "title": "Learned representations and latent space",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a deep convolutional network, early layers learn simple, general patterns such as oriented edges and colour gradients, middle layers combine those into textures and object parts, and deep layers compress the input into a high-level latent representation where semantic concepts are linearly separable.\n\nIt is like an assembly of detectives where the first row spots basic lines and curves, the second row recognises eyes, wheels, or windows, and the final lead detective identifies the specific vehicle model.\n\nBecause early visual primitives like edges and textures are shared across almost all natural photography, those early layers transfer remarkably well to new client tasks.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,49 +59,161 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_M6wbSqYBCXtb_1",
+          "type": "multiple_choice",
+          "prompt": "How does the representation of an image typically evolve from the first layer to the deepest layers of a convolutional network?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Early layers recognise complete human faces, while the final layer only detects individual raw pixels"
+            },
+            {
+              "id": "b",
+              "text": "Early layers detect local edges and colours, middle layers capture textures and parts, and deep layers represent high-level semantic concepts"
+            },
+            {
+              "id": "c",
+              "text": "Every layer in the network computes the exact same edge detector at the same resolution"
+            },
+            {
+              "id": "d",
+              "text": "Deep layers discard all semantic meaning and store only the file creation timestamp"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Hierarchical composition allows each layer to combine features from the layer below into increasingly abstract, task-relevant concepts.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_jZ-b85p0jQ5O",
       "title": "Filters share weights: fewer parameters and awareness of position shifts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Unlike a fully connected dense layer that learns a separate weight for every pixel-to-neuron pair, a convolutional layer uses the exact same small filter weights at every spatial location across the image, drastically cutting parameter counts and building in translation equivariance.\n\nIt is like training one expert signature checker who walks from desk to desk with the same skill, rather than hiring ten thousand separate clerks who each only know how to check one square centimetre of paper.\n\nWeight sharing lets CNNs learn efficiently from modest image datasets, though pure convolutions do not automatically handle large rotations or scale changes without data augmentation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_jZ-b85p0jQ5O_1",
+          "type": "multiple_choice",
+          "prompt": "What are the two major benefits of sharing the same filter weights across all spatial positions in a convolutional layer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It dramatically reduces the number of trainable parameters and enables the layer to detect the same pattern regardless of where it shifts in the image"
+            },
+            {
+              "id": "b",
+              "text": "It forces the network to memorise the exact pixel coordinates of the training set and triples memory usage"
+            },
+            {
+              "id": "c",
+              "text": "It eliminates the need for backpropagation and allows weights to be solved with k-means"
+            },
+            {
+              "id": "d",
+              "text": "It makes the network automatically invariant to turning an image upside down or scaling it by tenfold"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Reusing a small kernel across the grid requires only a handful of weights per filter and means a shifted input pattern simply produces a correspondingly shifted activation.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_suEmKqYlD6Js",
       "title": "Receptive field: how much of the image a unit sees",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The receptive field of a neuron in a convolutional network is the specific patch area of the original input image that can influence that neuron's activation; stacking more convolutional layers, using strided downsampling, or using dilated convolutions causes the receptive field to grow wider with depth.\n\nIt is like a management hierarchy where a frontline supervisor watches three workbenches, a floor manager sees reports from five supervisors (fifteen benches), and the plant director sees the whole factory floor.\n\nIf your deepest layer's receptive field is smaller than the object or spatial context the client needs to judge, the model will make myopic errors because no single neuron ever sees the whole object at once.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_suEmKqYlD6Js_1",
+          "type": "multiple_choice",
+          "prompt": "Why does a neuron in the tenth convolutional layer have a larger receptive field than a neuron in the first convolutional layer?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The tenth layer always uses filters that are a thousand pixels wide"
+            },
+            {
+              "id": "b",
+              "text": "Early layers delete ninety percent of the image border before passing tensors forward"
+            },
+            {
+              "id": "c",
+              "text": "Receptive fields actually shrink to a single pixel as networks get deeper"
+            },
+            {
+              "id": "d",
+              "text": "Each layer aggregates a local neighbourhood of activations from the layer below, which themselves aggregate neighbourhoods from earlier layers"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Stacking local windows compounds their spatial coverage layer by layer, allowing deep units to integrate context across a wide region of the original image.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wSF2etV8gUua",
       "title": "Classic architectures: ResNet's skip connections",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Residual Networks (ResNets) introduced skip (or shortcut) connections that add the unmodified input of a block directly to its convolutional output (`y = F(x) + x`), allowing gradients to flow backward along an unobstructed highway and enabling networks with fifty or more layers to train reliably.\n\nIt is like giving a document editor the original draft alongside a markup sheet so they only need to write down the small changes (the residual) rather than retyping the entire book from memory at every desk.\n\nWithout skip connections, simply stacking dozens of plain layers causes even training error to degrade because gradients and identity signals get scrambled across the depth.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wSF2etV8gUua_1",
+          "type": "multiple_choice",
+          "prompt": "How does a residual skip connection (`F(x) + x`) make very deep neural networks much easier to train?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It deletes the convolutional weights during training so only the bias term is updated"
+            },
+            {
+              "id": "b",
+              "text": "It reduces the number of layers executed during the forward pass to one"
+            },
+            {
+              "id": "c",
+              "text": "It creates a direct identity path for signals and gradients to bypass layers, preventing vanishing gradients and letting blocks learn small refinements"
+            },
+            {
+              "id": "d",
+              "text": "It converts all 2D images into 1D audio waveforms before the first layer"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because the derivative of the identity branch `+ x` is 1, gradients can flow straight back to early layers even when the learned transformation `F(x)` has small weights.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Ilo_aQMS2HL9",
       "title": "Vision transformers as the alternative",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Vision Transformers (ViTs) slice an image into a grid of fixed-size patches, project each patch into a vector with a positional embedding, and pass the sequence through transformer self-attention layers so every patch can attend to every other patch globally from early on.\n\nIt is like cutting a poster into numbered puzzle tiles and letting a committee compare any two tiles across opposite corners immediately, rather than only comparing adjacent tiles first.\n\nBecause ViTs lack the built-in spatial locality priors of CNNs, they perform poorly when trained from scratch on small datasets, but excel when fine-tuned from large pretrained weights.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
@@ -86,7 +226,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Ilo_aQMS2HL9_1",
+          "type": "multiple_choice",
+          "prompt": "Why do Vision Transformers (ViTs) generally require large-scale pretraining before being applied to a small client image dataset?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "ViTs cannot run backpropagation on datasets smaller than ten million images"
+            },
+            {
+              "id": "b",
+              "text": "They lack the built-in local weight-sharing and translation priors of CNNs, so they must learn spatial structure from large amounts of data"
+            },
+            {
+              "id": "c",
+              "text": "Self-attention layers are mathematically incapable of processing colour channels"
+            },
+            {
+              "id": "d",
+              "text": "ViTs do not use any trainable weight matrices inside their layers"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Convolutions hard-code local neighbourhood structure and translation equivariance, whereas self-attention treats image patches as a general sequence and relies on pretraining to learn spatial priors.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

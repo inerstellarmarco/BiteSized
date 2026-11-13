@@ -5,8 +5,8 @@
     {
       "id": "bit_H-_JbHMv7naR",
       "title": "Decoding strategies (greedy, beam, top-k, top-p)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "At each step, the model outputs vocabulary logits scaled by temperature before softmax, and a decoding strategy chooses the next token. Greedy decoding (temperature zero) always picks the single highest-probability token, making outputs deterministic. Beam search tracks several high-probability multi-token paths. Top-k sampling samples from the k most likely tokens, while top-p (nucleus) sampling dynamically chooses from the smallest top set whose cumulative probability exceeds p.\n\nIt is like ordering at a restaurant: greedy picks the bestseller every night, top-k rolls a dice among the top five dishes, and top-p picks from tonight's standout specials.\n\nFor enterprise extraction or SQL generation, consultants usually set temperature near zero for reliable repeatability.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_H-_JbHMv7naR_1",
+          "type": "multiple_choice",
+          "prompt": "How does top-p (nucleus) sampling decide which tokens are eligible to be sampled at a given decoding step?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It sorts tokens by probability and keeps the smallest top set whose cumulative probability reaches the threshold p"
+            },
+            {
+              "id": "b",
+              "text": "It always keeps exactly ten tokens regardless of whether the model is confident or uncertain"
+            },
+            {
+              "id": "c",
+              "text": "It selects the single lowest-probability token in the vocabulary to maximise creativity"
+            },
+            {
+              "id": "d",
+              "text": "It averages the embeddings of the top hundred tokens into a new synthetic word"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Unlike top-k which keeps a fixed count of tokens, top-p adapts dynamically to model confidence by keeping only the head of the distribution that sums to probability p.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_u1X94GbKd_cg",
       "title": "Speculative decoding",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Speculative decoding accelerates token generation by pairing the large, slow target model with a tiny, fast \"draft\" model (or lightweight draft heads) that guesses several upcoming tokens in a row cheaply. The large target model then evaluates all of those drafted tokens in a single parallel forward pass, accepts every prefix token that matches its own distribution, and corrects the first token where the draft went wrong.\n\nThink of a busy senior partner whose junior associate rapidly drafts five paragraphs ahead; the partner can read and approve four good paragraphs and rewrite the fifth in one quick sitting, much faster than typing every word from scratch.\n\nBecause verifying K drafted tokens in parallel takes almost the same wall-clock time on a GPU as generating just one token, speculative decoding frequently delivers a 2x to 3x speedup while mathematically guaranteeing the exact same output distribution as the large model alone.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,13 +66,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_u1X94GbKd_cg_1",
+          "type": "multiple_choice",
+          "prompt": "Why does speculative decoding not degrade the output quality of the large target model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The small draft model has more parameters and higher accuracy than the target model"
+            },
+            {
+              "id": "b",
+              "text": "The large target model verifies the drafted tokens in parallel and rejects or corrects any token that diverges from its own distribution"
+            },
+            {
+              "id": "c",
+              "text": "Speculative decoding is only applied to whitespace and punctuation characters"
+            },
+            {
+              "id": "d",
+              "text": "The target model updates its weights via backpropagation on the draft model's outputs"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Using an exact acceptance-rejection verification step in a single parallel pass ensures the final emitted tokens follow the target model's true probability distribution.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_V-Wk5l7clH9W",
       "title": "Inference streaming",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Inference streaming sends each generated token (or small chunk of characters) over the network to the user's screen via Server-Sent Events (SSE) or WebSockets the instant it is decoded, rather than waiting for the entire response to finish first. This separates two distinct latency metrics that matter in client engagements: Time to First Token (TTFT), which measures how long the user waits before text starts appearing, and Inter-Token Latency (ITL), which measures the pace of words streaming across the screen.\n\nIt is like a live news ticker or a colleague speaking to you in real time, rather than waiting in silence for thirty seconds while they write out a full-page memo and slide it across the desk.\n\nStreaming does not reduce total GPU compute time, but since humans read at roughly four to five words per second, a fast TTFT and steady streaming make a ten-second generation feel instantaneous.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -57,43 +113,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_V-Wk5l7clH9W_1",
+          "type": "multiple_choice",
+          "prompt": "Which two user-facing latency metrics become critical to distinguish when an LLM application uses inference streaming?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Training epoch duration and validation cross-entropy loss"
+            },
+            {
+              "id": "b",
+              "text": "Time to First Token (TTFT) and Inter-Token Latency (ITL, or tokens per second during generation)"
+            },
+            {
+              "id": "c",
+              "text": "Tokeniser merge count and vocabulary file size on disk"
+            },
+            {
+              "id": "d",
+              "text": "GPU power consumption in watts and rack cooling temperature"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Streaming exposes the initial prompt-processing wait (TTFT) separately from the steady-state generation cadence (ITL), shaping how responsive the product feels to users.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_bGK6Ca7GN2FR",
       "title": "Prefill vs. decode: two phases with different bottlenecks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every LLM inference request splits into two hardware phases: prefill and decode. During prefill, the GPU processes all input prompt tokens in parallel to populate the initial KV cache and emit the first output token; this phase does large matrix-matrix multiplications and is compute-bound. During decode, the model generates subsequent tokens one by one; each step processes a single token per request and is memory-bandwidth-bound.\n\nImagine a printing press: printing a thousand-page briefing pack at once works the machinery at full power (prefill), whereas printing one single-line label every minute spends most time loading rollers (decode).\n\nConsequently, long input prompts primarily hurt Time to First Token (prefill), whereas long output responses dominate total generation duration (decode).",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_bGK6Ca7GN2FR_1",
+          "type": "multiple_choice",
+          "prompt": "Why do the prefill phase and the single-request decode phase stress completely different parts of a GPU's hardware?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Prefill runs exclusively on the computer's hard drive, whereas decode runs on the network card"
+            },
+            {
+              "id": "b",
+              "text": "Prefill processes all prompt tokens in parallel (compute-bound), whereas decode processes one token at a time and must reload all weights each step (memory-bandwidth-bound)"
+            },
+            {
+              "id": "c",
+              "text": "Prefill uses 4-bit integers, whereas decode converts the model to 64-bit double precision"
+            },
+            {
+              "id": "d",
+              "text": "Prefill only executes the first layer of the transformer, whereas decode executes all layers"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Parallel prompt processing saturates the GPU's arithmetic units, while sequential one-token decoding is starved waiting for weights and KV cache tensors to stream from VRAM.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_cUh8g8izf4EV",
       "title": "Batching requests to use the GPU well",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When serving a single user during the decode phase, the GPU must read every parameter of the model from memory just to multiply it by one tiny vector, leaving more than ninety-five per cent of its compute cores idle. Batching combines multiple concurrent users' requests together so the GPU loads each weight matrix from memory once and multiplies it against all active users' tokens simultaneously, dramatically increasing total system throughput.\n\nIt is like running a commuter train: driving an eight-carriage train down the line for a single passenger costs the same fuel and track time as carrying four hundred passengers together.\n\nModern production serving engines use continuous (in-flight) batching, which slots new incoming requests into the running batch and evicts finished requests at the granularity of individual token steps rather than making fast short requests wait for the longest request in a static batch.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_cUh8g8izf4EV_1",
+          "type": "multiple_choice",
+          "prompt": "How does continuous (in-flight) batching improve over naive static batching when serving LLM requests of varying lengths?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Completed requests exit the batch immediately and new requests join at the next token step, avoiding idle padding waits"
+            },
+            {
+              "id": "b",
+              "text": "It forces every user on the server to submit the exact same prompt text"
+            },
+            {
+              "id": "c",
+              "text": "It truncates every generated answer to exactly ten tokens so all requests finish together"
+            },
+            {
+              "id": "d",
+              "text": "It delays all incoming requests until at least ten thousand users are waiting in the queue"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "By scheduling work at the iteration (token) level rather than waiting for the longest sequence in a fixed batch to finish, continuous batching keeps GPU utilisation high and latency low.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_l2c-4U0YAwef",
       "title": "Memory bandwidth, not compute, often limits decoding",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Single-stream token generation speed is governed almost entirely by GPU memory bandwidth (how many gigabytes per second travel from High Bandwidth Memory into the compute cores), not by peak compute FLOPS. To generate just one token from a 70-billion-parameter model in 16-bit precision, the GPU must haul 140 gigabytes of weights across the memory bus, do a few arithmetic operations per weight, and repeat that entire 140-gigabyte transfer for the next token.\n\nThink of a chef who can chop an onion in one second, but has to walk down a long corridor to the pantry to fetch one onion at a time.\n\nThis is why quantising weights from 16-bit to 8-bit or 4-bit nearly doubles single-user token generation speed: halving the bytes per weight doubles how fast weights stream from memory.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_l2c-4U0YAwef_1",
+          "type": "multiple_choice",
+          "prompt": "Why does quantising a model's weights from 16-bit to 8-bit often nearly double single-user decoding speed in tokens per second?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Decoding is bottlenecked by reading all model weights from GPU memory for every single token, so halving weight bytes halves memory transfer time"
+            },
+            {
+              "id": "b",
+              "text": "Quantising weights reduces the sequence length of the user's prompt by fifty per cent"
+            },
+            {
+              "id": "c",
+              "text": "8-bit models skip half of the transformer layers during the forward pass"
+            },
+            {
+              "id": "d",
+              "text": "Quantisation removes the causal mask so all output tokens are generated in one step"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because autoregressive decoding is memory-bandwidth-bound, reducing the number of bytes transferred per parameter from HBM to SRAM directly speeds up each token step.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

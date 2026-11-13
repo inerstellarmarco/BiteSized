@@ -5,62 +5,202 @@
     {
       "id": "bit_KQGw2lMmvzCf",
       "title": "Antibody design and affinity optimization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Antibody design and affinity optimisation use machine learning to engineer large Y-shaped immune proteins so they bind a specific disease target tightly and selectively. Protein language models and structural predictors suggest amino acid mutations in the antibody's binding loops to strengthen its grip on the antigen.\n\nFor a biotech client developing an anti-inflammatory therapy, an AI model can propose fifty targeted sequence variants that improve binding tenfold without screening millions of random phages.\n\nHowever, training data for specific antibody-antigen pairs is far sparser than general protein data, and loop regions are highly flexible, making zero-shot structural predictions prone to error.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KQGw2lMmvzCf_1",
+          "type": "multiple_choice",
+          "prompt": "What is the goal of computational affinity optimisation in antibody engineering?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Converting a large protein antibody into a small orally absorbed aspirin tablet"
+            },
+            {
+              "id": "b",
+              "text": "Removing the immune system completely from patients receiving biologic therapy"
+            },
+            {
+              "id": "c",
+              "text": "Suggesting amino acid changes in the binding region to strengthen interaction with the target antigen"
+            },
+            {
+              "id": "d",
+              "text": "Sequencing the entire genome of every bacterium found in the laboratory"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Affinity optimisation uses sequence and structure models to identify specific mutations in the antibody's variable loops that improve binding to the target.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gOvipLaHoGXd",
       "title": "De novo protein design (RFdiffusion, ProteinMPNN)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "De novo protein design creates brand-new proteins from scratch that do not exist in nature, tailored to bind a target or catalyse a reaction. Tools such as RFdiffusion generate novel 3D protein backbones, while ProteinMPNN designs amino acid sequences that fold into those exact shapes; check the current details as new generative models appear rapidly.\n\nIt is like sculpting a custom mechanical bracket in 3D CAD software to fit an awkward engine part, then choosing the exact metal alloy needed to hold that shape under heat.\n\nWhile de novo binders achieve impressive hit rates in the lab compared with older physics methods, many designs still misfold, aggregate, or fail functional cell tests.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gOvipLaHoGXd_1",
+          "type": "multiple_choice",
+          "prompt": "How do tools like RFdiffusion and ProteinMPNN work together in de novo protein design?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "One recruits patients for clinical trials and the other writes regulatory submissions"
+            },
+            {
+              "id": "b",
+              "text": "One generates a novel 3D protein backbone and the other finds an amino acid sequence that folds into it"
+            },
+            {
+              "id": "c",
+              "text": "One synthesises small carbon rings and the other compresses hospital X-ray images"
+            },
+            {
+              "id": "d",
+              "text": "One sequences patient DNA and the other calculates health insurance premiums"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Modern de novo design typically pairs a structure-generation model like RFdiffusion with an inverse-folding sequence model like ProteinMPNN.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ZBjfXhwhnnP_",
       "title": "Generate the structure first, then design a sequence for it",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The structure-first paradigm in protein engineering separates geometry from sequence: first you compute a 3D backbone geometry that complements the target surface, and second you solve the inverse folding problem to find an amino acid sequence that adopts that backbone.\n\nThink of building a stone arch bridge: first you design the exact wooden frame that holds the arch's curve against the riverbanks, and then you select and place the stones that lock into that shape.\n\nThe catch is that not every mathematically smooth backbone is physically realisable by natural amino acids. Teams must filter designs by passing the predicted sequences back through folding models to check self-consistency.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ZBjfXhwhnnP__1",
+          "type": "multiple_choice",
+          "prompt": "Why do structure-first design pipelines run a folding predictor on their newly designed sequences?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To translate the protein sequence into a legal patent claim automatically"
+            },
+            {
+              "id": "b",
+              "text": "To measure the market size of the disease indication in pounds sterling"
+            },
+            {
+              "id": "c",
+              "text": "To destroy any computer files that contain hydrophobic amino acids"
+            },
+            {
+              "id": "d",
+              "text": "To verify that the proposed amino acid sequence actually folds back into the intended 3D backbone"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Because an imagined backbone might not be physically achievable, passing the designed sequence through a structure predictor checks whether it is expected to fold into the target geometry.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ecPBhu0NT9st",
       "title": "Affinity is not the only goal: stability, production, and immune response matter",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Developability in biologics encompasses all the practical properties required to turn a tight-binding protein into a manufacturable, safe medicine. Beyond target affinity, a therapeutic protein must resist clumping at high concentrations, survive storage temperatures, express well in production cells, and avoid triggering the patient's immune system.\n\nIt is like baking a commercial loaf of bread: tasting delicious fresh from the oven is not enough if it collapses during slicing, moulds in two hours, or triggers severe allergies.\n\nChasing maximum binding affinity often adds sticky hydrophobic patches on the protein surface, ruining solubility and triggering anti-drug antibodies in patients.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ecPBhu0NT9st_1",
+          "type": "multiple_choice",
+          "prompt": "Why can optimising an antibody solely for maximum binding affinity ruin a drug programme?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "High-affinity antibodies immediately turn into small-molecule gases at room temperature"
+            },
+            {
+              "id": "b",
+              "text": "Regulatory bodies forbid any biologic medicine that binds its target tightly"
+            },
+            {
+              "id": "c",
+              "text": "Mutations that boost binding often cause protein aggregation, poor manufacturing yield, or immune reactions"
+            },
+            {
+              "id": "d",
+              "text": "Stronger binding always stops host production cells from reading DNA"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Biologics must be developable; mutations that increase binding frequently introduce sticky surface patches that cause clumping, poor stability, or immunogenicity.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_kIrDoJAD44DQ",
       "title": "Lab testing remains the final judge",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Experimental characterisation is the mandatory laboratory testing phase where computationally designed proteins are expressed in living cells, purified, and measured for binding, stability, and biological function. No matter how confident a deep learning model looks, physical reality decides whether a biologic works.\n\nA client might generate ten thousand confident virtual binders on a cloud cluster over a weekend, yet discover in wet-lab surface plasmon resonance assays that only twelve actually bind the target cleanly without aggregating.\n\nAs an AI consultant, frame generative protein tools as ways to shrink the number of lab variants needed to find a winner, never as replacements for wet-lab validation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kIrDoJAD44DQ_1",
+          "type": "multiple_choice",
+          "prompt": "What is the realistic value proposition of generative AI in biologics design?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Increasing the hit rate so teams test fewer physical variants in the lab to find a viable candidate"
+            },
+            {
+              "id": "b",
+              "text": "Eliminating the need for wet-lab protein expression, purification, and binding assays"
+            },
+            {
+              "id": "c",
+              "text": "Guaranteeing that every computer-generated sequence folds and functions perfectly first time"
+            },
+            {
+              "id": "d",
+              "text": "Replacing human clinical trials with three-dimensional molecular animations"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Generative design dramatically improves experimental hit rates and speeds up design cycles, but physical lab testing remains essential to confirm expression, folding, and activity.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

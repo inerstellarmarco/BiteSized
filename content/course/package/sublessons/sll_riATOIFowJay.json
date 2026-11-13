@@ -5,8 +5,8 @@
     {
       "id": "bit_xUCuTbX52cns",
       "title": "Sensor data and anomaly detection",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Predictive maintenance uses machine learning to monitor continuous sensor streams from factory equipment and spot subtle anomalies that warn a part is wearing out before it snaps.\n\nIt is like an experienced mechanic who hears a faint new rattle in a van's gearbox and replaces a worn bearing in the workshop before the van breaks down on the motorway.\n\nUnlike generative chat tools, industrial anomaly detection relies primarily on time-series signal processing and classical machine learning models trained on normal operating patterns.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,55 +19,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xUCuTbX52cns_1",
+          "type": "multiple_choice",
+          "prompt": "How does predictive maintenance differ from traditional reactive or fixed-schedule maintenance?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It waits until a machine catches fire before ordering replacement parts"
+            },
+            {
+              "id": "b",
+              "text": "It replaces every motor in the factory every Monday regardless of condition"
+            },
+            {
+              "id": "c",
+              "text": "It uses a large language model to write poetry about broken conveyor belts"
+            },
+            {
+              "id": "d",
+              "text": "It uses live sensor patterns to spot early signs of wear so repairs happen just before a failure occurs"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Predictive maintenance targets interventions based on actual equipment condition rather than guesswork or waiting for a breakdown.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_u2I3TVBPwkF7",
       "title": "Real-world case: Siemens / GE predictive maintenance",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Industrial leaders such as Siemens and GE Vernova deploy predictive maintenance platforms across turbines, compressors, and rail fleets to detect bearing wear, thermal drift, and pressure leaks days in advance.\n\nIt is like having a remote flight engineer watching the health telemetry of thousands of engines simultaneously from a central control room.\n\nBecause industrial software suites, sensor hardware, and service contracts evolve steadily, always check the current details and ensure any pilot connects cleanly with the client's existing maintenance ticketing system.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_u2I3TVBPwkF7_1",
+          "type": "multiple_choice",
+          "prompt": "Why must an industrial predictive maintenance platform integrate with the factory's existing maintenance work-order system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because turbine sensors cannot record temperature unless a human types it in every minute"
+            },
+            {
+              "id": "b",
+              "text": "Because predictive models only work on brand-new machines bought in the last month"
+            },
+            {
+              "id": "c",
+              "text": "Because industrial platforms are designed solely for marketing teams"
+            },
+            {
+              "id": "d",
+              "text": "Because an early warning only prevents downtime if an engineer receives a clear work order and spare part in time to act"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Turning a sensor alert into a scheduled repair requires seamless integration with the workflows and spare-parts inventory of the maintenance crew.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_D41AIDKGVqbP",
       "title": "Machine data: vibration, temperature, and counts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The core inputs for industrial anomaly detection are physical machine signals such as vibration frequency, bearing temperature, acoustic noise, motor current draw, and cycle counts.\n\nFor example, a packaging line motor whose vibration rises slightly at a specific harmonic frequency while running two degrees hotter often signals a misaligned shaft weeks before it seizes.\n\nBefore promising a client an AI model, check whether their legacy machines actually log clean, time-stamped sensor readings rather than overwriting data every twenty-four hours.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_D41AIDKGVqbP_1",
+          "type": "multiple_choice",
+          "prompt": "What should an AI consultant check first when a manufacturing client asks for predictive maintenance on twenty-year-old machinery?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whether the factory floor has high-speed Wi-Fi for guest smartphones"
+            },
+            {
+              "id": "b",
+              "text": "Whether the machines can generate marketing images"
+            },
+            {
+              "id": "c",
+              "text": "Whether the operators prefer dark mode on their laptops"
+            },
+            {
+              "id": "d",
+              "text": "Whether the machines capture and store clean, time-stamped sensor history such as vibration and temperature"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Without consistent, time-stamped physical telemetry and records of past maintenance events, a predictive model has nothing reliable to learn from.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_254Ci0XIhlHF",
       "title": "Alert fatigue: too many false alarms get ignored",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Alert fatigue happens when an overly sensitive anomaly detector triggers so many false alarms that shift engineers stop trusting the system and mute the warning buzzer completely.\n\nIt is like a car alarm on your street that goes off every time a bus drives past; by the fifth time, nobody even looks out of the window when a real thief breaks in.\n\nWhen tuning thresholds for a client, balance the cost of a missed failure against the operational disruption of false alarms, and group related sensor spikes into a single clear diagnostic alert.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_254Ci0XIhlHF_1",
+          "type": "multiple_choice",
+          "prompt": "What happens on the factory floor if an anomaly detection model is tuned to be far too sensitive?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Engineers become twice as productive because they enjoy checking healthy machines"
+            },
+            {
+              "id": "b",
+              "text": "Frequent false alarms cause alert fatigue, leading engineers to ignore or disable the system even when a real fault occurs"
+            },
+            {
+              "id": "c",
+              "text": "The factory uses less electricity whenever an alarm bell rings"
+            },
+            {
+              "id": "d",
+              "text": "False alarms automatically repair worn mechanical bearings"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Calibrating alert thresholds with frontline engineers keeps the signal trustworthy and actionable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_WFgx-__iausD",
       "title": "The value: planned repairs cost less than breakdowns",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The business case for predictive maintenance rests on a simple operational truth: a planned thirty-minute repair during a shift changeover costs a fraction of an unexpected mid-shift breakdown.\n\nImagine a bottling plant where replacing a worn rubber seal during scheduled cleaning takes half an hour, whereas that seal bursting mid-run ruins ten thousand bottles and halts the line for a full day.\n\nWhen calculating ROI with a plant manager, quantify the avoided scrap, avoided overtime, and protected delivery schedules alongside the direct maintenance labour savings.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WFgx-__iausD_1",
+          "type": "multiple_choice",
+          "prompt": "Where does the largest financial benefit of predictive maintenance usually come from in a continuous manufacturing plant?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Saving a few pence by never buying lubricating oil again"
+            },
+            {
+              "id": "b",
+              "text": "Eliminating the need for qualified mechanical engineers on site"
+            },
+            {
+              "id": "c",
+              "text": "Avoiding costly unplanned line stoppages, scrapped batches, and missed customer deliveries"
+            },
+            {
+              "id": "d",
+              "text": "Running machines at double their safe operating speed permanently"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Unplanned downtime and ruined work-in-progress are vastly more expensive than the scheduled replacement of a worn component.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

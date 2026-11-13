@@ -5,20 +5,48 @@
     {
       "id": "bit_GeDQMqm-mnzW",
       "title": "Allow-lists and permission scopes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When an agent has tools that act on the world, action guardrails restrict what those tools are allowed to do.\n\nAlways prefer an **allow-list** over a deny-list. A deny-list tries to guess every dangerous command (\"do not run `DROP TABLE`\"), and attackers always find a command you forgot to list. An allow-list specifies the exact operations permitted: this agent may run `SELECT` queries on the `public_catalog` view, send emails only to `@client.co.uk` addresses, and refund orders up to £50. Everything else is rejected by default.\n\nIt is a visitor badge that opens only the ground-floor meeting rooms rather than a master key with a sticky note saying \"please stay out of the lab\".",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GeDQMqm-mnzW_1",
+          "type": "multiple_choice",
+          "prompt": "Why is an allow-list safer than a deny-list for controlling agent tool actions?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A deny-list is impossible to write in Python"
+            },
+            {
+              "id": "b",
+              "text": "Allow-lists let the agent run any command it invents"
+            },
+            {
+              "id": "c",
+              "text": "An allow-list permits only explicitly approved actions and blocks everything else by default, whereas a deny-list misses unexpected attacks"
+            },
+            {
+              "id": "d",
+              "text": "Deny-lists block legitimate actions by default"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Default-deny with an explicit allow-list ensures new or unexpected tool arguments cannot slip past your rules.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NXKNhdABkTg3",
       "title": "Sandboxing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "If an agent executes code, runs shell commands, parses untrusted files or controls a browser, it must do that work inside a **sandbox**: an isolated container or virtual machine stripped of access to your host server, production database and internal network.\n\nA good sandbox has no production secrets in its environment variables, strict CPU and memory limits, a short timeout, an ephemeral filesystem that is wiped after the run, and network access restricted to approved domains.\n\nIt is testing fireworks inside a concrete bunker rather than on the living-room carpet.\n\nEven if a prompt injection tricks the agent into running malicious code, the blast stays inside the disposable box.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,43 +59,155 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NXKNhdABkTg3_1",
+          "type": "multiple_choice",
+          "prompt": "What is the purpose of running an agent's code execution or browser tool inside a sandbox?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To isolate untrusted execution in a disposable environment so bad or injected commands cannot reach your host server, secrets or network"
+            },
+            {
+              "id": "b",
+              "text": "To give the agent direct root access to the production database"
+            },
+            {
+              "id": "c",
+              "text": "To make Python scripts run without using any CPU"
+            },
+            {
+              "id": "d",
+              "text": "To store permanent customer backups inside the temporary container"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Sandboxing contains the blast radius when an agent runs generated code or interacts with untrusted files and websites.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_pChiSeriLdHu",
       "title": "Step and spend limits",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An action guardrail should also cap the **volume** and **cost** of actions an agent can take in a single run or time window.\n\nSet limits at two levels. First, **token and step budgets** per run (for example, at most 15 tool calls and £0.50 of model spend). Second, **business action quotas**: an agent may send at most 3 emails per ticket, issue at most 1 refund per order, or update at most 20 CRM rows in one batch without human sign-off.\n\nIt is a contactless bank card that lets you tap for a coffee, but stops and asks for your PIN if someone tries to tap ten times in a row or spend £500.\n\nAction quotas turn a potential runaway bug into a small, contained hiccup.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_pChiSeriLdHu_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an agent have business action quotas (such as max rows updated or max emails sent) in addition to token limits?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Token limits and action quotas measure the exact same thing"
+            },
+            {
+              "id": "b",
+              "text": "An agent can cause serious business damage in just a few cheap tool calls if it mass-emails customers or updates thousands of records"
+            },
+            {
+              "id": "c",
+              "text": "Sending ten thousand emails always costs ten million tokens"
+            },
+            {
+              "id": "d",
+              "text": "Databases cannot count how many rows an update affects"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A single cheap tool call could delete or message thousands of records unless business-level volume caps are enforced.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_F5QvBGMyXOn_",
       "title": "Controls in code, not only in the prompt",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Writing \"Never issue a refund over £50 and never read another customer's orders\" in the system prompt is a polite request, not a security boundary.\n\nA clever user prompt or an indirect injection hidden in a support ticket can persuade the model to ignore its system prompt. Hard limits must live in the deterministic Python or TypeScript code of the tool itself: the `issue_refund` function checks `if amount > 50: raise PermissionError`, and `get_orders` takes `user_id` from the authenticated session token, never from an LLM tool argument.\n\nIt is locking the medicine cabinet with a key rather than writing \"Do not open\" on the door.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_F5QvBGMyXOn__1",
+          "type": "multiple_choice",
+          "prompt": "Where must hard security rules (such as refund caps or which user's data a tool may read) be enforced?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "In deterministic application code inside the tool handler, using the authenticated session rather than trusting model arguments"
+            },
+            {
+              "id": "b",
+              "text": "Only in the system prompt using capital letters and exclamation marks"
+            },
+            {
+              "id": "c",
+              "text": "In a polite message asked to the user before login"
+            },
+            {
+              "id": "d",
+              "text": "Nowhere, because models never ignore system prompts"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Prompts can be overridden or misunderstood; only code-level checks and session-bound permissions provide a real security boundary.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ba-DifbgA7lj",
       "title": "Each agent has its own identity and permissions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In many hasty prototypes, every agent and tool runs under one shared administrator API key or database superuser account. If any agent in the workflow is tricked, the attacker inherits keys to the whole kingdom.\n\nGive each agent its own distinct service identity and scoped credentials. The `catalog_search` agent connects with a read-only database user that can only see the products table. The `draft_support_reply` agent can create a draft in the helpdesk but cannot press Send.\n\nIt is giving each contractor on a site their own named pass with access only to the rooms their trade requires.\n\nSeparate identities also make audit logs crystal clear about which agent did what.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ba-DifbgA7lj_1",
+          "type": "multiple_choice",
+          "prompt": "Why should each agent in a system have its own scoped service identity rather than sharing one admin credential?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Sharing one admin key makes audit logs much more detailed"
+            },
+            {
+              "id": "b",
+              "text": "Read-only database accounts cost more than superuser accounts"
+            },
+            {
+              "id": "c",
+              "text": "Databases only allow one user account to exist"
+            },
+            {
+              "id": "d",
+              "text": "It limits what a compromised or faulty agent can touch and makes audit logs show clearly which agent took each action"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Per-agent credentials enforce least privilege in infrastructure and give you unambiguous audit trails.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

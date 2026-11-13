@@ -5,32 +5,88 @@
     {
       "id": "bit_uVFMwN_bAm_X",
       "title": "Auditable decision trails for every action",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When an agent operates in finance, healthcare, HR, insurance or legal workflows, regulators and internal auditors will ask a simple question: **for this specific decision on 14 October, show us exactly what information the system saw, what rules ran and why this action was taken.**\n\nAn **auditable decision trail** is an immutable record linking the input request, the exact retrieved source documents and versions, the model and prompt versions, the tool calls and results, any guardrail checks and the final output or action.\n\nIt is a dual-control bank ledger that records every voucher, check and signature behind a transaction so an auditor can reconstruct it years later.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_uVFMwN_bAm_X_1",
+          "type": "multiple_choice",
+          "prompt": "What does an auditable decision trail allow an organisation to prove?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "That the language model is a qualified human lawyer"
+            },
+            {
+              "id": "b",
+              "text": "That no computer was involved in the transaction"
+            },
+            {
+              "id": "c",
+              "text": "Exactly which inputs, source documents, model/prompt versions, tool outputs and checks led to a specific AI-assisted decision or action"
+            },
+            {
+              "id": "d",
+              "text": "Only how much electricity the data centre used that month"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Immutable decision trails provide the evidence required for regulatory compliance, customer dispute resolution and internal audit.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_B4WSoZvRi3z6",
       "title": "Linking traces to evals and incidents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Your observability traces, your incident tracker and your offline evaluation dataset should connect via clickable IDs rather than living on three separate islands.\n\nWhen a user clicks \"Report an error\" or a guardrail triggers an incident alert, attach the `trace_id` automatically to the ticket. From that trace view, give engineers a one-click **\"Add to eval dataset\"** action that exports the span's inputs and retrieved context into a new regression test case, stamped with `source_trace_id`.\n\nIt is a hospital linking an incident report directly to the patient's chart number and adding the case to the teaching rounds folder.\n\nLinking all three turns every production surprise into a permanent test in minutes.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_B4WSoZvRi3z6_1",
+          "type": "multiple_choice",
+          "prompt": "Why should your incident tickets and new evaluation test cases store the `trace_id` of the production run that triggered them?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So engineers can jump straight to the exact production context and convert real incidents into permanent regression tests with full provenance"
+            },
+            {
+              "id": "b",
+              "text": "Because `trace_id` values make database queries run without indexes"
+            },
+            {
+              "id": "c",
+              "text": "To stop users from ever reporting bugs"
+            },
+            {
+              "id": "d",
+              "text": "Because evaluation datasets can only hold trace IDs and no text"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Connecting incidents, traces and eval items creates a tight feedback loop from live problem to reproduced bug to permanent test.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TNbKkfkeN7FF",
       "title": "Who approved what, and when",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In any human-in-the-loop workflow, the audit trail is incomplete if it stops at the moment the agent paused.\n\nWhen a human reviewer clicks Approve, Edit or Reject on an action card, record a tamper-evident audit entry: the **authenticated user ID and role** of the reviewer, the **exact timestamp**, the **action payload shown to them**, any **edits they made** before approving (the diff between the agent's proposal and the final executed action), and their **reason note** if provided.\n\nIt is a pharmacist initialing and dating the prescription label after checking the dosage prepared by the dispensary assistant.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
@@ -43,19 +99,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TNbKkfkeN7FF_1",
+          "type": "multiple_choice",
+          "prompt": "What must the audit log record when a human approves or edits an agent's proposed action?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only that a button was clicked by someone unknown"
+            },
+            {
+              "id": "b",
+              "text": "Only the agent's first draft, throwing away the human's edits"
+            },
+            {
+              "id": "c",
+              "text": "Who the authenticated reviewer was, when they decided, the exact proposal they saw, and any edits or reason notes they made"
+            },
+            {
+              "id": "d",
+              "text": "The reviewer's home address and personal bank balance"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Logging the reviewer's identity, timestamp and exact diff proves human oversight and shows where humans had to correct the agent.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_aFhNKFDGiLRz",
       "title": "How long to keep records",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Keeping every raw trace forever conflicts with privacy rules, while deleting everything after 24 hours leaves you blind to last week's billing dispute.\n\nDefine an explicit **retention policy** split into tiers. Keep **full debug traces** (with redacted text) for a short operational window, such as 14 to 30 days, so engineers can diagnose recent bugs. Keep **structured audit records and aggregate metrics** (who approved what, cost, latency, pass/fail flags, version hashes, with personal data stripped or governed by legal retention rules) for the period required by the client's sector (for example, 1 to 7 years in regulated finance). Also ensure your \"delete user data\" workflow purges that user's records across traces too.\n\nIt is keeping CCTV tape for thirty days while keeping signed tax receipts for six years.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_aFhNKFDGiLRz_1",
+          "type": "multiple_choice",
+          "prompt": "Why do production AI systems typically use tiered retention (short retention for verbose debug traces, longer retention for compact audit records)?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because hard drives automatically erase all files after 48 hours"
+            },
+            {
+              "id": "b",
+              "text": "It balances GDPR data-minimisation and storage costs with the need to debug recent issues and retain required compliance audit logs"
+            },
+            {
+              "id": "c",
+              "text": "Because privacy laws require keeping every user's personal chat messages forever"
+            },
+            {
+              "id": "d",
+              "text": "To make debugging yesterday's bugs impossible"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Separating short-lived debug logs from long-term compliance records respects privacy rules while keeping audit trails intact.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

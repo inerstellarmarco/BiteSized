@@ -5,8 +5,8 @@
     {
       "id": "bit_UeFSLzqf-Gpw",
       "title": "Random variables and distributions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A random variable is a numerical outcome of an uncertain process, and its probability distribution describes how likely each possible value or range of values is to occur.\n\nIt is like tracking daily call-centre volume for a telecom client, where the exact number of calls tomorrow is uncertain but follows a predictable spread over the year.\n\nA distribution summarises uncertainty across many trials, so it never guarantees the exact outcome of a single tomorrow, only the long-run pattern and risk bounds.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_UeFSLzqf-Gpw_1",
+          "type": "multiple_choice",
+          "prompt": "What does a probability distribution provide for a random variable?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A rule or curve assigning likelihoods to the different values the variable can take"
+            },
+            {
+              "id": "b",
+              "text": "A deterministic formula that predicts the exact single value of the next observation without error"
+            },
+            {
+              "id": "c",
+              "text": "A method for removing all variance from a client's historical sales database"
+            },
+            {
+              "id": "d",
+              "text": "A list of model hyperparameters sorted by their memory consumption"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A probability distribution maps every possible outcome or interval of a random variable to its probability or density.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_e0usVDo75U86",
       "title": "Softmax",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The softmax function takes a vector of raw, unconstrained model scores called logits, exponentiates each number to make it positive, and divides by their total sum so the outputs form a valid probability distribution adding to one.\n\nIt is like converting raw judge points in a talent contest into percentage shares of the total prize pool.\n\nBecause softmax sums to one across a fixed list of classes, it forces the model to assign high probability to one class even when given an out-of-scope input that belongs to none of them.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,67 +66,235 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_e0usVDo75U86_1",
+          "type": "multiple_choice",
+          "prompt": "What does the softmax function do to a vector of raw class scores (logits)?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It exponentiates and normalises them into positive numbers that sum to 1.0"
+            },
+            {
+              "id": "b",
+              "text": "It clips negative numbers to zero and leaves positive numbers unchanged"
+            },
+            {
+              "id": "c",
+              "text": "It sorts the vector in descending order without changing the numerical values"
+            },
+            {
+              "id": "d",
+              "text": "It maps every score independently into the range -1 to +1 using a tangent curve"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Softmax applies the exponential function to each logit and divides by the sum of all exponentials, producing a categorical probability distribution.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_xlnRPTBrn_lV",
       "title": "Bayes' theorem and conditional probability",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Conditional probability measures the chance of an event given that another event has already happened, and Bayes' theorem updates a prior belief with new evidence to calculate the revised posterior probability.\n\nIt is like a fraud analyst starting with the low baseline rate of stolen cards, then updating the suspicion score sharply upward when a card is used in two countries within ten minutes.\n\nIgnoring the prior base rate is a classic consulting pitfall, because even an accurate detector produces mostly false alarms when the true event is extremely rare.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_xlnRPTBrn_lV_1",
+          "type": "multiple_choice",
+          "prompt": "Why does Bayes' theorem include the prior probability of an event when interpreting a positive test or model alert?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because a rare event can still have a low true probability after a positive alert if false positives outnumber rare true cases"
+            },
+            {
+              "id": "b",
+              "text": "Because prior probabilities always equal 0.5 in every business application"
+            },
+            {
+              "id": "c",
+              "text": "Because conditional probability ignores the new evidence and returns the prior unchanged"
+            },
+            {
+              "id": "d",
+              "text": "Because multiplying by the prior removes the need to measure test sensitivity"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Bayes' theorem weighs the likelihood of the new evidence against the baseline prevalence (the prior) to compute the true posterior probability.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_nmA_4SDwBwEX",
       "title": "Common distributions: normal, Bernoulli, and categorical",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The Bernoulli distribution models a single yes-or-no coin flip, the categorical distribution models a choice among several discrete classes, and the normal (Gaussian) distribution models continuous measurements clustered symmetrically around a mean.\n\nIt is like a retailer modelling whether a visitor buys anything at all (Bernoulli), which department they pick (categorical), and the continuous parcel weight (normal).\n\nMany financial and web metrics have heavy tails with extreme outliers, so assuming a neat normal bell curve for client revenue or latency can severely underestimate tail risk.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_nmA_4SDwBwEX_1",
+          "type": "multiple_choice",
+          "prompt": "Which probability distribution matches a single binary outcome such as whether an email is spam or not?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Categorical distribution with ten classes"
+            },
+            {
+              "id": "b",
+              "text": "Continuous normal distribution"
+            },
+            {
+              "id": "c",
+              "text": "Bernoulli distribution"
+            },
+            {
+              "id": "d",
+              "text": "Uniform continuous distribution over all real numbers"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A Bernoulli distribution models a single trial with two possible outcomes, typically labelled 1 and 0 with probability p and 1-p.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_XOMepmet1t9P",
       "title": "Expectation and variance",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The expectation (or mean) of a random variable is its probability-weighted average outcome, while the variance measures the expected squared distance from that mean, capturing how spread out or volatile the outcomes are.\n\nIt is like comparing two investment funds that both average a six percent annual return, where one delivers steady gains and the other swings wildly between losses and jackpots.\n\nRelying on expectation alone hides operational risk; a client service system with an acceptable average response time may still breach contracts if its variance is high.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_XOMepmet1t9P_1",
+          "type": "multiple_choice",
+          "prompt": "What does the variance of a random variable measure?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "How far the possible values spread out around the expected value (mean)"
+            },
+            {
+              "id": "b",
+              "text": "The single most frequent category in a text dataset"
+            },
+            {
+              "id": "c",
+              "text": "The directional slope of the loss function with respect to the first weight"
+            },
+            {
+              "id": "d",
+              "text": "The exact midpoint after sorting the sample from lowest to highest"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Variance quantifies dispersion by averaging the squared deviations of outcomes from their expected value.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ijZWVLosW580",
       "title": "Independence, and why it rarely holds in real data",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Two random variables are statistically independent if knowing the value of one gives you zero information about the value of the other, meaning their joint probability is simply the product of their individual probabilities.\n\nIt is like assuming that a shopper's umbrella purchase has nothing to do with whether they also buy raincoats on the same afternoon.\n\nIn real client data, features and even separate rows are almost always tangled by shared seasons, economic shifts, or repeat customers, so naive independence assumptions regularly underestimate combined risk.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ijZWVLosW580_1",
+          "type": "multiple_choice",
+          "prompt": "When are two events A and B statistically independent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When A and B can never occur together on the same day"
+            },
+            {
+              "id": "b",
+              "text": "When knowing that A occurred does not change the probability that B occurs"
+            },
+            {
+              "id": "c",
+              "text": "When A and B have the exact same mean and variance"
+            },
+            {
+              "id": "d",
+              "text": "When A causes B to happen in every recorded observation"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Independence means the conditional probability of B given A equals the unconditional probability of B, so their joint probability equals P(A) times P(B).",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4t-yZUgdMV6k",
       "title": "Maximum likelihood: choosing the parameters that make the data most likely",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Maximum likelihood estimation (MLE) is the principle of fitting a statistical or machine learning model by finding the parameter values that assign the highest combined probability to the outcomes actually observed in the training data.\n\nIt is like a detective hearing three witnesses and choosing the timeline of events that makes all three witness statements most plausible together.\n\nWith small datasets or huge models, pure maximum likelihood readily overfits by latching onto accidental quirks in the sample unless you add regularisation or prior beliefs.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4t-yZUgdMV6k_1",
+          "type": "multiple_choice",
+          "prompt": "What is the goal of maximum likelihood estimation when fitting model parameters?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To choose parameters that make every prediction equal to a uniform random guess"
+            },
+            {
+              "id": "b",
+              "text": "To find the parameter values under which the observed training data would have the highest probability of occurring"
+            },
+            {
+              "id": "c",
+              "text": "To minimise the number of rows in the training set before fitting the model"
+            },
+            {
+              "id": "d",
+              "text": "To force all model weights to equal zero regardless of the observed labels"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Maximum likelihood selects the parameters that maximise the likelihood (or log-likelihood) of the observed data sample.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

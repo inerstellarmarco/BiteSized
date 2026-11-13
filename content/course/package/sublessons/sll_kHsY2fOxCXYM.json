@@ -5,62 +5,202 @@
     {
       "id": "bit_KQx8MhLY8029",
       "title": "LLM evals as the unit tests of AI",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In traditional software, unit tests check that `calculate_tax(100)` always returns `20`. In AI engineering, **evaluations (evals)** play the same role, adapted for outputs that are flexible rather than identical character for character.\n\nAn eval suite is a collection of representative test inputs paired with scoring functions that check whether the model or agent produced an acceptable, accurate, safe result. Whenever you change a prompt, swap a model, update a tool or tweak your chunking, you run the eval suite to see whether quality went up or down.\n\nIt is a flight simulator that every software change must land safely in before it goes near real passengers.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_KQx8MhLY8029_1",
+          "type": "multiple_choice",
+          "prompt": "What role do evaluations (evals) play in an AI engineering project?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They replace the need for any database in production"
+            },
+            {
+              "id": "b",
+              "text": "They guarantee that a model will never use any tokens"
+            },
+            {
+              "id": "c",
+              "text": "They act like automated tests that measure whether prompt, model or code changes improve or break system quality"
+            },
+            {
+              "id": "d",
+              "text": "They are marketing brochures written for investors"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Evals turn subjective impressions into repeatable measurements you can run before every change goes live.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_vhM-DT-wVowr",
       "title": "Offline vs. online evaluation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Evaluation happens in two places: **offline** before deployment and **online** in live production.\n\n**Offline evaluation** runs your fixed benchmark dataset against a candidate version of your system in development or CI. Because the test inputs are the same every time, offline evals give you a clean apples-to-apples comparison between two prompts or two models before a single user is affected. **Online evaluation** monitors real live traffic in production using guardrails, sampled judge scores, latency logs and user feedback signals (edits, thumbs-down, escalations).\n\nIt is crash-testing a car in the lab before launch (offline) and reading engine telemetry from cars on the road (online).\n\nYou need offline evals to catch regressions early and online evals to catch new real-world edge cases.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_vhM-DT-wVowr_1",
+          "type": "multiple_choice",
+          "prompt": "How do offline and online evaluation complement each other?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Offline evals run only when the office internet is broken"
+            },
+            {
+              "id": "b",
+              "text": "Online evals replace the need to test changes before deploying them"
+            },
+            {
+              "id": "c",
+              "text": "Both run only once when the project shuts down"
+            },
+            {
+              "id": "d",
+              "text": "Offline evals compare changes on a fixed test set before release, while online evals monitor real user traffic in production"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Offline evals keep bad changes from shipping, and online evals reveal new patterns that real users bring in production.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wpITNIH4zIMi",
       "title": "Without evals, every change is a guess",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Teams without an eval suite fall into the \"vibe check\" trap. A developer tweaks the system prompt to fix one bad answer they saw this morning, tries three questions by hand, says \"looks better to me\" and deploys to production. Unseen, that prompt tweak quietly broke ten other cases that used to work.\n\nWithout a systematic test set and score, you are playing whack-a-mole in the dark. You cannot tell whether a new model release is worth switching to, whether a cheaper prompt is just as accurate, or whether your RAG changes actually helped.\n\nIt is adjusting a telescope lens with your eyes shut and hoping the stars are sharper.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wpITNIH4zIMi_1",
+          "type": "multiple_choice",
+          "prompt": "What happens when a team tunes prompts by checking only two or three examples by hand (\"vibe checking\")?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The system automatically reaches 100% accuracy within a week"
+            },
+            {
+              "id": "b",
+              "text": "Fixing one example often silently breaks other cases, and the team has no way to know whether overall quality improved or worsened"
+            },
+            {
+              "id": "c",
+              "text": "It saves time across the whole life of the project"
+            },
+            {
+              "id": "d",
+              "text": "Provider API costs drop by half"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Only a repeatable eval suite across diverse cases tells you whether a change is a net improvement or a regression.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gxoPScGdipOS",
       "title": "Define success before you build",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "As a consultant, one of the highest-leverage questions you can ask a client in week one is: \"Show me ten examples of a good output and tell me what would make an output unacceptable.\"\n\nWriting down the evaluation criteria and collecting sample test cases *before* you build the architecture clarifies every requirement. You discover early that \"a good summary\" actually means \"under 150 words, quotes exact policy numbers, never promises a refund and flags urgent legal threats\".\n\nIt is agreeing the specification and inspection checklist with the homeowner before laying the foundations of the extension.\n\nEval-driven development stops you building the wrong system fast.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gxoPScGdipOS_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you define evaluation criteria and sample test cases before building the agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "So you can delete the criteria as soon as coding starts"
+            },
+            {
+              "id": "b",
+              "text": "Because models cannot run until at least ten thousand test cases exist"
+            },
+            {
+              "id": "c",
+              "text": "To delay the project by six months before writing a line of code"
+            },
+            {
+              "id": "d",
+              "text": "It turns vague goals into concrete, agreed rules for what good looks like and guides every design choice"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Agreeing how outputs will be judged up front exposes hidden requirements and gives you a target from day one.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wFBbEduuTtlB",
       "title": "Start small: twenty real cases beat none",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Many teams put off building evals because they think they need a thousand perfectly labelled academic benchmarks before they can start. So they build nothing.\n\nIn practice, twenty to fifty real examples taken from the client's actual inbox, support tickets or documents are enough to catch the majority of obvious regressions and get your harness running in an afternoon. Pick ten routine cases, five or six tricky edge cases and a few known failure cases.\n\nIt is tasting twenty spoonfuls from different parts of the soup pot: you do not need to drink the whole cauldron to know it needs salt.\n\nStart with twenty real cases on day one and grow the set every week.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wFBbEduuTtlB_1",
+          "type": "multiple_choice",
+          "prompt": "Why is starting with twenty real client examples better than waiting until you have a thousand?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Evaluation scripts refuse to run on more than twenty items"
+            },
+            {
+              "id": "b",
+              "text": "Twenty real cases can be assembled in an afternoon and immediately catch major regressions, whereas waiting often means having no evals at all"
+            },
+            {
+              "id": "c",
+              "text": "Fake random strings are always better than real client examples"
+            },
+            {
+              "id": "d",
+              "text": "A thousand examples always give worse statistical accuracy than twenty"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "A small, realistic test set running today beats a giant theoretical dataset that never gets built.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

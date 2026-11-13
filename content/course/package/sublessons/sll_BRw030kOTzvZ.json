@@ -5,80 +5,248 @@
     {
       "id": "bit_em7WsDPrfZR8",
       "title": "Autoencoders and VAEs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "An autoencoder is a neural network with an hourglass shape: an encoder compresses a high-dimensional input into a small bottleneck vector, and a decoder tries to reconstruct the original input from that compressed code. A variational autoencoder (VAE) adds a probabilistic twist by forcing the encoder to output a smooth probability distribution in latent space rather than isolated, arbitrary points.\n\nThink of a standard autoencoder as a warehouse clerk who stuffs parcels onto random unmarked shelves, whereas a VAE organises every shelf systematically so you can pick any spot and find a coherent item.\n\nStandard autoencoders are useful for dimensionality reduction and anomaly detection, because unusual inputs reconstruct poorly. However, if you sample a random point in a standard autoencoder's bottleneck, the decoder usually outputs gibberish, which is why VAEs are needed when you want to generate brand-new variations.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_em7WsDPrfZR8_1",
+          "type": "multiple_choice",
+          "prompt": "How does a variational autoencoder (VAE) differ from a standard autoencoder?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It removes the decoder network entirely and only outputs classification labels"
+            },
+            {
+              "id": "b",
+              "text": "It stores every training image lossless without compressing the representation"
+            },
+            {
+              "id": "c",
+              "text": "It regularises the bottleneck into a smooth probability distribution so new samples can be generated reliably"
+            },
+            {
+              "id": "d",
+              "text": "It trains using a competitive game between two adversarial networks"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "By constraining encoded distributions to stay close to a smooth prior (typically a unit Gaussian), a VAE makes its latent space continuous and sampleable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TXK9ucn367po",
       "title": "GANs and diffusion models",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Generative adversarial networks (GANs) and diffusion models are two major families for generating realistic images, audio, and media. A GAN pairs a generator that creates synthetic samples in a single forward pass with a discriminator that tries to spot fakes. A diffusion model instead learns to reverse a gradual noising process, turning pure static into a coherent sample over dozens of iterative cleanup steps.\n\nIt is like the difference between a sprinter who leaps across a gap in one explosive jump (a GAN) and a painter who builds up a canvas through fifty careful passes (a diffusion model).\n\nGANs generate outputs very quickly at inference time, but they are notoriously tricky to train and prone to dropping modes of the data distribution. Diffusion models train much more stably and dominate modern image and video generation, at the cost of slower multi-step sampling unless distilled.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TXK9ucn367po_1",
+          "type": "multiple_choice",
+          "prompt": "What is the main operational difference between a GAN and a standard diffusion model at generation time?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "A GAN produces an output in a single forward pass, while a diffusion model refines noise over multiple steps"
+            },
+            {
+              "id": "b",
+              "text": "A GAN requires a text prompt of at least a thousand words, while a diffusion model takes no inputs"
+            },
+            {
+              "id": "c",
+              "text": "A diffusion model can only generate tabular spreadsheets, while a GAN generates images"
+            },
+            {
+              "id": "d",
+              "text": "A GAN requires backpropagation during inference, while a diffusion model uses no neural network weights"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "GAN generators map a latent vector to an output in one step, whereas diffusion models iteratively denoise a sample across a sequence of steps.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Wxlict9YKlUr",
       "title": "VAE: a smooth latent space you can sample from",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "To make its latent space smooth enough for generation, a variational autoencoder trains with a two-part loss function: a reconstruction loss that keeps outputs faithful to inputs, and a Kullback-Leibler (KL) divergence penalty that pulls each encoded mean and variance towards a standard normal bell curve. During training, the encoder outputs a mean and standard deviation, adds scaled random noise, and passes the noisy sample to the decoder.\n\nImagine mapping islands in an archipelago: the reconstruction term keeps each island recognisable, while the KL penalty pulls the islands together so there are no empty expanses of deep ocean between them.\n\nBecause adjacent regions overlap smoothly, interpolating between two points in a VAE's latent space produces gradual, sensible transitions. The trade-off is that balancing reconstruction against the KL penalty often makes VAE image outputs slightly blurrier than those from GANs or diffusion models.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Wxlict9YKlUr_1",
+          "type": "multiple_choice",
+          "prompt": "Why does a VAE include a KL divergence term alongside its reconstruction loss?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To pack latent encodings smoothly around a standard distribution so there are no dead zones when sampling"
+            },
+            {
+              "id": "b",
+              "text": "To force the decoder to memorise the exact pixel values of the validation set"
+            },
+            {
+              "id": "c",
+              "text": "To increase the total number of parameters in the encoder after every epoch"
+            },
+            {
+              "id": "d",
+              "text": "To ensure that every input image is mapped to an identical zero vector"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "The KL penalty prevents the encoder from scattering inputs into isolated pockets, ensuring that any point sampled from the prior decodes into a valid output.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_UFBW7Wqu57xT",
       "title": "GAN: a generator and a discriminator in competition",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A generative adversarial network trains two neural networks locked in a minimax game: the generator takes random noise and fabricates synthetic examples, while the discriminator examines both real training data and generated fakes and predicts which is which. Every time the discriminator gets better at spotting flaws, its gradients teach the generator how to produce more convincing counterfeits.\n\nIt is like an art forger and a museum detective sharpening each other's skills over years of cat-and-mouse competition.\n\nBecause the discriminator penalises blurry averages as obvious fakes, GANs produce sharp, crisp details. However, because two networks are chasing moving targets simultaneously, training can oscillate wildly or suffer from mode collapse, where the generator discovers one convincing output that fools the discriminator and repeats it endlessly while ignoring the rest of the dataset.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_UFBW7Wqu57xT_1",
+          "type": "multiple_choice",
+          "prompt": "What is mode collapse in the context of training a GAN?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The discriminator's weights round down to zero because the learning rate is too small"
+            },
+            {
+              "id": "b",
+              "text": "The generator produces only a narrow subset of repetitive outputs that fool the discriminator instead of covering the full data variety"
+            },
+            {
+              "id": "c",
+              "text": "The GPU runs out of memory because the batch size exceeds the dataset size"
+            },
+            {
+              "id": "d",
+              "text": "The generator copies the training code directly into the output image metadata"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Mode collapse happens when the generator finds a few safe patterns that beat the current discriminator and stops generating the diverse range of the real data.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_yij_Bi2x4Qzg",
       "title": "Diffusion: learn to remove noise step by step",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A diffusion model works by first defining a fixed forward process that gradually adds Gaussian noise to real training data over many steps until only pure random static remains. A neural network is then trained to reverse that process: given a noisy sample and the current noise level, it predicts the noise that was added (or the clean signal underneath) so a small fraction of noise can be subtracted at each step.\n\nThink of watching a film of an ink drop diffusing into a glass of water, and then training a computer to reconstruct the reverse video frame by frame until the drop reforms cleanly.\n\nBecause each individual denoising step is a straightforward regression task with a stable objective, diffusion models scale reliably and capture rich diversity without mode collapse. In modern systems, latent diffusion runs this denoising process inside a compressed VAE latent space to cut compute costs dramatically.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_yij_Bi2x4Qzg_1",
+          "type": "multiple_choice",
+          "prompt": "What is the core neural network inside a diffusion model trained to predict at each step?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Whether the input image came from the real training set or a competing generator network"
+            },
+            {
+              "id": "b",
+              "text": "The discrete token identifier of the next word in a causal language sequence"
+            },
+            {
+              "id": "c",
+              "text": "The exact number of GPU cores available on the inference server"
+            },
+            {
+              "id": "d",
+              "text": "The noise added to the sample (or the underlying clean signal) so that one step of noise can be removed"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "By learning to estimate and subtract a small amount of noise at any corruption level, the model can iteratively turn pure random noise into a realistic sample.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gzpCSd-lBmi4",
       "title": "Trade-offs: sample quality, diversity, and speed",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Generative model families balance three competing goals: high sample quality, broad diversity across the data distribution, and fast sampling speed. VAEs sample quickly and cover the distribution well, but often sacrifice sharpness. GANs generate sharp images in one step, but lose diversity through mode collapse. Standard diffusion models excel at both sample quality and diversity, but require dozens of sequential network evaluations per output.\n\nIt is like choosing a courier service for a client: a bicycle courier is fast for small parcels, while a freight train carries huge variety at a slower pace.\n\nRecent step-distilled diffusion models narrow this gap by compressing denoising into a few steps, with a slight trade-off in peak fidelity.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gzpCSd-lBmi4_1",
+          "type": "multiple_choice",
+          "prompt": "In the classic generative model trade-off between VAEs, GANs, and standard diffusion models, which weakness is most characteristic of standard diffusion?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Severe mode collapse where the model can only generate a single image class"
+            },
+            {
+              "id": "b",
+              "text": "Inability to train stably without an adversarial discriminator network"
+            },
+            {
+              "id": "c",
+              "text": "Blurry reconstructions caused by a single-step Gaussian bottleneck penalty"
+            },
+            {
+              "id": "d",
+              "text": "Slow sampling speed at inference time because generation requires many sequential denoising steps"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "While diffusion models achieve high quality and diversity, their iterative denoising loop makes raw inference much slower and heavier than single-step generators.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_w0PpifvaqrzC",
       "title": "Evaluating generated outputs is hard",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Evaluating generative models is much harder than evaluating classifiers because there is no single \"correct\" output image, audio clip, or paragraph to compare against a ground-truth label. For images, teams often use automated distribution metrics like Frechet Inception Distance (FID), which compares feature statistics of generated batches against real images using a pretrained network; check the current details for domain-specific benchmarks in your modality.\n\nImagine marking an art exam or a creative marketing pitch: a spelling checklist cannot tell you whether the work is persuasive, original, and on-brand.\n\nAutomated metrics like FID or perplexity catch gross failures and distribution drift, but they frequently disagree with human judgement on subtle flaws like extra fingers on a hand or hallucinated product details. For client deployments, automated metrics should filter experiments quickly, while structured human preference evaluations sign off on production readiness.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a6",
@@ -91,7 +259,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_w0PpifvaqrzC_1",
+          "type": "multiple_choice",
+          "prompt": "Why can automated metrics like FID not completely replace human evaluation for generative models?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They compare aggregate feature statistics and often miss semantic flaws or domain errors that humans immediately notice"
+            },
+            {
+              "id": "b",
+              "text": "They require human annotators to label every single pixel before the formula can run"
+            },
+            {
+              "id": "c",
+              "text": "They can only be calculated on models with fewer than one million parameters"
+            },
+            {
+              "id": "d",
+              "text": "They always return a score of zero when evaluated on diffusion models"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Summary metrics capture broad statistical similarity across batches of outputs, but they regularly overlook local artefacts, factual errors, or subtle instruction failures.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,8 +5,8 @@
     {
       "id": "bit_r0X8pypVsdvh",
       "title": "RAG over PubMed and preprints",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Scientific retrieval-augmented generation (RAG) connects a large language model to biomedical literature indexes such as PubMed, PubMed Central, bioRxiv, and medRxiv so answers are grounded in real research papers. Because API rate limits and full-text licensing rules change regularly, check the current details before indexing literature for a commercial client.\n\nIt is like giving a medical writer a live search terminal connected to the university library rather than asking them to quote clinical trials from memory.\n\nRemember that PubMed primarily gives abstracts whereas critical experimental caveats and negative results often sit inside full-text methods or supplementary tables. Consultants should design pipelines that retrieve full-text sections where open-access licences allow.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_r0X8pypVsdvh_1",
+          "type": "multiple_choice",
+          "prompt": "Why is retrieval-augmented generation (RAG) over PubMed and preprint servers preferred over relying on a language model's parametric memory?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It automatically performs wet-lab clinical trials on every compound mentioned in the user prompt"
+            },
+            {
+              "id": "b",
+              "text": "It bypasses copyright law by converting subscription journals into public-domain datasets"
+            },
+            {
+              "id": "c",
+              "text": "It eliminates the need to parse tables or methods sections from open-access full-text articles"
+            },
+            {
+              "id": "d",
+              "text": "It grounds responses in retrievable, up-to-date scientific publications rather than relying on potentially hallucinated memory"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Scientific RAG fetches specific abstracts and full-text passages at query time, reducing fabrication and incorporating recent discoveries.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hX4k3EdUz4d4",
       "title": "Citation-grounded answers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A citation-grounded answer requires the language model to attach an explicit, verifiable reference identifier (such as a PubMed ID or DOI) to every factual biological or clinical claim it generates. Rather than producing a smooth but unverified essay, the system links each sentence directly to retrieved source documents.\n\nIt is like an audit report where every financial figure on the summary page carries a footnote pointing to the exact bank statement line.\n\nHowever, language models can still suffer from citation hallucination or citation drift, where a real PubMed ID is attached to a claim the paper never actually made. Consultants must implement automated post-generation verification that checks whether the cited passage genuinely entails the claim.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,55 +66,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hX4k3EdUz4d4_1",
+          "type": "multiple_choice",
+          "prompt": "What is a key risk even when a scientific RAG system includes real PubMed IDs in its response?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "PubMed IDs can only reference papers published before the year 2000"
+            },
+            {
+              "id": "b",
+              "text": "The model may misattribute a claim to a real paper whose text does not actually support that statement"
+            },
+            {
+              "id": "c",
+              "text": "Including citations forces the language model to output answers in ancient Latin"
+            },
+            {
+              "id": "d",
+              "text": "Citation links automatically delete the user's original query from the database"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Even when a retrieved document is real, an LLM can misread context or stitch claims together inaccurately, making entailment verification essential.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_aHpk9TCRsRNX",
       "title": "Preprints are not peer reviewed: flag them",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Preprints on servers such as bioRxiv and medRxiv are preliminary scientific manuscripts shared publicly before undergoing formal peer review. Because preprint server metadata and indexing standards evolve, check the current details when integrating preprint feeds into enterprise discovery tools.\n\nIt is like reading an architect's early draft sketch alongside stamped, building-control-approved blueprints: both are useful, but they do not carry equal weight.\n\nIn fast-moving fields like genomics and AI biology, preprints provide vital early signal, yet some contain statistical flaws or unverified claims that are later revised or withdrawn. An AI consultant should configure RAG interfaces to badge preprints visibly and link them automatically to the final peer-reviewed journal version once published.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_aHpk9TCRsRNX_1",
+          "type": "multiple_choice",
+          "prompt": "How should a biomedical RAG system handle manuscripts retrieved from preprint servers such as bioRxiv or medRxiv?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Treat every preprint as regulatory-grade clinical evidence equal to a Phase III guideline"
+            },
+            {
+              "id": "b",
+              "text": "Delete all peer-reviewed journal articles whenever a newer preprint mentions the same gene"
+            },
+            {
+              "id": "c",
+              "text": "Clearly flag them as non-peer-reviewed preprints and link to the peer-reviewed journal version when available"
+            },
+            {
+              "id": "d",
+              "text": "Hide the publication source from the scientist so all citations look identical in the UI"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Flagging preprints lets researchers benefit from cutting-edge findings while maintaining appropriate scepticism toward unreviewed claims.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Re4KQTnVynzS",
       "title": "Retrieve by gene, disease, and drug names, including synonyms",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Biomedical literature is notorious for naming the same biological entity in dozens of ways, such as a single gene appearing as EGFR, HER1, or ERBB1, or a drug appearing by both research code and brand name. Standardised vocabularies such as HGNC, MeSH, and RxNorm map these aliases together; check the current details for vocabulary releases.\n\nIt is like searching a customer database where the same client is filed under Robert, Bob, Robbie, and an old maiden name across different folders.\n\nPure vector similarity search frequently misses exact gene symbols or confuses closely numbered family members like IL1A and IL1B. Consultants should combine hybrid lexical-plus-dense retrieval with biomedical entity normalisation and synonym expansion.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Re4KQTnVynzS_1",
+          "type": "multiple_choice",
+          "prompt": "Why does pure dense vector retrieval often struggle with biomedical queries involving gene or drug identifiers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Dense embeddings can blur similar alphanumeric symbols like IL1A and IL1B or miss exact synonyms across nomenclature systems"
+            },
+            {
+              "id": "b",
+              "text": "Gene symbols are always longer than the maximum token limit of modern embedding models"
+            },
+            {
+              "id": "c",
+              "text": "Vector databases cannot store uppercase letters or numerical digits in their indexes"
+            },
+            {
+              "id": "d",
+              "text": "Biomedical researchers never use abbreviations or brand names when writing journal abstracts"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Combining synonym-expanded lexical search with dense retrieval ensures exact gene symbols and their historical aliases are accurately matched.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lY7xMNGcS_Vu",
       "title": "Show the passage that supports each claim",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A trustworthy scientific literature assistant does not merely drop a link to a twenty-page PDF; it displays the exact verbatim quote or passage snippet from the source paper alongside the generated claim. Surfacing the supporting excerpt lets a domain scientist verify context, experimental model (such as mouse versus human), and caveats in seconds.\n\nIt is like a legal briefing tool that opens the contract page right next to its summary with the relevant sentence highlighted in yellow.\n\nSummaries often strip away crucial qualifiers like \"in vitro in HeLa cells at high dose\", making an early observation sound like a proven human therapy. Showing the verbatim source passage protects researchers from over-interpreting simplified synthesis.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lY7xMNGcS_Vu_1",
+          "type": "multiple_choice",
+          "prompt": "Why should a biomedical RAG interface display the verbatim source passage next to each generated statement?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It reduces the storage cost of hosting vector embeddings on cloud servers by ninety percent"
+            },
+            {
+              "id": "b",
+              "text": "It prevents users from reading the title or publication date of the cited research paper"
+            },
+            {
+              "id": "c",
+              "text": "It converts mouse experimental findings into approved human clinical dosage guidelines"
+            },
+            {
+              "id": "d",
+              "text": "It allows scientists to immediately verify experimental context, species, and qualifiers that a summary might omit"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Displaying the exact supporting quote exposes critical qualifiers such as cell line, model organism, or statistical uncertainty that summaries often flatten.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_GpD_eXWet0hN",
       "title": "Recency matters: track publication dates",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Biomedical knowledge evolves rapidly as clinical trials read out, safety warnings emerge, and older hypotheses are refuted or refined by higher-resolution technologies. A RAG system that treats a 2008 hypothesis paper and a 2025 Phase III clinical trial result as timelessly equal will mislead R&D teams.\n\nIt is like a navigation app using a ten-year-old road map that routes drivers onto a bridge that was demolished last winter.\n\nConsultants should index publication dates, retraction notices, and study types as structured metadata filters, and configure ranking pipelines to surface both seminal foundational work and the most recent consensus evidence.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_GpD_eXWet0hN_1",
+          "type": "multiple_choice",
+          "prompt": "Why must a biomedical RAG pipeline track publication dates and retraction statuses as explicit metadata?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Scientific consensus evolves and retracted or superseded claims must not be presented as current fact"
+            },
+            {
+              "id": "b",
+              "text": "Papers published more than twelve months ago never contain valid biological mechanisms"
+            },
+            {
+              "id": "c",
+              "text": "Older journal articles are formatted in binary code that modern tokenisers cannot read"
+            },
+            {
+              "id": "d",
+              "text": "Tracking dates allows the model to predict stock market prices without reading the text"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Explicit date and retraction tracking ensures the system distinguishes current clinical consensus from outdated hypotheses or retracted studies.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

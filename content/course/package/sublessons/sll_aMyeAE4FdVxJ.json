@@ -5,74 +5,242 @@
     {
       "id": "bit_qnShteKQWpzu",
       "title": "Short-read (Illumina) vs. long-read (PacBio, Nanopore)",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Short-read sequencing platforms like Illumina generate millions of fragments typically between 100 and 300 bases long, while long-read platforms from PacBio and Oxford Nanopore read continuous stretches spanning ten thousand to hundreds of thousands of bases. Because instrument chemistries, throughput, and per-gigabase pricing evolve rapidly, always check the current details when preparing client infrastructure estimates.\n\nIt is like reconstructing a novel either from millions of crisp three-word paper strips or from slightly smudged whole pages that preserve chapter order.\n\nNeither platform replaces the other in every use case: short reads excel at economical high-depth counting and small-variant detection, whereas long reads resolve complex structural variants and phasing.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qnShteKQWpzu_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary difference between short-read platforms (like Illumina) and long-read platforms (like PacBio and Oxford Nanopore)?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Short-read platforms sequence fragments of a few hundred bases at high throughput, while long-read platforms sequence fragments spanning thousands of bases"
+            },
+            {
+              "id": "b",
+              "text": "Short-read platforms only sequence proteins, while long-read platforms only sequence metabolites"
+            },
+            {
+              "id": "c",
+              "text": "Long-read platforms cannot sequence human DNA and are restricted to viral genomes"
+            },
+            {
+              "id": "d",
+              "text": "Short-read platforms require intact living tissues and cannot read extracted DNA"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Short-read sequencing produces massive numbers of 100 to 300 base reads, whereas long-read technologies read continuous DNA or RNA fragments of many kilobases.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gKl2S98p8SZ7",
       "title": "Bulk vs. single-cell vs. spatial assays",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Bulk, single-cell, and spatial sequencing assays measure molecular activity at three different levels of biological resolution across a tissue sample. Bulk assays homogenise millions of cells into a single pooled measurement, single-cell assays dissociate tissue to profile individual cells separately, and spatial assays measure molecules while recording their physical coordinates inside intact tissue sections.\n\nIt is like analysing retail sales as a single national total, breaking transactions down by individual customer profiles, or mapping every purchase onto a store floor plan.\n\nHigher resolution carries a steep trade-off: single-cell and spatial experiments cost substantially more per sample and suffer from sparser per-cell capture than bulk sequencing.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gKl2S98p8SZ7_1",
+          "type": "multiple_choice",
+          "prompt": "How do bulk, single-cell, and spatial assays differ in how they profile a tissue sample?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Bulk measures DNA, single-cell measures only lipids, and spatial measures only blood pressure"
+            },
+            {
+              "id": "b",
+              "text": "Single-cell assays are far cheaper and capture deeper per-gene coverage than bulk assays"
+            },
+            {
+              "id": "c",
+              "text": "Spatial assays blend the entire organ into a liquid soup before sequencing"
+            },
+            {
+              "id": "d",
+              "text": "Bulk averages across all cells, single-cell profiles individual dissociated cells, and spatial preserves physical tissue coordinates"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Bulk sequencing measures a pooled average, single-cell captures profiles per cell after dissociation, and spatial assays retain the physical location of measurements in tissue.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_OCDNfOtkjYDJ",
       "title": "Short reads: accurate and cheap; long reads span repeats and structural changes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Choosing between short and long reads involves balancing per-base economy against the ability to map repetitive genomic regions and large structural rearrangements. Short reads deliver high base-level accuracy at low cost per sample, but when a repetitive element is longer than the read itself, aligners cannot tell which copy the read came from.\n\nIt is like matching a short phrase that appears twenty times in a contract versus holding a full page that shows the surrounding paragraphs on both sides.\n\nLong reads span right across repetitive stretches and complex insertions, though they generally require higher reagent spend and careful DNA extraction to keep molecules intact.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OCDNfOtkjYDJ_1",
+          "type": "multiple_choice",
+          "prompt": "Why do short reads struggle in repetitive regions of the genome where long reads succeed?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When a repeat is longer than a short read, the read maps ambiguously to multiple locations, whereas a long read spans across the repeat into unique flanking DNA"
+            },
+            {
+              "id": "b",
+              "text": "Short-read sequencers chemically dissolve whenever they encounter repeated nucleotide letters"
+            },
+            {
+              "id": "c",
+              "text": "Repetitive regions contain no nucleotide bases for short-read instruments to detect"
+            },
+            {
+              "id": "d",
+              "text": "Long reads automatically delete repetitive sequences from the sample before basecalling"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Short reads shorter than a repeat unit cannot be anchored uniquely, while long reads bridge the entire repeat into unique flanking sequence.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_RHtwIyNYrNJz",
       "title": "Coverage: how many times each position is read",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sequencing coverage, or depth, is the average number of independent sequencing reads that align to and cover a given nucleotide position in the reference genome. For example, a 30x whole-genome sequencing run means each base in the genome is read an average of thirty times across overlapping fragments.\n\nIt is like having thirty independent proofreaders inspect overlapping paragraphs of a manuscript so that a random smudge on one page is easily overruled by the other twenty-nine copies.\n\nKeep in mind that average coverage is never uniform across the genome: GC-rich or repetitive regions often suffer from dropouts with much lower local depth than the reported mean.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RHtwIyNYrNJz_1",
+          "type": "multiple_choice",
+          "prompt": "What does 30x coverage mean in a whole-genome sequencing experiment?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The genome was sequenced on thirty different hardware platforms across thirty laboratories"
+            },
+            {
+              "id": "b",
+              "text": "Each nucleotide position in the reference genome is covered by an average of thirty overlapping sequencing reads"
+            },
+            {
+              "id": "c",
+              "text": "Only thirty percent of the chromosomes in the sample were loaded into the sequencer"
+            },
+            {
+              "id": "d",
+              "text": "Each sequencing read is exactly thirty nucleotides long"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Sequencing depth or coverage measures how many independent reads overlap each base position on average, providing statistical confidence against random sequencing errors.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BvBZhfY0RVtI",
       "title": "Bulk averages across cells; single-cell shows cell types; spatial keeps location",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Selecting the right assay resolution depends on whether a client's biological hypothesis hinges on average sample state, rare cell populations, or cell-to-cell neighbourhood interactions. Bulk sequencing masks rare cell populations inside a tissue average, single-cell sequencing reveals distinct cell types and states, and spatial profiling shows which cell types sit next to each other.\n\nIt is like evaluating a smoothie by tasting the blended drink, sorting the fruit bowl by species before blending, or photographing the exact arrangement of fruit on a platter.\n\nWhen advising clients, discourage defaulting to expensive spatial or single-cell assays if a well-powered bulk study across more patients would better answer a clinical biomarker question.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BvBZhfY0RVtI_1",
+          "type": "multiple_choice",
+          "prompt": "When would a researcher need a spatial assay instead of standard single-cell sequencing?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When the goal is simply to lower reagent costs below bulk sequencing prices"
+            },
+            {
+              "id": "b",
+              "text": "When the biological question depends on knowing which cells are physically adjacent or organised in tissue microenvironments"
+            },
+            {
+              "id": "c",
+              "text": "When tissue dissociation is desired to remove all positional information"
+            },
+            {
+              "id": "d",
+              "text": "When measuring purified cell-free DNA circulating in liquid blood plasma"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Standard single-cell sequencing dissociates tissue and loses physical coordinates, whereas spatial assays preserve the location and neighbourhood context of cells.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_BhR-lO7RupNm",
       "title": "Each technology has its own error patterns",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every sequencing platform exhibits systematic error signatures shaped by its underlying biochemistry and signal detection method. Illumina short reads primarily make single-base substitution errors toward the ends of reads, whereas PacBio HiFi and Oxford Nanopore reads historically show more insertion and deletion errors inside homopolymer runs of identical letters; check the current details for error rates on the latest chemistries and basecallers.\n\nIt is like comparing an optical scanner that occasionally confuses the letters c and e against a voice transcriber that miscounts how many times someone stutters on the same syllable.\n\nDownstream AI variant callers must be trained and calibrated specifically for the error profile of the sequencing technology that generated the input reads.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_BhR-lO7RupNm_1",
+          "type": "multiple_choice",
+          "prompt": "Why must variant-calling pipelines be tailored to the specific sequencing technology used?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "All sequencing technologies produce zero errors, so pipelines only change file extensions"
+            },
+            {
+              "id": "b",
+              "text": "Short-read platforms only misread adenine, while long-read platforms only misread thymine"
+            },
+            {
+              "id": "c",
+              "text": "Different platforms produce distinct systematic error patterns, such as substitution errors versus homopolymer indels"
+            },
+            {
+              "id": "d",
+              "text": "Error patterns depend solely on the operating system of the analysis server"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Because short-read and long-read chemistries generate different types of systematic artefacts, analysis tools must model platform-specific error profiles to avoid false variant calls.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,533 @@
+// C4 C4 Advanced Deep Learning & Modelling
+
+@@ sll_D9iegAROFRC0 | C4.1 Optimization in Depth > Optimizers & Schedules
+
+## SGD, momentum, Adam, AdamW
+An optimiser is the algorithm that adjusts a neural network's weights using gradients from backpropagation so that training loss decreases step by step. Stochastic gradient descent (SGD) takes raw steps downhill, while momentum adds a running average of past gradients to smooth out noisy updates. Adam and AdamW go further by tracking both momentum and per-parameter gradient variance.
+
+It is like walking down a foggy valley: basic SGD steps strictly follow the slope under your feet, whereas momentum and Adam act like a heavy rolling ball that keeps moving smoothly across small bumps.
+
+No single optimiser wins on every problem. SGD with momentum often generalises well on classic vision benchmarks, whereas AdamW is the standard choice when fine-tuning transformers for client projects.
+
+?? What is the main role of an optimiser during neural network training?
++ It updates model weights using calculated gradients to reduce the loss function
+- It splits the raw dataset into training, validation, and testing partitions
+- It defines the number of layers and hidden dimensions in the architecture
+- It converts raw text strings into numerical token identifiers before training
+= An optimiser uses the gradients computed during backpropagation to adjust weights and minimise loss.
+
+## Warmup and cosine schedules
+A learning-rate schedule changes the step size systematically over the course of training rather than keeping it fixed from start to finish. The most common modern recipe combines a short linear warmup phase at the start with a smooth cosine decay that gradually reduces the learning rate towards a small floor.
+
+Think of a sculptor who starts gently to test the stone, works at full pace while roughing out the shape, and then slows down to make delicate finishing cuts at the end.
+
+A cosine schedule requires you to choose the total number of training steps in advance. If a client project stops training early or extends the run mid-way, the decay curve will no longer match the actual budget.
+
+?? Why do modern training runs typically pair a warmup phase with cosine decay?
++ To prevent early instability and then smoothly reduce step sizes for fine convergence
+- To increase the total number of model parameters gradually during each epoch
+- To ensure the learning rate reaches its maximum value on the final training step
+- To replace the need for computing gradients during the second half of training
+= Warmup avoids destructive early steps while cosine decay gently shrinks updates so the weights settle cleanly into a minimum.
+
+## Adam adapts the step size for each parameter
+Adam (Adaptive Moment Estimation) maintains two moving averages for every weight in the network: the first moment (the mean of recent gradients) and the second moment (the uncentred variance of recent gradients). It divides the smoothed gradient by the square root of the smoothed squared gradient, giving each parameter its own effective step size.
+
+It is like a project manager who gives steady, confident team members longer leashes while checking in more cautiously on tasks where estimates swing wildly from day to day.
+
+This adaptability makes Adam fast to converge on complex architectures with sparse or varied gradients. However, storing two extra floating-point states per parameter triples the memory needed for model weights unless memory-saving variants are used.
+
+?? How does Adam adjust the effective learning rate for individual parameters?
++ It scales each update using running averages of both the gradient and the squared gradient
+- It assigns a random learning rate to every layer at the start of each epoch
+- It sets the step size to zero for any weight that has a positive gradient
+- It multiplies every weight by the total number of training examples in the batch
+= Adam tracks first and second moments per parameter so weights with noisy or large gradients receive smaller, stabilised steps.
+
+## AdamW fixes how weight decay is applied
+AdamW separates weight decay from the adaptive gradient calculation instead of mixing L2 regularisation into the loss before computing Adam's moving averages. In standard Adam, adding an L2 penalty to the loss means parameters with large historical gradients get less weight decay than intended, weakening regularisation where it is needed most.
+
+Think of applying a flat management fee directly to every account balance at the end of the month, rather than bundling the fee into volatile daily transaction adjustments.
+
+By shrinking weights directly by a small fraction at each step before or alongside the Adam update, AdamW makes the learning rate and weight decay independent hyperparameters. When tuning a client's language or vision model, this decoupling makes hyperparameter searches much more predictable.
+
+?? What flaw in standard Adam does AdamW correct?
++ Standard Adam scales L2 regularisation by the adaptive gradient variance, weakening weight decay
+- Standard Adam cannot compute gradients for models that use activation functions
+- Standard Adam requires the batch size to equal the total number of model layers
+- Standard Adam forces all weights in the network to share an identical scalar value
+= AdamW decouples weight decay from the adaptive moment division so that every weight decays at a consistent, predictable rate.
+
+## Warmup stabilizes early training
+Learning-rate warmup begins training with a tiny learning rate and increases it linearly over the first few hundred or few thousand steps until it reaches the target peak value. At step zero, weights are random and the adaptive variance estimates in optimisers like Adam have seen almost no data, so full-sized updates can easily overshoot and destabilise layer activations.
+
+It is like warming up a car engine on a freezing morning before pulling onto the motorway at seventy miles per hour.
+
+Without warmup, deep transformers often suffer from sudden gradient spikes or divergence in the first epoch. You still need to tune the warmup duration carefully, because a warmup that is too short leaves instability behind, while one that is too long wastes paid GPU hours.
+
+?? Why are the very first steps of training a deep network especially prone to instability without warmup?
++ Weights are unfocused and the optimiser's running variance estimates are still inaccurate
+- The dataset contains more corrupted labels in the first batch than in later batches
+- The GPU clock speed runs at double its normal rate during the initial five minutes
+- The loss function only measures accuracy on the final layer during early steps
+= Early gradients and adaptive second-moment estimates are noisy and uncalibrated, so starting with small steps prevents destructive weight jumps.
+
+## Learning-rate range tests
+A learning-rate range test is a quick diagnostic run where you start with a very small learning rate, increase it exponentially after every mini-batch, and plot the training loss against the learning rate. The curve typically stays flat at tiny rates, drops steadily in a productive middle zone, and then shoots upwards when the steps become too large.
+
+Think of testing the volume knob on a new sound system by turning it up slowly until you hear the exact point where clean audio turns into distortion.
+
+You then pick a peak learning rate safely below the point where the loss starts climbing, often near the steepest downward slope. Because the test mutates the model weights as it climbs into the unstable region, you must reset the network to its initial checkpoint before starting the real training run.
+
+?? How do you choose a target learning rate from a learning-rate range test plot?
++ Select a value in the region where loss falls steeply, safely before it starts diverging
+- Pick the highest learning rate tested where the loss reaches its maximum spike
+- Choose the smallest learning rate on the far left where the loss curve is completely flat
+- Average all learning rates tested and multiply that number by the batch size
+= The sweet spot lies where the loss decreases rapidly with increasing step size, well before large updates cause the loss to explode.
+
+@@ sll_522bfXvEzsy1 | C4.1 Optimization in Depth > Training at Scale
+
+## Mixed precision training
+Mixed precision training runs most forward and backward matrix multiplications in 16-bit floating-point numbers while keeping a master copy of the weights and critical reductions in 32-bit precision. Modern accelerator hardware processes 16-bit operations much faster and uses roughly half the memory bandwidth compared to full 32-bit arithmetic.
+
+It is like doing your rough daily project estimates in whole pounds for speed, while the accounting ledger still records the final balance to the exact penny.
+
+If updates are calculated only in 16-bit format, tiny weight adjustments can round down to zero and stall learning. Keeping 32-bit master weights ensures those small steps accumulate accurately over thousands of batches, cutting cloud GPU training costs for clients without sacrificing model accuracy.
+
+?? Why does mixed precision training maintain a 32-bit master copy of the model weights?
++ So small gradient updates can accumulate accurately without rounding to zero in 16-bit precision
+- Because GPU hardware cannot store 16-bit numbers in main device memory
+- To double the latency of every forward pass during production inference
+- Because activation functions only accept 32-bit integer inputs
+= Small weight updates often fall below the precision floor of 16-bit floats, so applying them to 32-bit master weights preserves training quality.
+
+## Gradient accumulation and distributed training
+Gradient accumulation simulates a large batch size on limited hardware by running several small micro-batches forward and backward, summing their gradients in memory, and updating the weights only once at the end. When a single GPU is still too slow, distributed training spreads those micro-batches across multiple accelerators working in parallel.
+
+Imagine a removals team loading boxes into a van: one person can carry four boxes in four trips (gradient accumulation), or four people can carry one box each at the same time (distributed training).
+
+Mathematically, accumulating four micro-batches of eight items gives the same gradient as one batch of thirty-two, unless layers like batch normalisation depend on per-micro-batch statistics. Gradient accumulation saves memory so a project fits on cheaper GPUs, though it takes more wall-clock time than true parallel execution.
+
+?? What does gradient accumulation allow an engineer to do when GPU memory is limited?
++ Train with a large effective batch size by summing gradients over several smaller steps before updating weights
+- Compress the training dataset on disk so it takes up less cloud storage space
+- Skip the backward pass entirely on three out of every four training batches
+- Train a neural network without storing any activations during the forward pass
+= By accumulating gradients across multiple micro-batches before calling the optimiser, you achieve the stability of a large batch within a small memory footprint.
+
+## Half-precision formats (fp16, bf16) and their trade-offs
+~m
+Half-precision formats store numbers in 16 bits instead of 32-bit single precision (fp32) under the IEEE 754 standard; check the current details for hardware support on your cloud instances. Classic fp16 uses 5 exponent bits and 10 mantissa bits, giving fine precision but a narrow range that easily overflows or underflows. Brain floating point (bf16), designed by Google Brain, uses 8 exponent bits and 7 mantissa bits, matching the dynamic range of fp32.
+
+Think of fp16 as a short ruler marked in millimetres, while bf16 is a long tape measure marked in centimetres.
+
+Because fp16 has a narrow range, it needs dynamic loss scaling to stop small gradients from vanishing. On modern GPUs and TPUs, engineers prefer bf16 because it avoids overflow without loss scaling.
+
+?? What is the main advantage of bf16 over fp16 when training deep neural networks?
++ It keeps the wide exponent range of 32-bit floats, avoiding gradient underflow and overflow
+- It provides more mantissa bits for high-precision scientific physics simulations
+- It uses only 8 bits of memory per parameter instead of 16 bits
+- It runs on legacy CPUs without needing any specialised matrix hardware
+= By allocating 8 bits to the exponent just like fp32, bf16 handles wide-ranging gradients cleanly without needing manual loss scaling.
+
+## Data parallel: copy the model, split the data
+Data parallelism is the simplest way to scale training across multiple GPUs: every GPU holds a complete copy of the model, receives a different slice of the training batch, and computes gradients on its own data. Before the optimiser updates the weights, the GPUs communicate via an all-reduce operation to average their gradients so every replica stays identical.
+
+It is like giving four proofreaders copies of the same style guide and splitting a long report into four sections so they can mark edits simultaneously, then merging their notes at the end.
+
+Data parallelism scales almost linearly when communication across the interconnect is fast compared to computation. However, it only works if a single model copy and its optimiser states can fit inside the memory of one GPU, or if you shard those states across devices.
+
+?? How do GPUs stay synchronised during standard data-parallel training?
++ They average their locally computed gradients across all devices before updating their model copies
+- They take turns running one layer at a time while the other GPUs remain idle
+- They send the entire training dataset to a central CPU after every single token
+- They train independent models and only average the final predictions at test time
+= An all-reduce step averages gradients across all worker GPUs on every step, ensuring each replica applies the exact same weight update.
+
+## Model and pipeline parallel: split the model across GPUs
+When a model is too large to fit on a single GPU even with a batch size of one, model parallelism splits the network itself across multiple devices. Tensor parallelism slices individual weight matrices across GPUs within a fast node, while pipeline parallelism assigns consecutive groups of layers to different GPUs like stations on an assembly line.
+
+Think of building a commercial airliner: one hangar cannot hold the whole process, so different teams build the wings, fuselage, and tail in separate bays and pass assemblies down the line.
+
+Splitting a model introduces communication overhead and idle waiting time called pipeline bubbles, where later GPUs wait for earlier GPUs to finish their forward pass. Splitting micro-batches and overlapping communication with computation keeps hardware utilisation high, which is vital when advising clients on multi-node cluster budgets.
+
+?? When must an engineering team move beyond simple data parallelism to model or pipeline parallelism?
++ When the model parameters and states are too large to fit into a single GPU's memory
+- When the training dataset contains fewer than a thousand labelled examples
+- When the team wants to avoid any network communication between GPUs
+- When the model consists of a single linear regression layer with ten features
+= Model and pipeline parallelism partition the layers or weight tensors across devices so massive models can be trained despite per-GPU memory limits.
+
+## Memory budget: weights, gradients, optimizer state, and activations
+During training, GPU memory is consumed by four buckets: model weights, gradients, optimiser states, and intermediate forward activations saved for the backward pass. With mixed precision and AdamW, a one-billion-parameter model needs roughly 2 gigabytes for 16-bit weights and 2 gigabytes for 16-bit gradients, plus up to 12 gigabytes for 32-bit master weights and Adam's two moment states.
+
+It is like budgeting for an office refurbishment: the furniture (weights) is only part of the invoice once you add delivery, storage, and scaffolding (states and activations).
+
+Activation memory grows directly with batch size and sequence length. Consultants sizing cloud hardware must account for all four buckets to avoid out-of-memory crashes.
+
+?? Which four components make up the main GPU memory budget during neural network training?
++ Model weights, gradients, optimiser states, and intermediate forward activations
+- Disk checkpoints, evaluation metrics, raw dataset files, and Python source code
+- CPU cache lines, network ethernet packets, power supply buffers, and cooling logs
+- Tokeniser vocabularies, hyperparameter config files, learning rate schedules, and loss plots
+= Training requires storing the parameters themselves, their gradients, the optimiser's per-parameter tracking variables, and the activations needed by backpropagation.
+
+## Gradient checkpointing trades compute for memory
+Gradient checkpointing (also called activation checkpointing) drastically cuts activation memory by discarding most intermediate layer outputs during the forward pass instead of saving every single one. During the backward pass, whenever backpropagation needs the missing activations for a segment of layers, the GPU recomputes them on the fly from the nearest saved checkpoint.
+
+Think of a hiker who takes a photo only at major trail junctions rather than filming every footstep, knowing they can easily retrace the short path between two junctions if needed.
+
+This technique typically adds around twenty to thirty per cent more compute time because portions of the forward pass run twice, but it reduces activation memory from scaling linearly with depth to scaling far more gently. In practice, that freed memory allows much larger batch sizes or longer context lengths on the same GPU.
+
+?? What is the core trade-off made by gradient checkpointing?
++ It performs extra forward-pass calculations during backpropagation in exchange for much lower activation memory
+- It reduces the precision of model weights to 4-bit integers in exchange for slower disk loading
+- It deletes half of the training dataset in exchange for finishing the epoch twice as fast
+- It disables the optimiser's momentum state in exchange for a higher learning rate
+= By saving activations only at selected boundary layers and recomputing intermediate ones during the backward pass, you trade a modest compute overhead for large memory savings.
+
+@@ sll_rv-xCsT80Fj_ | C4.2 Loss Functions & Representations > Loss Functions
+
+## Cross-entropy loss in depth
+Cross-entropy loss measures how well a classifier's predicted probability distribution matches the true target label, penalising confident wrong predictions severely. For a single correct class, it equals the negative natural logarithm of the probability the model assigned to that true class after a softmax layer.
+
+It is like a weather forecaster being scored on rain predictions: saying there is a 99 per cent chance of sunshine on a day that pours with rain earns a massive penalty, whereas saying 50 per cent earns a mild one.
+
+Because the logarithm approaches negative infinity as the predicted probability approaches zero, a single mislabelled example in a client's dataset can produce a huge gradient spike if the model is confident against it. That steep penalty drives fast learning on clean data, but makes cross-entropy sensitive to noisy human annotations.
+
+?? How does cross-entropy loss behave when a model assigns a very low probability to the true class?
++ The loss grows very large because the negative logarithm shoots up near zero probability
+- The loss drops to zero so the model ignores the difficult example
+- The loss stays constant at exactly one regardless of the softmax output
+- The loss becomes negative and rewards the model for being decisive
+= Because cross-entropy takes the negative log of the predicted probability for the true class, confident mistakes near zero probability incur a steep penalty.
+
+## Contrastive and ranking losses
+Unlike cross-entropy, which classifies inputs into a fixed list of categories, contrastive and ranking losses train a model to compare items and organise them by similarity or relative order. Instead of asking which bucket an item belongs to, these losses ask whether item A is closer to item B than to item C in embedding space.
+
+Think of a librarian who arranges books on a shelf so that related topics sit next to each other, even when new subjects arrive that were never in the original catalogue.
+
+This approach is essential when the set of target classes changes constantly, such as matching customer support tickets to an evolving knowledge base, verifying faces, or ranking products in e-commerce search. The quality of a ranking model depends heavily on picking informative negative examples that are hard enough to teach fine distinctions.
+
+?? When is a contrastive or ranking loss preferred over standard cross-entropy classification?
++ When the model needs to measure similarity or order items across open-ended or changing categories
+- When the problem has only two fixed classes and a tiny tabular dataset
+- When the engineer wants to avoid generating vector embeddings altogether
+- When the training dataset contains no pairs or relationships between items
+= Contrastive and ranking objectives learn a geometric similarity space, allowing the system to match and rank new items without retraining a fixed classification head.
+
+## Label smoothing
+Label smoothing is a regularisation technique for classification that replaces hard target probabilities of 1.0 and 0.0 with slightly softened targets, such as 0.9 for the correct class and 0.1 split evenly across the remaining classes. Under standard cross-entropy, a network can only drive loss towards zero by pushing its pre-softmax logits toward infinity, which encourages overconfidence and overfitting.
+
+It is like a seasoned adviser reminding a junior analyst that even a rock-solid business forecast carries a small chance of unexpected outcomes, so they should never bet the entire company on certainty.
+
+By setting a finite target probability, label smoothing keeps logits bounded, improves probability calibration, and often boosts generalisation on noisy datasets. However, you should double-check whether label smoothing helps or hurts if the trained model's representations will later be compressed via knowledge distillation.
+
+?? What problem does label smoothing prevent during classification training?
++ It stops the model from pushing logits to extreme values and becoming overconfident in its predictions
+- It prevents the data loader from reading duplicate images from the hard drive
+- It eliminates the need to run a softmax function during inference
+- It guarantees that training loss reaches exact zero within the first epoch
+= By replacing hard 0 and 1 targets with softened probabilities, label smoothing discourages runaway logits and improves model calibration.
+
+## Class weights for imbalance
+Class weighting modifies the loss function so mistakes on rare categories count much more heavily in the total gradient than mistakes on common categories. In real business datasets, such as manufacturing defect detection or payment fraud screening, positive cases may represent less than one per cent of all records.
+
+Imagine a hospital triage system: missing a rare life-threatening condition is far costlier than misfiling a routine check-up, so the training signal must reflect that priority.
+
+Without adjustment, a model can achieve 99 per cent accuracy simply by predicting the majority class every time while failing completely at the client's actual goal. Setting class weights inversely proportional to class frequency forces the model to pay attention to minority examples, though extreme weights can increase false positives and require threshold tuning on a validation set.
+
+?? Why do engineers apply class weights to the loss function on imbalanced datasets?
++ To prevent the majority class from dominating gradients and ensure the model learns rare classes
+- To delete ninety per cent of the minority class examples before training begins
+- To make the neural network run faster by skipping matrix multiplications on rare items
+- To force the model to output identical probabilities for every single input row
+= Scaling the loss higher for underrepresented classes amplifies their gradients so the optimiser cannot ignore minority cases.
+
+## Contrastive pairs: pull matches together, push others apart
+Contrastive learning trains an encoder by feeding it positive pairs (two items that belong together) and negative pairs (two items that do not), then adjusting weights so positive embeddings move closer and negative embeddings move further apart. Closeness is usually measured by cosine similarity or Euclidean distance in the embedding space.
+
+It is like seating guests at a wedding reception: you place close friends at the same table and seat people with nothing in common on opposite sides of the hall.
+
+If the objective only pulled positive pairs together without pushing negatives apart, the network would take a lazy shortcut called representation collapse and map every input in the world to the exact same constant vector. Balancing attractive forces with repulsive forces from a diverse pool of negatives keeps the embedding space informative and well spread out.
+
+?? What happens if a pair-based embedding model pulls positive pairs together without any mechanism to separate negatives or maintain variance?
++ The model collapses by mapping every input to the same constant vector to achieve zero loss trivially
+- The embedding dimension automatically doubles after every training batch
+- The model memorises the exact pixel values of the images but cannot compute cosine similarity
+- The training loss increases to infinity on the very first forward pass
+= Without a repulsive force on negative pairs or an explicit variance constraint, mapping all inputs to a single point satisfies the positive-pair distance objective with zero effort.
+
+## Triplet and InfoNCE losses (concept)
+Triplet loss and InfoNCE loss are two classic ways to formulate contrastive training. Triplet loss takes an anchor, a positive match, and one negative example, penalising the model until the anchor-positive distance is smaller than the anchor-negative distance by a safety margin. InfoNCE generalises this by framing the task as softmax classification where the anchor must pick its true positive out of a large batch of negative distractors.
+
+Think of triplet loss as comparing two candidates head-to-head, whereas InfoNCE is like picking your friend out of a line-up of a hundred strangers.
+
+InfoNCE powers modern embedding models because comparing against many negatives simultaneously yields a richer gradient signal, though it requires large batch sizes.
+
+?? How does InfoNCE loss extend the basic idea of triplet loss?
++ It contrasts each positive pair against many negative examples simultaneously using a softmax formulation
+- It removes the need for positive pairs and trains using only unlabelled negative examples
+- It restricts the embedding vector to have a length of exactly three dimensions
+- It replaces cosine similarity with a decision tree classifier at the output layer
+= InfoNCE treats contrastive learning as selecting the true positive match from a large pool of negatives in the batch, yielding stronger representations than comparing one negative at a time.
+
+@@ sll_2GFdtIhyhw8O | C4.2 Loss Functions & Representations > Representation Learning
+
+## Latent space geometry
+A latent space is the internal multi-dimensional coordinate system where a trained neural network represents complex inputs like documents, images, or customer profiles as dense vectors. In a well-structured latent space, the geometry itself carries meaning: similar concepts cluster in neighbourhoods, and directions between points often capture consistent semantic relationships.
+
+It is like a city map where all the financial firms cluster in one district, all the theatres sit in another, and walking north always takes you towards higher-end shops.
+
+When a client builds a semantic search engine or clustering dashboard, they are relying directly on this geometry so that nearby vectors correspond to relevant business records. However, raw distances in high-dimensional spaces can be counter-intuitive, so engineers typically normalise vectors to unit length and compare angles using cosine similarity rather than raw straight-line distance.
+
+?? What does it mean when a neural network has learned a meaningful latent space geometry?
++ Semantically similar inputs map to nearby vectors and spatial directions reflect real relationships
+- Every input vector has the exact same numerical coordinates as its raw file size in bytes
+- The vectors are arranged in alphabetical order according to the file names on disk
+- The latent space contains only two dimensions so humans can view it without projection
+= Good representation learning organises the hidden vector space so proximity and direction correspond to genuine conceptual similarity in the domain.
+
+## Self-supervised learning
+Self-supervised learning is a training paradigm where a model learns rich internal representations from raw, unlabelled data by generating its own supervisory targets directly from the input itself. Rather than paying human annotators to label millions of examples, the system hides or transforms part of the data and trains the network to recover or match the missing information.
+
+Think of a language student who covers up the last word of every sentence in a novel and tries to guess it before uncovering the page to check the answer.
+
+Once this pretraining stage finishes, the model already understands the structure of the domain and can be adapted to specific client tasks using only a tiny amount of labelled data. The caveat is that self-supervised pretraining still absorbs any biases or blind spots present in the raw corpus.
+
+?? Where do the training targets come from in self-supervised learning?
++ They are derived automatically from the structure of the unlabelled input data itself
+- They are written manually by domain experts before every training epoch
+- They are imported from a pre-existing rule-based expert system
+- They are generated randomly without any connection to the input features
+= Self-supervised methods turn unlabelled data into supervised tasks by withholding or augmenting parts of the input and asking the network to predict or match them.
+
+## Pretext tasks: masking, predicting the next item, and matching views
+A pretext task is the synthetic puzzle a self-supervised model solves during pretraining so that it is forced to learn useful representations along the way. Common pretext tasks include masking random words or image patches and reconstructing them, predicting the next token in a sequence, or creating two cropped and recoloured views of the same image and training the network to recognise that they show the same object.
+
+It is like practising scales and sight-reading in music: the exercises are not the concert piece itself, but mastering them builds the skill needed to play any song later.
+
+The choice of pretext task shapes what the representation is good at. Models trained to predict the next token excel at open-ended generation, whereas models trained with bidirectional masking or contrastive view matching often produce stronger embeddings for retrieval and classification.
+
+?? Why is a pretext task useful even when a business has no direct need to solve that exact puzzle in production?
++ Solving the puzzle forces the network to learn generalisable features that transfer to real downstream tasks
+- Pretext tasks reduce the number of parameters in the model by ninety per cent
+- Pretext tasks guarantee that the model will never make errors on out-of-distribution data
+- Solving the puzzle encrypts the training data so competitors cannot read the weights
+= The pretext objective is a means to an end: to predict masked pieces or match augmented views accurately, the network must build a deep internal representation of the domain.
+
+## Why self-supervised learning scales: no labels needed
+Traditional supervised learning hits a hard ceiling because human labelling is slow, expensive, and difficult to scale across millions of examples, especially in specialised fields like law, medicine, or industrial telemetry. Self-supervised learning breaks through this bottleneck because the training signal is free once you have collected the raw text, audio, code, or sensor streams.
+
+Imagine trying to teach a child about the world only through flash cards that a parent sits down and labels by hand, compared with letting the child observe millions of everyday interactions directly.
+
+Because no human annotation budget restricts the dataset size, teams can scale training runs from thousands of examples to trillions of tokens, which is the foundation of modern foundation models. For most consulting clients, this means you rarely pretrain from scratch; instead, you start from a self-supervised base model and spend your budget on curated task data.
+
+?? Why was the shift from supervised pretraining to self-supervised pretraining critical for modern foundation models?
++ It removed the human labelling bottleneck, allowing models to train on vast quantities of raw data
+- It allowed neural networks to be trained on standard office laptops without GPUs
+- It eliminated the need for backpropagation and gradient descent optimisers
+- It guaranteed that training datasets contain zero factual errors or duplicate records
+= Without needing paid human labels for every training step, researchers could scale pretraining corpora by orders of magnitude to unlock broad capabilities.
+
+## Evaluating representations with simple probes
+A linear probe is a fast, disciplined way to test the quality of a frozen model's learned representations: you lock all the pretrained network weights and train only a single simple linear classifier on top of the extracted embeddings for a labelled target task. If the frozen embeddings already separate the classes cleanly, even a basic linear layer will achieve high accuracy.
+
+It is like judging how well a kitchen team has prepped the ingredients by seeing whether an apprentice can assemble a great dish in five minutes without doing any extra chopping.
+
+Using a simple probe ensures you are measuring the quality of the representation itself rather than the learning capacity of a complex downstream head. When evaluating candidate embedding models for a client's document classification pipeline, running a quick linear probe on a few hundred examples lets you compare models cheaply before committing to full fine-tuning.
+
+?? Why must the pretrained backbone weights remain frozen when evaluating representations with a linear probe?
++ So the test measures the information already captured in the embeddings rather than learning features from scratch
+- Because updating backbone weights during a probe would delete the test set from disk
+- Because linear layers cannot receive gradients if earlier layers are also trainable
+- So that the linear probe can increase the dimensionality of the input images
+= Freezing the encoder isolates the quality of the existing representation; if a simple linear layer succeeds, the features are already linearly separable and well organised.
+
+@@ sll_BRw030kOTzvZ | C4.3 Generative & Graph Models > Generative Models
+
+## Autoencoders and VAEs
+An autoencoder is a neural network with an hourglass shape: an encoder compresses a high-dimensional input into a small bottleneck vector, and a decoder tries to reconstruct the original input from that compressed code. A variational autoencoder (VAE) adds a probabilistic twist by forcing the encoder to output a smooth probability distribution in latent space rather than isolated, arbitrary points.
+
+Think of a standard autoencoder as a warehouse clerk who stuffs parcels onto random unmarked shelves, whereas a VAE organises every shelf systematically so you can pick any spot and find a coherent item.
+
+Standard autoencoders are useful for dimensionality reduction and anomaly detection, because unusual inputs reconstruct poorly. However, if you sample a random point in a standard autoencoder's bottleneck, the decoder usually outputs gibberish, which is why VAEs are needed when you want to generate brand-new variations.
+
+?? How does a variational autoencoder (VAE) differ from a standard autoencoder?
++ It regularises the bottleneck into a smooth probability distribution so new samples can be generated reliably
+- It removes the decoder network entirely and only outputs classification labels
+- It stores every training image lossless without compressing the representation
+- It trains using a competitive game between two adversarial networks
+= By constraining encoded distributions to stay close to a smooth prior (typically a unit Gaussian), a VAE makes its latent space continuous and sampleable.
+
+## GANs and diffusion models
+Generative adversarial networks (GANs) and diffusion models are two major families for generating realistic images, audio, and media. A GAN pairs a generator that creates synthetic samples in a single forward pass with a discriminator that tries to spot fakes. A diffusion model instead learns to reverse a gradual noising process, turning pure static into a coherent sample over dozens of iterative cleanup steps.
+
+It is like the difference between a sprinter who leaps across a gap in one explosive jump (a GAN) and a painter who builds up a canvas through fifty careful passes (a diffusion model).
+
+GANs generate outputs very quickly at inference time, but they are notoriously tricky to train and prone to dropping modes of the data distribution. Diffusion models train much more stably and dominate modern image and video generation, at the cost of slower multi-step sampling unless distilled.
+
+?? What is the main operational difference between a GAN and a standard diffusion model at generation time?
++ A GAN produces an output in a single forward pass, while a diffusion model refines noise over multiple steps
+- A GAN requires a text prompt of at least a thousand words, while a diffusion model takes no inputs
+- A diffusion model can only generate tabular spreadsheets, while a GAN generates images
+- A GAN requires backpropagation during inference, while a diffusion model uses no neural network weights
+= GAN generators map a latent vector to an output in one step, whereas diffusion models iteratively denoise a sample across a sequence of steps.
+
+## VAE: a smooth latent space you can sample from
+To make its latent space smooth enough for generation, a variational autoencoder trains with a two-part loss function: a reconstruction loss that keeps outputs faithful to inputs, and a Kullback-Leibler (KL) divergence penalty that pulls each encoded mean and variance towards a standard normal bell curve. During training, the encoder outputs a mean and standard deviation, adds scaled random noise, and passes the noisy sample to the decoder.
+
+Imagine mapping islands in an archipelago: the reconstruction term keeps each island recognisable, while the KL penalty pulls the islands together so there are no empty expanses of deep ocean between them.
+
+Because adjacent regions overlap smoothly, interpolating between two points in a VAE's latent space produces gradual, sensible transitions. The trade-off is that balancing reconstruction against the KL penalty often makes VAE image outputs slightly blurrier than those from GANs or diffusion models.
+
+?? Why does a VAE include a KL divergence term alongside its reconstruction loss?
++ To pack latent encodings smoothly around a standard distribution so there are no dead zones when sampling
+- To force the decoder to memorise the exact pixel values of the validation set
+- To increase the total number of parameters in the encoder after every epoch
+- To ensure that every input image is mapped to an identical zero vector
+= The KL penalty prevents the encoder from scattering inputs into isolated pockets, ensuring that any point sampled from the prior decodes into a valid output.
+
+## GAN: a generator and a discriminator in competition
+A generative adversarial network trains two neural networks locked in a minimax game: the generator takes random noise and fabricates synthetic examples, while the discriminator examines both real training data and generated fakes and predicts which is which. Every time the discriminator gets better at spotting flaws, its gradients teach the generator how to produce more convincing counterfeits.
+
+It is like an art forger and a museum detective sharpening each other's skills over years of cat-and-mouse competition.
+
+Because the discriminator penalises blurry averages as obvious fakes, GANs produce sharp, crisp details. However, because two networks are chasing moving targets simultaneously, training can oscillate wildly or suffer from mode collapse, where the generator discovers one convincing output that fools the discriminator and repeats it endlessly while ignoring the rest of the dataset.
+
+?? What is mode collapse in the context of training a GAN?
++ The generator produces only a narrow subset of repetitive outputs that fool the discriminator instead of covering the full data variety
+- The discriminator's weights round down to zero because the learning rate is too small
+- The GPU runs out of memory because the batch size exceeds the dataset size
+- The generator copies the training code directly into the output image metadata
+= Mode collapse happens when the generator finds a few safe patterns that beat the current discriminator and stops generating the diverse range of the real data.
+
+## Diffusion: learn to remove noise step by step
+A diffusion model works by first defining a fixed forward process that gradually adds Gaussian noise to real training data over many steps until only pure random static remains. A neural network is then trained to reverse that process: given a noisy sample and the current noise level, it predicts the noise that was added (or the clean signal underneath) so a small fraction of noise can be subtracted at each step.
+
+Think of watching a film of an ink drop diffusing into a glass of water, and then training a computer to reconstruct the reverse video frame by frame until the drop reforms cleanly.
+
+Because each individual denoising step is a straightforward regression task with a stable objective, diffusion models scale reliably and capture rich diversity without mode collapse. In modern systems, latent diffusion runs this denoising process inside a compressed VAE latent space to cut compute costs dramatically.
+
+?? What is the core neural network inside a diffusion model trained to predict at each step?
++ The noise added to the sample (or the underlying clean signal) so that one step of noise can be removed
+- Whether the input image came from the real training set or a competing generator network
+- The discrete token identifier of the next word in a causal language sequence
+- The exact number of GPU cores available on the inference server
+= By learning to estimate and subtract a small amount of noise at any corruption level, the model can iteratively turn pure random noise into a realistic sample.
+
+## Trade-offs: sample quality, diversity, and speed
+Generative model families balance three competing goals: high sample quality, broad diversity across the data distribution, and fast sampling speed. VAEs sample quickly and cover the distribution well, but often sacrifice sharpness. GANs generate sharp images in one step, but lose diversity through mode collapse. Standard diffusion models excel at both sample quality and diversity, but require dozens of sequential network evaluations per output.
+
+It is like choosing a courier service for a client: a bicycle courier is fast for small parcels, while a freight train carries huge variety at a slower pace.
+
+Recent step-distilled diffusion models narrow this gap by compressing denoising into a few steps, with a slight trade-off in peak fidelity.
+
+?? In the classic generative model trade-off between VAEs, GANs, and standard diffusion models, which weakness is most characteristic of standard diffusion?
++ Slow sampling speed at inference time because generation requires many sequential denoising steps
+- Severe mode collapse where the model can only generate a single image class
+- Inability to train stably without an adversarial discriminator network
+- Blurry reconstructions caused by a single-step Gaussian bottleneck penalty
+= While diffusion models achieve high quality and diversity, their iterative denoising loop makes raw inference much slower and heavier than single-step generators.
+
+## Evaluating generated outputs is hard
+~m
+Evaluating generative models is much harder than evaluating classifiers because there is no single "correct" output image, audio clip, or paragraph to compare against a ground-truth label. For images, teams often use automated distribution metrics like Frechet Inception Distance (FID), which compares feature statistics of generated batches against real images using a pretrained network; check the current details for domain-specific benchmarks in your modality.
+
+Imagine marking an art exam or a creative marketing pitch: a spelling checklist cannot tell you whether the work is persuasive, original, and on-brand.
+
+Automated metrics like FID or perplexity catch gross failures and distribution drift, but they frequently disagree with human judgement on subtle flaws like extra fingers on a hand or hallucinated product details. For client deployments, automated metrics should filter experiments quickly, while structured human preference evaluations sign off on production readiness.
+
+?? Why can automated metrics like FID not completely replace human evaluation for generative models?
++ They compare aggregate feature statistics and often miss semantic flaws or domain errors that humans immediately notice
+- They require human annotators to label every single pixel before the formula can run
+- They can only be calculated on models with fewer than one million parameters
+- They always return a score of zero when evaluated on diffusion models
+= Summary metrics capture broad statistical similarity across batches of outputs, but they regularly overlook local artefacts, factual errors, or subtle instruction failures.
+
+@@ sll_KjbvxESzJJ3z | C4.3 Generative & Graph Models > Graph Neural Networks
+
+## Message passing
+Message passing is the core mechanism that allows a Graph Neural Network (GNN) to learn from data structured as nodes and edges rather than grids of pixels or sequences of words. In each layer, every node sends its current feature vector as a "message" along its outgoing edges, aggregates the incoming messages from its connected neighbours, and combines them with its own state to produce an updated representation.
+
+It is like a round-table briefing where every department head shares a one-minute status update with the teams they work with directly, and everyone revises their own risk assessment after listening.
+
+After one layer of message passing, a node knows about its immediate one-hop neighbours; after two layers, it integrates information from two hops away. This makes GNNs sensitive to both node attributes and the topology of connections around them.
+
+?? How does a node acquire information from nodes two hops away in a message-passing Graph Neural Network?
++ By stacking two message-passing layers so neighbours first gather one-hop information and then pass it on in the second layer
+- By deleting all one-hop edges from the graph before the forward pass begins
+- By sorting the node identifiers alphabetically and running a 1D convolution
+- By increasing the learning rate to twice its initial value during the first epoch
+= Each message-passing layer expands a node's receptive field by one hop along the graph edges, so k layers incorporate information from a k-hop neighbourhood.
+
+## Node and graph classification
+Graph Neural Networks are commonly applied at two different levels of granularity: node classification and whole-graph classification. In node classification, the goal is to predict a label for individual entities within a large connected network, using the final node embeddings directly. In graph classification, the goal is to assign a single label to an entire self-contained graph by pooling all its node embeddings into one summary vector.
+
+Think of node classification as identifying which individual accounts inside a bank's transaction network are mules, whereas graph classification is like judging whether an entire molecular diagram represents a toxic compound.
+
+For graph classification, the readout pooling function (such as sum, mean, or attention pooling) must be permutation-invariant, meaning the prediction stays identical no matter how the nodes are numbered in the computer's memory.
+
+?? What additional step is required for whole-graph classification compared with node classification?
++ A permutation-invariant pooling (readout) operation that combines all node embeddings into a single graph-level vector
+- Removing all edge connections so that every node is processed as an isolated tabular row
+- Converting the graph into a natural language essay before feeding it to the network
+- Training a separate neural network for every individual node in the dataset
+= Node classification predicts directly from per-node vectors, whereas graph classification aggregates all node vectors via a readout layer to classify the entire structure.
+
+## Each node updates itself from its neighbours
+Inside a single GNN layer, a node's update breaks down into two clean mathematical steps: aggregation and update. First, the aggregation function collects the feature vectors of all immediate neighbours using an order-independent operation such as sum, mean, or max, sometimes weighted by edge importance or attention scores. Second, the update function passes the node's own previous vector and the aggregated neighbour vector through a learnable neural transformation.
+
+It is like valuing a house: you first average the recent sale prices of the homes on the same street (aggregation) and then combine that neighbourhood figure with the specific size and condition of your own property (update).
+
+Because graphs have no natural left-to-right or top-to-bottom order, using a symmetric aggregation function is essential so the output never depends on the arbitrary order in which neighbours are listed in a file.
+
+?? Why must the neighbour aggregation function in a GNN layer be invariant to the order of the neighbours?
++ Because a graph's neighbours have no intrinsic sequence order, so re-listing them should not change the node's output
+- Because GPUs can only compute sums when numbers are sorted from largest to smallest
+- Because every node in a real-world graph always has the exact same number of neighbours
+- Because order invariance allows the network to skip the backward pass during training
+= Unlike pixels in an image or words in a sentence, a node's neighbours form an unordered set, so the aggregation must yield the same result under any permutation.
+
+## Link prediction
+Link prediction is the task of estimating whether an edge should exist between two nodes in a graph, either to uncover missing relationships right now or to forecast connections that will form in the future. After running message-passing layers to compute context-rich embeddings for every node, the model scores candidate pairs of nodes using a dot product, cosine similarity, or a small neural network applied to both vectors.
+
+Think of a professional networking platform suggesting "people you may know" by spotting two consultants who share several mutual clients and similar industry skills but have not yet connected.
+
+During training, engineers hide a subset of real edges as positive examples and sample non-existent edges as negative examples. You must take care not to leak the test edges into the message-passing graph during evaluation, or the model will cheat by using the very link it is trying to predict.
+
+?? How does a GNN typically predict whether a link exists between two nodes after message passing?
++ It computes a similarity score or passes the pair of learned node embeddings into a scoring head
+- It counts the number of characters in the two node names and checks if they match
+- It pools the entire graph into a single scalar number that applies to all pairs equally
+- It deletes both nodes from the graph and measures whether the training loss increases
+= Link prediction combines the learned representations of two candidate nodes (for instance via dot product or an MLP) to output the probability of an edge between them.
+
+## Uses: molecules, networks, and recommendations
+Graph Neural Networks shine in client domains where relationships between entities carry as much signal as the attributes of the entities themselves. In drug discovery, atoms are nodes and bonds are edges, letting GNNs predict toxicity before synthesising a compound. In finance and cybersecurity, GNNs trace rings of coordinated accounts across transaction graphs, while in e-commerce, user-item graphs power large-scale recommendation engines.
+
+It is like solving a detective case: reading suspects' files in isolation misses the conspiracy that becomes obvious once you pin strings between them on a wall board.
+
+Before proposing a GNN, always benchmark gradient-boosted trees with engineered graph features like node degree or PageRank, which sometimes suffice when relational effects are weak.
+
+?? In which business scenario is a Graph Neural Network most likely to add value over a standard tabular model?
++ Fraud or recommendation problems where multi-hop relationships between accounts and items carry key signal
+- Predicting house prices from a flat spreadsheet of floor area, bedroom count, and build year with no network links
+- Translating customer support emails from French into English sentence by sentence
+- Transcribing recorded call-centre audio files into plain text transcripts
+= GNNs add the most value when multi-step relational structure (such as transaction rings, molecular bonds, or user-item interaction graphs) is central to the prediction.
+
+## Over-smoothing limits depth
+Over-smoothing is a structural pathology in Graph Neural Networks where stacking too many message-passing layers causes the representations of all connected nodes to converge towards nearly identical vectors. While Convolutional Neural Networks and Transformers often grow stronger at dozens or hundreds of layers, a naive GNN frequently peaks at just two to four layers before accuracy drops sharply.
+
+Imagine pouring cups of differently coloured paint into a row of bowls and mixing neighbouring bowls together repeatedly: after one or two mixes you get useful blends, but after twenty mixes every bowl turns the exact same muddy grey.
+
+Because every layer averages a node with its neighbours, repeated steps expand the receptive field across the whole graph until local node identity washes out. Techniques like residual skip connections, jumping knowledge connections, or sampling subgraphs help mitigate over-smoothing when longer-range context is genuinely needed.
+
+?? Why does adding many message-passing layers to a standard GNN often hurt performance?
++ Repeatedly averaging neighbour features across many hops causes all node representations to become indistinguishable (over-smoothing)
+- GNN layers cannot use activation functions after the third layer of the network
+- Each additional GNN layer deletes half of the edges in the input graph permanently
+- The number of trainable parameters drops to zero whenever a GNN exceeds four layers
+= Over-smoothing occurs because repeated neighbourhood aggregation acts like a low-pass filter on the graph, washing out the distinctive local features of individual nodes.

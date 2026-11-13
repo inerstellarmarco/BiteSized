@@ -5,74 +5,242 @@
     {
       "id": "bit_M7wFDAikbi1q",
       "title": "samtools for sorting, indexing, and viewing BAMs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "`samtools` is the essential command-line toolkit for inspecting, converting, sorting, indexing, and summarising SAM, BAM, and CRAM alignment files. Common subcommands include `samtools view` to convert formats or filter reads by region and flags, `samtools sort` to order reads by genomic coordinate, and `samtools index` to build `.bai` or `.crai` lookup indexes; check the current details in the HTSlib documentation for thread and memory flags.\n\nIt is like a Swiss Army knife for warehouse shipping logs that lets an auditor filter receipts by postcode, sort millions of records into shelf order, and print an instant summary report.\n\nA frequent pitfall is running `samtools view` without `-b` or `-o output.bam`, which dumps millions of lines of uncompressed SAM text straight to your terminal screen.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_M7wFDAikbi1q_1",
+          "type": "multiple_choice",
+          "prompt": "Which sequence of `samtools` subcommands prepares an unsorted alignment file so a genome browser can quickly fetch reads overlapping a specific gene?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Run `samtools sort` to order the alignments by genomic coordinate, followed by `samtools index` to generate the index file"
+            },
+            {
+              "id": "b",
+              "text": "Run `samtools fastq` followed by `samtools mpileup` to delete all alignment coordinates"
+            },
+            {
+              "id": "c",
+              "text": "Run `samtools view` with no arguments to print the entire file to the terminal screen"
+            },
+            {
+              "id": "d",
+              "text": "Run `samtools merge` on a single file to convert it into a VCF table"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Genome browsers and variant callers require coordinate-sorted alignments (`samtools sort`) paired with a spatial index (`samtools index`) for fast regional queries.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_77TjgTofXHNs",
       "title": "bcftools for filtering and merging VCFs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "`bcftools` is the standard high-performance utility for manipulating, querying, filtering, normalising, and merging variant calls in VCF and binary BCF formats. Analysts use `bcftools view` or `bcftools filter` to select variants meeting expression thresholds (such as `QUAL > 30 && DP >= 10`), `bcftools norm` to left-align indels and split multi-allelic sites, and `bcftools query` to extract custom tables; check the current details in the HTSlib manual.\n\nIt is like a specialised database query engine built specifically to slice, clean, and join clinical audit logs without corrupting nested sample genotype fields.\n\nBefore comparing or merging VCFs from two different callers for a client benchmark, always run `bcftools norm` with the reference FASTA so identical indels are represented at the exact same coordinate.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_77TjgTofXHNs_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it important to run `bcftools norm` with a reference genome before comparing indel calls between two different variant-calling pipelines?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The same insertion or deletion inside a repetitive sequence can be written at different coordinates or as multi-allelic rows unless left-aligned and normalised"
+            },
+            {
+              "id": "b",
+              "text": "`bcftools norm` converts VCF files into BAM alignment files for genome browsers"
+            },
+            {
+              "id": "c",
+              "text": "Indel coordinates in VCF files are stored in random order and do not include chromosome names"
+            },
+            {
+              "id": "d",
+              "text": "`bcftools norm` replaces low-quality variant calls with synthetic reference reads"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Because identical indels in repetitive DNA can be represented in multiple equivalent ways, left-alignment and normalisation ensure consistent representation across callers.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Cz-QGyDOulwu",
       "title": "bedtools for genomic interval arithmetic",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "`bedtools` is a fast toolkit for performing set theory and spatial arithmetic, including intersections, unions, subtractions, and closest-feature lookups, across genomic intervals in BED, GTF/GFF, VCF, and BAM formats. With commands like `bedtools intersect`, `bedtools merge`, and `bedtools coverage`, an analyst can ask questions like \"which patient variants fall inside protein-coding exons?\" or \"which enhancers sit within 10 kilobases of a differentially expressed gene?\"; check the current details for sorted-input memory flags.\n\nIt is like a geographic information system (GIS) that overlays property parcel maps with flood-zone polygons to list every insured building that touches a high-risk zone.\n\nWhen intersecting millions of intervals, passing pre-sorted files with the `-sorted` flag dramatically lowers memory usage and prevents out-of-memory crashes.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Cz-QGyDOulwu_1",
+          "type": "multiple_choice",
+          "prompt": "Which `bedtools` operation would you use to identify all called variants in a VCF file that fall within the target regions of an exome capture kit BED file?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "`bedtools getfasta`"
+            },
+            {
+              "id": "b",
+              "text": "`bedtools bamtofastq`"
+            },
+            {
+              "id": "c",
+              "text": "`bedtools intersect`"
+            },
+            {
+              "id": "d",
+              "text": "`bedtools random`"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "`bedtools intersect` finds overlapping genomic intervals between two feature files, such as filtering a VCF against target capture regions in a BED file.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_AL7UTTwAXROz",
       "title": "Quick checks: read counts, mapping rates, and coverage",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before launching expensive downstream analyses or training machine learning models, experienced bioinformaticians run quick command-line sanity checks on read counts, mapping rates, and coverage depth using utilities like `samtools flagstat`, `samtools idxstats`, `samtools depth`, or `mosdepth`. A sudden drop in mapping rate or unexpected coverage gaps immediately exposes wet-lab failures, sample swaps, or bacterial contamination; check the current details for utility options and multi-threading flags.\n\nIt is like checking a delivery truck's weight manifest and fuel gauge at the loading bay before driving five hundred miles with an empty or misloaded trailer.\n\nFor instance, if human sequencing reads show only a 15% mapping rate against GRCh38, stop the pipeline immediately and check whether the sample was actually mouse tissue or contaminated with mycoplasma.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AL7UTTwAXROz_1",
+          "type": "multiple_choice",
+          "prompt": "If `samtools flagstat` reports that only 12% of high-quality reads in a supposed human sample aligned to the GRCh38 human reference genome, what should you suspect first?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The human genome is composed of 88% unknown nucleotide letters that do not exist in GRCh38"
+            },
+            {
+              "id": "b",
+              "text": "A 12% mapping rate is the gold-standard benchmark for human whole-genome sequencing"
+            },
+            {
+              "id": "c",
+              "text": "The BAM file is sorted by coordinate instead of read name"
+            },
+            {
+              "id": "d",
+              "text": "Sample contamination, a species mix-up (such as mouse samples mislabelled as human), or severe wet-lab library preparation failure"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Well-prepared human sequencing libraries typically align to the human reference genome at rates above 85% to 95%; a 12% rate points to species mislabelling, contamination, or library failure.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_PQilvQIBOsii",
       "title": "Ask an AI assistant for commands, then read the manual before running them",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Large language models are remarkably helpful for drafting complex `awk`, `samtools`, `bcftools`, and `bedtools` command lines, but AI assistants frequently hallucinate non-existent flags, mix up 0-based and 1-based coordinates, or omit critical options across tool versions. Always verify generated flags against `--help` or `man` pages and test commands on a small subset of lines (`head`) before executing them on production data.\n\nIt is like having a junior analyst draft a SQL migration script: the structure saves time, but a senior engineer always checks the table schema and runs a dry run before touching the live database.\n\nPay special attention to destructive flags, in-place file overwrites, and subtle filter logic reversals (such as `-v` or `-F` versus `-f` in `samtools view`) that can silently invert your scientific results.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_PQilvQIBOsii_1",
+          "type": "multiple_choice",
+          "prompt": "Why should you always check `--help` or the manual page and test on a small file subset before running an AI-generated bioinformatics command?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "AI assistants can only generate commands for Windows PowerShell and never for Linux bash"
+            },
+            {
+              "id": "b",
+              "text": "AI models can invent non-existent flags, confuse tool versions, or reverse filter logic (such as `-f` vs `-F` in `samtools`), potentially corrupting data or silently inverting results"
+            },
+            {
+              "id": "c",
+              "text": "Reading the manual page is required by Linux before any binary executable unlocks its CPU threads"
+            },
+            {
+              "id": "d",
+              "text": "Command-line bioinformatics tools charge a financial penalty every time a syntax error occurs"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "LLMs occasionally hallucinate command-line flags or invert bitwise filter options, so verifying against documentation and testing on small slices prevents silent analytical errors or data loss.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_DVQU7U9xiFMc",
       "title": "Keep raw files read-only",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Raw sequencing files coming off the instrument or downloaded from a client repository (such as original `.fastq.gz` files, raw signal files, and checksum manifests) must be stored as strictly read-only (`chmod 444` or immutable object storage) in a dedicated directory separate from working analysis outputs. Every pipeline step should read from the raw directory and write new outputs to a separate processed or scratch directory.\n\nIt is like forensics investigators locking original crime-scene negatives in an evidence safe and working exclusively on duplicate prints in the lab.\n\nIf a script bug or accidental redirect (`>` instead of `>>`) overwrites a processed BAM file, you can regenerate it from code; if you overwrite the original raw FASTQ file without a backup, the wet-lab sequencing experiment is permanently lost.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_DVQU7U9xiFMc_1",
+          "type": "multiple_choice",
+          "prompt": "Why is it a core bioinformatics best practice to remove write permissions (`chmod 444` or `a-w`) on original raw FASTQ files and store them alongside MD5 or SHA256 checksums?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Removing write permissions compresses FASTQ files to one-tenth of their original size"
+            },
+            {
+              "id": "b",
+              "text": "Aligners like BWA and STAR refuse to read any file that has write permissions enabled"
+            },
+            {
+              "id": "c",
+              "text": "Read-only permissions automatically convert Phred scores from Q20 to Q40"
+            },
+            {
+              "id": "d",
+              "text": "It prevents accidental deletion or in-place overwriting by buggy scripts, while checksums verify that the irreplaceable source data has not suffered bit-rot or incomplete transfer"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Raw experimental reads are expensive or impossible to regenerate if lost, so making them read-only and verifying cryptographic checksums protects data integrity throughout a project.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

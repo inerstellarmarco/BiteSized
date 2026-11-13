@@ -5,8 +5,8 @@
     {
       "id": "bit_S085W9KdmaMf",
       "title": "Data-analysis copilots for omics",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Data-analysis copilots for omics are interactive AI agents that write Python or R code (using libraries such as Scanpy, Seurat, DESeq2, or Bioconductor) inside notebook or workspace environments to help scientists explore single-cell, bulk RNA-seq, or proteomics datasets. Check the current details on enterprise privacy terms before connecting cloud coding agents to proprietary cohorts.\n\nIt is like pairing a domain biologist with a fast junior data scientist who can draft plotting and clustering scripts on request.\n\nWhile copilots dramatically speed up exploratory data visualisation and boilerplate scripting, they willingly generate plausible-looking code that applies the wrong statistical test or ignores experimental design covariates unless guided by an expert.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,13 +19,41 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_S085W9KdmaMf_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary benefit and main risk of using an AI coding copilot for exploratory omics analysis?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It replaces the wet-lab sequencer entirely, but only works on bacterial genomes"
+            },
+            {
+              "id": "b",
+              "text": "It guarantees publishable causal discoveries without human review, but requires quantum computers"
+            },
+            {
+              "id": "c",
+              "text": "It refuses to write R or Python code and only outputs assembly language"
+            },
+            {
+              "id": "d",
+              "text": "It accelerates scripting and visualisation in libraries like Scanpy or DESeq2, but can silently apply flawed statistical assumptions"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Omics copilots remove coding friction for biologists, but require expert oversight because syntactically valid code can still violate biological and statistical rules.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_ZB5bW3axgSSi",
       "title": "Validating agent-generated science",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When an autonomous or semi-autonomous analysis agent explores an omics dataset and reports a biological conclusion, validating that finding requires far more than checking that the Python script ran without throwing an error. Scientific validation audits the data hygiene, statistical methodology, negative controls, and biological plausibility of the claim.\n\nIt is like inspecting a newly built bridge: checking that the builders finished on Friday is not enough; an engineer must test the concrete and load calculations.\n\nAgents optimised to satisfy a user's prompt can inadvertently p-hack by trying ten different clustering resolutions or gene sets until a significant p-value appears. Consultants must institute structured validation checklists for all agent-assisted discovery.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -38,55 +66,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ZB5bW3axgSSi_1",
+          "type": "multiple_choice",
+          "prompt": "Why does a clean, error-free code execution log not prove that an analysis agent's biological finding is valid?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Python and R interpreters intentionally falsify p-values whenever invoked by an automated agent"
+            },
+            {
+              "id": "b",
+              "text": "Biological validity depends solely on how colourful the generated violin plots look"
+            },
+            {
+              "id": "c",
+              "text": "Error-free scripts are mathematically guaranteed to have overfitted the reference genome"
+            },
+            {
+              "id": "d",
+              "text": "Code can execute without syntax errors while still suffering from data leakage, unadjusted multiple testing, or p-hacking"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "A script that runs cleanly can still drop crucial covariates, test dozens of hypotheses without correction, or misinterpret technical artefacts as biology.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_0Eze9UuLCziq",
       "title": "Agents write and run analysis code: review both the code and the plots",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Modern analysis agents operate in an execution loop: they write a block of R or Python code, run it in a kernel, inspect the console output or plot, and iterate. When auditing an agent's work, a scientist or consultant must inspect both the underlying code logic and the diagnostic visualisations.\n\nIt is like a head chef tasting the finished soup while also checking the kitchen prep counter to make sure the ingredients were fresh and measured properly.\n\nA polished summary table can hide a line of code that silently dropped forty percent of patient samples due to a sloppy table join, or a UMAP plot whose clusters separate purely by sequencing batch. Never read the agent's prose conclusion without auditing its code and diagnostic plots.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_0Eze9UuLCziq_1",
+          "type": "multiple_choice",
+          "prompt": "Why must reviewers inspect both the source code and the diagnostic plots produced by an omics analysis agent?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Reviewing code is only necessary when the agent writes in Fortran rather than Python or R"
+            },
+            {
+              "id": "b",
+              "text": "Diagnostic plots always contain encrypted passwords needed to unlock the clinical database"
+            },
+            {
+              "id": "c",
+              "text": "Agents never make mistakes in data filtering if the final p-value is below 0.05"
+            },
+            {
+              "id": "d",
+              "text": "Prose summaries can hide silent bugs like dropped samples in table joins or obvious batch separation in diagnostic plots"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Code review catches silent data-wrangling errors like bad merges or wrong normalisation calls, while plot review exposes outliers and batch artefacts.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_dn9ekofF4pKU",
       "title": "Check the statistics: multiple testing, batch, and sample size",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The three most common statistical failures in agent-generated omics analyses are forgetting multiple-testing correction across thousands of genes, ignoring batch covariates in differential expression models, and treating pseudoreplicates (such as thousands of individual cells from just two mice) as independent patient samples.\n\nIt is like polling five thousand people who all live in the same two households and claiming you have surveyed the entire nation.\n\nIn single-cell omics, testing ten thousand cells across three patients without pseudobulking or mixed-effects modelling inflates p-values to absurd levels like $10^{-50}$ on pure noise. Train client teams to check FDR correction (such as Benjamini-Hochberg), batch design formulas, and true biological replicate counts on every agent report.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_dn9ekofF4pKU_1",
+          "type": "multiple_choice",
+          "prompt": "What statistical error occurs when an analysis agent treats ten thousand cells from only two patients as ten thousand independent samples?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Underfitting, which prevents the computer from calculating a mean expression value"
+            },
+            {
+              "id": "b",
+              "text": "Batch correction, which removes all biological differences between cell types"
+            },
+            {
+              "id": "c",
+              "text": "Multiple-testing adjustment, which makes every p-value equal to exactly 1.0"
+            },
+            {
+              "id": "d",
+              "text": "Pseudoreplication, which vastly inflates statistical significance by ignoring that cells from the same patient are correlated"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Cells from the same individual are not independent biological replicates; ignoring patient-level grouping produces massive false-positive rates unless pseudobulk or mixed models are used.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_rYLsII24GgJs",
       "title": "Reproduce key results independently",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before a pharmaceutical or biotech client commits significant capital, patent filings, or wet-lab resources to a headline discovery surfaced by an AI analysis agent, a human bioinformatician should reproduce the core result independently in a clean script from the raw or primary processed data.\n\nIt is like having a second surveyor measure a plot of land from the boundary stones before signing a £5 million construction contract.\n\nIndependent reproduction catches subtle state bugs left behind by messy notebook execution order, hidden global variables in the agent's session, or fragile preprocessing choices. If a biological signal is genuine, a clean, standalone 50-line script will confirm it quickly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_rYLsII24GgJs_1",
+          "type": "multiple_choice",
+          "prompt": "Why should high-stakes findings from an interactive AI analysis session be reproduced in a clean, independent script?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Interactive agent sessions can accumulate hidden state, out-of-order notebook mutations, or fragile filtering choices that distort results"
+            },
+            {
+              "id": "b",
+              "text": "Independent scripts run without electricity and therefore save laboratory power budgets"
+            },
+            {
+              "id": "c",
+              "text": "Regulatory agencies ban the use of Python or R in any discovery research notebook"
+            },
+            {
+              "id": "d",
+              "text": "Reproducing a result in a second script automatically patents the biomarker worldwide"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Re-implementing the core analysis from primary data in a clean script verifies that the finding is robust and not an artefact of session state or iterative tinkering.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_14OC43y7THbe",
       "title": "Never accept a biological claim without a source or a test",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Whether an AI agent is synthesising literature or analysing an internal omics matrix, its natural-language explanations are fluent hypotheses rather than ground truth. Every factual claim about prior biology must point to a verifiable literature source, and every claim about the client's dataset must point to an explicit statistical test or plot.\n\nIt is like a courtroom rule where every statement from an advocate must cite either a statute book or a verified exhibit entered into evidence.\n\nWhen an agent explains why a cluster of genes is upregulated by weaving a persuasive story about a signalling pathway, require it to cite the exact papers or run a formal enrichment test. Fluency is never evidence.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_14OC43y7THbe_1",
+          "type": "multiple_choice",
+          "prompt": "What standard of evidence should an AI consultant enforce for every biological claim made by an agentic system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Claims written in confident academic British English can be accepted without further verification"
+            },
+            {
+              "id": "b",
+              "text": "Only claims that contradict the client's executive leadership require statistical testing"
+            },
+            {
+              "id": "c",
+              "text": "Every claim about prior knowledge must link to a verifiable citation, and every data claim must link to an explicit statistical test or plot"
+            },
+            {
+              "id": "d",
+              "text": "A claim is verified if two different temperature settings of the same language model agree"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Grounding literature statements in citations and data statements in reproducible statistical outputs eliminates hallucinated narratives in scientific workflows.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

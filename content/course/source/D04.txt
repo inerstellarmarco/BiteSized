@@ -1,0 +1,430 @@
+// D4 D4 Machine Learning on Omics Data
+@@ sll_7g961OMbOjOp | D4.1 Omics Data Challenges > High-Dimensional Data
+## p >> n problems and the curse of dimensionality
+A high-dimensional dataset where the number of measured features far exceeds the number of patient samples is called a p much greater than n problem. In transcriptomics or proteomics, an organisation might measure twenty thousand molecules across only eighty clinical participants.
+
+It is like trying to work out which ingredient caused a food allergy after analysing just three restaurant meals that each contained five hundred spices.
+
+Because the feature space is so vast and sparse, standard machine learning algorithms easily find chance correlations that look convincing during training. As an AI consultant, you must warn clients that strong dimensionality reduction or regularisation is essential before fitting classifiers.
+
+?? What defines a p >> n problem in omics machine learning?
++ The number of measured biological features is much larger than the number of patient samples
+- The number of patient cohorts exceeds the number of clinical centres in a trial
+- The computational cost of training grows linearly with the number of hospital sites
+- The sequencing depth per sample is greater than the reference genome length
+= In omics studies, researchers routinely measure tens of thousands of features (p) on only dozens or hundreds of samples (n), creating severe overfitting risks.
+
+## Batch effects and normalization
+Batch effects are systematic non-biological differences between groups of samples caused by laboratory conditions, reagent lots, technician schedules, or instrument drift. Normalisation is the mathematical process of adjusting raw measurements so samples can be compared fairly on a common scale.
+
+It is like adjusting photographs taken under warm indoor bulbs and cool daylight so the true fabric colours match across an entire catalogue.
+
+However, normalisation only rescales distributions and cannot rescue an experiment where technical artefacts completely overshadow subtle biological signals. When advising biotech clients, always inspect principal component plots before and after normalisation to confirm that technical variation has actually diminished.
+
+?? Why do omics workflows apply normalisation alongside batch assessment?
++ To place samples on a comparable scale and reduce technical variation across runs
+- To increase the physical sequencing depth of low-quality tissue biopsies
+- To replace missing clinical outcome labels with synthetic patient records
+- To convert continuous gene expression tables into raw DNA sequencing reads
+= Normalisation adjusts for global technical differences in measurement scale so that downstream analyses reflect biological variation rather than instrument artefacts.
+
+## Thousands of features and dozens of samples make overfitting easy
+Overfitting in omics occurs when a model memorises random noise specific to the training cohort rather than learning a reproducible biological pattern. With thousands of genes available, even pure random numbers will contain combinations that separate a few dozen cases from controls.
+
+It is like tailoring a suit so tightly to one mannequin's accidental dents that no real person in the shop can wear it.
+
+A near-perfect training accuracy score on a small clinical dataset is therefore a warning sign rather than a milestone. Consultants should insist on strict complexity penalties, simple baseline models, and honest out-of-sample evaluation before a client invests £100,000 in wet-lab follow-up.
+
+?? Why is a complex classifier trained on twenty thousand genes and forty patients likely to fail on new patients?
++ With so many features, the model can easily separate the small sample using random noise
+- Modern neural networks cannot process floating-point numbers from gene expression arrays
+- Forty patients is too large a cohort for standard regularised logistic regression
+- Gene expression values never correlate with clinical phenotypes in human tissue
+= When features vastly outnumber samples, flexible models discover spurious combinations that fit the training cohort by chance and fail to generalise.
+
+## Batch effects can be larger than the biology
+In many high-throughput biological studies, technical variation across processing batches alters measurements far more strongly than the disease state being studied. Differences in sample collection tubes, storage times, or sequencing lanes can dominate the top principal components of the dataset.
+
+It is like trying to hear a quiet flute solo while a pneumatic drill operates right outside the concert hall window.
+
+If a data scientist trains a classifier without checking what drives the main variance, the model may simply learn to recognise which hospital or laboratory processed the vial. Always audit technical metadata alongside biological labels before building any predictive pipeline.
+
+?? What is a major risk when technical batch variation exceeds biological signal in an omics dataset?
++ A machine learning model may learn to predict the processing batch rather than the biological condition
+- The sequencing machine will automatically delete the raw read files during quality control
+- Principal component analysis will refuse to converge on numerical expression matrices
+- The false negative rate will automatically drop to zero in external clinical cohorts
+= When batch effects dominate the variance, classifiers easily latch onto laboratory artefacts instead of true disease biology.
+
+## Batch correction methods and their risks
+~m
+Batch correction algorithms such as ComBat and Harmony estimate and subtract systematic technical shifts across sample groups so datasets can be integrated. Because software packages evolve rapidly, you should check the current details and documentation before selecting a tool for production pipelines.
+
+It is like a sound engineer filtering out persistent sixty-hertz electrical hum from recordings made in different studios.
+
+The critical caveat is that aggressive batch correction can accidentally erase real biological signal if the biological groups are unevenly distributed across batches, or inject false differences when applied blindly. Consultants must verify that biological signal is preserved after correction rather than assuming clean plots mean valid data.
+
+?? What is the primary danger of applying batch correction algorithms blindly to omics data?
++ They can remove genuine biological differences or introduce artificial separation between groups
+- They permanently encrypt the raw FASTQ files stored on the laboratory server
+- They double the number of patient samples required to run a statistical t-test
+- They convert RNA expression measurements into protein crystal structures
+= Batch correction methods cannot distinguish technical shifts from biology when study groups and batches overlap, risking either erased biology or distorted findings.
+
+## Design studies so batch is not tied to the outcome
+A balanced experimental design distributes disease cases and healthy controls evenly and randomly across every processing plate, reagent lot, and sequencing run. When all disease samples are processed in January and all controls in March, batch and outcome become mathematically confounded.
+
+It is like testing two racing car tyres by driving one set only on sunny days and the other set only during heavy rainstorms.
+
+Once batch and clinical outcome are completely confounded, no statistical algorithm can separate the laboratory artefact from the true disease signature. An AI consultant adds the highest value by reviewing the laboratory processing plan before samples are ever run.
+
+?? How should an omics experiment be designed to prevent batch confounding?
++ Randomise and balance cases and controls evenly across all processing plates and runs
+- Process all disease samples in one week and all healthy control samples the following month
+- Run every sample on a different sequencing platform to maximise technical diversity
+- Withhold clinical group labels until after all samples are grouped by hospital wing
+= Balancing outcomes across batches ensures technical shifts affect all groups equally rather than masquerading as a disease effect.
+
+@@ sll_WwucGovwUHLs | D4.1 Omics Data Challenges > Validation Pitfalls
+## Leakage across patients and batches
+Data leakage occurs when information from the validation or test set inadvertently influences model training, producing artificially inflated performance metrics. In omics projects, leakage frequently happens when biological replicates from the same patient or samples from a shared technical batch straddle the train-test boundary.
+
+It is like letting a student preview the exact exam questions during a revision session and then mistaking their high mark for deep subject mastery.
+
+A model exploiting leaked batch or patient identity will collapse as soon as a client deploys it in a new hospital. Always audit the full sample hierarchy before splitting any biomedical dataset.
+
+?? How does data leakage distort the evaluation of an omics classifier?
++ It allows training models to exploit shared patient or batch information, inflating test scores
+- It reduces the computational speed of matrix multiplication on graphics processors
+- It causes laboratory instruments to misread fluorescent labels during sequencing
+- It forces cross-validation loops to underestimate the true generalisation accuracy
+= When test information leaks into training via shared patients or batches, evaluation metrics reflect memorised shortcuts rather than real-world performance.
+
+## External validation cohorts
+An external validation cohort is an entirely independent set of patient samples collected at different clinical centres, processed in separate runs, and held back solely to test a locked model. It provides the gold-standard evidence that a biomarker signature generalises beyond the discovery laboratory.
+
+It is like testing a new retail demand forecast in a completely different city before rolling the software out across the whole country.
+
+Even well-designed internal cross-validation shares the discovery cohort's population quirks, inclusion habits, and laboratory pipelines. When advising healthcare investors or pharmaceutical teams, treat any model lacking external cohort validation as an early exploratory hypothesis rather than a clinical product.
+
+?? Why is an external validation cohort essential before trusting a clinical omics model?
++ It tests whether the locked model generalises across independent patient populations and laboratories
+- It increases the number of candidate genes available during initial feature selection
+- It allows the data scientist to tune hyperparameters one final time before publication
+- It eliminates the need to collect informed consent from discovery study participants
+= Only an independent cohort from separate centres or runs reveals whether a model survives real-world shifts in demographics and sample handling.
+
+## Split by patient, never by sample
+In clinical studies, researchers often collect multiple biopsies, longitudinal blood draws, or technical replicates from the same individual. Splitting by patient means assigning every sample from a given person exclusively to either the training set or the test set.
+
+It is like testing a handwriting recogniser on a new writer rather than on a second page written by someone already in the training folder.
+
+If two samples from the same patient sit on opposite sides of the split, the algorithm simply recognises the individual's baseline genetics instead of the disease state. Consultants must enforce grouped splitting by patient identifier in every validation script.
+
+?? Why must multi-sample clinical datasets be split at the patient level rather than the sample level?
++ Samples from the same person share baseline biology, which leaks identity across the split
+- Patient identifiers require less memory to index than laboratory barcode strings
+- Splitting by sample violates hospital firewall rules for database partitioning
+- Machine learning libraries cannot calculate loss functions when sample counts are uneven
+= Keeping all samples from an individual together prevents the model from inflating accuracy by recognising patient-specific baseline profiles.
+
+## Do feature selection inside the cross-validation loop
+In high-dimensional omics workflows, researchers usually narrow tens of thousands of candidate genes down to a small panel before fitting a classifier. Doing feature selection inside the cross-validation loop means re-running that gene ranking from scratch using only the training folds on each iteration.
+
+It is like picking your fantasy football squad before seeing the weekend's match scores rather than selecting players after watching the highlights.
+
+Selecting the top genes across the whole dataset before splitting leaks test labels directly into the feature set and can make random noise look ninety percent accurate. Always verify that preprocessing, normalisation parameters, and gene selection sit strictly inside each fold.
+
+?? What happens if you select the top fifty differentially expressed genes using the entire dataset before running cross-validation?
++ The cross-validation accuracy becomes severely overestimated because test labels shaped the feature set
+- The classifier becomes unable to converge because fifty features are too few for gradient descent
+- The resulting gene signature becomes completely immune to batch effects in external hospitals
+- The computational runtime of the cross-validation loop increases by a factor of ten thousand
+= Selecting features on the full dataset leaks test outcomes into training, guaranteeing optimistic performance even on purely random data.
+
+## Internal results are optimistic; external cohorts tell the truth
+Internal validation metrics derived from cross-validation or a single random hold-out split almost always overestimate how well an omics model will perform in clinical practice. Even without technical leakage, internal splits share identical inclusion criteria, specimen handling SOPs, and patient demographics.
+
+It is like a delivery drone flying flawlessly inside an indoor warehouse test track before facing crosswinds and rain on real streets.
+
+When the locked model meets an external hospital cohort, accuracy routinely drops by ten to twenty percentage points. As an AI consultant, prepare client leadership for this drop early and build external cohort acquisition into the project budget from day one.
+
+?? Why do internal cross-validation scores usually exceed performance on external clinical cohorts?
++ Internal splits share identical sample handling, demographics, and pipeline conditions that vary in the real world
+- External cohorts always contain fewer biological features than internal discovery datasets
+- Cross-validation algorithms intentionally add a positive bias constant to every fold score
+- External hospitals refuse to measure the genes selected during the discovery phase
+= Shared local conditions make internal splits artificially homogeneous, whereas external cohorts expose the model to real demographic and technical variation.
+
+## Report confidence intervals, not one number
+A point estimate such as an area under the curve of 0.85 hides how uncertain that measurement is when evaluated on a modest clinical sample size. A confidence interval provides the plausible range of values within which the true population performance lies.
+
+It is like quoting a project delivery window of four to six weeks rather than promising completion at noon on a single Tuesday.
+
+With only fifty test patients, an apparent accuracy of eighty percent has a wide margin of error that may overlap with a weak baseline. Consultants should require bootstrap confidence intervals on every metric so stakeholders do not over-interpret small numerical gains.
+
+?? Why should an AI consultant report confidence intervals alongside point estimates for omics classifiers?
++ Small clinical test sets create substantial sampling uncertainty that a single number hides
+- Regulatory bodies forbid reporting area under the curve values as decimal numbers
+- Confidence intervals automatically correct for batch confounding in the training set
+- Bootstrap intervals increase the statistical power of the underlying laboratory assay
+= Reporting confidence intervals shows decision-makers the uncertainty around performance metrics, preventing overconfidence when test cohorts are small.
+
+@@ sll_JRiF-fZr-KIs | D4.2 Biomarker Discovery > Feature Selection
+## Filter, wrapper, and embedded methods (LASSO, RFE)
+~m
+Feature selection methods reduce thousands of molecular measurements to a manageable biomarker panel using filter, wrapper, or embedded strategies. Filter methods score each feature independently, wrapper methods such as recursive feature elimination (RFE) search subsets using a model, and embedded methods such as LASSO select features during training; check the current details in your modelling library.
+
+It is like hiring a team by either screening individual CVs, trialling different small groups together, or assessing chemistry during a live project.
+
+Each approach carries trade-offs: filters ignore gene interactions, wrappers are computationally heavy and prone to overfitting, and LASSO arbitrarily drops correlated partners. Match the method to your client's sample size and interpretability goals.
+
+?? How do embedded methods such as LASSO differ from simple filter methods in biomarker discovery?
++ Embedded methods select features jointly while fitting the predictive model rather than scoring genes one by one
+- Embedded methods require no outcome labels and rely entirely on raw sequencing quality scores
+- Filter methods evaluate every possible combination of genes using repeated neural network training
+- Filter methods automatically group correlated pathway genes into a single synthetic protein
+= Unlike univariate filters that rank each gene in isolation, embedded methods incorporate feature selection directly into the model optimisation objective.
+
+## Stability selection
+Stability selection is a resampling framework that runs a feature selection algorithm repeatedly on many random subsamples of the training data and keeps only features chosen consistently across runs. It turns an unstable selector like LASSO into a reproducible biomarker filter.
+
+It is like interviewing candidates across five independent panels and hiring only the applicants whom almost every panel recommends.
+
+In omics data where many genes correlate strongly, a single model fit often picks one gene over an equally valid neighbour by pure chance. By tracking selection frequency across subsamples, consultants help clients avoid betting a diagnostic assay on a fluke feature.
+
+?? What problem does stability selection solve in high-dimensional biomarker discovery?
++ It identifies features that are consistently chosen across data perturbations rather than by a single lucky split
+- It replaces the need for an external validation cohort by generating synthetic hospitals
+- It speeds up whole-genome sequencing by skipping low-abundance RNA transcripts
+- It forces uncorrelated genes to share identical regression weights in linear models
+= By aggregating selection results across many subsamples, stability selection filters out features that appear only due to sampling noise.
+
+## Filter: rank by simple statistics; wrapper: search subsets; embedded: built into the model
+Understanding the mechanics of filter, wrapper, and embedded selectors helps a consultant design a staged funnel for high-dimensional datasets. Filters use fast univariate tests like t-statistics, wrappers repeatedly train a classifier on candidate subsets, and embedded approaches apply weight penalties inside the loss function.
+
+It is like narrowing down house listings first by price filter, then by visiting combinations of streets, and finally negotiating within a fixed mortgage cap.
+
+Because running wrapper searches directly on thirty thousand genes is both slow and overfit-prone, practical pipelines often apply a conservative filter inside each cross-validation fold before running an embedded or wrapper method. Always validate the entire funnel end to end.
+
+?? Why is running an exhaustive wrapper search directly on tens of thousands of omics features rarely advisable?
++ It is computationally expensive and highly prone to overfitting on small sample sizes
+- Wrapper methods can only process categorical clinical variables and not continuous gene counts
+- Simple univariate filters always capture complex multi-gene interactions better than wrappers
+- Embedded regularisation methods are mathematically prohibited from running after a filter step
+= Searching vast combinations of subsets with a model wrapper quickly overfits small omics cohorts and consumes excessive compute.
+
+## Stable features appear across resamples
+When a biomarker signature is genuinely anchored in robust biology, its core features appear repeatedly when the training cohort is bootstrapped or split into different cross-validation folds. Measuring feature overlap across resamples tests whether the signature itself is reproducible, not just its prediction score.
+
+It is like two independent auditors examining the same company accounts and flagging the exact same three suspicious invoices.
+
+Often, two omics models achieve identical accuracy across folds while sharing almost zero genes because dozens of correlated transcripts carry redundant information. Consultants must show biotech clients the selection frequency table so wet-lab teams know whether their chosen panel is unique or interchangeable.
+
+?? What does it mean when a classifier achieves stable accuracy across folds but selects completely different genes each time?
++ Many correlated genes carry redundant information, making any single selected panel unstable
+- The cross-validation script has failed to shuffle the patient identifiers between folds
+- The underlying disease has no biological relationship with gene expression levels
+- The regularisation penalty has been set to zero across all training iterations
+= Correlated molecular pathways allow different gene subsets to yield similar predictive accuracy, so feature stability must be measured directly across resamples.
+
+## Small signatures need independent confirmation
+In clinical translation, diagnostic companies prefer compact signatures of five to twenty biomarkers because smaller panels are far cheaper and easier to measure with targeted laboratory assays. However, compressing thousands of features into a tiny panel leaves the signature vulnerable to platform shifts.
+
+It is like condensing a comprehensive textbook into a one-page cheat sheet that only works if the exam style stays exactly the same.
+
+A ten-gene signature selected on bulk RNA sequencing often loses calibration when transferred to a targeted PCR test in a hospital lab. Always advise clients to confirm small signatures on an independent cohort measured with the final intended clinical assay.
+
+?? Why must a compact ten-gene biomarker signature be re-validated on the target clinical assay platform?
++ Shifting from discovery sequencing to a targeted clinical assay changes measurement characteristics and calibration
+- Targeted PCR assays can only measure thousands of genes at once rather than small panels
+- Small biomarker panels cannot be evaluated using sensitivity or specificity metrics
+- Independent confirmation is only required when a signature contains more than five hundred genes
+= Moving from a high-throughput discovery platform to a targeted clinical test introduces technical differences that require independent validation and recalibration.
+
+@@ sll_sh7wFtX-25V0 | D4.2 Biomarker Discovery > Classification Models
+## Diagnostic and prognostic classifiers
+Clinical classification models fall into two main categories depending on the clinical question they answer. A diagnostic classifier determines whether a patient currently has a specific disease or subtype right now, whereas a prognostic classifier predicts the likely future course or outcome of a condition over time.
+
+It is like the difference between a mechanic checking whether your car battery is flat today and estimating whether the gearbox will fail within two years.
+
+Confusing the two leads to flawed trial designs and mismatched training labels. As an AI consultant, clarify early whether the client wants to detect existing pathology or stratify future patient risk, as each requires different follow-up data.
+
+?? How does a prognostic biomarker classifier differ from a diagnostic classifier?
++ A prognostic classifier estimates future clinical outcomes, whereas a diagnostic classifier identifies current disease status
+- A prognostic classifier uses only imaging data, whereas a diagnostic classifier uses only blood proteomics
+- A diagnostic classifier predicts survival time over ten years, whereas a prognostic classifier detects lab contamination
+- A diagnostic classifier requires no ground-truth clinical labels during model training
+= Diagnosis asks what condition is present today, while prognosis forecasts how a patient's condition is likely to evolve in the future.
+
+## Survival analysis basics
+Survival analysis is a family of statistical and machine learning methods designed to model the time until a clinical event occurs, such as disease relapse, hospital readmission, or death. Unlike binary classification at a fixed date, it handles patients who are followed for different lengths of time.
+
+It is like tracking how many months customer subscriptions last when clients sign up at different times and some are still active today.
+
+Reducing survival data to a simple yes-or-no label at five years wastes valuable information and biases results if patients drop out early. Consultants should steer clinical clients towards time-to-event modelling whenever outcomes unfold over variable follow-up horizons.
+
+?? Why is survival analysis preferred over simple binary classification for long-term clinical outcomes?
++ It models the time until an event occurs while accounting for variable patient follow-up durations
+- It eliminates the need to record when patients enter or leave a clinical study
+- It converts all continuous gene expression measurements into binary presence-or-absence calls
+- It guarantees hundred-percent sensitivity even when half the cohort lacks molecular data
+= Time-to-event methods use both whether an event happened and how long each patient was observed, avoiding the bias of arbitrary fixed time cut-offs.
+
+## Diagnostic: is the disease present; prognostic: what will happen
+Scoping a clinical machine learning engagement requires matching the ground-truth label definition strictly to either a diagnostic or prognostic workflow. A diagnostic dataset pairs molecular profiles taken at biopsy with a contemporaneous pathology standard, whereas a prognostic dataset links baseline profiles to longitudinal follow-up registries.
+
+It is like checking a smoke detector against an active kitchen fire versus scoring a building's five-year fire risk from its wiring plan.
+
+A common pitfall is training a model on patients with advanced, obvious symptoms and claiming it can screen asymptomatic people early. Challenge clients to ensure their training cohort reflects the exact point in the patient journey where the tool will run.
+
+?? What is a common mistake when building a diagnostic screening model from hospital biobank data?
++ Training on late-stage symptomatic patients and assuming the model will detect early asymptomatic disease
+- Recording pathology confirmation at the same time the diagnostic tissue sample is collected
+- Using healthy controls drawn from the same demographic population as the disease cases
+- Evaluating the classifier using both sensitivity and specificity at clinically relevant thresholds
+= Models trained on obvious late-stage disease often learn downstream inflammatory markers that are absent in the early screening population they are meant to serve.
+
+## Sensitivity and specificity, and the cost of each error
+Sensitivity measures the proportion of true disease cases a test correctly catches, while specificity measures the proportion of healthy individuals it correctly clears. Choosing a classification threshold trades one against the other, and the right balance depends entirely on the clinical cost of each error.
+
+It is like setting an airport security scanner: catching every threat raises false alarms that require brief bag checks, which is far safer than missing a weapon.
+
+A false negative in cancer screening can cost a life through delayed treatment, whereas a false positive in a trial pointing to toxic surgery carries severe harm. Consultants must align decision thresholds with clinical consequences rather than defaulting to 0.5.
+
+?? Why should an AI consultant avoid defaulting to a 0.5 probability threshold for clinical classifiers?
++ False positives and false negatives carry very different clinical and financial harms depending on the use case
+- Probability outputs from machine learning models are always mathematically restricted to values below 0.4
+- Sensitivity and specificity are invariant to the decision threshold chosen by the operator
+- Clinical regulators require all diagnostic models to maximise false positive rates during screening
+= The optimal operating threshold must reflect whether missing a true case or triggering an unnecessary follow-up intervention causes greater harm.
+
+## Survival: time-to-event data and censoring
+In clinical follow-up studies, censoring occurs when a patient's exact event time is unknown because the study ended before the event happened, or the patient moved away and was lost to follow-up. We still know the patient remained event-free up to their last recorded visit.
+
+It is like tracking lightbulb lifespan when the laboratory closes after a thousand hours while several bulbs are still shining brightly.
+
+Dropping censored patients from a dataset skews survival estimates downwards, while treating them as permanently cured skews results upwards. Survival models properly incorporate partial observation times, provided the reason a patient was censored is unrelated to their hidden prognosis.
+
+?? What does right-censoring mean in a clinical survival dataset?
++ A patient had not experienced the clinical event by the time their observation period ended
+- A patient's genomic sequencing file was corrupted by laboratory software errors
+- A patient experienced the clinical event prior to enrolling in the baseline study
+- A patient's biomarker measurements were removed as statistical outliers during normalisation
+= Right-censored records capture that a patient survived at least until their last known follow-up date without experiencing the event during observation.
+
+## Kaplan-Meier curves and Cox models (concept)
+~m
+Kaplan-Meier curves and Cox proportional hazards models are foundational tools for analysing time-to-event data in clinical research. A Kaplan-Meier plot displays the estimated survival probability over time for distinct patient risk groups, while a Cox model relates multiple molecular features to the hazard rate; check the current details in standard biostatistics packages.
+
+It is like comparing customer retention curves across two membership tiers while modelling how usage habits speed up or slow down cancellation.
+
+Keep in mind that standard Cox regression assumes feature effects remain proportional over time and struggles when genes outnumber patients unless penalised variants like Cox-LASSO are used. Always check proportional hazards assumptions before reporting hazard ratios.
+
+?? What is the distinct role of a Kaplan-Meier curve compared with a Cox model in biomarker studies?
++ Kaplan-Meier curves visualise survival probabilities across groups over time, while Cox models estimate how features affect hazard risk
+- Kaplan-Meier curves select genes from raw sequencing reads, while Cox models normalise batch effects
+- Cox models require no time-to-event labels, while Kaplan-Meier curves ignore censored patients entirely
+- Kaplan-Meier curves predict protein folding structures, while Cox models align DNA sequences
+= Researchers use Kaplan-Meier plots to compare survival trajectories between stratified groups and Cox regression to quantify the effect of covariates on hazard rates.
+
+## Prevalence changes the meaning of a positive result
+Disease prevalence is the proportion of individuals in the target population who actually have the condition being tested. Even when a biomarker test boasts ninety-five percent sensitivity and ninety-five percent specificity, its positive predictive value plummets when used to screen a rare disease in the general public.
+
+It is like looking for a single counterfeit coin in a vault of ten thousand coins using a scale that errs one percent of the time: most flagged coins will still be genuine.
+
+In low-prevalence screening, false positives easily outnumber true cases ten to one. Consultants must always calculate positive and negative predictive values using the real clinical prevalence of the client's target clinic.
+
+?? What happens to the positive predictive value of a highly accurate test when it is moved from a specialist clinic to low-prevalence population screening?
++ The positive predictive value drops sharply because false positives from the large healthy majority outnumber true cases
+- The positive predictive value rises to one hundred percent because more healthy people are tested
+- The test's intrinsic sensitivity and specificity automatically drop to zero in low-prevalence settings
+- The number of false negatives exceeds the total population size of the screening programme
+= When a condition is rare in the tested population, even a small false positive rate generates more false alarms than true detections.
+
+@@ sll_KJV1wd3R56zR | D4.3 Interpretation > Explainability in Biology
+## SHAP for biomarkers
+~m
+SHAP (SHapley Additive exPlanations) is a game-theoretic explainability method that breaks down an individual prediction by assigning each biomarker a contribution score toward the model's output. Because explainability libraries update frequently, check the current details when choosing an explainer for tree or deep models.
+
+It is like splitting a team sales bonus by calculating how much each team member added across every possible combination of colleagues.
+
+SHAP enables a consultant to show a clinician both the global importance of genes across a cohort and why a specific patient received a high risk score. However, when genes are strongly correlated, some SHAP estimators can split credit awkwardly or evaluate unrealistic combinations.
+
+?? How does SHAP help interpret a complex omics classification model?
++ It quantifies how much each molecular feature contributed to shifting a prediction away from the baseline
+- It proves through laboratory intervention that knocking out a top gene will cure the patient's disease
+- It removes technical batch effects from raw mass spectrometry files prior to model training
+- It replaces cross-validation by guaranteeing that high-scoring features will generalise externally
+= SHAP attributes the difference between the base rate and an individual or cohort prediction to specific input features using game-theoretic principles.
+
+## Pathway enrichment analysis
+Pathway enrichment analysis is a statistical technique that tests whether a selected list of biomarker genes overlaps with known biological processes or signalling pathways more than expected by chance. Instead of staring at a hundred disconnected gene symbols, researchers see coherent functional themes such as immune activation or cell division.
+
+It is like noticing that twenty items bought in a supermarket basket mostly belong to the baking aisle rather than random shelves.
+
+One critical caveat is that statistical enrichment depends heavily on the background gene universe you specify; using the whole genome instead of the genes actually measured by the assay inflates significance. Always set the proper background list and apply multiple-testing correction.
+
+?? Why must pathway enrichment analysis use the set of actually measured genes as the statistical background universe?
++ Using the entire genome when the assay only measured a subset biases the overlap test and inflates false positives
+- Pathway databases refuse to run queries containing fewer than twenty thousand background identifiers
+- Measuring a subset of genes automatically deletes all immune pathways from the reference genome
+- Background gene lists are only used to convert human gene symbols into mouse identifiers
+= The hypergeometric or enrichment test asks whether selected genes are enriched relative to what could have been selected from the assay's measured features.
+
+## SHAP shows what drove predictions, not what causes disease
+Explainability scores such as SHAP values reveal how a trained mathematical model uses input variables to compute an output, not how the underlying human biology works. A biomarker can strongly drive a model's risk score simply because it is a downstream consequence of disease, a medication side effect, or a hospital artefact.
+
+It is like a model predicting rain accurately because commuters carry umbrellas; umbrellas drive the prediction, but taking them away will not clear the sky.
+
+When presenting SHAP plots to medical directors, an AI consultant must clearly separate model auditing from causal biology. Treat top-ranked features as observational associations that explain the software's behaviour rather than proven drug targets.
+
+?? Why is it wrong to claim that a gene with the highest SHAP value is a causal driver of the disease?
++ SHAP only measures how much a feature influences the model's mathematical output, which may reflect downstream effects or confounding
+- SHAP values are randomly generated numbers used only to test graphics rendering speed
+- Causal disease genes are always assigned negative SHAP values of exactly zero by tree models
+- SHAP only evaluates features from the test set that failed quality control checks
+= Explainability tools describe the internal logic of the fitted model; they cannot distinguish causal disease mechanisms from correlated biomarkers or confounders.
+
+## Enrichment: do the selected genes cluster in known pathways?
+Checking whether model-selected features cluster in established biological pathways helps domain experts judge whether a classifier has captured plausible biology or random noise. When fifteen out of twenty top transcripts belong to interferon signalling in a viral infection model, domain confidence rises substantially.
+
+It is like a detective finding that six seemingly unrelated clues all connect to the same shipping warehouse on a city map.
+
+Still, biology is incomplete and pleiotropic: a valid novel biomarker might not sit in a classic textbook pathway, while a batch artefact affecting ribosomal genes can also produce a tidy enrichment hit. Use pathway clustering as a structured sanity check rather than absolute proof.
+
+?? How can pathway clustering assist an AI consultant and a domain biologist during model review?
++ It shows whether selected features align with coherent biological processes or suspicious technical artefacts
+- It mathematically guarantees that the classifier will achieve ninety-nine percent specificity in clinical trials
+- It eliminates the need to hold out an independent test set during cross-validation
+- It automatically re-sequences patient samples that exhibit atypical gene expression profiles
+= Grouping selected genes into functional pathways helps experts spot biologically plausible mechanisms as well as technical artefacts like stress responses from sample handling.
+
+## Pathway databases (e.g., GO, KEGG, Reactome) differ and change
+~m
+Pathway knowledge bases such as Gene Ontology (GO), KEGG, and Reactome curate how genes and proteins group into functional modules and metabolic reactions. Because curation rules, licence terms, and gene annotations evolve continuously, check the current details and database versions before running an analysis.
+
+It is like consulting three different city guidebooks that draw neighbourhood boundaries differently and update their maps every year.
+
+A gene list that appears strongly enriched in Reactome might look unremarkable in KEGG simply because the two teams define pathway boundaries at different granularity. Consultants should record exact database version dates in client deliverables so biological interpretations remain reproducible years later.
+
+?? Why can running pathway enrichment on the exact same gene list yield different results across GO, KEGG, and Reactome?
++ Each database uses different curation boundaries, granularity levels, and update cycles to define pathways
+- KEGG only stores bacterial DNA sequences whereas Reactome only stores plant lipids
+- Gene Ontology randomly shuffles gene identifiers every time a user submits a web query
+- Pathway databases modify the raw gene expression matrices of the training cohort
+= Because human curators define pathway boundaries and evidence rules differently across databases and releases, enrichment outputs vary by source and version.
+
+## Biological follow-up: literature first, then lab validation
+When a machine learning pipeline highlights a promising biomarker or candidate target, the disciplined translation workflow begins with a thorough literature and database triage before committing to wet-lab experiments. Computational predictions should be cross-checked against public expression atlases, genetic association studies, and published pathology papers.
+
+It is like checking land registry records and geological surveys in the office before hiring an expensive drilling crew to dig a well.
+
+Computational metrics alone never prove that a biomarker can be measured reliably by a clinical assay or that perturbing a target alters disease cells. Guide clients to use dry-lab evidence to filter out obvious dead ends so £50,000 lab budgets focus on the strongest candidates.
+
+?? Why should teams perform literature and database review before launching wet-lab validation of machine learning biomarkers?
++ Literature triage cheaply filters out known artefacts and checks biological plausibility before expensive lab work begins
+- Reading published papers replaces the regulatory requirement for clinical assay validation
+- Wet-lab experiments cannot measure genes that have never been mentioned in prior literature
+- Computational cross-validation already proves causal mechanism without any laboratory testing
+= Reviewing existing literature and public atlases is a fast, low-cost filter that helps teams prioritise which computational hits merit costly wet-lab experiments.

@@ -5,20 +5,48 @@
     {
       "id": "bit_TaDviWJCj_eb",
       "title": "GPU sizing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Sizing GPUs for self-hosting means selecting the type and number of graphics cards needed to hold the model weights, fit the key-value cache for expected concurrency, and meet latency targets. Both total video memory capacity and memory bandwidth determine whether a card can run a model fast enough for users.\n\nIt is like choosing a commercial oven based on both how many trays fit inside at once and how quickly the heating elements reach baking temperature.\n\nSplitting a large model across multiple smaller GPUs via tensor parallelism works well inside one server, but slow interconnects between separate machines can bottleneck performance.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TaDviWJCj_eb_1",
+          "type": "multiple_choice",
+          "prompt": "Which two GPU hardware specs matter most when sizing a server for language model inference?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Screen display resolution and audio jack count"
+            },
+            {
+              "id": "b",
+              "text": "Hard-drive spin speed and motherboard colour"
+            },
+            {
+              "id": "c",
+              "text": "Keyboard layout and USB port version"
+            },
+            {
+              "id": "d",
+              "text": "Total video memory capacity and memory bandwidth"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Video memory capacity determines whether the weights and cache fit, while memory bandwidth largely sets how fast tokens are generated.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit__qeqMbKr7OIA",
       "title": "Serverless GPUs and autoscaling",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Serverless GPU platforms run your model containers on demand and automatically scale the number of GPU replicas up when traffic spikes and down to zero when traffic stops. Instead of paying twenty-four hours a day for idle dedicated servers, you pay only for the seconds or minutes the GPUs are active.\n\nIt is like hiring taxis only when your staff need to travel to a client meeting rather than leasing a fleet of company cars that sit in the car park overnight.\n\nHowever, scaling up from zero takes time to load multi-gigabyte model weights, which can frustrate users if traffic arrives in sudden bursts.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,37 +59,121 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q__qeqMbKr7OIA_1",
+          "type": "multiple_choice",
+          "prompt": "When is a serverless GPU setup usually more cost-effective than renting dedicated round-the-clock GPU servers?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When the servers are running at ninety-five per cent utilisation twenty-four hours a day"
+            },
+            {
+              "id": "b",
+              "text": "When traffic is spiky, intermittent, or low-volume with long idle periods"
+            },
+            {
+              "id": "c",
+              "text": "When the model requires zero milliseconds of startup delay after sitting idle all night"
+            },
+            {
+              "id": "d",
+              "text": "When the organisation wants to train a trillion-parameter model continuously for six months"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Serverless billing shines when demand fluctuates or drops to zero for hours, avoiding fixed hourly charges for idle hardware.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_3QyNSWvFIIsi",
       "title": "Rule of thumb: model memory plus cache must fit in GPU memory",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A reliable rule of thumb for GPU sizing is that the static model weights, the key-value cache for all concurrent requests, and a small runtime overhead buffer must all fit comfortably inside total GPU video memory. If the combined footprint spills over into standard system RAM, generation speed drops to a crawl.\n\nIt is like packing for a flight with a strict cabin-bag limit where exceeding the allowance forces your bag into the slow cargo hold.\n\nWhen memory is tight, you can either quantise the weights, cap the maximum context length, or add more GPU capacity.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_3QyNSWvFIIsi_1",
+          "type": "multiple_choice",
+          "prompt": "What happens if the combined memory of model weights and the active key-value cache exceeds available GPU memory?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model automatically deletes half of its vocabulary to save space"
+            },
+            {
+              "id": "b",
+              "text": "Generation speed doubles because system RAM is faster than GPU memory"
+            },
+            {
+              "id": "c",
+              "text": "Requests fail with out-of-memory errors or slow down drastically if offloaded to system RAM"
+            },
+            {
+              "id": "d",
+              "text": "The GPU upgrades its own physical memory chips over the internet"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Keeping both weights and working cache inside fast GPU memory is essential to avoid crashes or severe offloading slowdowns.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4A66M-akv_f0",
       "title": "Cold starts on serverless GPUs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A cold start happens when a request arrives at a serverless GPU endpoint that currently has zero active instances, forcing the platform to allocate a GPU, start the container, and load gigabytes of model weights into memory before answering. For large models, this delay can last from several seconds to over a minute.\n\nIt is like waiting for an espresso machine to heat up from stone cold in the morning before it can pour the first cup of coffee.\n\nTeams mitigate cold starts by keeping at least one warm replica running during business hours or using fast network storage with pre-cached weight snapshots.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4A66M-akv_f0_1",
+          "type": "multiple_choice",
+          "prompt": "Why are cold starts noticeably slower for self-hosted language models than for typical lightweight web microservices?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Language models require a human operator to type a password on every server boot"
+            },
+            {
+              "id": "b",
+              "text": "Tens of gigabytes of model weights must be transferred into GPU memory before the first token can be generated"
+            },
+            {
+              "id": "c",
+              "text": "Serverless GPUs must retrain the model from scratch every time a container starts"
+            },
+            {
+              "id": "d",
+              "text": "Web browsers block connections to GPU servers for the first sixty seconds"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Loading massive model files from storage into GPU memory takes far longer than booting a tiny stateless web container.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Xez69XOUGwyE",
       "title": "Self-hosting beats an API at steady high volume or under strict data rules",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Deciding between calling a commercial API and self-hosting an open-weight model comes down to traffic volume, latency control, and data governance. At low or unpredictable volume, pay-per-token APIs are almost always cheaper and simpler, whereas at steady high volume, dedicated GPUs can lower the cost per million tokens.\n\nIt is like buying cups of coffee from a high-street cafe when you live alone, versus leasing a commercial machine once an office has two hundred daily drinkers.\n\nStrict regulatory rules that forbid sending sensitive customer records outside a private network can also make self-hosting mandatory regardless of volume.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -74,19 +186,75 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Xez69XOUGwyE_1",
+          "type": "multiple_choice",
+          "prompt": "Under which two conditions does self-hosting an open-weight model typically make more sense than using a third-party pay-per-token API?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "When the team has no operations staff and only sends ten prompts per week"
+            },
+            {
+              "id": "b",
+              "text": "When the application requires a frontier model with proprietary closed weights"
+            },
+            {
+              "id": "c",
+              "text": "When the project is a two-day prototype with zero budget for infrastructure setup"
+            },
+            {
+              "id": "d",
+              "text": "When token volume is high and steady, or when strict data residency rules forbid external APIs"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "High sustained utilisation amortises fixed GPU rental costs, and strict privacy or compliance mandates often require keeping data in-house.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lqCGnxcAGgNw",
       "title": "Self-hosting adds operations work: updates, monitoring, and security",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "While self-hosting removes per-token vendor fees, it shifts the burden of reliability, security patching, GPU driver updates, scaling, and uptime monitoring onto your own engineering team. An idle or broken GPU cluster still costs money every hour, and an unpatched server is a security risk.\n\nIt is like owning a boat instead of booking a ferry ticket: you control the schedule, but you also have to maintain the engine and pay for mooring.\n\nAs an AI consultant, you must include this hidden engineering and maintenance labour in any total-cost-of-ownership calculation for a client.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lqCGnxcAGgNw_1",
+          "type": "multiple_choice",
+          "prompt": "What hidden cost do organisations often overlook when comparing self-hosted GPU rental prices against commercial API token prices?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The fact that open-weight models charge a mandatory royalty fee on every vowel generated"
+            },
+            {
+              "id": "b",
+              "text": "The requirement to buy new graphics cards every single week as weights wear out"
+            },
+            {
+              "id": "c",
+              "text": "The cost of posting paper transcripts of every prompt to the government"
+            },
+            {
+              "id": "d",
+              "text": "The ongoing engineering labour required for monitoring, scaling, patching, and maintaining the serving infrastructure"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Total cost of ownership includes not just raw GPU bills but also the DevOps time needed to keep self-hosted servers secure and reliable.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

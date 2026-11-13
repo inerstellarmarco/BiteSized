@@ -1,0 +1,595 @@
+// C1 C1 Math for Machine Learning
+@@ sll_p9GYt9v0boBQ | C1.1 Linear Algebra > Vectors & Matrices
+## Vectors as data points and directions
+A vector is an ordered list of numbers that represents either a single data point in space or a direction and magnitude of movement from the origin. Every feature in a dataset becomes one coordinate along a separate axis.
+
+It is like a client profile card where annual spend, support tickets, and account age are listed in a fixed order to place that customer at an exact spot on a map.
+
+However, raw coordinates mean little unless the axes share comparable scales and clear definitions across every record you analyse.
+
+?? How does machine learning represent a customer record as a vector?
++ As an ordered list of numbers where each position holds one feature value
+- As an unordered bag of text labels with no fixed coordinate positions
+- As a single summary score that discards individual feature measurements
+- As a circular graph that connects every database table to another
+= Each number in a vector corresponds to a specific feature dimension, placing the record at a defined point or direction in space.
+
+## Dot products and cosine similarity (see A5.2, B2.1)
+The dot product multiplies matching coordinates of two vectors and adds the results together, while cosine similarity divides that sum by both vector lengths to measure the angle between them regardless of size.
+
+It is like comparing two shoppers by the mix of groceries in their baskets rather than how many total bags they bought.
+
+A high cosine score still depends on how the embedding model was trained, so two vectors pointing the same way may reflect shared topic words rather than true business equivalence.
+
+?? What is the main difference between the raw dot product and cosine similarity?
++ Cosine similarity normalises for vector length so only the angle between directions is compared
+- Cosine similarity ignores negative numbers whereas the dot product deletes positive ones
+- The dot product requires square matrices whereas cosine similarity only works on text strings
+- The dot product measures Euclidean distance whereas cosine similarity counts non-zero entries
+= Dividing the dot product by the product of the two vector norms removes magnitude effects and leaves the cosine of the angle between them.
+
+## Matrix multiplication as a transformation
+Matrix multiplication applies a linear transformation to a space, rotating, stretching, squashing, or projecting every input vector into a new coordinate system according to the numbers stored in the matrix rows and columns.
+
+It is like converting a table of regional sales figures from local currencies and units into a standardised global reporting view in one step.
+
+Because a single matrix multiply is strictly linear, stacking several of them without non-linear activation functions in between collapses into just one flat transformation.
+
+?? What happens geometrically when you multiply a vector by a matrix?
++ The vector is linearly transformed through operations such as rotation, scaling, or projection
+- The vector is sorted from smallest coordinate to largest coordinate without changing length
+- Each coordinate is raised to an exponential power to create a curved surface
+- The vector is split into random sub-samples to prevent overfitting during inference
+= A matrix acts as a linear map that stretches, rotates, or projects vectors into a new space.
+
+## Vector length (norm) and unit vectors
+The length of a vector, called its norm, measures how far the point sits from the origin, and dividing a vector by its Euclidean norm produces a unit vector of length one that keeps only its direction.
+
+It is like turning a delivery van report that mixes route compass bearings with total kilometres driven into a pure compass heading of length one.
+
+Watch out for zero vectors in sparse client data, because dividing a vector of all zeros by its norm causes a divide-by-zero error unless you add a tiny safety constant.
+
+?? How do you convert a non-zero vector into a unit vector?
++ Divide every coordinate of the vector by the vector's length (norm)
+- Subtract the mean of the coordinates so the entries sum to zero
+- Multiply the vector by its own transpose to obtain a scalar value
+- Round every coordinate to the nearest whole integer between zero and one
+= Scaling each component by the reciprocal of the Euclidean norm preserves direction while setting total length to one.
+
+## A matrix as a table of weights: a neural-network layer is a matrix multiply
+In a neural network, a dense layer stores its learnable connections as a matrix of weights, where each column or row holds the strengths linking every input feature to one output neuron via matrix multiplication.
+
+It is like a panel of specialist reviewers who each apply their own weighted scorecard to the same client proposal at the exact same moment.
+
+This matrix step plus a bias term only computes weighted sums, so the network still needs a non-linear activation afterwards to learn curved boundaries.
+
+?? What role does the weight matrix play inside a standard dense neural-network layer?
++ It stores the learnable connection strengths that transform an input vector into output pre-activations
+- It records the historical timestamps of every training epoch run on the server
+- It holds the raw validation images in compressed binary form for visual inspection
+- It enforces a hard rule that prevents gradients from flowing backward through the model
+= Multiplying the input by the weight matrix computes the weighted sums for all neurons in the layer simultaneously.
+
+## Shapes must match: the most common source of tensor errors
+Two matrices can be multiplied only when the inner dimensions match, meaning the number of columns in the first matrix equals the number of rows in the second, and the output takes the outer dimensions.
+
+It is like connecting two sections of industrial piping for a factory client where the outlet diameter of the first pipe must match the inlet diameter of the second.
+
+Broadcasting rules in modern code libraries sometimes hide mismatched dimensions by silently repeating a column or row, which can corrupt predictions without raising an error.
+
+?? When multiplying matrix A of shape (32, 128) by matrix B, which shape for B is valid and what output shape results?
++ B has shape (128, 10) and the output has shape (32, 10)
+- B has shape (32, 10) and the output has shape (128, 32)
+- B has shape (10, 128) and the output has shape (10, 32)
+- B has shape (128, 128) and the output has shape (128, 128)
+= The inner dimension 128 matches across both matrices, and the resulting matrix takes the outer dimensions of 32 rows by 10 columns.
+
+## Batches: stacking many vectors into one matrix
+Instead of passing data points through a model one vector at a time, practitioners stack dozens or hundreds of input vectors as rows in a single batch matrix and multiply the whole batch at once.
+
+It is like baking forty loaves of bread on one large commercial tray rather than heating the oven forty separate times for single loaves.
+
+Larger batches utilise parallel graphics hardware efficiently, yet making the batch too big can exceed memory limits and alter how well the trained model generalises.
+
+?? Why do engineers stack individual input vectors into a batch matrix before multiplying by layer weights?
++ Parallel hardware can process one large matrix multiplication much faster than many separate vector calls
+- Stacking vectors removes all noise from the labels and guarantees zero validation error
+- Matrix multiplication is mathematically undefined for a single vector on modern processors
+- Batching reduces the number of features in each customer record by half
+= Modern accelerators are optimised for dense matrix-matrix operations, making batched processing far more efficient than sequential single-example updates.
+
+@@ sll_Ql092E0zXeaJ | C1.1 Linear Algebra > Spaces & Decompositions
+## Latent space (intuition)
+A latent space is a compressed, hidden coordinate system learned by a model where complex raw inputs such as documents, images, or customer histories are mapped so that items with similar meaning sit close together.
+
+It is like a sommelier organising thousands of wines not by bottle barcode, but on a two-axis tasting chart of sweetness against body.
+
+Because the axes of a learned latent space are combinations of many patterns, individual coordinates rarely correspond to neat, human-named business metrics without extra probing.
+
+?? What defines a useful latent space in machine learning?
++ High-dimensional inputs are mapped into a compact representation where semantically similar items lie near one another
+- Every coordinate axis is manually defined by a database administrator before training begins
+- Data points are spread as far apart as possible so no two records share any neighbours
+- Raw files are stored without compression so that exact byte sequences can be read by eye
+= A latent space captures underlying structure in fewer dimensions, grouping items with shared characteristics close together.
+
+## Eigenvalues and eigenvectors (intuition)
+An eigenvector of a square matrix is a special non-zero direction that does not rotate when the matrix transforms space, and its matching eigenvalue is the scalar factor by which that direction gets stretched or flipped.
+
+It is like the main axle of a spinning globe, which stays pointed along the same line while every other point on the surface swings around it.
+
+Not every matrix has real eigenvectors, and in noisy business data only the eigenvectors with the largest eigenvalues usually carry meaningful signal rather than random jitter.
+
+?? How do an eigenvector and its eigenvalue behave under a matrix transformation?
++ The eigenvector keeps its direction line while the eigenvalue tells how much it is scaled
+- The eigenvector rotates by ninety degrees while the eigenvalue counts the matrix rows
+- Both the eigenvector and eigenvalue reset to zero whenever the matrix is symmetric
+- The eigenvalue gives the direction in space while the eigenvector gives the scalar length
+= By definition, multiplying a matrix by one of its eigenvectors produces the same vector scaled by its scalar eigenvalue.
+
+## SVD and its link to PCA and embeddings
+Singular Value Decomposition, or SVD, factors any rectangular matrix into three simpler matrices representing input directions, singular scaling values, and output directions, which directly powers Principal Component Analysis (PCA) and classical word embeddings.
+
+It is like breaking a complex orchestral recording into its dominant instruments, their volume levels, and how they blend across speakers.
+
+Computing a full SVD on a massive client table is expensive in memory and time, and its linear components cannot untangle curved relationships in the data.
+
+?? How does Singular Value Decomposition (SVD) relate to Principal Component Analysis (PCA)?
++ SVD finds the orthogonal directions and scaling values that capture the greatest variance in a centred data matrix
+- SVD replaces numerical features with decision trees before PCA sorts the leaves
+- SVD only works on square identity matrices whereas PCA requires three-dimensional image tensors
+- SVD adds random noise to prevent PCA from compressing the original feature columns
+= Applying SVD to a mean-centred data matrix reveals the principal components and the amount of variance each component explains.
+
+## Eigenvectors: directions a transformation only stretches
+While almost every vector changes its angle when multiplied by a transformation matrix, eigenvectors lie along the invariant axes of that transformation and experience only pure stretching, shrinking, or sign reversal.
+
+It is like pulling the corners of a rubber sheet along its weave lines, where threads aligned with your pull stretch straight out while diagonal drawings twist.
+
+When two eigenvalues are nearly equal, the individual eigenvector directions become unstable under tiny data perturbations, even though the plane they span stays steady.
+
+?? If a non-zero vector only stretches or shrinks without changing its line of direction when multiplied by matrix M, what is that vector?
++ An eigenvector of matrix M
+- A bias vector of matrix M
+- A one-hot encoding of matrix M
+- A mini-batch gradient of matrix M
+= Vectors whose span is unchanged by a linear transformation are the eigenvectors of that matrix.
+
+## Low-rank structure: why a big matrix can be compressed
+A large matrix has low-rank structure when its rows or columns are mostly combinations of a much smaller set of underlying patterns, allowing it to be approximated as the product of two tall-and-thin matrices.
+
+It is like a retail chain with ten thousand stores whose weekly sales patterns really follow just five regional weather and payday templates.
+
+Truncating small singular values saves huge amounts of memory and compute, but compressing too aggressively discards rare niche signals that may matter for edge cases.
+
+?? Why can many large matrices in business and machine learning be approximated by two much smaller matrices?
++ Their rows and columns contain redundant patterns governed by only a few independent factors
+- Every large matrix consists entirely of zeros except along its main diagonal
+- Floating-point numbers can store an infinite amount of information inside a single byte
+- Matrix multiplication ignores all columns after the first three during inference
+= When data or weight matrices have low effective rank, most of their variation lies in a low-dimensional subspace that small factor matrices can capture.
+
+## The link to LoRA: low-rank updates
+Low-Rank Adaptation, or LoRA, fine-tunes a large model by freezing the huge pretrained weight matrix and learning a small change written as the product of two narrow matrices with a tiny inner rank.
+
+It is like keeping a thousand-page corporate manual locked in print while issuing a slim two-page addendum that updates how staff handle client queries.
+
+LoRA cuts memory and training cost dramatically for domain adaptation, though very low ranks can struggle when a client task demands learning an entirely new language or skill.
+
+?? How does LoRA reduce the number of trainable parameters during fine-tuning?
++ It freezes the original weight matrix and trains two small low-rank matrices whose product represents the weight update
+- It deletes ninety percent of the layers in the pretrained model before training starts
+- It converts all floating-point weights into binary text strings that need no gradients
+- It trains only the final output bias scalar while discarding the input embeddings
+= By expressing the weight update as the product of two narrow matrices of rank r, LoRA learns far fewer parameters than updating the full matrix.
+
+@@ sll_Q5WBGp7zi6m0 | C1.2 Calculus & Optimization > Derivatives & Gradients
+## Rates of change and partial derivatives
+A derivative measures how fast a function's output changes when its input shifts slightly, and a partial derivative measures that rate when you nudge just one input variable while holding all other variables fixed.
+
+It is like testing how a client's profit margin responds to a tiny change in shipping price while keeping wages, rent, and ad spend completely still.
+
+Partial derivatives only describe the local slope at the current point, so they can mislead you if you extrapolate far away across a curved function.
+
+?? What does a partial derivative with respect to a single weight tell you?
++ How rapidly the output or loss changes when that single weight is nudged and all other weights stay fixed
+- The global minimum value that the loss function will reach after a hundred epochs
+- How strongly two input features correlate with each other across the test set
+- The exact number of hidden layers required to reduce training error to zero
+= A partial derivative isolates the instantaneous rate of change along one coordinate axis while treating all other variables as constants.
+
+## The chain rule (the core of backpropagation)
+The chain rule from calculus states that when functions are composed inside one another, the derivative of the final output with respect to an early input is the product of the local derivatives along the chain.
+
+It is like tracing how a one-pound rise in raw steel cost changes bolt cost, which changes engine cost, which changes the final lorry price.
+
+Because backpropagation multiplies local derivatives across many layers, chains of numbers consistently below one or above one can make the signal vanish or explode.
+
+?? Why is the calculus chain rule essential for training multi-layer neural networks?
++ It lets backpropagation compute how early layer weights affect the final loss by multiplying local derivatives layer by layer
+- It guarantees that every non-convex loss surface turns into a smooth bowl with one minimum
+- It removes the need to store intermediate activations during the forward pass
+- It sorts training examples by difficulty so the optimiser can skip easy batches
+= Neural networks are nested function compositions, so the chain rule decomposes end-to-end sensitivity into step-by-step local derivatives.
+
+## Gradient: the vector of partial derivatives, pointing uphill
+The gradient gathers all the partial derivatives of a scalar function into a single vector, with one entry per parameter, and that vector always points in the direction of steepest upward increase of the function.
+
+It is like standing on a foggy Welsh hillside with an instrument that tells you the slope north and the slope east, combining them to point straight uphill.
+
+To reduce a model's loss, gradient descent steps in the opposite direction of the gradient, though the steepest local step is not always the fastest path down a narrow valley.
+
+?? In which direction does the gradient vector of a loss function point, and how does gradient descent use it?
++ The gradient points in the direction of steepest increase, so gradient descent steps in the negative gradient direction to reduce loss
+- The gradient points directly at the global minimum, so gradient descent jumps to that coordinate in one step
+- The gradient points along flat contour lines where the loss never changes
+- The gradient points toward the steepest decrease, so gradient descent adds the gradient to the weights
+= Because the gradient points uphill toward higher loss values, subtracting a multiple of the gradient moves parameters downhill.
+
+## Computation graphs: how autograd records the steps
+A computation graph is a directed network of nodes and edges where variables and parameters feed into mathematical operations, allowing automatic differentiation engines to record every forward step and replay derivatives backward automatically.
+
+It is like a spreadsheet that remembers every cell formula linking raw inputs to the bottom-line total, so it can trace how changing any cell affects the result.
+
+Storing every intermediate tensor on the forward graph consumes substantial memory during training, which is why consultants disable gradient tracking during client inference runs.
+
+?? Why do deep learning frameworks build a computation graph during the forward pass?
++ To record each operation and intermediate value needed to apply the chain rule automatically during the backward pass
+- To encrypt model weights so external users cannot inspect the architecture
+- To compress the training dataset onto disk before the first epoch begins
+- To replace matrix multiplications with rule-based lookup tables at inference time
+= Autograd tracks the sequence of elementary operations and saved tensors on the forward pass so it can traverse the graph in reverse to compute exact gradients.
+
+## Vanishing and exploding gradients (concept)
+Vanishing and exploding gradients occur in deep or recurrent networks when repeated multiplication of derivatives through the chain rule causes gradient values in early layers to shrink toward zero or blow up toward infinity.
+
+It is like a game of whispered messages down a long line of fifty people, where the message either fades into silence or gets shouted louder at every step.
+
+Modern techniques such as residual skip connections, careful weight initialisation, normalisation layers, and gradient clipping largely tame this problem, though very deep setups still need monitoring.
+
+?? What happens to early layers of a deep network when gradients vanish during training?
++ Their weight updates become tiny, so early layers barely learn while later layers do all the adjusting
+- Their weights immediately overflow into not-a-number errors on the first training batch
+- They memorise the training labels within one epoch and overfit the validation set
+- They automatically prune themselves from the computation graph to save memory
+= When gradients shrink toward zero as they propagate backward, early layers receive almost no signal telling them how to improve.
+
+@@ sll_9iCG195_fZgD | C1.2 Calculus & Optimization > Gradient Descent
+## Loss landscapes and minima
+A loss landscape is the high-dimensional surface formed by plotting the model's error value across every possible combination of weights, where valleys and basins represent parameter settings with low error called minima.
+
+It is like a mountain range where elevation represents business cost and your goal is to hike down into the deepest valley you can find.
+
+In real neural networks with millions of parameters, you cannot visualise the true surface directly, and the lowest valley on training data may not generalise best to new client data.
+
+?? What does a low valley in a model's loss landscape represent?
++ A set of parameter weights that produces a small error on the objective function
+- A region where the model has the maximum possible number of trainable layers
+- A configuration where every weight has been set to a large positive integer
+- A batch of corrupted training examples that should be deleted from the dataset
+= The height of the loss surface measures error for each weight configuration, so valleys correspond to low-loss parameter settings.
+
+## Stochastic and mini-batch gradient descent
+Full-batch gradient descent computes the exact slope over the entire dataset before taking one step, whereas stochastic gradient descent uses a single example and mini-batch gradient descent averages the slope over a small sample such as thirty-two or two hundred and fifty-six records.
+
+It is like polling fifty shoppers at midday to adjust a store layout immediately rather than interviewing every citizen in the city before moving a single shelf.
+
+Mini-batch updates are much faster per step and fit in hardware memory, though the sample noise means the loss jiggles rather than dropping smoothly on every single step.
+
+?? Why is mini-batch gradient descent preferred over full-batch gradient descent on large datasets?
++ It updates weights frequently using affordable memory per step while utilising parallel hardware efficiently
+- It computes the exact noise-free gradient of the entire population on every single update
+- It eliminates the need to choose a learning rate or any other hyperparameter
+- It guarantees convergence to the global minimum in a single pass through the data
+= Mini-batches balance hardware parallelism with frequent, low-cost updates instead of scanning millions of rows for every single step.
+
+## Learning rate, momentum, Adam
+The learning rate sets the step size along the gradient, momentum adds a moving average of past steps to smooth out zigzags in narrow valleys, and the Adam optimiser combines momentum with per-parameter step scaling based on recent gradient magnitudes.
+
+It is like a heavy bowling ball rolling down a gutter that keeps its forward speed through minor bumps while adjusting sensitivity for each lane board.
+
+Adam is a reliable default for most neural models, but if the learning rate is set too high the optimiser can still overshoot valleys and diverge completely.
+
+?? How does the Adam optimiser improve upon basic gradient descent?
++ It combines momentum from past gradients with adaptive per-parameter learning rates scaled by recent gradient magnitudes
+- It evaluates every possible weight combination in parallel without computing any derivatives
+- It forces all weights in the network to share a single identical scalar value
+- It replaces the loss function with a random number generator to avoid local minima
+= Adam tracks both a running average of gradients (momentum) and a running average of squared gradients to scale each parameter's step size adaptively.
+
+## Local minima, saddle points, and flat regions
+A local minimum is a small valley higher than the best possible basin, a saddle point is a spot that curves up in some directions and down in others, and a plateau is a wide flat region where gradients are nearly zero.
+
+It is like a hiker pausing on a mountain pass that slopes upward toward two peaks on the sides but slopes downward into valleys ahead and behind.
+
+In high-dimensional neural networks, true bad local minima are rarer than once feared, whereas saddle points and flat plateaus are common and can stall slow optimisers.
+
+?? What characterises a saddle point on a high-dimensional loss surface?
++ The gradient is zero, with the surface curving upward along some directions and downward along others
+- Every direction points strictly uphill so no parameter change can reduce the loss locally
+- The loss value reaches negative infinity and halts the training script immediately
+- The gradient has infinite magnitude in all directions at once
+= At a saddle point the slope flattens out, but some cross-sections curve up like a valley while others curve down like a ridge.
+
+## Why noisy mini-batch gradients still work
+Because each mini-batch is a random sample of the training set, its gradient fluctuates around the true full-dataset gradient, adding natural jostling that helps the optimiser slip off saddle points and escape sharp, brittle valleys.
+
+It is like gently shaking a jar of dry coffee granules so they settle into a stable, broad level rather than sticking in precarious narrow pockets.
+
+However, near the end of training that same sampling noise prevents the weights from settling to the bottom of a basin unless you decay the learning rate.
+
+?? How can the sampling noise in mini-batch gradients actually help neural network training?
++ The fluctuations help jostle parameters off saddle points and steer them toward broader, more generalisable basins
+- The noise deletes mislabelled records from the hard drive before they affect the weights
+- The randomness ensures that training loss reaches exact zero on the first epoch
+- The noise converts non-linear activation functions into simple linear equations
+= Stochastic gradient noise acts as a helpful perturbation that discourages getting trapped in sharp, fragile crevices or flat saddle points.
+
+## Convex vs. non-convex problems
+A convex optimisation problem has a single bowl-shaped loss surface where any local minimum is guaranteed to be the global minimum, whereas a non-convex problem has a rugged landscape of many valleys, ridges, and saddles.
+
+It is like the difference between dropping a marble into a smooth cereal bowl and dropping it onto a crumpled sheet of tin foil.
+
+Classical models like linear and logistic regression with standard losses are convex and give reproducible answers, whereas deep neural networks are non-convex and depend on initialisation and random seeds.
+
+?? What is the key practical guarantee of a strictly convex loss function?
++ Any local minimum found by gradient descent is also the unique global minimum
+- Training requires zero data points because the optimal weights are known in advance
+- The model can learn arbitrary non-linear image representations without hidden layers
+- Gradient descent will converge in a single step regardless of the learning rate chosen
+= A convex bowl has no misleading side valleys, so descending until the slope is zero reaches the best possible solution.
+
+@@ sll_mN3Y6E8KYbtP | C1.3 Probability & Statistics > Probability Fundamentals
+## Random variables and distributions
+A random variable is a numerical outcome of an uncertain process, and its probability distribution describes how likely each possible value or range of values is to occur.
+
+It is like tracking daily call-centre volume for a telecom client, where the exact number of calls tomorrow is uncertain but follows a predictable spread over the year.
+
+A distribution summarises uncertainty across many trials, so it never guarantees the exact outcome of a single tomorrow, only the long-run pattern and risk bounds.
+
+?? What does a probability distribution provide for a random variable?
++ A rule or curve assigning likelihoods to the different values the variable can take
+- A deterministic formula that predicts the exact single value of the next observation without error
+- A method for removing all variance from a client's historical sales database
+- A list of model hyperparameters sorted by their memory consumption
+= A probability distribution maps every possible outcome or interval of a random variable to its probability or density.
+
+## Softmax
+The softmax function takes a vector of raw, unconstrained model scores called logits, exponentiates each number to make it positive, and divides by their total sum so the outputs form a valid probability distribution adding to one.
+
+It is like converting raw judge points in a talent contest into percentage shares of the total prize pool.
+
+Because softmax sums to one across a fixed list of classes, it forces the model to assign high probability to one class even when given an out-of-scope input that belongs to none of them.
+
+?? What does the softmax function do to a vector of raw class scores (logits)?
++ It exponentiates and normalises them into positive numbers that sum to 1.0
+- It clips negative numbers to zero and leaves positive numbers unchanged
+- It sorts the vector in descending order without changing the numerical values
+- It maps every score independently into the range -1 to +1 using a tangent curve
+= Softmax applies the exponential function to each logit and divides by the sum of all exponentials, producing a categorical probability distribution.
+
+## Bayes' theorem and conditional probability
+Conditional probability measures the chance of an event given that another event has already happened, and Bayes' theorem updates a prior belief with new evidence to calculate the revised posterior probability.
+
+It is like a fraud analyst starting with the low baseline rate of stolen cards, then updating the suspicion score sharply upward when a card is used in two countries within ten minutes.
+
+Ignoring the prior base rate is a classic consulting pitfall, because even an accurate detector produces mostly false alarms when the true event is extremely rare.
+
+?? Why does Bayes' theorem include the prior probability of an event when interpreting a positive test or model alert?
++ Because a rare event can still have a low true probability after a positive alert if false positives outnumber rare true cases
+- Because prior probabilities always equal 0.5 in every business application
+- Because conditional probability ignores the new evidence and returns the prior unchanged
+- Because multiplying by the prior removes the need to measure test sensitivity
+= Bayes' theorem weighs the likelihood of the new evidence against the baseline prevalence (the prior) to compute the true posterior probability.
+
+## Common distributions: normal, Bernoulli, and categorical
+The Bernoulli distribution models a single yes-or-no coin flip, the categorical distribution models a choice among several discrete classes, and the normal (Gaussian) distribution models continuous measurements clustered symmetrically around a mean.
+
+It is like a retailer modelling whether a visitor buys anything at all (Bernoulli), which department they pick (categorical), and the continuous parcel weight (normal).
+
+Many financial and web metrics have heavy tails with extreme outliers, so assuming a neat normal bell curve for client revenue or latency can severely underestimate tail risk.
+
+?? Which probability distribution matches a single binary outcome such as whether an email is spam or not?
++ Bernoulli distribution
+- Categorical distribution with ten classes
+- Continuous normal distribution
+- Uniform continuous distribution over all real numbers
+= A Bernoulli distribution models a single trial with two possible outcomes, typically labelled 1 and 0 with probability p and 1-p.
+
+## Expectation and variance
+The expectation (or mean) of a random variable is its probability-weighted average outcome, while the variance measures the expected squared distance from that mean, capturing how spread out or volatile the outcomes are.
+
+It is like comparing two investment funds that both average a six percent annual return, where one delivers steady gains and the other swings wildly between losses and jackpots.
+
+Relying on expectation alone hides operational risk; a client service system with an acceptable average response time may still breach contracts if its variance is high.
+
+?? What does the variance of a random variable measure?
++ How far the possible values spread out around the expected value (mean)
+- The single most frequent category in a text dataset
+- The directional slope of the loss function with respect to the first weight
+- The exact midpoint after sorting the sample from lowest to highest
+= Variance quantifies dispersion by averaging the squared deviations of outcomes from their expected value.
+
+## Independence, and why it rarely holds in real data
+Two random variables are statistically independent if knowing the value of one gives you zero information about the value of the other, meaning their joint probability is simply the product of their individual probabilities.
+
+It is like assuming that a shopper's umbrella purchase has nothing to do with whether they also buy raincoats on the same afternoon.
+
+In real client data, features and even separate rows are almost always tangled by shared seasons, economic shifts, or repeat customers, so naive independence assumptions regularly underestimate combined risk.
+
+?? When are two events A and B statistically independent?
++ When knowing that A occurred does not change the probability that B occurs
+- When A and B can never occur together on the same day
+- When A and B have the exact same mean and variance
+- When A causes B to happen in every recorded observation
+= Independence means the conditional probability of B given A equals the unconditional probability of B, so their joint probability equals P(A) times P(B).
+
+## Maximum likelihood: choosing the parameters that make the data most likely
+Maximum likelihood estimation (MLE) is the principle of fitting a statistical or machine learning model by finding the parameter values that assign the highest combined probability to the outcomes actually observed in the training data.
+
+It is like a detective hearing three witnesses and choosing the timeline of events that makes all three witness statements most plausible together.
+
+With small datasets or huge models, pure maximum likelihood readily overfits by latching onto accidental quirks in the sample unless you add regularisation or prior beliefs.
+
+?? What is the goal of maximum likelihood estimation when fitting model parameters?
++ To find the parameter values under which the observed training data would have the highest probability of occurring
+- To choose parameters that make every prediction equal to a uniform random guess
+- To minimise the number of rows in the training set before fitting the model
+- To force all model weights to equal zero regardless of the observed labels
+= Maximum likelihood selects the parameters that maximise the likelihood (or log-likelihood) of the observed data sample.
+
+@@ sll_jRO8FxaiBNrY | C1.3 Probability & Statistics > Information Theory Basics
+## Entropy and surprise
+In information theory, surprise measures how unexpected a single event is (rare events carry high surprise), and entropy is the average surprise across an entire probability distribution, measuring how uncertain or unpredictable the outcome is.
+
+It is like comparing a rigged coin that always lands heads, which has zero entropy and no suspense, with a fair die, which carries high uncertainty on every roll.
+
+A model with high output entropy is spreading its bets thinly across many choices, which can signal healthy uncertainty on ambiguous inputs or a poorly trained predictor.
+
+?? Which probability distribution over four classes has the highest entropy?
++ A uniform distribution where each of the four classes has probability 0.25
+- A distribution where one class has probability 1.0 and the others have 0.0
+- A distribution where one class has probability 0.97 and three share 0.03
+- Entropy is always identical regardless of the class probabilities
+= Entropy is maximised when outcomes are equally likely, because predictability is at its lowest and average surprise is at its peak.
+
+## Cross-entropy and KL divergence
+Cross-entropy measures the average surprise when you use an estimated probability distribution to encode events that actually follow a true distribution, while Kullback-Leibler (KL) divergence is the extra surprise added on top of the true distribution's own entropy.
+
+It is like packing a suitcase for a client trip based on a weather forecast; cross-entropy is your total discomfort, and KL divergence is the avoidable discomfort caused by forecast error.
+
+Because the true data entropy is fixed with respect to model weights, minimising cross-entropy during training is mathematically identical to minimising the KL divergence from truth to model.
+
+?? How are cross-entropy, true entropy, and KL divergence related when comparing a true distribution P with a model distribution Q?
++ Cross-entropy equals the entropy of P plus the KL divergence from P to Q
+- Cross-entropy is always zero whenever KL divergence is greater than ten
+- KL divergence is the product of P and Q divided by the number of layers
+- True entropy changes on every gradient step while KL divergence stays constant
+= Cross-entropy decomposes into the irreducible uncertainty of the true distribution P plus the KL divergence penalty for using Q instead of P.
+
+## Cross-entropy is the standard loss for classification and LLMs
+Cross-entropy loss scores a classification model or large language model by taking the negative logarithm of the probability the model assigned to the true label or next token, heavily penalising confident wrong predictions.
+
+It is like a quiz where saying you are ninety-nine percent sure of a wrong answer costs you a massive penalty, whereas admitting uncertainty costs much less.
+
+Because the penalty grows steeply when a rare true label gets near-zero probability, a few mislabelled training rows can dominate the gradient and skew the model's calibration.
+
+?? How does cross-entropy loss react when a classifier assigns a probability very close to zero to the true class?
++ It produces a very large loss penalty, pushing the model strongly to raise that probability
+- It produces a loss of zero because the model was decisive in its choice
+- It ignores the example completely to protect the weights from changing
+- It flips the true label in the dataset to match the model's prediction
+= Because negative log probability climbs toward infinity as the assigned probability approaches zero, confident mistakes incur a steep penalty.
+
+## KL divergence measures how far one distribution is from another
+KL divergence quantifies how much one probability distribution differs from a reference distribution, making it a staple tool in variational autoencoders, knowledge distillation, and reinforcement learning from human feedback to keep a tuned model close to a baseline.
+
+It is like measuring how far a regional office's budget split has drifted from the headquarters template across departments.
+
+Crucially, KL divergence is asymmetric, meaning the divergence from distribution P to Q does not equal the divergence from Q to P, so it is not a true geometric distance.
+
+?? Why is KL divergence not considered a true distance metric in geometry?
++ It is asymmetric, so the divergence from P to Q does not equal the divergence from Q to P
+- It can take negative values whenever two distributions are identical
+- It only works on three-dimensional vectors and fails on probabilities
+- It always returns a constant value of 1.0 for any pair of distributions
+= Switching the reference distribution and the approximating distribution changes the KL value, violating the symmetry required of a true metric.
+
+## Perplexity: cross-entropy turned into a "how surprised" score
+Perplexity is the exponential of the average cross-entropy loss per token, turning an abstract logarithmic loss into an intuitive branching factor that indicates how many equally likely choices the language model feels torn between at each step.
+
+It is like saying a predictive text engine with a perplexity of ten is on average as uncertain at each word as someone rolling a fair ten-sided die.
+
+Always remember that perplexity depends on the exact tokeniser vocabulary and test corpus, so you cannot fairly compare perplexity numbers across two models that split words into tokens differently.
+
+?? If a language model has a perplexity of 8 on a test passage, what is the intuitive interpretation?
++ On average, the model is as uncertain at each next-token prediction as if choosing uniformly among 8 options
+- The model makes an outright factual error on exactly 8 percent of its sentences
+- The model requires 8 gigabytes of memory to process a single prompt
+- The model can only read contexts that are 8 words long or fewer
+= Perplexity exponentiates the cross-entropy loss, expressing average next-token uncertainty as an effective number of equally likely choices.
+
+@@ sll_OjLcIltSOLZn | C1.3 Probability & Statistics > Statistical Inference
+## Mean, variance, confidence intervals
+A sample mean estimates the centre of a population, sample variance estimates its spread, and a confidence interval gives a range of plausible values for the true population parameter based on sample size and variability.
+
+It is like a retail trial in twenty stores reporting an average sales lift of four percent with a ninety-five percent confidence interval from one percent to seven percent.
+
+A wider interval warns a client that the sample was small or noisy, and a ninety-five percent confidence interval assumes random sampling without systematic bias.
+
+?? What causes a confidence interval around a sample mean to become narrower?
++ Increasing the sample size or having lower variance among the observations
+- Reducing the sample size to only two or three hand-picked records
+- Adding random measurement noise to every row in the spreadsheet
+- Switching from British currency units to raw unscaled ratios
+= Standard error shrinks as the square root of the sample size grows and as sample variability decreases, tightening the interval around the estimate.
+
+## Hypothesis testing, p-values, multiple testing
+A hypothesis test checks whether an observed difference is larger than we would expect from random chance alone under a no-effect null hypothesis, and the p-value measures how often data at least that extreme would appear by pure luck.
+
+It is like flipping a coin ten times to test fairness; getting ten heads gives a tiny p-value, whereas testing a hundred coins at once virtually guarantees one lucky streak by accident.
+
+When an analytics team tests dozens of client segments or model variants at once without corrections like Bonferroni or false discovery rate control, false discoveries become routine.
+
+?? What is the multiple testing problem in data analysis?
++ Running many hypothesis tests increases the chance of finding at least one false positive purely by random luck
+- Testing a model on more than one CPU core corrupts the floating-point arithmetic
+- Using a large test dataset reduces statistical power to zero
+- Comparing two models on the same validation split is mathematically impossible
+= At a 5% significance threshold, one in twenty tests of true null hypotheses will cross the threshold by chance, so testing many hypotheses inflates false alarms.
+
+## Sampling bias and correlation vs. causation
+Sampling bias happens when the collected data systematically excludes or over-represents parts of the real population, while confusing correlation with causation happens when two variables move together due to a hidden confounding factor rather than one causing the other.
+
+It is like concluding that hospital beds cause illness because people in hospital beds are sicker, or judging national opinion by polling only luxury airport lounges.
+
+More rows never fix a biased sample, and predicting what happens when a client actively changes a price or policy requires causal evidence, such as a controlled trial, not just passive correlation.
+
+?? Why can collecting ten times more data fail to fix a model suffering from sampling bias?
++ Because a larger sample drawn through the same flawed collection process simply repeats the same systematic skew with higher confidence
+- Because gradient descent cannot process datasets larger than ten thousand rows
+- Because correlation automatically turns into causation once sample size exceeds a million
+- Because larger datasets always increase the width of confidence intervals
+= Sampling bias is a systematic mismatch between the sample and the target population, so scaling up the same collection method just reinforces the distortion.
+
+## A p-value is not the probability that the hypothesis is true
+A p-value is the probability of observing a test statistic at least as extreme as the one in your sample assuming the null hypothesis of no real effect is true; it is never the probability that the null hypothesis itself is true.
+
+It is like noting that if a fire alarm is working properly, a random false ring is rare, which is not the same as calculating the probability that there is no fire once it rings.
+
+Because p-values do not incorporate how plausible a hypothesis was before the experiment, treating `p = 0.04` as a ninety-six percent guarantee of a real business win misleads executives.
+
+?? Which statement accurately defines a p-value in hypothesis testing?
++ The probability of seeing results at least as extreme as the observed data, assuming the null hypothesis is true
+- The probability that the null hypothesis is true given the observed data
+- The probability that the alternative hypothesis will generate profit next quarter
+- The percentage of variance explained by the model on the training split
+= A p-value conditions on the null hypothesis being true and measures how unusual the observed sample result would be under pure chance.
+
+## Effect size: significant does not mean large
+Statistical significance only tells you that an observed difference is unlikely to be pure sampling noise, whereas effect size measures the actual magnitude of that difference in practical, business-relevant units.
+
+It is like running an A/B test on ten million website visits and proving with a tiny p-value that a new button boosts revenue by half a penny per year.
+
+With massive datasets, tiny and commercially useless differences easily achieve statistical significance, so consultants must always report the effect size alongside its confidence interval and deployment cost.
+
+?? Why must an AI consultant check the effect size even when an A/B test achieves a tiny p-value?
++ With a large enough sample size, even a tiny, commercially meaningless improvement can be statistically significant
+- A small p-value means the new model performed worse than the baseline
+- Effect size is the only way to tell whether the code ran on a GPU or CPU
+- Statistical significance only applies to unsupervised clustering algorithms
+= Significance measures confidence that an effect is non-zero, whereas effect size measures whether the magnitude is large enough to matter in practice.
+
+## Bootstrap: estimating uncertainty by resampling
+The bootstrap estimates the uncertainty of almost any metric by repeatedly drawing random samples of the same size from your observed dataset with replacement, recalculating the metric on each resample, and inspecting the spread of those results.
+
+It is like shaking and re-drawing hands of cards from your existing sample hundreds of times to see how much a model's F1 score or median error wobbles.
+
+Bootstrapping frees you from textbook formula assumptions, but it cannot invent information missing from a tiny or biased original sample, and interdependent rows must be resampled in blocks.
+
+?? How does the bootstrap method estimate a confidence interval for a custom evaluation metric?
++ By repeatedly sampling rows from the dataset with replacement, computing the metric on each sample, and taking the percentiles of the resulting values
+- By deleting half the dataset permanently and training a linear regression on the remainder
+- By assuming the metric follows a Bernoulli distribution with mean zero
+- By retraining the model from scratch on synthetic text generated by a random word list
+= Resampling with replacement mimics drawing repeated samples from the population, letting the empirical spread of the recalculated statistic quantify uncertainty.

@@ -1,0 +1,313 @@
+// D9 D9 Future-Ready Bio AI & Bio-Business
+@@ sll_XPLPQ8dvohLm | D9.1 Frontier Science > Foundation Models for Biology
+## Virtual cells and multi-omics foundation models
+A virtual cell is an ambitious computational model designed to simulate how a living cell responds to genetic perturbations, drugs, or environmental shifts across multiple molecular layers. Multi-omics foundation models pre-train on vast collections of DNA, RNA, protein, and epigenomic profiles to learn a unified representation of cellular state.
+
+Think of it as a digital twin of a city's transport network that lets planners test how closing one bridge affects traffic, buses, and trains before placing a single road cone.
+
+Today, fully predictive virtual cells remain an active research frontier rather than a finished turnkey product. Models capture broad correlations well but frequently miss causal regulatory dynamics.
+
+?? What is the overarching goal of building virtual cell and multi-omics foundation models?
++ Simulating how cells respond across molecular layers to genetic changes or candidate drugs
+- Replacing all hospital beds with virtual reality headsets for outpatient consultations
+- Compressing DNA sequencing text files so they fit onto floppy disks
+- Eliminating the need for any future laboratory experiments in biology
+= Virtual cell models aim to integrate multi-omics layers to predict how cells change state when perturbed by mutations or therapeutics, though true causal accuracy remains an active frontier.
+
+## Spatial omics and spatial AI
+Spatial omics technologies measure molecular activity, such as gene expression or protein abundance, directly inside intact tissue slices rather than grinding the tissue into a soup of isolated cells. Spatial AI combines computer vision with graph and sequence models to analyse how cells interact with their physical neighbours.
+
+It is the difference between having a list of every shop in a town and having a street map showing which shops sit next to the train station or the school.
+
+In oncology, seeing whether immune cells actually infiltrate a tumour core or sit trapped on its border often matters far more than their total count. However, spatial assays remain costly and trade off resolution against gene coverage.
+
+?? What crucial biological information does spatial omics preserve that standard single-cell sequencing loses?
++ The exact physical location and neighbourhood relationships of cells within intact tissue
+- The full name and home address of the patient who donated the biopsy
+- The retail cost of the sequencing reagents used in the hospital laboratory
+- The exact time of day the machine learning engineer started the training run
+= Standard single-cell protocols dissociate tissue into loose cells, whereas spatial omics retains tissue architecture so models can study cell-to-cell microenvironments.
+
+## Models trained on millions of cells aim to generalize across tissues
+Single-cell foundation models are pre-trained on atlases containing tens of millions of individual cell profiles collected across dozens of human organs, developmental stages, and diseases. By learning universal gene co-expression patterns at scale, they aim to transfer knowledge to rare tissues or small patient cohorts where training from scratch would fail.
+
+It is like a polyglot who has mastered six Romance languages picking up basic Italian in a weekend, whereas a beginner has to memorise every verb from scratch.
+
+Even so, technical batch effects across laboratories can fool foundation models into learning lab-specific artefacts rather than transferable human biology.
+
+?? Why do researchers pre-train single-cell foundation models on tens of millions of cells across diverse organs?
++ To learn generalisable representations of gene regulation that can transfer to smaller downstream studies
+- To ensure every human organ expresses the exact same set of proteins at all times
+- To avoid having to normalise or clean raw sequencing reads before analysis
+- To guarantee that zero wet-lab validation is needed for new drug targets
+= Large-scale pre-training across diverse cell types aims to capture shared biological rules that can be fine-tuned on smaller, disease-specific cohorts.
+
+## The claims are early: compare against simple baselines
+The rapid rise of biological foundation models has brought bold marketing claims about zero-shot discovery and emergent biological reasoning. Independent benchmarks, however, frequently show that heavily publicised deep models barely match or even trail well-tuned linear models, logistic regression, or gradient-boosted trees on practical tasks like perturbation prediction.
+
+As an AI consultant, treat a startup's hundred-million-parameter cell model like an expensive sports car in city traffic: always time it against a humble bicycle on the client's actual commute before signing the lease.
+
+Insist on rigorous comparisons against simple baselines on held-out biological batches before approving high compute and licensing costs.
+
+?? How should an AI consultant evaluate a vendor's claim that a biological foundation model outperforms existing methods?
++ Benchmark it directly against simple linear or tree-based baselines on properly held-out biological batches
+- Accept the vendor's marketing deck if the model has more than one billion parameters
+- Check only whether the model achieved low training loss on its pre-training dataset
+- Assume that larger GPU training budgets always produce superior biological accuracy
+= Independent evaluations show that simple baselines often rival or beat complex biological foundation models, making strict head-to-head benchmarking essential.
+
+## Spatial data keeps tissue location together with gene activity
+Spatial transcriptomics and proteomics generate multimodal datasets that pair high-resolution microscopy images of stained tissue with coordinate-mapped molecular readouts. Analysing these datasets allows AI models to link morphological features visible under a microscope directly to the underlying gene programmes driving them.
+
+For a pathology client, this bridges two worlds: a model can learn how subtle changes in cell shape on a routine hospital slide reflect deep molecular pathways discovered through spatial sequencing.
+
+The main operational bottleneck is data engineering: aligning gigapixel images, segmenting packed cell boundaries accurately, and normalising sparse transcripts across tissue sections require careful quality control.
+
+?? Why is accurate cell segmentation an important step when analysing high-resolution spatial omics data?
++ Errors in drawing cell boundaries assign molecular transcripts to the wrong neighbouring cells
+- Cell segmentation automatically encrypts patient identifiers for regulatory compliance
+- Microscopes cannot focus on glass slides unless segmentation software is deleted first
+- Segmenting cells converts RNA molecules into solid gold nanoparticles
+= In packed tissues, imprecise boundary segmentation mixes transcripts between adjacent cells, creating false hybrid cell profiles that mislead downstream AI models.
+
+@@ sll_PvbdMyjN1QWF | D9.1 Frontier Science > Generative Design & AI-Driven Labs
+## Generative protein and genome design
+Generative biology now extends beyond single protein domains to designing multi-protein complexes, regulatory DNA enhancers, and even long genome-scale sequences. Long-context sequence models learn evolutionary grammar across millions of base pairs to propose synthetic promoters, metabolic pathways, or viral vectors tailored to specific cell types.
+
+Think of moving from writing a single catchy advertising slogan to composing an entire orchestral score where strings, brass, and percussion must enter at the exact right bar.
+
+As sequence length grows, biological context dependencies become vastly harder to validate, because a single misplaced regulatory motif can silence an entire synthetic gene circuit inside a living cell.
+
+?? What new capability do long-context generative models bring to synthetic biology beyond single-protein design?
++ Designing regulatory DNA elements, gene circuits, and multi-component genomic sequences
+- Allowing software to synthesise physical DNA strands without using chemical nucleotides
+- Guaranteeing that synthetic genomes never mutate when dividing inside bacteria
+- Eliminating the distinction between human cells and silicon computer chips
+= Modern genomic language models expand generative design from individual proteins to cell-type-specific promoters, regulatory sequences, and multi-gene assemblies.
+
+## Autonomous discovery platforms
+Autonomous discovery platforms, often called self-driving laboratories, connect AI experimental planners directly to robotic liquid handlers, automated incubators, and high-throughput analytical instruments. In a closed loop, the software analyses the latest assay results, selects the next most informative experiments using active learning, and instructs the robots to run them.
+
+It works like a robotic warehouse combined with an adaptive chess engine: every experimental result updates the strategy and triggers the next physical move without waiting for a weekly team meeting.
+
+In reality, biology is sticky and temperamental. Clogged pipette tips, contaminated cell cultures, and drifting sensors mean humans remain essential to keep automated labs running reliably.
+
+?? What defines a closed-loop autonomous discovery platform in biotechnology?
++ AI software analyses experimental readouts and automatically directs lab robotics to execute the next round of tests
+- A wet laboratory that operates without electricity, reagents, or physical biological samples
+- A cloud server that writes scientific papers without performing any experiments
+- A hospital ward where robots perform autonomous brain surgery without doctors
+= Closed-loop platforms link active-learning algorithms with robotic lab execution and measurement so each experimental cycle informs and triggers the next.
+
+## Design at scale, then test in pooled experiments
+Generative models are most powerful when paired with multiplexed wet-lab assays that can test thousands of designed sequences in a single tube. Instead of purifying and testing proteins one by one in individual wells, scientists synthesise DNA libraries encoding tens of thousands of AI designs and screen them together in pooled barcoded experiments.
+
+It is like testing ten thousand paper aeroplane designs by launching them all with tiny numbered tags in a giant hangar and scanning which ones land furthest, rather than throwing them one at a time.
+
+Pooled screens measure surrogate readouts like binding enrichment rapidly, narrowing the field before slow, high-precision assays test the top winners individually.
+
+?? Why do generative biology teams pair AI design models with pooled multiplexed lab assays?
++ Pooled assays test thousands of barcoded AI designs in parallel, generating dense feedback to retrain models
+- Pooled experiments cost a hundred times more per variant than testing proteins one by one
+- Mixing variants in a single tube guarantees that every design has identical biological activity
+- Pooled screens eliminate the need to ever purify or test final drug candidates individually
+= Multiplexed assays evaluate vast libraries of AI-generated sequences simultaneously at low cost per design, providing rich positive and negative data for iterative learning.
+
+## Biosecurity: dual-use risks and screening of designs
+~m
+Dual-use risk in bio-AI is the danger that tools built to design helpful medicines, vaccines, or enzymes could be misused to engineer dangerous pathogens or toxins. In response, industry coalitions and governments have introduced gene synthesis screening protocols and AI safety frameworks; check the current details on mandatory biosecurity compliance rules.
+
+It is like security checks at a chemical plant that manufactures agricultural fertiliser: the exact same capability that feeds crops can be misused to make explosives if orders are not screened.
+
+Consultants advising generative biology firms must ensure DNA synthesis providers screen orders and that models include safeguards against designing regulated pathogens or evading detection filters.
+
+?? Why can generative protein design tools complicate traditional DNA synthesis biosecurity screening?
++ De novo models could design novel sequences that retain toxic function while looking unfamiliar to simple sequence-matching filters
+- Generative models only output small carbon molecules that contain no DNA or protein sequences
+- DNA synthesis companies are legally forbidden from checking customer identities
+- Pathogens designed on a computer cannot be synthesised using standard chemical nucleotides
+= Traditional screening checks orders against databases of known pathogen sequences, so biosecurity frameworks are evolving to detect novel functional designs as well.
+
+## Human judgment on which problems are worth solving
+No matter how fast an AI model generates molecules or how tirelessly a robotic lab screens them, algorithms cannot decide which biological problems are clinically, ethically, and commercially worth solving. Choosing the right disease indication, patient subpopulation, and clinical endpoint requires human judgement grounded in medicine and business reality.
+
+Think of a brilliant navigation system that can plot the fastest route to any coordinates on Earth: it is useless if the leadership team enters the wrong destination city.
+
+Many well-funded AI biotech programmes fail not because their machine learning was weak, but because they optimised a tractable assay that ultimately did not matter to patients or payers.
+
+?? Why does human judgement remain irreplaceable even in highly automated AI drug discovery companies?
++ Selecting clinically meaningful diseases, endpoints, and ethical priorities cannot be reduced to an assay score
+- Robots are physically incapable of pipetting liquids into standard plastic assay plates
+- Machine learning algorithms refuse to process data collected from human hospitals
+- Venture capital investors prohibit companies from using computers during target selection
+= AI and lab automation accelerate execution, but deciding which medical unmet needs, patient populations, and endpoints truly matter requires human clinical and strategic judgement.
+
+@@ sll_OURo4e0KSzth | D9.2 Commercialization > Bio-Business Models
+## Platform vs. asset companies; tools vs. therapeutics
+Biotech and bio-AI companies generally choose between building a platform business, an asset-centric therapeutics business, or a software and research tools business. This strategic choice dictates how much capital the company must raise, who it hires, and how investors value its progress.
+
+Imagine the California gold rush: a tools company sells sturdy pickaxes and maps to every miner for steady cash, a platform company builds a geological radar system to locate multiple gold seams, and an asset company stakes its entire fortune on digging out one specific mine.
+
+Blurring these models confuses investors and splits engineering focus between customer support and internal drug discovery.
+
+?? How does a bio-AI tools business differ strategically from an internal therapeutics business?
++ A tools business sells software or services to other researchers, whereas a therapeutics business develops its own drug candidates
+- A tools business must run phase three human clinical trials before selling its first software licence
+- A therapeutics business generates immediate monthly subscription revenue from day one
+- Investors value tools companies and clinical drug developers using identical risk multiples
+= Tools companies commercialise software or lab capabilities directly to customers, while therapeutics companies take on clinical development risk to own high-value drug assets.
+
+## Partnerships, licensing, and IP
+Because taking a drug from discovery through global clinical trials and marketing costs hundreds of millions of pounds, most AI biotech startups partner with large pharmaceutical companies. These deals revolve around licensing intellectual property in exchange for upfront cash, research funding, and future payouts.
+
+For a fifty-person AI discovery firm in Cambridge, partnering with a global pharma giant is like an independent inventor teaming up with a major car manufacturer to mass-produce, crash-test, and distribute a new battery technology worldwide.
+
+For an AI consultant, understanding how data rights and model improvements are split inside partnership contracts is critical so the startup does not accidentally give away its core platform.
+
+?? Why do young AI biotech companies frequently enter licensing partnerships with major pharmaceutical firms?
++ To access non-dilutive capital, clinical trial expertise, and global commercialisation infrastructure
+- Because small startups are legally barred from filing patent applications on their own
+- To hand over all company shares to the pharmaceutical partner for zero financial return
+- Because large pharmaceutical companies never conduct their own regulatory submissions
+= Partnering provides startups with upfront funding and late-stage clinical and commercial muscle that would be prohibitively expensive to build independently.
+
+## Platform: many programs from one technology; asset: a single drug
+A platform company builds a repeatable engine, such as a generative antibody design pipeline or an automated screening lab, capable of producing multiple drug candidates across several diseases. An asset company focuses all its capital and management attention on advancing one specific drug candidate through clinical trials.
+
+Think of a platform as a goose that lays golden eggs and an asset company as a merchant polishing and selling one specific golden egg at auction.
+
+In practice, public markets and pharma acquirers rarely pay huge premiums for an unvalidated platform alone. Platform startups almost always have to advance one or two internal flagship assets into the clinic to prove their engine actually works.
+
+?? Why do platform biotech startups usually develop at least one internal lead drug asset of their own?
++ Clinical success with an internal asset validates the platform and captures much higher upside value
+- Venture capitalists forbid platform companies from signing any external pharma partnerships
+- Software engineers are only allowed to write code if the company owns a hospital
+- Developing a single drug is completely risk-free compared with selling software tools
+= Advancing an internal candidate into human trials provides concrete proof that the platform produces real medicines and builds substantial enterprise value.
+
+## Revenue timing: tools earn sooner; therapeutics earn later and carry more risk
+The financial profile of a bio-AI company is shaped by a stark trade-off between revenue timing, risk, and ultimate payout size. Software and research tools companies can earn customer revenue within months, whereas therapeutics companies spend a decade burning cash before a drug ever reaches the market.
+
+However, pharmaceutical software budgets are notoriously tight and sales cycles are slow, capping how fast a pure bio-software startup can grow; by contrast, a single approved blockbuster drug can generate over £1 billion a year in revenue.
+
+Consultants helping founders or investors must align cash runway and hiring plans with the realistic revenue horizon of the chosen business model.
+
+?? What is the primary financial trade-off between selling bio-AI software tools and developing proprietary therapeutics?
++ Tools generate earlier revenue with lower scientific risk but smaller upside, whereas therapeutics face long high-risk timelines for massive potential payouts
+- Software tools require ten years of human clinical trials before earning their first pound of revenue
+- Therapeutics companies have zero scientific failure risk once a molecule is drawn on a screen
+- Pharmaceutical companies pay billion-pound royalties for basic spreadsheet utility software
+= Software tools offer near-term revenue with modest ceilings, while drug development demands years of capital and high clinical risk in exchange for blockbuster commercial returns.
+
+## Patents, trade secrets, and freedom to operate
+Intellectual property in AI-driven biotechnology combines composition-of-matter patents on novel molecules with trade secrets protecting proprietary datasets, model weights, and lab protocols. Freedom to operate means verifying that making and selling your product does not infringe existing patents held by others.
+
+It is like running a famous bakery: you patent the unique mechanical oven you invented so rivals cannot copy it, keep your sourdough starter recipe locked away as a trade secret, and check that your brand name does not infringe another shop's trademark.
+
+Notice that obtaining your own patent does not grant freedom to operate if your molecule still relies on a delivery mechanism patented by a competitor.
+
+?? Why do AI biotech companies typically keep their training pipelines and proprietary assay datasets as trade secrets rather than patenting them?
++ Patents require public disclosure and are hard to enforce on internal software, whereas trade secrets keep the competitive advantage private
+- Patent offices charge £100 million to read a single page of Python code
+- Chemical molecules cannot be patented anywhere in the world under current law
+- Trade secrets automatically block competitors from selling any medicine for twenty years
+= Composition-of-matter patents protect the final drug molecule publicly, while trade secrets protect the internal algorithms and datasets that competitors could otherwise copy if published.
+
+## Milestones and royalties in licensing deals
+Biotech licensing agreements rarely pay the full value of a deal on day one. Instead, payments are structured around a modest upfront fee, followed by development and commercial milestone payments triggered as the drug clears specific hurdles, plus a percentage royalty on eventual net sales.
+
+Think of an author signing a book contract: they receive a modest advance upon signing, bonus payments if the book hits the bestseller list or is adapted into a film, and a small percentage of every copy sold in bookshops.
+
+Because most early discovery programmes fail before reaching the market, headline "billion-pound" deal announcements ("biobucks") mostly reflect back-loaded milestones that may never be paid out.
+
+?? Why should an analyst be cautious when a startup announces a partnership worth £1 billion in total deal value?
++ Most of that headline figure consists of future clinical and commercial milestones that are only paid if the drug succeeds
+- Pharmaceutical companies always pay the entire £1 billion in cash on the day the press release is issued
+- Licensing deals force the startup to repay triple the upfront fee if a mouse assay fails
+- Royalties are paid before any clinical trials begin and stop once the drug is approved
+= Headline deal totals bundle together conditional milestone payments across many years of trials and sales; the guaranteed upfront cash is typically a small fraction of the total.
+
+@@ sll_bplhXY34VYEI | D9.2 Commercialization > Life-Science Venture Capital
+## How biotech is financed (seed to IPO)
+Biotechnology startups raise capital in staged rounds, progressing from pre-seed and seed grants through Series A, B, and C venture capital rounds, and eventually to an Initial Public Offering or pharma acquisition. Each round funds the specific experiments required to reach the next value-inflection point.
+
+It is like climbing a high mountain peak by establishing a chain of base camps: each camp gives the team enough oxygen and supplies to reach the next ridge, rather than carrying ten years of rations from the valley floor.
+
+Unlike consumer software startups that can bootstrap on customer subscriptions, drug discovery requires tens of millions of pounds in lab and clinical capital before generating product sales.
+
+?? Why is biotech financing structured around large, staged venture capital rounds rather than bootstrapping from early sales?
++ Discovering and clinically testing medicines requires heavy upfront capital over many years before any product can be sold
+- Biotech founders are legally prohibited from accepting revenue from pharmaceutical partners
+- Cloud computing for biology is completely free during Series A and Series B rounds
+- Venture capitalists require biotech startups to launch a consumer mobile app before going public
+= Because laboratory validation, toxicology, and human clinical trials are capital-intensive and take years before product approval, startups rely on staged equity financing and partnerships.
+
+## Evaluating AI-bio startups: science, data moat, team
+Life-science venture investors evaluate AI-bio startups across three core pillars: the biological validity of the science, the defensibility of the proprietary data moat, and the cross-functional strength of the team. A flashy neural network architecture downloaded from a public preprint rarely impresses seasoned investors on its own.
+
+When performing technical due diligence for an investment fund, look at the lab bench and leadership table: a team where machine learning engineers and veteran drug hunters challenge and understand each other is worth far more than a siloed group of pure coders.
+
+Cultural friction between tech and bio cultures is one of the commonest reasons early AI-bio ventures stumble.
+
+?? What team characteristic do experienced life-science investors look for in an AI-bio startup?
++ Tight integration between machine learning engineers, wet-lab scientists, and experienced clinical drug developers
+- A team composed exclusively of computer science graduates with no wet-lab experience
+- Founders who refuse to run physical experiments and rely purely on public benchmarks
+- A management board that outsources all biological decisions to external marketing agencies
+= Successful AI-bio companies bridge computational modelling and experimental biology seamlessly, combining AI talent with seasoned medicinal chemistry and clinical translation expertise.
+
+## Funding stages follow clinical milestones
+In therapeutics startups, equity valuation and fundraising stages are tightly anchored to biological and clinical de-risking milestones. Seed capital typically funds platform proof-of-concept and target validation, Series A funds lead optimisation to nominate a preclinical candidate, and Series B or C funds IND-enabling toxicology and Phase 1 or Phase 2 human trials.
+
+It works like a construction loan where the bank releases the next tranche of cash only after an independent surveyor confirms the foundations are poured, the frame is up, or the roof is watertight.
+
+Running out of cash six months before a clinical readout destroys a startup's leverage, forcing painful down-rounds.
+
+?? What milestone typically anchors the transition from early discovery funding to a larger clinical-stage venture round?
++ Nominating a validated preclinical drug candidate and completing toxicology studies to enter human trials
+- Publishing a theoretical machine learning paper at a computer science conference
+- Redesigning the company website logo and leasing a larger office in central London
+- Downloading a free public genomic database onto the company's cloud server
+= Valuation step-ups in biotech track concrete biological de-risking steps, such as selecting a development candidate, clearing IND-enabling safety studies, and generating human clinical data.
+
+## Data moat: proprietary data that is hard to copy
+Because open-source model weights and architectures diffuse across the industry within months, durable competitive advantage in bio-AI rarely comes from algorithms alone. Instead, a true data moat comes from proprietary, high-quality, perturbation-rich experimental datasets generated internally at scale, including negative results that never appear in public papers.
+
+It is like owning the only weather network with sensors inside every storm cloud: competitors may use the exact same forecasting equations, but your predictions win because no one else has your sensor feed.
+
+Public datasets are noisy, inconsistent, and biased toward positive outcomes. A closed-loop lab that generates clean, standardised assay data specifically designed for machine learning creates an asset competitors cannot easily replicate.
+
+?? Why do internal wet-lab assay loops create a stronger competitive moat than open-source model architectures?
++ Models are quickly copied, whereas clean, standardised experimental data including negative results is costly and slow for rivals to replicate
+- Open-source algorithms are illegal to use in commercial pharmaceutical research
+- Public biological databases already contain clean measurements for every possible chemical structure
+- Proprietary datasets automatically prevent competitors from hiring PhD scientists
+= Model architectures commoditise rapidly, so sustainable advantage lies in proprietary, consistent experimental data, especially systematic negative data, tailored to train those models.
+
+## Ask what the AI changes in a way you can measure
+When advising a pharmaceutical client or investor evaluating an AI platform, always ask what specific bottleneck the AI changes in a way you can measure quantitatively. Vague promises of "transforming drug discovery" mean nothing without concrete key performance indicators tied to time, cost, or probability of success.
+
+For instance, a credible claim states that a generative lead-optimisation workflow cuts the number of synthesised compounds needed to reach a clinical candidate from two thousand down to three hundred, saving nine months and £3 million per programme.
+
+Note that speeding up a two-week computational step makes little difference to a ten-year drug timeline unless it also improves candidate quality downstream.
+
+?? How should an AI consultant frame the business case for adopting a new machine learning tool in drug discovery?
++ Define measurable metrics such as fewer compounds synthesised, shorter cycle times, or higher assay hit rates
+- Promise that the software will guarantee hundred per cent success in Phase 3 clinical trials
+- Focus solely on how many teraflops of GPU compute the model consumes during training
+- Claim that all medicinal chemists and toxicologists can be made redundant immediately
+= A rigorous business case connects the AI intervention to quantifiable operational metrics, such as hit rate, synthesis cycles, or candidate quality, that meaningfully move programme timelines or survival odds.
+
+## Timelines and failure rates in drug development
+Developing a new medicine from initial target discovery to regulatory approval typically takes ten to fifteen years and costs over £1 billion when accounting for the many programmes that fail along the way. Roughly ninety per cent of drug candidates that enter Phase 1 human clinical trials ultimately fail to reach patients.
+
+Think of drug development as a long obstacle course where the hardest, most expensive hurdles sit right at the end: running the first hundred metres twice as fast helps, but only if the athlete is also better prepared to clear the final high walls.
+
+Consequently, the biggest commercial prize for AI in biomedicine is not just shaving months off early chemistry, but picking better targets and safer molecules that survive human trials.
+
+?? Why does improving clinical trial survival rates create more value in drug development than merely speeding up early virtual screening?
++ Clinical trials account for the vast majority of time, cost, and the ~90% failure rate in bringing a drug to market
+- Early virtual screening takes twelve years and costs ninety per cent of a pharma company's budget
+- Human clinical trials are completely free and take less than two weeks to complete
+- Regulatory agencies automatically approve any molecule that was discovered in under one month
+= Because late-stage clinical trials are the longest, costliest, and highest-attrition phase of drug development, even a modest increase in clinical success probability outweighs small speedups in early computing.

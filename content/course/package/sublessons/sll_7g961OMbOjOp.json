@@ -5,8 +5,8 @@
     {
       "id": "bit_7sch-r9iY67r",
       "title": "p >> n problems and the curse of dimensionality",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A high-dimensional dataset where the number of measured features far exceeds the number of patient samples is called a p much greater than n problem. In transcriptomics or proteomics, an organisation might measure twenty thousand molecules across only eighty clinical participants.\n\nIt is like trying to work out which ingredient caused a food allergy after analysing just three restaurant meals that each contained five hundred spices.\n\nBecause the feature space is so vast and sparse, standard machine learning algorithms easily find chance correlations that look convincing during training. As an AI consultant, you must warn clients that strong dimensionality reduction or regularisation is essential before fitting classifiers.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
@@ -19,67 +19,235 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7sch-r9iY67r_1",
+          "type": "multiple_choice",
+          "prompt": "What defines a p >> n problem in omics machine learning?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The number of patient cohorts exceeds the number of clinical centres in a trial"
+            },
+            {
+              "id": "b",
+              "text": "The computational cost of training grows linearly with the number of hospital sites"
+            },
+            {
+              "id": "c",
+              "text": "The sequencing depth per sample is greater than the reference genome length"
+            },
+            {
+              "id": "d",
+              "text": "The number of measured biological features is much larger than the number of patient samples"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "In omics studies, researchers routinely measure tens of thousands of features (p) on only dozens or hundreds of samples (n), creating severe overfitting risks.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gnhSORX07pgK",
       "title": "Batch effects and normalization",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Batch effects are systematic non-biological differences between groups of samples caused by laboratory conditions, reagent lots, technician schedules, or instrument drift. Normalisation is the mathematical process of adjusting raw measurements so samples can be compared fairly on a common scale.\n\nIt is like adjusting photographs taken under warm indoor bulbs and cool daylight so the true fabric colours match across an entire catalogue.\n\nHowever, normalisation only rescales distributions and cannot rescue an experiment where technical artefacts completely overshadow subtle biological signals. When advising biotech clients, always inspect principal component plots before and after normalisation to confirm that technical variation has actually diminished.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gnhSORX07pgK_1",
+          "type": "multiple_choice",
+          "prompt": "Why do omics workflows apply normalisation alongside batch assessment?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To increase the physical sequencing depth of low-quality tissue biopsies"
+            },
+            {
+              "id": "b",
+              "text": "To place samples on a comparable scale and reduce technical variation across runs"
+            },
+            {
+              "id": "c",
+              "text": "To replace missing clinical outcome labels with synthetic patient records"
+            },
+            {
+              "id": "d",
+              "text": "To convert continuous gene expression tables into raw DNA sequencing reads"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Normalisation adjusts for global technical differences in measurement scale so that downstream analyses reflect biological variation rather than instrument artefacts.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qdGx6egn3fuo",
       "title": "Thousands of features and dozens of samples make overfitting easy",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Overfitting in omics occurs when a model memorises random noise specific to the training cohort rather than learning a reproducible biological pattern. With thousands of genes available, even pure random numbers will contain combinations that separate a few dozen cases from controls.\n\nIt is like tailoring a suit so tightly to one mannequin's accidental dents that no real person in the shop can wear it.\n\nA near-perfect training accuracy score on a small clinical dataset is therefore a warning sign rather than a milestone. Consultants should insist on strict complexity penalties, simple baseline models, and honest out-of-sample evaluation before a client invests £100,000 in wet-lab follow-up.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qdGx6egn3fuo_1",
+          "type": "multiple_choice",
+          "prompt": "Why is a complex classifier trained on twenty thousand genes and forty patients likely to fail on new patients?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Modern neural networks cannot process floating-point numbers from gene expression arrays"
+            },
+            {
+              "id": "b",
+              "text": "Forty patients is too large a cohort for standard regularised logistic regression"
+            },
+            {
+              "id": "c",
+              "text": "With so many features, the model can easily separate the small sample using random noise"
+            },
+            {
+              "id": "d",
+              "text": "Gene expression values never correlate with clinical phenotypes in human tissue"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "When features vastly outnumber samples, flexible models discover spurious combinations that fit the training cohort by chance and fail to generalise.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_AZTIiNzUPGO0",
       "title": "Batch effects can be larger than the biology",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In many high-throughput biological studies, technical variation across processing batches alters measurements far more strongly than the disease state being studied. Differences in sample collection tubes, storage times, or sequencing lanes can dominate the top principal components of the dataset.\n\nIt is like trying to hear a quiet flute solo while a pneumatic drill operates right outside the concert hall window.\n\nIf a data scientist trains a classifier without checking what drives the main variance, the model may simply learn to recognise which hospital or laboratory processed the vial. Always audit technical metadata alongside biological labels before building any predictive pipeline.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_AZTIiNzUPGO0_1",
+          "type": "multiple_choice",
+          "prompt": "What is a major risk when technical batch variation exceeds biological signal in an omics dataset?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The sequencing machine will automatically delete the raw read files during quality control"
+            },
+            {
+              "id": "b",
+              "text": "A machine learning model may learn to predict the processing batch rather than the biological condition"
+            },
+            {
+              "id": "c",
+              "text": "Principal component analysis will refuse to converge on numerical expression matrices"
+            },
+            {
+              "id": "d",
+              "text": "The false negative rate will automatically drop to zero in external clinical cohorts"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "When batch effects dominate the variance, classifiers easily latch onto laboratory artefacts instead of true disease biology.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_eQ7IHIJTFCcb",
       "title": "Batch correction methods and their risks",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Batch correction algorithms such as ComBat and Harmony estimate and subtract systematic technical shifts across sample groups so datasets can be integrated. Because software packages evolve rapidly, you should check the current details and documentation before selecting a tool for production pipelines.\n\nIt is like a sound engineer filtering out persistent sixty-hertz electrical hum from recordings made in different studios.\n\nThe critical caveat is that aggressive batch correction can accidentally erase real biological signal if the biological groups are unevenly distributed across batches, or inject false differences when applied blindly. Consultants must verify that biological signal is preserved after correction rather than assuming clean plots mean valid data.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_eQ7IHIJTFCcb_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary danger of applying batch correction algorithms blindly to omics data?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They can remove genuine biological differences or introduce artificial separation between groups"
+            },
+            {
+              "id": "b",
+              "text": "They permanently encrypt the raw FASTQ files stored on the laboratory server"
+            },
+            {
+              "id": "c",
+              "text": "They double the number of patient samples required to run a statistical t-test"
+            },
+            {
+              "id": "d",
+              "text": "They convert RNA expression measurements into protein crystal structures"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Batch correction methods cannot distinguish technical shifts from biology when study groups and batches overlap, risking either erased biology or distorted findings.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Md8gJzO0VT3n",
       "title": "Design studies so batch is not tied to the outcome",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A balanced experimental design distributes disease cases and healthy controls evenly and randomly across every processing plate, reagent lot, and sequencing run. When all disease samples are processed in January and all controls in March, batch and outcome become mathematically confounded.\n\nIt is like testing two racing car tyres by driving one set only on sunny days and the other set only during heavy rainstorms.\n\nOnce batch and clinical outcome are completely confounded, no statistical algorithm can separate the laboratory artefact from the true disease signature. An AI consultant adds the highest value by reviewing the laboratory processing plan before samples are ever run.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Md8gJzO0VT3n_1",
+          "type": "multiple_choice",
+          "prompt": "How should an omics experiment be designed to prevent batch confounding?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Process all disease samples in one week and all healthy control samples the following month"
+            },
+            {
+              "id": "b",
+              "text": "Randomise and balance cases and controls evenly across all processing plates and runs"
+            },
+            {
+              "id": "c",
+              "text": "Run every sample on a different sequencing platform to maximise technical diversity"
+            },
+            {
+              "id": "d",
+              "text": "Withhold clinical group labels until after all samples are grouped by hospital wing"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Balancing outcomes across batches ensures technical shifts affect all groups equally rather than masquerading as a disease effect.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

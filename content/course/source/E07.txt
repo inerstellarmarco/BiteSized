@@ -1,0 +1,693 @@
+// E7 E7 AI for ERP and MRP
+
+@@ sll_tI03jf0csHN4 | E7.1 How ERP and MRP Work > Core Records
+
+## Items, bills of materials, suppliers, and stock levels
+Items, bills of materials, suppliers, and stock levels are the foundational master records that describe what a business makes, what parts it buys, who sells them, and how much sits on the shelf. Every planning calculation depends on these four records being accurate.
+
+Think of a professional kitchen that keeps a master ingredient list, recipe cards, approved food wholesalers, and a daily pantry count so the head chef knows exactly what can be cooked tonight.
+
+The caveat is that messy master data cripples any AI assistant you build on top. Before connecting an agent, check whether your client has duplicate part numbers or outdated supplier records.
+
+?? Why are clean item, supplier, and stock records essential before adding AI to an operations system?
++ Every downstream planning calculation and agent action relies on those master records being accurate
+- Language models cannot read database tables unless part numbers are written in words
+- Suppliers refuse to ship goods to companies that use automated inventory software
+- Clean master records remove the need to count physical stock in the warehouse
+= Master records form the foundation of ERP and MRP systems, so duplicates or errors distort every plan and recommendation.
+
+## Bill of materials: the parts list for a product, including sub-assemblies
+A bill of materials, or BOM, is the structured recipe that lists every raw material, component, sub-assembly, and quantity required to build one finished unit of a product. Multi-level bills of materials nest smaller assemblies inside larger ones.
+
+For example, a bicycle manufacturer's BOM for a touring bike lists one frame assembly, two wheel assemblies, and one handlebar kit, where each wheel assembly has its own list of spokes, rims, and tyres.
+
+A common pitfall is when engineering updates a product design but forgets to update the BOM in the system. When that happens, purchasing buys the wrong parts no matter how clever your software is.
+
+?? What does a multi-level bill of materials describe in a manufacturing business?
++ The exact hierarchy of raw materials, components, and sub-assemblies needed to build one finished product
+- The marketing copy and product photographs used in the annual sales catalogue
+- The list of customers who have overdue invoices from the previous quarter
+- The personal contact details and shift preferences of warehouse employees
+= A bill of materials defines the exact parts and nested sub-assemblies required to produce a finished item.
+
+## Sales orders, work orders, and purchase orders
+Sales orders, work orders, and purchase orders are the three core transaction documents that move goods through a business: customers place sales orders, the factory runs work orders to build items, and buyers send purchase orders to external suppliers.
+
+It is like a bespoke tailor who writes down a customer's suit order, issues a cutting ticket to the workshop sewists, and sends a fabric order to the wool mill.
+
+Keep these three document types clearly separated when designing AI workflows. Confusing an internal work order with an external purchase order can cause an agent to email an internal production note to an outside vendor.
+
+?? How do sales orders, work orders, and purchase orders differ in an ERP system?
++ Sales orders record customer demand, work orders instruct internal production, and purchase orders buy from outside suppliers
+- All three documents are identical invoices sent to the tax authority at year end
+- Purchase orders are used inside the factory while work orders are sent to customers
+- Sales orders only track raw materials that have failed quality inspection
+= Each order type governs a distinct stage: selling to customers, making goods internally, and buying inputs from suppliers.
+
+## Routings: the steps and work centres used to make a product
+A routing defines the step-by-step sequence of operations, machines, and work centres required to manufacture a product, along with the setup and run time expected at each stage. While the bill of materials says what goes into the product, the routing says how it is made.
+
+For instance, making a metal bracket might route the steel sheet through laser cutting at Work Centre 1, bending at Work Centre 2, and powder coating at Work Centre 3.
+
+The limit is that standard routing times on paper often drift from real shop-floor speeds. Consultants can add real value by analysing actual completion logs against routing estimates to spot hidden bottlenecks.
+
+?? While a bill of materials lists the parts needed for a product, what does a routing specify?
++ The sequence of operations, work centres, and expected times required to manufacture the item
+- The delivery truck GPS route used by the courier after the item is sold
+- The bank account numbers used to pay international raw material brokers
+- The office seating chart for the company's human resources department
+= Routings capture the manufacturing steps, work centres, and labour or machine hours needed to turn parts into finished goods.
+
+## Lead times: how long suppliers and production take
+Lead time is the total calendar time that passes from placing a purchase or work order until the items are received, inspected, and ready to use in stock. It dictates how far in advance a planner must act before stock runs out.
+
+It is like ordering a custom wedding cake; if the bakery needs three weeks notice, ordering two days before the ceremony leaves you empty-handed regardless of your budget.
+
+Never assume supplier lead times are static constants. Shipping delays, seasonal peaks, and factory shutdowns make lead times vary, so static ERP fields often need periodic updating from actual delivery history.
+
+?? Why do inaccurate lead times in an ERP system cause serious inventory problems?
++ The system will trigger purchase and production orders either too late, causing stockouts, or far too early
+- Inaccurate lead times prevent the accounting software from adding sales tax to invoices
+- Suppliers automatically cancel contracts if a buyer's internal lead time field is wrong
+- Lead times only affect digital downloads that have no physical shipping steps
+= Material planning relies on lead times to schedule orders at the right moment before stock is needed.
+
+## Unit costs and how they roll up
+Unit cost roll-up is the calculation that adds the cost of raw materials, bought-in components, direct labour, and machine overhead through every level of the bill of materials to find the true cost of one finished product.
+
+Think of pricing a restaurant dish by summing the cost of beef, pastry, mushrooms, and prep kitchen labour to know whether selling the plate at £28 actually leaves a profit margin.
+
+The caveat is that when raw material prices jump, top-level product margins quietly shrink unless costs are rolled up again. AI agents can help finance teams spot products whose rolled-up cost has crept too close to their selling price.
+
+?? What happens during a unit cost roll-up across a multi-level bill of materials?
++ Material, sub-assembly, labour, and overhead costs are summed up the hierarchy to calculate the finished item's cost
+- Every item in the warehouse is assigned the exact same average selling price
+- Supplier invoices are deleted once the goods pass incoming quality inspection
+- Customer shipping fees are subtracted from employee payroll taxes
+= Rolling up costs aggregates every input and processing step so management knows the true cost of producing each unit.
+
+@@ sll_m-Dn_hn_3GO5 | E7.1 How ERP and MRP Work > Planning Logic
+
+## Material requirements planning: what to buy, what to make, and when
+Material requirements planning, or MRP, is the deterministic calculation engine that works backwards from customer delivery dates and demand forecasts to schedule exactly which parts to buy, which assemblies to make, and when to launch each order.
+
+It is like planning a large family roast dinner by starting from the 2:00 pm serving time and calculating when the turkey, potatoes, and yorkshire puddings must each go into the oven.
+
+Remember that standard MRP assumes infinite factory capacity unless paired with capacity scheduling. If your client's machines are already running flat out, an MRP run may schedule more work for Tuesday than the workshop can physically complete.
+
+?? How does a material requirements planning (MRP) engine calculate order schedules?
++ It works backwards from required delivery dates using bills of materials, stock levels, and lead times
+- It asks a language model to guess random order quantities each morning
+- It waits until every shelf in the warehouse is completely empty before ordering parts
+- It copies last year's purchase orders without checking current customer demand
+= MRP backward-schedules production and purchasing from target dates so materials arrive just in time for each step.
+
+## Inputs: demand, stock, open orders, bills of materials, and lead times
+Every MRP run relies on five strict inputs: gross demand from sales and forecasts, current stock on hand, open purchase and work orders already in flight, bills of materials, and item lead times. Missing any one input breaks the calculation.
+
+Imagine planning a household grocery shop; to avoid buying six extra cartons of milk, you must know what meals are planned, what is already in the fridge, and whether your partner already ordered groceries online.
+
+For an AI consultant, this means an agent cannot answer "how many valves should we buy today" by looking at sales orders alone; it must query all five inputs together from the ERP.
+
+?? What happens if a planning calculation ignores open purchase orders that are already on their way?
++ The business will order duplicate stock that is already scheduled to arrive
+- The warehouse stock count for finished goods will automatically drop to zero
+- Customers will be blocked from placing new orders on the company website
+- The bill of materials will permanently delete its sub-assembly links
+= Ignoring open orders causes the planner to buy materials twice because it fails to count stock already in transit.
+
+## Reorder points and safety stock
+A reorder point is the stock threshold that triggers a replenishment order, while safety stock is the extra buffer held above expected lead-time demand to protect against unexpected sales spikes or late supplier deliveries.
+
+It is like keeping a spare jerrycan of petrol in the garage and refilling your car's tank whenever the gauge hits one quarter full, rather than waiting for the engine to splutter on the motorway.
+
+The trade-off is that safety stock ties up cash and warehouse space. Holding massive buffers hides every operational problem at the expense of working capital, whereas holding zero buffer leaves the factory fragile to the slightest delay.
+
+?? What is the purpose of holding safety stock in an inventory system?
++ To buffer the business against unexpected demand spikes or supplier delivery delays during the lead time
+- To fill empty warehouse shelves so the building looks busy during visitor tours
+- To avoid ever having to record purchase orders in the accounting system
+- To guarantee that slow-moving items expire before they can be sold
+= Safety stock absorbs variability in supply and demand so minor disruptions do not immediately halt production or sales.
+
+## Lot sizes and minimum order quantities
+Lot sizing rules and minimum order quantities (MOQs) govern the batch increments in which items must be bought or manufactured. Even if a factory only needs twelve custom screws this week, a supplier may enforce a minimum order of one thousand.
+
+Think of buying hamburger buns at a supermarket where rolls come in packs of eight; if you are hosting ten guests, you must buy two packs of eight rather than ten individual buns.
+
+When building procurement agents, ensure the system respects supplier MOQs and packaging multiples. Suggesting a purchase order for 43 circuit boards when the vendor only ships in boxes of 50 will cause the supplier to reject the order.
+
+?? Why must an automated purchasing workflow check minimum order quantities and pack multiples?
++ Suppliers will reject or alter orders that do not match their required batch sizes and minimums
+- Ordering in exact pack multiples makes cargo ships travel twice as fast
+- Minimum order quantities only apply to office stationery and never to raw materials
+- Lot sizes determine the legal tax rate applied to employee wages
+= Real-world suppliers and production lines operate in fixed minimums and multiples that every valid order must respect.
+
+## Demand forecasts feed the plan
+Demand forecasts estimate future customer orders over the coming weeks or months so the business can buy long-lead-time materials before firm sales orders arrive. Whenever supplier lead times are longer than the time customers are willing to wait, forecasting is unavoidable.
+
+For instance, a garden furniture maker must order aluminium tubing in January based on spring sales forecasts, because waiting until sunny weekends in May would mean missing the entire season.
+
+Keep in mind that every forecast is wrong to some degree. Good planning systems measure forecast error regularly and adjust safety stock accordingly, rather than treating an AI forecast as a guaranteed promise.
+
+?? Why must a manufacturer rely on demand forecasts when ordering long-lead-time components?
++ Customers will not wait months for delivery, so parts must be ordered before firm sales orders arrive
+- Forecasts are legally required to replace actual sales orders in the company ledger
+- Forecasting guarantees that customer demand will never fluctuate from week to week
+- Suppliers give a 90 percent discount whenever an order is based on a forecast
+= When cumulative procurement and build times exceed the customer's delivery window, materials must be ordered ahead of confirmed sales.
+
+## Garbage in, garbage out: wrong stock counts or lead times ruin the plan
+Garbage in, garbage out means that even the most mathematically sound MRP engine or intelligent agent will produce disastrous purchase plans if the underlying stock counts, bills of materials, or lead times are wrong.
+
+It is like using a satellite navigation app when the map database has the wrong bridge closures; the software calculates a route with total confidence and drives you straight into a dead end.
+
+If a warehouse shelf says 500 bearings are in stock when there are really only 50, the system will refuse to reorder and the production line will grind to a halt. Always audit data accuracy alongside software setup.
+
+?? What happens when an ERP system has phantom inventory showing 500 units on hand when only 50 physically exist?
++ The planning engine assumes stock is plenty and fails to reorder in time, causing a production stop
+- The software automatically conducts a physical warehouse count using security cameras
+- The supplier sends 450 free units without waiting for a purchase order
+- The unit cost of the remaining 50 units drops to zero in the accounting ledger
+= Planning logic trusts the database figures, so overstated stock levels prevent timely reordering and lead directly to shortages.
+
+@@ sll_ZAkwpRTXX9S9 | E7.1 How ERP and MRP Work > How the Pieces Connect
+
+## ERP ties inventory, purchasing, sales, and accounting together
+Enterprise resource planning, or ERP, is an integrated software system where sales, purchasing, warehouse inventory, production, and financial accounting share a single database. When one department records an event, every connected department sees the update immediately.
+
+Think of the nervous system in a human body; when your hand touches a hot kettle, your eyes, muscles, and brain coordinate instantly rather than sending letters to each other by post.
+
+Because everything connects, a careless change in one module ripples everywhere. If an AI agent alters an item's unit of measure from boxes to individual pieces in inventory, it can accidentally multiply invoice values across accounting.
+
+?? Why must an AI consultant be cautious when letting an agent modify records inside an ERP system?
++ Because inventory, purchasing, sales, and accounting share the same data, one bad edit ripples across departments
+- ERP systems delete their entire database whenever an external API logs in
+- Accounting modules can only be updated once a year on the final day of the tax period
+- Changing an inventory record only affects the warehouse and never touches financial numbers
+= In an integrated ERP, operational transactions flow directly into purchasing commitments and financial ledgers.
+
+## One system of record prevents conflicting numbers
+A single system of record is the authoritative database that the entire company agrees holds the true figure for stock, orders, and balances. Without it, departments waste hours arguing over whose spreadsheet is right in Monday morning meetings.
+
+It is like having one official scoreboard at a football stadium; the match becomes chaos if the referee, the home fans, and the away bench each keep a different score on paper.
+
+When you build AI tools for a client, never let the agent create a separate shadow database that drifts out of sync with the ERP. Always read from and write back to the true system of record.
+
+?? What problem does a single system of record solve for a growing business?
++ It prevents departments from working off conflicting spreadsheets and arguing over which numbers are true
+- It guarantees that customers will always pay their invoices ahead of the due date
+- It removes the need to set user permissions or keep database backups
+- It allows every employee to edit financial statements without an audit trail
+= Having one authoritative source of truth ensures sales, operations, and finance act on the exact same figures.
+
+## Small companies often start with spreadsheets and grow into ERP
+Most small manufacturers and distributors begin by tracking stock and orders in spreadsheets because spreadsheets are cheap, flexible, and familiar. As order volume and team size grow, manual copy-pasting and broken formulas eventually force a move to structured ERP software.
+
+It is like running a market stall out of a shoebox of cash receipts; it works fine for twenty sales a Saturday, but collapses once you open three high-street shops with twelve staff.
+
+As a consultant, recognise where your client sits on this curve. Sometimes a ten-person firm needs a simple structured database first rather than a million-pound enterprise ERP implementation.
+
+?? Why do growing companies eventually outgrow running their core operations on spreadsheets?
++ Manual copy-pasting, broken formulas, and concurrent edits lead to costly errors as transaction volume rises
+- Spreadsheet software stops opening once a company hires its tenth employee
+- Tax authorities forbid businesses from exporting financial reports to spreadsheet files
+- Spreadsheets cannot perform basic addition or multiplication on inventory counts
+= While spreadsheets are flexible early on, they lack the relational integrity, audit trails, and concurrency controls needed at scale.
+
+## Where AI helps most: data entry, exceptions, and answering questions
+In ERP and MRP environments, AI delivers the highest return in three practical areas: extracting data from messy incoming documents, flagging operational exceptions that need human attention, and answering plain-language questions over structured records.
+
+Think of an AI assistant as a sharp junior clerk who reads the morning post, highlights the three urgent supplier problems in yellow, and fetches files from the cabinet whenever the manager asks, while leaving core accounting math to the calculator.
+
+Do not use language models to replace the deterministic MRP calculation engine itself. Let standard database code calculate stock balances and requirements, and use AI around the edges where unstructured text and human judgement meet.
+
+?? Which tasks are best suited for AI inside an ERP and MRP environment?
++ Reading unstructured documents, flagging operational exceptions, and answering plain-language data questions
+- Replacing deterministic database arithmetic with approximate language model guesses
+- Deleting audit trails so the database uses less storage space each month
+- Approving large bank transfers without checking purchase orders or receipts
+= AI excels at bridging unstructured documents and human questions, while deterministic code handles exact calculations and ledger entries.
+
+@@ sll_pEz1mnzfDSYb | E7.2 Build or Integrate > Two Paths
+
+## Agents on top of an existing ERP vs. a lightweight AI-native system
+When helping a client modernise operations, you face a fundamental architectural choice: connect AI agents on top of their existing ERP, or build a lightweight custom system with AI woven directly into its workflows.
+
+It is the difference between fitting smart sensors and modern heating controls into an established brick factory versus building a brand-new bespoke workshop on an empty plot of land.
+
+Neither path wins every time. Wrapping an existing ERP preserves years of accounting compliance and historical data, while a lightweight custom system works well when a small business has no ERP yet or only needs a narrow operational tool.
+
+?? What is the main architectural trade-off between adding agents to an existing ERP and building a lightweight custom system?
++ Keeping the existing ERP preserves proven accounting and history, while a custom build offers flexibility at the cost of owning every feature
+- Existing ERPs never store inventory counts, whereas custom systems cannot connect to the internet
+- Building a custom ERP from scratch always takes less than forty-eight hours
+- Adding agents to an existing ERP requires deleting all historical financial records first
+= Wrapping an existing ERP leverages mature core accounting and inventory logic, while building custom software trades maturity for tailored simplicity.
+
+## Existing ERP: faster, but limited by its API and customization
+Building agents on top of an established ERP gets you to production faster because the core tables, permissions, and accounting rules already work. However, your agents are constrained by what the vendor's API exposes and how rigid the system's custom fields are.
+
+Imagine renting a serviced office in a high-security tower; you can move your desks in on day one, but you cannot knock down walls or use the goods lift outside building hours.
+
+Before quoting a fixed price for an ERP integration, inspect the client's actual licence tier and API documentation. Many legacy ERPs charge extra fees for API access or lock key manufacturing tables behind awkward batch exports.
+
+?? Why must a consultant inspect a client's legacy ERP API and licence tier before scoping an agent project?
++ Some ERPs restrict API access, omit key manufacturing endpoints, or charge steep fees for integration tiers
+- All ERP systems across the world share the exact same free open API specification
+- Legacy ERPs automatically write their own AI agents as soon as a user logs in
+- API documentation is only needed after the project has already gone live in production
+= Integration feasibility and cost depend heavily on whether the existing ERP exposes clean, affordable APIs for the records you need.
+
+## Lightweight system: full control, but you own every feature
+Building a lightweight custom operations system on a modern relational database gives you total control over the data schema, user interface, and agent integrations. The catch is that you and the client now own every feature, bug fix, and edge case forever.
+
+It is like building your own kit car from scratch; you can choose the exact steering wheel and engine tune you love, but when the windscreen wipers fail in the rain, there is no dealership warranty to call.
+
+Clients often underestimate how much hidden plumbing a real ERP contains, such as partial shipments, credit notes, multi-currency tax rules, and stock reversals. Never rebuild a full accounting ledger from scratch if off-the-shelf software can handle it.
+
+?? What is the hidden danger of building a bespoke ERP system from scratch for a client?
++ You end up having to build and maintain complex edge cases like partial shipments, credit notes, and tax rules
+- Relational databases cannot store more than one hundred rows of inventory data
+- Custom software is legally forbidden from generating PDF purchase orders
+- Users cannot log into a lightweight system from a standard web browser
+= Standard ERPs handle hundreds of unglamorous accounting and inventory edge cases that are expensive and risky to recreate from scratch.
+
+## Spreadsheets as the starting point for most small companies
+For a very small business still running on paper or scattered notes, well-structured spreadsheets or a simple cloud table tool are often the wisest starting point before jumping into heavy ERP software. They force the team to standardise part numbers and habits first.
+
+Think of learning to ride a bicycle with stabilisers on a quiet park path before entering a busy city velodrome on a carbon racing bike.
+
+The limit is that spreadsheets break down once multiple staff edit stock simultaneously or bills of materials become nested. Use the spreadsheet stage to clean up master data so the eventual move to a proper database is smooth.
+
+?? Why can a structured spreadsheet be a sensible intermediate step for a tiny business with no digital records?
++ It helps the team standardise part numbers and daily habits at low cost before migrating to a full database
+- Spreadsheets provide stronger row-level security and audit logs than enterprise databases
+- A single spreadsheet file can easily handle ten million concurrent warehouse transactions a second
+- Using spreadsheets means the company never has to count physical inventory again
+= Standardising item codes and recording habits in a simple table prepares a small team for a structured ERP without overwhelming them on day one.
+
+## Open-source ERPs (e.g., ERPNext, Odoo) as a middle path
+~m
+Open-source and modular platforms such as ERPNext and Odoo offer a strong middle path between rigid legacy enterprise systems and risky from-scratch builds. Because licensing tiers, modules, and community editions evolve, always check the current details before recommending a platform.
+
+It is like buying a modular timber-frame house where the foundations, roof, and plumbing arrive pre-engineered, yet you can still open the wall panels to run your own custom wiring.
+
+With these systems, your client gets tested inventory, MRP, and accounting modules out of the box, while you get clean REST APIs and source access to attach AI agents cleanly.
+
+?? Why do modular platforms like ERPNext or Odoo often serve as a practical middle path for SME clients?
++ They provide ready-made inventory and accounting modules alongside accessible APIs and code for custom AI integration
+- They run without any database server or user authentication
+- They automatically file corporate tax returns in every country without configuration
+- They forbid consultants from adding custom fields or external webhooks
+= Open-source and modular ERPs combine battle-tested core operational logic with the openness needed to connect modern AI workflows.
+
+## Decide on size, process complexity, existing software, and budget
+Choosing the right path requires weighing four client realities: company size, manufacturing or distribution complexity, the state of their existing software, and their budget for both setup and ongoing maintenance.
+
+It is like a commercial vehicle consultant choosing between a small electric van, a refrigerated box lorry, and an articulated fleet based on the client's cargo, routes, current garage, and capital budget.
+
+A twenty-person electronics assembler with three-level bills of materials has completely different needs from a five-person wholesale importer. Map their actual workflows and maintenance budget before writing a single line of code.
+
+?? Which four factors should guide whether a client wraps an existing ERP, adopts a modular ERP, or builds a lightweight tool?
++ Company size, process complexity, existing software maturity, and budget for setup and maintenance
+- The CEO's favourite colour, the office postcode, the day of the week, and the font size
+- How many social media posts the marketing team publishes each afternoon
+- Whether the warehouse roof is made of corrugated steel or concrete tiles
+= Matching architecture to company scale, operational complexity, existing systems, and total budget prevents costly misfits.
+
+@@ sll_Rw0MyvFAoDJx | E7.2 Build or Integrate > System of Record
+
+## Data modelling basics: tables, keys, and relationships
+Relational data modelling organises business records into separate tables for items, suppliers, orders, and order lines, linked together by unique primary keys and foreign keys. This structure ensures every piece of information is stored once and referenced reliably.
+
+Think of a library catalogue where each author has a unique ID card and each book record points to that author ID, so changing an author's biography updates every book entry automatically.
+
+Never store a purchase order with ten items by cramming all ten part numbers into a single comma-separated text box. Keep an orders header table and a linked order lines table so queries and agents can sum quantities cleanly.
+
+?? Why should an order management database separate order headers and order line items into linked tables?
++ It allows each line item to be queried, summed, and validated cleanly using primary and foreign keys
+- It makes the database impossible for human accountants to read
+- Storing all items inside a single comma-separated text cell is faster to sum in SQL
+- Separate tables remove the need for unique item part numbers
+= Proper relational tables with keys prevent data duplication and allow exact filtering and aggregation across orders and items.
+
+## Calculations run in code; the LLM orchestrates and explains
+In a reliable operations architecture, deterministic code and database queries execute every arithmetic calculation and planning rule, while the language model orchestrates tool calls and explains the results in plain English.
+
+It is like a courtroom where the forensic accountant calculates the exact tax figures on a spreadsheet, and the barrister presents those verified numbers clearly to the jury.
+
+If a user asks for the total value of late purchase orders, the LLM should invoke a verified SQL tool or API endpoint rather than trying to add seventy invoice lines inside its own context window.
+
+?? In an AI-assisted ERP workflow, what should perform the arithmetic and what should the language model do?
++ Deterministic code runs the arithmetic and rules, while the language model calls tools and explains the results
+- The language model calculates all financial totals in its prompt while code only changes screen colours
+- Both the database and the language model guess the totals and average their two answers
+- Neither system performs calculations because users must add invoice lines on pocket calculators
+= Separating exact code calculation from natural-language orchestration prevents arithmetic hallucinations in business data.
+
+## Why: models slip on arithmetic and rules; code does not
+Language models predict the next likely token based on patterns rather than executing exact mathematical logic, which means they periodically fumble multi-step arithmetic, rounding rules, and date calculations. Standard code executes the same formula identically a million times in a row.
+
+Imagine asking a talented poet to multiply four-digit numbers in their head during a noisy dinner party; they might get several right, but you would never bet the company payroll on their mental sums.
+
+Even when a frontier model gets 98 percent of test sums right, a 2 percent error rate in inventory balances or VAT calculations will corrupt an ERP ledger within days.
+
+?? Why is a 98 percent mental arithmetic accuracy rate from a language model unacceptable for core ERP calculations?
++ Even a tiny percentage of arithmetic slips will quickly corrupt stock balances, tax figures, and financial ledgers
+- ERP databases reject any number that takes less than five seconds to calculate
+- Language models only make arithmetic mistakes on leap years
+- Standard SQL code has a lower accuracy rate than unassisted token prediction
+= Core operational and financial records require 100 percent deterministic consistency, which only code and database engines provide.
+
+## Audit trail for every change an agent makes
+An audit trail is an immutable log that records every database insert, update, or status change made by a user or an AI agent, capturing who or what made the change, the timestamp, the old value, and the new value.
+
+It is like the flight data recorder in an aircraft cockpit, preserving the exact sequence of instrument inputs and autopilot actions so investigators can reconstruct any incident step by step.
+
+Never let an AI agent share a generic login with a human manager. Give every agent its own distinct service identity in the audit log so staff can immediately filter which records were touched by automation.
+
+?? Why should every AI agent have its own distinct identity in the ERP audit log rather than sharing a human user's login?
++ So administrators can see exactly which changes were made by the agent, when they happened, and what the previous values were
+- Because database servers run twice as fast when usernames contain the word agent
+- So the human manager can avoid paying income tax on their salary
+- Because audit logs only record changes made on weekends
+= A separate agent identity alongside before-and-after values ensures full accountability and fast troubleshooting when an automated edit goes wrong.
+
+## Permissions: who and what can change which records
+Role-based permissions restrict each human user and AI agent to the minimum set of tables and actions required for their specific job. An agent that drafts warehouse pick lists has no business reading employee salaries or editing bank details.
+
+Think of hotel keycards; a guest's card opens their bedroom and the gym door, a cleaner's card opens the linen cupboards on Floor 3, and neither card opens the manager's cash safe.
+
+Enforce permissions inside the database or API layer itself, not inside the system prompt. Telling a model in a prompt "please do not update the supplier bank account table" is a polite wish, not a security control.
+
+?? Where must access permissions for an AI agent be enforced to protect an ERP system?
++ At the API or database layer using strict role-based credentials, not merely inside the text of the prompt
+- Only inside the system prompt by asking the model politely not to touch financial tables
+- By hiding the computer monitor when the agent runs at night
+- Permissions are unnecessary if the agent only runs inside a private company network
+= Prompt instructions can be bypassed or ignored, whereas database and API credentials enforce hard boundaries on what an agent can read or write.
+
+## Backups and a way to undo changes
+Automated backups and transaction rollback procedures ensure that if an integration bug or rogue agent corrupts records, the business can restore clean data quickly without losing days of operations.
+
+It is like a carpenter clamping a scrap piece of wood for a test cut and keeping the original timber safely stacked until the joint fits, while also having an undo button on a CNC router.
+
+Before deploying any agent with write access, test how you would reverse fifty bad updates made in ten seconds. Combining regular database snapshots with an application-level undo script for agent batches turns a potential crisis into a five-minute recovery.
+
+?? Why should an AI consultant build a batch-undo mechanism alongside standard database backups when giving an agent write access?
++ It lets administrators cleanly reverse a specific batch of bad agent updates without wiping out valid human work done at the same time
+- It allows the company to cancel paid supplier invoices after the goods have already been sold
+- Database backups alone automatically prevent agents from ever writing invalid text
+- Undo scripts eliminate the need to test integrations in a sandbox environment
+= While full backups protect against total disaster, targeted rollback logs let you undo faulty agent changes without losing concurrent human transactions.
+
+@@ sll_qiosqjwBUPo8 | E7.2 Build or Integrate > Connecting to the ERP
+
+## APIs, webhooks, and database access
+APIs, webhooks, and direct database connections are the three technical pipes used to connect external software and AI agents to an ERP. An API lets your agent request or submit records on demand, a webhook pushes an alert when an event occurs, and direct database access queries tables straight from the server.
+
+Think of an API as phoning the warehouse desk to ask a question, a webhook as the warehouse ringing a bell whenever a lorry arrives, and direct database access as walking into the filing room yourself.
+
+Always prefer the ERP's official API over writing directly to its underlying SQL tables. Writing straight to the database often bypasses business validation rules and corrupts internal indexes.
+
+?? Why is writing records through an ERP's official API safer than inserting rows directly into its underlying database tables?
++ The official API enforces the ERP's built-in validation rules, accounting links, and audit triggers
+- Direct database queries travel through the internet without using electricity
+- Official APIs never require authentication tokens or user permissions
+- Writing directly to SQL tables is the only way to trigger a webhook notification
+= ERP APIs run essential validation and bookkeeping logic that raw SQL inserts bypass, protecting ledger integrity.
+
+## MCP servers that expose ERP data to agents
+~m
+A Model Context Protocol (MCP) server is a standardised wrapper that exposes selected ERP tools, queries, and resources to an AI agent through a consistent interface. Because protocol specifications and SDKs evolve rapidly, check the current details when designing your integration.
+
+It acts like a universal travel adapter plug that lets any modern appliance connect safely to a wall socket without rewiring the building's electrical panel for each device.
+
+When building an MCP server for a client's ERP, expose narrow, business-safe tools such as `get_late_purchase_orders` or `create_draft_po` rather than exposing a raw SQL execution tool that lets the model run arbitrary commands.
+
+?? What is the safest way to design an MCP server that connects an AI agent to a client's ERP?
++ Expose narrow, well-validated business tools with strict parameters rather than a raw unrestricted SQL tool
+- Give the MCP server root database credentials and let the model write arbitrary DELETE statements
+- Expose every table including payroll and passwords so you never need to update the server later
+- Skip input validation inside the MCP server because the language model will check its own parameters
+= Purpose-built MCP tools constrain the agent to safe, predictable queries and actions with proper parameter validation.
+
+## Test with sandbox data before touching live records
+A sandbox is an isolated copy of the ERP environment populated with realistic test data where you can develop, break, and verify agent workflows without risking live stock, real money, or actual supplier emails.
+
+It is like a flight simulator where trainee pilots practise engine failures in stormy weather without putting real passengers in danger.
+
+Watch out for sandboxes that still have live email or webhook settings left turned on by mistake. Before running an agent test in a cloned ERP, verify that outbound SMTP mailers and supplier EDI connections are routed to a test trap so you do not accidentally send fifty fake purchase orders to real vendors.
+
+?? What precaution must you take even after cloning a live ERP into a test sandbox?
++ Disable or redirect outbound emails and supplier integrations so test runs do not contact real vendors or customers
+- Delete all item master records so the sandbox database stays completely empty during testing
+- Give real suppliers login access to the sandbox so they can fulfil test orders
+- Run the sandbox on the exact same production database tables to save disk space
+= Cloned ERP sandboxes often retain real supplier email addresses and webhook URLs, which must be neutralised before testing agents.
+
+## Rate limits and API quotas
+Rate limits and API quotas are caps enforced by an ERP vendor on how many requests an external integration can make per minute, hour, or day. Exceeding them causes the server to reject requests or throttle the entire company's integration traffic.
+
+Imagine a motorway toll plaza with only two open booths; if a fleet of two hundred lorries arrives at the exact same second, traffic backs up and nobody gets through on time.
+
+Do not let an AI agent loop through five thousand inventory items by firing five thousand separate API calls one by one. Use bulk endpoints, pagination, and local read caches so your agent works well inside the client's quota.
+
+?? How can you prevent an AI agent from exhausting a client's ERP API rate limits?
++ Use bulk query endpoints, pagination, and caching instead of firing thousands of single-item API calls in a loop
+- Open fifty parallel agent threads that retry rejected requests every millisecond
+- Ask the language model to guess stock levels so it never has to call the ERP API
+- Disable error handling in the integration script so rate limit warnings are ignored
+= Batching requests and caching frequent reference data keeps API traffic low and avoids throttling live operations.
+
+## Sync problems: duplicates and stale copies
+Synchronisation problems happen when data is copied between an ERP and external tools, leading either to duplicate records created when retries fire twice, or stale copies where an agent acts on yesterday's stock figure after the warehouse already sold the last unit.
+
+It is like two family members carrying paper copies of the same gift list; if neither crosses off items in real time, both end up buying the same toaster while forgetting the kettle.
+
+To prevent duplicates, use idempotency keys or unique external reference IDs whenever creating orders via an API. To avoid stale data, query live stock balances at the moment of decision rather than relying on an overnight CSV export.
+
+?? How do idempotency keys or unique external reference IDs help when an agent creates orders through an API?
++ They prevent the ERP from creating duplicate orders if a network timeout causes the agent to retry the same request
+- They compress the database so it uses half as much memory on the server
+- They allow the agent to bypass user permission checks on financial tables
+- They automatically update yesterday's CSV files without querying the server
+= Attaching a unique reference ID to each creation request ensures the ERP recognises a retry and creates the record only once.
+
+@@ sll_1TuQufRQuhWz | E7.3 Operations Agents > Ask-Your-Data Agents
+
+## Plain-language questions over ERP data
+An ask-your-data agent lets managers and planners type everyday questions in plain English and receive accurate answers pulled directly from structured ERP tables. It removes the bottleneck of waiting days for an IT specialist to write a custom report.
+
+Think of having a knowledgeable warehouse supervisor sitting beside you who can immediately look up any part number or order status when you ask, without making you learn complex report-builder menus.
+
+The key limit is that business terms are often ambiguous. When a sales director asks for "top products this month," the agent must know whether the company defines "top" by gross revenue, unit volume, or net margin.
+
+?? Why must an ask-your-data agent have clear definitions for common business terms like revenue or margin?
++ Everyday words can mean different calculations across departments, so the agent needs agreed formulas to return consistent answers
+- Language models cannot read English questions unless every word is written in capital letters
+- ERP databases only store data in encrypted binary files that have no column names
+- Clear definitions allow the agent to invent numbers when the database is offline
+= Mapping company-specific business vocabulary to exact SQL formulas ensures everyone gets consistent, trustworthy answers.
+
+## Typical questions: stock levels, late orders, and margin by product
+Most high-value ERP questions fall into repeatable operational categories: checking available stock versus committed stock, listing overdue purchase or work orders, and comparing gross margin across products or customers.
+
+For instance, a production manager at 8:00 am usually asks which work orders are blocked by missing parts today, while the commercial director asks which customer orders dropped below a 25 percent margin last week.
+
+Rather than letting an agent write brand-new complex SQL joins from scratch every time, build a library of verified query templates for these top twenty questions and let the agent fill in the date ranges and item filters.
+
+?? Why is a library of verified query templates better than letting an agent write complex SQL from scratch for common ERP questions?
++ Verified templates guarantee consistent business logic for subtle concepts like available versus committed stock
+- Writing SQL from scratch uses too much ink on the warehouse printer
+- Database servers refuse to execute queries that were not written at least a year ago
+- Templates allow the agent to modify customer credit limits while answering read-only questions
+= Pre-built, tested query functions handle tricky ERP table joins and status flags reliably every time.
+
+## Read-only access first; write access only with approval
+Starting an ERP agent with strictly read-only database or API credentials means it can look up records and answer questions with zero risk of corrupting inventory, orders, or financial ledgers. Write actions should only be added later behind an approval step.
+
+It is like letting a new apprentice read the workshop blueprints and inspect finished parts through a glass window before ever handing them the keys to operate the heavy hydraulic press.
+
+Clients build confidence quickly when they know a new question-answering bot cannot accidentally delete a sales order. Once read-only accuracy is proven, introduce write actions as saved drafts that a human approves.
+
+?? Why should a new ERP assistant be deployed with strictly read-only credentials at first?
++ It delivers immediate value by answering questions while eliminating any risk of corrupting live operational or financial records
+- Read-only credentials allow the agent to change supplier bank details silently in the background
+- Databases do not allow read and write connections to exist in the same company
+- Starting with read-only access means you never need to check whether the agent's answers are accurate
+= Enforcing read-only access at the credential level keeps early deployments completely safe from accidental data modification.
+
+## Answers show the query or source so people can check
+Every answer from an ERP data agent should cite the exact source tables, record IDs, timestamp, and filter criteria used, or provide a direct link to the underlying ERP view so the user can verify the figure in one click.
+
+Think of a financial analyst handing the managing director a summary card with the exact invoice numbers and ledger page stapled to the back, so the director can spot-check the evidence in seconds.
+
+If an agent simply replies "You have £42,300 of overdue orders" with no breakdown or link, experienced planners will not trust it. Showing the four overdue order numbers and their values makes verification effortless.
+
+?? Why should an ask-your-data agent always display the underlying record IDs, filters, or query logic alongside its answer?
++ It allows staff to verify the numbers in one click and immediately spot if a filter or date range was misunderstood
+- It makes the chat window look more technical so staff stop asking questions
+- Displaying record IDs automatically backs up the ERP database to the cloud
+- It prevents the user from opening the main ERP software ever again
+= Showing the exact source records and filter assumptions turns a black-box number into an auditable, trustworthy answer.
+
+## Test with questions whose answers you already know
+Before releasing a data agent to staff, evaluate it against a golden test set of thirty to fifty realistic business questions paired with the exact ground-truth numbers verified by the client's finance or operations lead.
+
+It is like testing a new kitchen scale using a certified one-kilogram brass weight before trusting it to measure expensive saffron in the restaurant.
+
+Include tricky questions in your test set, such as cancelled orders, returned items, and credit notes. An agent that forgets to subtract cancelled orders or credit notes will overstate sales and lose the finance director's trust on day one.
+
+?? Why must your golden test set for an ERP agent include edge cases like cancelled orders and credit notes?
++ Naive queries often forget to exclude cancelled rows or subtract credits, which inflates reported sales and stock figures
+- Cancelled orders are stored on paper in a different building and never appear in the ERP
+- Credit notes can only be read by models with more than a trillion parameters
+- Testing only simple happy-path questions guarantees 100 percent accuracy in production
+= Real ERP tables contain cancelled lines, returns, and adjustments that must be filtered correctly to match official financial numbers.
+
+@@ sll_tI-aTG52x6Yz | E7.3 Operations Agents > Exception Agents
+
+## Flagging late suppliers, short stock, and mismatched documents
+An exception agent runs on a schedule or event trigger to scan ERP records for operational problems, such as purchase orders past their promised delivery date, work orders short of components, or goods receipts that do not match the purchase order.
+
+It works like a night security guard who checks fifty doors across a factory and leaves a short morning report listing only the two doors that were found unlocked.
+
+By catching a late supplier shipment three days before the assembly line needs the part, the agent gives the buyer time to expedite the courier or reschedule the factory floor calmly.
+
+?? What is the primary role of an exception agent in an ERP or MRP system?
++ To proactively scan records and alert staff to problems like late deliveries, stock shortages, and document mismatches
+- To send celebratory emails every time a routine order has no problems at all
+- To rewrite the company's legal terms and conditions without human oversight
+- To replace the warehouse forklift drivers with automated chat messages
+= Exception agents monitor operational transactions continuously so planners catch supply and inventory disruptions early.
+
+## Exceptions only: people look at problems, not at everything
+Management by exception means designing automated reports and alerts so staff only see the small fraction of orders or items that have drifted outside normal tolerances, rather than scrolling through thousands of healthy rows every morning.
+
+Imagine an intensive care nurse monitoring twenty patient heart-rate screens; the system stays quiet while vitals are steady and sounds a clear chime only when a patient's readings cross a threshold.
+
+Be careful not to set alert thresholds too tightly. If an agent flags a hundred minor warnings every morning, planners will suffer alert fatigue and start ignoring the notifications altogether, missing the one critical shortage buried in the list.
+
+?? What happens if an exception agent sets its alert thresholds too sensitively and sends dozens of minor warnings every day?
++ Staff experience alert fatigue and begin ignoring the messages, causing them to miss genuinely critical problems
+- Suppliers immediately improve their delivery speed because they sense the extra alerts
+- The ERP database runs out of primary keys within a week
+- Planners gain more free time because reading a hundred alerts takes less time than reading five
+= Keeping exception alerts focused on actionable, high-impact deviations prevents alert fatigue and preserves human attention.
+
+## Drafting purchase orders for human approval
+When an exception agent spots an item falling below its reorder point or needed for an upcoming work order, it can automatically prepare a draft purchase order with the preferred supplier, required quantity, lead time, and price, leaving it in a queue for a human buyer to approve.
+
+It is like a paralegal preparing a complete contract with all the client details filled in and placing a sticky note on the signature line so the partner can review and sign in thirty seconds.
+
+This pattern captures 90 percent of the time savings while keeping commercial accountability with the human buyer, who might know that a product line is being discontinued next month.
+
+?? Why is having an agent create a draft purchase order for human approval better than letting it send orders directly to suppliers on day one?
++ It saves the buyer nearly all the data-entry preparation time while letting a human catch context the ERP might not know
+- ERP systems cannot store purchase orders in a draft status
+- Suppliers charge double the price whenever an order is created via an API
+- Human buyers enjoy retyping part numbers manually from scratch every morning
+= Drafting orders automates the tedious lookup and entry work while preserving a quick human check before company cash is committed.
+
+## Explaining why an exception was raised
+Whenever an agent flags an exception or proposes a draft purchase order, it should include a concise, plain-language explanation showing the exact math and records that triggered the alert.
+
+For example, instead of just saying "Buy 200 units of Valve B-12," the note should say "Current stock is 40, open Work Order WO-409 needs 180 on Friday, safety stock is 50, and Supplier Apex has a 50-unit minimum order."
+
+When buyers can see the exact reasoning in two sentences, they approve valid drafts in seconds and immediately spot if an old work order left open by mistake is driving false demand.
+
+?? Why should an exception agent explain the exact numbers and orders behind its recommendation?
++ It lets the human reviewer verify the logic in seconds and spot whether stale data triggered a false alarm
+- Long explanations slow down the database so fewer exceptions can happen
+- Suppliers require a three-page essay attached to every purchase order
+- Explaining the math allows the agent to skip checking current stock on hand
+= Showing the stock, demand, and rule inputs behind an alert makes human review fast and reveals bad underlying records immediately.
+
+## Logging what people override, and learning from it
+Whenever a human planner edits or rejects an agent's draft purchase order or dismisses an exception alert, the system should log the override along with a quick reason code or note. Those overrides are gold dust for improving the system.
+
+Think of a junior buyer learning from a senior manager; if the manager crosses out Supplier A and picks Supplier B every Tuesday because Supplier A's courier is unreliable in winter, the junior writes that rule down for next week.
+
+As a consultant, review override logs monthly with the client. Frequently, overrides show that a minimum order quantity, lead time, or preferred supplier field in the ERP master data needs updating.
+
+?? Why is it valuable to log whenever a human planner overrides or rejects an agent's recommendation?
++ Override patterns reveal outdated master data or missing business rules so you can improve the system over time
+- The logs can be used to fine employees who disagree with the language model
+- Logging overrides automatically deletes the rejected items from the physical warehouse
+- Software vendors pay cash rebates for every rejected recommendation logged
+= Tracking human edits highlights where ERP master records or agent rules differ from real-world operational knowledge.
+
+@@ sll_Fuhzii8kuZ4J | E7.3 Operations Agents > Documents In
+
+## Reading supplier invoices and delivery notes
+Document intake agents use optical character recognition and multimodal language models to extract structured header and line-item data from incoming supplier PDFs, scanned delivery notes, and emailed packing slips.
+
+It is like having a meticulous mailroom clerk who opens every supplier envelope, reads the messy layout regardless of where the vendor printed the total, and types the clean rows into a standard form.
+
+The caveat is that supplier part numbers and descriptions rarely match your client's internal item codes word for word. Pair extraction with a lookup table or fuzzy matching step that maps each vendor's SKU to the client's internal ERP item ID.
+
+?? What common challenge arises after an agent extracts line items from a supplier's PDF invoice?
++ The supplier's part codes and descriptions must be mapped accurately to the client's internal ERP item numbers
+- Supplier PDFs are always formatted using the exact same layout across every company in the world
+- Multimodal models can only read documents printed in green ink
+- Extracted invoice data never needs to be matched against purchase orders
+= Even when text extraction is accurate, reconciling vendor part numbers and units of measure with internal item master codes is essential.
+
+## Three-way match: purchase order, receipt, and invoice
+A three-way match is the core accounts payable control that compares three documents before paying a bill: the original purchase order (what we agreed to buy and pay), the goods receipt note (what physically arrived at the loading bay), and the supplier invoice (what the vendor is billing us for).
+
+Imagine ordering ten chairs at £50 each, counting eight chairs off the delivery van, and receiving a bill for ten; you only pay for the eight that arrived until the missing two turn up.
+
+AI agents save huge effort by matching these three records automatically line by line and routing only price or quantity discrepancies to the finance team.
+
+?? What three records are compared during a standard three-way match in accounts payable?
++ The internal purchase order, the warehouse goods receipt, and the supplier's invoice
+- The company's tax return, the CEO's employment contract, and the marketing budget
+- Three separate copies of the same PDF invoice emailed on different days
+- The customer's website review, the courier's fuel receipt, and the bank's interest rate
+= Comparing what was ordered, what was physically received, and what was billed prevents overpaying for missing or mispriced goods.
+
+## Validation rules before anything is posted
+Before any extracted document is saved or posted to the ERP, deterministic validation rules must check the extracted data for mathematical and logical consistency. Never trust raw model extraction directly.
+
+It is like a bank cash machine checking that the notes inside the envelope actually add up to the deposit amount you typed on the screen before crediting your account balance.
+
+Essential validation checks include verifying that line quantities multiplied by unit prices equal the line totals, that all line totals plus tax equal the invoice grand total, that the supplier exists, and that the invoice number has not already been posted.
+
+?? Why must deterministic code check that extracted invoice lines add up to the invoice total before posting to the ERP?
++ It catches OCR misreads or model extraction slips immediately before bad numbers enter the accounting ledger
+- Supplier invoices never contain tax or shipping charges that need to be added
+- Validation rules allow the company to change the supplier's legal name at random
+- Language models refuse to extract text unless a Python script runs afterwards
+= Arithmetic cross-checks between line items, tax, and grand totals catch extraction errors with total reliability.
+
+## Low-confidence items go to a human queue
+Whenever an intake agent encounters a blurry scan, an unfamiliar part number, a failed math check, or a three-way match discrepancy beyond an agreed tolerance, it must route that document to a human review queue rather than guessing.
+
+Think of an airport passport gate; passengers whose chip and photo match cleanly walk straight through in ten seconds, while anyone with a smudged document is directed politely to a border officer's desk.
+
+Design the review screen so the human sees the original PDF side by side with the extracted fields, with the uncertain field highlighted in amber so they can fix it in five seconds.
+
+?? How should a document intake workflow handle an invoice where a smudged line item fails the arithmetic cross-check?
++ Route the invoice to a human review queue with the uncertain field highlighted alongside the original document
+- Force the system to post the invoice anyway by inventing a random unit price that makes the math balance
+- Delete the invoice email permanently and hope the supplier never asks for payment
+- Shut down the entire ERP server until the supplier prints a cleaner invoice
+= Routing uncertain or mismatched documents to a clear side-by-side human queue keeps automation safe and fast to supervise.
+
+## Measure accuracy per field, not only overall
+When evaluating a document extraction system, measure accuracy separately for each critical field and for complete end-to-end documents, rather than quoting a single blended accuracy percentage across every word on the page.
+
+It is like marking a medical prescription; getting the patient's street name, postcode, and date right is no comfort if the dosage number is wrong on 10 percent of forms.
+
+If an agent extracts nineteen out of twenty fields correctly on every invoice, a vendor might brag about 95 percent field accuracy, yet zero percent of invoices would pass without human correction if the one wrong field is the grand total.
+
+?? Why can a 95 percent average field accuracy score be misleading for an invoice processing agent?
++ If one critical field like the total or quantity is wrong on every invoice, nearly every document still fails or needs human repair
+- Accounting software only requires 50 percent of numbers on an invoice to be right
+- Field accuracy scores only measure how fast the PDF file downloaded from the email server
+- Measuring per-field accuracy is impossible without deleting the validation rules
+= Tracking per-field accuracy on critical fields alongside full-document straight-through rates shows how well the system actually performs in production.

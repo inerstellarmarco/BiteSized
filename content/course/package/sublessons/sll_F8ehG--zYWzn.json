@@ -5,74 +5,242 @@
     {
       "id": "bit_ts_ZYhhO2PXT",
       "title": "Speech-to-text and text-to-speech",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Speech-to-text, often called automatic speech recognition, converts spoken audio into written words, while text-to-speech synthesises natural-sounding spoken audio from written text. Together, these two components allow software systems to transcribe meetings, index call-centre recordings, and read answers aloud to customers.\n\nIt is like having both a stenographer who types down everything a speaker says and a voice actor who reads a written script into a microphone.\n\nErrors in speech-to-text, especially on unusual company names, postcodes, or technical jargon, will pass straight into downstream systems unless custom vocabulary hints or post-correction are applied.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_ts_ZYhhO2PXT_1",
+          "type": "multiple_choice",
+          "prompt": "What is a common failure point when using a general speech-to-text model on specialist business calls?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Running out of ink when printing the audio waves to paper"
+            },
+            {
+              "id": "b",
+              "text": "Refusing to transcribe any sentence that contains a verb"
+            },
+            {
+              "id": "c",
+              "text": "Automatically deleting the original audio file from the client's telephone system"
+            },
+            {
+              "id": "d",
+              "text": "Misspelling domain-specific product names, acronyms, and customer postcodes"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "General speech recognition models often substitute common words for unfamiliar brand names or industry acronyms unless guided by vocabulary hints.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_4AYGVjBByfxq",
       "title": "Real-time voice agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A real-time voice agent carries on a live spoken conversation with a user over a phone line or web connection, handling tasks such as appointment booking, order status checks, or first-line technical support. Unlike asynchronous transcription, a live voice agent must listen, think, and speak back within a fraction of a second to feel natural.\n\nIt is like speaking with a helpful receptionist at a hotel desk who answers your questions on the spot rather than asking you to leave a written note for tomorrow.\n\nBuilding a reliable voice agent requires tight coordination between audio streaming, silence detection, tool calls, and polite recovery when the caller speaks over the system.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_4AYGVjBByfxq_1",
+          "type": "multiple_choice",
+          "prompt": "What makes engineering a real-time voice agent harder than building an offline meeting transcription tool?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Real-time voice agents are only allowed to use words of four letters or fewer"
+            },
+            {
+              "id": "b",
+              "text": "Offline transcription tools require ten times more network bandwidth during live calls"
+            },
+            {
+              "id": "c",
+              "text": "The agent must process speech, run logic, and start replying within conversational human reaction times"
+            },
+            {
+              "id": "d",
+              "text": "Voice agents cannot connect to any external databases or booking APIs"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Live conversation demands sub-second end-to-end latency and smooth handling of pauses and interruptions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qsJd6o86AbvM",
       "title": "The cascade: speech-to-text, then the LLM, then text-to-speech",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "The classic architecture for a voice assistant is a three-stage cascade: a speech-to-text model transcribes the caller's audio into text, a large language model reads the text and generates a reply, and a text-to-speech model converts that reply back into spoken audio. Each stage can be swapped or tuned independently, and every turn leaves a clean text log for compliance auditing.\n\nIt is like a diplomatic relay where an interpreter writes down a visitor's speech, a policy adviser drafts the written response, and an announcer reads the response aloud.\n\nThe downside of this text bottleneck is that vocal tone, hesitation, and emotion are mostly stripped away before the language model ever sees the message.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qsJd6o86AbvM_1",
+          "type": "multiple_choice",
+          "prompt": "What is one major practical advantage of the three-stage speech-to-text, LLM, and text-to-speech cascade for enterprise clients?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Every turn passes through plain text, making it easy to inspect logs, filter policies, and swap individual components"
+            },
+            {
+              "id": "b",
+              "text": "It preserves every subtle sigh and emotional inflection without losing any acoustic detail"
+            },
+            {
+              "id": "c",
+              "text": "It has zero latency because all three models run inside a single matrix multiplication"
+            },
+            {
+              "id": "d",
+              "text": "It removes the need for a microphone on the caller's device"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Having an explicit intermediate text layer makes debugging, guardrails, compliance logging, and vendor modularity straightforward.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_8FfKAdA1ic3-",
       "title": "Latency budget: every stage adds delay",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In a cascaded voice pipeline, total response time is the sum of end-of-speech detection, network transport, speech-to-text transcription, language model time-to-first-token, and text-to-speech synthesis. If each stage takes just four hundred milliseconds, the caller faces an awkward two-second silence before hearing a single word back.\n\nIt is like a four-person relay race where even a slight fumble at each baton handover adds up to losing the race.\n\nEngineers keep the total latency budget under roughly one second by streaming audio chunks in real time and starting speech synthesis on the very first phrase while the language model is still generating the rest of the sentence.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_8FfKAdA1ic3-_1",
+          "type": "multiple_choice",
+          "prompt": "How do engineers reduce perceived wait time in a multi-stage voice cascade?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By waiting for the language model to write a five-paragraph essay before sending any text to the voice synthesiser"
+            },
+            {
+              "id": "b",
+              "text": "By asking the caller to wait silently for ten seconds after every question"
+            },
+            {
+              "id": "c",
+              "text": "By disabling network encryption and deleting the speech-to-text model"
+            },
+            {
+              "id": "d",
+              "text": "By streaming tokens and starting text-to-speech synthesis on the first phrase before the full answer is finished"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Streaming across stages lets the voice synthesiser start speaking the opening words while the remaining text is still being generated.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_bwaY-6C0B1dw",
       "title": "Interruptions and turn-taking",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Human conversation is full of natural pauses while thinking and sudden interruptions when a listener wants to correct or redirect the speaker. A voice agent must use voice activity detection and turn-taking logic to know when the user has truly finished speaking versus pausing mid-thought, and to stop talking immediately when the user barges in.\n\nIt is like a polite dinner guest who waits when you pause to check a note, and stops speaking the instant you jump in to clarify your question.\n\nIf turn detection is too eager, the agent cuts the user off mid-sentence; if it is too slow, every exchange feels sluggish and robotic.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_bwaY-6C0B1dw_1",
+          "type": "multiple_choice",
+          "prompt": "What should a well-designed real-time voice agent do when the human caller starts speaking mid-response, known as barge-in?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Stop playing its current audio output immediately and listen to the caller's new input"
+            },
+            {
+              "id": "b",
+              "text": "Increase its speaker volume to drown out the human caller"
+            },
+            {
+              "id": "c",
+              "text": "Hang up the phone call immediately to protect server memory"
+            },
+            {
+              "id": "d",
+              "text": "Ignore the caller until it has finished reading its entire pre-written script"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Handling barge-in gracefully requires cancelling ongoing speech playback as soon as user voice activity is detected.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_X6r4ao1xPpJv",
       "title": "Native speech-to-speech models as an alternative",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Native speech-to-speech models accept audio tokens directly as input and generate audio tokens directly as output without converting everything through an intermediate text transcript first. Because a single multimodal model processes the audio stream end to end, it can respond with lower latency and preserve vocal cues like laughter, urgency, or empathy.\n\nIt is like conversing directly with a fluent bilingual friend rather than passing written notes back and forth through a translator.\n\nHowever, native speech-to-speech models are typically more expensive per minute and harder to guardrail or audit than text-based cascades, though most APIs also emit a parallel text transcript for logging.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_X6r4ao1xPpJv_1",
+          "type": "multiple_choice",
+          "prompt": "What capability do native speech-to-speech models have that a standard text-intermediated cascade lacks?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They can hear and respond to vocal tone, pacing, and emotion directly without stripping audio down to plain text first"
+            },
+            {
+              "id": "b",
+              "text": "They never consume any GPU compute or network bandwidth during a phone call"
+            },
+            {
+              "id": "c",
+              "text": "They guarantee that the model will never say anything outside company policy without guardrails"
+            },
+            {
+              "id": "d",
+              "text": "They can only speak in Morse code rather than human languages"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Processing audio tokens directly preserves paralinguistic cues like tone and inflection while reducing multi-stage handover delays.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

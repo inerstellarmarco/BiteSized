@@ -5,20 +5,48 @@
     {
       "id": "bit_wdl03bYBrMkl",
       "title": "Image understanding and visual Q&A",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A vision-language model, or VLM, is a neural network that accepts both images and text in the same prompt and generates text answers about what it sees. Businesses use these models to inspect product photos, classify damage claims, and answer customer questions about screenshots.\n\nIt is like showing a photograph of a broken boiler part to an experienced heating engineer over a video call and asking which replacement valve you need to order.\n\nWhile vision-language models excel at broad scene understanding, they can still hallucinate plausible-sounding details when an image is blurry, occluded, or requires specialist medical or engineering judgement.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wdl03bYBrMkl_1",
+          "type": "multiple_choice",
+          "prompt": "What can a vision-language model do that a text-only language model cannot?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Run inference without using any computer memory or processing power"
+            },
+            {
+              "id": "b",
+              "text": "Guarantee one hundred per cent legal accuracy on blurry medical X-rays without human review"
+            },
+            {
+              "id": "c",
+              "text": "Reason jointly over uploaded images and text instructions to answer questions about visual content"
+            },
+            {
+              "id": "d",
+              "text": "Physically repair damaged warehouse stock using robotic arms"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Vision-language models combine visual encoding with language generation so they can describe, compare, and answer questions about images.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_SjswncSbTrXE",
       "title": "Document and chart parsing",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Modern vision-language models can read complex page layouts, scanned invoices, slide decks, and visual charts directly from page images without relying solely on traditional optical character recognition. Because the model sees the visual layout, it can link column headers, footnotes, and arrows to the text they describe.\n\nIt is like a human clerk looking at a colour-coded timetable and following the lines with their finger, rather than reading a jumbled list of words stripped of all formatting.\n\nEven so, dense multi-column financial tables or tiny handwriting can still cause misaligned rows, so automated schema checks remain essential in client workflows.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,55 +59,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_SjswncSbTrXE_1",
+          "type": "multiple_choice",
+          "prompt": "Why do vision-language models often outperform plain text extraction on complex slide decks and forms?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They delete all charts and tables before reading the document"
+            },
+            {
+              "id": "b",
+              "text": "They see the spatial layout, boxes, and visual groupings alongside the words on the page"
+            },
+            {
+              "id": "c",
+              "text": "They require every document to be retyped manually by the user first"
+            },
+            {
+              "id": "d",
+              "text": "They only read the first ten words of any uploaded PDF file"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Preserving the visual structure lets the model understand how headings, cells, and diagrams relate to one another.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Kdivc25rlCZS",
       "title": "Images are turned into tokens that the language model reads",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Under the hood, a vision-language model processes an image by slicing it into a grid of small patches, running those patches through a vision encoder, and projecting the resulting vectors into the same embedding space as text tokens. To the language model backbone, an image simply looks like a sequence of hundreds or thousands of visual tokens alongside the user's words.\n\nIt is like cutting a mosaic picture into numbered ceramic tiles and laying them in a row along a conveyor belt next to letter tiles.\n\nBecause high-resolution images require more patches or tiles, feeding larger pictures increases both latency and token consumption.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Kdivc25rlCZS_1",
+          "type": "multiple_choice",
+          "prompt": "How does the language backbone inside a vision-language model read an input photograph?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model converts the image into an MP3 audio file and listens to the sound waves"
+            },
+            {
+              "id": "b",
+              "text": "A vision encoder converts patches of the image into vectors that sit alongside text tokens in the sequence"
+            },
+            {
+              "id": "c",
+              "text": "A human operator types a hidden paragraph describing every pixel before the model runs"
+            },
+            {
+              "id": "d",
+              "text": "The language model ignores the image completely and guesses from the file name"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Image patches are encoded and projected into embeddings so the transformer processes visual tokens and text tokens together.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_hay6OmPaL7aQ",
       "title": "Strong at describing; weaker at precise counting and spatial detail",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Vision-language models are remarkably good at summarising the overall mood, subject, and text of a picture, yet they often struggle with exact object counting, fine-grained measurements, and strict left-right or centimetre-level spatial relationships. When dozens of similar items overlap in a warehouse photo, the model tends to estimate rather than count each one reliably.\n\nIt is like glancing at a crowded stadium stand: you can tell immediately that fans are cheering in red shirts, but you cannot state the exact number of seats filled.\n\nFor tasks requiring exact counts or precise coordinates, consultants often pair a specialised object-detection model with the vision-language model.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_hay6OmPaL7aQ_1",
+          "type": "multiple_choice",
+          "prompt": "For which of the following tasks would a general vision-language model most likely need help from a specialised computer-vision tool?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Describing the general theme of a company marketing poster"
+            },
+            {
+              "id": "b",
+              "text": "Counting the exact number of overlapping metal screws inside a crowded storage bin"
+            },
+            {
+              "id": "c",
+              "text": "Reading the headline printed in large font on a magazine cover"
+            },
+            {
+              "id": "d",
+              "text": "Identifying whether a photograph was taken indoors or outdoors"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "General vision-language models compress spatial detail into patch tokens, making exact counting of dense overlapping objects error-prone.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_IoICJsIIIID5",
       "title": "Reading charts and tables: verify the numbers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a vision-language model reads a bar chart, line graph, or dense financial table, it can easily misread axis scales, swap adjacent rows, or invent an exact number for a bar that sits between two grid lines. A confident textual summary of a chart is not proof that the underlying figures were extracted accurately.\n\nIt is like reading a motorway speedometer from the passenger seat at an angle and misjudging the needle by five miles per hour.\n\nWhenever a client workflow involves financial reporting or compliance figures, you should cross-check extracted numbers against structured data or enforce reconciliation checks such as verifying that column rows sum to the printed total.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_IoICJsIIIID5_1",
+          "type": "multiple_choice",
+          "prompt": "What is a sensible safeguard when using a vision-language model to extract financial figures from scanned tables?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Trust every extracted number blindly as long as the model sounds confident"
+            },
+            {
+              "id": "b",
+              "text": "Run automated arithmetic checks, such as verifying that extracted row values sum to the printed column total"
+            },
+            {
+              "id": "c",
+              "text": "Blur the image before sending it so the model reads faster"
+            },
+            {
+              "id": "d",
+              "text": "Ask the model to round every financial figure to the nearest million pounds"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Automated sanity checks and cross-referencing catch row shifts or misread digits before they corrupt downstream reports.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_WhDnDbsA50z0",
       "title": "Image tokens cost money too",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Commercial API providers charge for image inputs by converting each image into an equivalent number of tokens based on its pixel dimensions or tiling mode. Sending twenty high-resolution page scans in a single prompt can consume tens of thousands of input tokens and drive up API bills rapidly.\n\nIt is like sending parcels by air freight where the courier charges by total box volume, so shipping giant half-empty crates costs far more than compact packages.\n\nConsultants can cut client costs significantly by resizing images to the minimum resolution needed to read the text clearly and by cropping out irrelevant margins before calling the API.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_WhDnDbsA50z0_1",
+          "type": "multiple_choice",
+          "prompt": "How can an AI consultant reduce API token costs when processing thousands of document images?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Convert every image to a forty-megapixel uncompressed TIFF file before uploading"
+            },
+            {
+              "id": "b",
+              "text": "Downscale or crop images to the lowest resolution that still keeps the necessary detail legible"
+            },
+            {
+              "id": "c",
+              "text": "Send the exact same image five times in every prompt for redundancy"
+            },
+            {
+              "id": "d",
+              "text": "Change the image background colour from white to bright yellow"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Because vision token counts scale with image resolution and tile count, resizing pictures to fit the task directly reduces billable tokens.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,20 +5,48 @@
     {
       "id": "bit_TUXPFD90HGPe",
       "title": "Topic, content, and PII filters",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Guardrails are automated safety checks that sit around your language model to inspect what goes in and what comes out.\n\nThree common filters handle the basics. **Topic filters** keep a mortgage assistant from giving medical advice or chatting about politics. **Content filters** block hate speech, self-harm, threats and competitor bashing. **PII filters** detect and redact personally identifiable information such as national insurance numbers, credit card digits, phone numbers and home addresses using regexes and named-entity models.\n\nIt is a mailroom scanner that checks incoming and outgoing post for prohibited items and sensitive data before delivery.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TUXPFD90HGPe_1",
+          "type": "multiple_choice",
+          "prompt": "What are the three everyday jobs handled by topic, content and PII filters?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Training the foundation model, designing the website logo and billing customers"
+            },
+            {
+              "id": "b",
+              "text": "Translating text into Spanish, compressing images and sorting database indexes"
+            },
+            {
+              "id": "c",
+              "text": "Increasing the model's temperature so replies are more creative"
+            },
+            {
+              "id": "d",
+              "text": "Keeping the assistant on topic, blocking harmful or inappropriate language and redacting personal data"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Topic, content and PII filters enforce scope boundaries, content safety and personal-data protection around the model.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_9CZCNmzenihA",
       "title": "Hallucination control",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A hallucination guardrail checks whether factual claims in the model's draft are actually supported by the source data retrieved for that turn.\n\nIn practice, this combines deterministic checks with a fast verifier model. Code checks verify that every quoted order number, price, URL or citation ID appears in the retrieved context. A groundedness check then flags any sentence that states a figure, date or policy promise not present in the sources.\n\nIt is a newspaper sub-editor underlining every number and quote in a story and checking each one against the reporter's interview notes.\n\nWhen a claim fails the check, either strip the sentence, regenerate with stricter instructions or abstain.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,37 +59,121 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_9CZCNmzenihA_1",
+          "type": "multiple_choice",
+          "prompt": "How does a hallucination guardrail verify a draft answer before it reaches the user?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It checks that numbers, citations and factual claims in the draft are grounded in the retrieved source data"
+            },
+            {
+              "id": "b",
+              "text": "It asks the same model whether it feels confident about its own prose"
+            },
+            {
+              "id": "c",
+              "text": "It counts whether the paragraph has an even number of words"
+            },
+            {
+              "id": "d",
+              "text": "It replaces all numbers in the answer with zeros"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Groundedness checks compare the draft against retrieved sources and reject claims that have no backing evidence.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_FueQqI-TvS9J",
       "title": "Input checks before the model; output checks before the user",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Input and output guardrails sit at two different boundaries and protect against different risks.\n\n**Input guardrails** run before (or in parallel with) the main model call. They catch prompt-injection attempts, off-topic requests, oversized payloads and raw personal data that should be masked before leaving your server. **Output guardrails** run after the model generates a draft and before the user sees it. They catch leaked secrets, ungrounded claims, broken schemas and forbidden promises.\n\nIt is washing your hands before cooking (input check) and checking the meat temperature with a probe before serving (output check).\n\nYou need both because a clean input can still produce a flawed output.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_FueQqI-TvS9J_1",
+          "type": "multiple_choice",
+          "prompt": "Why do you need both input guardrails and output guardrails around a model?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Input guardrails and output guardrails do the exact same check on the same text"
+            },
+            {
+              "id": "b",
+              "text": "Input checks stop bad or unsafe requests going in, while output checks catch hallucinations, leaks or rule breaks before the user sees them"
+            },
+            {
+              "id": "c",
+              "text": "Output guardrails run before the user types a question"
+            },
+            {
+              "id": "d",
+              "text": "Input guardrails can guarantee the model never hallucinates"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Input checks protect the model and third-party APIs from bad inputs; output checks protect the user and business from bad responses.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_5e4DTKzyEtpj",
       "title": "Guardrails add delay and cost: put them where the risk is",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Every guardrail that calls a classifier or an extra language model adds milliseconds and token charges to your pipeline.\n\nIf you stack five LLM-based guardrails in a row on a simple internal search tool, the safety checks will cost more and take longer than the answer itself. Match the guardrail to the risk. Use fast, zero-cost regex and code checks everywhere. Add heavier model-based guardrails on public-facing apps, financial figures, health or legal topics, and actions that change data.\n\nIt is putting a heavy vault door on the bank safe, not on the staff stationery cupboard.\n\nRun input guardrails in parallel with retrieval or the main call to hide their latency.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5e4DTKzyEtpj_1",
+          "type": "multiple_choice",
+          "prompt": "How can you keep guardrails from making your application slow and expensive?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Use fast code checks everywhere, reserve heavier model checks for high-risk paths and run checks in parallel where possible"
+            },
+            {
+              "id": "b",
+              "text": "Run ten sequential frontier-model checks on every single word"
+            },
+            {
+              "id": "c",
+              "text": "Turn off all validation including basic JSON parsing"
+            },
+            {
+              "id": "d",
+              "text": "Only run guardrails after the user has closed the browser"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Proportionate guardrails and parallel execution protect high-risk paths without bogging down low-risk interactions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_qU_DCk6BIchV",
       "title": "Guardrails fail too: measure false alarms and misses",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A guardrail is a classifier, which means it makes two kinds of mistake: **false positives** (false alarms that block a harmless, legitimate user request) and **false negatives** (misses that let a harmful or hallucinated output slip through).\n\nTurn a guardrail's sensitivity dial too high and real customers cannot ask normal questions about their account (\"Sorry, I cannot help with that\"). Turn it too low and it catches nothing.\n\nIt is a smoke alarm: if it goes off every time you make toast, someone eventually takes the battery out.\n\nTest your guardrails on a labelled dataset of both safe and unsafe examples, and monitor block rates in production.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
@@ -74,7 +186,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_qU_DCk6BIchV_1",
+          "type": "multiple_choice",
+          "prompt": "What happens when a guardrail's false-positive (false alarm) rate is too high?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Legitimate user questions get blocked unnecessarily, frustrating users and hurting the product"
+            },
+            {
+              "id": "b",
+              "text": "Every harmful prompt is guaranteed to slip through"
+            },
+            {
+              "id": "c",
+              "text": "The model runs twice as fast"
+            },
+            {
+              "id": "d",
+              "text": "Token costs drop to zero"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Balancing false alarms against misses on a real test set keeps guardrails protective without blocking normal business use.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

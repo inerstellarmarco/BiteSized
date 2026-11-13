@@ -5,50 +5,162 @@
     {
       "id": "bit_RjajniESNRq_",
       "title": "Bias measurement and mitigation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Bias measurement and mitigation is the practice of testing whether an AI system performs differently or unfairly across demographic groups, regions, or categories, and taking deliberate steps to correct disparities. You can measure bias by running counterfactual evaluations where you keep a scenario identical, such as a loan summary or job application, while varying names, genders, postcodes, or backgrounds.\n\nFor a recruitment client, if changing an applicant's name on an identical CV changes the AI's shortlisting score, your evaluation immediately exposes a fairness problem before the tool goes live.\n\nMitigation involves removing unnecessary demographic proxies from the input, refining rubrics to focus on objective evidence, and auditing real-world outcomes continuously, since no single metric captures every definition of fairness.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_RjajniESNRq__1",
+          "type": "multiple_choice",
+          "prompt": "How does counterfactual testing help measure bias in an LLM workflow?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "By asking the language model directly whether it considers itself to be completely unbiased"
+            },
+            {
+              "id": "b",
+              "text": "By measuring how many milliseconds the server takes to respond during peak business hours"
+            },
+            {
+              "id": "c",
+              "text": "By counting the total number of parameters inside the neural network architecture"
+            },
+            {
+              "id": "d",
+              "text": "By holding the core facts of an input constant while swapping demographic indicators like names or postcodes to see if the model's output changes"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Counterfactual evaluation isolates whether protected characteristics or proxies improperly influence the model's scores, summaries, or recommendations when all relevant qualifications remain identical.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1VkkK_B0E7ZV",
       "title": "Model cards and explainability",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Model cards and explainability practices give stakeholders clear documentation about how an AI system works, what it was trained or configured for, where it performs well, and where it should never be used. Originally popularised by researchers at Google, a model card (or system card) acts as a standardised fact sheet covering intended use cases, evaluation scores across subgroups, and known limitations.\n\nIt is like the nutrition label and allergy warning printed on food packaging, telling buyers exactly what is inside and who should avoid it.\n\nWhile deep neural networks do not offer simple step-by-step mathematical transparency for every token, citing retrieved sources and documenting system limits gives users practical explainability; check the current details of industry templates when writing your own.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1VkkK_B0E7ZV_1",
+          "type": "multiple_choice",
+          "prompt": "What is the primary purpose of a model card or system card in AI governance?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To document an AI system's intended uses, evaluation performance across subgroups, and known limitations in a clear, standardised format"
+            },
+            {
+              "id": "b",
+              "text": "To store the encrypted credit card details used to pay for cloud GPU compute"
+            },
+            {
+              "id": "c",
+              "text": "To replace all software unit tests with a single marketing brochure"
+            },
+            {
+              "id": "d",
+              "text": "To hide the system's failure modes from regulators and enterprise customers"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Model cards provide transparent documentation so developers, auditors, and clients understand where a model or system is appropriate to use and what its known risks and performance bounds are.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lE8f-3jj-elI",
       "title": "Telling people when AI is involved in a decision",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Transparency requires clearly informing customers, employees, and citizens when they are interacting with an AI system or when AI plays a meaningful role in a decision that affects them. People have a right to know whether they are chatting with a software bot or a human agent, and whether an algorithm helped screen their application or claim.\n\nIt is like a recorded telephone message stating upfront that a call is automated rather than pretending a live receptionist is on the line.\n\nBeyond being good ethical practice that protects client trust, explicit AI disclosure is also a legal requirement under regulations like the EU AI Act for chatbots and synthetic media; check the current details for your market.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lE8f-3jj-elI_1",
+          "type": "multiple_choice",
+          "prompt": "Why should businesses clearly disclose when a user is interacting with an AI assistant or subject to an AI-assisted decision?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It tricks users into typing shorter sentences that cost less to process"
+            },
+            {
+              "id": "b",
+              "text": "It respects user autonomy, builds long-term trust, and satisfies legal transparency obligations in many jurisdictions"
+            },
+            {
+              "id": "c",
+              "text": "It exempts the company from all data protection and privacy laws worldwide"
+            },
+            {
+              "id": "d",
+              "text": "It makes the language model generate responses twice as fast"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Clear disclosure prevents deception, maintains customer trust if the system makes an error, and complies with transparency rules in frameworks like the EU AI Act.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_nwN65jT9LK_3",
       "title": "Extra care for hiring, lending, and health decisions",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "AI systems used in hiring, lending, insurance, education, housing, and healthcare require extraordinary care because errors or biases directly affect people's livelihoods, legal rights, and physical wellbeing. In these consequential domains, regulators and governance standards impose strict rules on data quality, bias auditing, human oversight, and the right to contest outcomes.\n\nUsing an AI tool to draft internal meeting notes carries minimal human impact if it makes a mistake, whereas using an AI tool to filter out job applicants or deny credit can ruin lives and trigger severe legal penalties.\n\nConsultants should never deploy fully autonomous decision-making in these high-stakes areas without qualified human review, rigorous fairness testing, and legal sign-off.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_nwN65jT9LK_3_1",
+          "type": "multiple_choice",
+          "prompt": "Why do hiring, credit lending, and healthcare AI applications require much stricter governance than internal productivity tools?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Language models are technically unable to read words related to finance, medicine, or employment"
+            },
+            {
+              "id": "b",
+              "text": "Decisions in these domains directly affect people's livelihoods, rights, and wellbeing, carrying high ethical and regulatory obligations"
+            },
+            {
+              "id": "c",
+              "text": "Cloud providers charge ten times more per token for healthcare and recruitment prompts"
+            },
+            {
+              "id": "d",
+              "text": "Internal productivity tools never use neural networks or machine learning"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "High-stakes domains that impact fundamental opportunities, finances, or health face strict legal classification (such as high-risk status under the EU AI Act) and require human oversight and fairness audits.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

@@ -5,50 +5,162 @@
     {
       "id": "bit_6kTzRSNJIlMr",
       "title": "Prompt, model, and config versioning",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In an AI system, your prompts, model identifier, temperature, tool schemas and guardrail thresholds change behaviour just as much as your Python or TypeScript code does.\n\nTreat all of them as **versioned artefacts**. Keep prompts and configurations in Git (or a versioned prompt registry linked to commits) rather than editing live strings in an untracked database table. Every change should have a version identifier, an author, a commit message explaining why it changed, and a link to the evaluation run that approved it.\n\nIt is a commercial bakery keeping numbered recipe cards in a binder so everyone knows what changed between Recipe v4 and Recipe v5.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_6kTzRSNJIlMr_1",
+          "type": "multiple_choice",
+          "prompt": "Why should prompts, model identifiers and tool schemas be kept under version control just like application code?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because models run faster when prompts are stored in Git"
+            },
+            {
+              "id": "b",
+              "text": "Because changes to any of them alter system behaviour, and version history lets you review diffs, run CI evals and roll back cleanly"
+            },
+            {
+              "id": "c",
+              "text": "So that nobody on the team can see what the system prompt says"
+            },
+            {
+              "id": "d",
+              "text": "Because databases cannot store strings longer than ten characters"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Versioning the whole AI configuration bundle (prompt + model + parameters + tools) makes every change auditable and reversible.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_kiSliuqHxrt_",
       "title": "Data versioning for RAG indexes",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a RAG answer changes from one week to the next, the culprit is often not the prompt or the model; it is the **retrieval index**. New PDFs were ingested, a chunking script was changed from 500 to 800 tokens, or the embedding model was upgraded.\n\nVersion your RAG index alongside your code. Record which source documents (with file hashes and timestamps), which chunking parameters and which embedding model built `index_v2026_11_13`. Build new indexes under a new versioned collection or alias (`kb_v4`), run your retrieval and RAG evals against `kb_v4`, and flip the live alias from `kb_v3` to `kb_v4` only when the scores pass.\n\nIt is printing a new edition of a reference textbook and checking the index before replacing the copies in the library.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_kiSliuqHxrt__1",
+          "type": "multiple_choice",
+          "prompt": "Why is building a new RAG index under a versioned alias (`kb_v4`) better than overwriting chunks in place inside the live index?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Overwriting in place is the only way to keep a backup"
+            },
+            {
+              "id": "b",
+              "text": "Vector databases only allow one collection to exist on a server"
+            },
+            {
+              "id": "c",
+              "text": "You can test the new index on your eval suite before switching traffic, and switch back to `kb_v3` instantly if a problem appears"
+            },
+            {
+              "id": "d",
+              "text": "Embedding models never change their vector dimensions"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Blue-green index aliases give you safe testing before cutover and an instant rollback if a chunking or ingestion change hurts retrieval.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_TxdEtPOUete7",
       "title": "Pinning model versions: providers update and retire models",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "In API calls, model names come in two styles: a floating alias (such as `gpt-4o` or `claude-sonnet-4`) and a **pinned dated snapshot** (such as a specific version string or release snapshot). Check the current details in your provider's model documentation.\n\nIf you use a floating alias in production, the day the provider points that alias to a newer snapshot, your production behaviour changes overnight without a single commit in your repository. Always pin the exact snapshot identifier in production configs, test new snapshots on your eval suite in staging first, and upgrade on your own schedule.\n\nIt is specifying the exact paint code on a repair order rather than asking for \"whatever blue is in the van today\".",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_TxdEtPOUete7_1",
+          "type": "multiple_choice",
+          "prompt": "Why should production configurations pin a specific model snapshot rather than a floating alias?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Pinned snapshots cost ten times more per token than floating aliases"
+            },
+            {
+              "id": "b",
+              "text": "Providers never update floating aliases"
+            },
+            {
+              "id": "c",
+              "text": "Pinned snapshots do not require an API key"
+            },
+            {
+              "id": "d",
+              "text": "Floating aliases can be updated silently by the provider, changing your production behaviour without your eval suite running first"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Pinning the exact model version prevents unexpected behaviour shifts until you have tested the new snapshot yourself.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_MPtGTNb2I2Qj",
       "title": "Knowing exactly which version produced an answer",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "When a client emails a screenshot of a strange AI answer from last Thursday, your first job is to reproduce it. You cannot do that if you do not know which version of your system wrote that reply.\n\nEvery response log and database record produced by your AI should stamp metadata alongside the output: the **Git commit SHA** (or release version), the **prompt version**, the **exact model snapshot returned by the provider**, the **RAG index version** and the **retrieved chunk IDs**.\n\nIt is the batch number and date stamped on the lid of a jar of jam: if one jar has a fault, the factory knows the exact vat, recipe and day it came from.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_MPtGTNb2I2Qj_1",
+          "type": "multiple_choice",
+          "prompt": "Which pieces of version metadata should be logged alongside every production AI output?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Only the day of the week the user logged in"
+            },
+            {
+              "id": "b",
+              "text": "The user's favourite colour and screen brightness"
+            },
+            {
+              "id": "c",
+              "text": "Nothing, because logs take up too much disk space"
+            },
+            {
+              "id": "d",
+              "text": "The code/release version, prompt version, exact model snapshot, RAG index version and retrieved source IDs"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Stamping exact code, prompt, model and index versions on every trace lets you reproduce and diagnose any historical output immediately.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

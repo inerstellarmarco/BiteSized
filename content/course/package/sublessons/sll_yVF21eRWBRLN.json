@@ -5,74 +5,242 @@
     {
       "id": "bit_5tnkls1pucfw",
       "title": "Batches, epochs, optimizers",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A mini-batch is a small slice of records processed together in one forward and backward step; an epoch is one complete pass through every example in the training dataset; and the optimiser is the algorithm (such as SGD with momentum or AdamW) that translates gradients into weight updates.\n\nIt is like marking a stack of exam scripts in bundles of thirty-two (mini-batches), finishing the entire school year's pile once (an epoch), and updating the teaching notes after each bundle (the optimiser).\n\nKeep track of both steps and epochs when comparing runs, because doubling the batch size halves the number of optimiser updates per epoch.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_5tnkls1pucfw_1",
+          "type": "multiple_choice",
+          "prompt": "If a training dataset has 10,000 examples and you train with a batch size of 100 for 5 epochs, how many optimiser weight update steps occur in total?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "500 update steps (100 batches per epoch multiplied by 5 epochs)"
+            },
+            {
+              "id": "b",
+              "text": "5 update steps (one step at the end of each epoch)"
+            },
+            {
+              "id": "c",
+              "text": "50,000 update steps (one step per example times 5 epochs)"
+            },
+            {
+              "id": "d",
+              "text": "20 update steps (10,000 divided by 500)"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Each epoch splits the 10,000 examples into 100 mini-batches of 100, and the optimiser updates the weights once per mini-batch across 5 epochs (100 x 5 = 500).",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_lhMqtJngGpg9",
       "title": "Learning-rate schedules",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A learning-rate schedule systematically adjusts the step size during training, often starting with a short linear warmup from near zero so early noisy gradients do not destabilise the weights, followed by a gradual cosine or step decay toward zero so the model can settle finely into a valley.\n\nIt is like a sculptor who begins gently to test the stone's grain (warmup), chisels briskly to shape the statue, and then switches to fine sandpaper for the final polish (decay).\n\nDecaying the learning rate too early freezes the model in a mediocre spot before it has learned the task, so match the schedule length to your total planned training steps.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_lhMqtJngGpg9_1",
+          "type": "multiple_choice",
+          "prompt": "Why do many modern deep learning training runs combine a brief learning-rate warmup with gradual learning-rate decay?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Warmup deletes outlier rows from the dataset, and decay increases the batch size to infinity"
+            },
+            {
+              "id": "b",
+              "text": "Warmup prevents huge destabilising jumps while early statistics settle, and later decay reduces mini-batch noise so weights settle into a minimum"
+            },
+            {
+              "id": "c",
+              "text": "Warmup sets all weights to zero, and decay forces the loss function to increase over time"
+            },
+            {
+              "id": "d",
+              "text": "Learning-rate schedules remove the need to compute gradients during backpropagation"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Early steps face untuned weights and noisy adaptive optimiser statistics, while late steps need smaller updates to stop bouncing around the valley floor.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_OKj8x7VTIUBF",
       "title": "Data loaders and shuffling",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A data loader streams mini-batches from disk or memory to the accelerator in background worker threads while shuffling the order of training examples at the start of every epoch.\n\nIt is like a kitchen prep crew washing and plating the next tray of ingredients in random order so the head chef at the stove never waits for food and never gets stuck in a repetitive rut.\n\nIf you forget to shuffle training data that was sorted by class label or date in the client database, early batches will contain all negative examples and late batches all positive examples, causing the model to oscillate wildly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_OKj8x7VTIUBF_1",
+          "type": "multiple_choice",
+          "prompt": "What happens if you train a classifier without shuffling on a dataset where all class 0 rows appear first and all class 1 rows appear second?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Each mini-batch contains only a single class, causing gradients to swing wildly toward class 0 for half the epoch and class 1 for the other half"
+            },
+            {
+              "id": "b",
+              "text": "The data loader refuses to read the file and deletes the validation split"
+            },
+            {
+              "id": "c",
+              "text": "The model converges twice as fast because sorted batches require no matrix multiplication"
+            },
+            {
+              "id": "d",
+              "text": "The validation set accuracy automatically reaches 100% after the first batch"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Mini-batch gradient descent assumes each batch is an approximately representative random sample of the training distribution.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_7tnC8VPfd6ez",
       "title": "Logging loss curves for training and validation",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Plotting both training loss and validation loss across steps or epochs is the primary diagnostic dashboard in deep learning, revealing whether the network is learning at all, plateauing, diverging, or overfitting as validation loss turns upward while training loss keeps falling.\n\nIt is like a flight cockpit display showing both engine thrust (training progress) and actual altitude in turbulent air (validation generalisation).\n\nAlways ensure that training and validation losses are computed in the same mode (without dropout active) when comparing their absolute heights, otherwise training loss can artificially sit higher than validation loss.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_7tnC8VPfd6ez_1",
+          "type": "multiple_choice",
+          "prompt": "When inspecting a training dashboard, you see training loss steadily decreasing while validation loss drops at first and then starts climbing upward after epoch 12. What is happening?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The model is beginning to overfit the training data after epoch 12"
+            },
+            {
+              "id": "b",
+              "text": "The learning rate is set to exact zero from epoch 1 onward"
+            },
+            {
+              "id": "c",
+              "text": "The validation set has been accidentally deleted from disk at epoch 12"
+            },
+            {
+              "id": "d",
+              "text": "The model is underfitting and needs all regularisation removed immediately"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "A diverging gap where training loss continues to fall while validation loss rises is the classic signature of overfitting.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_wGWUPM1pr1B7",
       "title": "Overfit one small batch first to test the code",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Before launching a long, costly training run on the full dataset, a seasoned engineer isolates a single tiny batch of two to sixteen examples and trains on that same batch repeatedly to verify that the training loss drops rapidly toward zero.\n\nIt is like testing a new printing press on five sheets of paper in the workshop before loading a ten-thousand-pound roll of commercial card stock.\n\nIf a neural network cannot memorise a handful of examples, you almost certainly have a code bug such as a flipped sign, broken label alignment, zeroed learning rate, or detached gradient graph; only note that memorising one batch does not test generalisation.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_wGWUPM1pr1B7_1",
+          "type": "multiple_choice",
+          "prompt": "Why is deliberately overfitting a single tiny batch of 8 examples a valuable first step when building a deep learning pipeline?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Overfitting 8 examples guarantees that the model will achieve 99% accuracy on unseen production data"
+            },
+            {
+              "id": "b",
+              "text": "A model trained on 8 examples never needs validation or test sets"
+            },
+            {
+              "id": "c",
+              "text": "Training on 8 examples permanently calibrates the probabilities for all future classes"
+            },
+            {
+              "id": "d",
+              "text": "If the model cannot drive loss near zero on 8 examples, it quickly exposes bugs in the model, loss, labels, or optimiser before wasting compute"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Memorising a tiny sample is an easy sanity check that verifies gradients flow properly and inputs align with targets.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_LSc3iw7YIktH",
       "title": "Seeds and reproducibility",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Setting fixed random seeds across Python, numerical libraries, data loaders, and GPU kernels ensures that random weight initialisation, data shuffling, and dropout masks follow the exact same sequence when you re-run an experiment.\n\nIt is like recording the exact shuffle order of a deck of cards so two analysts testing different card strategies face the exact same deal.\n\nEven with fixed seeds, certain parallel atomic additions on GPUs remain non-deterministic unless you enable strict deterministic algorithms, and you should still test your final architecture across three to five different seeds to be sure a small gain was not a lucky draw.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_LSc3iw7YIktH_1",
+          "type": "multiple_choice",
+          "prompt": "Why should an AI consultant evaluate a proposed model change across several different random seeds rather than relying on a single seed?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Because setting a random seed deletes half of the training columns on every run"
+            },
+            {
+              "id": "b",
+              "text": "Because deep neural networks are strictly convex and always give identical weights for every seed"
+            },
+            {
+              "id": "c",
+              "text": "To confirm that an observed accuracy improvement is genuine and not just a lucky weight initialisation or shuffle order"
+            },
+            {
+              "id": "d",
+              "text": "Because a single seed prevents the GPU from performing floating-point multiplication"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Non-convex training has natural run-to-run variance from initialisation and batch ordering, so testing multiple seeds distinguishes real improvements from noise.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

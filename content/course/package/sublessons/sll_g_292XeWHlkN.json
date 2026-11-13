@@ -5,20 +5,48 @@
     {
       "id": "bit_32JPsN_-XU-K",
       "title": "Robotics and lab-automation APIs",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Modern laboratory automation connects liquid-handling robots, plate readers, incubators, and sequencers to software control layers via programmatic APIs and open hardware abstraction libraries (such as Opentrons APIs, PyLabRobot, or SiLA 2 standards). Because hardware drivers and robotics SDKs evolve rapidly, check the current details for your client's lab stack.\n\nIt is like replacing manual hand-washing of dishes with an industrial kitchen conveyor where programmable valves control every rinse cycle and temperature.\n\nBy exposing physical instruments through clean Python interfaces, laboratories turn manual pipetting steps into repeatable software routines. However, physical hardware still suffers from clogged pipette tips, bubble formation, and deck calibration drift that software alone cannot see without sensors.",
+      "sourceNote": "Drafted by AI, November 2026 · fast-moving topic, check current details · confidence: medium",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_32JPsN_-XU-K_1",
+          "type": "multiple_choice",
+          "prompt": "How do lab-automation APIs and hardware abstraction libraries change wet-lab experimentation?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "They allow software programs to control liquid handlers and analytical instruments reproducibly through code"
+            },
+            {
+              "id": "b",
+              "text": "They eliminate the need to purchase physical chemical reagents or biological cell lines"
+            },
+            {
+              "id": "c",
+              "text": "They convert standard desktop laser printers into high-throughput DNA sequencers"
+            },
+            {
+              "id": "d",
+              "text": "They guarantee that mechanical pipette tips will never clog or form air bubbles"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Programmatic APIs translate digital experimental designs into precise physical actions across robotic liquid handlers and analytical sensors.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_O_jK9C6ufisL",
       "title": "Closed-loop design-build-test-learn",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A closed-loop design-build-test-learn (DBTL) cycle is an autonomous or semi-autonomous experimental workflow where a machine learning model designs a batch of experiments, lab robotics build and test the biological samples, and the measured assay results feed directly back to update the model for the next round.\n\nIt is like a smart thermostat that adjusts the boiler, reads the room thermometer ten minutes later, and refines its heating schedule continuously.\n\nActive learning and Bayesian optimisation allow a closed loop to find optimal enzyme variants or media formulations in far fewer total experiments than a giant one-shot screen. The bottleneck is usually cycle turnaround time: if wet-lab cell growth takes two weeks, the loop turns slowly.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
@@ -31,55 +59,195 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_O_jK9C6ufisL_1",
+          "type": "multiple_choice",
+          "prompt": "Why does a closed-loop design-build-test-learn (DBTL) workflow often outperform a single massive brute-force screen?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Closed-loop systems skip the build and test steps entirely by guessing the final answer on day one"
+            },
+            {
+              "id": "b",
+              "text": "Brute-force screens are limited by law to testing no more than three samples per year"
+            },
+            {
+              "id": "c",
+              "text": "Closed-loop workflows reduce the biological incubation time of human stem cells to zero milliseconds"
+            },
+            {
+              "id": "d",
+              "text": "Each experimental round updates the model with informative measurements, guiding subsequent rounds toward the most promising regions"
+            }
+          ],
+          "correctChoiceId": "d",
+          "explanation": "Iterative active learning balances exploration of uncertain regions with exploitation of strong hits, finding optima with far fewer wet-lab assays.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_25px6r2zXmHR",
       "title": "Protocols as code, executed by robots",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Treating wet-lab protocols as version-controlled source code means specifying exact volumes, transfer speeds, mixing cycles, incubation temperatures, and plate layouts in executable scripts rather than ambiguous prose in a paper binder. A protocol written as code can be linted, simulated in dry-run software, and executed identically across sites.\n\nIt is like replacing a handwritten family recipe calling for \"a pinch of salt and a warm oven\" with a digital bakery programme specifying 4.2 grams and 185 degrees Celsius.\n\nFor AI consultants helping biotech clients scale data generation, protocols-as-code eliminates technician-to-technician pipetting variability, which is one of the largest sources of batch noise in training datasets.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_25px6r2zXmHR_1",
+          "type": "multiple_choice",
+          "prompt": "What is a major advantage for machine learning when wet-lab protocols are written as executable code rather than prose instructions?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Protocols written in Python do not require sterile pipette tips or temperature control"
+            },
+            {
+              "id": "b",
+              "text": "Robotic execution of coded protocols reduces human pipetting variability and captures exact execution metadata for every sample"
+            },
+            {
+              "id": "c",
+              "text": "Coded protocols allow liquid handlers to synthesise gold atoms from distilled water"
+            },
+            {
+              "id": "d",
+              "text": "Prose laboratory notebooks cannot be read by human scientists after twenty-four hours"
+            }
+          ],
+          "correctChoiceId": "b",
+          "explanation": "Specifying and running protocols as code standardises physical execution and logs exact timestamps and volumes, yielding cleaner training data for AI models.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_NSnvRxs5yLX3",
       "title": "The model proposes experiments, instruments run them, and results feed back",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Inside a self-driving lab loop, a surrogate model combined with an acquisition function balances exploitation (testing designs predicted to perform best) against exploration (testing uncertain designs where the model lacks data). Once the robotic workcell executes the plate and records fluorescence or mass spectrometry readouts, automated pipelines parse the raw files and update the model weights.\n\nIt is like an oil exploration team drilling a few test wells both where surveys look richest and where the map is blank, updating their geological map after every core sample.\n\nA crucial engineering requirement is automated quality control on the incoming instrument readout before updating the model; feeding a dropped plate or contaminated control well into an active-learning loop will steer the next round off a cliff.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_NSnvRxs5yLX3_1",
+          "type": "multiple_choice",
+          "prompt": "Why do active-learning algorithms in self-driving labs intentionally select some experiments where model uncertainty is high?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Exploring uncertain regions of the design space gathers informative data that prevents the model from getting trapped in a local optimum"
+            },
+            {
+              "id": "b",
+              "text": "High-uncertainty experiments are always guaranteed to be the most potent drug candidates"
+            },
+            {
+              "id": "c",
+              "text": "Robotic liquid handlers can only pipette solutions whose properties are completely unknown"
+            },
+            {
+              "id": "d",
+              "text": "Testing confident predictions is prohibited by laboratory safety interlocks"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Balancing exploration of uncertain regions with exploitation of top predictions improves the surrogate model's global accuracy across rounds.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_gRteM_crmJXM",
       "title": "Safety interlocks and human oversight",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Connecting an AI agent or optimisation loop to physical laboratory robotics introduces real-world biosecurity, chemical safety, and equipment damage risks that do not exist in pure software. Self-driving labs must enforce hard-coded physical and software safety interlocks that no language model or optimiser can override.\n\nIt is like a modern industrial CNC machine where physical light curtains, thermal cut-offs, and locked material lists stop the blade immediately regardless of what the software commands.\n\nNever allow an agent to order unrestricted DNA sequences without biosecurity screening protocols, mix incompatible hazardous chemicals, exceed centrifuge or thermal limits, or bypass human sign-off when synthesis crosses risk thresholds.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a4",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_gRteM_crmJXM_1",
+          "type": "multiple_choice",
+          "prompt": "Why must safety interlocks in a self-driving laboratory be enforced in deterministic hardware and middleware rather than purely in the LLM prompt?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Language models run too slowly to read safety rules written in English sentences"
+            },
+            {
+              "id": "b",
+              "text": "Physical interlocks increase the mutation rate of bacterial cultures during fermentation"
+            },
+            {
+              "id": "c",
+              "text": "Prompt instructions can be bypassed or hallucinated around, whereas hard-coded middleware and physical interlocks strictly block unsafe actions"
+            },
+            {
+              "id": "d",
+              "text": "Biosecurity screening only applies to digital computer viruses and never to synthetic DNA orders"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "Physical safety, chemical compatibility, and biosecurity gene-synthesis screening require deterministic, non-bypassable controls independent of the AI model.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_1mm7zLUwPGkK",
       "title": "Instrument data quality limits the loop",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Even the most sophisticated Bayesian optimisation algorithm or deep generative model cannot learn if the robotic assay feeding it produces noisy, uncalibrated, or drifted measurements. In self-driving laboratories, the signal-to-noise ratio, dynamic range, and control-well stability of the physical assay set the hard ceiling on what the loop can discover.\n\nIt is like trying to tune a racing engine using a stopwatch that randomly gains or loses ten seconds on every lap.\n\nBefore building complex agentic orchestration, an AI consultant should ask the lab team for their assay's Z-prime factor, positive and negative control distributions, and replicate reproducibility. Fixing a noisy wet-lab readout delivers far more value than swapping the neural network architecture.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a5",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_1mm7zLUwPGkK_1",
+          "type": "multiple_choice",
+          "prompt": "What sets the ultimate ceiling on how effectively a self-driving lab can optimise a biological system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The colour scheme of the dashboard used to display active-learning progress"
+            },
+            {
+              "id": "b",
+              "text": "The number of conversational chat personas given to the orchestration agent"
+            },
+            {
+              "id": "c",
+              "text": "The reproducibility, calibration, and signal-to-noise quality of the physical wet-lab assay and instruments"
+            },
+            {
+              "id": "d",
+              "text": "Whether the optimisation script is written in Python 3.11 versus Python 3.12"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "No machine learning loop can extract reliable biological signal if the underlying physical assay lacks dynamic range, proper controls, or replicate consistency.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }

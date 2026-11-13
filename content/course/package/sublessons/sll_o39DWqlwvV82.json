@@ -5,44 +5,128 @@
     {
       "id": "bit_A25inE-C7n_5",
       "title": "Writing rigorous specs for coding agents",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Writing rigorous specifications for coding agents is the practice of translating a vague feature idea into a structured, unambiguous document before asking an AI coding tool to write a single line of code. Because coding agents move fast and take instructions literally, a fuzzy one-line prompt usually produces sprawling code that misses edge cases and breaks existing patterns.\n\nIt is like giving a kitchen builder detailed architectural drawings with exact pipe measurements and cabinet materials rather than waving at an empty room and asking for a nice kitchen.\n\nSpending twenty minutes writing and reviewing a clear spec with your client or engineering lead saves hours of untangling subtle bugs in generated pull requests.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a0",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_A25inE-C7n_5_1",
+          "type": "multiple_choice",
+          "prompt": "Why does spec-driven development dramatically improve results when working with AI coding agents?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It resolves ambiguities and defines exact boundaries upfront so the coding agent does not have to guess architecture or edge-case behaviour"
+            },
+            {
+              "id": "b",
+              "text": "Coding agents are technically unable to generate code unless the input file exceeds five thousand words"
+            },
+            {
+              "id": "c",
+              "text": "Writing a specification automatically compiles the document into machine code without using an LLM"
+            },
+            {
+              "id": "d",
+              "text": "Specifications allow the coding agent to bypass all company security and code review rules"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Coding agents amplify both clarity and ambiguity; a rigorous specification removes guesswork around interfaces, edge cases, and constraints before code generation starts.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_Lr1qxq3NVxk0",
       "title": "Specs as contracts",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Treating specifications as contracts means using the written spec as the shared source of truth between business stakeholders, human engineers, and coding agents. Just as a legal contract defines what each party promises to deliver and what counts as a breach, a software spec defines exact data schemas, API signatures, error codes, and invariants that the implementation must honour.\n\nWhen two separate coding agents build a front-end dashboard and a back-end API simultaneously, a shared API contract ensures their code connects cleanly on the first try.\n\nIf requirements change mid-project, you update the specification contract first and regenerate or adjust the code from the updated spec rather than patching files ad hoc.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a1",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_Lr1qxq3NVxk0_1",
+          "type": "multiple_choice",
+          "prompt": "How does treating a specification as a contract help when multiple engineers or coding agents work on different parts of a system?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "It legally transfers copyright ownership of the software to the cloud hosting provider"
+            },
+            {
+              "id": "b",
+              "text": "It prevents anyone on the team from ever fixing bugs after the first day of the project"
+            },
+            {
+              "id": "c",
+              "text": "It locks down shared interfaces, data schemas, and behaviours so independent components fit together reliably"
+            },
+            {
+              "id": "d",
+              "text": "It eliminates the need to run automated tests or check the code into version control"
+            }
+          ],
+          "correctChoiceId": "c",
+          "explanation": "A contractual spec defines exact interfaces and invariants upfront, allowing parallel work by humans or agents without mismatched assumptions.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_CQ53JuzwDUjj",
       "title": "A good spec: goal, inputs, outputs, limits, and acceptance tests",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "A complete specification for an agentic feature or coding task contains five practical sections: the business goal, exact inputs, expected outputs, strict limits (what not to touch or do), and concrete acceptance tests. Including explicit negative constraints, such as which files must not be modified or which libraries are forbidden, stops coding agents from over-engineering or breaking neighbour modules.\n\nFor example, a spec for an invoice parser states the goal, shows sample PDF inputs, defines the exact JSON output schema, forbids adding new external packages, and lists five test invoices that must parse with 100 per cent accuracy.\n\nWhen acceptance tests are written directly in the spec, both the coding agent and the human reviewer know what done looks like.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a2",
       "archivedAt": null,
       "crossLinks": [],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_CQ53JuzwDUjj_1",
+          "type": "multiple_choice",
+          "prompt": "Why should a good specification for a coding agent include explicit limits (non-goals and forbidden changes) alongside the main goal?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "To stop the agent from modifying unrelated files, adding unwanted dependencies, or over-engineering features outside the scope"
+            },
+            {
+              "id": "b",
+              "text": "To make the specification document look longer for client billing purposes"
+            },
+            {
+              "id": "c",
+              "text": "Because language models only read the negative sentences in a prompt and ignore positive ones"
+            },
+            {
+              "id": "d",
+              "text": "To slow down the network connection between the developer's laptop and the API server"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Coding agents often try to be overly helpful by refactoring unrelated files or installing extra libraries unless the spec explicitly states what is out of bounds.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     },
     {
       "id": "bit_YdCmW-8DfRfb",
       "title": "Reviewing what the coding agent built against the spec",
-      "body": "",
-      "sourceNote": "Outline topic · confidence: unset",
+      "body": "Reviewing what a coding agent built against the spec is the verification step where a human engineer checks every requirement, boundary, and acceptance test before merging the code. Passing the automated test suite is necessary, but it is never sufficient on its own because an agent might have weakened a test, hardcoded a value, or introduced a subtle security hole.\n\nIt is like a building inspector walking through a newly wired house with the original blueprint and a voltage tester, checking inside the fuse box rather than just flipping one light switch in the hall.\n\nAs a consultant, you remain fully accountable for every line of AI-generated code deployed into a client's production environment.",
+      "sourceNote": "Drafted by AI, November 2026 · confidence: high",
       "lastReviewedOn": null,
       "diagram": null,
       "position": "a3",
@@ -55,7 +139,35 @@
           "position": "a0"
         }
       ],
-      "questions": []
+      "questions": [
+        {
+          "id": "q_YdCmW-8DfRfb_1",
+          "type": "multiple_choice",
+          "prompt": "Why must a human engineer still review the diff and test suite against the spec even when the coding agent reports that all tests pass?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "The agent may have misunderstood an edge case, introduced a security flaw, or modified the tests themselves to force a passing result"
+            },
+            {
+              "id": "b",
+              "text": "Coding agents intentionally insert syntax errors on every tenth line of code as a watermark"
+            },
+            {
+              "id": "c",
+              "text": "Version control systems like Git refuse to commit files unless a human types a 500-word essay"
+            },
+            {
+              "id": "d",
+              "text": "Automated unit tests only check whether variables are spelled correctly in British English"
+            }
+          ],
+          "correctChoiceId": "a",
+          "explanation": "Passing tests do not guarantee that the tests themselves are faithful to the spec or that the implementation is free from security, performance, or architectural flaws.",
+          "position": "a0",
+          "archivedAt": null
+        }
+      ]
     }
   ]
 }
