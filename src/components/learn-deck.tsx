@@ -11,7 +11,7 @@ import { Diagram } from "@/components/diagram";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import { Heart } from "lucide-react";
+import { Heart, MoreHorizontal } from "lucide-react";
 import { formatReviewed } from "@/lib/utils";
 import { classifySwipe } from "@/lib/swipe";
 
@@ -290,27 +290,60 @@ function BiteTools({
   onFlag: (kind: "revisit" | "rework" | "error") => void;
   onExample: () => void;
 }) {
+  const [toolsOpen, setToolsOpen] = useState(false);
   const personal = bite.personal;
   const showPersonal = Boolean(personal && personal.showing === "personal" && !draft);
   const title = draft?.title ?? (showPersonal ? personal?.title : bite.title);
   const body = draft?.body ?? (showPersonal ? personal?.body : bite.body);
   const diagram = draft ? draft.diagram : showPersonal ? personal?.diagram ?? null : bite.diagram;
+  function pick(action: () => void) {
+    setToolsOpen(false);
+    action();
+  }
   return (
     <>
-      <button
-        type="button"
-        data-testid="heart"
-        aria-pressed={bite.hearted}
-        aria-label={bite.hearted ? "Remove heart from this bite" : "Heart this bite"}
-        title={bite.hearted ? "Remove heart" : "Heart this bite"}
-        onClick={(event) => {
-          event.stopPropagation();
-          onHeart();
-        }}
-        className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      >
-        <Heart className={cn("h-5 w-5", bite.hearted && "fill-red-500 text-red-500")} aria-hidden />
-      </button>
+      <div className="absolute right-3 top-3 flex items-center gap-1" onClick={(event) => event.stopPropagation()}>
+        <button
+          type="button"
+          data-testid="bite-tools"
+          aria-haspopup="menu"
+          aria-expanded={toolsOpen}
+          aria-label="More actions for this bite"
+          title="More actions"
+          onClick={() => setToolsOpen((open) => !open)}
+          className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <MoreHorizontal className="h-5 w-5" aria-hidden />
+        </button>
+        <button
+          type="button"
+          data-testid="heart"
+          aria-pressed={bite.hearted}
+          aria-label={bite.hearted ? "Remove heart from this bite" : "Heart this bite"}
+          title={bite.hearted ? "Remove heart" : "Heart this bite"}
+          onClick={onHeart}
+          className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <Heart className={cn("h-5 w-5", bite.hearted && "fill-red-500 text-red-500")} aria-hidden />
+        </button>
+      </div>
+      {toolsOpen ? (
+        <>
+          <div className="fixed inset-0 z-10" aria-hidden onClick={(event) => { event.stopPropagation(); setToolsOpen(false); }} />
+          <div
+            role="menu"
+            data-testid="bite-tools-menu"
+            className="absolute right-3 top-14 z-20 w-56 rounded-xl border border-border bg-card p-1 shadow-lg"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <MenuItem testId="regenerate-menu" onClick={() => pick(onMenu)}>Regenerate…</MenuItem>
+            <MenuItem onClick={() => pick(() => onFlag("revisit"))}>Revisit later</MenuItem>
+            <MenuItem testId="flag-rework" onClick={() => pick(() => onFlag("rework"))}>Flag for rework</MenuItem>
+            <MenuItem onClick={() => pick(() => onFlag("error"))}>Report an error</MenuItem>
+            {isAdmin ? <MenuItem testId="style-example" onClick={() => pick(onExample)}>Use as style example</MenuItem> : null}
+          </div>
+        </>
+      ) : null}
       {showPersonal ? (
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <span className="rounded-full bg-secondary px-2 py-0.5 text-xs font-semibold" data-testid="personal-badge">
@@ -323,7 +356,7 @@ function BiteTools({
           ) : null}
         </div>
       ) : null}
-      <h2 className="pr-10 font-display text-2xl leading-tight md:text-3xl" data-testid="learn-title">
+      <h2 className="pr-20 font-display text-2xl leading-tight md:text-3xl" data-testid="learn-title">
         {title}
       </h2>
       <p className="mt-4 max-w-2xl text-[1.05em] leading-relaxed">{body}</p>
@@ -332,29 +365,18 @@ function BiteTools({
           <Diagram source={diagram} />
         </div>
       ) : null}
-      <div className="mt-4 flex flex-wrap gap-2" onClick={(event) => event.stopPropagation()}>
-        <Button type="button" variant="outline" size="sm" data-testid="regenerate-menu" onClick={onMenu}>
-          Regenerate
-        </Button>
-        <Button type="button" variant="ghost" size="sm" onClick={() => onFlag("revisit")}>Revisit</Button>
-        <Button type="button" variant="ghost" size="sm" data-testid="flag-rework" onClick={() => onFlag("rework")}>Flag for rework</Button>
-        <Button type="button" variant="ghost" size="sm" onClick={() => onFlag("error")}>Report an error</Button>
-        {isAdmin ? (
-          <Button type="button" variant="outline" size="sm" data-testid="style-example" onClick={onExample}>
-            Use as style example
-          </Button>
-        ) : null}
-      </div>
-      <p className="mt-2 text-xs text-muted-foreground" data-testid="regen-remaining">
-        {left} of {limit} regenerations left today
-      </p>
       {menuOpen ? (
-        <div className="mt-3 flex flex-wrap gap-2" data-testid="regenerate-options">
-          {REGENERATE_PRESETS.map((preset) => (
-            <Button key={preset.id} type="button" size="sm" disabled={busy} data-testid={`preset-${preset.id}`} onClick={() => onPreset(preset.id)}>
-              {preset.label}
-            </Button>
-          ))}
+        <div className="mt-4" onClick={(event) => event.stopPropagation()}>
+          <div className="flex flex-wrap gap-2" data-testid="regenerate-options">
+            {REGENERATE_PRESETS.map((preset) => (
+              <Button key={preset.id} type="button" size="sm" disabled={busy} data-testid={`preset-${preset.id}`} onClick={() => onPreset(preset.id)}>
+                {preset.label}
+              </Button>
+            ))}
+          </div>
+          <p className="mt-2 text-xs text-muted-foreground" data-testid="regen-remaining">
+            {left} of {limit} regenerations left today
+          </p>
         </div>
       ) : null}
       {draft ? (
@@ -383,5 +405,19 @@ function BiteTools({
       ) : null}
       {note ? <p className="mt-2 text-sm">{note}</p> : null}
     </>
+  );
+}
+
+function MenuItem({ children, onClick, testId }: { children: React.ReactNode; onClick: () => void; testId?: string }) {
+  return (
+    <button
+      type="button"
+      role="menuitem"
+      data-testid={testId}
+      onClick={onClick}
+      className="block w-full rounded-lg px-3 py-2.5 text-left text-sm transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      {children}
+    </button>
   );
 }

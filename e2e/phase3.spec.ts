@@ -23,6 +23,7 @@ test("phone regenerate, personal version, flags, and placement", async ({ page }
   await page.setViewportSize({ width: 412, height: 915 });
   await prepare(page);
   await page.goto("/learn/sll_a1_1_2");
+  await page.getByTestId("bite-tools").click();
   await page.getByTestId("regenerate-menu").click();
   await expect(page.getByTestId("regenerate-options")).toBeVisible();
   await page.screenshot({ path: path.join(artifacts, "regenerate_phone.png") });
@@ -30,6 +31,7 @@ test("phone regenerate, personal version, flags, and placement", async ({ page }
   await page.getByTestId("save-personal").click();
   await expect(page.getByTestId("personal-badge")).toBeVisible();
   await page.screenshot({ path: path.join(artifacts, "personal_version_phone.png") });
+  await page.getByTestId("bite-tools").click();
   await page.getByTestId("flag-rework").click();
   await page.goto("/admin/flags");
   await expect(page.getByTestId("flag-list")).toBeVisible();
@@ -49,6 +51,7 @@ test("desktop regenerate, personal version, flags, and placement", async ({ page
   await page.setViewportSize({ width: 1280, height: 800 });
   await prepare(page);
   await page.goto("/learn/sll_a1_1_1");
+  await page.getByTestId("bite-tools").click();
   await page.getByTestId("regenerate-menu").click();
   await expect(page.getByTestId("regenerate-options")).toBeVisible();
   await page.screenshot({ path: path.join(artifacts, "regenerate_desktop.png") });
@@ -56,6 +59,7 @@ test("desktop regenerate, personal version, flags, and placement", async ({ page
   await page.getByTestId("save-personal").click();
   await expect(page.getByTestId("personal-badge")).toBeVisible();
   await page.screenshot({ path: path.join(artifacts, "personal_version_desktop.png") });
+  await page.getByTestId("bite-tools").click();
   await page.getByTestId("flag-rework").click();
   await page.goto("/admin/flags");
   await expect(page.getByTestId("flag-list")).toBeVisible();
