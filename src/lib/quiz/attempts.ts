@@ -1,22 +1,91 @@
-import { and, asc, eq, inArray, isNull } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull } from "drizzle-orm";
 import { activeBites } from "@/lib/content/ops";
+import { asDate } from "@/lib/dates";
 import { learnerCursors, questions, quizAnswers, quizAttempts } from "@/lib/db/schema";
 import type { AppDatabase } from "@/lib/db/types";
 import { newId } from "@/lib/ids";
-import type { Choice } from "@/lib/types";
+import { orderForRetake } from "@/lib/quiz/retake";
 import { scoreQuiz, type ScoreAnswer } from "@/lib/quiz/score";
+import { QUESTION_TYPES, type Choice, type QuestionType } from "@/lib/types";
 
 export type PublicQuestion = {
   id: string;
+  type: QuestionType;
   prompt: string;
   choices: Choice[];
   biteTitle: string;
 };
 
-export async function quizQuestions(db: AppDatabase, subLessonId: string) {
+export type AttemptHistoryEntry = {
+  id: string;
+  correctCount: number;
+  answeredCount: number;
+  totalCount: number;
+  percent: number;
+  stoppedEarly: boolean;
+  finishedAt: string;
+  wrongIds: string[];
+};
+
+export async function subLessonAttemptHistory(
+  db: AppDatabase,
+  profileId: string,
+  subLessonId: string,
+): Promise<AttemptHistoryEntry[]> {
+  const attempts = await db
+    .select()
+    .from(quizAttempts)
+    .where(and(eq(quizAttempts.profileId, profileId), eq(quizAttempts.subLessonId, subLessonId)))
+    .orderBy(desc(quizAttempts.finishedAt), desc(quizAttempts.startedAt));
+  if (attempts.length === 0) return [];
+
+  const attemptIds = attempts.map((row) => row.id);
+  const answers = await db
+    .select()
+    .from(quizAnswers)
+    .where(inArray(quizAnswers.attemptId, attemptIds));
+
+  const wrongByAttempt = new Map<string, string[]>();
+  for (const answer of answers) {
+    if (answer.correct) continue;
+    const list = wrongByAttempt.get(answer.attemptId) ?? [];
+    list.push(answer.questionId);
+    wrongByAttempt.set(answer.attemptId, list);
+  }
+
+  return attempts.map((attempt) => ({
+    id: attempt.id,
+    correctCount: attempt.correctCount,
+    answeredCount: attempt.answeredCount,
+    totalCount: attempt.totalCount,
+    percent: attempt.answeredCount === 0 ? 0 : Math.round((attempt.correctCount / attempt.answeredCount) * 100),
+    stoppedEarly: attempt.stoppedEarly,
+    finishedAt: (asDate(attempt.finishedAt) ?? new Date()).toISOString(),
+    wrongIds: wrongByAttempt.get(attempt.id) ?? [],
+  }));
+}
+
+export async function quizQuestions(
+  db: AppDatabase,
+  subLessonId: string,
+  options?: {
+    profileId?: string;
+    retake?: boolean;
+    lastMissedIds?: string[];
+    random?: () => number;
+  },
+) {
   const bitesInLesson = await activeBites(db, subLessonId);
   const biteIds = bitesInLesson.map((bite) => bite.id);
-  if (biteIds.length === 0) return { questions: [] as PublicQuestion[], answerKey: [], skipped: 0 };
+  if (biteIds.length === 0) {
+    return {
+      questions: [] as PublicQuestion[],
+      answerKey: [],
+      skipped: 0,
+      isRetake: false,
+      history: [] as AttemptHistoryEntry[],
+    };
+  }
   const rows = await db
     .select()
     .from(questions)
@@ -29,16 +98,25 @@ export async function quizQuestions(db: AppDatabase, subLessonId: string) {
     if (biteDiff !== 0) return biteDiff;
     return a.position < b.position ? -1 : a.position > b.position ? 1 : 0;
   });
-  const playable = ordered.filter((row) => row.type === "multiple_choice");
+  const playable = ordered.filter((row) => QUESTION_TYPES.includes(row.type));
+
+  const history = options?.profileId ? await subLessonAttemptHistory(db, options.profileId, subLessonId) : [];
+  const isRetake = Boolean(options?.retake || history.length > 0);
+  const lastMissedIds = options?.lastMissedIds ?? history[0]?.wrongIds ?? [];
+  const arranged = isRetake ? orderForRetake(playable, lastMissedIds, options?.random) : playable;
+
   return {
     skipped: ordered.length - playable.length,
-    questions: playable.map((row) => ({
+    isRetake,
+    history,
+    questions: arranged.map((row) => ({
       id: row.id,
+      type: row.type,
       prompt: row.prompt,
       choices: row.choices,
       biteTitle: biteTitle.get(row.biteId) ?? "",
     })),
-    answerKey: playable.map((row) => ({
+    answerKey: arranged.map((row) => ({
       id: row.id,
       correctChoiceId: row.correctChoiceId,
       explanation: row.explanation,
@@ -122,7 +200,7 @@ export async function saveQuizAttempt(
 
 export async function explainChoice(db: AppDatabase, questionId: string, choiceId: string) {
   const [question] = await db.select().from(questions).where(and(eq(questions.id, questionId), isNull(questions.archivedAt)));
-  if (!question || question.type !== "multiple_choice") return null;
+  if (!question || !QUESTION_TYPES.includes(question.type)) return null;
   return {
     correct: question.correctChoiceId === choiceId,
     correctChoiceId: question.correctChoiceId,

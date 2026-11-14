@@ -2,7 +2,7 @@
 
 Bite Sized is a small learning app for Eric and his family. Up to three people each get a profile. Lessons are short cards, one idea at a time, and a quiz is always a separate choice.
 
-The app does not assume a subject. **Applied AI Engineering** is only the first course, and this release ships module A1 from that outline. Another course can be imported later without changing the app.
+The app does not assume a subject. **Applied AI Engineering** is the first course: the default seed loads module A1 (`content/packages/applied-ai-engineering`), and the complete five-track course (Tracks A–E: 50 modules, 330 sub-lessons, 1,794 cards, and 1,805 quiz questions) lives in `content/course/package` and can be imported as a ZIP from the Family page. Another course can be imported later without changing the app.
 
 It is an installable web app, so the same site runs on Android, iPhone, and Windows. It needs a connection. There is no offline copy of the course.
 
@@ -19,7 +19,7 @@ The database is Postgres-shaped. Drizzle is the query layer.
 
 Course files are JSON. The database is the master copy. Packages are how you import, export, and back up, so a backup is not trapped inside Neon.
 
-AI keys are not used in this phase. When they arrive they stay in server environment variables (`LLM_API_KEY`, never `NEXT_PUBLIC_`). The daily regenerate cap defaults to 100 per profile and is `LLM_DAILY_REGENERATE_CAP`.
+AI keys stay in server environment variables (`GEMINI_API_KEY` or `LLM_API_KEY`, never `NEXT_PUBLIC_`). A backup provider (`LLM_BACKUP_PROVIDER`, `LLM_BACKUP_API_KEY`, `LLM_BACKUP_MODEL`) fails over automatically when the primary call fails, and the daily regenerate cap defaults to 100 per profile (`LLM_DAILY_REGENERATE_CAP`, adjustable in Admin Settings).
 
 ## Run it locally
 
@@ -67,7 +67,13 @@ npm run import-package -- --from ./course-export
 
 Import from the Family page updates the course and leaves progress alone. `--replace` is a full replace, including learners when the folder has them, and is what restore uses.
 
-Sample content lives in `content/packages/applied-ai-engineering`. `course.ts` is the hand-written source. `npm run package:write` refreshes the JSON. The database is seeded from that JSON.
+Sample seed content (module A1) lives in `content/packages/applied-ai-engineering`. `course.ts` is the hand-written source. `npm run package:write` refreshes the JSON. The database is seeded from that JSON on first launch.
+
+The complete five-track course (Tracks A–E, 50 modules, 330 sub-lessons, 1,794 cards) lives in `content/course/source/*.txt` and builds into `content/course/package`:
+
+```bash
+npm run course:build -- --zip ./course-zips
+```
 
 Ordering uses fractional keys, so an insert or a move updates one row. Deletes are archives and can be restored. Edits write a row to `content_revisions`. Progress is counted from the bites that are still in the course, so adding or archiving a bite changes the percentage.
 
@@ -135,9 +141,9 @@ Phone viewport 412×915 and desktop 1280×800: Learn (with a Mermaid diagram), Q
 
 ## Still ahead
 
-Phases 1 to 3 are done. What remains is in [PLAN.md](PLAN.md): spaced review, the other question types, retakes, the learner dashboard, streaks, search, notes, Word and PDF import, and the go-live checks.
+Phases 1 to 4 are done. What remains for Phase 5 is in [PLAN.md](PLAN.md): Word and PDF outline import, the full approvals inbox and admin dashboard, and final go-live checks.
 
-Phase 1 quizzes are multiple choice only, and only when someone chooses Quiz. The other question types are stored but not used yet.
+Quizzes support multiple-choice, true/false, and predict-the-output questions, with retake rules (random order, no repeats, and the question just missed does not come straight back), full attempt score history, and 1/3/7/21-day spaced repetition for wrong answers. Learners also have a dashboard on Home with category/module/lesson progress, quiz score trends, daily bite goals and streaks, private notes on bites, course search, prerequisite skip warnings, and learner progress export.
 
 ## Phase 2: style, import, and review
 
@@ -151,7 +157,7 @@ The model boundary is `src/lib/llm`. Gemini is the default, using `gemini-3.8-fl
 GEMINI_API_KEY=your-key
 ```
 
-`LLM_API_KEY` is accepted as an alias. There is a backup-provider slot (`LLM_BACKUP_PROVIDER`, `LLM_BACKUP_API_KEY`, `LLM_BACKUP_MODEL`) and a daily cap (`LLM_DAILY_REGENERATE_CAP`, default 100). Phase 2 does not fail over and does not enforce the cap yet. Those stay in the config for Phase 3.
+`LLM_API_KEY` is accepted as an alias. A backup-provider slot (`LLM_BACKUP_PROVIDER`, `LLM_BACKUP_API_KEY`, `LLM_BACKUP_MODEL`) fails over automatically if the primary provider fails, and a daily cap (`LLM_DAILY_REGENERATE_CAP`, default 100, editable on the Admin page) limits regenerations per profile per day.
 
 With no key, or with `LLM_PROVIDER=mock`, the app uses a deterministic mock. Tests use that mock. If a live call fails, the screen says "AI unavailable, try later."
 

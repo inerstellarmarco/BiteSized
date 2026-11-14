@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { markSeenAction } from "@/lib/actions";
 import { addStyleExampleAction, flagAction, regenerateAction, saveRegenerationAction, showOriginalAction, toggleHeartAction } from "@/lib/actions/phase3";
+import { saveBiteNoteAction } from "@/lib/actions/phase4";
 import { REGENERATE_PRESETS } from "@/lib/ai/regenerate";
 import type { PersonalView } from "@/lib/ai/view";
 import { Diagram } from "@/components/diagram";
@@ -27,6 +28,7 @@ export type LearnBite = {
   crossLinks: { id: string; label: string; targetCode: string; href: string | null }[];
   personal?: PersonalView | null;
   hearted?: boolean;
+  privateNote?: string;
 };
 
 export function LearnDeck({
@@ -66,7 +68,11 @@ export function LearnDeck({
   const [left, setLeft] = useState(remaining);
   const [draft, setDraft] = useState<{ biteId: string; title: string; body: string; diagram: string | null; basedOnUpdatedAt: string } | null>(null);
   const [heartOverrides, setHeartOverrides] = useState<Record<string, boolean>>({});
+  const [noteOverrides, setNoteOverrides] = useState<Record<string, string>>({});
+  const [noteOpen, setNoteOpen] = useState(false);
+  const [noteText, setNoteText] = useState("");
   const bite = bites[index];
+  const currentPrivateNote = bite ? (noteOverrides[bite.id] ?? bite.privateNote ?? "") : "";
   const done = index >= bites.length;
   const reviewed = bite ? formatReviewed(bite.lastReviewedOn) : null;
 
@@ -91,7 +97,9 @@ export function LearnDeck({
   useEffect(() => {
     if (!bite) return;
     void markSeenAction(bite.id);
-  }, [bite]);
+    setNoteOpen(false);
+    setNoteText(noteOverrides[bite.id] ?? bite.privateNote ?? "");
+  }, [bite, noteOverrides]);
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
@@ -280,6 +288,71 @@ export function LearnDeck({
               ))}
             </p>
           ) : null}
+          <div className="mt-5 border-t border-border/70 pt-3" onClick={(event) => event.stopPropagation()}>
+            {!noteOpen ? (
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                {currentPrivateNote ? (
+                  <p className="text-sm text-muted-foreground" data-testid="bite-note-display">
+                    <span className="font-medium text-foreground">Your note:</span> {currentPrivateNote}
+                  </p>
+                ) : (
+                  <span className="text-xs text-muted-foreground">Private note (only you see this)</span>
+                )}
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  data-testid="bite-note-toggle"
+                  onClick={() => {
+                    setNoteText(currentPrivateNote);
+                    setNoteOpen(true);
+                  }}
+                >
+                  {currentPrivateNote ? "Edit note" : "Add note"}
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <label htmlFor={`note-${bite.id}`} className="block text-xs font-medium text-muted-foreground">
+                  Your private note on this card
+                </label>
+                <textarea
+                  id={`note-${bite.id}`}
+                  data-testid="bite-note-input"
+                  rows={2}
+                  value={noteText}
+                  onChange={(event) => setNoteText(event.target.value)}
+                  placeholder="Write a short note for yourself…"
+                  className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                />
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    data-testid="bite-note-save"
+                    disabled={busy}
+                    onClick={async () => {
+                      setBusy(true);
+                      const saved = await saveBiteNoteAction(bite.id, noteText);
+                      setBusy(false);
+                      if (saved.ok) {
+                        setNoteOverrides((previous) => ({ ...previous, [bite.id]: saved.note }));
+                        setNoteOpen(false);
+                        setNote(saved.note ? "Note saved." : "Note removed.");
+                      } else {
+                        setNote(saved.message);
+                      }
+                    }}
+                  >
+                    Save note
+                  </Button>
+                  <Button type="button" size="sm" variant="ghost" onClick={() => setNoteOpen(false)}>
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
           <p className="mt-auto pt-6 text-xs text-muted-foreground">
             {reviewed ? `Reviewed ${reviewed}` : "Not reviewed yet"}
             {bite.sourceNote ? ` · ${bite.sourceNote}` : ""}

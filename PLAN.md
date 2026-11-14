@@ -143,7 +143,7 @@ Daily bites goal and streak (private per profile), search, private notes on bite
 1. **Core loop:** content model, profiles with PINs, admin rights and recovery, Learn mode on phone and PC, progress bar, basic multiple-choice Quiz, sample package from module A1, backups with restore drill, Android testing. (Done)
 2. **Style and Google Docs import:** tune and lock the AI style, Google Docs import with batch approve, load the outline. (Done)
 3. **AI features:** regenerate and personal versions, admin save options, hearts, style examples, diagrams, suggested placement, report error, simple admin list, backup provider and daily cap. (Done. Neon and Vercel steps are written in DEPLOY.md; going live stays in phase 5.)
-4. **Learning depth:** spaced repetition, all question types, retake rules, prerequisites, learner dashboard, streaks, search, notes, progress export.
+4. **Learning depth:** spaced repetition, all question types, retake rules, prerequisites, learner dashboard, streaks, search, notes, progress export. (Done)
 5. **More imports and go live:** Word then PDF import, full approvals inbox and admin dashboard, hosting, iPhone check.
 
 ## Later development

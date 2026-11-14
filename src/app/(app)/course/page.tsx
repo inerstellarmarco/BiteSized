@@ -1,13 +1,15 @@
 import Link from "next/link";
-import { requireProfile } from "@/lib/auth/current";
-import { loadCatalog, titleWithoutCode, type CatalogCategory, type CatalogSubCategory } from "@/lib/content/catalog";
-import { summarizeProgress } from "@/lib/content/course-progress";
+import { BookOpen, Search } from "lucide-react";
+import { EmptyState } from "@/components/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { EmptyState } from "@/components/empty-state";
+import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { BookOpen } from "lucide-react";
+import { requireProfile } from "@/lib/auth/current";
+import { loadCatalog, titleWithoutCode, type CatalogCategory, type CatalogSubCategory, type CourseCatalog } from "@/lib/content/catalog";
+import { summarizeProgress } from "@/lib/content/course-progress";
+import { suggestedNextSubLesson, unmetPrerequisites } from "@/lib/content/prerequisites";
 import { getDb } from "@/lib/db";
 
 export default async function CoursePage() {
@@ -35,6 +37,7 @@ export default async function CoursePage() {
     category.subCategories.flatMap((subCategory) => subCategory.lessons.flatMap((lesson) => lesson.subLessons)),
   );
   const overall = summarizeProgress(allSubLessons);
+  const suggested = suggestedNextSubLesson(catalog);
 
   return (
     <div data-testid="course-tree" className="space-y-8">
@@ -49,6 +52,13 @@ export default async function CoursePage() {
           <h1 className="font-display text-3xl leading-tight md:text-4xl">{catalog.course.title}</h1>
           <p className="mt-2 max-w-2xl text-muted-foreground">{catalog.course.subtitle}</p>
         </div>
+        <form action="/search" method="get" className="flex max-w-md gap-2">
+          <Input name="q" type="search" placeholder="Search bites, lessons, or your notes…" aria-label="Search course" />
+          <Button type="submit" variant="outline">
+            <Search className="mr-1.5 h-4 w-4" aria-hidden />
+            Search
+          </Button>
+        </form>
         <Card>
           <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -56,6 +66,14 @@ export default async function CoursePage() {
               <p className="font-display text-2xl">
                 {overall.total === 0 ? "Nothing to study yet" : `${overall.seen} of ${overall.total} bites seen`}
               </p>
+              {suggested ? (
+                <p className="mt-1 text-xs text-muted-foreground" data-testid="suggested-path">
+                  Suggested next step:{" "}
+                  <Link href={`/learn/${suggested.id}`} className="underline decoration-primary/60 underline-offset-4">
+                    {suggested.lessonCode} · {suggested.title}
+                  </Link>
+                </p>
+              ) : null}
             </div>
             <Progress className="sm:w-64" value={overall.percent} aria-label="Overall course progress" />
           </CardContent>
@@ -96,7 +114,7 @@ export default async function CoursePage() {
             {category.summary ? <p className="mt-1 max-w-2xl text-sm text-muted-foreground">{category.summary}</p> : null}
           </div>
           {category.subCategories.map((subCategory) => (
-            <SubCategorySection key={subCategory.id} subCategory={subCategory} />
+            <SubCategorySection key={subCategory.id} subCategory={subCategory} catalog={catalog} />
           ))}
         </section>
       ))}
@@ -112,7 +130,7 @@ function categorySubLessons(category: CatalogCategory) {
   return category.subCategories.flatMap((subCategory) => subCategory.lessons.flatMap((lesson) => lesson.subLessons));
 }
 
-function SubCategorySection({ subCategory }: { subCategory: CatalogSubCategory }) {
+function SubCategorySection({ subCategory, catalog }: { subCategory: CatalogSubCategory; catalog: CourseCatalog }) {
   return (
     <div id={subCategory.id} className="scroll-mt-24 space-y-4">
       <div className="flex flex-wrap items-center gap-2">
@@ -124,17 +142,31 @@ function SubCategorySection({ subCategory }: { subCategory: CatalogSubCategory }
       <div className="grid gap-4 md:grid-cols-2">
         {subCategory.lessons.map((lesson) => {
           const comingSoon = lesson.subLessons.every((item) => item.biteCount === 0);
+          const unmet = unmetPrerequisites(catalog, lesson.id);
           return (
             <Card key={lesson.id} id={lesson.id} className="scroll-mt-24">
               <CardContent className="space-y-3">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{lesson.code}</span>
                   {comingSoon ? <Badge>Coming soon</Badge> : null}
+                  {unmet.length > 0 ? (
+                    <Badge data-testid={`prereq-unmet-${lesson.id}`}>
+                      Learn {unmet.map((item) => item.code).join(", ")} first
+                    </Badge>
+                  ) : null}
                 </div>
                 <h4 className="font-display text-xl leading-snug">{titleWithoutCode(lesson.code, lesson.title)}</h4>
                 {lesson.prerequisites.length > 0 ? (
                   <p className="text-xs text-muted-foreground">
-                    Helpful earlier: {lesson.prerequisites.map((item) => `${item.code} ${item.title}`).join(" · ")}
+                    Helpful earlier:{" "}
+                    {lesson.prerequisites.map((item, idx) => (
+                      <span key={item.id}>
+                        {idx > 0 ? " · " : ""}
+                        <a href={`#${item.id}`} className="underline decoration-primary/50 underline-offset-4">
+                          {item.code} {titleWithoutCode(item.code, item.title)}
+                        </a>
+                      </span>
+                    ))}
                   </p>
                 ) : null}
                 <ul className="space-y-2">

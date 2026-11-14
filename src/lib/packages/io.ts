@@ -239,12 +239,15 @@ export async function buildPackageFiles(db: AppDatabase, options: PackageOptions
   files["index.json"] = JSON.stringify(index, null, 2);
 
   if (options.includeLearners) {
-    const [profileRows, progressRows, cursorRows, attemptRows, answerRows] = await Promise.all([
+    const [profileRows, progressRows, cursorRows, attemptRows, answerRows, flagRows, heartRows, personalRows] = await Promise.all([
       db.select().from(profiles),
       db.select().from(biteProgress),
       db.select().from(learnerCursors),
       db.select().from(quizAttempts),
       db.select().from(quizAnswers),
+      db.select().from(contentFlags),
+      db.select().from(hearts),
+      db.select().from(personalBites),
     ]);
     files["learners.json"] = JSON.stringify(
       {
@@ -290,6 +293,32 @@ export async function buildPackageFiles(db: AppDatabase, options: PackageOptions
           questionId: row.questionId,
           selectedChoiceId: row.selectedChoiceId,
           correct: row.correct,
+        })),
+        contentFlags: flagRows.map((row) => ({
+          id: row.id,
+          profileId: row.profileId,
+          targetType: row.targetType,
+          targetId: row.targetId,
+          kind: row.kind,
+          note: row.note,
+          status: row.status,
+          createdAt: archivedIso(row.createdAt),
+        })),
+        hearts: heartRows.map((row) => ({
+          profileId: row.profileId,
+          targetType: row.targetType,
+          targetId: row.targetId,
+          createdAt: archivedIso(row.createdAt),
+        })),
+        personalBites: personalRows.map((row) => ({
+          profileId: row.profileId,
+          biteId: row.biteId,
+          title: row.title,
+          body: row.body,
+          diagram: row.diagram,
+          basedOnUpdatedAt: archivedIso(row.basedOnUpdatedAt),
+          showing: row.showing,
+          updatedAt: archivedIso(row.updatedAt),
         })),
       },
       null,
@@ -694,6 +723,27 @@ async function applyPackage(db: AppDatabase, files: Record<string, string>, opti
         finishedAt: string | null;
       }[];
       quizAnswers?: { id: string; attemptId: string; questionId: string; selectedChoiceId: string | null; correct: boolean }[];
+      contentFlags?: {
+        id: string;
+        profileId: string;
+        targetType: string;
+        targetId: string;
+        kind: string;
+        note: string;
+        status: string;
+        createdAt: string | null;
+      }[];
+      hearts?: { profileId: string; targetType: string; targetId: string; createdAt: string | null }[];
+      personalBites?: {
+        profileId: string;
+        biteId: string;
+        title: string;
+        body: string;
+        diagram: string | null;
+        basedOnUpdatedAt: string | null;
+        showing: string;
+        updatedAt: string | null;
+      }[];
     };
     for (const profile of learners.profiles ?? []) {
       const values = {
@@ -759,6 +809,49 @@ async function applyPackage(db: AppDatabase, files: Record<string, string>, opti
     }
     for (const row of learners.quizAnswers ?? []) {
       await db.insert(quizAnswers).values(row).onConflictDoUpdate({ target: quizAnswers.id, set: row });
+    }
+    for (const row of learners.contentFlags ?? []) {
+      const values = {
+        id: row.id,
+        profileId: row.profileId,
+        targetType: row.targetType,
+        targetId: row.targetId,
+        kind: row.kind,
+        note: row.note ?? "",
+        status: row.status ?? "open",
+        createdAt: when(row.createdAt) ?? new Date(),
+      };
+      await db.insert(contentFlags).values(values).onConflictDoUpdate({ target: contentFlags.id, set: values });
+    }
+    for (const row of learners.hearts ?? []) {
+      await db
+        .insert(hearts)
+        .values({
+          profileId: row.profileId,
+          targetType: row.targetType,
+          targetId: row.targetId,
+          createdAt: when(row.createdAt) ?? new Date(),
+        })
+        .onConflictDoNothing();
+    }
+    for (const row of learners.personalBites ?? []) {
+      const values = {
+        profileId: row.profileId,
+        biteId: row.biteId,
+        title: row.title,
+        body: row.body,
+        diagram: row.diagram ?? null,
+        basedOnUpdatedAt: when(row.basedOnUpdatedAt) ?? new Date(),
+        showing: row.showing ?? "personal",
+        updatedAt: when(row.updatedAt) ?? new Date(),
+      };
+      await db
+        .insert(personalBites)
+        .values(values)
+        .onConflictDoUpdate({
+          target: [personalBites.profileId, personalBites.biteId],
+          set: values,
+        });
     }
   }
 

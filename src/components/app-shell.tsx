@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, House, Settings } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { BookOpen, House, RotateCcw, Search, Settings } from "lucide-react";
 import { RefreshOnReturn } from "@/components/refresh-on-return";
+import { cn } from "@/lib/utils";
 
 const links = [
   { href: "/home", label: "Home", icon: House },
   { href: "/course", label: "Course", icon: BookOpen },
+  { href: "/review", label: "Review", icon: RotateCcw },
+  { href: "/search", label: "Search", icon: Search },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
@@ -21,7 +23,7 @@ export function AppShell({ name, children }: { name: string; children: React.Rea
           <Link href="/home" className="font-display text-2xl italic leading-none">
             Bite Sized
           </Link>
-          <nav className="hidden items-center gap-5 text-sm md:flex">
+          <nav className="hidden items-center gap-4 text-sm md:flex">
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -42,7 +44,7 @@ export function AppShell({ name, children }: { name: string; children: React.Rea
       <RefreshOnReturn />
       <main className="mx-auto w-full max-w-5xl px-4 py-6 pb-28 md:pb-12">{children}</main>
       <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 backdrop-blur md:hidden">
-        <ul className="mx-auto flex max-w-lg justify-around px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+        <ul className="mx-auto flex max-w-lg justify-around px-1 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
           {links.map((link) => {
             const Icon = link.icon;
             const active = pathname.startsWith(link.href);
@@ -52,7 +54,7 @@ export function AppShell({ name, children }: { name: string; children: React.Rea
                   href={link.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex min-w-16 flex-col items-center gap-1 rounded-2xl px-4 py-1.5 text-xs transition-colors",
+                    "flex min-w-14 flex-col items-center gap-1 rounded-2xl px-2.5 py-1.5 text-xs transition-colors",
                     active ? "bg-secondary font-semibold text-primary" : "text-muted-foreground",
                   )}
                 >

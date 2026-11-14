@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { QuizRunner } from "@/components/quiz-runner";
 import { requireProfile } from "@/lib/auth/current";
 import { flattenSubLessons, loadCatalog, nextSubLesson } from "@/lib/content/catalog";
-import { QuizRunner } from "@/components/quiz-runner";
+import { getDb } from "@/lib/db";
 import { quizQuestions } from "@/lib/quiz/attempts";
 import { nextSubLessonHref } from "@/lib/quiz/score-tone";
-import { getDb } from "@/lib/db";
 
 export default async function QuizPage({ params }: { params: Promise<{ subLessonId: string }> }) {
   const { subLessonId } = await params;
@@ -14,7 +14,7 @@ export default async function QuizPage({ params }: { params: Promise<{ subLesson
   const catalog = await loadCatalog(db, profile.id);
   const current = catalog ? flattenSubLessons(catalog).find((item) => item.id === subLessonId) : undefined;
   if (!catalog || !current) notFound();
-  const quiz = await quizQuestions(db, subLessonId);
+  const quiz = await quizQuestions(db, subLessonId, { profileId: profile.id });
   const upcoming = nextSubLesson(catalog, subLessonId);
   return (
     <div>
@@ -32,6 +32,8 @@ export default async function QuizPage({ params }: { params: Promise<{ subLesson
         nextHref={nextSubLessonHref(upcoming)}
         nextTitle={upcoming?.title ?? null}
         isAdmin={profile.isAdmin}
+        initialHistory={quiz.history}
+        initialRetake={quiz.isRetake}
       />
     </div>
   );

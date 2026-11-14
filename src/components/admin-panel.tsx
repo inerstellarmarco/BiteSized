@@ -73,6 +73,11 @@ export function AdminPanel({
                   <span className="text-sm font-normal text-muted-foreground">{profile.isAdmin ? "Admin" : "Learner"}</span>
                 </p>
                 <div className="flex flex-wrap gap-2">
+                  <Button asChild variant="outline" size="sm">
+                    <a href={`/api/progress/export?profileId=${profile.id}`} data-testid={`export-progress-${profile.name}`}>
+                      Export progress
+                    </a>
+                  </Button>
                   {profile.isAdmin ? (
                     <Button type="button" variant="outline" size="sm" onClick={() => void run(setAdminAction(profile.id, false))}>
                       Remove admin
@@ -167,7 +172,14 @@ export function AdminPanel({
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <Button asChild variant="outline">
-            <a href="/api/admin/export">Download course package</a>
+            <a href="/api/admin/export" data-testid="export-course-package">
+              Download course package
+            </a>
+          </Button>
+          <Button asChild variant="outline">
+            <a href="/api/admin/export?learners=1" data-testid="export-course-with-learners">
+              Download course + progress
+            </a>
           </Button>
           <form action={importAction} className="flex flex-wrap items-center gap-2">
             <Input

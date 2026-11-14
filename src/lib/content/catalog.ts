@@ -12,7 +12,7 @@ import {
   subLessons,
 } from "@/lib/db/schema";
 import type { AppDatabase } from "@/lib/db/types";
-import type { Toolkit } from "@/lib/types";
+import { QUESTION_TYPES, type Toolkit } from "@/lib/types";
 
 /**
  * Short, readable label for a sub-lesson: its lesson code plus a letter by order (A1.1a, A1.1b…).
@@ -185,7 +185,7 @@ export async function loadCatalog(db: AppDatabase, profileId?: string | null, co
                     position: subLesson.position,
                     biteCount: lessonBites.length,
                     seenCount: lessonBites.filter((bite) => seen.has(bite.id)).length,
-                    questionCount: questionRows.filter((question) => biteIds.has(question.biteId) && question.type === "multiple_choice").length,
+                    questionCount: questionRows.filter((question) => biteIds.has(question.biteId) && QUESTION_TYPES.includes(question.type)).length,
                   };
                 }),
             })),

@@ -3,14 +3,23 @@ import { usageToday } from "@/lib/ai/usage";
 import { asDate } from "@/lib/dates";
 import { bites, hearts, personalBites } from "@/lib/db/schema";
 import type { AppDatabase } from "@/lib/db/types";
+import { getBiteNotesMap } from "@/lib/learner/notes";
 
 export async function learnOverlay(db: AppDatabase, profileId: string, biteIds: string[]) {
   const usage = await usageToday(db, profileId);
-  if (biteIds.length === 0) return { ...usage, personal: {} as Record<string, PersonalView>, hearts: [] as string[] };
-  const [personalRows, heartRows, biteRows] = await Promise.all([
+  if (biteIds.length === 0) {
+    return {
+      ...usage,
+      personal: {} as Record<string, PersonalView>,
+      hearts: [] as string[],
+      notes: {} as Record<string, string>,
+    };
+  }
+  const [personalRows, heartRows, biteRows, notes] = await Promise.all([
     db.select().from(personalBites).where(and(eq(personalBites.profileId, profileId), inArray(personalBites.biteId, biteIds))),
     db.select().from(hearts).where(and(eq(hearts.profileId, profileId), eq(hearts.targetType, "bite"), inArray(hearts.targetId, biteIds))),
     db.select().from(bites).where(inArray(bites.id, biteIds)),
+    getBiteNotesMap(db, profileId, biteIds),
   ]);
   const originals = new Map(biteRows.map((bite) => [bite.id, bite]));
   const personal: Record<string, PersonalView> = {};
@@ -27,7 +36,7 @@ export async function learnOverlay(db: AppDatabase, profileId: string, biteIds: 
       basedOnUpdatedAt: asDate(row.basedOnUpdatedAt)?.toISOString() ?? new Date().toISOString(),
     };
   }
-  return { ...usage, personal, hearts: heartRows.map((row) => row.targetId) };
+  return { ...usage, personal, hearts: heartRows.map((row) => row.targetId), notes };
 }
 
 export type PersonalView = {

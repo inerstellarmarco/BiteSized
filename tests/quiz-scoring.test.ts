@@ -58,14 +58,25 @@ describe("quiz scoring", () => {
       });
       await insertQuestion(db, {
         biteId: bite.id,
-        id: "q_later",
+        id: "q_tf",
         type: "true_false",
-        prompt: "Later type",
+        prompt: "True or false: 1 + 1 == 2",
         choices: [
           { id: "t", text: "True" },
           { id: "f", text: "False" },
         ],
         correctChoiceId: "t",
+      });
+      await insertQuestion(db, {
+        biteId: bite.id,
+        id: "q_predict",
+        type: "predict_output",
+        prompt: "What does len([10, 20, 30]) return?",
+        choices: [
+          { id: "a", text: "2" },
+          { id: "b", text: "3" },
+        ],
+        correctChoiceId: "b",
       });
       const saved = await saveQuizAttempt(db, {
         profileId: "prf_ada",
@@ -73,15 +84,17 @@ describe("quiz scoring", () => {
         answers: [
           { questionId: "q_right", selectedChoiceId: "a" },
           { questionId: "q_wrong", selectedChoiceId: "a" },
+          { questionId: "q_tf", selectedChoiceId: "t" },
+          { questionId: "q_predict", selectedChoiceId: "b" },
         ],
         stoppedEarly: false,
       });
-      expect(saved.correct).toBe(1);
-      expect(saved.total).toBe(2);
+      expect(saved.correct).toBe(3);
+      expect(saved.total).toBe(4);
       expect(saved.wrongIds).toEqual(["q_wrong"]);
       expect(saved.stoppedEarly).toBe(false);
       const [attempt] = await db.select().from(quizAttempts).where(eq(quizAttempts.profileId, "prf_ada"));
-      expect(attempt).toMatchObject({ correctCount: 1, answeredCount: 2, totalCount: 2 });
+      expect(attempt).toMatchObject({ correctCount: 3, answeredCount: 4, totalCount: 4 });
       const wrong = await db.select().from(quizAnswers).where(eq(quizAnswers.correct, false));
       expect(wrong.map((row) => row.questionId)).toEqual(["q_wrong"]);
     });
