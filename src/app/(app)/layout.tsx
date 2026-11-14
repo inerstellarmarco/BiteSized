@@ -2,6 +2,7 @@ import { requireProfile } from "@/lib/auth/current";
 import { AppShell } from "@/components/app-shell";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const profile = await requireProfile();

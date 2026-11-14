@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { deleteSession, profileForToken } from "@/lib/auth/session";
@@ -17,13 +18,17 @@ async function cookieSecure() {
   return (await headers()).get("x-forwarded-proto") === "https";
 }
 
-export async function getSessionProfile() {
-  const token = (await cookies()).get("bs_session")?.value;
-  if (!token) return null;
-  const db = await getDb();
-  const found = await profileForToken(db, token);
-  return found?.profile ?? null;
-}
+export const getSessionProfile = cache(async function getSessionProfile() {
+  try {
+    const token = (await cookies()).get("bs_session")?.value;
+    if (!token) return null;
+    const db = await getDb();
+    const found = await profileForToken(db, token);
+    return found?.profile ?? null;
+  } catch {
+    return null;
+  }
+});
 
 export async function requireProfile() {
   const profile = await getSessionProfile();

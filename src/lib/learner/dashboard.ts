@@ -225,16 +225,28 @@ export async function loadLearnerDashboard(db: AppDatabase, profileId: string, n
   );
 
   const [next, streak, spaced, revisit, notes, attemptRows] = await Promise.all([
-    continueFor(db, profileId, catalog),
-    learnerStreak(db, profileId, now),
-    spacedQueue(db, profileId, now),
-    enrichRevisitItems(db, profileId),
-    listLearnerNotes(db, profileId),
+    continueFor(db, profileId, catalog).catch(() => null),
+    learnerStreak(db, profileId, now).catch(() => ({
+      todayBites: 0,
+      goal: 5,
+      goalMetToday: false,
+      currentStreak: 0,
+      longestStreak: 0,
+      activeDays: 0,
+    })),
+    spacedQueue(db, profileId, now).catch(() => ({
+      due: [] as SpacedQuestionItem[],
+      upcoming: [] as SpacedQuestionItem[],
+      all: [] as SpacedQuestionItem[],
+    })),
+    enrichRevisitItems(db, profileId).catch(() => [] as RevisitItem[]),
+    listLearnerNotes(db, profileId).catch(() => [] as BiteNoteWithContext[]),
     db
       .select()
       .from(quizAttempts)
       .where(eq(quizAttempts.profileId, profileId))
-      .orderBy(desc(quizAttempts.finishedAt), desc(quizAttempts.startedAt)),
+      .orderBy(desc(quizAttempts.finishedAt), desc(quizAttempts.startedAt))
+      .catch(() => []),
   ]);
 
   const overall = summarizeProgress(allSubLessons);

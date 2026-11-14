@@ -453,6 +453,14 @@ function chunk<T>(items: T[], size = 200): T[][] {
   return batches;
 }
 
+function uniqueById<T extends { id: string }>(items: T[]): T[] {
+  const byId = new Map<string, T>();
+  for (const item of items) {
+    byId.set(item.id, item);
+  }
+  return [...byId.values()];
+}
+
 async function applyPackage(db: AppDatabase, files: Record<string, string>, options: ImportOptions) {
   const index = parseIndex(files["index.json"] ?? "");
   const course = index.course;
@@ -590,7 +598,7 @@ async function applyPackage(db: AppDatabase, files: Record<string, string>, opti
     }
   }
 
-  for (const batch of chunk(categoryValues)) {
+  for (const batch of chunk(uniqueById(categoryValues))) {
     await db
       .insert(categories)
       .values(batch)
@@ -608,7 +616,7 @@ async function applyPackage(db: AppDatabase, files: Record<string, string>, opti
       });
   }
 
-  for (const batch of chunk(subCategoryValues)) {
+  for (const batch of chunk(uniqueById(subCategoryValues))) {
     await db
       .insert(subCategories)
       .values(batch)
@@ -627,7 +635,7 @@ async function applyPackage(db: AppDatabase, files: Record<string, string>, opti
       });
   }
 
-  for (const batch of chunk(lessonValues)) {
+  for (const batch of chunk(uniqueById(lessonValues))) {
     await db
       .insert(lessons)
       .values(batch)
@@ -645,7 +653,7 @@ async function applyPackage(db: AppDatabase, files: Record<string, string>, opti
       });
   }
 
-  for (const batch of chunk(subLessonValues)) {
+  for (const batch of chunk(uniqueById(subLessonValues))) {
     await db
       .insert(subLessons)
       .values(batch)
@@ -661,7 +669,7 @@ async function applyPackage(db: AppDatabase, files: Record<string, string>, opti
       });
   }
 
-  for (const batch of chunk(biteValues)) {
+  for (const batch of chunk(uniqueById(biteValues))) {
     await db
       .insert(bites)
       .values(batch)
@@ -681,17 +689,44 @@ async function applyPackage(db: AppDatabase, files: Record<string, string>, opti
       });
   }
 
-  for (const idBatch of chunk(biteIds, 500)) {
+  for (const idBatch of chunk([...new Set(biteIds)], 500)) {
     await db.delete(biteLinks).where(inArray(biteLinks.biteId, idBatch));
     await db.delete(questions).where(inArray(questions.biteId, idBatch));
   }
 
-  for (const batch of chunk(linkValues)) {
-    await db.insert(biteLinks).values(batch);
+  for (const batch of chunk(uniqueById(linkValues))) {
+    await db
+      .insert(biteLinks)
+      .values(batch)
+      .onConflictDoUpdate({
+        target: biteLinks.id,
+        set: {
+          biteId: sql`excluded.bite_id`,
+          targetCode: sql`excluded.target_code`,
+          label: sql`excluded.label`,
+          position: sql`excluded.position`,
+        },
+      });
   }
 
-  for (const batch of chunk(questionValues)) {
-    await db.insert(questions).values(batch);
+  for (const batch of chunk(uniqueById(questionValues))) {
+    await db
+      .insert(questions)
+      .values(batch)
+      .onConflictDoUpdate({
+        target: questions.id,
+        set: {
+          biteId: sql`excluded.bite_id`,
+          type: sql`excluded.type`,
+          prompt: sql`excluded.prompt`,
+          choices: sql`excluded.choices`,
+          correctChoiceId: sql`excluded.correct_choice_id`,
+          explanation: sql`excluded.explanation`,
+          position: sql`excluded.position`,
+          archivedAt: sql`excluded.archived_at`,
+          updatedAt: now,
+        },
+      });
   }
 
   if (options.includeLearners !== false && files["learners.json"]) {

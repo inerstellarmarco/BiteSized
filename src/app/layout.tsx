@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
 import { getSessionProfile } from "@/lib/auth/current";
 import { ServiceWorker } from "@/components/service-worker";
@@ -8,6 +9,7 @@ const source = Source_Sans_3({ subsets: ["latin"], variable: "--font-source", di
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces", display: "swap" });
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 export const metadata: Metadata = {
   title: { default: "Bite Sized", template: "%s · Bite Sized" },
@@ -38,9 +40,18 @@ export const viewport: Viewport = {
 const themeBoot = `(function(){try{var el=document.documentElement;var t=el.dataset.theme||"system";var dark=t==="dark"||(t==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches);el.classList.toggle("dark",dark);}catch(e){}})();`;
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const profile = await getSessionProfile();
-  const theme = profile?.theme ?? "system";
-  const font = profile?.fontSize ?? "md";
+  let cookieTheme: string | undefined;
+  let cookieFont: string | undefined;
+  try {
+    const store = await cookies();
+    cookieTheme = store.get("bs_theme")?.value;
+    cookieFont = store.get("bs_font")?.value;
+  } catch {
+    // Ignore cookie read errors outside request context
+  }
+  const profile = await getSessionProfile().catch(() => null);
+  const theme = profile?.theme ?? cookieTheme ?? "system";
+  const font = profile?.fontSize ?? cookieFont ?? "md";
   return (
     <html
       lang="en"

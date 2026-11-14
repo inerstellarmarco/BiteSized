@@ -41,20 +41,42 @@ export async function migrateWithLock(client: postgres.Sql): Promise<void> {
   });
 }
 
-async function seedIfEmpty(db: AppDatabase) {
-  const [courseCount] = await db.select({ value: count() }).from(courses);
-  if (Number(courseCount?.value ?? 0) === 0) {
-    await importPackageFromDir(db, SAMPLE_PACKAGE_DIR, {
-      replace: false,
-      includeLearners: false,
-      includeHistory: false,
-    });
+export async function isSchemaReady(client: postgres.Sql): Promise<boolean> {
+  try {
+    const rows = await client.unsafe(
+      `SELECT (to_regclass('public.generation_jobs') IS NOT NULL) AS has_jobs,
+              EXISTS (
+                SELECT 1 FROM information_schema.columns
+                WHERE table_schema = 'public' AND table_name = 'questions' AND column_name = 'answer_key_note'
+              ) AS has_col`,
+    );
+    const first = rows[0] as { has_jobs?: boolean; has_col?: boolean } | undefined;
+    return Boolean(first?.has_jobs && first?.has_col);
+  } catch {
+    return false;
   }
-  const [profileCount] = await db.select({ value: count() }).from(profiles);
+}
+
+async function seedIfEmpty(db: AppDatabase) {
+  const [[courseCount], [profileCount]] = await Promise.all([
+    db.select({ value: count() }).from(courses),
+    db.select({ value: count() }).from(profiles),
+  ]);
+  if (Number(courseCount?.value ?? 0) === 0) {
+    try {
+      await importPackageFromDir(db, SAMPLE_PACKAGE_DIR, {
+        replace: false,
+        includeLearners: false,
+        includeHistory: false,
+      });
+    } catch {
+      // Sample package directory may be absent in serverless builds; allow boot to continue.
+    }
+  }
   if (Number(profileCount?.value ?? 0) === 0) {
     const pin = process.env.SEED_ADMIN_PIN || "family-admin";
     const created = await createProfile(db, { name: "Eric", pin, isAdmin: true, id: "prf_eric" });
-    if (!created.ok) throw new Error(created.error);
+    if (!created.ok && !created.error.includes("already")) throw new Error(created.error);
   }
 }
 
@@ -76,7 +98,9 @@ export async function createDatabase(options?: {
       prepare: false,
       ssl: url.includes("localhost") || url.includes("127.0.0.1") ? undefined : "require",
     });
-    await migrateWithLock(client);
+    if (!(await isSchemaReady(client))) {
+      await migrateWithLock(client);
+    }
     const db = drizzlePg(client, { schema }) as unknown as AppDatabase;
     opened = { db, close: () => client.end({ timeout: 5 }) };
   } else {

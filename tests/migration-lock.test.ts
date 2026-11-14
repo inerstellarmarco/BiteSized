@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MIGRATION_LOCK_KEY, migrateWithLock } from "@/lib/db";
+import { isSchemaReady, MIGRATION_LOCK_KEY, migrateWithLock } from "@/lib/db";
 import { MIGRATION_SQL } from "@/lib/db/sql";
 
 describe("migration lock", () => {
@@ -40,5 +40,22 @@ describe("migration lock", () => {
         }),
     };
     await expect(migrateWithLock(client as never)).rejects.toThrow("boom");
+  });
+
+  it("detects when the schema is already migrated so cold starts skip DDL locks", async () => {
+    const readyClient = {
+      unsafe: async () => [{ has_jobs: true, has_col: true }],
+    };
+    const unreadyClient = {
+      unsafe: async () => [{ has_jobs: false, has_col: false }],
+    };
+    const failingClient = {
+      unsafe: async () => {
+        throw new Error("connection hiccup");
+      },
+    };
+    expect(await isSchemaReady(readyClient as never)).toBe(true);
+    expect(await isSchemaReady(unreadyClient as never)).toBe(false);
+    expect(await isSchemaReady(failingClient as never)).toBe(false);
   });
 });

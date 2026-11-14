@@ -135,6 +135,41 @@ export async function loadCatalog(db: AppDatabase, profileId?: string | null, co
   const seen = new Set(progressRows.map((row) => row.biteId));
   const lessonById = new Map(lessonRows.map((row) => [row.id, row]));
 
+  const subCategoriesByCategoryId = new Map<string, typeof subCategoryRows>();
+  for (const row of subCategoryRows) {
+    const list = subCategoriesByCategoryId.get(row.categoryId);
+    if (list) list.push(row);
+    else subCategoriesByCategoryId.set(row.categoryId, [row]);
+  }
+
+  const lessonsBySubCategoryId = new Map<string, typeof lessonRows>();
+  for (const row of lessonRows) {
+    const list = lessonsBySubCategoryId.get(row.subCategoryId);
+    if (list) list.push(row);
+    else lessonsBySubCategoryId.set(row.subCategoryId, [row]);
+  }
+
+  const subLessonsByLessonId = new Map<string, typeof subLessonRows>();
+  for (const row of subLessonRows) {
+    const list = subLessonsByLessonId.get(row.lessonId);
+    if (list) list.push(row);
+    else subLessonsByLessonId.set(row.lessonId, [row]);
+  }
+
+  const bitesBySubLessonId = new Map<string, typeof biteRows>();
+  for (const row of biteRows) {
+    const list = bitesBySubLessonId.get(row.subLessonId);
+    if (list) list.push(row);
+    else bitesBySubLessonId.set(row.subLessonId, [row]);
+  }
+
+  const questionCountByBiteId = new Map<string, number>();
+  for (const row of questionRows) {
+    if (QUESTION_TYPES.includes(row.type)) {
+      questionCountByBiteId.set(row.biteId, (questionCountByBiteId.get(row.biteId) ?? 0) + 1);
+    }
+  }
+
   const categoriesForCourse = categoryRows.filter((row) => row.courseId === course.id);
   return {
     course: {
@@ -152,44 +187,43 @@ export async function loadCatalog(db: AppDatabase, profileId?: string | null, co
       title: category.title,
       summary: category.summary,
       position: category.position,
-      subCategories: subCategoryRows
-        .filter((row) => row.categoryId === category.id)
-        .map((subCategory) => ({
-          id: subCategory.id,
-          code: subCategory.code,
-          title: subCategory.title,
-          levelTag: subCategory.levelTag,
-          position: subCategory.position,
-          toolkit: subCategory.toolkit,
-          lessons: lessonRows
-            .filter((row) => row.subCategoryId === subCategory.id)
-            .map((lesson) => ({
-              id: lesson.id,
-              code: lesson.code,
-              title: lesson.title,
-              position: lesson.position,
-              prerequisiteIds: lesson.prerequisiteIds ?? [],
-              prerequisites: (lesson.prerequisiteIds ?? [])
-                .map((id) => lessonById.get(id))
-                .filter((item): item is NonNullable<typeof item> => Boolean(item))
-                .map((item) => ({ id: item.id, code: item.code, title: item.title })),
-              subLessons: subLessonRows
-                .filter((row) => row.lessonId === lesson.id)
-                .map((subLesson, index) => {
-                  const lessonBites = biteRows.filter((bite) => bite.subLessonId === subLesson.id);
-                  const biteIds = new Set(lessonBites.map((bite) => bite.id));
-                  return {
-                    id: subLesson.id,
-                    label: subLessonLabel(lesson.code, index),
-                    title: subLesson.title,
-                    position: subLesson.position,
-                    biteCount: lessonBites.length,
-                    seenCount: lessonBites.filter((bite) => seen.has(bite.id)).length,
-                    questionCount: questionRows.filter((question) => biteIds.has(question.biteId) && QUESTION_TYPES.includes(question.type)).length,
-                  };
-                }),
-            })),
+      subCategories: (subCategoriesByCategoryId.get(category.id) ?? []).map((subCategory) => ({
+        id: subCategory.id,
+        code: subCategory.code,
+        title: subCategory.title,
+        levelTag: subCategory.levelTag,
+        position: subCategory.position,
+        toolkit: subCategory.toolkit,
+        lessons: (lessonsBySubCategoryId.get(subCategory.id) ?? []).map((lesson) => ({
+          id: lesson.id,
+          code: lesson.code,
+          title: lesson.title,
+          position: lesson.position,
+          prerequisiteIds: lesson.prerequisiteIds ?? [],
+          prerequisites: (lesson.prerequisiteIds ?? [])
+            .map((id) => lessonById.get(id))
+            .filter((item): item is NonNullable<typeof item> => Boolean(item))
+            .map((item) => ({ id: item.id, code: item.code, title: item.title })),
+          subLessons: (subLessonsByLessonId.get(lesson.id) ?? []).map((subLesson, index) => {
+            const lessonBites = bitesBySubLessonId.get(subLesson.id) ?? [];
+            let seenCount = 0;
+            let questionCount = 0;
+            for (const bite of lessonBites) {
+              if (seen.has(bite.id)) seenCount += 1;
+              questionCount += questionCountByBiteId.get(bite.id) ?? 0;
+            }
+            return {
+              id: subLesson.id,
+              label: subLessonLabel(lesson.code, index),
+              title: subLesson.title,
+              position: subLesson.position,
+              biteCount: lessonBites.length,
+              seenCount,
+              questionCount,
+            };
+          }),
         })),
+      })),
     })),
   };
 }

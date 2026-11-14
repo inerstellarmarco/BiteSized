@@ -21,7 +21,7 @@ export type StyleFields = typeof defaultStyle;
 export async function ensureStyleDraft(db: AppDatabase) {
   const [existing] = await db.select().from(styleDrafts).where(eq(styleDrafts.id, "draft"));
   if (existing) return existing;
-  await db.insert(styleDrafts).values({ id: "draft", ...defaultStyle });
+  await db.insert(styleDrafts).values({ id: "draft", ...defaultStyle }).onConflictDoNothing();
   const [created] = await db.select().from(styleDrafts).where(eq(styleDrafts.id, "draft"));
   return created;
 }
