@@ -1,6 +1,6 @@
 import { mkdir, readdir, readFile, writeFile } from "fs/promises";
 import path from "path";
-import { asc, eq } from "drizzle-orm";
+import { asc, eq, inArray, sql } from "drizzle-orm";
 import { strFromU8, strToU8, unzipSync, zipSync } from "fflate";
 import {
   biteLinks,
@@ -416,9 +416,18 @@ function toolkitOf(value: Toolkit | undefined): Toolkit {
   };
 }
 
+function chunk<T>(items: T[], size = 200): T[][] {
+  const batches: T[][] = [];
+  for (let index = 0; index < items.length; index += size) {
+    batches.push(items.slice(index, index + size));
+  }
+  return batches;
+}
+
 async function applyPackage(db: AppDatabase, files: Record<string, string>, options: ImportOptions) {
   const index = parseIndex(files["index.json"] ?? "");
   const course = index.course;
+  const now = new Date();
   await db
     .insert(courses)
     .values({
@@ -431,8 +440,8 @@ async function applyPackage(db: AppDatabase, files: Record<string, string>, opti
       aiGenerated: Boolean(course.aiGenerated),
       position: course.position || "a0",
       archivedAt: when(course.archivedAt),
-      createdAt: when(course.createdAt) ?? new Date(),
-      updatedAt: when(course.updatedAt) ?? new Date(),
+      createdAt: when(course.createdAt) ?? now,
+      updatedAt: when(course.updatedAt) ?? now,
     })
     .onConflictDoUpdate({
       target: courses.id,
@@ -445,160 +454,95 @@ async function applyPackage(db: AppDatabase, files: Record<string, string>, opti
         aiGenerated: Boolean(course.aiGenerated),
         position: course.position || "a0",
         archivedAt: when(course.archivedAt),
-        updatedAt: when(course.updatedAt) ?? new Date(),
+        updatedAt: when(course.updatedAt) ?? now,
       },
     });
 
+  const categoryValues: (typeof categories.$inferInsert)[] = [];
+  const subCategoryValues: (typeof subCategories.$inferInsert)[] = [];
+  const lessonValues: (typeof lessons.$inferInsert)[] = [];
+  const subLessonValues: (typeof subLessons.$inferInsert)[] = [];
+  const biteValues: (typeof bites.$inferInsert)[] = [];
+  const biteIds: string[] = [];
+  const linkValues: (typeof biteLinks.$inferInsert)[] = [];
+  const questionValues: (typeof questions.$inferInsert)[] = [];
+
   for (const category of index.categories ?? []) {
-    await db
-      .insert(categories)
-      .values({
-        id: category.id,
-        courseId: course.id,
-        code: category.code ?? "",
-        title: category.title,
-        summary: category.summary ?? "",
-        position: category.position,
-        archivedAt: when(category.archivedAt),
-      })
-      .onConflictDoUpdate({
-        target: categories.id,
-        set: {
-          courseId: course.id,
-          code: category.code ?? "",
-          title: category.title,
-          summary: category.summary ?? "",
-          position: category.position,
-          archivedAt: when(category.archivedAt),
-          updatedAt: new Date(),
-        },
-      });
+    categoryValues.push({
+      id: category.id,
+      courseId: course.id,
+      code: category.code ?? "",
+      title: category.title,
+      summary: category.summary ?? "",
+      position: category.position,
+      archivedAt: when(category.archivedAt),
+    });
 
     for (const subCategory of category.subCategories ?? []) {
       const toolkit = toolkitOf(subCategory.toolkit);
-      await db
-        .insert(subCategories)
-        .values({
-          id: subCategory.id,
-          categoryId: category.id,
-          code: subCategory.code ?? "",
-          title: subCategory.title,
-          levelTag: subCategory.levelTag ?? "",
-          toolkit,
-          position: subCategory.position,
-          archivedAt: when(subCategory.archivedAt),
-        })
-        .onConflictDoUpdate({
-          target: subCategories.id,
-          set: {
-            categoryId: category.id,
-            code: subCategory.code ?? "",
-            title: subCategory.title,
-            levelTag: subCategory.levelTag ?? "",
-            toolkit,
-            position: subCategory.position,
-            archivedAt: when(subCategory.archivedAt),
-            updatedAt: new Date(),
-          },
-        });
+      subCategoryValues.push({
+        id: subCategory.id,
+        categoryId: category.id,
+        code: subCategory.code ?? "",
+        title: subCategory.title,
+        levelTag: subCategory.levelTag ?? "",
+        toolkit,
+        position: subCategory.position,
+        archivedAt: when(subCategory.archivedAt),
+      });
 
       for (const lesson of subCategory.lessons ?? []) {
-        await db
-          .insert(lessons)
-          .values({
-            id: lesson.id,
-            subCategoryId: subCategory.id,
-            code: lesson.code ?? "",
-            title: lesson.title,
-            prerequisiteIds: lesson.prerequisiteIds ?? [],
-            position: lesson.position,
-            archivedAt: when(lesson.archivedAt),
-          })
-          .onConflictDoUpdate({
-            target: lessons.id,
-            set: {
-              subCategoryId: subCategory.id,
-              code: lesson.code ?? "",
-              title: lesson.title,
-              prerequisiteIds: lesson.prerequisiteIds ?? [],
-              position: lesson.position,
-              archivedAt: when(lesson.archivedAt),
-              updatedAt: new Date(),
-            },
-          });
+        lessonValues.push({
+          id: lesson.id,
+          subCategoryId: subCategory.id,
+          code: lesson.code ?? "",
+          title: lesson.title,
+          prerequisiteIds: lesson.prerequisiteIds ?? [],
+          position: lesson.position,
+          archivedAt: when(lesson.archivedAt),
+        });
 
         for (const subLesson of lesson.subLessons ?? []) {
-          await db
-            .insert(subLessons)
-            .values({
-              id: subLesson.id,
-              lessonId: lesson.id,
-              title: subLesson.title,
-              position: subLesson.position,
-              archivedAt: when(subLesson.archivedAt),
-            })
-            .onConflictDoUpdate({
-              target: subLessons.id,
-              set: {
-                lessonId: lesson.id,
-                title: subLesson.title,
-                position: subLesson.position,
-                archivedAt: when(subLesson.archivedAt),
-                updatedAt: new Date(),
-              },
-            });
+          subLessonValues.push({
+            id: subLesson.id,
+            lessonId: lesson.id,
+            title: subLesson.title,
+            position: subLesson.position,
+            archivedAt: when(subLesson.archivedAt),
+          });
           const fileText = files[subLesson.file];
           if (!fileText) throw new Error(`Missing content file ${subLesson.file}.`);
           const payload = JSON.parse(fileText) as { bites?: BiteFile[] };
           for (const bite of payload.bites ?? []) {
-            await db
-              .insert(bites)
-              .values({
-                id: bite.id,
-                subLessonId: subLesson.id,
-                title: bite.title,
-                body: bite.body,
-                sourceNote: bite.sourceNote ?? "",
-                lastReviewedOn: bite.lastReviewedOn,
-                diagram: bite.diagram,
-                position: bite.position,
-                archivedAt: when(bite.archivedAt),
-              })
-              .onConflictDoUpdate({
-                target: bites.id,
-                set: {
-                  subLessonId: subLesson.id,
-                  title: bite.title,
-                  body: bite.body,
-                  sourceNote: bite.sourceNote ?? "",
-                  lastReviewedOn: bite.lastReviewedOn,
-                  diagram: bite.diagram,
-                  position: bite.position,
-                  archivedAt: when(bite.archivedAt),
-                  updatedAt: new Date(),
-                },
-              });
-            await db.delete(biteLinks).where(eq(biteLinks.biteId, bite.id));
+            biteValues.push({
+              id: bite.id,
+              subLessonId: subLesson.id,
+              title: bite.title,
+              body: bite.body,
+              sourceNote: bite.sourceNote ?? "",
+              lastReviewedOn: bite.lastReviewedOn,
+              diagram: bite.diagram,
+              position: bite.position,
+              archivedAt: when(bite.archivedAt),
+            });
+            biteIds.push(bite.id);
             if (bite.crossLinks?.length) {
-              await db.insert(biteLinks).values(
-                bite.crossLinks.map((link) => ({
+              for (const link of bite.crossLinks) {
+                linkValues.push({
                   id: link.id,
                   biteId: bite.id,
                   targetCode: link.targetCode,
                   label: link.label,
                   position: link.position,
-                })),
-              );
+                });
+              }
             }
-            await db.delete(questions).where(eq(questions.biteId, bite.id));
             if (bite.questions?.length) {
               for (const question of bite.questions) {
                 if (!QUESTION_TYPES.includes(question.type)) {
                   throw new Error(`Unknown question type ${question.type} on ${question.id}.`);
                 }
-              }
-              await db.insert(questions).values(
-                bite.questions.map((question) => ({
+                questionValues.push({
                   id: question.id,
                   biteId: bite.id,
                   type: question.type,
@@ -608,13 +552,117 @@ async function applyPackage(db: AppDatabase, files: Record<string, string>, opti
                   explanation: question.explanation ?? "",
                   position: question.position,
                   archivedAt: when(question.archivedAt),
-                })),
-              );
+                });
+              }
             }
           }
         }
       }
     }
+  }
+
+  for (const batch of chunk(categoryValues)) {
+    await db
+      .insert(categories)
+      .values(batch)
+      .onConflictDoUpdate({
+        target: categories.id,
+        set: {
+          courseId: sql`excluded.course_id`,
+          code: sql`excluded.code`,
+          title: sql`excluded.title`,
+          summary: sql`excluded.summary`,
+          position: sql`excluded.position`,
+          archivedAt: sql`excluded.archived_at`,
+          updatedAt: now,
+        },
+      });
+  }
+
+  for (const batch of chunk(subCategoryValues)) {
+    await db
+      .insert(subCategories)
+      .values(batch)
+      .onConflictDoUpdate({
+        target: subCategories.id,
+        set: {
+          categoryId: sql`excluded.category_id`,
+          code: sql`excluded.code`,
+          title: sql`excluded.title`,
+          levelTag: sql`excluded.level_tag`,
+          toolkit: sql`excluded.toolkit`,
+          position: sql`excluded.position`,
+          archivedAt: sql`excluded.archived_at`,
+          updatedAt: now,
+        },
+      });
+  }
+
+  for (const batch of chunk(lessonValues)) {
+    await db
+      .insert(lessons)
+      .values(batch)
+      .onConflictDoUpdate({
+        target: lessons.id,
+        set: {
+          subCategoryId: sql`excluded.sub_category_id`,
+          code: sql`excluded.code`,
+          title: sql`excluded.title`,
+          prerequisiteIds: sql`excluded.prerequisite_ids`,
+          position: sql`excluded.position`,
+          archivedAt: sql`excluded.archived_at`,
+          updatedAt: now,
+        },
+      });
+  }
+
+  for (const batch of chunk(subLessonValues)) {
+    await db
+      .insert(subLessons)
+      .values(batch)
+      .onConflictDoUpdate({
+        target: subLessons.id,
+        set: {
+          lessonId: sql`excluded.lesson_id`,
+          title: sql`excluded.title`,
+          position: sql`excluded.position`,
+          archivedAt: sql`excluded.archived_at`,
+          updatedAt: now,
+        },
+      });
+  }
+
+  for (const batch of chunk(biteValues)) {
+    await db
+      .insert(bites)
+      .values(batch)
+      .onConflictDoUpdate({
+        target: bites.id,
+        set: {
+          subLessonId: sql`excluded.sub_lesson_id`,
+          title: sql`excluded.title`,
+          body: sql`excluded.body`,
+          sourceNote: sql`excluded.source_note`,
+          lastReviewedOn: sql`excluded.last_reviewed_on`,
+          diagram: sql`excluded.diagram`,
+          position: sql`excluded.position`,
+          archivedAt: sql`excluded.archived_at`,
+          updatedAt: now,
+        },
+      });
+  }
+
+  for (const idBatch of chunk(biteIds, 500)) {
+    await db.delete(biteLinks).where(inArray(biteLinks.biteId, idBatch));
+    await db.delete(questions).where(inArray(questions.biteId, idBatch));
+  }
+
+  for (const batch of chunk(linkValues)) {
+    await db.insert(biteLinks).values(batch);
+  }
+
+  for (const batch of chunk(questionValues)) {
+    await db.insert(questions).values(batch);
   }
 
   if (options.includeLearners !== false && files["learners.json"]) {

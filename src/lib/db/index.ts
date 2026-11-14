@@ -71,6 +71,8 @@ export async function createDatabase(options?: {
   if (url) {
     const client = postgres(url, {
       max: 5,
+      idle_timeout: 20,
+      connect_timeout: 15,
       prepare: false,
       ssl: url.includes("localhost") || url.includes("127.0.0.1") ? undefined : "require",
     });
@@ -93,7 +95,12 @@ export async function createDatabase(options?: {
 const globalForDb = globalThis as unknown as { biteDb?: Promise<OpenedDatabase> };
 
 export async function getDb(): Promise<AppDatabase> {
-  if (!globalForDb.biteDb) globalForDb.biteDb = createDatabase();
+  if (!globalForDb.biteDb) {
+    globalForDb.biteDb = createDatabase().catch((error) => {
+      globalForDb.biteDb = undefined;
+      throw error;
+    });
+  }
   const opened = await globalForDb.biteDb;
   return opened.db;
 }

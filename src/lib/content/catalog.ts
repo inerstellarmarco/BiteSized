@@ -1,4 +1,4 @@
-import { and, asc, eq, isNull } from "drizzle-orm";
+import { and, asc, eq, inArray, isNull } from "drizzle-orm";
 import {
   biteLinks,
   bites,
@@ -119,8 +119,14 @@ export async function loadCatalog(db: AppDatabase, profileId?: string | null, co
     db.select().from(subCategories).where(isNull(subCategories.archivedAt)).orderBy(asc(subCategories.position)),
     db.select().from(lessons).where(isNull(lessons.archivedAt)).orderBy(asc(lessons.position)),
     db.select().from(subLessons).where(isNull(subLessons.archivedAt)).orderBy(asc(subLessons.position)),
-    db.select().from(bites).where(and(isNull(bites.archivedAt), eq(bites.reviewStatus, "approved"))),
-    db.select().from(questions).where(and(isNull(questions.archivedAt), eq(questions.reviewStatus, "approved"))),
+    db
+      .select({ id: bites.id, subLessonId: bites.subLessonId })
+      .from(bites)
+      .where(and(isNull(bites.archivedAt), eq(bites.reviewStatus, "approved"))),
+    db
+      .select({ biteId: questions.biteId, type: questions.type })
+      .from(questions)
+      .where(and(isNull(questions.archivedAt), eq(questions.reviewStatus, "approved"))),
     profileId
       ? db.select().from(biteProgress).where(eq(biteProgress.profileId, profileId))
       : Promise.resolve([]),
@@ -200,7 +206,16 @@ export async function loadLearnCards(db: AppDatabase, subLessonId: string) {
     .orderBy(asc(bites.position));
   const active = biteRows.filter((bite) => !bite.archivedAt && bite.reviewStatus === "approved");
   const linkRows = active.length
-    ? await db.select().from(biteLinks).orderBy(asc(biteLinks.position))
+    ? await db
+        .select()
+        .from(biteLinks)
+        .where(
+          inArray(
+            biteLinks.biteId,
+            active.map((bite) => bite.id),
+          ),
+        )
+        .orderBy(asc(biteLinks.position))
     : [];
   const codeTargets = await codeHrefMap(db);
   return {

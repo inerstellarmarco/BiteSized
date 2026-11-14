@@ -5,6 +5,7 @@ import { eq, isNull } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
 import { verifyPinHash } from "@/lib/auth/pin";
 import { archiveEntity, updateBite } from "@/lib/content/ops";
+import { loadCatalog, loadLearnCards } from "@/lib/content/catalog";
 import { markBiteSeen } from "@/lib/content/progress";
 import { openMemoryDatabase } from "@/lib/db/memory";
 import {
@@ -149,6 +150,30 @@ describe("course package round trip", () => {
     } finally {
       await opened.close();
       await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("imports the full 1,794-card course package in batches and loads the catalog cleanly", async () => {
+    const opened = await openMemoryDatabase();
+    const fullPackageDir = path.join(process.cwd(), "content", "course", "package");
+    try {
+      await importPackageFromDir(opened.db, fullPackageDir, {
+        replace: false,
+        includeLearners: false,
+        includeHistory: false,
+      });
+      const catalog = await loadCatalog(opened.db);
+      expect(catalog).not.toBeNull();
+      const allSubLessons = catalog!.categories.flatMap((category) =>
+        category.subCategories.flatMap((subCategory) => subCategory.lessons.flatMap((lesson) => lesson.subLessons)),
+      );
+      expect(allSubLessons.length).toBe(330);
+      const totalBites = allSubLessons.reduce((sum, item) => sum + item.biteCount, 0);
+      expect(totalBites).toBeGreaterThanOrEqual(1780);
+      const sampleCards = await loadLearnCards(opened.db, allSubLessons[0]!.id);
+      expect(sampleCards?.bites.length).toBeGreaterThan(0);
+    } finally {
+      await opened.close();
     }
   });
 });

@@ -191,12 +191,19 @@ CREATE INDEX IF NOT EXISTS pin_attempts_profile_idx ON pin_attempts (profile_id,
 CREATE INDEX IF NOT EXISTS pin_attempts_ip_idx ON pin_attempts (ip, attempted_at);
 CREATE INDEX IF NOT EXISTS revisions_entity_idx ON content_revisions (entity_type, entity_id, created_at);
 
-ALTER TABLE bites ADD COLUMN IF NOT EXISTS review_status TEXT NOT NULL DEFAULT 'approved';
-ALTER TABLE bites ADD COLUMN IF NOT EXISTS style_version_id TEXT;
-ALTER TABLE questions ADD COLUMN IF NOT EXISTS review_status TEXT NOT NULL DEFAULT 'approved';
-ALTER TABLE questions ADD COLUMN IF NOT EXISTS style_version_id TEXT;
-ALTER TABLE questions ADD COLUMN IF NOT EXISTS answer_key_status TEXT NOT NULL DEFAULT 'confirmed';
-ALTER TABLE questions ADD COLUMN IF NOT EXISTS answer_key_note TEXT NOT NULL DEFAULT '';
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns WHERE table_name = 'questions' AND column_name = 'answer_key_note'
+  ) THEN
+    ALTER TABLE bites ADD COLUMN IF NOT EXISTS review_status TEXT NOT NULL DEFAULT 'approved';
+    ALTER TABLE bites ADD COLUMN IF NOT EXISTS style_version_id TEXT;
+    ALTER TABLE questions ADD COLUMN IF NOT EXISTS review_status TEXT NOT NULL DEFAULT 'approved';
+    ALTER TABLE questions ADD COLUMN IF NOT EXISTS style_version_id TEXT;
+    ALTER TABLE questions ADD COLUMN IF NOT EXISTS answer_key_status TEXT NOT NULL DEFAULT 'confirmed';
+    ALTER TABLE questions ADD COLUMN IF NOT EXISTS answer_key_note TEXT NOT NULL DEFAULT '';
+  END IF;
+END $$;
 
 CREATE TABLE IF NOT EXISTS style_drafts (
   id TEXT PRIMARY KEY,
