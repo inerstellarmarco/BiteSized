@@ -1,6 +1,6 @@
 import { mkdir, readdir, readFile, writeFile } from "fs/promises";
 import path from "path";
-import { asc, eq, inArray, sql } from "drizzle-orm";
+import { asc, inArray, sql } from "drizzle-orm";
 import { strFromU8, strToU8, unzipSync, zipSync } from "fflate";
 import {
   biteLinks,

@@ -277,9 +277,9 @@ export default async function HomePage() {
                     {category.subCategories.map((subCategory) => (
                       <div key={subCategory.id} className="space-y-1">
                         <div className="flex items-center justify-between gap-2">
-                          <a href={`/course#${subCategory.id}`} className="font-medium underline-offset-4 hover:underline">
+                          <Link href={`/course#${subCategory.id}`} className="font-medium underline-offset-4 hover:underline">
                             {subCategory.code} {subCategory.title}
-                          </a>
+                          </Link>
                           <span className="text-xs text-muted-foreground">
                             {subCategory.seen}/{subCategory.total} ({subCategory.percent}%)
                           </span>
@@ -287,9 +287,9 @@ export default async function HomePage() {
                         <ul className="grid gap-1 pl-3 text-xs text-muted-foreground sm:grid-cols-2">
                           {subCategory.lessons.map((lesson) => (
                             <li key={lesson.id} className="flex items-center justify-between gap-2">
-                              <a href={`/course#${lesson.id}`} className="truncate underline-offset-4 hover:underline">
+                              <Link href={`/course#${lesson.id}`} className="truncate underline-offset-4 hover:underline">
                                 {lesson.code} {lesson.title}
-                              </a>
+                              </Link>
                               <span className="shrink-0">
                                 {lesson.seen}/{lesson.total}
                               </span>

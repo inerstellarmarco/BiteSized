@@ -111,8 +111,18 @@ export async function createDatabase(options?: {
     const db = drizzlePglite(client, { schema });
     opened = { db, close: () => client.close() };
   }
-  if (options?.seed !== false) await seedIfEmpty(opened.db);
-  await ensureStyleDraft(opened.db);
+  if (options?.seed !== false) {
+    if (url) {
+      await seedIfEmpty(opened.db).catch(() => undefined);
+    } else {
+      await seedIfEmpty(opened.db);
+    }
+  }
+  if (url) {
+    await ensureStyleDraft(opened.db).catch(() => undefined);
+  } else {
+    await ensureStyleDraft(opened.db);
+  }
   return opened;
 }
 
