@@ -1,7 +1,12 @@
-import { createDatabase } from "../src/lib/db/index";
+import { createDatabase, resolvePostgresEnv } from "../src/lib/db/index";
 
 async function main() {
-  const opened = await createDatabase({ seed: false });
+  const { databaseUrl, databaseUrlUnpooled } = resolvePostgresEnv();
+  const opened = await createDatabase({
+    databaseUrl: databaseUrlUnpooled ?? databaseUrl,
+    databaseUrlUnpooled,
+    seed: false,
+  });
   console.log("Migrations applied.");
   await opened.close();
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isSchemaReady, MIGRATION_LOCK_KEY, migrateWithLock } from "@/lib/db";
+import { isSchemaReady, MIGRATION_LOCK_KEY, migrateWithLock, resolvePostgresEnv } from "@/lib/db";
 import { MIGRATION_SQL } from "@/lib/db/sql";
 
 describe("migration lock", () => {
@@ -57,5 +57,35 @@ describe("migration lock", () => {
     expect(await isSchemaReady(readyClient as never)).toBe(true);
     expect(await isSchemaReady(unreadyClient as never)).toBe(false);
     expect(await isSchemaReady(failingClient as never)).toBe(false);
+  });
+
+  it("resolves pooled and unpooled Neon connection strings via @neon/env parseEnv", () => {
+    const prevPooled = process.env.DATABASE_URL;
+    const prevUnpooled = process.env.DATABASE_URL_UNPOOLED;
+    try {
+      process.env.DATABASE_URL = "postgresql://user:pass@ep-example-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require";
+      process.env.DATABASE_URL_UNPOOLED = "postgresql://user:pass@ep-example.us-east-2.aws.neon.tech/neondb?sslmode=require";
+      expect(resolvePostgresEnv()).toEqual({
+        databaseUrl: "postgresql://user:pass@ep-example-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require",
+        databaseUrlUnpooled: "postgresql://user:pass@ep-example.us-east-2.aws.neon.tech/neondb?sslmode=require",
+      });
+
+      delete process.env.DATABASE_URL_UNPOOLED;
+      expect(resolvePostgresEnv()).toEqual({
+        databaseUrl: "postgresql://user:pass@ep-example-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require",
+        databaseUrlUnpooled: null,
+      });
+
+      delete process.env.DATABASE_URL;
+      expect(resolvePostgresEnv()).toEqual({
+        databaseUrl: null,
+        databaseUrlUnpooled: null,
+      });
+    } finally {
+      if (prevPooled === undefined) delete process.env.DATABASE_URL;
+      else process.env.DATABASE_URL = prevPooled;
+      if (prevUnpooled === undefined) delete process.env.DATABASE_URL_UNPOOLED;
+      else process.env.DATABASE_URL_UNPOOLED = prevUnpooled;
+    }
   });
 });
