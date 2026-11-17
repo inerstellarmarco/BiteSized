@@ -928,6 +928,8 @@ export async function importPackageFiles(db: AppDatabase, files: Record<string, 
     if (options.replace) await wipeDatabase(database);
     await applyPackage(database, files, options);
   });
+  const { invalidateCatalogCache } = await import("@/lib/content/catalog");
+  invalidateCatalogCache(db);
 }
 
 export async function importPackageFromDir(db: AppDatabase, dir: string, options: ImportOptions = {}) {
@@ -942,3 +944,4 @@ export async function exportPackageToDir(db: AppDatabase, dir: string, options: 
 }
 
 export const SAMPLE_PACKAGE_DIR = path.join(process.cwd(), "content", "packages", "applied-ai-engineering");
+export const FULL_COURSE_PACKAGE_DIR = path.join(process.cwd(), "content", "course", "package");

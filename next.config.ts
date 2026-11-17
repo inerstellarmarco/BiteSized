@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["@electric-sql/pglite", "postgres"],
+  outputFileTracingIncludes: {
+    "/*": ["./content/course/package/**/*", "./content/packages/applied-ai-engineering/**/*"],
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: "6mb",

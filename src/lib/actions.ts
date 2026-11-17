@@ -14,7 +14,6 @@ import {
   setAdmin,
   updatePreferences,
 } from "@/lib/auth/profiles";
-import { loadCatalog } from "@/lib/content/catalog";
 import { markBiteSeen } from "@/lib/content/progress";
 import { getDb } from "@/lib/db";
 import { profiles } from "@/lib/db/schema";
@@ -29,29 +28,35 @@ export async function signInAction(_prev: SignInState, formData: FormData): Prom
   const profileId = String(formData.get("profileId") ?? "");
   const pin = String(formData.get("pin") ?? "");
   const trusted = formData.get("trusted") === "on";
-  const db = await getDb();
-  const result = await attemptSignIn(db, {
-    profileId,
-    pin,
-    ip: await requestIp(),
-    trusted,
-    userAgent: "web",
-  });
-  if (!result.ok) {
-    if (result.reason === "locked") {
-      const when = result.lockedUntil
-        ? new Date(result.lockedUntil).toLocaleTimeString("en-GB", { hour: "numeric", minute: "2-digit" })
-        : "later";
-      return { error: `Too many wrong PINs. This profile is locked until ${when}.` };
+  try {
+    const db = await getDb();
+    const result = await attemptSignIn(db, {
+      profileId,
+      pin,
+      ip: await requestIp(),
+      trusted,
+      userAgent: "web",
+    });
+    if (!result.ok) {
+      if (result.reason === "locked") {
+        const when = result.lockedUntil
+          ? new Date(result.lockedUntil).toLocaleTimeString("en-GB", { hour: "numeric", minute: "2-digit" })
+          : "later";
+        return { error: `Too many wrong PINs. This profile is locked until ${when}.` };
+      }
+      if (result.reason === "rate_limited") {
+        return { error: "Too many tries. Wait a few minutes, then try again." };
+      }
+      const left = result.triesLeft ?? 0;
+      return { error: left > 0 ? `That PIN does not match. ${left} ${left === 1 ? "try" : "tries"} left.` : "That PIN does not match." };
     }
-    if (result.reason === "rate_limited") {
-      return { error: "Too many tries. Wait a few minutes, then try again." };
-    }
-    const left = result.triesLeft ?? 0;
-    return { error: left > 0 ? `That PIN does not match. ${left} ${left === 1 ? "try" : "tries"} left.` : "That PIN does not match." };
+    const [profile] = await db.select().from(profiles).where(eq(profiles.id, result.profileId));
+    await setSessionCookie(result.token, result.trusted, profile?.theme ?? "system", profile?.fontSize ?? "md");
+  } catch (error) {
+    return {
+      error: error instanceof Error ? `Database unavailable: ${error.message}` : "Database is currently unavailable.",
+    };
   }
-  const [profile] = await db.select().from(profiles).where(eq(profiles.id, result.profileId));
-  await setSessionCookie(result.token, result.trusted, profile?.theme ?? "system", profile?.fontSize ?? "md");
   redirect("/home");
 }
 
@@ -65,8 +70,6 @@ export async function markSeenAction(biteId: string) {
   if (!profile) return;
   const db = await getDb();
   await markBiteSeen(db, profile.id, biteId);
-  revalidatePath("/course");
-  revalidatePath("/home");
 }
 
 export async function gradeChoiceAction(questionId: string, choiceId: string) {
@@ -90,10 +93,9 @@ export async function finishQuizAction(input: {
     answers: input.answers,
     stoppedEarly: input.stoppedEarly,
   });
-  const catalog = await loadCatalog(db, profile.id);
   revalidatePath("/course");
   revalidatePath("/home");
-  return { ...result, catalogReady: Boolean(catalog) };
+  return { ...result, catalogReady: true };
 }
 
 export async function savePreferencesAction(theme: ThemePreference, fontSize: FontSize) {

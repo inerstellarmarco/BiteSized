@@ -109,7 +109,36 @@ export function flattenSubLessons(catalog: CourseCatalog): FlatSubLesson[] {
   return rows;
 }
 
+type CachedCatalogStructure = {
+  courseId: string;
+  expiresAt: number;
+  course: CourseCatalog["course"];
+  categoriesForCourse: (typeof categories.$inferSelect)[];
+  subCategoriesByCategoryId: Map<string, (typeof subCategories.$inferSelect)[]>;
+  lessonsBySubCategoryId: Map<string, (typeof lessons.$inferSelect)[]>;
+  subLessonsByLessonId: Map<string, (typeof subLessons.$inferSelect)[]>;
+  bitesBySubLessonId: Map<string, { id: string; subLessonId: string }[]>;
+  questionCountByBiteId: Map<string, number>;
+  lessonById: Map<string, typeof lessons.$inferSelect>;
+};
+
+const catalogStructureCache = new WeakMap<AppDatabase, CachedCatalogStructure>();
+const CATALOG_CACHE_TTL_MS = 5 * 60 * 1000;
+
+export function invalidateCatalogCache(db: AppDatabase) {
+  catalogStructureCache.delete(db);
+}
+
 export async function loadCatalog(db: AppDatabase, profileId?: string | null, courseId?: string): Promise<CourseCatalog | null> {
+  const cached = catalogStructureCache.get(db);
+  if (cached && cached.expiresAt > Date.now() && (!courseId || cached.courseId === courseId)) {
+    const progressRows = profileId
+      ? await db.select({ biteId: biteProgress.biteId }).from(biteProgress).where(eq(biteProgress.profileId, profileId))
+      : [];
+    const seen = new Set(progressRows.map((row) => row.biteId));
+    return buildCatalogFromStructure(cached, seen);
+  }
+
   const courseRows = await db.select().from(courses).where(isNull(courses.archivedAt)).orderBy(asc(courses.position));
   const course = courseId ? courseRows.find((row) => row.id === courseId) ?? null : courseRows[0] ?? null;
   if (!course) return null;
@@ -128,7 +157,7 @@ export async function loadCatalog(db: AppDatabase, profileId?: string | null, co
       .from(questions)
       .where(and(isNull(questions.archivedAt), eq(questions.reviewStatus, "approved"))),
     profileId
-      ? db.select().from(biteProgress).where(eq(biteProgress.profileId, profileId))
+      ? db.select({ biteId: biteProgress.biteId }).from(biteProgress).where(eq(biteProgress.profileId, profileId))
       : Promise.resolve([]),
   ]);
 
@@ -171,7 +200,9 @@ export async function loadCatalog(db: AppDatabase, profileId?: string | null, co
   }
 
   const categoriesForCourse = categoryRows.filter((row) => row.courseId === course.id);
-  return {
+  const structure: CachedCatalogStructure = {
+    courseId: course.id,
+    expiresAt: Date.now() + CATALOG_CACHE_TTL_MS,
     course: {
       id: course.id,
       title: course.title,
@@ -181,36 +212,55 @@ export async function loadCatalog(db: AppDatabase, profileId?: string | null, co
       licence: course.licence,
       aiGenerated: course.aiGenerated,
     },
-    categories: categoriesForCourse.map((category) => ({
+    categoriesForCourse,
+    subCategoriesByCategoryId,
+    lessonsBySubCategoryId,
+    subLessonsByLessonId,
+    bitesBySubLessonId,
+    questionCountByBiteId,
+    lessonById,
+  };
+
+  if (subLessonRows.length >= 300) {
+    catalogStructureCache.set(db, structure);
+  }
+
+  return buildCatalogFromStructure(structure, seen);
+}
+
+function buildCatalogFromStructure(structure: CachedCatalogStructure, seen: Set<string>): CourseCatalog {
+  return {
+    course: structure.course,
+    categories: structure.categoriesForCourse.map((category) => ({
       id: category.id,
       code: category.code,
       title: category.title,
       summary: category.summary,
       position: category.position,
-      subCategories: (subCategoriesByCategoryId.get(category.id) ?? []).map((subCategory) => ({
+      subCategories: (structure.subCategoriesByCategoryId.get(category.id) ?? []).map((subCategory) => ({
         id: subCategory.id,
         code: subCategory.code,
         title: subCategory.title,
         levelTag: subCategory.levelTag,
         position: subCategory.position,
         toolkit: subCategory.toolkit,
-        lessons: (lessonsBySubCategoryId.get(subCategory.id) ?? []).map((lesson) => ({
+        lessons: (structure.lessonsBySubCategoryId.get(subCategory.id) ?? []).map((lesson) => ({
           id: lesson.id,
           code: lesson.code,
           title: lesson.title,
           position: lesson.position,
           prerequisiteIds: lesson.prerequisiteIds ?? [],
           prerequisites: (lesson.prerequisiteIds ?? [])
-            .map((id) => lessonById.get(id))
+            .map((id) => structure.lessonById.get(id))
             .filter((item): item is NonNullable<typeof item> => Boolean(item))
             .map((item) => ({ id: item.id, code: item.code, title: item.title })),
-          subLessons: (subLessonsByLessonId.get(lesson.id) ?? []).map((subLesson, index) => {
-            const lessonBites = bitesBySubLessonId.get(subLesson.id) ?? [];
+          subLessons: (structure.subLessonsByLessonId.get(lesson.id) ?? []).map((subLesson, index) => {
+            const lessonBites = structure.bitesBySubLessonId.get(subLesson.id) ?? [];
             let seenCount = 0;
             let questionCount = 0;
             for (const bite of lessonBites) {
               if (seen.has(bite.id)) seenCount += 1;
-              questionCount += questionCountByBiteId.get(bite.id) ?? 0;
+              questionCount += structure.questionCountByBiteId.get(bite.id) ?? 0;
             }
             return {
               id: subLesson.id,
@@ -251,7 +301,7 @@ export async function loadLearnCards(db: AppDatabase, subLessonId: string) {
         )
         .orderBy(asc(biteLinks.position))
     : [];
-  const codeTargets = await codeHrefMap(db);
+  const codeTargets = linkRows.length > 0 ? await codeHrefMap(db) : new Map<string, string>();
   return {
     subLesson: { id: subLesson.id, title: subLesson.title },
     lesson: { id: lesson.id, code: lesson.code, title: lesson.title },

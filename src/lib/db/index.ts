@@ -11,7 +11,7 @@ import * as schema from "@/lib/db/schema";
 import { courses, profiles } from "@/lib/db/schema";
 import { MIGRATION_SQL } from "@/lib/db/sql";
 import type { AppDatabase } from "@/lib/db/types";
-import { importPackageFromDir, SAMPLE_PACKAGE_DIR } from "@/lib/packages/io";
+import { FULL_COURSE_PACKAGE_DIR, importPackageFromDir, SAMPLE_PACKAGE_DIR } from "@/lib/packages/io";
 
 export type OpenedDatabase = {
   db: AppDatabase;
@@ -57,14 +57,14 @@ export async function isSchemaReady(client: postgres.Sql): Promise<boolean> {
   }
 }
 
-async function seedIfEmpty(db: AppDatabase) {
+async function seedIfEmpty(db: AppDatabase, useFullCourse = false) {
   const [[courseCount], [profileCount]] = await Promise.all([
     db.select({ value: count() }).from(courses),
     db.select({ value: count() }).from(profiles),
   ]);
   if (Number(courseCount?.value ?? 0) === 0) {
     try {
-      await importPackageFromDir(db, SAMPLE_PACKAGE_DIR, {
+      await importPackageFromDir(db, useFullCourse ? FULL_COURSE_PACKAGE_DIR : SAMPLE_PACKAGE_DIR, {
         replace: false,
         includeLearners: false,
         includeHistory: false,
@@ -113,9 +113,9 @@ export async function createDatabase(options?: {
   }
   if (options?.seed !== false) {
     if (url) {
-      await seedIfEmpty(opened.db).catch(() => undefined);
+      await seedIfEmpty(opened.db, true).catch(() => undefined);
     } else {
-      await seedIfEmpty(opened.db);
+      await seedIfEmpty(opened.db, false);
     }
   }
   if (url) {
