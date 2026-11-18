@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, Heart, MoreHorizontal, RotateCcw, Trophy, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -134,6 +134,45 @@ export function QuizRunner({
     setIndex(index + 1);
   }
 
+  useEffect(() => {
+    if (!started || result || !question) return;
+    function onKeyDown(event: KeyboardEvent) {
+      const tag = (event.target as HTMLElement | null)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      const key = event.key.toLowerCase();
+      if (!revealed && !busy) {
+        const keyMap: Record<string, number> = {
+          "1": 0,
+          "2": 1,
+          "3": 2,
+          "4": 3,
+          a: 0,
+          b: 1,
+          c: 2,
+          d: 3,
+        };
+        if (key in keyMap) {
+          const choice = question.choices[keyMap[key]!];
+          if (choice) {
+            event.preventDefault();
+            setSelected(choice.id);
+          }
+          return;
+        }
+        if (key === "enter" && selected && tag !== "BUTTON") {
+          event.preventDefault();
+          void reveal();
+          return;
+        }
+      } else if (revealed && !busy && key === "enter" && tag !== "BUTTON") {
+        event.preventDefault();
+        commitAndAdvance();
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  });
+
   if (deck.length === 0) {
     return <p>This sub-lesson has no quiz questions yet.</p>;
   }
@@ -142,10 +181,11 @@ export function QuizRunner({
     const tone = scoreTone(result.correct, result.answered);
     const percent = result.answered === 0 ? 0 : Math.round((result.correct / result.answered) * 100);
     return (
-      <section data-testid="quiz-result" className="mx-auto max-w-xl">
+      <section data-testid="quiz-result" className="relative mx-auto max-w-xl">
+        {tone === "perfect" || tone === "strong" ? <QuizConfettiCanvas tone={tone} /> : null}
         <div
           className={cn(
-            "card-rise rounded-2xl border p-6 text-center",
+            "card-rise relative overflow-hidden rounded-2xl border p-6 text-center",
             tone === "perfect" && "border-success bg-success/10",
             tone === "strong" && "border-primary/50 bg-secondary",
             (tone === "keep-going" || tone === "none") && "border-border bg-card",
@@ -156,17 +196,23 @@ export function QuizRunner({
           </p>
           <div
             className={cn(
-              "mx-auto mt-4 flex h-28 w-28 flex-col items-center justify-center rounded-full border-4",
-              tone === "perfect" ? "border-success text-success" : tone === "strong" ? "border-primary text-primary" : "border-border text-foreground",
+              "trophy-pop mx-auto mt-4 flex h-32 w-32 flex-col items-center justify-center rounded-full border-4 shadow-sm",
+              tone === "perfect"
+                ? "border-success bg-card/80 text-success"
+                : tone === "strong"
+                  ? "border-primary bg-card/80 text-primary"
+                  : "border-border bg-card/60 text-foreground",
             )}
           >
-            {tone === "perfect" ? <Trophy className="mb-1 h-5 w-5" aria-hidden /> : null}
+            {tone === "perfect" || tone === "strong" ? (
+              <Trophy className="mb-1 h-6 w-6" aria-hidden />
+            ) : null}
             <h1 className="font-display text-3xl leading-none">
               <span data-testid="quiz-score">
                 {result.correct} of {result.answered}
               </span>
             </h1>
-            <p className="mt-1 text-xs text-muted-foreground">{percent}%</p>
+            <p className="mt-1 text-xs font-medium text-muted-foreground">{percent}%</p>
           </div>
           <p className="mt-4 text-lg font-medium">{SCORE_HEADLINES[tone]}</p>
         </div>
@@ -304,8 +350,9 @@ export function QuizRunner({
         </div>
       </div>
       <div className="mt-5 grid gap-2">
-        {question.choices.map((choice) => {
+        {question.choices.map((choice, choiceIdx) => {
           const state = choiceState(choice.id, selected, revealed);
+          const keycap = ["A", "B", "C", "D"][choiceIdx] ?? String(choiceIdx + 1);
           return (
             <button
               key={choice.id}
@@ -314,16 +361,33 @@ export function QuizRunner({
               disabled={Boolean(revealed) || busy}
               onClick={() => setSelected(choice.id)}
               className={cn(
-                "flex min-h-12 items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left transition-colors",
+                "flex min-h-12 items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left transition-all",
                 state === "idle" && "border-border bg-card hover:border-primary/60",
-                state === "picked" && "border-primary bg-secondary",
+                state === "picked" && "border-primary bg-secondary shadow-xs",
                 state === "correct" && "border-success bg-success/10 font-medium",
-                state === "wrong-pick" && "border-destructive bg-destructive/10",
+                state === "wrong-pick" && "wrong-shake border-destructive bg-destructive/10",
                 state === "dimmed" && "border-border bg-card opacity-60",
               )}
             >
-              <span className={cn(question.type === "predict_output" && "font-mono text-sm")}>{choice.text}</span>
-              {state === "correct" ? <Check className="h-5 w-5 shrink-0 text-success" aria-hidden /> : null}
+              <span className="flex items-center gap-3">
+                <span
+                  aria-hidden
+                  className={cn(
+                    "inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md border text-xs font-semibold transition-colors",
+                    state === "picked"
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : state === "correct"
+                        ? "border-success bg-success text-white"
+                        : state === "wrong-pick"
+                          ? "border-destructive bg-destructive text-white"
+                          : "border-border bg-background/70 text-muted-foreground",
+                  )}
+                >
+                  {keycap}
+                </span>
+                <span className={cn(question.type === "predict_output" && "font-mono text-sm")}>{choice.text}</span>
+              </span>
+              {state === "correct" ? <Check className="check-pop h-5 w-5 shrink-0 text-success" aria-hidden /> : null}
               {state === "wrong-pick" ? <X className="h-5 w-5 shrink-0 text-destructive" aria-hidden /> : null}
             </button>
           );
@@ -392,5 +456,86 @@ function ScoreHistoryList({ history }: { history: AttemptHistoryEntry[] }) {
         ))}
       </ul>
     </div>
+  );
+}
+
+function QuizConfettiCanvas({ tone }: { tone: "perfect" | "strong" }) {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const width = (canvas.width = canvas.parentElement?.clientWidth || 560);
+    const height = (canvas.height = 300);
+    const colors =
+      tone === "perfect"
+        ? ["#1f6b45", "#e5a93c", "#b8431f", "#7dcea0", "#ef8d62"]
+        : ["#b8431f", "#e5a93c", "#efe4d2", "#ef8d62"];
+    const count = tone === "perfect" ? 42 : 24;
+
+    const particles = Array.from({ length: count }, (_, i) => {
+      const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.4;
+      const speed = 3.5 + Math.random() * 5.5;
+      return {
+        x: width / 2 + (Math.random() - 0.5) * 40,
+        y: height * 0.45,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 1.5,
+        w: 6 + (i % 4) * 2,
+        h: 4 + (i % 3) * 2,
+        rot: Math.random() * Math.PI * 2,
+        vRot: (Math.random() - 0.5) * 0.18,
+        color: colors[i % colors.length]!,
+        alpha: 1,
+      };
+    });
+
+    let frameId = 0;
+    let frame = 0;
+    const maxFrames = 130;
+
+    const tick = () => {
+      frame += 1;
+      ctx.clearRect(0, 0, width, height);
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.14;
+        p.vx *= 0.99;
+        p.rot += p.vRot;
+        if (frame > maxFrames * 0.65) {
+          p.alpha = Math.max(0, 1 - (frame - maxFrames * 0.65) / (maxFrames * 0.35));
+        }
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      }
+      if (frame < maxFrames) {
+        frameId = window.requestAnimationFrame(tick);
+      } else {
+        ctx.clearRect(0, 0, width, height);
+      }
+    };
+
+    frameId = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frameId);
+  }, [tone]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-hidden
+      data-testid="quiz-confetti"
+      className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[300px] w-full"
+    />
   );
 }

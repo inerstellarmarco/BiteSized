@@ -164,7 +164,37 @@ export function LearnDeck({
         </p>
         <h1 className="truncate font-display text-xl leading-tight md:text-2xl">{subLessonTitle}</h1>
         <div className="mt-2 flex items-center gap-3">
-          <Progress className="h-1.5" value={progress} aria-label="Progress through this sub-lesson" />
+          {bites.length > 1 && bites.length <= 16 ? (
+            <div
+              className="flex flex-1 items-center gap-1"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(progress)}
+              aria-label="Progress through this sub-lesson"
+              data-testid="learn-pill-progress"
+            >
+              {bites.map((item, pillIdx) => {
+                const isPast = done || pillIdx < index;
+                const isCurrent = !done && pillIdx === index;
+                return (
+                  <span
+                    key={item.id}
+                    className={cn(
+                      "h-1.5 flex-1 rounded-full transition-all duration-300",
+                      isPast
+                        ? "bg-primary"
+                        : isCurrent
+                          ? "bg-primary/70 ring-2 ring-primary/25"
+                          : "bg-secondary",
+                    )}
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            <Progress className="h-1.5" value={progress} aria-label="Progress through this sub-lesson" />
+          )}
           <p className="shrink-0 text-xs text-muted-foreground" data-testid="learn-progress">
             {done ? `${bites.length} of ${bites.length}` : `${index + 1} of ${bites.length}`}
           </p>
@@ -175,8 +205,8 @@ export function LearnDeck({
         <p>This sub-lesson has no bites yet.</p>
       ) : done ? (
         <div className="card-rise rounded-2xl border border-success/60 bg-success/10 p-6 text-center" data-testid="learn-done">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-success text-white">
-            <Check className="h-7 w-7" aria-hidden />
+          <div className="trophy-pop mx-auto flex h-16 w-16 items-center justify-center rounded-full border-4 border-success/30 bg-success text-white shadow-sm">
+            <Check className="h-8 w-8" aria-hidden />
           </div>
           <h2 className="mt-4 font-display text-2xl">That is the end of this sub-lesson.</h2>
           <p className="mt-1 text-muted-foreground">
@@ -207,17 +237,30 @@ export function LearnDeck({
           </button>
         </div>
       ) : (
-        <article
-          key={bite.id}
-          ref={cardRef}
-          data-testid="learn-card"
-          className={cn(cardEnterClass(direction), "relative min-h-0 flex-1 overflow-y-auto overscroll-y-contain rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8")}
-          onClick={(event) => {
-            if (!desktop) return;
-            if ((event.target as HTMLElement).closest("a,button")) return;
-            next();
-          }}
-        >
+        <div className="relative flex min-h-0 flex-1 flex-col pb-2.5">
+          {bites.length - 1 - index >= 2 ? (
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-5 -bottom-0.5 h-6 rounded-2xl border border-border/70 bg-card/70 shadow-2xs transition-all duration-300"
+            />
+          ) : null}
+          {bites.length - 1 - index >= 1 ? (
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-2.5 bottom-1 h-6 rounded-2xl border border-border/85 bg-card/90 shadow-2xs transition-all duration-300"
+            />
+          ) : null}
+          <article
+            key={bite.id}
+            ref={cardRef}
+            data-testid="learn-card"
+            className={cn(cardEnterClass(direction), "relative z-10 min-h-0 flex-1 overflow-y-auto overscroll-y-contain rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8")}
+            onClick={(event) => {
+              if (!desktop) return;
+              if ((event.target as HTMLElement).closest("a,button")) return;
+              next();
+            }}
+          >
           <BiteTools
             bite={{ ...bite, hearted: heartOverrides[bite.id] ?? bite.hearted }}
             isAdmin={isAdmin}
@@ -354,10 +397,11 @@ export function LearnDeck({
             )}
           </div>
           <p className="mt-auto pt-6 text-xs text-muted-foreground">
-            {reviewed ? `Reviewed ${reviewed}` : "Not reviewed yet"}
+            Card {index + 1} of {bites.length} · ~30s read · {reviewed ? `Reviewed ${reviewed}` : "Not reviewed yet"}
             {bite.sourceNote ? ` · ${bite.sourceNote}` : ""}
           </p>
-        </article>
+          </article>
+        </div>
       )}
 
       <div className="mt-3 hidden shrink-0 items-center justify-between gap-3 md:flex">

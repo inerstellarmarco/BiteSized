@@ -129,7 +129,14 @@ export default async function HomePage() {
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between gap-2">
                   <CardTitle className="flex items-center gap-2 text-xl">
-                    <Flame className="h-5 w-5 text-primary" aria-hidden />
+                    <Flame
+                      className={`h-5 w-5 ${
+                        dashboard.streak.goalMetToday || dashboard.streak.currentStreak > 0
+                          ? "text-primary flame-pulse"
+                          : "text-muted-foreground"
+                      }`}
+                      aria-hidden
+                    />
                     Daily goal &amp; streak
                   </CardTitle>
                   <Badge>
@@ -138,16 +145,28 @@ export default async function HomePage() {
                 </div>
               </CardHeader>
               <CardContent className="space-y-3">
-                <p className="text-sm text-muted-foreground">
-                  <strong className="text-foreground">{dashboard.streak.todayBites}</strong> of{" "}
-                  <strong className="text-foreground">{dashboard.streak.goal}</strong> bites seen today
-                  {dashboard.streak.goalMetToday ? " · Goal met!" : ""} · Best streak: {dashboard.streak.longestStreak}{" "}
-                  {dashboard.streak.longestStreak === 1 ? "day" : "days"}
-                </p>
-                <Progress
-                  value={Math.min(100, Math.round((dashboard.streak.todayBites / dashboard.streak.goal) * 100))}
-                  aria-label="Daily bites goal progress"
-                />
+                <div className="flex items-center gap-4">
+                  <DailyGoalRing
+                    todayBites={dashboard.streak.todayBites}
+                    goal={dashboard.streak.goal}
+                    goalMet={dashboard.streak.goalMetToday}
+                  />
+                  <div className="min-w-0 flex-1 space-y-1.5">
+                    <p className="text-sm text-muted-foreground">
+                      <strong className="text-foreground">{dashboard.streak.todayBites}</strong> of{" "}
+                      <strong className="text-foreground">{dashboard.streak.goal}</strong> bites seen today
+                      {dashboard.streak.goalMetToday ? " · Goal met!" : ""}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Best streak: <strong className="text-foreground">{dashboard.streak.longestStreak}</strong>{" "}
+                      {dashboard.streak.longestStreak === 1 ? "day" : "days"} · Active days: {dashboard.streak.activeDays}
+                    </p>
+                    <Progress
+                      value={Math.min(100, Math.round((dashboard.streak.todayBites / dashboard.streak.goal) * 100))}
+                      aria-label="Daily bites goal progress"
+                    />
+                  </div>
+                </div>
                 <DailyGoalSelector currentGoal={dashboard.streak.goal} />
               </CardContent>
             </Card>
@@ -340,6 +359,65 @@ function StatTile({ value, label }: { value: string; label: string }) {
     <div className="rounded-2xl border border-border bg-card px-4 py-3 text-center">
       <p className="font-display text-2xl text-primary">{value}</p>
       <p className="mt-0.5 text-xs text-muted-foreground">{label}</p>
+    </div>
+  );
+}
+
+function DailyGoalRing({
+  todayBites,
+  goal,
+  goalMet,
+}: {
+  todayBites: number;
+  goal: number;
+  goalMet: boolean;
+}) {
+  const safeGoal = Math.max(1, goal);
+  const ratio = Math.min(1, Math.max(0, todayBites / safeGoal));
+  const size = 64;
+  const strokeWidth = 6;
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const dashOffset = circumference * (1 - ratio);
+
+  return (
+    <div
+      className="relative flex h-16 w-16 shrink-0 items-center justify-center"
+      data-testid="daily-goal-ring"
+      aria-label={`${todayBites} of ${safeGoal} daily bites`}
+    >
+      <svg width={size} height={size} className="-rotate-90">
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={strokeWidth}
+          className="text-secondary"
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={dashOffset}
+          className={
+            goalMet
+              ? "text-success transition-[stroke-dashoffset] duration-500 ease-out"
+              : "text-primary transition-[stroke-dashoffset] duration-500 ease-out"
+          }
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+        <span className="font-display text-sm font-semibold leading-none">
+          {todayBites}/{safeGoal}
+        </span>
+      </div>
     </div>
   );
 }

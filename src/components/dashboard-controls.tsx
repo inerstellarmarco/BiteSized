@@ -12,30 +12,70 @@ const GOAL_OPTIONS = [3, 5, 10, 15];
 export function DailyGoalSelector({ currentGoal }: { currentGoal: number }) {
   const router = useRouter();
   const [goal, setGoal] = useState(currentGoal);
+  const [customValue, setCustomValue] = useState(String(currentGoal));
   const [busy, setBusy] = useState(false);
 
+  async function applyGoal(nextGoal: number) {
+    const clamped = Math.max(1, Math.min(100, Math.round(nextGoal) || 5));
+    setBusy(true);
+    setGoal(clamped);
+    setCustomValue(String(clamped));
+    await updateDailyGoalAction(clamped);
+    setBusy(false);
+    router.refresh();
+  }
+
   return (
-    <div className="flex flex-wrap items-center gap-1.5" data-testid="daily-goal-selector">
-      <span className="mr-1 text-xs text-muted-foreground">Daily goal:</span>
-      {GOAL_OPTIONS.map((option) => (
+    <div className="space-y-2" data-testid="daily-goal-selector">
+      <div className="flex flex-wrap items-center gap-1.5">
+        <span className="mr-1 text-xs text-muted-foreground">Quick goal:</span>
+        {GOAL_OPTIONS.map((option) => (
+          <Button
+            key={option}
+            type="button"
+            size="sm"
+            variant={goal === option ? "default" : "outline"}
+            disabled={busy}
+            data-testid={`daily-goal-${option}`}
+            onClick={() => void applyGoal(option)}
+          >
+            {option}
+          </Button>
+        ))}
+      </div>
+      <form
+        className="flex flex-wrap items-center gap-2"
+        onSubmit={(event) => {
+          event.preventDefault();
+          const parsed = Number(customValue);
+          if (Number.isFinite(parsed) && parsed >= 1) {
+            void applyGoal(parsed);
+          }
+        }}
+      >
+        <label className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <span>Custom goal (1–100):</span>
+          <input
+            type="number"
+            min={1}
+            max={100}
+            value={customValue}
+            disabled={busy}
+            onChange={(event) => setCustomValue(event.target.value)}
+            data-testid="daily-goal-custom-input"
+            className="w-16 rounded-lg border border-input bg-background px-2 py-1 text-xs text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          />
+        </label>
         <Button
-          key={option}
-          type="button"
+          type="submit"
           size="sm"
-          variant={goal === option ? "default" : "outline"}
-          disabled={busy}
-          data-testid={`daily-goal-${option}`}
-          onClick={async () => {
-            setBusy(true);
-            setGoal(option);
-            await updateDailyGoalAction(option);
-            setBusy(false);
-            router.refresh();
-          }}
+          variant="secondary"
+          disabled={busy || Number(customValue) === goal}
+          data-testid="daily-goal-custom-save"
         >
-          {option}
+          Set goal
         </Button>
-      ))}
+      </form>
     </div>
   );
 }

@@ -153,6 +153,82 @@ summary::-webkit-details-marker {
   animation: heart-pop 260ms ease-out;
 }
 
+@keyframes trophy-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.65) translateY(10px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.07) translateY(-2px);
+  }
+  80% {
+    transform: scale(0.97) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.trophy-pop {
+  animation: trophy-pop 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes wrong-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-4px);
+  }
+  40%,
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+.wrong-shake {
+  animation: wrong-shake 280ms ease-in-out;
+}
+
+@keyframes check-pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  65% {
+    transform: scale(1.22);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.check-pop {
+  animation: check-pop 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes flame-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0px color-mix(in srgb, var(--primary) 0%, transparent));
+  }
+  50% {
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 8px color-mix(in srgb, var(--primary) 55%, transparent));
+  }
+}
+
+.flame-pulse {
+  animation: flame-pulse 2.2s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -165,7 +241,11 @@ summary::-webkit-details-marker {
 
   .card-rise,
   .card-drop,
-  .heart-pop {
+  .heart-pop,
+  .trophy-pop,
+  .wrong-shake,
+  .check-pop,
+  .flame-pulse {
     animation: none;
   }
 }
