@@ -95,12 +95,23 @@ export function computeSpacedState(events: readonly SpacedEvent[], now: Date = n
   };
 }
 
-export async function spacedQueue(db: AppDatabase, profileId: string, now: Date = new Date()) {
-  const attempts = await db
-    .select()
-    .from(quizAttempts)
-    .where(eq(quizAttempts.profileId, profileId))
-    .orderBy(asc(quizAttempts.finishedAt), asc(quizAttempts.startedAt));
+export async function spacedQueue(
+  db: AppDatabase,
+  profileId: string,
+  now: Date = new Date(),
+  prefetchedAttempts?: (typeof quizAttempts.$inferSelect)[],
+) {
+  const attempts = prefetchedAttempts
+    ? [...prefetchedAttempts].sort((a, b) => {
+        const ta = (asDate(a.finishedAt) ?? asDate(a.startedAt) ?? new Date(0)).getTime();
+        const tb = (asDate(b.finishedAt) ?? asDate(b.startedAt) ?? new Date(0)).getTime();
+        return ta - tb;
+      })
+    : await db
+        .select()
+        .from(quizAttempts)
+        .where(eq(quizAttempts.profileId, profileId))
+        .orderBy(asc(quizAttempts.finishedAt), asc(quizAttempts.startedAt));
   if (attempts.length === 0) {
     return { due: [] as SpacedQuestionItem[], upcoming: [] as SpacedQuestionItem[], all: [] as SpacedQuestionItem[] };
   }
@@ -110,7 +121,12 @@ export async function spacedQueue(db: AppDatabase, profileId: string, now: Date 
   const attemptOrder = new Map(attempts.map((attempt, index) => [attempt.id, index]));
 
   const answers = await db
-    .select()
+    .select({
+      id: quizAnswers.id,
+      attemptId: quizAnswers.attemptId,
+      questionId: quizAnswers.questionId,
+      correct: quizAnswers.correct,
+    })
     .from(quizAnswers)
     .where(inArray(quizAnswers.attemptId, attemptIds));
 
@@ -148,20 +164,26 @@ export async function spacedQueue(db: AppDatabase, profileId: string, now: Date 
 
   const biteIds = [...new Set(questionRows.map((row) => row.biteId))];
   const biteRows = await db
-    .select()
+    .select({ id: bites.id, title: bites.title, subLessonId: bites.subLessonId })
     .from(bites)
     .where(and(inArray(bites.id, biteIds), isNull(bites.archivedAt), eq(bites.reviewStatus, "approved")));
   const biteById = new Map(biteRows.map((row) => [row.id, row]));
 
   const subLessonIds = [...new Set(biteRows.map((row) => row.subLessonId))];
   const subLessonRows = subLessonIds.length
-    ? await db.select().from(subLessons).where(and(inArray(subLessons.id, subLessonIds), isNull(subLessons.archivedAt)))
+    ? await db
+        .select({ id: subLessons.id, title: subLessons.title, lessonId: subLessons.lessonId })
+        .from(subLessons)
+        .where(and(inArray(subLessons.id, subLessonIds), isNull(subLessons.archivedAt)))
     : [];
   const subLessonById = new Map(subLessonRows.map((row) => [row.id, row]));
 
   const lessonIds = [...new Set(subLessonRows.map((row) => row.lessonId))];
   const lessonRows = lessonIds.length
-    ? await db.select().from(lessons).where(and(inArray(lessons.id, lessonIds), isNull(lessons.archivedAt)))
+    ? await db
+        .select({ id: lessons.id, code: lessons.code })
+        .from(lessons)
+        .where(and(inArray(lessons.id, lessonIds), isNull(lessons.archivedAt)))
     : [];
   const lessonById = new Map(lessonRows.map((row) => [row.id, row]));
 

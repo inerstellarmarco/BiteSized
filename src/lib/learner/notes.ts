@@ -122,17 +122,38 @@ export async function listLearnerNotes(db: AppDatabase, profileId: string): Prom
   if (nonEmpty.length === 0) return [];
 
   const biteIds = [...new Set(nonEmpty.map((row) => row.targetId))];
-  const biteRows = await db.select().from(bites).where(inArray(bites.id, biteIds));
+  const biteRows = await db
+    .select({
+      id: bites.id,
+      title: bites.title,
+      subLessonId: bites.subLessonId,
+      archivedAt: bites.archivedAt,
+    })
+    .from(bites)
+    .where(inArray(bites.id, biteIds));
   const biteById = new Map(biteRows.map((row) => [row.id, row]));
 
   const subLessonIds = [...new Set(biteRows.map((row) => row.subLessonId))];
   const subLessonRows = subLessonIds.length
-    ? await db.select().from(subLessons).where(inArray(subLessons.id, subLessonIds))
+    ? await db
+        .select({
+          id: subLessons.id,
+          title: subLessons.title,
+          lessonId: subLessons.lessonId,
+          archivedAt: subLessons.archivedAt,
+        })
+        .from(subLessons)
+        .where(inArray(subLessons.id, subLessonIds))
     : [];
   const subLessonById = new Map(subLessonRows.map((row) => [row.id, row]));
 
   const lessonIds = [...new Set(subLessonRows.map((row) => row.lessonId))];
-  const lessonRows = lessonIds.length ? await db.select().from(lessons).where(inArray(lessons.id, lessonIds)) : [];
+  const lessonRows = lessonIds.length
+    ? await db
+        .select({ id: lessons.id, code: lessons.code })
+        .from(lessons)
+        .where(inArray(lessons.id, lessonIds))
+    : [];
   const lessonById = new Map(lessonRows.map((row) => [row.id, row]));
 
   const seenBite = new Set<string>();

@@ -107,22 +107,53 @@ export async function enrichRevisitItems(db: AppDatabase, profileId: string): Pr
   const questionTargetIds = flags.filter((row) => row.targetType === "question").map((row) => row.targetId);
 
   const questionRows = questionTargetIds.length
-    ? await db.select().from(questions).where(inArray(questions.id, questionTargetIds))
+    ? await db
+        .select({
+          id: questions.id,
+          prompt: questions.prompt,
+          biteId: questions.biteId,
+          archivedAt: questions.archivedAt,
+        })
+        .from(questions)
+        .where(inArray(questions.id, questionTargetIds))
     : [];
   const questionById = new Map(questionRows.map((row) => [row.id, row]));
 
   const allBiteIds = [...new Set([...biteTargetIds, ...questionRows.map((row) => row.biteId)])];
-  const biteRows = allBiteIds.length ? await db.select().from(bites).where(inArray(bites.id, allBiteIds)) : [];
+  const biteRows = allBiteIds.length
+    ? await db
+        .select({
+          id: bites.id,
+          title: bites.title,
+          subLessonId: bites.subLessonId,
+          archivedAt: bites.archivedAt,
+        })
+        .from(bites)
+        .where(inArray(bites.id, allBiteIds))
+    : [];
   const biteById = new Map(biteRows.map((row) => [row.id, row]));
 
   const subLessonIds = [...new Set(biteRows.map((row) => row.subLessonId))];
   const subLessonRows = subLessonIds.length
-    ? await db.select().from(subLessons).where(inArray(subLessons.id, subLessonIds))
+    ? await db
+        .select({
+          id: subLessons.id,
+          title: subLessons.title,
+          lessonId: subLessons.lessonId,
+          archivedAt: subLessons.archivedAt,
+        })
+        .from(subLessons)
+        .where(inArray(subLessons.id, subLessonIds))
     : [];
   const subLessonById = new Map(subLessonRows.map((row) => [row.id, row]));
 
   const lessonIds = [...new Set(subLessonRows.map((row) => row.lessonId))];
-  const lessonRows = lessonIds.length ? await db.select().from(lessons).where(inArray(lessons.id, lessonIds)) : [];
+  const lessonRows = lessonIds.length
+    ? await db
+        .select({ id: lessons.id, code: lessons.code })
+        .from(lessons)
+        .where(inArray(lessons.id, lessonIds))
+    : [];
   const lessonById = new Map(lessonRows.map((row) => [row.id, row]));
 
   const out: RevisitItem[] = [];
@@ -224,7 +255,7 @@ export async function loadLearnerDashboard(db: AppDatabase, profileId: string, n
     ),
   );
 
-  const [next, streak, spaced, revisit, notes, attemptRows] = await Promise.all([
+  const [next, streak, revisit, notes, attemptRows] = await Promise.all([
     continueFor(db, profileId, catalog).catch(() => null),
     learnerStreak(db, profileId, now).catch(() => ({
       todayBites: 0,
@@ -233,11 +264,6 @@ export async function loadLearnerDashboard(db: AppDatabase, profileId: string, n
       currentStreak: 0,
       longestStreak: 0,
       activeDays: 0,
-    })),
-    spacedQueue(db, profileId, now).catch(() => ({
-      due: [] as SpacedQuestionItem[],
-      upcoming: [] as SpacedQuestionItem[],
-      all: [] as SpacedQuestionItem[],
     })),
     enrichRevisitItems(db, profileId).catch(() => [] as RevisitItem[]),
     listLearnerNotes(db, profileId).catch(() => [] as BiteNoteWithContext[]),
@@ -248,6 +274,12 @@ export async function loadLearnerDashboard(db: AppDatabase, profileId: string, n
       .orderBy(desc(quizAttempts.finishedAt), desc(quizAttempts.startedAt))
       .catch(() => []),
   ]);
+
+  const spaced = await spacedQueue(db, profileId, now, attemptRows).catch(() => ({
+    due: [] as SpacedQuestionItem[],
+    upcoming: [] as SpacedQuestionItem[],
+    all: [] as SpacedQuestionItem[],
+  }));
 
   const overall = summarizeProgress(allSubLessons);
   const lessonsDone = finishedCount(allSubLessons);

@@ -1,5 +1,6 @@
-import { and, asc, eq, isNull } from "drizzle-orm";
-import { bites, categories, contentFlags, lessons, personalBites, subCategories, subLessons } from "@/lib/db/schema";
+import { and, asc, eq, ilike, inArray, isNull, or } from "drizzle-orm";
+import { loadCatalog } from "@/lib/content/catalog";
+import { bites, contentFlags, personalBites } from "@/lib/db/schema";
 import type { AppDatabase } from "@/lib/db/types";
 
 export type SearchMatch = {
@@ -44,22 +45,25 @@ export async function searchCourse(
     return terms.every((term) => lower.includes(term));
   };
 
-  const [categoryRows, subCategoryRows, lessonRows, subLessonRows, biteRows, personalRows, noteRows] = await Promise.all([
-    db.select().from(categories).where(isNull(categories.archivedAt)).orderBy(asc(categories.position)),
-    db.select().from(subCategories).where(isNull(subCategories.archivedAt)).orderBy(asc(subCategories.position)),
-    db.select().from(lessons).where(isNull(lessons.archivedAt)).orderBy(asc(lessons.position)),
-    db.select().from(subLessons).where(isNull(subLessons.archivedAt)).orderBy(asc(subLessons.position)),
-    db
-      .select()
-      .from(bites)
-      .where(and(isNull(bites.archivedAt), eq(bites.reviewStatus, "approved")))
-      .orderBy(asc(bites.position)),
+  const [catalog, personalRows, noteRows] = await Promise.all([
+    loadCatalog(db, null),
     input.profileId
-      ? db.select().from(personalBites).where(eq(personalBites.profileId, input.profileId))
+      ? db
+          .select({
+            biteId: personalBites.biteId,
+            title: personalBites.title,
+            body: personalBites.body,
+          })
+          .from(personalBites)
+          .where(eq(personalBites.profileId, input.profileId))
       : Promise.resolve([]),
     input.profileId
       ? db
-          .select()
+          .select({
+            id: contentFlags.id,
+            targetId: contentFlags.targetId,
+            note: contentFlags.note,
+          })
           .from(contentFlags)
           .where(
             and(
@@ -71,12 +75,69 @@ export async function searchCourse(
       : Promise.resolve([]),
   ]);
 
+  if (!catalog) return [];
+
+  const categoryRows = catalog.categories;
+  const subCategoryRows = categoryRows.flatMap((cat) =>
+    cat.subCategories.map((sub) => ({ ...sub, categoryId: cat.id })),
+  );
+  const lessonRows = subCategoryRows.flatMap((sub) =>
+    sub.lessons.map((les) => ({ ...les, subCategoryId: sub.id })),
+  );
+  const subLessonRows = lessonRows.flatMap((les) =>
+    les.subLessons.map((sll) => ({ ...sll, lessonId: les.id })),
+  );
+
   const categoryById = new Map(categoryRows.map((row) => [row.id, row]));
   const subCategoryById = new Map(subCategoryRows.map((row) => [row.id, row]));
   const lessonById = new Map(lessonRows.map((row) => [row.id, row]));
   const subLessonById = new Map(subLessonRows.map((row) => [row.id, row]));
-  const biteById = new Map(biteRows.map((row) => [row.id, row]));
   const personalByBite = new Map(personalRows.map((row) => [row.biteId, row]));
+
+  // Find sub-lessons whose code or title matches any search term so SQL can also pull their bites
+  const matchingSubLessonIds = subLessonRows
+    .filter((sll) => {
+      const les = lessonById.get(sll.lessonId);
+      const hay = `${les?.code ?? ""} ${sll.title}`.toLowerCase();
+      return terms.some((term) => hay.includes(term));
+    })
+    .map((sll) => sll.id);
+
+  // Also include bite IDs from the learner's notes or personal rewrites
+  const extraBiteIds = Array.from(
+    new Set([
+      ...noteRows.filter((n) => n.note.trim().length > 0).map((n) => n.targetId),
+      ...personalRows
+        .filter((p) => terms.some((t) => `${p.title} ${p.body}`.toLowerCase().includes(t)))
+        .map((p) => p.biteId),
+    ]),
+  );
+
+  const termFilters = terms.map((term) => {
+    const pattern = `%${term.replace(/[%_\\]/g, "\\$&")}%`;
+    const clauses = [ilike(bites.title, pattern), ilike(bites.body, pattern)];
+    if (matchingSubLessonIds.length > 0) {
+      clauses.push(inArray(bites.subLessonId, matchingSubLessonIds));
+    }
+    if (extraBiteIds.length > 0) {
+      clauses.push(inArray(bites.id, extraBiteIds));
+    }
+    return or(...clauses)!;
+  });
+
+  const biteRows = await db
+    .select({
+      id: bites.id,
+      subLessonId: bites.subLessonId,
+      title: bites.title,
+      body: bites.body,
+    })
+    .from(bites)
+    .where(and(isNull(bites.archivedAt), eq(bites.reviewStatus, "approved"), ...termFilters))
+    .orderBy(asc(bites.position))
+    .limit(Math.max(limit * 3, 120));
+
+  const biteById = new Map(biteRows.map((row) => [row.id, row]));
 
   const results: SearchMatch[] = [];
 
