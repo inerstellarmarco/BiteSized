@@ -309,4 +309,35 @@ CREATE TABLE IF NOT EXISTS generation_jobs (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS ingest_items (
+  id TEXT PRIMARY KEY,
+  source_type TEXT NOT NULL DEFAULT 'text',
+  source_url TEXT NOT NULL DEFAULT '',
+  source_title TEXT NOT NULL DEFAULT '',
+  curator_note TEXT NOT NULL DEFAULT '',
+  raw_text TEXT NOT NULL DEFAULT '',
+  summary TEXT NOT NULL DEFAULT '',
+  external_message_id TEXT,
+  status TEXT NOT NULL DEFAULT 'queued',
+  error_message TEXT NOT NULL DEFAULT '',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  analyzed_at TIMESTAMPTZ
+);
+
+CREATE TABLE IF NOT EXISTS ingest_keywords (
+  id TEXT PRIMARY KEY,
+  ingest_item_id TEXT NOT NULL REFERENCES ingest_items(id) ON DELETE CASCADE,
+  keyword TEXT NOT NULL,
+  definition TEXT NOT NULL DEFAULT '',
+  verdict TEXT NOT NULL DEFAULT 'missing_recommended',
+  verdict_reason TEXT NOT NULL DEFAULT '',
+  matched_card_title TEXT NOT NULL DEFAULT '',
+  placement_mode TEXT NOT NULL DEFAULT 'append_to_sub_lesson',
+  suggested_lesson_id TEXT,
+  suggested_sub_lesson_id TEXT,
+  status TEXT NOT NULL DEFAULT 'pending',
+  created_sub_lesson_id TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
 `;

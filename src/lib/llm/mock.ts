@@ -42,6 +42,47 @@ function questionsFor(title: string) {
 }
 
 export function mockComplete(input: LlmRequest): string {
+  if (input.user.includes("TASK: ingest-analyze")) {
+    const lessonMatch = input.user.match(/LESSON_OPTION:\s*(\S+)\s*\|\s*([^\n]+)/);
+    const subLessonMatch = input.user.match(/SUBLESSON_OPTION:\s*(\S+)\s*\|\s*([^\n]+)/);
+    const lessonId = lessonMatch?.[1] ?? "";
+    const subLessonId = subLessonMatch?.[1] ?? "";
+    return JSON.stringify({
+      summary: "Extracts architectural concepts and compares them against the BiteSized syllabus.",
+      keywords: [
+        {
+          keyword: "Speculative Decoding",
+          definition: "Uses a fast draft model to propose multiple tokens that the target model verifies in one forward pass.",
+          verdict: "missing_recommended",
+          verdictReason: "Core inference optimization not yet dedicated to a card in the syllabus.",
+          matchedCardTitle: "",
+          placementMode: "append_to_sub_lesson",
+          suggestedLessonId: lessonId,
+          suggestedSubLessonId: subLessonId,
+        },
+        {
+          keyword: "Transformer Attention",
+          definition: "Weights token relationships across context.",
+          verdict: "already_covered",
+          verdictReason: "Already taught in the existing foundations cards.",
+          matchedCardTitle: "Attention mechanism",
+          placementMode: "append_to_sub_lesson",
+          suggestedLessonId: lessonId,
+          suggestedSubLessonId: subLessonId,
+        },
+        {
+          keyword: "Vendor-Specific Beta Flag",
+          definition: "An experimental CLI flag for one closed-source preview build.",
+          verdict: "esoteric_skip",
+          verdictReason: "Too ephemeral and vendor-specific for the core AI engineering curriculum.",
+          matchedCardTitle: "",
+          placementMode: "create_sub_lesson",
+          suggestedLessonId: lessonId,
+          suggestedSubLessonId: subLessonId,
+        },
+      ],
+    });
+  }
   if (input.user.includes("TASK: place")) {
     const code = input.user.match(/\b([A-Z]\d+\.\d+)\b/)?.[1] ?? "";
     return JSON.stringify({ lessonCode: code, reason: "It continues that lesson." });

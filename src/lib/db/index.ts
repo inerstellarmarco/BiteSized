@@ -96,13 +96,14 @@ export async function isSchemaReady(client: postgres.Sql): Promise<boolean> {
   try {
     const rows = await client.unsafe(
       `SELECT (to_regclass('public.generation_jobs') IS NOT NULL) AS has_jobs,
+              (to_regclass('public.ingest_keywords') IS NOT NULL) AS has_ingest,
               EXISTS (
                 SELECT 1 FROM information_schema.columns
                 WHERE table_schema = 'public' AND table_name = 'questions' AND column_name = 'answer_key_note'
               ) AS has_col`,
     );
-    const first = rows[0] as { has_jobs?: boolean; has_col?: boolean } | undefined;
-    return Boolean(first?.has_jobs && first?.has_col);
+    const first = rows[0] as { has_jobs?: boolean; has_ingest?: boolean; has_col?: boolean } | undefined;
+    return Boolean(first?.has_jobs && first?.has_ingest && first?.has_col);
   } catch {
     return false;
   }

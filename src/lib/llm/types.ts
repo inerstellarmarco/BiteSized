@@ -12,6 +12,8 @@ export type LlmRequest = {
   user: string;
   temperature: number;
   json?: boolean;
+  fileUri?: string;
+  fileMimeType?: string;
 };
 
 export interface LlmProvider {

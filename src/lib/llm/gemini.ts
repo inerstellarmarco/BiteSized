@@ -14,9 +14,18 @@ export class GeminiProvider implements LlmProvider {
 
   async complete(input: LlmRequest): Promise<string> {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${this.model}:generateContent`;
-    let response: Response;
-    try {
-      response = await fetch(url, {
+    const callModel = async (includeFileUri: boolean) => {
+      const userParts: Array<{ text: string } | { fileData: { fileUri: string; mimeType?: string } }> = [];
+      if (includeFileUri && input.fileUri) {
+        userParts.push({
+          fileData: {
+            fileUri: input.fileUri,
+            ...(input.fileMimeType ? { mimeType: input.fileMimeType } : {}),
+          },
+        });
+      }
+      userParts.push({ text: input.user });
+      return fetch(url, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -24,7 +33,7 @@ export class GeminiProvider implements LlmProvider {
         },
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: input.system }] },
-          contents: [{ role: "user", parts: [{ text: input.user }] }],
+          contents: [{ role: "user", parts: userParts }],
           generationConfig: {
             temperature: input.temperature,
             responseMimeType: input.json === false ? "text/plain" : "application/json",
@@ -32,6 +41,13 @@ export class GeminiProvider implements LlmProvider {
           },
         }),
       });
+    };
+    let response: Response;
+    try {
+      response = await callModel(Boolean(input.fileUri));
+      if (!response.ok && input.fileUri) {
+        response = await callModel(false);
+      }
     } catch {
       throw new LlmUnavailableError();
     }

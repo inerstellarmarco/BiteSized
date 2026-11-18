@@ -337,3 +337,36 @@ export const quizAnswers = pgTable("quiz_answers", {
   selectedChoiceId: text("selected_choice_id"),
   correct: boolean("correct").notNull(),
 });
+
+export const ingestItems = pgTable("ingest_items", {
+  id: text("id").primaryKey(),
+  sourceType: text("source_type").notNull().default("text"),
+  sourceUrl: text("source_url").notNull().default(""),
+  sourceTitle: text("source_title").notNull().default(""),
+  curatorNote: text("curator_note").notNull().default(""),
+  rawText: text("raw_text").notNull().default(""),
+  summary: text("summary").notNull().default(""),
+  externalMessageId: text("external_message_id"),
+  status: text("status").notNull().default("queued"),
+  errorMessage: text("error_message").notNull().default(""),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  analyzedAt: timestamp("analyzed_at", { withTimezone: true }),
+});
+
+export const ingestKeywords = pgTable("ingest_keywords", {
+  id: text("id").primaryKey(),
+  ingestItemId: text("ingest_item_id")
+    .notNull()
+    .references(() => ingestItems.id, { onDelete: "cascade" }),
+  keyword: text("keyword").notNull(),
+  definition: text("definition").notNull().default(""),
+  verdict: text("verdict").notNull().default("missing_recommended"),
+  verdictReason: text("verdict_reason").notNull().default(""),
+  matchedCardTitle: text("matched_card_title").notNull().default(""),
+  placementMode: text("placement_mode").notNull().default("append_to_sub_lesson"),
+  suggestedLessonId: text("suggested_lesson_id"),
+  suggestedSubLessonId: text("suggested_sub_lesson_id"),
+  status: text("status").notNull().default("pending"),
+  createdSubLessonId: text("created_sub_lesson_id"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});

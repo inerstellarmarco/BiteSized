@@ -44,10 +44,10 @@ describe("migration lock", () => {
 
   it("detects when the schema is already migrated so cold starts skip DDL locks", async () => {
     const readyClient = {
-      unsafe: async () => [{ has_jobs: true, has_col: true }],
+      unsafe: async () => [{ has_jobs: true, has_ingest: true, has_col: true }],
     };
     const unreadyClient = {
-      unsafe: async () => [{ has_jobs: false, has_col: false }],
+      unsafe: async () => [{ has_jobs: false, has_ingest: false, has_col: false }],
     };
     const failingClient = {
       unsafe: async () => {
