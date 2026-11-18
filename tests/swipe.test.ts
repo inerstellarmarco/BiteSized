@@ -27,6 +27,26 @@ describe("classifySwipe", () => {
     expect(classifySwipe({ x: 100, y: 400 }, { x: 102, y: 300 }, longCardEnd)).toBe("next");
   });
 
+  it("does not jump to the next card on the same gesture that scrolled the card to the bottom", () => {
+    expect(
+      classifySwipe(
+        { x: 100, y: 450 },
+        { x: 102, y: 250 },
+        { scrollTop: 800, startScrollTop: 500, clientHeight: 400, scrollHeight: 1200 },
+      ),
+    ).toBeNull();
+  });
+
+  it("does not jump to the previous card on the same gesture that scrolled back to the top", () => {
+    expect(
+      classifySwipe(
+        { x: 100, y: 250 },
+        { x: 102, y: 450 },
+        { scrollTop: 0, startScrollTop: 220, clientHeight: 400, scrollHeight: 1200 },
+      ),
+    ).toBeNull();
+  });
+
   it("swipes down to the previous card when the card is at the top", () => {
     expect(classifySwipe({ x: 100, y: 300 }, { x: 101, y: 420 }, longCardTop)).toBe("prev");
     expect(classifySwipe({ x: 100, y: 300 }, { x: 101, y: 420 }, { scrollTop: 2, clientHeight: 400, scrollHeight: 1200 })).toBe("prev");

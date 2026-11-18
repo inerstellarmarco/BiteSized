@@ -15,7 +15,7 @@ import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { Check, Heart, MoreHorizontal } from "lucide-react";
 import { formatReviewed } from "@/lib/utils";
-import { cardEnterClass, classifySwipe, lockPullToRefresh } from "@/lib/swipe";
+import { cardEnterClass, classifySwipe, computeSwipePullOffset, lockPullToRefresh, SWIPE_THRESHOLD_PX } from "@/lib/swipe";
 import { biteActions, bodyParagraphs, type BiteActionId } from "@/lib/bite-actions";
 
 export type LearnBite = {
@@ -57,8 +57,10 @@ export function LearnDeck({
   limit?: number;
 }) {
   const router = useRouter();
-  const swipeStart = useRef<{ x: number; y: number } | null>(null);
+  const swipeStart = useRef<{ x: number; y: number; scrollTop: number } | null>(null);
   const cardRef = useRef<HTMLElement | null>(null);
+  const [pullOffset, setPullOffset] = useState(0);
+  const [pullArmed, setPullArmed] = useState<"next" | "prev" | null>(null);
   const [index, setIndex] = useState(initialIndex);
   const [direction, setDirection] = useState<"next" | "prev">("next");
   const [desktop, setDesktop] = useState(false);
@@ -138,35 +140,85 @@ export function LearnDeck({
       onTouchStart={(event) => {
         const touch = event.touches[0];
         if (!touch) return;
-        swipeStart.current = { y: touch.clientY, x: touch.clientX };
+        const card = cardRef.current;
+        swipeStart.current = {
+          y: touch.clientY,
+          x: touch.clientX,
+          scrollTop: card?.scrollTop ?? 0,
+        };
+        setPullOffset(0);
+        setPullArmed(null);
+      }}
+      onTouchMove={(event) => {
+        const start = swipeStart.current;
+        const touch = event.touches[0];
+        if (!start || !touch) return;
+        const card = cardRef.current;
+        const scrollState = {
+          scrollTop: card?.scrollTop ?? 0,
+          startScrollTop: start.scrollTop,
+          clientHeight: card?.clientHeight ?? 0,
+          scrollHeight: card?.scrollHeight ?? 0,
+        };
+        const dy = touch.clientY - start.y;
+        const dx = touch.clientX - start.x;
+        const offset = computeSwipePullOffset(dy, dx, scrollState);
+        setPullOffset(offset);
+        setPullArmed(
+          classifySwipe(
+            { x: start.x, y: start.y },
+            { x: touch.clientX, y: touch.clientY },
+            scrollState,
+          ),
+        );
       }}
       onTouchCancel={() => {
         swipeStart.current = null;
+        setPullOffset(0);
+        setPullArmed(null);
       }}
       onTouchEnd={(event) => {
         const start = swipeStart.current;
         swipeStart.current = null;
+        setPullOffset(0);
+        setPullArmed(null);
         const touch = event.changedTouches[0];
         if (!start || !touch) return;
         const card = cardRef.current;
-        const direction = classifySwipe(start, { x: touch.clientX, y: touch.clientY }, {
-          scrollTop: card?.scrollTop ?? 0,
-          clientHeight: card?.clientHeight ?? 0,
-          scrollHeight: card?.scrollHeight ?? 0,
-        });
+        const direction = classifySwipe(
+          { x: start.x, y: start.y },
+          { x: touch.clientX, y: touch.clientY },
+          {
+            scrollTop: card?.scrollTop ?? 0,
+            startScrollTop: start.scrollTop,
+            clientHeight: card?.clientHeight ?? 0,
+            scrollHeight: card?.scrollHeight ?? 0,
+          },
+        );
         if (direction === "next") next();
         else if (direction === "prev") prev();
       }}
     >
-      <div className="mb-3">
-        <p className="truncate text-xs text-muted-foreground">
-          {lessonCode} · {lessonTitle}
-        </p>
-        <h1 className="truncate font-display text-xl leading-tight md:text-2xl">{subLessonTitle}</h1>
-        <div className="mt-2 flex items-center gap-3">
+      <div className="mb-1.5">
+        <div className="flex items-baseline justify-between gap-2">
+          <h1 className="min-w-0 truncate text-sm leading-tight md:text-base">
+            <span className="font-semibold text-primary">{lessonCode}</span>
+            <span className="mx-1.5 text-muted-foreground">·</span>
+            <span className="font-display font-medium">{subLessonTitle}</span>
+            {lessonTitle && lessonTitle !== subLessonTitle ? (
+              <span className="ml-1.5 hidden text-xs text-muted-foreground sm:inline">
+                · {lessonTitle}
+              </span>
+            ) : null}
+          </h1>
+          <p className="shrink-0 text-[11px] tabular-nums text-muted-foreground" data-testid="learn-progress">
+            {done ? `${bites.length} of ${bites.length}` : `${index + 1} of ${bites.length}`}
+          </p>
+        </div>
+        <div className="mt-1">
           {bites.length > 1 && bites.length <= 16 ? (
             <div
-              className="flex flex-1 items-center gap-1"
+              className="flex items-center gap-0.5"
               role="progressbar"
               aria-valuemin={0}
               aria-valuemax={100}
@@ -181,11 +233,11 @@ export function LearnDeck({
                   <span
                     key={item.id}
                     className={cn(
-                      "h-1.5 flex-1 rounded-full transition-all duration-300",
+                      "h-0.5 flex-1 rounded-full transition-colors duration-300",
                       isPast
                         ? "bg-primary"
                         : isCurrent
-                          ? "bg-primary/70 ring-2 ring-primary/25"
+                          ? "bg-primary/75"
                           : "bg-secondary",
                     )}
                   />
@@ -193,11 +245,8 @@ export function LearnDeck({
               })}
             </div>
           ) : (
-            <Progress className="h-1.5" value={progress} aria-label="Progress through this sub-lesson" />
+            <Progress className="h-0.5" value={progress} aria-label="Progress through this sub-lesson" />
           )}
-          <p className="shrink-0 text-xs text-muted-foreground" data-testid="learn-progress">
-            {done ? `${bites.length} of ${bites.length}` : `${index + 1} of ${bites.length}`}
-          </p>
         </div>
       </div>
 
@@ -254,7 +303,12 @@ export function LearnDeck({
             key={bite.id}
             ref={cardRef}
             data-testid="learn-card"
-            className={cn(cardEnterClass(direction), "relative z-10 min-h-0 flex-1 overflow-y-auto overscroll-y-contain rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8")}
+            style={
+              pullOffset !== 0
+                ? { transform: `translateY(${pullOffset}px)`, transition: "none" }
+                : undefined
+            }
+            className={cn(cardEnterClass(direction), "relative z-10 min-h-0 flex-1 overflow-y-auto overscroll-y-contain rounded-2xl border border-border bg-card p-5 shadow-sm transition-transform duration-200 md:p-8")}
             onClick={(event) => {
               if (!desktop) return;
               if ((event.target as HTMLElement).closest("a,button")) return;
@@ -413,8 +467,16 @@ export function LearnDeck({
           Next
         </Button>
       </div>
-      <p className="mt-3 shrink-0 text-center text-sm text-muted-foreground md:hidden" data-testid="swipe-hint">
-        Swipe up for the next bite, down for the previous
+      <p className="mt-2 shrink-0 text-center text-xs text-muted-foreground md:hidden" data-testid="swipe-hint">
+        {pullOffset < -6
+          ? pullArmed === "next"
+            ? "Release for next card ↑"
+            : `Keep pulling up for next card (${Math.min(100, Math.round((Math.abs(pullOffset) / Math.pow(SWIPE_THRESHOLD_PX, 0.72)) * 100))}%) ↑`
+          : pullOffset > 6
+            ? pullArmed === "prev"
+              ? "Release for previous card ↓"
+              : "Keep pulling down for previous card ↓"
+            : "Scroll to bottom, then pull up firmly for next bite"}
       </p>
     </section>
   );

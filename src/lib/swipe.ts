@@ -18,23 +18,66 @@ export function lockPullToRefresh(root: { style: { overscrollBehaviorY: string }
   };
 }
 
-export type CardScroll ={ scrollTop: number; clientHeight: number; scrollHeight: number };
+export type CardScroll = {
+  scrollTop: number;
+  clientHeight: number;
+  scrollHeight: number;
+  startScrollTop?: number;
+};
 
-const MIN_DISTANCE = 56;
+export const SWIPE_THRESHOLD_PX = 88;
 const EDGE = 4;
 
 // Decides what a finished touch gesture means for the learn deck.
-// Swipe up goes to the next card, but only once the card has been read to its
-// end; before that the swipe just scrolls the text. Swipe down goes to the
-// previous card, but only when the card is scrolled to the top.
-export function classifySwipe(start: { x: number; y: number }, end: { x: number; y: number }, card: CardScroll): SwipeDirection {
+// Swipe up goes to the next card, but ONLY if the card was already at the
+// bottom when the touch started (so scrolling down to read the bottom of a card
+// never accidentally jumps to the next card) AND the user pulled past the
+// intentional swipe threshold. Swipe down goes to the previous card only when
+// the gesture started at the very top of the card.
+export function classifySwipe(
+  start: { x: number; y: number },
+  end: { x: number; y: number },
+  card: CardScroll,
+): SwipeDirection {
   const dy = end.y - start.y;
   const dx = end.x - start.x;
-  if (Math.abs(dy) < MIN_DISTANCE) return null;
-  if (Math.abs(dy) < Math.abs(dx) * 1.2) return null;
+  if (Math.abs(dy) < SWIPE_THRESHOLD_PX) return null;
+  if (Math.abs(dy) < Math.abs(dx) * 1.5) return null;
+
+  const startTop = card.startScrollTop ?? card.scrollTop;
+  const scrolledDuringTouch = Math.abs(card.scrollTop - startTop) > EDGE;
+
   if (dy < 0) {
-    const atEnd = card.scrollTop + card.clientHeight >= card.scrollHeight - EDGE;
-    return atEnd ? "next" : null;
+    const startedAtEnd = startTop + card.clientHeight >= card.scrollHeight - EDGE;
+    const endedAtEnd = card.scrollTop + card.clientHeight >= card.scrollHeight - EDGE;
+    return startedAtEnd && endedAtEnd && !scrolledDuringTouch ? "next" : null;
   }
-  return card.scrollTop <= EDGE ? "prev" : null;
+
+  const startedAtTop = startTop <= EDGE;
+  const endedAtTop = card.scrollTop <= EDGE;
+  return startedAtTop && endedAtTop && !scrolledDuringTouch ? "prev" : null;
+}
+
+// Damped rubber-band offset (in px) while the user is actively pulling at the
+// top or bottom boundary of a card, creating physical friction before release.
+export function computeSwipePullOffset(
+  dy: number,
+  dx: number,
+  card: CardScroll,
+): number {
+  if (Math.abs(dy) < Math.abs(dx) * 1.2) return 0;
+  const startTop = card.startScrollTop ?? card.scrollTop;
+  if (dy < 0) {
+    const atEnd =
+      startTop + card.clientHeight >= card.scrollHeight - EDGE &&
+      card.scrollTop + card.clientHeight >= card.scrollHeight - EDGE;
+    if (!atEnd) return 0;
+    return -Math.min(28, Math.round(Math.pow(Math.abs(dy), 0.72)));
+  }
+  if (dy > 0) {
+    const atTop = startTop <= EDGE && card.scrollTop <= EDGE;
+    if (!atTop) return 0;
+    return Math.min(28, Math.round(Math.pow(dy, 0.72)));
+  }
+  return 0;
 }
